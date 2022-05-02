@@ -16,6 +16,7 @@ export default class FrictionBoxBubbleChart extends Component {
   constructor(props) {
     super(props);
     this.name = "[" + FrictionBoxBubbleChart.name + "]";
+    this.isLoading = false;
   }
 
   componentDidMount() {
@@ -26,6 +27,7 @@ export default class FrictionBoxBubbleChart extends Component {
         maxSize: 24,
       });
     }
+    this.isLoading = false;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -40,6 +42,7 @@ export default class FrictionBoxBubbleChart extends Component {
     ) {
       console.log("update file data!");
       this.displayFileChart(this.props.fileTableDto);
+      this.isLoading = false;
     } else if (
       this.isGoingBackToBox(prevProps, this.props) ||
       this.isInitializingBox(prevProps, this.props) ||
@@ -47,6 +50,7 @@ export default class FrictionBoxBubbleChart extends Component {
     ) {
       console.log("update box data!");
       this.displayBoxChart(this.props.boxTableDto);
+      this.isLoading = false;
     } else if (
       this.isGoingBackToModule(prevProps, this.props) ||
       this.isInitializingModule(prevProps, this.props) ||
@@ -262,6 +266,14 @@ export default class FrictionBoxBubbleChart extends Component {
     }, 100);
   }
 
+  minZero(value) {
+    if (value < 0) {
+      return 0;
+    } else {
+      return value;
+    }
+  }
+
   /**
    * Create the circles representing the amount of friction experienced
    * @param svg
@@ -276,9 +288,14 @@ export default class FrictionBoxBubbleChart extends Component {
       }
     );
 
+    let maxDensity = xMinMaxConfusion[1];
+    if (maxDensity < 10) {
+      maxDensity = 10;
+    }
+
     let confusionScale = d3
       .scaleLinear()
-      .domain([5, xMinMaxConfusion[1]])
+      .domain([5, maxDensity])
       .range([0, 1]);
 
     var interp = d3
@@ -323,7 +340,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("fill", (d) =>
         d.children
           ? interp(1)
-          : interp(confusionScale(d.data.confusionPercent))
+          : interp(this.minZero(confusionScale(d.data.confusionPercent)))
       )
       .attr("opacity", (d) =>
         d.children ? parentOpacity : 1
@@ -332,7 +349,9 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("cy", (d) => d.y)
       .attr("r", (d) => d.r)
       .on("mouseover", function (event, d) {
-        that.props.onHoverCircle(d.data.name);
+        if (d) {
+          that.props.onHoverCircle(d.data.name);
+        }
       })
       .on("click", function (event, d) {
         if (!d.children) {
@@ -352,10 +371,17 @@ export default class FrictionBoxBubbleChart extends Component {
   }
 
   onClickCircle = (svg, x, y, r, name, group, label) => {
+    if (this.isLoading) {
+      console.log("Ignoring click while loading!");
+      return;
+    }
     if (this.props.drilldownBox) {
       this.props.onClickCircle(name, group, label);
     } else {
       //otherwise animate transition
+
+      this.isLoading = true;
+
       let el = document.getElementById(name);
 
       let rRatio = this.root.r / r;
@@ -378,6 +404,13 @@ export default class FrictionBoxBubbleChart extends Component {
       svg.style("opacity", "0.1");
 
       setTimeout(() => {
+        let textEl = this.circleGroup.append("text")
+          .attr("x", this.width / 2)
+          .attr("y", this.height / 2)
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "middle")
+          .attr("class", "circleLabel")
+          .text("Loading...");
         this.props.onClickCircle(name, group, label);
       }, 700);
     }
@@ -599,8 +632,21 @@ export default class FrictionBoxBubbleChart extends Component {
     return fileName;
   }
 
-  clickBackButton = () => {
-    this.props.zoomOutToBoxView();
+  onClickZoomOutToModule = () => {
+    if (!this.isLoading) {
+      this.props.zoomOutToModuleView();
+    } else {
+      console.log("ignoring click while loading!");
+    }
+
+  };
+
+  onClickZoomOutToBox = () => {
+    if (!this.isLoading) {
+      this.props.zoomOutToBoxView();
+    } else {
+      console.log("ignoring click while loading!");
+    }
   };
 
   /**
@@ -625,7 +671,7 @@ export default class FrictionBoxBubbleChart extends Component {
           <Icon
             name={"backward"}
             size={"large"}
-            onClick={this.props.zoomOutToModuleView}
+            onClick={this.onClickZoomOutToModule}
           />
         </div>
       );
@@ -644,7 +690,7 @@ export default class FrictionBoxBubbleChart extends Component {
           <Icon
             name={"backward"}
             size={"large"}
-            onClick={this.props.zoomOutToBoxView}
+            onClick={this.onClickZoomOutToBox}
           />
         </div>
       );

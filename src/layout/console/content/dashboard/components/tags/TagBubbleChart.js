@@ -16,6 +16,7 @@ export default class TagBubbleChart extends Component {
   constructor(props) {
     super(props);
     this.name = "[" + TagBubbleChart.name + "]";
+    this.isLoading = false;
   }
 
   componentDidMount() {
@@ -26,6 +27,7 @@ export default class TagBubbleChart extends Component {
         maxSize: 24,
       });
     }
+    this.isLoading = false;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -40,6 +42,7 @@ export default class TagBubbleChart extends Component {
     ) {
       console.log("update wtfs data!");
       this.displayWtfsChart(this.props.wtfsTableDto);
+      this.isLoading = false;
     } else if (
       this.isGoingBackToTags(prevProps, this.props) ||
       this.isInitializingTags(prevProps, this.props) ||
@@ -293,9 +296,15 @@ export default class TagBubbleChart extends Component {
   }
 
   onClickCircle = (svg, x, y, r, name, group, label) => {
+    if (this.isLoading) {
+      console.log("Ignoring click while loading!");
+      return;
+    }
     if (this.props.drillDownTag) {
       this.props.onClickCircle(name, group, label);
     } else {
+
+      this.isLoading = true;
       //otherwise animate transition
       let el = document.getElementById(name);
 
@@ -319,6 +328,13 @@ export default class TagBubbleChart extends Component {
       svg.style("opacity", "0.1");
 
       setTimeout(() => {
+        let textEl = this.circleGroup.append("text")
+          .attr("x", this.width / 2)
+          .attr("y", this.height / 2)
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "middle")
+          .attr("class", "circleLabel")
+          .text("Loading...");
         this.props.onClickCircle(name, group, label);
       }, 700);
     }

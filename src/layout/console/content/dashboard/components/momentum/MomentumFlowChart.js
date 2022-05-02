@@ -15,6 +15,7 @@ export default class MomentumFlowChart extends Component {
   constructor(props) {
     super(props);
     this.name = "[" + MomentumFlowChart.name + "]";
+    this.isLoading = false;
   }
 
   static WEEKS = "WEEKS";
@@ -35,6 +36,7 @@ export default class MomentumFlowChart extends Component {
         this.displayWeeklyChart(this.props.chartDto);
       }
     }
+    this.isLoading = false;
   }
 
   /**
@@ -52,6 +54,7 @@ export default class MomentumFlowChart extends Component {
         this.props.bucketSize === MomentumFlowChart.DAYS
       ) {
         this.displayDailyChart(this.props.chartDto);
+        this.isLoading = false;
       } else if (
         this.props.bucketSize === MomentumFlowChart.WEEKS
       ) {
@@ -409,6 +412,15 @@ export default class MomentumFlowChart extends Component {
       .text("gt[*]");
   }
 
+  onClickSummaryBox = (coords) => {
+    if (!this.isLoading) {
+      this.isLoading = true;
+      this.props.onClickSummaryBox(coords);
+    } else {
+      console.log("Ignoring clicks while loading!");
+    }
+  }
+
   /**
    * Draw the main squares on the chart for the weekly momentum as weeks organized into blocks
    * @param svg
@@ -478,7 +490,8 @@ export default class MomentumFlowChart extends Component {
       .on("click", function (event, d) {
         let coords = d.data[0].trim();
 
-        that.props.onClickSummaryBox(coords);
+        that.onClickSummaryBox(coords);
+
       });
 
     svg
