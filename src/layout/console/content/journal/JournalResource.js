@@ -126,11 +126,11 @@ export default class JournalResource extends Component {
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType,
       data = arg.data,
-      username = data.username;
+      username =  UtilRenderer.getUsernameFromMetaProps(arg.metaProps);
 
     switch (mType) {
       case BaseClient.MessageTypes.TEAM_MEMBER:
-        if (this.username === data.username) {
+        if (this.username === username) {
           this.updateMemberStatus(data);
         }
         break;
@@ -147,7 +147,9 @@ export default class JournalResource extends Component {
         break;
       case BaseClient.MessageTypes
         .INTENTION_FINISHED_DETAILS:
+        console.log("journal finish for "+username);
         if (this.isForJournalInView(username)) {
+          console.log("updating entry finish!");
           this.updateJournalIntentions(data.journalEntry);
         }
         break;
@@ -215,6 +217,10 @@ export default class JournalResource extends Component {
 
   isForJournalInView(username) {
     let me = MemberClient.me;
+
+    console.log("me username = "+me.username);
+    console.log("username = "+username);
+
     return (
       (!this.isMyJournal() && this.username === username) ||
       (this.isMyJournal() && me.username === username)
@@ -222,9 +228,18 @@ export default class JournalResource extends Component {
   }
 
   updateMemberStatus(member) {
-    console.log("Updating member status!");
-    this.setState({
-      member: member,
+    this.setState((prevState) => {
+      let isLinking = prevState.isLinking;
+      let incomingPairReq = prevState.incomingPairRequest;
+      if (member.pairingNetwork) {
+        isLinking = false;
+        incomingPairReq = null;
+      }
+      return {
+        member: member,
+        isLinking: isLinking,
+        incomingPairRequest: incomingPairReq
+      };
     });
   }
 
@@ -810,11 +825,12 @@ export default class JournalResource extends Component {
       (arg) => {
         if (!this.hasCallbackError(arg) && arg.data) {
           this.setState((prevState) => {
-            let updatedItems =
-              UtilRenderer.updateMessageInArrayById(
-                prevState.journalIntentions,
-                arg.data
-              );
+
+            let updatedItems = prevState.journalIntentions;
+
+            if (!UtilRenderer.hasMessageByIdInArray(prevState.journalIntentions, arg.data))  {
+              updatedItems.push(arg.data);
+            }
 
             return {
               journalIntentions: updatedItems,
