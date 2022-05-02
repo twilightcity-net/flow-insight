@@ -222,14 +222,17 @@ class EventManager {
   createListener(event) {
     event.listener = (_event, _arg) => {
       let deserializedJson = JSON.parse(_arg);
-      log.info(
-        chalk.bold.cyanBright("[EventManager]") +
+
+      //don't log this event type for security reasons
+      if (event.type !== "ipc-appactivator-save-activation") {
+        log.info(
+          chalk.bold.cyanBright("[EventManager]") +
           " '" +
           chalk.bold.greenBright(event.type) +
           "' " +
           " -> " +
-          _arg
-      );
+          _arg );
+      }
       try {
         let value = global.App.EventManager.executeCallback(
           event,
