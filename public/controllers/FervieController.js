@@ -192,6 +192,16 @@ module.exports = class FervieController extends (
         FervieController.Paths.LINK +
         FervieController.Paths.CONFIRM;
 
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+
+    let notifications = database.findByMemberIdAndType(fromMemberId, "PAIRING_REQUEST");
+    console.log("Found notifications: "+notifications.length);
+    for (let notification of notifications) {
+      database.deleteNotificationById(notification.id);
+    }
+
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
       {},

@@ -102,6 +102,8 @@ export class NotificationClient extends BaseClient {
     return event;
   }
 
+
+
   /**
    * gets the count of our unread notifications so we know
    * whether to display the little alert dot

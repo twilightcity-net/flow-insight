@@ -1025,8 +1025,7 @@ export default class JournalResource extends Component {
               pairRequestTo: null,
               incomingPairRequest: false,
             });
-
-            this.deleteConsumedPairingNotification();
+            this.refreshNotificationsEvent.dispatch({});
           } else {
             this.handleError(arg.error);
           }
@@ -1038,35 +1037,6 @@ export default class JournalResource extends Component {
       );
     }
   };
-
-  deleteConsumedPairingNotification() {
-    NotificationClient.getNotificationOfTypeForUser(
-      this.state.member.username,
-      BaseClient.PairingRequestTypes.PAIRING_REQUEST,
-      this,
-      (arg) => {
-        if (!arg.error) {
-          NotificationClient.deleteNotification(
-            arg.data.id,
-            this,
-            (arg) => {
-              if (!arg.error) {
-                this.refreshNotificationsEvent.dispatch({});
-              } else {
-                console.error(
-                  "Unable to delete pairing request notification"
-                );
-              }
-            }
-          );
-        } else {
-          console.error(
-            "Unable to retrieve pairing request notification"
-          );
-        }
-      }
-    );
-  }
 
   handleStartPairing(username) {
     console.log("start pairing!");

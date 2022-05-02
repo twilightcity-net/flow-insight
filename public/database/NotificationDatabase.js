@@ -230,6 +230,25 @@ module.exports = class NotificationDatabase extends LokiJS {
   }
 
   /**
+   * Find an uncanceled notification by user and type
+   * @param memberId
+   * @param type
+   * @returns {*}
+   */
+  findByMemberIdAndType(memberId, type) {
+    let collection = this.getCollection(
+      NotificationDatabase.Collections.NOTIFICATION
+    );
+
+    return collection.find({
+      type: type,
+      fromMemberId: memberId,
+      canceled: false,
+    });
+  }
+
+
+  /**
    * Add a new notification to our local DB
    * @param messageType
    * @param fromMemberId
@@ -265,6 +284,7 @@ module.exports = class NotificationDatabase extends LokiJS {
       collection
     );
   }
+
 
   /**
    * Marks a notification from our local DB as read
