@@ -146,7 +146,7 @@ module.exports = class TalkController extends (
           socket.id
       );
       global.App.TalkManager.rejoinRooms();
-      this.talkConnectedEvent.dispatch();
+      this.talkConnectedEvent.dispatch({});
     });
     socket.on(
       TalkController.Events.RECONNECT_ATTEMPT,

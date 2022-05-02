@@ -193,7 +193,7 @@ module.exports = class ConsoleWindow {
    * app loading - CALLBACK
    */
   onReadyToShowCb() {
-    this.events.ready.dispatch();
+    this.events.ready.dispatch({});
   }
 
   /**

@@ -364,7 +364,7 @@ module.exports = class AppLoader {
     try {
       global.App.Shortcuts =
         global.App.ShortcutManager.createGlobalShortcuts();
-      this.events.shortcutsCreated.dispatch();
+      this.events.shortcutsCreated.dispatch({});
     } catch (error) {
       AppError.handleError(error, true);
     }

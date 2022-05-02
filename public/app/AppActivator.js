@@ -53,7 +53,7 @@ module.exports = class AppActivator {
       if (accountActivationDto.apiKey !== apiKey) {
         throw new Error("Unable to save api-key");
       }
-      this.events.activationSaved.dispatch();
+      this.events.activationSaved.dispatch({});
     } catch (err) {
       log.error(
         "[AppActivator] Unable to save api-key : " + err

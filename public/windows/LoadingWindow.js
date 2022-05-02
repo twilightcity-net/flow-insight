@@ -57,7 +57,7 @@ module.exports = class LoadingWindow {
   }
 
   onShowCb() {
-    this.events.shown.dispatch();
+    this.events.shown.dispatch({});
   }
 
   onClosedCb() {
