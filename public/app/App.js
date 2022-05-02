@@ -367,4 +367,8 @@ module.exports = class App {
       }
     );
   }
+
+  updateBadgeCount(number) {
+    app.setBadgeCount(number);
+  }
 };

@@ -232,6 +232,8 @@ module.exports = class NotificationController extends (
     let count = view.count();
     arg.data = { count: count };
 
+    global.App.updateBadgeCount(count);
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

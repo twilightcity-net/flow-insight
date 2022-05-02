@@ -605,7 +605,7 @@ export default class ConsoleSidebar extends Component {
             inverted
             corner="bottom right"
             name="circle"
-            color="purple"
+            color="red"
           />
         </Icon.Group>
       );
