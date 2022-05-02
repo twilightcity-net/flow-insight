@@ -229,6 +229,7 @@ export default class JournalEntry extends Component {
   handleChangeForProject = (e, { value }) => {
     this.setState({
       currentProjectValue: value,
+      isFirstEntryOnTask: false,
     });
   };
 
@@ -260,6 +261,7 @@ export default class JournalEntry extends Component {
     this.props.createProject(name, (project) => {
       this.setState({
         currentProjectValue: project.id,
+        isFirstEntryOnTask: false,
       });
     });
   }
@@ -272,6 +274,7 @@ export default class JournalEntry extends Component {
   handleChangeForTask = (e, { value }) => {
     this.setState({
       currentTaskValue: value,
+      isFirstEntryOnTask: false,
     });
   };
 
