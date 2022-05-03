@@ -133,8 +133,6 @@ module.exports = class NotificationController extends (
    * @param callback
    */
   handleGetNotificationsEvent(event, arg, callback) {
-    console.log("XXX CALLING getNotifications!");
-
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.NOTIFICATION
     );
@@ -231,8 +229,6 @@ module.exports = class NotificationController extends (
     let view = database.getViewForUnreadNotifications();
     let count = view.count();
     arg.data = { count: count };
-
-    global.App.updateBadgeCount(count);
 
     this.delegateCallbackOrEventReplyTo(
       event,

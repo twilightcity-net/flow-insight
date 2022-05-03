@@ -1,17 +1,12 @@
-import React, { Component } from "react";
-import {
-  List,
-  Menu,
-  Segment,
-  Transition,
-} from "semantic-ui-react";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import React, {Component} from "react";
+import {List, Menu, Segment, Transition,} from "semantic-ui-react";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import PairingRequestListItem from "./PairingRequestListItem";
-import { NotificationClient } from "../../../../clients/NotificationClient";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import { BaseClient } from "../../../../clients/BaseClient";
+import {NotificationClient} from "../../../../clients/NotificationClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import WTFThresholdListItem from "./WTFThresholdListItem";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -36,13 +31,6 @@ export default class NotificationsPanel extends Component {
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
       );
 
-    this.directMessageListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
-        this,
-        this.onTalkDirectMessage
-      );
-
     this.notificationReadUpdate =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -53,11 +41,13 @@ export default class NotificationsPanel extends Component {
     this.refreshNotificationsListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
-          .VIEW_CONSOLE_NOTIFICATION_REFRESH,
+          .NOTIFICATION_DATA_REFRESH,
         this,
         this.refreshNotifications
       );
+
   }
+
 
   /**
    * loads the stored state from parent or use default values
@@ -110,36 +100,10 @@ export default class NotificationsPanel extends Component {
       null
     );
 
-    this.directMessageListener.clear();
     this.notificationReadUpdate.clear();
     this.refreshNotificationsListener.clear();
   };
 
-  /**
-   * On direct messages listen for pairing requests to know when we should update the panel
-   * @param event
-   * @param arg
-   */
-  onTalkDirectMessage = (event, arg) => {
-    if (
-      arg.messageType ===
-      BaseClient.MessageTypes.PAIRING_REQUEST
-    ) {
-      if (
-        arg.data.pairingRequestType ===
-        BaseClient.PairingRequestTypes.PAIRING_REQUEST
-      ) {
-        console.log("Received pairing request");
-        this.refreshNotifications();
-      } else if (
-        arg.data.pairingRequestType ===
-        BaseClient.PairingRequestTypes.PAIRING_CANCELLATION
-      ) {
-        console.log("Received cancel request");
-        this.refreshNotifications();
-      }
-    }
-  };
 
   /**
    * called when refreshing the view which is triggered by any perspective
@@ -235,14 +199,26 @@ export default class NotificationsPanel extends Component {
             size="large"
           >
             {this.state.notifications.map(
-              (notification, i) => (
-                <PairingRequestListItem
-                  key={i}
-                  id={i}
-                  model={notification}
-                  refresh={this.refreshNotifications}
-                />
-              )
+              (notification, i) => {
+
+                console.log(JSON.stringify(notification));
+                if (notification.type === "PAIRING_REQUEST") {
+                  return (<PairingRequestListItem
+                    key={i}
+                    id={i}
+                    model={notification}
+                    refresh={this.refreshNotifications}
+                  />);
+                } else if (notification.type === "TEAM_WTF_THRESHOLD") {
+                  return (<WTFThresholdListItem
+                    key={i}
+                    id={i}
+                    model={notification}
+                    refresh={this.refreshNotifications}
+                  />);
+                }
+                return "";
+              }
             )}
           </List>
         </div>

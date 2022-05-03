@@ -23,7 +23,7 @@ module.exports = class FervieController extends (
 
   /**
    * general enum list of all of our possible circuit events for fervie
-   * @returns {{CANCEL_PAIR_REQUEST:string, SAVE_FERVIE_DETAILS: string, REQUEST_PAIR_LINK:string, CONFIRM_PAIR_LINK:string, STOP_PAIRING:string}}
+   * @returns {{HAS_OUTGOING_PAIR_REQUEST:string, CANCEL_PAIR_REQUEST:string, SAVE_FERVIE_DETAILS: string, REQUEST_PAIR_LINK:string, CONFIRM_PAIR_LINK:string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
@@ -33,6 +33,7 @@ module.exports = class FervieController extends (
       CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
       CANCEL_PAIR_REQUEST: "cancel-pair-request",
+      HAS_OUTGOING_PAIR_REQUEST: "has-outgoing-pair-request"
     };
   }
 
@@ -90,6 +91,9 @@ module.exports = class FervieController extends (
         case FervieController.Events.CANCEL_PAIR_REQUEST:
           this.handleCancelPairRequestEvent(event, arg);
           break;
+        case FervieController.Events.HAS_OUTGOING_PAIR_REQUEST:
+          this.handleHasOutgoingPairRequestEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown fervie client event type '" +
@@ -137,6 +141,32 @@ module.exports = class FervieController extends (
     );
   }
 
+
+  /**
+   * client event handler to get any outgoing pair request to a specific member
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleHasOutgoingPairRequestEvent(event, arg, callback) {
+    let memberId = arg.args.memberId;
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+
+    arg.data = database.hasPairRequest(memberId);
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+
+  }
+
+
+
   /**
    * client event handler for our pairing request
    * @param event
@@ -157,7 +187,7 @@ module.exports = class FervieController extends (
       DatabaseFactory.Names.NOTIFICATION
     );
 
-    database.addPairRequest(memberId);
+    database.addOutgoingPairRequest(memberId);
 
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,

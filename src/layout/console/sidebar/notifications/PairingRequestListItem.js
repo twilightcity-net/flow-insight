@@ -1,17 +1,13 @@
-import React, { Component } from "react";
-import {
-  Icon,
-  Label,
-  List,
-  Popup,
-} from "semantic-ui-react";
-import { FervieClient } from "../../../../clients/FervieClient";
-import { NotificationClient } from "../../../../clients/NotificationClient";
+import React, {Component} from "react";
+import {Label, List, Popup,} from "semantic-ui-react";
+import {FervieClient} from "../../../../clients/FervieClient";
+import {NotificationClient} from "../../../../clients/NotificationClient";
 
 export default class PairingRequestListItem extends Component {
   constructor(props) {
     super(props);
     this.wtfTimer = null;
+
   }
 
   /**

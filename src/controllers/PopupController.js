@@ -46,20 +46,16 @@ export class PopupController {
         RendererControllerFactory.Views.LAYOUT_BROWSER,
         this
       );
+
   }
 
   onTalkRoomMessage = (event, arg) => {
     if (
-      arg.messageType ===
-        BaseClient.MessageTypes.WTF_STATUS_UPDATE &&
-      arg.data.statusType ===
-        ResourceCircuitController.StatusTypes
-          .TEAM_WTF_THRESHOLD &&
-      arg.data.ownerId === MemberClient.me.id
+      arg.messageType === BaseClient.MessageTypes.WTF_STATUS_UPDATE &&
+      arg.data.statusType === ResourceCircuitController.StatusTypes.TEAM_WTF_THRESHOLD &&
+      arg.data.learningCircuitDto.ownerId !== MemberClient.me.id
     ) {
-      this.showNotificationForWtf(
-        arg.data["learningCircuitDto"]
-      );
+      this.showNotificationForWtf(arg.data["learningCircuitDto"]);
     }
   };
 

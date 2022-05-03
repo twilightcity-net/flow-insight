@@ -92,6 +92,11 @@ module.exports = class NotificationDatabase extends LokiJS {
     );
 
     allNotificationView.applySort(function (obj1, obj2) {
+      if (obj1.canceled && !obj2.canceled) {
+        return 1;
+      } else if (!obj1.canceled && obj2.canceled) {
+        return -1;
+      }
       if (obj1.timestamp === obj2.timestamp) return 0;
       if (obj1.timestamp > obj2.timestamp) return -1;
       if (obj1.timestamp < obj2.timestamp) return 1;
@@ -103,9 +108,11 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Views.UNREAD_NOTIFICATION
     );
 
+
     unreadNotificationView.applyFind({
       read: false,
     });
+
   }
 
   /**
@@ -151,7 +158,8 @@ module.exports = class NotificationDatabase extends LokiJS {
    * Add a new pair request to our local DB
    * @param toMemberId
    */
-  addPairRequest(toMemberId) {
+  addOutgoingPairRequest(toMemberId) {
+    console.log("XXX ADDING PAIR REQUEST for "+toMemberId);
     let collection = this.getCollection(
       NotificationDatabase.Collections.PAIR_REQUEST
     );
@@ -185,6 +193,9 @@ module.exports = class NotificationDatabase extends LokiJS {
     );
 
     let result = collection.findOne({ id: toMemberId });
+
+    console.log("XXX FOUND REQUEST = "+result);
+
     return !!result;
   }
 
@@ -208,7 +219,22 @@ module.exports = class NotificationDatabase extends LokiJS {
         notificationObj,
         collection
       );
+
+      let count = this.getViewForUnreadNotifications().count();
+      global.App.updateBadgeCount(count);
     }
+  }
+
+  /**
+   * Cancel all threshold notifications for a member when an active circuit has been terminated
+   * @param fromMemberId
+   */
+  cancelThresholdNotificationsFromUser(fromMemberId) {
+    let thresholdNotifications = this.findByMemberIdAndType(fromMemberId, "TEAM_WTF_THRESHOLD");
+    for (let notification of thresholdNotifications) {
+      this.cancelNotificationById(notification.id);
+    }
+
   }
 
   /**
@@ -249,7 +275,7 @@ module.exports = class NotificationDatabase extends LokiJS {
 
 
   /**
-   * Add a new notification to our local DB
+   * Cancel notifications of a certain type from a certain member
    * @param messageType
    * @param fromMemberId
    */
@@ -265,7 +291,23 @@ module.exports = class NotificationDatabase extends LokiJS {
     });
     if (result) {
       result.canceled = true;
-      result.read = false;
+      collection.update(result);
+    }
+  }
+
+  /**
+   * Cancel a specific notification using its id
+   * @param notificationId
+   */
+  cancelNotificationById(notificationId) {
+    let collection = this.getCollection(
+      NotificationDatabase.Collections.NOTIFICATION
+    );
+
+    let result = collection.findOne( { id: notificationId } );
+
+    if (result) {
+      result.canceled = true;
       collection.update(result);
     }
   }
@@ -299,6 +341,9 @@ module.exports = class NotificationDatabase extends LokiJS {
     if (result) {
       result.read = true;
       collection.update(result);
+
+      let count = this.getViewForUnreadNotifications().count();
+      global.App.updateBadgeCount(count);
     }
   }
 
@@ -323,5 +368,8 @@ module.exports = class NotificationDatabase extends LokiJS {
 
       console.log("mark as read: " + record.id);
     }
+
+    let count = this.getViewForUnreadNotifications().count();
+    global.App.updateBadgeCount(count);
   }
 };

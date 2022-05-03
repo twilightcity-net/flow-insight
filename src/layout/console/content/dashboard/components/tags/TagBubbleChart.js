@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { DimensionController } from "../../../../../../controllers/DimensionController";
+import React, {Component} from "react";
+import {DimensionController} from "../../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
-import { Icon } from "semantic-ui-react";
+import {Icon} from "semantic-ui-react";
 import fitty from "fitty";
 
 /**
@@ -328,7 +328,7 @@ export default class TagBubbleChart extends Component {
       svg.style("opacity", "0.1");
 
       setTimeout(() => {
-        let textEl = this.circleGroup.append("text")
+       this.circleGroup.append("text")
           .attr("x", this.width / 2)
           .attr("y", this.height / 2)
           .attr("text-anchor", "middle")

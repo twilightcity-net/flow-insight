@@ -87,7 +87,7 @@ export default class JournalResource extends Component {
     this.refreshNotificationsEvent =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
-          .VIEW_CONSOLE_NOTIFICATION_REFRESH,
+          .NOTIFICATION_DATA_REFRESH,
         this
       );
 
@@ -103,7 +103,6 @@ export default class JournalResource extends Component {
       member: null,
       isLinking: false,
       incomingPairRequest: false,
-      pairRequestTo: null,
       linkError: null,
     };
   }
@@ -651,6 +650,13 @@ export default class JournalResource extends Component {
 
         this.handleCallback();
 
+        FervieClient.hasOutgoingPairingRequest(this.member.id, this, (arg) => {
+          if (!this.hasCallbackError(arg)) {
+            this.isLinking = arg.data;
+          }
+          this.handleCallback();
+        });
+
         NotificationClient.getNotificationOfTypeForUser(
           this.username,
           BaseClient.PairingRequestTypes.PAIRING_REQUEST,
@@ -736,7 +742,7 @@ export default class JournalResource extends Component {
    */
   handleCallback() {
     this.loadCount++;
-    if (this.loadCount === 5) {
+    if (this.loadCount === 6) {
       //the 3 load calls are asynchronous, so make sure we only update this on the last one
 
       this.setState({
@@ -747,6 +753,7 @@ export default class JournalResource extends Component {
         lastProject: this.lastProject,
         lastTask: this.lastTask,
         incomingPairRequest: this.incomingPairRequest,
+        isLinking: this.isLinking,
         error: null,
       });
 
@@ -994,13 +1001,12 @@ export default class JournalResource extends Component {
    */
   onClickCancelLink = () => {
     FervieClient.cancelPairRequest(
-      this.state.pairRequestTo,
+      this.state.member.id,
       this,
       (arg) => {
         if (!arg.error) {
           this.setState({
-            isLinking: false,
-            pairRequestTo: null,
+            isLinking: false
           });
         } else {
           this.handleError(arg.error);
@@ -1022,7 +1028,6 @@ export default class JournalResource extends Component {
           if (!arg.error) {
             this.setState({
               isLinking: false,
-              pairRequestTo: null,
               incomingPairRequest: false,
             });
             this.refreshNotificationsEvent.dispatch({});
@@ -1051,8 +1056,7 @@ export default class JournalResource extends Component {
               this.handleError(arg.error);
             } else {
               this.setState({
-                isLinking: true,
-                pairRequestTo: member.id,
+                isLinking: true
               });
             }
           }

@@ -1,18 +1,12 @@
-import React, { Component } from "react";
-import {
-  Divider,
-  Icon,
-  Menu,
-  Popup,
-} from "semantic-ui-react";
-import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
-import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
-import { DimensionController } from "../../../controllers/DimensionController";
-import { RendererEventFactory } from "../../../events/RendererEventFactory";
-import { BaseClient } from "../../../clients/BaseClient";
-import { MemberClient } from "../../../clients/MemberClient";
-import { FervieClient } from "../../../clients/FervieClient";
-import { NotificationClient } from "../../../clients/NotificationClient";
+import React, {Component} from "react";
+import {Divider, Icon, Menu, Popup,} from "semantic-ui-react";
+import {RendererControllerFactory} from "../../../controllers/RendererControllerFactory";
+import {SidePanelViewController} from "../../../controllers/SidePanelViewController";
+import {DimensionController} from "../../../controllers/DimensionController";
+import {RendererEventFactory} from "../../../events/RendererEventFactory";
+import {BaseClient} from "../../../clients/BaseClient";
+import {MemberClient} from "../../../clients/MemberClient";
+import {NotificationClient} from "../../../clients/NotificationClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -65,13 +59,6 @@ export default class ConsoleSidebar extends Component {
         this.onTalkRoomMessage
       );
 
-    this.directMessageListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
-        this,
-        this.onTalkDirectMessage
-      );
-
     this.meDataRefreshListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.ME_DATA_REFRESH,
@@ -85,6 +72,14 @@ export default class ConsoleSidebar extends Component {
           .VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
         this,
         this.onNotificationReadUpdate
+      );
+
+    this.refreshNotificationsListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .NOTIFICATION_DATA_REFRESH,
+        this,
+        this.refreshNotificationStatus
       );
   }
 
@@ -145,6 +140,7 @@ export default class ConsoleSidebar extends Component {
         this.onMeUpdate
       );
 
+
     this.setAlarmStateBasedOnStatus(MemberClient.me);
     setTimeout(() => {
       this.refreshNotificationStatus();
@@ -161,6 +157,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.clearSidebarShowListener();
     this.meDataRefreshListener.clear();
     this.meUpdateListener.clear();
+    this.refreshNotificationsListener.clear();
     this.circuitStartStopListener.clear();
     this.circuitPauseResumeListener.clear();
     this.talkRoomMessageListener.clear();
@@ -211,28 +208,13 @@ export default class ConsoleSidebar extends Component {
       if (this.isMe(data.id)) {
         this.setAlarmStateBasedOnStatus(data);
       }
-    } else if (
-      mType === BaseClient.MessageTypes.XP_STATUS_UPDATE
-    ) {
+    } else if (mType === BaseClient.MessageTypes.XP_STATUS_UPDATE) {
       if (this.isMe(data.memberId)) {
         this.setXpUpdateState(data);
       }
     }
   };
 
-  /**
-   * On direct messages listen for pairing requests to know when we should update the notification count
-   * @param event
-   * @param arg
-   */
-  onTalkDirectMessage = (event, arg) => {
-    if (
-      arg.messageType ===
-      BaseClient.MessageTypes.PAIRING_REQUEST
-    ) {
-      this.refreshNotificationStatus();
-    }
-  };
 
   /**
    * For refresh me status data, this happens after disconnect/refresh

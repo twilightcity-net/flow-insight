@@ -128,6 +128,12 @@ module.exports = class TalkController extends (
         EventFactory.Types.DICTIONARY_DATA_REFRESH,
         this
       );
+
+    this.notificationRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.NOTIFICATION_DATA_REFRESH,
+        this
+      );
   }
 
   /**
@@ -492,6 +498,7 @@ module.exports = class TalkController extends (
           canceled: false,
           data: message.data,
         });
+        this.notificationRefreshNotifier.dispatch({});
         break;
       case TalkController.PAIRING_CONFIRMED:
         notificationDatabase.removePairRequest(
@@ -503,6 +510,7 @@ module.exports = class TalkController extends (
           TalkController.PAIRING_REQUEST,
           fromMemberId
         );
+        this.notificationRefreshNotifier.dispatch({});
         break;
     }
   }
@@ -533,12 +541,17 @@ module.exports = class TalkController extends (
       dictionaryDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.DICTIONARY
       ),
+      notificationDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.NOTIFICATION
+      ),
       messageCollection =
         talkDatabase.getCollectionForRoomTalkMessages(uri),
       statusCollection =
         talkDatabase.getCollectionForRoomStatusTalkMessages(
           uri
         ),
+      fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr],
+      fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr],
       me = this.getMemberMe(),
       model = {};
 
@@ -623,8 +636,21 @@ module.exports = class TalkController extends (
               circuitDatabase.setActiveCircuit(circuit);
             }
             break;
-          case TalkController.StatusTypes
-            .TEAM_WTF_THRESHOLD:
+          case TalkController.StatusTypes.TEAM_WTF_THRESHOLD:
+            if (fromUsername !== me.username) {
+              console.log("XXX Adding threshold notification!! ");
+              notificationDatabase.addNotification({
+                id: message.id,
+                type: TalkController.StatusTypes.TEAM_WTF_THRESHOLD,
+                timestamp: message.messageTime,
+                fromMemberId: fromMemberId,
+                fromUsername: fromUsername,
+                read: false,
+                canceled: false,
+                data: message.data,
+              });
+              this.notificationRefreshNotifier.dispatch({});
+            }
             break;
           case TalkController.StatusTypes.TEAM_WTF_UPDATED:
             circuitDatabase.updateCircuitForDescription(
@@ -649,6 +675,7 @@ module.exports = class TalkController extends (
             );
             break;
           case TalkController.StatusTypes.TEAM_WTF_ON_HOLD:
+            notificationDatabase.cancelThresholdNotificationsFromUser(fromMemberId);
             circuitDatabase.updateCircuitToDoItLater(
               circuit,
               me
@@ -681,6 +708,7 @@ module.exports = class TalkController extends (
             }
             break;
           case TalkController.StatusTypes.TEAM_WTF_SOLVED:
+            notificationDatabase.cancelThresholdNotificationsFromUser(fromMemberId);
             circuitDatabase.solveActiveCircuit(circuit);
             memberDatabase.removeActiveCircuitFromMembers(
               circuit
@@ -691,6 +719,7 @@ module.exports = class TalkController extends (
             circuitDatabase.startRetroForCircuit(circuit);
             break;
           case TalkController.StatusTypes.TEAM_WTF_CANCELED:
+            notificationDatabase.cancelThresholdNotificationsFromUser(fromMemberId);
             circuitDatabase.removeCircuitFromAllCollections(
               circuit
             );

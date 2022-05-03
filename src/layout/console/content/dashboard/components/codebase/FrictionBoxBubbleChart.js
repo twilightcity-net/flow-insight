@@ -404,7 +404,7 @@ export default class FrictionBoxBubbleChart extends Component {
       svg.style("opacity", "0.1");
 
       setTimeout(() => {
-        let textEl = this.circleGroup.append("text")
+        this.circleGroup.append("text")
           .attr("x", this.width / 2)
           .attr("y", this.height / 2)
           .attr("text-anchor", "middle")
