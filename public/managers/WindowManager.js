@@ -13,6 +13,7 @@ const electron = require("electron"),
   ActivatorWindow = require("../windows/ActivatorWindow"),
   ConsoleWindow = require("../windows/ConsoleWindow"),
   ChartWindow = require("../windows/ChartWindow");
+const HotkeyConfigWindow = require("../windows/HotkeyConfigWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -41,7 +42,7 @@ class WindowManager {
       ),
       hideConsole: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE
-      ),
+      )
     };
   }
 
@@ -403,6 +404,8 @@ class WindowManager {
         return new ConsoleWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.CHART:
         return new ChartWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.HOTKEY:
+        return new HotkeyConfigWindow(windowName, arg);
       default:
         return null;
     }

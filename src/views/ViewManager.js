@@ -8,6 +8,7 @@ import LoadingView from "./LoadingView";
 import ActivatorView from "./ActivatorView";
 import ConsoleView from "./ConsoleView";
 import ChartView from "./ChartView";
+import HotkeyView from "./HotkeyView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
@@ -26,6 +27,7 @@ export default class ViewManager extends Component {
       ACTIVATOR: <ActivatorView />,
       CONSOLE: <ConsoleView />,
       CHART: <ChartView />,
+      HOTKEY: <HotkeyView />
     };
   }
 
@@ -61,6 +63,8 @@ export default class ViewManager extends Component {
       return <ConsoleView routeProps={props} />;
     } else if (viewNameUpper === "CHART") {
       return <ChartView routeProps={props} />;
+    } else if (viewNameUpper === "HOTKEY") {
+      return <HotkeyView routeProps={props} />;
     } else {
       throw new Error(
         "Unable to render unknown view type " +

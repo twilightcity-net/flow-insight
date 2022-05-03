@@ -360,10 +360,9 @@ module.exports = class AppLoader {
    * registers global application shortcuts
    */
   createShortcuts() {
-    log.info("[AppLoader] create shortcuts");
+    log.info("[AppLoader] init shortcuts");
     try {
-      global.App.Shortcuts =
-        global.App.ShortcutManager.createGlobalShortcuts();
+      global.App.ShortcutManager.initGlobalShortcuts();
       this.events.shortcutsCreated.dispatch({});
     } catch (error) {
       AppError.handleError(error, true);

@@ -1,5 +1,4 @@
-const ChartController = require("../controllers/ChartController"),
-  log = require("electron-log");
+const ChartController = require("../controllers/ChartController");
 
 /**
  * managing class for the chart client

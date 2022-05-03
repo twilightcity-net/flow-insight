@@ -3044,6 +3044,155 @@
   }
 
   /*
+ * COMPONENT: HOTKEY CONFIG LAYOUT
+ */
+  #component.hotkeyLayout .closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+
+  #component.hotkeyLayout .closeIcon i {
+    color: rgba(200, 200, 200, 0.96);
+    transition: background-color, color 0.333s ease-out;
+    border-radius: 3px;
+    margin: 0px;
+  }
+
+  #component.hotkeyLayout .closeIcon i:hover {
+    color: white;
+    cursor: pointer !important;
+  }
+
+  #component.hotkeyLayout .configBox {
+    background-color: rgba(27, 28, 29, 0.96);
+    height: 100%;
+  }
+
+  #component.hotkeyLayout .configBox .title {
+    -webkit-app-region: drag;
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    padding-top: 10px;
+    padding-left: 20px;
+    width: 90%;
+  }
+
+  #component.hotkeyLayout .configBox .hotkeyTable {
+    margin: 20px;
+  }
+
+  #component.hotkeyLayout .configBox .hotkeyTable .column {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+
+
+
+  #component.hotkeyLayout .configBox .hotkeyTable .chunkTitle {
+    font-weight: 800;
+    color: #cccccc;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  #component.hotkeyLayout .buttons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+  #component.hotkeyLayout .feedback {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: rgba(120, 120, 120, 0.96);
+    font-style: italic;
+  }
+
+  #component.hotkeyLayout .hotkeyInput {
+    width: 100%;
+  }
+
+  #component.hotkeyLayout .metakeyInput .visible.menu.transition::-webkit-scrollbar {
+    display: none;
+  }
+
+  #component.hotkeyLayout .ui.dropdown {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.dropdown input {
+    color: rgba(222, 222, 222, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.dropdown div.text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    color: rgba(222, 222, 222, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.dropdown .menu {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-color: rgba(72, 72, 72, 0.96);
+  }
+
+  #component.hotkeyLayout .column.focused .ui.dropdown {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.hotkeyLayout .column.focused .ui.dropdown .menu {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.selection.dropdown .menu>.item {
+    transition: background, color 0.420s ease-out;
+    border-top: 1px solid rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.selection.dropdown .menu>.item:last-child {
+    border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.selection.dropdown .menu>.item:hover {
+    background: #2b2b2b;
+    font-weight: 800;
+    color: rgba(200, 200, 200, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.selection.dropdown .menu>.selected.item {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(255, 255, 255, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.input.hotkeyInput input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.input.hotkeyInput input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.hotkeyLayout .ui.input.hotkeyInput input::placeholder {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96)
+  }
+
+  /*
  * COMPONENT: POPUP CHART LAYOUT
  */
   #component.chartLayout #draggableBanner {
@@ -3894,6 +4043,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
+    color: rgba(222, 222, 222, 0.96);
   }
 
   #component.journalEntry .ui.dropdown .menu {

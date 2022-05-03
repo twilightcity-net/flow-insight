@@ -1,4 +1,4 @@
-const { app, session } = require("electron"),
+const {app, session} = require("electron"),
   chalk = require("chalk"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
@@ -22,7 +22,7 @@ const { app, session } = require("electron"),
   ChartManager = require("../managers/ChartManager"),
   ChartWindowManager = require("../managers/ChartWindowManager"),
   NotificationManager = require("../managers/NotificationManager"),
-  { EventManager } = require("../events/EventManager"),
+  {EventManager} = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
     ShortcutManager,
@@ -37,23 +37,25 @@ const { app, session } = require("electron"),
   AppBanner = [
     "                                                                                               ",
     "      .*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.\n" +
-      "      :    ____________ _______       _______________ ____        ____          /         :\n" +
-      "      :   |       _____|       |     |               |    |  __  |    |      /\\/          :\n" +
-      "      :   |       __|  |       |_____|       |       |     \\/  \\/     |     /             :\n" +
-      "      :   |______|_____|_____________|_______________|________________|_________________  :\n" +
-      "      :          |     |        |    |   _______|    |      ___|      |     |           | :\n" +
-      "      :          |     |     |       |_______   |    |     |_+-|            |_         _| :\n" +
-      "      :       /  |_____|_____|_______|__________|____|_________|______|_____| |_______|   :\n" +
-      "      :    /\\/                                                                            :\n" +
-      "      :   /                              T W I L I G H T  C I T Y , I N C  © 2 0 2 1      :\n" +
-      "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
-      "                                                                                               \n",
+    "      :    ____________ _______       _______________ ____        ____          /         :\n" +
+    "      :   |       _____|       |     |               |    |  __  |    |      /\\/          :\n" +
+    "      :   |       __|  |       |_____|       |       |     \\/  \\/     |     /             :\n" +
+    "      :   |______|_____|_____________|_______________|________________|_________________  :\n" +
+    "      :          |     |        |    |   _______|    |      ___|      |     |           | :\n" +
+    "      :          |     |     |       |_______   |    |     |_+-|            |_         _| :\n" +
+    "      :       /  |_____|_____|_______|__________|____|_________|______|_____| |_______|   :\n" +
+    "      :    /\\/                                                                            :\n" +
+    "      :   /                              T W I L I G H T  C I T Y , I N C  © 2 0 2 1      :\n" +
+    "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
+    "                                                                                               \n",
   ];
 
 const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
 } = require("electron-devtools-installer");
+const ConfigWindowManager = require("../managers/ConfigWindowManager");
+const HotkeyManager = require("../managers/HotkeyManager");
 
 module.exports = class App {
   constructor() {
@@ -141,9 +143,9 @@ module.exports = class App {
 
     log.info(
       "[App] ready -> " +
-        global.App.name +
-        " : " +
-        global.App.api
+      global.App.name +
+      " : " +
+      global.App.api
     );
     log.info("[App] ready -> talk : " + global.App.talkUrl);
     log.info(
@@ -170,8 +172,9 @@ module.exports = class App {
         new NotificationManager();
       global.App.TerminalManager = new TerminalManager();
       global.App.ChartManager = new ChartManager();
-      global.App.ChartWindowManager =
-        new ChartWindowManager();
+      global.App.HotkeyManager = new HotkeyManager();
+      global.App.ChartWindowManager = new ChartWindowManager();
+      global.App.ConfigWindowManager = new ConfigWindowManager();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
@@ -211,9 +214,9 @@ module.exports = class App {
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
-        workingDirectory +
-        " => " +
-        commandLine
+      workingDirectory +
+      " => " +
+      commandLine
     );
   }
 

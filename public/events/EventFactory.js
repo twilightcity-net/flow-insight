@@ -26,7 +26,7 @@ class EventFactory {
 
   /**
    * Static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-   * @returns {{NOTIFICATION_DATA_REFRESH:string, FERVIE_CLIENT:string, NOTIFICATION_CLIENT:string, DICTIONARY_CLIENT:string, CHART_CLIENT:string, SCREENSHOT_READY_FOR_DISPLAY: string, DATABASE_VOLUMES_READY: string, WINDOW_CONSOLE_READY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, SHORTCUTS_RECIEVED: string, DATABASE_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, WINDOW_FOCUS: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_LOADING_SHOWN: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, APP_PULSE: string, WINDOW_LOADING_LOGIN: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, SHORTCUTS_CREATED: string, APPLOADER_LOAD: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, WINDOW_BLUR: string, SCREENSHOT_COMPLETE: string, MEMBER_CLIENT: string, WINDOW_ACTIVATOR_CLOSE: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
+   * @returns {{HOTKEY_CLIENT:string, UPDATE_SHORTCUTS:string, WINDOW_CLOSE_HOTKEY_CONFIG:string, NOTIFICATION_DATA_REFRESH:string, FERVIE_CLIENT:string, NOTIFICATION_CLIENT:string, DICTIONARY_CLIENT:string, CHART_CLIENT:string, SCREENSHOT_READY_FOR_DISPLAY: string, DATABASE_VOLUMES_READY: string, WINDOW_CONSOLE_READY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, SHORTCUTS_RECIEVED: string, DATABASE_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, WINDOW_FOCUS: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_LOADING_SHOWN: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, APP_PULSE: string, WINDOW_LOADING_LOGIN: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, SHORTCUTS_CREATED: string, APPLOADER_LOAD: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, WINDOW_BLUR: string, SCREENSHOT_COMPLETE: string, MEMBER_CLIENT: string, WINDOW_ACTIVATOR_CLOSE: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
    * @constructor
    */
   static get Types() {
@@ -48,6 +48,7 @@ class EventFactory {
       FERVIE_CLIENT: prefix + "fervie-client",
       TERMINAL_CLIENT: prefix + "terminal-client",
       CHART_CLIENT: prefix + "chart-client",
+      HOTKEY_CLIENT: prefix + "hotkey-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
@@ -66,6 +67,7 @@ class EventFactory {
         prefix + "window-activator-close",
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
+      WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_CHART_SHOWN: prefix + "window-chart-shown",
       WINDOW_CHART_CLOSED: prefix + "window-chart-closed",
       TALK_CONNECTED: prefix + "talk-connected",
@@ -85,6 +87,8 @@ class EventFactory {
       SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
       SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
         prefix + "shortcuts-window-console-sidebar-show",
+      UPDATE_SHORTCUTS:
+        prefix + "update-shortcuts",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",
       ME_DATA_REFRESH: prefix + "me-data-refresh",

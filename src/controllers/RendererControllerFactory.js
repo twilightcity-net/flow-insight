@@ -5,6 +5,7 @@ import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
 import { PopupController } from "./PopupController";
 import { ChartPopoutController } from "./ChartPopoutController";
+import {HotkeyViewController} from "./HotkeyViewController";
 
 /**
  * generates view controllers for components
@@ -19,7 +20,7 @@ export class RendererControllerFactory {
 
   /**
    * the views of the gui that have controllers
-   * @returns {{NOTIFICATION:string, CHART_POPOUT:string, RESOURCES: string, LAYOUT_BROWSER: string, LAYOUT_CONTENT: string, CONSOLE_VIEW: string, CONSOLE_SIDEBAR: string}}
+   * @returns {{HOTKEY_CONFIG:string, NOTIFICATION:string, CHART_POPOUT:string, RESOURCES: string, LAYOUT_BROWSER: string, LAYOUT_CONTENT: string, CONSOLE_VIEW: string, CONSOLE_SIDEBAR: string}}
    * @constructor
    */
   static get Views() {
@@ -31,6 +32,7 @@ export class RendererControllerFactory {
       RESOURCES: "resources",
       NOTIFICATION: "notification",
       CHART_POPOUT: "chart-popout",
+      HOTKEY_CONFIG: "hotkey-config"
     };
   }
 
@@ -100,6 +102,8 @@ export class RendererControllerFactory {
         return new PopupController(scope);
       case RendererControllerFactory.Views.CHART_POPOUT:
         return new ChartPopoutController(scope);
+      case RendererControllerFactory.Views.HOTKEY_CONFIG:
+        return new HotkeyViewController(scope);
       default:
         throw new Error(
           "Unknown controller name '" + name + "'"

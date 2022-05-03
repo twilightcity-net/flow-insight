@@ -20,7 +20,7 @@ export class DimensionController {
 
   /**
    * the list of components we wish to manage dimensions for
-   * @returns {{FLOW_PANEL: string, PLAY_PANEL: string, FERVIE_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
+   * @returns {{HOTKEY_CONFIG:string, FLOW_PANEL: string, PLAY_PANEL: string, FERVIE_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get Components() {
@@ -33,6 +33,7 @@ export class DimensionController {
       TROUBLESHOOT: "[Troubleshoot]",
       SIDEBAR_PANEL: "[SidebarPanel]",
       CIRCUIT_SIDEBAR: "[CircuitSidebar]",
+      HOTKEY_CONFIG: "[HotkeyConfig]",
     };
   }
 
@@ -80,6 +81,14 @@ export class DimensionController {
    * @returns {number}
    */
   static getPlayPanelHeight() {
+    return window.innerHeight;
+  }
+
+  /**
+   * Calculates the height for the hotkey config window
+   * @returns {number}
+   */
+  static getHotkeyConfigHeight() {
     return window.innerHeight;
   }
 
@@ -514,6 +523,12 @@ export class DimensionController {
     ) {
       return DimensionController.getActiveCircuitContentHeight();
     } else if (
+      component ===
+      DimensionController.Components.HOTKEY_CONFIG
+    ) {
+      return DimensionController.getHotkeyConfigHeight();
+    }
+    else if (
       component ===
       DimensionController.Components.SIDEBAR_PANEL
     ) {

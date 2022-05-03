@@ -60,7 +60,7 @@ class ShortcutManager {
   /**
    * static enum to store shortcut names. These are basically the type
    * of possible shortcuts that can be registered by the Manager.
-   * @returns {{WINDOW_SIDEBAR_FIRST_ITEM: string, GLOBAL_SHOW_HIDE_CONSOLE: string, GLOBAL_WINDOW_DEV_MODE: string}}
+   * @returns {{GLOBAL_SHOW_HIDE_CONSOLE_ALT:string, WINDOW_SIDEBAR_FIRST_ITEM: string, GLOBAL_SHOW_HIDE_CONSOLE: string, GLOBAL_WINDOW_DEV_MODE: string}}
    * @constructor
    */
   static get Names() {
@@ -109,12 +109,68 @@ class ShortcutManager {
     };
   }
 
+  getConsoleShortcut() {
+    let shortcut = this.findShortcutByName(ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE);
+
+    let accelerator = shortcut.accelerator;
+    let parts = accelerator.split('+');
+
+    let modifier = parts[0];
+    let key = parts[parts.length - 1];
+    let hasShift = parts.length > 2;
+
+    if (!hasShift) {
+      key = key.toLowerCase();
+    }
+
+    return {
+      name: shortcut.name,
+      friendlyName: "Open Console",
+      accelerator: shortcut.accelerator,
+      modifier: modifier,
+      key: key,
+      hasShift: hasShift
+    }
+  }
+
+  /**
+   * Update accelerator key for the show/hide console shortcut
+   * @param newAccelerator
+   */
+  updateConsoleShortcut(newAccelerator) {
+
+    let shortcut = this.findShortcutByName(ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE);
+    let altShortcut = this.findShortcutByName(ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT);
+
+    globalShortcut.unregister(shortcut.accelerator);
+    globalShortcut.unregister(altShortcut.accelerator);
+
+    shortcut.accelerator = newAccelerator;
+    altShortcut.accelerator = newAccelerator;
+
+    this.configureGlobalShortcutCallback(shortcut);
+    this.configureGlobalShortcutCallback(altShortcut);
+
+    global.App.AppSettings.setConsoleShortcut(shortcut.accelerator);
+    global.App.AppSettings.setConsoleShortcutAlt(altShortcut.accelerator);
+
+  }
+
+  findShortcutByName(shortcutName) {
+    for (let shortcut of this.shortcuts) {
+      if (shortcut.name === shortcutName) {
+        return shortcut;
+      }
+    }
+    return null;
+  }
+
   /**
    * creates global app shortcuts which are listening even if the app has
    * no windows focused
    * @returns {{showHideConsole: Shortcut}}
    */
-  createGlobalShortcuts() {
+  initGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
     let shortcuts = {
       showHideConsole: new Shortcut(
@@ -133,6 +189,7 @@ class ShortcutManager {
         this
       ),
     };
+
     return shortcuts;
   }
 

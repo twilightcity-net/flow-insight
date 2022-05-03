@@ -1,6 +1,7 @@
 const { Menu, Tray } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util");
+const WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /*
  * This class is used to init the Application tray
@@ -22,9 +23,14 @@ module.exports = class AppTray extends Tray {
     super(iconPath);
     let menu = Menu.buildFromTemplate([
       {
+        label: "Configure Hotkeys",
+        click: this.onClickConfigHotkeys
+      },
+      { type: "separator" },
+      {
         label: "Quit",
         role: "quit",
-      },
+      }
     ]);
     this.setToolTip("Flow Insight");
     this.setContextMenu(menu);
@@ -35,5 +41,11 @@ module.exports = class AppTray extends Tray {
       log.info("[AppTray] tray event -> right-click");
     });
     return this;
+  }
+
+  onClickConfigHotkeys = () => {
+    console.log("XXX onClickConfigHotkeys");
+
+    WindowManagerHelper.createWindowHotkeyConfig();
   }
 };

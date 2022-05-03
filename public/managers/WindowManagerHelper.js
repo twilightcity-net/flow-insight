@@ -18,6 +18,7 @@ module.exports = class WindowManagerHelper {
         "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
       CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
+      HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY
     };
   }
 
@@ -79,5 +80,28 @@ module.exports = class WindowManagerHelper {
       windowName,
       windowName
     );
+  }
+
+  /**
+   * creates new hotkey config window
+   * @returns {*}
+   */
+  static createWindowHotkeyConfig() {
+    let windowName =
+      WindowManagerHelper.WindowNames.HOTKEY;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
+  }
+
+  /**
+   * closes hotkey config window
+   * @returns {*}
+   */
+  static closeWindowHotkeyConfig() {
+    let windowName =
+      WindowManagerHelper.WindowNames.HOTKEY;
+    global.App.WindowManager.closeWindowByName(windowName);
   }
 };

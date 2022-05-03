@@ -81,7 +81,10 @@ module.exports = class AppMenu extends Menu {
         submenu: [
           { role: "about" },
           { type: "separator" },
-          { role: "services", submenu: [] },
+          {
+            label: "Configure Hotkeys",
+            click: AppMenu.onClickConfigHotkeys
+          },
           { type: "separator" },
           { role: "hide" },
           { role: "hideothers" },
@@ -147,6 +150,12 @@ module.exports = class AppMenu extends Menu {
         submenu: helpSubmenu,
       },
     ];
+  }
+
+  static onClickConfigHotkeys = () => {
+    console.log("XXX onClickConfigHotkeys");
+
+    WindowManagerHelper.createWindowHotkeyConfig();
   }
 
   /**
