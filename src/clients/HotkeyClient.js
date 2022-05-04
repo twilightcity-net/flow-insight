@@ -27,7 +27,6 @@ export class HotkeyClient extends BaseClient {
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{GET_CONSOLE_SHORTCUT:string, UPDATE_SHORTCUTS:string, GET_CURRENT_SHORTCUTS:string, }}
    * @constructor
    */
   static get Events() {
