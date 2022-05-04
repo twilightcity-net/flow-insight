@@ -25,13 +25,14 @@ module.exports = class HotkeyController extends (
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{UPDATE_SHORTCUTS:string, GET_CURRENT_SHORTCUTS:string, }}
+   * @returns {{GET_CONSOLE_SHORTCUT:string, UPDATE_SHORTCUTS:string, GET_CURRENT_SHORTCUTS:string, }}
    * @constructor
    */
   static get Events() {
     return {
       UPDATE_SHORTCUTS: "update-shortcuts",
-      GET_CURRENT_SHORTCUTS: "get-current-shortcuts"
+      GET_CURRENT_SHORTCUTS: "get-current-shortcuts",
+      GET_CONSOLE_SHORTCUT: "get-console-shortcut"
     };
   }
 
@@ -93,6 +94,9 @@ module.exports = class HotkeyController extends (
           .UPDATE_SHORTCUTS:
           this.handleUpdateShortcutsEvent(event, arg);
           break;
+        case HotkeyController.Events.GET_CONSOLE_SHORTCUT:
+          this.handleGetConsoleShortcutEvent(event, arg);
+          break;
         default:
           throw new Error(
             HotkeyController.Error.UNKNOWN +
@@ -103,6 +107,29 @@ module.exports = class HotkeyController extends (
       }
     }
   }
+
+
+
+
+  /**
+   * Gets console shortcut
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetConsoleShortcutEvent(event, arg, callback) {
+
+    let consoleShortcut = global.App.ShortcutManager.getConsoleShortcut();
+
+    arg.data = consoleShortcut;
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
   /**
    * Gets all the configurable shortcuts

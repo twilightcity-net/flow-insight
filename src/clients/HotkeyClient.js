@@ -27,13 +27,14 @@ export class HotkeyClient extends BaseClient {
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{UPDATE_SHORTCUTS:string, GET_CURRENT_SHORTCUTS:string, }}
+   * @returns {{GET_CONSOLE_SHORTCUT:string, UPDATE_SHORTCUTS:string, GET_CURRENT_SHORTCUTS:string, }}
    * @constructor
    */
   static get Events() {
     return {
       UPDATE_SHORTCUTS: "update-shortcuts",
-      GET_CURRENT_SHORTCUTS: "get-current-shortcuts"
+      GET_CURRENT_SHORTCUTS: "get-current-shortcuts",
+      GET_CONSOLE_SHORTCUT: "get-console-shortcut"
     };
   }
 
@@ -68,6 +69,24 @@ export class HotkeyClient extends BaseClient {
   }
 
 
+  /**
+   * gets our current configurable console shortcut
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getConsoleShortcut(scope, callback) {
+    console.log("hello!");
+    let event =
+      HotkeyClient.instance.createClientEvent(
+        HotkeyClient.Events.GET_CONSOLE_SHORTCUT,
+        {},
+        scope,
+        callback
+      );
+    HotkeyClient.instance.notifyHotkey(event);
+    return event;
+  }
 
   /**
    * Updates config changes to shortcuts

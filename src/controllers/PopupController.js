@@ -5,6 +5,7 @@ import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { MemberClient } from "../clients/MemberClient";
 import { SidePanelViewController } from "./SidePanelViewController";
+import {HotkeyClient} from "../clients/HotkeyClient";
 
 /**
  * used to show popup notifications in the app
@@ -162,33 +163,59 @@ export class PopupController {
    */
   showGettingStartedNotification() {
     setTimeout(() => {
-      this.tryAgainToShowGettingStartedPopup();
+      HotkeyClient.getConsoleShortcut(this, (arg) => {
+        let hotkey = this.getFriendlyHotkey(arg.data);
+
+        this.tryAgainToShowGettingStartedPopup(hotkey);
+      });
     }, 2500);
+  }
+
+  getFriendlyHotkey(shortcut) {
+    let friendly = "";
+    if (shortcut.modifier === "Control") {
+      friendly += "ctrl";
+    } else if (shortcut.modifier === "Command") {
+      friendly += "cmd";
+    } else {
+      friendly += shortcut.modifier.toLowerCase();
+    }
+    if (shortcut.hasShift) {
+      friendly += " shift";
+    }
+
+    if (shortcut.key === "`") {
+      friendly += " ~";
+    } else {
+      friendly += " "+shortcut.key;
+    }
+
+    return friendly;
   }
 
   /**
    * Since our popups may be blocked, we may need to wait for permission to show the first popup
    */
-  tryAgainToShowGettingStartedPopup() {
+  tryAgainToShowGettingStartedPopup(hotkey) {
     if (
       this.hasNeverBeenOpen &&
       Notification.permission !== "blocked"
     ) {
       if (!this.isGettingStartedPopupOpen) {
         this.initialPopup =
-          this.showGettingStartedPopupAndAutoClose();
+          this.showGettingStartedPopupAndAutoClose(hotkey);
       }
       setTimeout(() => {
-        this.tryAgainToShowGettingStartedPopup();
+        this.tryAgainToShowGettingStartedPopup(hotkey);
       }, 10000);
     }
   }
 
-  showGettingStartedPopupAndAutoClose() {
+  showGettingStartedPopupAndAutoClose(hotkey) {
     this.isGettingStartedPopupOpen = true;
     let n = PopupController.showNotification(
       "FlowInsight",
-      "Press ctrl ~ to open the console."
+      "Press "+hotkey+" to open the console."
     );
     n.onclose = () => {
       this.isGettingStartedPopupOpen = false;

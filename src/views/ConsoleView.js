@@ -15,6 +15,7 @@ import { FervieClient } from "../clients/FervieClient";
 import { TerminalClient } from "../clients/TerminalClient";
 import { ChartClient } from "../clients/ChartClient";
 import { NotificationClient } from "../clients/NotificationClient";
+import {HotkeyClient} from "../clients/HotkeyClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -133,6 +134,7 @@ export default class ConsoleView extends Component {
     TerminalClient.init(this);
     ChartClient.init(this);
     NotificationClient.init(this);
+    HotkeyClient.init(this);
 
     this.notificationController.showGettingStartedNotification();
   };
