@@ -4,6 +4,7 @@
 import AnimationId from "../AnimationId";
 import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
+import GlowSprite from "../fervie/GlowSprite";
 
 export default class ShroomHouseInTheWoods extends Environment {
   static GROUND_IMAGE =
@@ -30,40 +31,20 @@ export default class ShroomHouseInTheWoods extends Environment {
    */
   preload(p5) {
     super.preload(p5);
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.SKY_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.GROUND_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.OVERLAY_IMAGE
-    );
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SKY_IMAGE);
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.GROUND_IMAGE);
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.OVERLAY_IMAGE);
 
-    this.animationLoader.getStaticSvgImage(
-      p5,
-      AnimationId.Animation.ShroomHouse
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.WALK_AREA_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.WALK_BEHIND_AREA_IMAGE
-    );
+    this.animationLoader.getStaticSvgImage(p5, AnimationId.Animation.ShroomHouse);
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.WALK_AREA_IMAGE);
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.WALK_BEHIND_AREA_IMAGE);
 
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.SHROOM_DOOR
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.SHROOM_DOOR_MASK
-    );
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SHROOM_DOOR);
+    this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SHROOM_DOOR_MASK);
+
+    this.glowSprite = new GlowSprite(this.animationLoader,
+      ((Environment.IMAGE_WIDTH - 347) * this.scaleAmountX), ((Environment.IMAGE_HEIGHT - 157) * this.scaleAmountY), 0.6);
+    this.glowSprite.preload(p5);
 
     this.doorPosition = 0;
     this.isDoorTransitioning = false;
@@ -161,27 +142,11 @@ export default class ShroomHouseInTheWoods extends Environment {
    * @param p5
    */
   drawBackground(p5, fervie) {
-    let skyImage = this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.SKY_IMAGE
-    );
-    let groundImage = this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.GROUND_IMAGE
-    );
-    let houseImage = this.animationLoader.getStaticSvgImage(
-      p5,
-      AnimationId.Animation.ShroomHouse
-    );
-    let shroomDoor = this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.SHROOM_DOOR
-    );
-    let shroomDoorMask =
-      this.animationLoader.getStaticImage(
-        p5,
-        ShroomHouseInTheWoods.SHROOM_DOOR_MASK
-      );
+    let skyImage = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SKY_IMAGE);
+    let groundImage = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.GROUND_IMAGE);
+    let houseImage = this.animationLoader.getStaticSvgImage(p5, AnimationId.Animation.ShroomHouse);
+    let shroomDoor = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SHROOM_DOOR);
+    let shroomDoorMask = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SHROOM_DOOR_MASK);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
@@ -211,23 +176,10 @@ export default class ShroomHouseInTheWoods extends Environment {
   }
 
   drawOverlay(p5, fervie) {
-    let overlayImage = this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.OVERLAY_IMAGE
-    );
-    let houseImage = this.animationLoader.getStaticSvgImage(
-      p5,
-      AnimationId.Animation.ShroomHouse
-    );
-    let shroomDoor = this.animationLoader.getStaticImage(
-      p5,
-      ShroomHouseInTheWoods.SHROOM_DOOR
-    );
-    let shroomDoorMask =
-      this.animationLoader.getStaticImage(
-        p5,
-        ShroomHouseInTheWoods.SHROOM_DOOR_MASK
-      );
+    let overlayImage = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.OVERLAY_IMAGE);
+    let houseImage = this.animationLoader.getStaticSvgImage(p5, AnimationId.Animation.ShroomHouse);
+    let shroomDoor = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SHROOM_DOOR);
+    let shroomDoorMask = this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SHROOM_DOOR_MASK);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
@@ -244,6 +196,9 @@ export default class ShroomHouseInTheWoods extends Environment {
       p5.image(houseImage, 0, 0);
     }
     p5.image(overlayImage, 0, 0);
+
+    this.glowSprite.draw(p5);
+
     p5.pop();
   }
 
@@ -255,6 +210,8 @@ export default class ShroomHouseInTheWoods extends Environment {
         this.isDoorOpen = !this.isDoorOpen;
       } else {
         this.isDoorTransitioning = true;
+        this.glowSprite.startReappear();
+        fervie.startGlowChanneling();
       }
     }
   }
@@ -290,6 +247,7 @@ export default class ShroomHouseInTheWoods extends Environment {
    */
   update(p5, fervie) {
     super.update(p5);
+    this.glowSprite.update(p5);
 
     if (
       this.isDoorOpen &&
@@ -309,6 +267,8 @@ export default class ShroomHouseInTheWoods extends Environment {
         if (this.doorPosition > 0) {
           this.doorPosition = 0;
           this.isDoorTransitioning = false;
+          this.glowSprite.startDisappear();
+          fervie.stopGlowChanneling();
           this.isDoorOpen = false;
         }
       } else {
@@ -321,10 +281,14 @@ export default class ShroomHouseInTheWoods extends Environment {
         ) {
           this.doorPosition =
             ShroomHouseInTheWoods.MAX_DOOR_POSITION;
+          this.glowSprite.startDisappear();
+          fervie.stopGlowChanneling();
           this.isDoorTransitioning = false;
           this.isDoorOpen = true;
         }
       }
+    } else {
+      this.glowSprite.startDisappearIfVisible();
     }
   }
 }

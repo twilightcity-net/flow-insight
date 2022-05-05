@@ -412,6 +412,21 @@ export default class FervieSprite {
     }
   }
 
+  startGlowChanneling() {
+    this.direction = FervieSprite.Direction.Down;
+    this.animationFrame = 10;
+
+    this.fervieGlowSprite.startChanneling();
+  }
+
+
+  stopGlowChanneling() {
+    this.direction = FervieSprite.Direction.Down;
+    this.animationFrame = 10;
+
+    this.fervieGlowSprite.stopChanneling();
+  }
+
   isTransitioning() {
     return this.fervieGlowSprite.isTransitioning();
   }

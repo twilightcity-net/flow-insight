@@ -74,7 +74,7 @@ export default class FervieGlowSprite {
 
     p5.blendMode(p5.ADD);
     p5.tint(255, Math.round(255 * this.starAlpha));
-    p5.image(overlay, -25, -25);
+    p5.image(overlay, -22, -25);
     p5.blendMode(p5.BLEND);
 
     p5.pop();
@@ -94,8 +94,22 @@ export default class FervieGlowSprite {
     this.bodyDelayFading = 24;
   }
 
+  startChanneling() {
+    this.isFadingIn = true;
+    this.isChanneling = true;
+    this.alpha = 1.0;
+    this.starAlpha = 0.0;
+  }
+
+  stopChanneling() {
+    this.isFadingOut = true;
+    this.alpha = 1.0;
+    this.starAlpha = 0.5;
+  }
+
+
   isTransitioning() {
-    return this.isDisappearing || this.isReappearing;
+    return this.isDisappearing || this.isReappearing || this.isChanneling;
   }
 
   /**
@@ -145,6 +159,24 @@ export default class FervieGlowSprite {
           this.alpha = 1;
           this.isReappearing = false;
           this.isVisible = true;
+        }
+      }
+    }
+
+    if (this.isChanneling) {
+      if (this.isFadingIn) {
+        this.starAlpha += this.alphaDecayRate;
+        if (this.starAlpha > 0.5) {
+          this.starAlpha = 0.5;
+          this.isFadingIn = false;
+        }
+      }
+      if (this.isFadingOut) {
+        this.starAlpha -= this.alphaDecayRate;
+        if (this.starAlpha < 0) {
+          this.starAlpha = 0;
+          this.isFadingOut = 0;
+          this.isChanneling = false;
         }
       }
     }
