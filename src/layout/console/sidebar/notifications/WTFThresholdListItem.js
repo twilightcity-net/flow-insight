@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Label, List, Popup,} from "semantic-ui-react";
+import {List, Popup,} from "semantic-ui-react";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 

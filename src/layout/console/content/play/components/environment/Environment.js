@@ -72,6 +72,26 @@ export default class Environment {
     };
   }
 
+
+  /**
+   * Returns true if the x,y position is within the target white area within the image
+   * @param image
+   * @param x
+   * @param y
+   * @returns {boolean}
+   */
+  isWithinTargetArea(image, x, y) {
+    let color = image.get(
+      Math.round(x / this.scaleAmountX),
+      Math.round(y / this.scaleAmountY)
+    );
+    if (color && color[0] > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Update the environment according to where fervie has moved
    */

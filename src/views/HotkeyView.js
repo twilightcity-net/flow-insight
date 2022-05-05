@@ -1,15 +1,7 @@
-import React, { Component } from "react";
-import { ChartClient } from "../clients/ChartClient";
-import FlowContent from "../layout/console/content/flow/components/FlowContent";
+import React, {Component} from "react";
 import {Button, Dropdown, Grid, Icon, Input} from "semantic-ui-react";
-import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
-import { CircuitClient } from "../clients/CircuitClient";
-import { TalkToClient } from "../clients/TalkToClient";
-import { MemberClient } from "../clients/MemberClient";
+import {RendererControllerFactory} from "../controllers/RendererControllerFactory";
 import {DimensionController} from "../controllers/DimensionController";
-import IntentionsHeader from "../layout/console/content/flow/components/IntentionsHeader";
-import {RendererEventFactory} from "../events/RendererEventFactory";
-import {NotificationClient} from "../clients/NotificationClient";
 import {HotkeyClient} from "../clients/HotkeyClient";
 
 /**

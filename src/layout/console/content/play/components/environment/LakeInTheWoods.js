@@ -81,15 +81,7 @@ export default class LakeInTheWoods extends Environment {
       LakeInTheWoods.WALK_AREA_IMAGE
     );
 
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isWalkBehindPosition(p5, x, y) {
@@ -97,16 +89,7 @@ export default class LakeInTheWoods extends Environment {
       p5,
       LakeInTheWoods.WALK_BEHIND_AREA_IMAGE
     );
-
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   /**

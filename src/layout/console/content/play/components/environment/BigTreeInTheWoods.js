@@ -122,16 +122,7 @@ export default class BigTreeInTheWoods extends Environment {
       p5,
       BigTreeInTheWoods.WALK_AREA_IMAGE
     );
-
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isWalkBehindPosition(p5, x, y) {
@@ -139,16 +130,7 @@ export default class BigTreeInTheWoods extends Environment {
       p5,
       BigTreeInTheWoods.WALK_BEHIND_AREA_IMAGE
     );
-
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isPathTriggerPosition(p5, x, y) {
@@ -156,16 +138,7 @@ export default class BigTreeInTheWoods extends Environment {
       p5,
       BigTreeInTheWoods.WALK_AREA_TRIGGER_IMAGE
     );
-
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isOverTreePosition(p5, x, y) {

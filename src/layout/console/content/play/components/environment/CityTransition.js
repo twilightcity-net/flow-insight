@@ -65,15 +65,7 @@ export default class CityTransition extends Environment {
       CityTransition.WALK_AREA_IMAGE
     );
 
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   /**

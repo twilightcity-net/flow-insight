@@ -119,15 +119,7 @@ export default class HouseInsideEntry extends Environment {
       HouseInsideEntry.WALK_AREA_IMAGE
     );
 
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isWalkBehindPosition(p5, x, y) {
@@ -136,15 +128,8 @@ export default class HouseInsideEntry extends Environment {
       HouseInsideEntry.WALK_BEHIND_AREA_IMAGE
     );
 
-    let color = walkAreaImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(walkAreaImage, x, y);
+
   }
 
   isOverWallArtPosition(p5, x, y) {
@@ -153,15 +138,7 @@ export default class HouseInsideEntry extends Environment {
       HouseInsideEntry.CLICKABLE_AREA
     );
 
-    let color = clickMapImage.get(
-      Math.round(x / this.scaleAmountX),
-      Math.round(y / this.scaleAmountY)
-    );
-    if (color && color[0] > 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return super.isWithinTargetArea(clickMapImage, x, y);
   }
 
   isOverWallArtPopup(p5, x, y) {
