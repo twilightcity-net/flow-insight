@@ -9,6 +9,7 @@ import HouseInsideKitchen from "./HouseInsideKitchen";
 import HouseInsideBedroom from "./HouseInsideBedroom";
 import CityEntrance from "./CityEntrance";
 import CityTransition from "./CityTransition";
+import CityStreet from "./CityStreet";
 
 export default class EnvironmentMap {
   constructor(animationLoader, width, height) {
@@ -18,12 +19,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment =
-      this.environmentMap[
-        EnvironmentMap.ENVIRONMENT_SHROOMHOUSE
-      ];
-    this.activeMapId =
-      EnvironmentMap.ENVIRONMENT_SHROOMHOUSE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.CITY_ENTRANCE];
+    this.activeMapId = EnvironmentMap.CITY_ENTRANCE;
 
     this.mapShiftInProgress = false;
   }
@@ -36,6 +33,7 @@ export default class EnvironmentMap {
   static HOUSE_INSIDE_BEDROOM = "HouseInsideBedroom";
   static CITY_ENTRANCE = "CityEntrance";
   static CITY_TRANSITION = "CityTransition";
+  static CITY_STREET = "CityStreet";
 
 
   static MAP_LEFT = "-left";
@@ -45,62 +43,17 @@ export default class EnvironmentMap {
 
   loadEnvironmentMap() {
     this.environmentMap = [];
-    this.environmentMap[
-      EnvironmentMap.ENVIRONMENT_SHROOMHOUSE
-    ] = new ShroomHouseInTheWoods(
-      this.animationLoader,
-      this.width,
-      this.height
-    );
-    this.environmentMap[
-      EnvironmentMap.ENVIRONMENT_BIG_TREE
-    ] = new BigTreeInTheWoods(
-      this.animationLoader,
-      this.width,
-      this.height
-    );
-    this.environmentMap[EnvironmentMap.ENVIRONMENT_LAKE] =
-      new LakeInTheWoods(
-        this.animationLoader,
-        this.width,
-        this.height
-      );
-    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_ENTRY] =
-      new HouseInsideEntry(
-        this.animationLoader,
-        this.width,
-        this.height
-      );
-    this.environmentMap[
-      EnvironmentMap.HOUSE_INSIDE_KITCHEN
-    ] = new HouseInsideKitchen(
-      this.animationLoader,
-      this.width,
-      this.height
-    );
-    this.environmentMap[
-      EnvironmentMap.HOUSE_INSIDE_BEDROOM
-    ] = new HouseInsideBedroom(
-      this.animationLoader,
-      this.width,
-      this.height
-    );
-    this.environmentMap[EnvironmentMap.CITY_ENTRANCE] =
-      new CityEntrance(
-        this.animationLoader,
-        this.width,
-        this.height
-      );
-
-    this.environmentMap[EnvironmentMap.CITY_TRANSITION] =
-      new CityTransition(
-        this.animationLoader,
-        this.width,
-        this.height
-      );
+    this.environmentMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE] = new ShroomHouseInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.ENVIRONMENT_BIG_TREE] = new BigTreeInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.ENVIRONMENT_LAKE] = new LakeInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_ENTRY] = new HouseInsideEntry(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN] = new HouseInsideKitchen(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM] = new HouseInsideBedroom(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.CITY_ENTRANCE] = new CityEntrance(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.CITY_TRANSITION] = new CityTransition(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height);
 
     this.travelMap = [];
-
     this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.ENVIRONMENT_SHROOMHOUSE;
     this.travelMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.ENVIRONMENT_BIG_TREE;
     this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.ENVIRONMENT_LAKE;
@@ -115,6 +68,9 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_NORTH] = EnvironmentMap.HOUSE_INSIDE_BEDROOM;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
+    this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_ENTRANCE;
+    this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_ENTRANCE;
+    this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.CITY_STREET;
   }
 
   moveMapLeft(p5) {
@@ -187,13 +143,9 @@ export default class EnvironmentMap {
 
     console.log("Shifting map south!");
     let newMapId =
-      this.travelMap[
-        this.activeMapId + EnvironmentMap.MAP_SOUTH
-      ];
+      this.travelMap[this.activeMapId + EnvironmentMap.MAP_SOUTH];
     if (!newMapId) {
-      console.error(
-        "Walked off the south of the screen and no environment destination set!"
-      );
+      console.error("Walked off the south of the screen and no environment destination set!");
       this.mapShiftInProgress = false;
       return;
     } else {
@@ -203,8 +155,7 @@ export default class EnvironmentMap {
     this.loadNewEnvironment(p5, newMapId);
     this.mapShiftInProgress = false;
 
-    let spawnPoint =
-      this.activeEnvironment.getNorthSpawnProperties();
+    let spawnPoint = this.activeEnvironment.getNorthSpawnProperties();
     console.log(spawnPoint);
     return spawnPoint;
   }
@@ -217,14 +168,10 @@ export default class EnvironmentMap {
     this.mapShiftInProgress = true;
     console.log("Shifting map north!");
     let newMapId =
-      this.travelMap[
-        this.activeMapId + EnvironmentMap.MAP_NORTH
-      ];
+      this.travelMap[this.activeMapId + EnvironmentMap.MAP_NORTH];
     if (!newMapId) {
       this.mapShiftInProgress = false;
-      console.error(
-        "Walked to the north of the screen and no environment destination set!"
-      );
+      console.error("Walked to the north of the screen and no environment destination set!");
       return;
     } else {
       console.log("Moving to map: " + newMapId);
@@ -233,8 +180,7 @@ export default class EnvironmentMap {
     this.loadNewEnvironment(p5, newMapId);
     this.mapShiftInProgress = false;
 
-    let spawnPoint =
-      this.activeEnvironment.getSouthSpawnProperties();
+    let spawnPoint = this.activeEnvironment.getSouthSpawnProperties();
     console.log(spawnPoint);
     return spawnPoint;
   }

@@ -61,6 +61,25 @@ export default class CityEntrance extends Environment {
     return this.getRightSpawnProperties();
   }
 
+  getNorthSpawnProperties() {
+    console.log("getNorthSpawnProperties");
+    return {
+      x: Math.round(
+        (CityEntrance.IMAGE_WIDTH - 300) * this.scaleAmountX
+      ),
+      y: Math.round(
+        (CityEntrance.IMAGE_HEIGHT - 180) *
+        this.scaleAmountY
+      ),
+      scale: 0.2,
+    };
+  }
+
+  getLeftSpawnProperties() {
+    console.log("redirect getLeftSpawnProperties");
+    return this.getNorthSpawnProperties();
+  }
+
   getRightSpawnProperties() {
     console.log("getRightSpawnProperties");
     return {
@@ -98,6 +117,17 @@ export default class CityEntrance extends Environment {
       CityEntrance.WALK_BEHIND2_AREA_IMAGE
     );
     return super.isWithinTargetArea(walkAreaImage, x, y);
+  }
+
+  hasFervieMovingNorth(fervie) {
+    let x = fervie.getFervieFootX();
+    let y = fervie.getFervieFootY();
+    if (y < 320 || (y < 336 && x < 680)) {
+      console.log("true!");
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**

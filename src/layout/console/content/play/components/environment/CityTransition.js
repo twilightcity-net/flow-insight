@@ -1,5 +1,5 @@
 /**
- * Creates our lake in the woods environment for Fervie to walk around in
+ * Creates our transition to TC environment going from day to night
  */
 import Environment from "./Environment";
 

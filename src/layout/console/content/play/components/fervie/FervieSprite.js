@@ -96,19 +96,9 @@ export default class FervieSprite {
 
     if (!this.isVisible) return;
 
-    if (
-      !this.fervieGlowSprite.isVisible ||
-      this.fervieGlowSprite.isTransitioning()
-    ) {
-      this.fervieGlowSprite.draw(
-        p5,
-        this.x,
-        this.y,
-        this.scale
-      );
-    } else if (
-      this.direction === FervieSprite.Direction.Up
-    ) {
+    if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
+      this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
+    } else if (this.direction === FervieSprite.Direction.Up) {
       image = this.animationLoader.getAnimationImage(
         p5,
         AnimationId.Animation.FervieWalkUp,
@@ -116,9 +106,7 @@ export default class FervieSprite {
         this.size
       );
       this.scaleAndDrawSprite(p5, image);
-    } else if (
-      this.direction === FervieSprite.Direction.Down
-    ) {
+    } else if (this.direction === FervieSprite.Direction.Down) {
       image = this.animationLoader.getAnimationImage(
         p5,
         AnimationId.Animation.FervieWalkDown,
@@ -126,9 +114,7 @@ export default class FervieSprite {
         this.size
       );
       this.scaleAndDrawSprite(p5, image);
-    } else if (
-      this.direction === FervieSprite.Direction.Right
-    ) {
+    } else if (this.direction === FervieSprite.Direction.Right) {
       image = this.animationLoader.getAnimationImage(
         p5,
         AnimationId.Animation.FervieWalkRight,
@@ -136,9 +122,7 @@ export default class FervieSprite {
         this.size
       );
       this.scaleAndDrawSprite(p5, image);
-    } else if (
-      this.direction === FervieSprite.Direction.Left
-    ) {
+    } else if (this.direction === FervieSprite.Direction.Left) {
       image = this.animationLoader.getAnimationImage(
         p5,
         AnimationId.Animation.FervieWalkRight,
@@ -262,6 +246,14 @@ export default class FervieSprite {
 
   getVelocityY() {
     return this.velocityY;
+  }
+
+  getVelocityX() {
+    return this.velocityX;
+  }
+
+  setVelocityX(newVelocity) {
+    this.velocityX = newVelocity;
   }
 
   hide() {
