@@ -214,7 +214,7 @@ export default class CityEntrance extends Environment {
       p5.image(lampsImage, 0, 0);
     }
 
-    p5.tint(255, Math.round(220));
+    //p5.tint(255, Math.round(220));
     p5.image(shadowOverlay, 0, 0);
 
     p5.pop();
