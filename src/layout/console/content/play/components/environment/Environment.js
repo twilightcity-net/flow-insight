@@ -95,7 +95,7 @@ export default class Environment {
   /**
    * Update the environment according to where fervie has moved
    */
-  update(p5) {
+  update(p5, fervie, inventory) {
     this.animationFrame++;
 
     if (this.animationFrame > 24) {

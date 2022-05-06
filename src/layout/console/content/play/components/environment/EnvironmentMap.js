@@ -20,8 +20,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
-    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.GARDEN];
+    this.activeMapId = EnvironmentMap.GARDEN;
 
     this.mapShiftInProgress = false;
   }
@@ -264,8 +264,8 @@ export default class EnvironmentMap {
   /**
    * Update the environment according to where fervie has moved
    */
-  update(p5, fervie) {
-    this.activeEnvironment.update(p5, fervie);
+  update(p5, fervie, globalHud) {
+    this.activeEnvironment.update(p5, fervie, globalHud);
 
     if (
       this.isEdgeOfScreenLeft(

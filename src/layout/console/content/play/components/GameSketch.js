@@ -14,6 +14,7 @@ import FervieGlow from "./fervie/FervieGlow";
 import MoovieFervie from "./characters/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
+import Inventory from "./hud/Inventory";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -53,10 +54,7 @@ export default class GameSketch extends Component {
         );
         this.environment.preload(p5);
 
-        this.globalHud = new GlobalHud(
-          this.animationLoader,
-          this.width,
-          this.height);
+        this.globalHud = new GlobalHud(this.animationLoader, this.width, this.height);
         this.globalHud.preload(p5);
 
         this.fervieSprite = new FervieSprite(
@@ -84,7 +82,7 @@ export default class GameSketch extends Component {
 
         this.globalHud.draw(p5);
 
-        this.environment.update(p5, this.fervieSprite);
+        this.environment.update(p5, this.fervieSprite, this.globalHud);
         this.fervieSprite.update(p5, this.environment);
 
         if (!this.isInitialized) {
