@@ -13,6 +13,7 @@ import LadyFervie from "./characters/LadyFervie";
 import FervieGlow from "./fervie/FervieGlow";
 import MoovieFervie from "./characters/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
+import GlobalHud from "./hud/GlobalHud";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -52,6 +53,12 @@ export default class GameSketch extends Component {
         );
         this.environment.preload(p5);
 
+        this.globalHud = new GlobalHud(
+          this.animationLoader,
+          this.width,
+          this.height);
+        this.globalHud.preload(p5);
+
         this.fervieSprite = new FervieSprite(
           this.animationLoader,
           this.width / 2,
@@ -71,13 +78,11 @@ export default class GameSketch extends Component {
       };
 
       p5.draw = () => {
-        this.environment.drawBackground(
-          p5,
-          this.fervieSprite
-        );
+        this.environment.drawBackground(p5, this.fervieSprite);
         this.fervieSprite.draw(p5);
-
         this.environment.drawOverlay(p5, this.fervieSprite);
+
+        this.globalHud.draw(p5);
 
         this.environment.update(p5, this.fervieSprite);
         this.fervieSprite.update(p5, this.environment);
@@ -90,11 +95,13 @@ export default class GameSketch extends Component {
       };
 
       p5.mousePressed = () => {
-        this.environment.mousePressed(
-          p5,
-          this.fervieSprite
-        );
+        this.environment.mousePressed(p5, this.fervieSprite);
+        this.globalHud.mousePressed(p5);
       };
+
+      p5.keyPressed = () => {
+        this.globalHud.keyPressed(p5)
+      }
     };
 
     this.sketchInstance = new p5(sketch, "mySketch");
