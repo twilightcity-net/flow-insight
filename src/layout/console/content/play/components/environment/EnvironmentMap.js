@@ -19,15 +19,15 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.CITY_ENTRANCE];
-    this.activeMapId = EnvironmentMap.CITY_ENTRANCE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
+    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
 
     this.mapShiftInProgress = false;
   }
 
-  static ENVIRONMENT_BIG_TREE = "BigTreeInTheWoods";
-  static ENVIRONMENT_SHROOMHOUSE = "ShroomHouseInTheWoods";
-  static ENVIRONMENT_LAKE = "LakeInTheWoods";
+  static BIG_TREE = "BigTreeInTheWoods";
+  static SHROOMHOUSE = "ShroomHouseInTheWoods";
+  static LAKE = "LakeInTheWoods";
   static HOUSE_INSIDE_ENTRY = "HouseInsideEntry";
   static HOUSE_INSIDE_KITCHEN = "HouseInsideKitchen";
   static HOUSE_INSIDE_BEDROOM = "HouseInsideBedroom";
@@ -43,9 +43,9 @@ export default class EnvironmentMap {
 
   loadEnvironmentMap() {
     this.environmentMap = [];
-    this.environmentMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE] = new ShroomHouseInTheWoods(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.ENVIRONMENT_BIG_TREE] = new BigTreeInTheWoods(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.ENVIRONMENT_LAKE] = new LakeInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.SHROOMHOUSE] = new ShroomHouseInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.BIG_TREE] = new BigTreeInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.LAKE] = new LakeInTheWoods(this.animationLoader, this.width, this.height);
     this.environmentMap[EnvironmentMap.HOUSE_INSIDE_ENTRY] = new HouseInsideEntry(this.animationLoader, this.width, this.height);
     this.environmentMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN] = new HouseInsideKitchen(this.animationLoader, this.width, this.height);
     this.environmentMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM] = new HouseInsideBedroom(this.animationLoader, this.width, this.height);
@@ -54,16 +54,16 @@ export default class EnvironmentMap {
     this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height);
 
     this.travelMap = [];
-    this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.ENVIRONMENT_SHROOMHOUSE;
-    this.travelMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.ENVIRONMENT_BIG_TREE;
-    this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.ENVIRONMENT_LAKE;
-    this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_TRANSITION;
-    this.travelMap[EnvironmentMap.CITY_TRANSITION + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.ENVIRONMENT_BIG_TREE;
+    this.travelMap[EnvironmentMap.BIG_TREE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.SHROOMHOUSE;
+    this.travelMap[EnvironmentMap.SHROOMHOUSE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.BIG_TREE;
+    this.travelMap[EnvironmentMap.BIG_TREE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.LAKE;
+    this.travelMap[EnvironmentMap.BIG_TREE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_TRANSITION;
+    this.travelMap[EnvironmentMap.CITY_TRANSITION + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.BIG_TREE;
     this.travelMap[EnvironmentMap.CITY_TRANSITION + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_ENTRANCE;
     this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_TRANSITION;
-    this.travelMap[EnvironmentMap.ENVIRONMENT_LAKE + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.ENVIRONMENT_BIG_TREE;
-    this.travelMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
-    this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.ENVIRONMENT_SHROOMHOUSE;
+    this.travelMap[EnvironmentMap.LAKE + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.BIG_TREE;
+    this.travelMap[EnvironmentMap.SHROOMHOUSE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
+    this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.SHROOMHOUSE;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_LEFT] = EnvironmentMap.HOUSE_INSIDE_KITCHEN;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_NORTH] = EnvironmentMap.HOUSE_INSIDE_BEDROOM;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
