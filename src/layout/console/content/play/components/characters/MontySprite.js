@@ -1,5 +1,3 @@
-import AnimationId from "../AnimationId";
-
 /**
  * Creates our monty sprite animation
  */

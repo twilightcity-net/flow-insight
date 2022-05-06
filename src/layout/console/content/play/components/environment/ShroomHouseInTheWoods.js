@@ -67,8 +67,8 @@ export default class ShroomHouseInTheWoods extends Environment {
 
   getRightSpawnProperties() {
     return {
-      x: Math.round(40 * this.scaleAmountX),
-      y: Math.round(170 * this.scaleAmountY),
+      x: Math.round((Environment.IMAGE_WIDTH - 100) * this.scaleAmountX),
+      y: Math.round(200 * this.scaleAmountY),
     };
   }
 

@@ -108,12 +108,9 @@ export default class CityStreet extends Environment {
 
     let x = fervie.getFervieFootX();
     let y = fervie.getFervieFootY();
-    let direction = fervie.getDirection();
     let xVelocity = fervie.getVelocityX();
 
     if (this.shouldScrollLeft(x, xVelocity, this.backgroundScroll)) {
-      console.log("should scroll left!");
-
       if (this.isValidPosition(p5, x + xVelocity, y)) {
         fervie.setVelocityX(0);
         this.backgroundScroll += this.scrollRate;
@@ -125,7 +122,6 @@ export default class CityStreet extends Environment {
     }
 
     if (this.shouldScrollRight(x, xVelocity, this.backgroundScroll)) {
-      console.log("should scroll right!");
       if (this.isValidPosition(p5, x + xVelocity, y)) {
         fervie.setVelocityX(0);
         this.backgroundScroll -= this.scrollRate;

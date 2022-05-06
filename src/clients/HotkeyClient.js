@@ -75,7 +75,6 @@ export class HotkeyClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getConsoleShortcut(scope, callback) {
-    console.log("hello!");
     let event =
       HotkeyClient.instance.createClientEvent(
         HotkeyClient.Events.GET_CONSOLE_SHORTCUT,

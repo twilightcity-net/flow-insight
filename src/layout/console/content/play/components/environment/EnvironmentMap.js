@@ -10,6 +10,7 @@ import HouseInsideBedroom from "./HouseInsideBedroom";
 import CityEntrance from "./CityEntrance";
 import CityTransition from "./CityTransition";
 import CityStreet from "./CityStreet";
+import FervieGarden from "./FervieGarden";
 
 export default class EnvironmentMap {
   constructor(animationLoader, width, height) {
@@ -27,6 +28,7 @@ export default class EnvironmentMap {
 
   static BIG_TREE = "BigTreeInTheWoods";
   static SHROOMHOUSE = "ShroomHouseInTheWoods";
+  static GARDEN = "FervieGarden";
   static LAKE = "LakeInTheWoods";
   static HOUSE_INSIDE_ENTRY = "HouseInsideEntry";
   static HOUSE_INSIDE_KITCHEN = "HouseInsideKitchen";
@@ -34,6 +36,7 @@ export default class EnvironmentMap {
   static CITY_ENTRANCE = "CityEntrance";
   static CITY_TRANSITION = "CityTransition";
   static CITY_STREET = "CityStreet";
+
 
 
   static MAP_LEFT = "-left";
@@ -52,10 +55,14 @@ export default class EnvironmentMap {
     this.environmentMap[EnvironmentMap.CITY_ENTRANCE] = new CityEntrance(this.animationLoader, this.width, this.height);
     this.environmentMap[EnvironmentMap.CITY_TRANSITION] = new CityTransition(this.animationLoader, this.width, this.height);
     this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.GARDEN] = new FervieGarden(this.animationLoader, this.width, this.height);
+
 
     this.travelMap = [];
     this.travelMap[EnvironmentMap.BIG_TREE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.SHROOMHOUSE;
     this.travelMap[EnvironmentMap.SHROOMHOUSE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.BIG_TREE;
+    this.travelMap[EnvironmentMap.SHROOMHOUSE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.GARDEN;
+    this.travelMap[EnvironmentMap.GARDEN + EnvironmentMap.MAP_LEFT] = EnvironmentMap.SHROOMHOUSE;
     this.travelMap[EnvironmentMap.BIG_TREE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.LAKE;
     this.travelMap[EnvironmentMap.BIG_TREE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_TRANSITION;
     this.travelMap[EnvironmentMap.CITY_TRANSITION + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.BIG_TREE;
