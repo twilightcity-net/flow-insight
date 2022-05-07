@@ -13,10 +13,11 @@ import CityStreet from "./CityStreet";
 import FervieGarden from "./FervieGarden";
 
 export default class EnvironmentMap {
-  constructor(animationLoader, width, height) {
+  constructor(animationLoader, width, height, globalHud) {
     this.animationLoader = animationLoader;
     this.width = width;
     this.height = height;
+    this.globalHud = globalHud;
 
     this.loadEnvironmentMap();
 
@@ -46,16 +47,16 @@ export default class EnvironmentMap {
 
   loadEnvironmentMap() {
     this.environmentMap = [];
-    this.environmentMap[EnvironmentMap.SHROOMHOUSE] = new ShroomHouseInTheWoods(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.BIG_TREE] = new BigTreeInTheWoods(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.LAKE] = new LakeInTheWoods(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_ENTRY] = new HouseInsideEntry(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN] = new HouseInsideKitchen(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM] = new HouseInsideBedroom(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.CITY_ENTRANCE] = new CityEntrance(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.CITY_TRANSITION] = new CityTransition(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height);
-    this.environmentMap[EnvironmentMap.GARDEN] = new FervieGarden(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.SHROOMHOUSE] = new ShroomHouseInTheWoods(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.BIG_TREE] = new BigTreeInTheWoods(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.LAKE] = new LakeInTheWoods(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_ENTRY] = new HouseInsideEntry(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN] = new HouseInsideKitchen(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM] = new HouseInsideBedroom(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.CITY_ENTRANCE] = new CityEntrance(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.CITY_TRANSITION] = new CityTransition(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.GARDEN] = new FervieGarden(this.animationLoader, this.width, this.height, this.globalHud);
 
 
     this.travelMap = [];
@@ -242,8 +243,8 @@ export default class EnvironmentMap {
    * @param p5
    * @param fervie
    */
-  mousePressed(p5, fervie) {
-    this.activeEnvironment.mousePressed(p5, fervie);
+  mousePressed(p5, fervie, globalHud) {
+    this.activeEnvironment.mousePressed(p5, fervie, globalHud);
   }
 
   /**

@@ -22,8 +22,8 @@ export default class BigTreeInTheWoods extends Environment {
   static WALK_AREA_TRIGGER_IMAGE =
     "./assets/animation/bigtree/woods_big_tree_walk_area_trigger.png";
 
-  constructor(animationLoader, width, height) {
-    super(animationLoader, width, height);
+  constructor(animationLoader, width, height, globalHud) {
+    super(animationLoader, width, height, globalHud);
 
     this.treeGlowSprite = new TreeGlowSprite(
       animationLoader,
@@ -203,9 +203,9 @@ export default class BigTreeInTheWoods extends Environment {
     }
 
     if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)) {
-      p5.cursor(p5.HAND);
+      this.globalHud.setIsActionableHover(true);
     } else {
-      p5.cursor(p5.ARROW);
+      this.globalHud.setIsActionableHover(false);
     }
 
     p5.pop();

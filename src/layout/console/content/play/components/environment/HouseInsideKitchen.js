@@ -12,8 +12,8 @@ export default class HouseInsideKitchen extends Environment {
   static WALK_BEHIND_AREA_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_walkarea_behind.png";
   static WALK_BEHIND_WALL = "./assets/animation/insidehouse/house_inside_kitchen_behindwall.png";
 
-  constructor(animationLoader, width, height) {
-    super(animationLoader, width, height);
+  constructor(animationLoader, width, height, globalHud) {
+    super(animationLoader, width, height, globalHud);
 
     this.isTowelPresent = true;
     this.movingTowelToInventory = false;
@@ -42,11 +42,11 @@ export default class HouseInsideKitchen extends Environment {
     return {
       x: Math.round(
         (HouseInsideKitchen.IMAGE_WIDTH - 150) *
-          this.scaleAmountX
+        this.scaleAmountX
       ),
       y: Math.round(
         (HouseInsideKitchen.IMAGE_HEIGHT / 2) *
-          this.scaleAmountY
+        this.scaleAmountY
       ),
     };
   }
@@ -95,9 +95,9 @@ export default class HouseInsideKitchen extends Environment {
     }
 
     if (this.isTowelPresent && this.isOverTowelPosition(p5, p5.mouseX, p5.mouseY)) {
-      p5.cursor(p5.HAND);
+      this.globalHud.setIsActionableHover(true);
     } else {
-      p5.cursor(p5.ARROW);
+      this.globalHud.setIsActionableHover(false);
     }
 
     p5.pop();
@@ -121,7 +121,6 @@ export default class HouseInsideKitchen extends Environment {
   }
 
   isCloseToTowel(fervie) {
-
     let footX = fervie.getFervieFootX();
 
     if (footX < 700) {
@@ -130,26 +129,13 @@ export default class HouseInsideKitchen extends Environment {
   }
 
   drawOverlay(p5, fervie) {
-    let overlayImage = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideKitchen.OVERLAY_IMAGE
-    );
-
-    let wall = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideKitchen.WALK_BEHIND_WALL
-    );
+    let overlayImage = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.OVERLAY_IMAGE);
+    let wall = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_BEHIND_WALL);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
-    if (
-      this.isWalkBehindPosition(
-        p5,
-        fervie.getFervieFootX(),
-        fervie.getFervieFootY()
-      )
-    ) {
+    if (this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(wall, 0, 0);
     }
     p5.image(overlayImage, 0, 0);
@@ -170,11 +156,11 @@ export default class HouseInsideKitchen extends Environment {
   /**
    * Update the environment according to where fervie has moved
    */
-  update(p5, fervie, globalHud) {
+  update(p5, fervie) {
     super.update(p5);
 
     if (this.movingTowelToInventory) {
-      globalHud.inventory.addItem(Inventory.ItemType.TOWEL);
+      this.globalHud.addInventoryItem(Inventory.ItemType.TOWEL);
       this.movingTowelToInventory = false;
     }
   }

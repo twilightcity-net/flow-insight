@@ -10,8 +10,8 @@ export default class FervieGarden extends Environment {
   static WALK_AREA_IMAGE = "./assets/animation/garden/fervie_garden_walkarea.png";
   static ROPE_IMAGE = "./assets/animation/garden/fervie_garden_rope.png";
 
-  constructor(animationLoader, width, height) {
-    super (animationLoader, width, height);
+  constructor(animationLoader, width, height, globalHud) {
+    super (animationLoader, width, height, globalHud);
 
     this.isRopePresent = true;
     this.movingRopeToInventory = false;
@@ -97,9 +97,9 @@ export default class FervieGarden extends Environment {
     p5.pop();
 
     if (this.isRopePresent && this.isOverRopePosition(p5, p5.mouseX, p5.mouseY)) {
-      p5.cursor(p5.HAND);
+      this.globalHud.setIsActionableHover(true);
     } else {
-      p5.cursor(p5.ARROW);
+      this.globalHud.setIsActionableHover(false);
     }
   }
 
@@ -135,10 +135,10 @@ export default class FervieGarden extends Environment {
   /**
    * Update the environment according to where fervie has moved
    */
-  update(p5, fervie, globalHud) {
+  update(p5, fervie) {
     super.update(p5);
     if (this.movingRopeToInventory) {
-      globalHud.inventory.addItem(Inventory.ItemType.ROPE);
+      this.globalHud.addInventoryItem(Inventory.ItemType.ROPE);
       this.movingRopeToInventory = false;
     }
   }

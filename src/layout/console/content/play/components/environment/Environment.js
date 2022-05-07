@@ -3,7 +3,8 @@
  */
 
 export default class Environment {
-  constructor(animationLoader, width, height) {
+  constructor(animationLoader, width, height, globalHud) {
+    this.globalHud = globalHud;
     this.animationLoader = animationLoader;
     this.animationFrame = 1;
 

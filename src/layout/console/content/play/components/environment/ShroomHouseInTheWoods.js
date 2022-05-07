@@ -153,9 +153,9 @@ export default class ShroomHouseInTheWoods extends Environment {
     this.glowSprite.draw(p5);
 
     if (this.isOverDoorPosition(p5, p5.mouseX, p5.mouseY)) {
-      p5.cursor(p5.HAND);
+      this.globalHud.setIsActionableHover(true);
     } else {
-      p5.cursor(p5.ARROW);
+      this.globalHud.setIsActionableHover(false);
     }
 
     p5.pop();

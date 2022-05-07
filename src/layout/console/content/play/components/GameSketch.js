@@ -47,15 +47,17 @@ export default class GameSketch extends Component {
         p5.createCanvas(this.width, this.height);
         p5.frameRate(24);
 
+        this.globalHud = new GlobalHud(this.animationLoader, this.width, this.height);
+        this.globalHud.preload(p5);
+
         this.environment = new EnvironmentMap(
           this.animationLoader,
           this.width,
-          this.height
+          this.height,
+          this.globalHud
         );
         this.environment.preload(p5);
 
-        this.globalHud = new GlobalHud(this.animationLoader, this.width, this.height);
-        this.globalHud.preload(p5);
 
         this.fervieSprite = new FervieSprite(
           this.animationLoader,
@@ -82,7 +84,7 @@ export default class GameSketch extends Component {
 
         this.globalHud.draw(p5);
 
-        this.environment.update(p5, this.fervieSprite, this.globalHud);
+        this.environment.update(p5, this.fervieSprite);
         this.fervieSprite.update(p5, this.environment);
 
         if (!this.isInitialized) {
