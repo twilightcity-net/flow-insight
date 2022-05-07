@@ -96,7 +96,7 @@ export default class FervieGarden extends Environment {
 
     p5.pop();
 
-    if (this.isOverRopePosition(p5, p5.mouseX, p5.mouseY)) {
+    if (this.isRopePresent && this.isOverRopePosition(p5, p5.mouseX, p5.mouseY)) {
       p5.cursor(p5.HAND);
     } else {
       p5.cursor(p5.ARROW);

@@ -10,11 +10,14 @@ export default class Inventory {
   static LEFT_MARGIN = 16;
   static TOP_MARGIN = 11;
 
+  static VERTICAL_MARGIN = 10;
+
   static ICON_WIDTH = 46;
 
   static INVENTORY_IMAGE = "./assets/animation/hud/inventory.png";
 
   static ROPE_ICON_IMAGE = "./assets/animation/inventory/rope_icon.png";
+  static TOWEL_ICON_IMAGE = "./assets/animation/inventory/towel_icon.png";
 
   constructor(animationLoader, width, height) {
     this.animationLoader = animationLoader;
@@ -27,7 +30,8 @@ export default class Inventory {
 
   static get ItemType() {
     return {
-      ROPE : "Rope"
+      ROPE : "Rope",
+      TOWEL : "Blue Towel"
     }
   }
 
@@ -39,9 +43,11 @@ export default class Inventory {
     this.animationLoader.getStaticImage(p5, Inventory.INVENTORY_IMAGE);
 
     let ropeIcon = this.animationLoader.getStaticImage(p5, Inventory.ROPE_ICON_IMAGE);
+    let towelIcon = this.animationLoader.getStaticImage(p5, Inventory.TOWEL_ICON_IMAGE);
 
     this.iconLookup = [];
     this.iconLookup[Inventory.ItemType.ROPE] = ropeIcon;
+    this.iconLookup[Inventory.ItemType.TOWEL] = towelIcon;
 
   }
 
@@ -75,7 +81,9 @@ export default class Inventory {
     let row = index / 3;
     let col = index % 3;
 
-     let x = (this.width - Inventory.INVENTORY_WIDTH - 20) + (col * (Inventory.LEFT_MARGIN + Inventory.ICON_WIDTH)) + Inventory.LEFT_MARGIN;
+    let leftSideOfInventory = (this.width - Inventory.INVENTORY_WIDTH - 20);
+
+     let x = leftSideOfInventory + Inventory.LEFT_MARGIN + (col * (Inventory.VERTICAL_MARGIN + Inventory.ICON_WIDTH));
      let y = (this.height - Inventory.INVENTORY_HEIGHT - 20 + Inventory.TOP_MARGIN);
 
      p5.image(icon, x, y);

@@ -150,6 +150,8 @@ export default class ShroomHouseInTheWoods extends Environment {
       p5.image(houseImage, 0, 0);
     }
 
+    this.glowSprite.draw(p5);
+
     if (this.isOverDoorPosition(p5, p5.mouseX, p5.mouseY)) {
       p5.cursor(p5.HAND);
     } else {
@@ -181,7 +183,6 @@ export default class ShroomHouseInTheWoods extends Environment {
     }
     p5.image(overlayImage, 0, 0);
 
-    this.glowSprite.draw(p5);
 
     p5.pop();
   }

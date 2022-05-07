@@ -94,7 +94,7 @@ export default class GameSketch extends Component {
 
       p5.mousePressed = () => {
         this.environment.mousePressed(p5, this.fervieSprite);
-        this.globalHud.mousePressed(p5);
+        this.globalHud.mousePressed(p5, this.fervieSprite);
       };
 
       p5.keyPressed = () => {

@@ -23,8 +23,12 @@ export default class GlobalHud {
     }
   }
 
-  mousePressed(p5) {
-    console.log("x = "+p5.mouseX + ", y = "+p5.mouseY);
+  mousePressed(p5, fervie) {
+    console.log("mousex = "+p5.mouseX + ", mousey = "+p5.mouseY);
+
+    let footX = fervie.getFervieFootX(),
+      footY = fervie.getFervieFootY();
+    console.log("footX = "+footX + ", footY = "+footY);
   }
 
   keyPressed(p5) {
