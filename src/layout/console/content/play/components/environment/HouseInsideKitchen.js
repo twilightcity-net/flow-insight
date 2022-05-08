@@ -95,9 +95,9 @@ export default class HouseInsideKitchen extends Environment {
     }
 
     if (this.isTowelPresent && this.isOverTowelPosition(p5, p5.mouseX, p5.mouseY)) {
-      this.globalHud.setIsActionableHover(true);
+      this.globalHud.setIsActionableHover(true, false);
     } else {
-      this.globalHud.setIsActionableHover(false);
+      this.globalHud.setIsActionableHover(false, false);
     }
 
     p5.pop();
@@ -146,6 +146,7 @@ export default class HouseInsideKitchen extends Environment {
   mousePressed(p5, fervie) {
 
     if (this.isTowelPresent
+      && !this.globalHud.hasActiveItemSelection()
       && this.isCloseToTowel(fervie)
       && this.isOverTowelPosition(p5, p5.mouseX, p5.mouseY)) {
       this.isTowelPresent = false;

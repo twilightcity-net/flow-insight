@@ -97,9 +97,9 @@ export default class FervieGarden extends Environment {
     p5.pop();
 
     if (this.isRopePresent && this.isOverRopePosition(p5, p5.mouseX, p5.mouseY)) {
-      this.globalHud.setIsActionableHover(true);
+      this.globalHud.setIsActionableHover(true, false);
     } else {
-      this.globalHud.setIsActionableHover(false);
+      this.globalHud.setIsActionableHover(false, false);
     }
   }
 
@@ -125,6 +125,7 @@ export default class FervieGarden extends Environment {
 
   mousePressed(p5, fervie) {
     if (this.isRopePresent
+      && !this.globalHud.hasActiveItemSelection()
       && this.isCloseToRope(fervie)
       && this.isOverRopePosition(p5, p5.mouseX, p5.mouseY)) {
       this.isRopePresent = false;

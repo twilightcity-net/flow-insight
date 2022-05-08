@@ -153,9 +153,9 @@ export default class ShroomHouseInTheWoods extends Environment {
     this.glowSprite.draw(p5);
 
     if (this.isOverDoorPosition(p5, p5.mouseX, p5.mouseY)) {
-      this.globalHud.setIsActionableHover(true);
+      this.globalHud.setIsActionableHover(true, false);
     } else {
-      this.globalHud.setIsActionableHover(false);
+      this.globalHud.setIsActionableHover(false, false);
     }
 
     p5.pop();
@@ -190,7 +190,8 @@ export default class ShroomHouseInTheWoods extends Environment {
   mousePressed(p5, fervie) {
     console.log(fervie.y);
 
-    if (this.isOverDoorPosition(p5, p5.mouseX, p5.mouseY)) {
+    if (this.isOverDoorPosition(p5, p5.mouseX, p5.mouseY)
+      && !this.globalHud.hasActiveItemSelection()) {
       if (this.isDoorTransitioning) {
         this.isDoorOpen = !this.isDoorOpen;
       } else {

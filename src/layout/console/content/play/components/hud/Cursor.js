@@ -21,6 +21,7 @@ export default class Cursor {
 
     this.activeItem = null;
     this.isActionableHover = false;
+    this.isItemActionable = false;
   }
 
   preload(p5) {
@@ -41,6 +42,10 @@ export default class Cursor {
     this.isActionableHover = isActionable;
   }
 
+  setIsItemActionable(isItemActionable) {
+    this.isItemActionable = isItemActionable;
+  }
+
   draw(p5) {
     p5.push();
 
@@ -49,7 +54,7 @@ export default class Cursor {
         if (cursor) {
           p5.noCursor();
 
-          if (!this.isActionableHover) {
+          if (!this.isActionableHover || !this.isItemActionable) {
             p5.tint(200, 255);
           }
           p5.image(cursor, p5.mouseX - Cursor.CURSOR_ICON_SIZE/2, p5.mouseY - Cursor.CURSOR_ICON_SIZE /2);

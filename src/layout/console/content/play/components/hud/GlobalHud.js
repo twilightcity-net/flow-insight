@@ -40,8 +40,9 @@ export default class GlobalHud {
     }
   }
 
-  setIsActionableHover(isActionable) {
+  setIsActionableHover(isActionable, isItemActionable) {
     this.cursor.setIsActionableHover(isActionable);
+    this.cursor.setIsItemActionable(isItemActionable);
   }
 
   addInventoryItem(item) {
@@ -54,6 +55,10 @@ export default class GlobalHud {
 
   getActiveItemSelection() {
     return this.inventory.getActiveItemSelection();
+  }
+
+  hasActiveItemSelection() {
+    return (this.inventory.getActiveItemSelection() !== null);
   }
 
   keyPressed(p5) {

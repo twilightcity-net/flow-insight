@@ -218,9 +218,9 @@ export default class HouseInsideEntry extends Environment {
       (this.showWallArt &&
         !this.isOverWallArtPopup(p5, p5.mouseX, p5.mouseY))
     ) {
-      this.globalHud.setIsActionableHover(true);
+      this.globalHud.setIsActionableHover(true, false);
     } else {
-      this.globalHud.setIsActionableHover(false);
+      this.globalHud.setIsActionableHover(false, false);
     }
 
     p5.pop();

@@ -152,9 +152,9 @@ export default class LakeInTheWoods extends Environment {
     }
 
     if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)) {
-      this.globalHud.setIsActionableHover(true);
+      this.globalHud.setIsActionableHover(true, true);
     } else {
-      this.globalHud.setIsActionableHover(false);
+      this.globalHud.setIsActionableHover(false, true);
     }
 
     p5.pop();

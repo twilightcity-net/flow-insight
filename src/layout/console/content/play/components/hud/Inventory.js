@@ -102,22 +102,11 @@ export default class Inventory {
 
       if (this.isOverInventory(p5.mouseX, p5.mouseY)) {
         if (this.isOverIcon(p5.mouseX, p5.mouseY)) {
-          this.globalHud.setIsActionableHover(true);
+          this.globalHud.setIsActionableHover(true, false);
         } else {
-          this.globalHud.setIsActionableHover(true);
+          this.globalHud.setIsActionableHover(false, false);
         }
       }
-
-      // if (this.activeItemSelection) {
-      //   let cursor = this.cursorLookup[this.activeItemSelection];
-      //   if (cursor) {
-      //     p5.noCursor();
-      //     p5.tint(200, 255);
-      //     p5.image(cursor, p5.mouseX, p5.mouseY);
-      //   } else {
-      //     p5.cursor(p5.WAIT);
-      //   }
-      // }
 
     p5.pop();
   }

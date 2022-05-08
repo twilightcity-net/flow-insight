@@ -171,18 +171,9 @@ export default class BigTreeInTheWoods extends Environment {
    * @param p5
    */
   drawBackground(p5, fervie) {
-    let skyImage = this.animationLoader.getStaticImage(
-      p5,
-      BigTreeInTheWoods.SKY_IMAGE
-    );
-    let groundImage = this.animationLoader.getStaticImage(
-      p5,
-      BigTreeInTheWoods.GROUND_IMAGE
-    );
-    let bigTree = this.animationLoader.getStaticImage(
-      p5,
-      BigTreeInTheWoods.WALK_BEHIND_OVERLAY_IMAGE
-    );
+    let skyImage = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.SKY_IMAGE);
+    let groundImage = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.GROUND_IMAGE);
+    let bigTree = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.WALK_BEHIND_OVERLAY_IMAGE);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
@@ -203,27 +194,18 @@ export default class BigTreeInTheWoods extends Environment {
     }
 
     if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)) {
-      this.globalHud.setIsActionableHover(true);
+      this.globalHud.setIsActionableHover(true, false);
     } else {
-      this.globalHud.setIsActionableHover(false);
+      this.globalHud.setIsActionableHover(false, false);
     }
 
     p5.pop();
   }
 
   drawOverlay(p5, fervie) {
-    let groundImage = this.animationLoader.getStaticImage(
-      p5,
-      BigTreeInTheWoods.GROUND_IMAGE
-    );
-    let overlayImage = this.animationLoader.getStaticImage(
-      p5,
-      BigTreeInTheWoods.OVERLAY_IMAGE
-    );
-    let bigTree = this.animationLoader.getStaticImage(
-      p5,
-      BigTreeInTheWoods.WALK_BEHIND_OVERLAY_IMAGE
-    );
+    let groundImage = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.GROUND_IMAGE);
+    let overlayImage = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.OVERLAY_IMAGE);
+    let bigTree = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.WALK_BEHIND_OVERLAY_IMAGE);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
@@ -287,7 +269,8 @@ export default class BigTreeInTheWoods extends Environment {
   }
 
   mousePressed(p5, fervie) {
-    if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)) {
+    if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)
+      && !this.globalHud.hasActiveItemSelection()) {
       if (
         !fervie.isTransitioning() &&
         !this.treeGlowSprite.isTransitioning()
