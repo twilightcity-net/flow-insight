@@ -20,9 +20,6 @@ export default class Inventory {
   static ROPE_ICON_IMAGE = "./assets/animation/inventory/rope_icon.png";
   static TOWEL_ICON_IMAGE = "./assets/animation/inventory/towel_icon.png";
 
-  static ROPE_CURSOR_IMAGE = "./assets/animation/hud/rope_cursor.png";
-  static TOWEL_CURSOR_IMAGE = "./assets/animation/hud/towel_cursor.png";
-
   constructor(animationLoader, width, height, globalHud, onActiveItemChangeCallback) {
     this.globalHud = globalHud;
     this.animationLoader = animationLoader;
@@ -36,7 +33,6 @@ export default class Inventory {
     this.activeItemSelection = null;
 
     this.iconLookup = [];
-    this.cursorLookup = [];
 
     this.onActiveItemChangeCallback = onActiveItemChangeCallback;
   }
@@ -73,16 +69,9 @@ export default class Inventory {
     let ropeIcon = this.animationLoader.getStaticImage(p5, Inventory.ROPE_ICON_IMAGE);
     let towelIcon = this.animationLoader.getStaticImage(p5, Inventory.TOWEL_ICON_IMAGE);
 
-    let ropeCursor = this.animationLoader.getStaticImage(p5, Inventory.ROPE_CURSOR_IMAGE);
-    let towelCursor = this.animationLoader.getStaticImage(p5, Inventory.TOWEL_CURSOR_IMAGE);
-
     this.iconLookup = [];
     this.iconLookup[Inventory.ItemType.ROPE] = ropeIcon;
     this.iconLookup[Inventory.ItemType.TOWEL] = towelIcon;
-
-    this.cursorLookup = [];
-    this.cursorLookup[Inventory.ItemType.ROPE] = ropeCursor;
-    this.cursorLookup[Inventory.ItemType.TOWEL] = towelCursor;
   }
 
   draw(p5) {

@@ -96,17 +96,6 @@ export default class LakeInTheWoods extends Environment {
     return !!(color && color[3] > 0 && adjustedX < 600);
   }
 
-  isCloseToTree(fervie) {
-    let footX = fervie.getFervieFootX();
-    let footY = fervie.getFervieFootY();
-
-    //TODO fill this out
-
-    if (footX < 700 && footY) {
-      return true;
-    }
-  }
-
   /**
    * Create the swing on the tree if the active selection is the right one
    * @param p5
@@ -126,6 +115,7 @@ export default class LakeInTheWoods extends Environment {
        if (this.isRopeOnTree && !this.isSwingOnTree && activeItem === Inventory.ItemType.TOWEL) {
          this.isSwingOnTree = true;
          this.globalHud.consumeActiveInventoryItem();
+         this.ladyFervieSprite.dance();
        }
     }
   }
