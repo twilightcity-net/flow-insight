@@ -281,7 +281,7 @@ export default class LakeInTheWoods extends Environment {
     this.ladyFervieSprite.update(p5);
     this.glowSprite.update(p5);
 
-    if (fervie.isChanneling()) {
+    if (fervie.isChanneling() && this.ladyFervieSprite.isChanneling()) {
       this.channelingCount++;
       if (this.channelingCount > 96 && this.isSwingOnTree) {
         this.fishySprite.emergeFromWater();

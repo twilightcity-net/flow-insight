@@ -180,6 +180,10 @@ export default class LadyFervieSprite {
     }
   }
 
+  isChanneling() {
+    return this.ladyGlow.isChanneling;
+  }
+
   /**
    * Update the lady fervie sprite properties for each subsequent frame,
    * updating the relative frame number for tracking the blink loop
