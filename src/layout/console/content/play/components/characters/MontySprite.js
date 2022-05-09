@@ -43,9 +43,6 @@ export default class MontySprite {
   draw(p5) {
     //24 frames per second, blinks every 5 seconds for ~1/4 second
 
-
-
-
     let image = this.getImageBasedOnPosition(p5);
     let blinkOverlay = this.getOptionalBlinkOverlay(p5);
 
@@ -92,19 +89,6 @@ export default class MontySprite {
   adjustXBasedOnScroll(adjustAmount) {
     this.adjustX = adjustAmount;
   }
-
-  //so my initial position is 200, when I'm scrolled all the way to 1280
-  //then when I'm scrolling, I want to move him to the right.
-
-  //so if my x, y that's passed in, is an image x, y,  1500 (then when 1500 is in the center of screen)
-
-  //[1280, 2560]
-
-  //then the position of Monty when
-
-  //then if
-
-  //then the position on the screen, is to shift the entire canvas to the left
 
   /**
    * Update the monty sprite properties for each subsequent frame,

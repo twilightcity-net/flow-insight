@@ -10,7 +10,9 @@ export default class GlowSprite {
     this.scale = scale;
 
     this.animationFrame = 1;
+    this.frameCount = 1;
     this.starAlpha = 0.0;
+    this.secondAlpha = 0.0;
     this.alphaDecayRate = 0.04;
     this.fastDecayRate = 0.1;
     this.isDisappearing = false;
@@ -20,6 +22,10 @@ export default class GlowSprite {
     this.flickerRate = 2;
 
     this.isVisible = false;
+
+    this.hasSecondary = false;
+    this.secondaryX = 0;
+    this.secondaryY = 0;
   }
 
   static UNSCALED_IMAGE_WIDTH = 140;
@@ -44,6 +50,7 @@ export default class GlowSprite {
    * @param p5
    */
   draw(p5) {
+
     let glowImage = this.animationLoader.getStaticImage(p5, GlowSprite.FERVIE_GLOW_OVERLAY_IMAGE
     );
 
@@ -55,23 +62,50 @@ export default class GlowSprite {
     p5.tint(255, Math.round((255 + this.flicker) * this.starAlpha));
     p5.image(glowImage, 0, 0);
 
+    this.drawSecondary(p5);
+
     p5.pop();
+
+  }
+
+  drawSecondary(p5) {
+    let t = this.frameCount;
+    if (this.hasSecondary) {
+      p5.noFill();
+      p5.stroke("rgba(255,255,255,"+this.secondAlpha +")");
+      p5.strokeWeight(4);
+
+      p5.translate(75, 75);
+      p5.rotate(t/10);
+      p5.ellipse(0, 0, p5.sin(t / 30)*100, p5.cos(t / 13)*100);
+      p5.ellipse(0, 0, p5.cos(t / 13)*100, p5.sin(t / 30)*100);
+    }
   }
 
   startDisappear() {
     this.isDisappearing = true;
+    this.isReappearing = false;
     this.starAlpha = 1.0;
+    this.hasSecondary = false;
   }
 
   startDisappearIfVisible() {
     if (this.isVisible && !this.isDisappearing) {
       this.startDisappear();
     }
+    this.hasSecondary = false;
   }
 
   startReappear() {
     this.isReappearing = true;
+    this.isDisappearing = false;
     this.starAlpha = 0.0;
+  }
+
+  startSecondaryGlow() {
+    this.hasSecondary = true;
+    this.secondAlpha = 0;
+    this.frameCount = 1;
   }
 
   isTransitioning() {
@@ -84,6 +118,7 @@ export default class GlowSprite {
    */
   update(p5) {
     this.animationFrame++;
+    this.frameCount++;
 
     if (this.animationFrame > 24) {
       this.animationFrame = 1;
@@ -113,5 +148,13 @@ export default class GlowSprite {
           this.isVisible = true;
         }
     }
+
+    if (this.hasSecondary) {
+      this.secondAlpha += 0.01;
+      if (this.secondAlpha > 0.1) {
+        this.secondAlpha = 0.1;
+      }
+    }
+
   }
 }

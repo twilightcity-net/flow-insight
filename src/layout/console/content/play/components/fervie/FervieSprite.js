@@ -411,6 +411,9 @@ export default class FervieSprite {
     this.fervieGlowSprite.startChanneling();
   }
 
+  isChanneling() {
+    return this.fervieGlowSprite.isChanneling;
+  }
 
   stopGlowChanneling() {
     this.direction = FervieSprite.Direction.Down;
