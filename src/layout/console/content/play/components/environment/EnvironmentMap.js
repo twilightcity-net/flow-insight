@@ -21,8 +21,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
-    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.LAKE];
+    this.activeMapId = EnvironmentMap.LAKE;
 
     this.mapShiftInProgress = false;
   }
@@ -257,6 +257,20 @@ export default class EnvironmentMap {
   isValidPosition(p5, footPositionX, footPositionY) {
     return this.activeEnvironment.isValidPosition(
       p5,
+      footPositionX,
+      footPositionY
+    );
+  }
+
+  /**
+   * Determines if fervie is colliding with a moving object in the environment
+   * @param p5
+   * @param footPositionX
+   * @param footPositionY
+   * @returns {boolean}
+   */
+  isColliding(footPositionX, footPositionY) {
+    return this.activeEnvironment.isColliding(
       footPositionX,
       footPositionY
     );

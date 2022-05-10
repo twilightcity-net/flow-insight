@@ -321,19 +321,15 @@ export default class FervieSprite {
         newVelocityX = this.velocityX;
       }
 
-      let footPosition = this.getFervieFootPosition(
-        newX,
-        newY,
-        newScale
-      );
+      let oldFootPosition = this.getFervieFootPosition(this.x, this.y, this.scale);
+      let footPosition = this.getFervieFootPosition(newX, newY, newScale);
 
-      if (
-        environment.isValidPosition(
-          p5,
-          footPosition[0],
-          footPosition[1]
-        )
-      ) {
+      let isOldPositionColliding = environment.isColliding(oldFootPosition[0], oldFootPosition[1]);
+      let isNewPositionColliding = environment.isColliding(footPosition[0], footPosition[1]);
+
+      //if we ended up in an invalid position somehow, always allow movement?
+      if (environment.isValidPosition(p5, footPosition[0], footPosition[1])
+      && (!isNewPositionColliding || isOldPositionColliding)) {
         p5.fill("red");
         this.x = newX;
         this.y = newY;

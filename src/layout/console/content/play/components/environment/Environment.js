@@ -94,6 +94,16 @@ export default class Environment {
   }
 
   /**
+   * Can be overridden in environment to collide with moving objects
+   * @param x
+   * @param y
+   * @returns {boolean}
+   */
+  isColliding(x, y) {
+    return false;
+  }
+
+  /**
    * Update the environment according to where fervie has moved
    */
   update(p5, fervie, inventory) {

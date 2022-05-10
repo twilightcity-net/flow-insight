@@ -76,6 +76,14 @@ export default class LadyFervieSprite {
     p5.pop();
   }
 
+  getFootPositionX() {
+    return this.x + ((LadyFervieSprite.UNSCALED_IMAGE_WIDTH/2 - 55)*0.3);
+  }
+
+  getFootPositionY() {
+    return this.y + ((LadyFervieSprite.UNSCALED_IMAGE_HEIGHT/2 + 60)*0.3);
+  }
+
   handleRidingFishAnimation(p5, image) {
     p5.translate(this.x + 50, this.y - 40);
     p5.scale(0.3, 0.3);
@@ -86,13 +94,16 @@ export default class LadyFervieSprite {
   }
 
   handleNeutralPose(p5, image) {
+    let scale = 0.3;
     p5.translate(this.x, this.y - 35);
-    p5.scale(0.3, 0.3);
+    p5.scale(scale, scale);
 
     image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.NEUTRAL_IMAGE);
     p5.image(image, 0, 0);
     return image;
   }
+
+
 
   handleDanceAnimation(p5, image) {
     p5.translate(this.x, this.y - 35);

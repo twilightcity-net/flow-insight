@@ -8,10 +8,9 @@ import FishySprite from "../characters/FishySprite";
 import GlowSprite from "../fervie/GlowSprite";
 
 export default class LakeInTheWoods extends Environment {
-  static GROUND_IMAGE = "./assets/animation/lake/fervie_lake_ground.png";
+  static GROUND_IMAGE = "./assets/animation/lake/fervie_lake_background.png";
   static OVERLAY_IMAGE = "./assets/animation/lake/fervie_lake_overlay.png";
-  static SKY_IMAGE = "./assets/animation/lake/fervie_lake_sky.png";
-  static TREES_IMAGE = "./assets/animation/lake/fervie_lake_trees.png";
+  static TREES_IMAGE = "./assets/animation/lake/fervie_lake_tree.png";
   static WALK_AREA_IMAGE = "./assets/animation/lake/fervie_lake_walk_area.png";
   static WALK_BEHIND_AREA_IMAGE = "./assets/animation/lake/fervie_lake_walk_area_behind.png";
   static LAKE_CLICK_IMAGE = "./assets/animation/lake/fervie_lake_click.png";
@@ -23,10 +22,11 @@ export default class LakeInTheWoods extends Environment {
   constructor(animationLoader, width, height, globalHud) {
     super(animationLoader, width, height, globalHud);
 
-    this.isRopeOnTree = false;
-    this.isSwingOnTree = false;
+    this.isRopeOnTree = true;
+    this.isSwingOnTree = true;
 
     this.hasFishyTriggered = false;
+    this.isLadyAcrossLake = false;
 
     this.ladyFervieSprite = new LadyFervieSprite(
       this.animationLoader,
@@ -48,7 +48,6 @@ export default class LakeInTheWoods extends Environment {
    */
   preload(p5) {
     super.preload(p5);
-    this.animationLoader.getStaticImage(p5, LakeInTheWoods.SKY_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.GROUND_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.OVERLAY_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.TREES_IMAGE);
@@ -67,6 +66,8 @@ export default class LakeInTheWoods extends Environment {
 
     this.isLakeGlowing = false;
     this.channelingCount = 0;
+
+    this.ladyFervieSprite.dance();
 
   }
 
@@ -89,6 +90,24 @@ export default class LakeInTheWoods extends Environment {
   isValidPosition(p5, x, y) {
     let walkAreaImage = this.animationLoader.getStaticImage(p5, LakeInTheWoods.WALK_AREA_IMAGE);
     return super.isWithinTargetArea(walkAreaImage, x, y);
+  }
+
+  isColliding(x, y) {
+    return this.isCollidingWithLady(x, y);
+  }
+
+  isCollidingWithLady(x, y) {
+    if (this.isLadyAcrossLake) {
+      let ladyX = this.ladyFervieSprite.getFootPositionX();
+      let ladyY = this.ladyFervieSprite.getFootPositionY();
+
+      let collideX = Math.abs(x - ladyX) < 120;
+
+     let collideY = Math.abs(y - ladyY) < 34;
+
+      return collideX && collideY;
+    }
+    return false;
   }
 
   isWalkBehindPosition(p5, x, y) {
@@ -177,6 +196,7 @@ export default class LakeInTheWoods extends Environment {
     setTimeout(() => {
       this.ladyFervieSprite.dismount(LakeInTheWoods.IMAGE_WIDTH / 2 - 50, 230);
       this.fishySprite.dive();
+      this.isLadyAcrossLake = true;
     }, 12000);
   }
 
@@ -200,7 +220,6 @@ export default class LakeInTheWoods extends Environment {
    * @param p5
    */
   drawBackground(p5, fervie) {
-    let skyImage = this.animationLoader.getStaticImage(p5, LakeInTheWoods.SKY_IMAGE);
     let groundImage = this.animationLoader.getStaticImage(p5, LakeInTheWoods.GROUND_IMAGE);
     let trees = this.animationLoader.getStaticImage(p5, LakeInTheWoods.TREES_IMAGE);
     let water = this.animationLoader.getStaticImage(p5, LakeInTheWoods.LAKE_WATER_IMAGE);
@@ -208,7 +227,6 @@ export default class LakeInTheWoods extends Environment {
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
-    p5.image(skyImage, 0, 0);
     p5.image(groundImage, 0, 0);
 
     this.fishySprite.draw(p5);
@@ -216,7 +234,6 @@ export default class LakeInTheWoods extends Environment {
 
     if (!this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(trees, 0, 0);
-      this.ladyFervieSprite.draw(p5);
       this.drawRopeSwing(p5);
     }
 
@@ -228,6 +245,10 @@ export default class LakeInTheWoods extends Environment {
     }
 
     this.glowSprite.draw(p5);
+
+    if (!this.isFervieBehindLady(fervie, this.ladyFervieSprite)) {
+      this.ladyFervieSprite.draw(p5);
+    }
 
     p5.pop();
   }
@@ -241,9 +262,13 @@ export default class LakeInTheWoods extends Environment {
 
     if (this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(trees, 0, 0);
-      this.ladyFervieSprite.draw(p5);
       this.drawRopeSwing(p5);
     }
+
+    if (this.isFervieBehindLady(fervie, this.ladyFervieSprite)) {
+      this.ladyFervieSprite.draw(p5);
+    }
+
 
     if (this.fishySprite.adjustX < -280 && this.fishySprite.isVisible()) {
       let water = this.animationLoader.getStaticImage(p5, LakeInTheWoods.LAKE_WATER_IMAGE);
@@ -258,6 +283,10 @@ export default class LakeInTheWoods extends Environment {
     p5.image(overlayImage, 0, 0);
 
     p5.pop();
+  }
+
+  isFervieBehindLady(fervie, lady) {
+    return fervie.getFervieFootY()+20 < lady.getFootPositionY();
   }
 
   drawRopeSwing(p5) {
