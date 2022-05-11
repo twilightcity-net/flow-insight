@@ -29,6 +29,8 @@ export default class FervieSprite {
 
     this.isVisible = true;
 
+    this.isKissing = false;
+
     this.fervieGlowSprite = new FervieGlowSprite(
       this.animationLoader,
       this.size
@@ -85,6 +87,7 @@ export default class FervieSprite {
     }
 
     this.fervieGlowSprite.preload(p5);
+
   }
 
   /**
@@ -324,8 +327,8 @@ export default class FervieSprite {
       let oldFootPosition = this.getFervieFootPosition(this.x, this.y, this.scale);
       let footPosition = this.getFervieFootPosition(newX, newY, newScale);
 
-      let isOldPositionColliding = environment.isColliding(oldFootPosition[0], oldFootPosition[1]);
-      let isNewPositionColliding = environment.isColliding(footPosition[0], footPosition[1]);
+      let isOldPositionColliding = environment.isColliding(this.direction, oldFootPosition[0], oldFootPosition[1]);
+      let isNewPositionColliding = environment.isColliding(this.direction, footPosition[0], footPosition[1]);
 
       //if we ended up in an invalid position somehow, always allow movement?
       if (environment.isValidPosition(p5, footPosition[0], footPosition[1])

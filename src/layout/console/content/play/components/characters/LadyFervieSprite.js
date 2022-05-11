@@ -1,5 +1,8 @@
 import AnimationId from "../AnimationId";
 import LadyGlowSprite from "./LadyGlowSprite";
+import LadyWalkSprite from "./LadyWalkSprite";
+import LadySwingSprite from "./LadySwingSprite";
+import HeartSprite from "./HeartSprite";
 
 /**
  * Creates our fervie sprite animation
@@ -12,15 +15,15 @@ export default class LadyFervieSprite {
     this.y = y - 20;
     this.size = size;
     this.animationFrame = 1;
-    this.isDancing = false;
-    this.isReadingAndBlinking = true;
-    this.isGlowing = false;
-    this.isNeutral = false;
-    this.isRidingFish = false;
+
+    this.currentAction = LadyFervieSprite.Action.Read;
 
     this.fishySprite = null;
 
     this.ladyGlow = new LadyGlowSprite(this.animationLoader);
+    this.ladyWalk = new LadyWalkSprite(this.animationLoader, this.x, this.y, 0.35);
+    this.ladySwing = new LadySwingSprite(this.animationLoader, 135, 128, 0.35);
+    this.heart = new HeartSprite(this.animationLoader, this.x, this.y);
   }
 
   static UNSCALED_IMAGE_WIDTH = 376;
@@ -31,7 +34,24 @@ export default class LadyFervieSprite {
   static DANCE_MIDDLE_IMAGE = "./assets/animation/fervie/fervie_lady_dance_middle.png";
 
   static NEUTRAL_IMAGE = "./assets/animation/fervie/fervie_lady_neutral.png";
+  static LOVE_IMAGE = "./assets/animation/fervie/fervie_lady_love.png";
+  static LOVE_BLINK_IMAGE = "./assets/animation/fervie/fervie_lady_love_blink.png";
+
+
   static RIDES_FISH = "./assets/animation/fervie/fervie_lady_rides.png";
+
+  static get Action() {
+    return {
+      Dance: "Dance",
+      RideFish: "RideFish",
+      Read: "Read",
+      Glow: "Glow",
+      Walk: "Walk",
+      Neutral: "Neutral",
+      Swing: "Swing",
+      Love: "Love"
+    };
+  }
 
   /**
    * Preload all the images by processing the svgs with the colors then flattening to images
@@ -45,9 +65,15 @@ export default class LadyFervieSprite {
     this.animationLoader.getStaticImage(p5, LadyFervieSprite.DANCE_MIDDLE_IMAGE);
     this.animationLoader.getStaticImage(p5, LadyFervieSprite.DANCE_RIGHT_IMAGE);
     this.animationLoader.getStaticImage(p5, LadyFervieSprite.NEUTRAL_IMAGE);
+    this.animationLoader.getStaticImage(p5, LadyFervieSprite.LOVE_IMAGE);
+    this.animationLoader.getStaticImage(p5, LadyFervieSprite.LOVE_BLINK_IMAGE);
 
     this.ladyGlow.preload(p5);
+    this.ladyWalk.preload(p5);
+    this.ladySwing.preload(p5);
+    this.heart.preload(p5);
   }
+
 
   /**
    * Draw the fervie sprite on the screen based on the properties
@@ -58,19 +84,22 @@ export default class LadyFervieSprite {
 
     p5.push();
 
-    let image = null;
-
-    if (this.isReadingAndBlinking) {
-      image = this.handleReadAndBlinkAnimation(image, p5);
-    } else if (this.isDancing) {
-      image = this.handleDanceAnimation(p5, image);
-    } else if (this.isGlowing) {
+    if (this.currentAction === LadyFervieSprite.Action.Read) {
+      this.handleReadAndBlinkAnimation(p5);
+    } else if (this.currentAction === LadyFervieSprite.Action.Dance) {
+      this.handleDanceAnimation(p5);
+    } else if (this.currentAction === LadyFervieSprite.Action.Glow) {
       this.ladyGlow.draw(p5, this.x - 148, this.y - 40, 0.3);
-    } else if (this.isNeutral) {
-      image = this.handleNeutralPose(p5, image);
-    }
-    if (this.isRidingFish) {
-      image = this.handleRidingFishAnimation(p5, image);
+    } else if (this.currentAction === LadyFervieSprite.Action.Neutral) {
+      this.handleNeutralPose(p5);
+    } else if (this.currentAction === LadyFervieSprite.Action.RideFish) {
+      this.handleRidingFishAnimation(p5);
+    } else if (this.currentAction === LadyFervieSprite.Action.Walk) {
+      this.ladyWalk.draw(p5);
+    } else if (this.currentAction === LadyFervieSprite.Action.Swing) {
+      this.ladySwing.draw(p5);
+    } else if (this.currentAction === LadyFervieSprite.Action.Love) {
+      this.handleLovePose(p5);
     }
 
     p5.pop();
@@ -84,28 +113,80 @@ export default class LadyFervieSprite {
     return this.y + ((LadyFervieSprite.UNSCALED_IMAGE_HEIGHT/2 + 60)*0.3);
   }
 
-  handleRidingFishAnimation(p5, image) {
+
+  walkLeft(amount) {
+    console.log("walk left!");
+    this.ladyWalk.x = this.x;
+    this.ladyWalk.y = this.y;
+    this.currentAction = LadyFervieSprite.Action.Walk;
+    this.ladyWalk.walkLeft(amount, this.setNeutralWhenDone);
+  }
+
+  walkRight(amount) {
+    console.log("walk right!");
+    this.ladyWalk.x = this.x;
+    this.ladyWalk.y = this.y;
+    this.currentAction = LadyFervieSprite.Action.Walk;
+    this.ladyWalk.walkRight(amount, this.setNeutralWhenDone);
+  }
+
+  swing() {
+    this.ladySwing.animationFrame = 1;
+    this.currentAction = LadyFervieSprite.Action.Swing;
+  }
+
+  love() {
+    this.heart.setPosition(this.x, this.y);
+    this.currentAction = LadyFervieSprite.Action.Love;
+  }
+
+  setNeutralWhenDone = () => {
+    console.log("setNeutralWhenDone");
+    this.currentAction = LadyFervieSprite.Action.Neutral;
+  }
+
+  handleRidingFishAnimation(p5) {
     p5.translate(this.x + 50, this.y - 40);
     p5.scale(0.3, 0.3);
 
-    image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.RIDES_FISH);
+    let image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.RIDES_FISH);
     p5.image(image, 0, 0);
-    return image;
   }
 
-  handleNeutralPose(p5, image) {
+  handleNeutralPose(p5) {
+    p5.push();
     let scale = 0.3;
     p5.translate(this.x, this.y - 35);
     p5.scale(scale, scale);
 
-    image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.NEUTRAL_IMAGE);
+    let image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.NEUTRAL_IMAGE);
     p5.image(image, 0, 0);
-    return image;
+    p5.pop();
+  }
+
+  handleLovePose(p5) {
+    p5.push();
+    let scale = 0.3;
+    p5.translate(this.x, this.y - 35);
+    p5.scale(scale, scale);
+
+    //1-115, 105-110 & 115-120 is blink
+
+    let image = null;
+    if (this.animationFrame < 109 || (this.animationFrame > 112 && this.animationFrame < 115) ) {
+      image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.LOVE_IMAGE);
+    } else {
+      console.log("blink!");
+      image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.LOVE_BLINK_IMAGE);
+    }
+    p5.image(image, 0, 0);
+    p5.pop();
+    this.heart.draw(p5);
   }
 
 
-
-  handleDanceAnimation(p5, image) {
+  handleDanceAnimation(p5) {
+    let image = null;
     p5.translate(this.x, this.y - 35);
     p5.scale(0.3, 0.3);
 
@@ -121,10 +202,10 @@ export default class LadyFervieSprite {
       image = this.animationLoader.getStaticImage(p5, LadyFervieSprite.DANCE_MIDDLE_IMAGE);
     }
     p5.image(image, 0, 0);
-    return image;
   }
 
-  handleReadAndBlinkAnimation(image, p5) {
+  handleReadAndBlinkAnimation(p5) {
+    let image;
     if (this.animationFrame < 115) {
       image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.LadyFervie, 1, this.size);
     } else {
@@ -133,66 +214,58 @@ export default class LadyFervieSprite {
     }
 
     p5.image(image, this.x, this.y);
-    return image;
   }
 
   isBetween(frame, frameLow, frameHigh) {
     return frame >= frameLow && frame <= frameHigh;
   }
 
-
   dance() {
-    this.isDancing = true;
-    this.isReadingAndBlinking = false;
-    this.isGlowing = false;
-    this.isNeutral = false;
+    this.currentAction = LadyFervieSprite.Action.Dance;
+  }
+
+  neutral() {
+    this.currentAction = LadyFervieSprite.Action.Neutral;
   }
 
   stopDancing() {
-    this.isDancing = false;
-    this.isNeutral = true;
+    this.currentAction = LadyFervieSprite.Action.Neutral;
   }
 
   ride(fishy) {
-    this.isRidingFish = true;
+    this.currentAction = LadyFervieSprite.Action.RideFish;
     this.x = fishy.getAdjustedX();
     this.y = fishy.getAdjustedY();
     this.fishySprite = fishy;
-
-    this.isNeutral = false;
-    this.isReadingAndBlinking = false;
-    this.isGlowing = false;
-    this.isNeutral = false;
   }
 
   dismount(x, y) {
-    this.isRidingFish = false;
-    this.isNeutral = true;
+    this.currentAction = LadyFervieSprite.Action.Neutral;
     this.fishySprite = null;
     this.x = x;
     this.y = y;
   }
 
   startGlow() {
-    if (this.isDancing || this.isNeutral) {
-      this.isGlowing = true;
-      this.isDancing = false;
-      this.isReadingAndBlinking = false;
-      this.isNeutral = false;
+    if (this.currentAction === LadyFervieSprite.Action.Dance || this.currentAction === LadyFervieSprite.Action.Neutral) {
+      this.currentAction = LadyFervieSprite.Action.Glow;
       this.ladyGlow.startChanneling();
     }
   }
 
   stopGlow() {
-    if (this.isGlowing) {
+    if (this.currentAction === LadyFervieSprite.Action.Glow) {
       this.ladyGlow.stopChanneling();
-      this.isGlowing = false;
-      this.isNeutral = true;
+      this.currentAction = LadyFervieSprite.Action.Neutral
     }
   }
 
   isChanneling() {
     return this.ladyGlow.isChanneling;
+  }
+
+  isRidingFish() {
+    return this.currentAction === LadyFervieSprite.Action.RideFish;
   }
 
   /**
@@ -206,12 +279,20 @@ export default class LadyFervieSprite {
       this.animationFrame = 1;
     }
 
-    if (this.isRidingFish && this.fishySprite) {
+    if (this.currentAction === LadyFervieSprite.Action.RideFish && this.fishySprite) {
       this.x = this.fishySprite.getAdjustedX();
       this.y = this.fishySprite.getAdjustedY();
     }
 
     this.ladyGlow.update(p5, environment);
+    this.ladyWalk.update(p5, environment);
+    this.ladySwing.update(p5, environment);
+    this.heart.update(p5, environment);
+
+    if (this.currentAction === LadyFervieSprite.Action.Walk) {
+      this.x = this.ladyWalk.getCurrentX();
+      this.y = this.ladyWalk.getCurrentY();
+    }
   }
 
 }

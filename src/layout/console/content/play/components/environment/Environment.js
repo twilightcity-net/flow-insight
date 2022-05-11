@@ -95,11 +95,12 @@ export default class Environment {
 
   /**
    * Can be overridden in environment to collide with moving objects
+   * @param direction
    * @param x
    * @param y
    * @returns {boolean}
    */
-  isColliding(x, y) {
+  isColliding(direction, x, y) {
     return false;
   }
 

@@ -264,13 +264,14 @@ export default class EnvironmentMap {
 
   /**
    * Determines if fervie is colliding with a moving object in the environment
-   * @param p5
+   * @param direction
    * @param footPositionX
    * @param footPositionY
    * @returns {boolean}
    */
-  isColliding(footPositionX, footPositionY) {
+  isColliding(direction, footPositionX, footPositionY) {
     return this.activeEnvironment.isColliding(
+      direction,
       footPositionX,
       footPositionY
     );
