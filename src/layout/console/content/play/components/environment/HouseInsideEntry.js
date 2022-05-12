@@ -3,6 +3,8 @@
  */
 import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
+import LadyFervieSprite from "../characters/LadyFervieSprite";
+import GameState from "../hud/GameState";
 
 export default class HouseInsideEntry extends Environment {
   static BACKGROUND_IMAGE =
@@ -26,50 +28,46 @@ export default class HouseInsideEntry extends Environment {
   static WALL_ART_3 =
     "./assets/animation/insidehouse/house_inside_entry_wallart3.png";
 
+  constructor(animationLoader, width, height, globalHud) {
+    super(animationLoader, width, height, globalHud);
+
+    this.ladyFervieSprite = new LadyFervieSprite(this.animationLoader, 800, 300, 200, 0.45);
+  }
   /**
    * Preload all the environment images, so they are cached and ready to display
    * @param p5
    */
   preload(p5) {
     super.preload(p5);
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.BACKGROUND_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALK_BEHIND_WALL
-    );
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.BACKGROUND_IMAGE);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_BEHIND_WALL);
 
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALK_AREA_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALK_BEHIND_AREA_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.CLICKABLE_AREA
-    );
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_AREA_IMAGE);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_BEHIND_AREA_IMAGE);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.CLICKABLE_AREA);
 
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALL_ART_0
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALL_ART_1
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALL_ART_2
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALL_ART_3
-    );
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_0);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_1);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_2);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_3);
+
+    this.ladyFervieSprite.preload(p5);
+
+    this.isLadyVisible = this.globalHud.getGameStateProperty(GameState.Property.IS_LADY_KISSED);
+
+    if (this.isLadyVisible) {
+      this.ladyFervieSprite.neutral();
+
+      setTimeout(() => {
+        this.ladyFervieSprite.dance();
+
+        setTimeout(() => {
+          this.ladyFervieSprite.loveMirror();
+        }, 3000);
+      }, 3000);
+    } else {
+      this.ladyFervieSprite.setVisible(false);
+    }
 
     this.isGoingThroughDoor = false;
     this.showWallArt = false;
@@ -114,39 +112,26 @@ export default class HouseInsideEntry extends Environment {
   }
 
   isValidPosition(p5, x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALK_AREA_IMAGE
-    );
+    let walkAreaImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_AREA_IMAGE);
 
     return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isWalkBehindPosition(p5, x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALK_BEHIND_AREA_IMAGE
-    );
+    let walkAreaImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_BEHIND_AREA_IMAGE);
 
     return super.isWithinTargetArea(walkAreaImage, x, y);
 
   }
 
   isOverWallArtPosition(p5, x, y) {
-    let clickMapImage = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.CLICKABLE_AREA
-    );
+    let clickMapImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.CLICKABLE_AREA);
 
     return super.isWithinTargetArea(clickMapImage, x, y);
   }
 
   isOverWallArtPopup(p5, x, y) {
-    let wallArtPopupImage =
-      this.animationLoader.getStaticImage(
-        p5,
-        HouseInsideEntry.WALL_ART_0
-      );
+    let wallArtPopupImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_0);
 
     let color = wallArtPopupImage.get(
       Math.round(x / this.scaleAmountX),
@@ -157,6 +142,10 @@ export default class HouseInsideEntry extends Environment {
     } else {
       return false;
     }
+  }
+
+  isOverLady(x, y) {
+    return this.ladyFervieSprite.isOverLady(this.getScaledX(x), this.getScaledY(y));
   }
 
   getWallArtIndexBasedOnPosition(x, y) {
@@ -174,12 +163,8 @@ export default class HouseInsideEntry extends Environment {
   isFervieInFrontOfDoorway(fervie) {
     //between two points, 527 <=> 630 on x, 361 <=> 363 on y position
 
-    let x = Math.round(
-      fervie.getFervieFootX() / this.scaleAmountX
-    );
-    let y = Math.round(
-      fervie.getFervieFootY() / this.scaleAmountY
-    );
+    let x = Math.round(fervie.getFervieFootX() / this.scaleAmountX);
+    let y = Math.round(fervie.getFervieFootY() / this.scaleAmountY);
 
     if (
       fervie.getDirection() === FervieSprite.Direction.Up &&
@@ -197,56 +182,44 @@ export default class HouseInsideEntry extends Environment {
    * @param p5
    */
   drawBackground(p5, fervie) {
-    let backgroundImage =
-      this.animationLoader.getStaticImage(
-        p5,
-        HouseInsideEntry.BACKGROUND_IMAGE
-      );
+    let backgroundImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.BACKGROUND_IMAGE);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
     p5.image(backgroundImage, 0, 0);
 
-    if (
-      (!this.showWallArt &&
-        this.isOverWallArtPosition(
-          p5,
-          p5.mouseX,
-          p5.mouseY
-        )) ||
-      (this.showWallArt &&
-        !this.isOverWallArtPopup(p5, p5.mouseX, p5.mouseY))
-    ) {
+    if ((!this.showWallArt && this.isOverWallArtPosition(p5, p5.mouseX, p5.mouseY)) ||
+      (this.showWallArt && !this.isOverWallArtPopup(p5, p5.mouseX, p5.mouseY))
+    || this.isOverLady(p5.mouseX, p5.mouseY)) {
       this.globalHud.setIsActionableHover(true, false);
     } else {
       this.globalHud.setIsActionableHover(false, false);
+    }
+
+    if (!this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+      this.ladyFervieSprite.draw(p5);
     }
 
     p5.pop();
   }
 
   drawOverlay(p5, fervie) {
-    let wall = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALK_BEHIND_WALL
-    );
+    let wall = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_BEHIND_WALL);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
-    if (
-      this.isWalkBehindPosition(
-        p5,
-        fervie.getFervieFootX(),
-        fervie.getFervieFootY()
-      )
-    ) {
+    if (this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(wall, 0, 0);
     }
 
     if (this.showWallArt) {
       this.drawWallArt(p5, this.wallArtIndex);
+    }
+
+    if (this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+      this.ladyFervieSprite.draw(p5);
     }
 
     p5.pop();
@@ -255,28 +228,21 @@ export default class HouseInsideEntry extends Environment {
   drawWallArt(p5, wallArtIndex) {
     console.log("Draw wall art " + wallArtIndex);
 
-    let wallArt = this.animationLoader.getStaticImage(
-      p5,
-      HouseInsideEntry.WALL_ART_0
-    );
+    let wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_0);
     if (wallArtIndex === 1) {
-      wallArt = this.animationLoader.getStaticImage(
-        p5,
-        HouseInsideEntry.WALL_ART_1
-      );
+      wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_1);
     } else if (wallArtIndex === 2) {
-      wallArt = this.animationLoader.getStaticImage(
-        p5,
-        HouseInsideEntry.WALL_ART_2
-      );
+      wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_2);
     } else if (wallArtIndex === 3) {
-      wallArt = this.animationLoader.getStaticImage(
-        p5,
-        HouseInsideEntry.WALL_ART_3
-      );
+      wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_3);
     }
 
     p5.image(wallArt, 0, 0);
+  }
+
+  isColliding(direction, x, y) {
+    //TODO figure out why this doesnt work right in the house
+    return (this.ladyFervieSprite.isCollidingWithLady(direction, x, y));
   }
 
   hasFervieMovingNorth(fervie) {
@@ -288,20 +254,17 @@ export default class HouseInsideEntry extends Environment {
     let y = p5.mouseY;
 
     console.log("x = " + x + ", y = " + y);
-    if (
-      !this.showWallArt &&
-      this.isOverWallArtPosition(p5, x, y)
-    ) {
+    if (!this.showWallArt && this.isOverWallArtPosition(p5, x, y)) {
       console.log("is over wall art position");
-      this.wallArtIndex =
-        this.getWallArtIndexBasedOnPosition(x, y);
+      this.wallArtIndex = this.getWallArtIndexBasedOnPosition(x, y);
       this.showWallArt = true;
-    } else if (
-      this.showWallArt &&
-      !this.isOverWallArtPopup(p5, x, y)
-    ) {
+    } else if (this.showWallArt && !this.isOverWallArtPopup(p5, x, y)) {
       console.log("is not over wall art popup");
       this.showWallArt = false;
+    }
+
+    if (this.isOverLady(x, y) && this.ladyFervieSprite.isNextToLadyOnLeft(fervie)) {
+      fervie.kissMirror();
     }
   }
 
@@ -317,5 +280,7 @@ export default class HouseInsideEntry extends Environment {
     } else {
       this.isGoingThroughDoor = false;
     }
+
+    this.ladyFervieSprite.update(p5);
   }
 }

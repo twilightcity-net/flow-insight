@@ -29,6 +29,7 @@ export default class FervieSprite {
     this.originalScale = this.scale;
 
     this.isVisible = true;
+    this.isMirror = false;
 
     this.isKissing = false;
 
@@ -59,30 +60,15 @@ export default class FervieSprite {
    */
   preload(p5) {
     for (let i = 1; i <= 24; i++) {
-      this.animationLoader.getAnimationImage(
-        p5,
-        AnimationId.Animation.FervieWalkUp,
-        i,
-        this.size
-      );
+      this.animationLoader.getAnimationImage(p5, AnimationId.Animation.FervieWalkUp, i, this.size);
     }
 
     for (let i = 1; i <= 24; i++) {
-      this.animationLoader.getAnimationImage(
-        p5,
-        AnimationId.Animation.FervieWalkRight,
-        i,
-        this.size
-      );
+      this.animationLoader.getAnimationImage(p5, AnimationId.Animation.FervieWalkRight, i, this.size);
     }
 
     for (let i = 1; i <= 24; i++) {
-      this.animationLoader.getAnimationImage(
-        p5,
-        AnimationId.Animation.FervieWalkDown,
-        i,
-        this.size
-      );
+      this.animationLoader.getAnimationImage(p5, AnimationId.Animation.FervieWalkDown, i, this.size);
     }
 
     this.fervieGlowSprite.preload(p5);
@@ -102,7 +88,7 @@ export default class FervieSprite {
     if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
       this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
     } else if (this.isKissing) {
-      this.fervieKissSprite.draw(p5, 164, 180, this.scale);
+      this.handleKiss(p5);
     } else if (this.direction === FervieSprite.Direction.Up) {
       image = this.animationLoader.getAnimationImage(
         p5,
@@ -135,6 +121,14 @@ export default class FervieSprite {
         this.size
       );
       this.scaleAndMirrorAndDrawSprite(p5, image);
+    }
+  }
+
+  handleKiss(p5) {
+    if (this.isMirror) {
+      this.fervieKissSprite.drawMirror(p5, this.kissX, this.kissY, this.scale);
+    } else {
+      this.fervieKissSprite.draw(p5, this.kissX, this.kissY, this.scale);
     }
   }
 
@@ -182,7 +176,8 @@ export default class FervieSprite {
     this.fervieGlowSprite.update(p5, environment);
     if (
       !this.fervieGlowSprite.isVisible ||
-      this.fervieGlowSprite.isTransitioning()
+      this.fervieGlowSprite.isTransitioning() ||
+      this.isKissing
     ) {
       return;
     }
@@ -269,8 +264,29 @@ export default class FervieSprite {
     this.isVisible = true;
   }
 
-  kiss() {
-    this.isKissing = true;
+  kiss(x, y) {
+    if (x && y) {
+      this.kissX = x;
+      this.kissY = y;
+    } else {
+      this.kissX = this.x;
+      this.kissY = this.y;
+    }
+
+    this.isKissing = !this.isKissing;
+    this.isMirror = false;
+  }
+
+  kissMirror(x, y) {
+    if (x && y) {
+      this.kissX = x;
+      this.kissY = y;
+    } else {
+      this.kissX = this.x;
+      this.kissY = this.y;
+    }
+    this.isKissing = !this.isKissing;
+    this.isMirror = true;
   }
 
   stopKissing() {

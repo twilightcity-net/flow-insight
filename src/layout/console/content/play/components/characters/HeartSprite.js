@@ -14,9 +14,6 @@ export default class HeartSprite {
 
     this.alphaRate = 0.02;
     this.scaleRate = 0.02;
-
-
-    this.animationFrame = 1;
   }
 
   static UNSCALED_IMAGE_WIDTH = 400;
@@ -35,7 +32,7 @@ export default class HeartSprite {
   }
 
   setPosition(x, y) {
-    this.x = x + 44;
+    this.x = x;
     this.y = y - 65;
   }
 
@@ -48,6 +45,7 @@ export default class HeartSprite {
 
     p5.push();
     p5.translate(this.x - (HeartSprite.IMAGE_WIDTH/2*this.scale * this.heartScale), this.y - this.floatUpAmount);
+
     p5.scale(this.scale, this.scale);
     p5.scale(this.heartScale, this.heartScale);
 
@@ -56,16 +54,16 @@ export default class HeartSprite {
     p5.pop()
   }
 
+  reset() {
+    this.alpha = 1;
+    this.floatUpAmount = 0;
+    this.heartScale = 1;
+  }
+
   /**
    * Update the heart based on where we are in the animation
    */
   update(p5, environment) {
-    this.animationFrame++;
-
-    if (this.animationFrame > 36) {
-      this.animationFrame = 1;
-    }
-
     this.alpha -= this.alphaRate;
     this.floatUpAmount += 1;
     this.heartScale += this.scaleRate;

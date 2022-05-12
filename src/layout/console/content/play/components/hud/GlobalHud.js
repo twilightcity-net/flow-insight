@@ -3,6 +3,7 @@
  */
 import Inventory from "./Inventory";
 import Cursor from "./Cursor";
+import GameState from "./GameState";
 
 export default class GlobalHud {
 
@@ -12,6 +13,8 @@ export default class GlobalHud {
     this.height = height;
 
     this.isInventoryOpen = false;
+
+    this.gameState = new GameState();
   }
   preload(p5) {
     this.inventory = new Inventory(this.animationLoader, this.width, this.height, this, this.onActiveItemChanged);
@@ -44,6 +47,14 @@ export default class GlobalHud {
   setIsActionableHover(isActionable, isItemActionable) {
     this.cursor.setIsActionableHover(isActionable);
     this.cursor.setIsItemActionable(isItemActionable);
+  }
+
+  getGameStateProperty(property) {
+    return this.gameState.get(property);
+  }
+
+  setGameStateProperty(property, value) {
+    this.gameState.set(property, value);
   }
 
   addInventoryItem(item) {

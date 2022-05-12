@@ -43,13 +43,7 @@ export default class FervieKissSprite {
    * @param scale
    */
   draw(p5, x, y, scale) {
-    let image =
-      this.animationLoader.getAnimationImageWithManualFrame(
-        p5,
-        AnimationId.Animation.FervieKiss,
-        1,
-        this.size
-      );
+    let image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.FervieKiss, 1, this.size);
 
     p5.push();
     p5.translate(
@@ -57,6 +51,21 @@ export default class FervieKissSprite {
       y + 5
     );
     p5.scale(scale, scale);
+    p5.image(image, 0, 0);
+    p5.pop();
+  }
+
+  drawMirror(p5, x, y, scale) {
+    let image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.FervieKiss, 1, this.size);
+
+    p5.push();
+    p5.translate(
+      x + Math.round((this.size / 2) * (1 - scale)) + 45,
+      y + 5
+    );
+    p5.scale(scale, scale);
+    p5.scale(-1, 1);
+    p5.translate(-1*this.size, 0);
     p5.image(image, 0, 0);
     p5.pop();
   }

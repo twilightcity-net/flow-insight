@@ -51,8 +51,7 @@ export default class GlowSprite {
    */
   draw(p5) {
 
-    let glowImage = this.animationLoader.getStaticImage(p5, GlowSprite.FERVIE_GLOW_OVERLAY_IMAGE
-    );
+    let glowImage = this.animationLoader.getStaticImage(p5, GlowSprite.FERVIE_GLOW_OVERLAY_IMAGE);
 
     p5.push();
     p5.translate(this.x + (70*(1-this.scale)), this.y - (GlowSprite.UNSCALED_IMAGE_HEIGHT/2*this.scale) + (20*this.scale)); //center glow on input position

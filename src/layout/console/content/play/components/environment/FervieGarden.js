@@ -3,19 +3,13 @@
  */
 import Environment from "./Environment";
 import Inventory from "../hud/Inventory";
+import GameState from "../hud/GameState";
 
 export default class FervieGarden extends Environment {
   static GROUND_IMAGE = "./assets/animation/garden/fervie_garden_background.png";
   static OVERLAY_IMAGE = "./assets/animation/garden/fervie_garden_overlay.png";
   static WALK_AREA_IMAGE = "./assets/animation/garden/fervie_garden_walkarea.png";
   static ROPE_IMAGE = "./assets/animation/garden/fervie_garden_rope.png";
-
-  constructor(animationLoader, width, height, globalHud) {
-    super (animationLoader, width, height, globalHud);
-
-    this.isRopePresent = true;
-    this.movingRopeToInventory = false;
-  }
 
   /**
    * Preload all the environment images, so they are cached and ready to display
@@ -27,6 +21,9 @@ export default class FervieGarden extends Environment {
     this.animationLoader.getStaticImage(p5, FervieGarden.OVERLAY_IMAGE);
     this.animationLoader.getStaticImage(p5, FervieGarden.WALK_AREA_IMAGE);
     this.animationLoader.getStaticImage(p5, FervieGarden.ROPE_IMAGE);
+
+    this.movingRopeToInventory = false;
+    this.isRopePresent = !this.globalHud.getGameStateProperty(GameState.Property.IS_ROPE_PICKED_UP);
   }
 
   getDefaultSpawnProperties() {
@@ -128,6 +125,7 @@ export default class FervieGarden extends Environment {
       && !this.globalHud.hasActiveItemSelection()
       && this.isCloseToRope(fervie)
       && this.isOverRopePosition(p5, p5.mouseX, p5.mouseY)) {
+      this.globalHud.setGameStateProperty(GameState.Property.IS_ROPE_PICKED_UP, true);
       this.isRopePresent = false;
       this.movingRopeToInventory = true;
     }

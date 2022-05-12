@@ -3,6 +3,7 @@
  */
 import Environment from "./Environment";
 import Inventory from "../hud/Inventory";
+import GameState from "../hud/GameState";
 
 export default class HouseInsideKitchen extends Environment {
   static BACKGROUND_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_background.png";
@@ -11,13 +12,6 @@ export default class HouseInsideKitchen extends Environment {
   static WALK_AREA_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_walkarea.png";
   static WALK_BEHIND_AREA_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_walkarea_behind.png";
   static WALK_BEHIND_WALL = "./assets/animation/insidehouse/house_inside_kitchen_behindwall.png";
-
-  constructor(animationLoader, width, height, globalHud) {
-    super(animationLoader, width, height, globalHud);
-
-    this.isTowelPresent = true;
-    this.movingTowelToInventory = false;
-  }
 
   /**
    * Preload all the environment images, so they are cached and ready to display
@@ -32,6 +26,9 @@ export default class HouseInsideKitchen extends Environment {
 
     this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_AREA_IMAGE);
     this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_BEHIND_AREA_IMAGE);
+
+    this.isTowelPresent = !this.globalHud.getGameStateProperty(GameState.Property.IS_TOWEL_PICKED_UP);
+    this.movingTowelToInventory = false;
   }
 
   getDefaultSpawnProperties() {
@@ -149,6 +146,7 @@ export default class HouseInsideKitchen extends Environment {
       && !this.globalHud.hasActiveItemSelection()
       && this.isCloseToTowel(fervie)
       && this.isOverTowelPosition(p5, p5.mouseX, p5.mouseY)) {
+      this.globalHud.setGameStateProperty(GameState.Property.IS_TOWEL_PICKED_UP, true);
       this.isTowelPresent = false;
       this.movingTowelToInventory = true;
     }

@@ -21,8 +21,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
-    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.LAKE];
+    this.activeMapId = EnvironmentMap.LAKE;
 
     this.mapShiftInProgress = false;
   }
