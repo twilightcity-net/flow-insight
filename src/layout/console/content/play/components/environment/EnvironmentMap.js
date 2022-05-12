@@ -21,8 +21,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.LAKE];
-    this.activeMapId = EnvironmentMap.LAKE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
+    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
 
     this.mapShiftInProgress = false;
   }
@@ -70,6 +70,7 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.CITY_TRANSITION + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_ENTRANCE;
     this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_TRANSITION;
     this.travelMap[EnvironmentMap.LAKE + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.BIG_TREE;
+    this.travelMap[EnvironmentMap.LAKE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
     this.travelMap[EnvironmentMap.SHROOMHOUSE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.SHROOMHOUSE;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_ENTRY + EnvironmentMap.MAP_LEFT] = EnvironmentMap.HOUSE_INSIDE_KITCHEN;
