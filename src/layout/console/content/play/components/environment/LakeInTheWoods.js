@@ -20,8 +20,6 @@ export default class LakeInTheWoods extends Environment {
   static ROPE_IMAGE = "./assets/animation/lake/fervie_lake_rope.png";
   static SWING_IMAGE = "./assets/animation/lake/fervie_lake_swing.png";
 
-  static SWING_LADY_IMAGE = "./assets/animation/lake/fervie_lake_swing_lady.png";
-
   constructor(animationLoader, width, height, globalHud) {
     super(animationLoader, width, height, globalHud);
 
@@ -31,6 +29,7 @@ export default class LakeInTheWoods extends Environment {
     this.hasFishyTriggered = false;
     this.isLadyAcrossLake = false;
     this.isLadySwinging = false;
+    this.isDoneSwinging = false;
 
     this.ladyFervieSprite = new LadyFervieSprite(
       this.animationLoader,
@@ -57,7 +56,6 @@ export default class LakeInTheWoods extends Environment {
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.TREES_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.ROPE_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.SWING_IMAGE);
-    this.animationLoader.getStaticImage(p5, LakeInTheWoods.SWING_LADY_IMAGE);
 
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.WALK_AREA_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.WALK_BEHIND_AREA_IMAGE);
@@ -156,14 +154,31 @@ export default class LakeInTheWoods extends Environment {
   isOnLakePeninsula(fervie) {
     return fervie.getFervieFootX() > 490 && fervie.getFervieFootY() > 250;
   }
+
+  isNextToLady(fervie) {
+    let xDiff = this.ladyFervieSprite.getFootPositionX() - fervie.getFervieFootX();  //we want lady to be the left
+    let yDiff = this.ladyFervieSprite.getFootPositionY() - fervie.getFervieFootY();
+
+    console.log("xDiff = "+xDiff + ", yDiff = "+yDiff);
+    return xDiff > -25 && xDiff < -20 && yDiff > 7 && yDiff < 22;
+  }
   /**
    * Create the swing on the tree if the active selection is the right one
    * @param p5
    * @param fervie
    */
   mousePressed(p5, fervie) {
+
     if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY )) {
       this.handleApplyItemToTree();
+    }
+
+    if (this.isDoneSwinging && this.isOverLady(p5.mouseX, p5.mouseY) && this.isNextToLady(fervie)) {
+      if (!fervie.isKissing) {
+        fervie.kiss();
+      } else {
+        fervie.stopKissing();
+      }
     }
 
     if (this.isOverLakePosition(p5, p5.mouseX, p5.mouseY) && this.isOnLakePeninsula(fervie)) {
@@ -221,6 +236,7 @@ export default class LakeInTheWoods extends Environment {
             this.isLadySwinging = false;
             this.ladyFervieSprite.x = this.ladyFervieSprite.x + 50;
             this.ladyFervieSprite.love();
+            this.isDoneSwinging = true;
           }, 9900);
         }, 6000);
       }, 2000);
@@ -264,8 +280,9 @@ export default class LakeInTheWoods extends Environment {
       this.drawRopeSwing(p5);
     }
 
-    if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)
-      || (this.isOverLakePosition(p5, p5.mouseX, p5.mouseY))) {
+   if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)
+     || (this.isOverLakePosition(p5, p5.mouseX, p5.mouseY))
+      || (this.isDoneSwinging && this.isOverLady(p5.mouseX, p5.mouseY))) {
       this.globalHud.setIsActionableHover(true, true);
     } else {
       this.globalHud.setIsActionableHover(false, true);
@@ -314,6 +331,10 @@ export default class LakeInTheWoods extends Environment {
     p5.image(overlayImage, 0, 0);
 
     p5.pop();
+  }
+
+  isOverLady(x, y) {
+    return this.ladyFervieSprite.isOverLady(this.getScaledX(x), this.getScaledY(y));
   }
 
   isFervieBehindLady(fervie, lady) {

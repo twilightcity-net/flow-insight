@@ -73,6 +73,13 @@ export default class Environment {
     };
   }
 
+  getScaledX(x) {
+    return Math.round(x / this.scaleAmountX);
+  }
+
+  getScaledY(y) {
+    return Math.round(y / this.scaleAmountY);
+  }
 
   /**
    * Returns true if the x,y position is within the target white area within the image

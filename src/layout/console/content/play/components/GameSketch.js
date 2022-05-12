@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
+import React, {Component} from "react";
+import {DimensionController} from "../../../../../controllers/DimensionController";
 import p5 from "p5";
 import FervieWalkUp from "./fervie/FervieWalkUp";
 import AnimationLoader from "./AnimationLoader";
@@ -10,11 +10,10 @@ import FervieColors from "../../support/FervieColors";
 import ShroomHouse from "./places/ShroomHouse";
 import EnvironmentMap from "./environment/EnvironmentMap";
 import LadyFervie from "./characters/LadyFervie";
-import FervieGlow from "./fervie/FervieGlow";
+import FerviePose from "./fervie/FerviePose";
 import MoovieFervie from "./characters/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
-import Inventory from "./hud/Inventory";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -314,8 +313,11 @@ export default class GameSketch extends Component {
             fervieColor,
             fervieShoeColor
           )}
-          {FervieGlow.getFrame(
-            1,
+          {FerviePose.getPose(FerviePose.Pose.Glow,
+            fervieColor,
+            fervieShoeColor
+          )}
+          {FerviePose.getPose(FerviePose.Pose.Kiss,
             fervieColor,
             fervieShoeColor
           )}

@@ -113,6 +113,20 @@ export default class LadyFervieSprite {
     return this.y + ((LadyFervieSprite.UNSCALED_IMAGE_HEIGHT/2 + 60)*0.3);
   }
 
+  isOverLady(x, y) {
+    let unscaledWidth = 283;
+    let unscaledHeight = 330;
+    let scale = 0.3;
+    if (x < this.x || y < (this.y - 35)) {
+      return false;
+    }
+
+    if (x > (this.x + unscaledWidth * scale) || y > (this.y - 35) + unscaledHeight * scale) {
+      return false;
+    }
+
+    return true;
+  }
 
   walkLeft(amount) {
     console.log("walk left!");

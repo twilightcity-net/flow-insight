@@ -5,7 +5,7 @@
 export default class AnimationId {
   /**
    * static enum subclass to store animation types
-   * @returns {{CityStreetSigns:string, MoovieFervie:string, FervieGlow:string, LadyFervie:string, FervieWalkUp: string, ShroomHouse: string, FervieWalkDown: string, FervieWalkRight: string, FervieWalkLeft: string}}
+   * @returns {{FervieKiss:string, CityStreetSigns:string, MoovieFervie:string, FervieGlow:string, LadyFervie:string, FervieWalkUp: string, ShroomHouse: string, FervieWalkDown: string, FervieWalkRight: string, FervieWalkLeft: string}}
    * @constructor
    */
   static get Animation() {
@@ -14,6 +14,7 @@ export default class AnimationId {
       FervieWalkDown: "FervieWalkDown",
       FervieWalkRight: "FervieWalkRight",
       FervieGlow: "FervieGlow",
+      FervieKiss: "FervieKiss",
       ShroomHouse: "ShroomHouse",
       LadyFervie: "LadyFervie",
       MoovieFervie: "MoovieFervie",

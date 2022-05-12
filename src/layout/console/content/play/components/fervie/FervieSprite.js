@@ -1,5 +1,6 @@
 import AnimationId from "../AnimationId";
 import FervieGlowSprite from "./FervieGlowSprite";
+import FervieKissSprite from "./FervieKissSprite";
 
 /**
  * Creates our fervie sprite animation
@@ -31,10 +32,8 @@ export default class FervieSprite {
 
     this.isKissing = false;
 
-    this.fervieGlowSprite = new FervieGlowSprite(
-      this.animationLoader,
-      this.size
-    );
+    this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
+    this.fervieKissSprite = new FervieKissSprite(this.animationLoader, this.size);
   }
 
   /**
@@ -87,6 +86,7 @@ export default class FervieSprite {
     }
 
     this.fervieGlowSprite.preload(p5);
+    this.fervieKissSprite.preload(p5);
 
   }
 
@@ -101,6 +101,8 @@ export default class FervieSprite {
 
     if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
       this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
+    } else if (this.isKissing) {
+      this.fervieKissSprite.draw(p5, 164, 180, this.scale);
     } else if (this.direction === FervieSprite.Direction.Up) {
       image = this.animationLoader.getAnimationImage(
         p5,
@@ -265,6 +267,14 @@ export default class FervieSprite {
 
   show() {
     this.isVisible = true;
+  }
+
+  kiss() {
+    this.isKissing = true;
+  }
+
+  stopKissing() {
+    this.isKissing = false;
   }
 
   /**

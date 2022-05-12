@@ -34,6 +34,7 @@ export default class GlobalHud {
     let footX = fervie.getFervieFootX(),
       footY = fervie.getFervieFootY();
     console.log("footX = "+footX + ", footY = "+footY);
+    console.log("fx = "+fervie.x + "fy = "+fervie.y + "fs" + fervie.scale);
 
     if (this.isInventoryOpen) {
       this.inventory.mousePressed(p5, fervie);
