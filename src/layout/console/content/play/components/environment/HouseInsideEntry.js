@@ -53,19 +53,13 @@ export default class HouseInsideEntry extends Environment {
 
     this.ladyFervieSprite.preload(p5);
 
-    this.isLadyVisible = this.globalHud.getGameStateProperty(GameState.Property.IS_LADY_KISSED);
+    this.isLadyVisible = this.globalHud.getGameStateProperty(GameState.Property.IS_LADY_KISSED) &&
+      !this.globalHud.getGameStateProperty(GameState.Property.HAS_ENTERED_BEDROOM);
 
     if (this.isLadyVisible) {
       this.ladyFervieSprite.setVisible(true);
-      this.ladyFervieSprite.neutral();
-
-      setTimeout(() => {
-        this.ladyFervieSprite.dance();
-
-        setTimeout(() => {
-          this.ladyFervieSprite.loveMirror();
-        }, 3000);
-      }, 3000);
+      this.ladyFervieSprite.setPosition(800, 300);
+      this.playIntroAnimation();
     } else {
       this.ladyFervieSprite.setVisible(false);
     }
@@ -73,6 +67,28 @@ export default class HouseInsideEntry extends Environment {
     this.isGoingThroughDoor = false;
     this.showWallArt = false;
     this.wallArtIndex = 0;
+  }
+
+  playIntroAnimation() {
+    this.ladyFervieSprite.neutral();
+
+    setTimeout(() => {
+      this.ladyFervieSprite.dance();
+
+      setTimeout(() => {
+        this.ladyFervieSprite.loveMirror();
+
+        setTimeout(() => {
+          this.ladyFervieSprite.walkLeft(180, () => {
+            this.ladyFervieSprite.walkUp(30, () => {
+              this.ladyFervieSprite.setVisible(false);
+              this.globalHud.setGameStateProperty(GameState.Property.HAS_ENTERED_BEDROOM, true);
+            });
+          });
+
+        }, 3000);
+      }, 3000);
+    }, 2000);
   }
 
   getDefaultSpawnProperties() {
@@ -251,19 +267,13 @@ export default class HouseInsideEntry extends Environment {
 
   mousePressed(p5, fervie) {
 
-    console.log("fervieFootY = "+fervie.getFervieFootY());
-    console.log("ladyFootY = "+this.ladyFervieSprite.getFootPositionY());
-
     let x = p5.mouseX;
     let y = p5.mouseY;
 
-    console.log("x = " + x + ", y = " + y);
     if (!this.showWallArt && this.isOverWallArtPosition(p5, x, y)) {
-      console.log("is over wall art position");
       this.wallArtIndex = this.getWallArtIndexBasedOnPosition(x, y);
       this.showWallArt = true;
     } else if (this.showWallArt && !this.isOverWallArtPopup(p5, x, y)) {
-      console.log("is not over wall art popup");
       this.showWallArt = false;
     }
 

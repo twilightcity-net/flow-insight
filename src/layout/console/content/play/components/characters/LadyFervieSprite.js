@@ -10,7 +10,8 @@ import FervieSprite from "../fervie/FervieSprite";
  */
 
 export default class LadyFervieSprite {
-  constructor(animationLoader, x, y, size, scale) {
+  constructor(animationLoader, x, y, size, scale) { //0.45 scale on house, and 0.3 at the lake
+
     this.animationLoader = animationLoader;
     this.x = x - size / 2 - 10;
     this.y = y - 20;
@@ -24,9 +25,11 @@ export default class LadyFervieSprite {
     this.isVisible = true;
     this.isMirror = false;
 
+    this.onWalkCallback = null;
+
     this.ladyGlow = new LadyGlowSprite(this.animationLoader);
-    this.ladyWalk = new LadyWalkSprite(this.animationLoader, this.x, this.y, 0.35);
-    this.ladySwing = new LadySwingSprite(this.animationLoader, 135, 128, 0.35);
+    this.ladyWalk = new LadyWalkSprite(this.animationLoader, this.x, this.y, scale * 1.11);
+    this.ladySwing = new LadySwingSprite(this.animationLoader, 135, 128, scale * 1.15);
     this.heart = new HeartSprite(this.animationLoader, this.x, this.y);
   }
 
@@ -80,6 +83,11 @@ export default class LadyFervieSprite {
     this.heart.preload(p5);
   }
 
+  setPosition(x, y) {
+    this.x = x - this.size / 2 - 10;
+    this.y = y - 20;
+    this.ladyWalk.setPosition(this.x, this.y);
+  }
 
   /**
    * Draw the fervie sprite on the screen based on the properties
@@ -115,7 +123,7 @@ export default class LadyFervieSprite {
 
     p5.pop();
 
-    p5.ellipse(this.getFootPositionX(), this.getFootPositionY(), 10, 10);
+    //p5.ellipse(this.getFootPositionX(), this.getFootPositionY(), 10, 10);
   }
 
   getFootPositionX() {
@@ -127,10 +135,18 @@ export default class LadyFervieSprite {
   }
 
   isFervieBehindLady(fervie, scaleAmountX, scaleAmountY) {
+    if (!this.isVisible) {
+      return false;
+    }
+
     return fervie.getFervieFootY() < this.getFootPositionY() * scaleAmountY;
   }
 
   isNextToLady(fervie, scaleAmountX, scaleAmountY) {
+    if (!this.isVisible) {
+      return false;
+    }
+
     let xDiff = Math.abs(this.getFootPositionX() * scaleAmountX - fervie.getFervieFootX());  //we want lady to be the left
     let yDiff = Math.abs(this.getFootPositionY() * scaleAmountY - fervie.getFervieFootY());
 
@@ -146,6 +162,9 @@ export default class LadyFervieSprite {
   }
 
   isOverLady(x, y) {
+    if (!this.isVisible) {
+      return false;
+    }
     let unscaledWidth = 283;
     let unscaledHeight = 330;
     let scale = this.scale;
@@ -160,7 +179,15 @@ export default class LadyFervieSprite {
     return true;
   }
 
+  isToLeftOfLady(x, scaleAmountX) {
+    let ladyX = this.getFootPositionX() * scaleAmountX;
+    return x < ladyX;
+  }
+
   isCollidingWithLady(direction, x, y, scaleAmountX, scaleAmountY) {
+    if (!this.isVisible) {
+      return false;
+    }
     let ladyX = this.getFootPositionX() * scaleAmountX;
     let ladyY = this.getFootPositionY() * scaleAmountY;
 
@@ -173,7 +200,7 @@ export default class LadyFervieSprite {
 
     let isWithinY = ((y < ladyY && (ladyY - y) < topBuffer) || (y > ladyY && (y - ladyY) < bottomBuffer));
 
-    let sideBuffer = (LadyFervieSprite.UNSCALED_IMAGE_WIDTH + 40) / 2 * scaleAmountX * this.scale;
+    let sideBuffer = (LadyFervieSprite.UNSCALED_IMAGE_WIDTH + 50) / 2 * scaleAmountX * this.scale;
 
     if (isWithinY && diffX < sideBuffer) {
       return true;
@@ -183,20 +210,30 @@ export default class LadyFervieSprite {
   }
 
 
-  walkLeft(amount) {
+  walkLeft(amount, callback) {
     console.log("walk left!");
-    this.ladyWalk.x = this.x;
-    this.ladyWalk.y = this.y;
+    this.ladyWalk.setPosition(this.x, this.y);
+    this.onWalkDoneCallback = callback;
     this.currentAction = LadyFervieSprite.Action.Walk;
-    this.ladyWalk.walkLeft(amount, this.setNeutralWhenDone);
+    console.log("current action = "+this.currentAction);
+    this.ladyWalk.walkLeft(amount, this.onWalkDone);
   }
 
-  walkRight(amount) {
+  walkRight(amount, callback) {
     console.log("walk right!");
-    this.ladyWalk.x = this.x;
-    this.ladyWalk.y = this.y;
+    this.ladyWalk.setPosition(this.x, this.y);
+    this.onWalkDoneCallback = callback;
     this.currentAction = LadyFervieSprite.Action.Walk;
-    this.ladyWalk.walkRight(amount, this.setNeutralWhenDone);
+
+    this.ladyWalk.walkRight(amount, this.onWalkDone);
+  }
+
+  walkUp(amount, callback) {
+    console.log("walk up!");
+    this.ladyWalk.setPosition(this.x, this.y);
+    this.onWalkDoneCallback = callback;
+    this.currentAction = LadyFervieSprite.Action.Walk;
+    this.ladyWalk.walkUp(amount, this.onWalkDone);
   }
 
   moveTo(x, y) {
@@ -223,9 +260,14 @@ export default class LadyFervieSprite {
     this.isMirror = true;
   }
 
-  setNeutralWhenDone = () => {
-    console.log("setNeutralWhenDone");
+  onWalkDone = () => {
+    console.log("walk done");
     this.currentAction = LadyFervieSprite.Action.Neutral;
+    if (this.onWalkDoneCallback) {
+      let callback = this.onWalkDoneCallback;
+      this.onWalkDoneCallback = null;
+      callback();
+    }
   }
 
   handleRidingFishAnimation(p5) {

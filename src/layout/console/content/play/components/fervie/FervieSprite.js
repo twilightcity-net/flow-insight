@@ -126,7 +126,7 @@ export default class FervieSprite {
       this.scaleAndMirrorAndDrawSprite(p5, image);
     }
 
-    p5.ellipse(this.getFervieFootX(), this.getFervieFootY(), 10, 10);
+    //p5.ellipse(this.getFervieFootX(), this.getFervieFootY(), 10, 10);
   }
 
   handleKiss(p5) {
@@ -145,7 +145,6 @@ export default class FervieSprite {
    */
   scaleAndMirrorAndDrawSprite(p5, image) {
     p5.push();
-    //p5.scale(this.staticScale, this.staticScale);
     p5.translate(
       this.x +
         Math.round(this.size * this.scale) +

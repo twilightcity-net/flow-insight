@@ -12,8 +12,10 @@ export default class GameState {
     this.props.set(GameState.Property.IS_TOWEL_PICKED_UP, false);
     this.props.set(GameState.Property.IS_ROPE_ON_TREE, false);
     this.props.set(GameState.Property.IS_SWING_ON_TREE, false);
-    this.props.set(GameState.Property.IS_FISH_SUMMONED, true);
+    this.props.set(GameState.Property.IS_FISH_SUMMONED, false);
     this.props.set(GameState.Property.IS_LADY_KISSED, false);
+    this.props.set(GameState.Property.HAS_ENTERED_BEDROOM, false);
+    this.props.set(GameState.Property.HAS_SETTLED_IN_HOUSE, false);
   }
 
   static get Property() {
@@ -23,7 +25,9 @@ export default class GameState {
       IS_ROPE_ON_TREE: "isRopeOnTree",
       IS_SWING_ON_TREE: "isSwingOnTree",
       IS_FISH_SUMMONED: "isFishSummoned",
-      IS_LADY_KISSED: "isLadyKissed"
+      IS_LADY_KISSED: "isLadyKissed",
+      HAS_ENTERED_BEDROOM: "hasEnteredBedroom",
+      HAS_SETTLED_IN_HOUSE: "hasSettledInHouse"
     }
   }
 
