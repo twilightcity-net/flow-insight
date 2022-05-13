@@ -11,13 +11,16 @@ export default class FervieSprite {
     this.animationLoader = animationLoader;
     this.x = x - size / 2 - 10;
     this.y = y - 20;
-    this.size = size;
+    this.size = size * 2;
     this.direction = direction;
     this.velocityX = 0;
     this.velocityY = 0;
-    this.scale = 1;
+    this.staticScale = 0.5;
+    this.scale = 0.5;
     this.animationFrame = 8;
     this.imageHeight = 0;
+
+    this.scaleStep = 0.005;
 
     this.downTheHill = false;
     this.upTheHill = false;
@@ -140,6 +143,7 @@ export default class FervieSprite {
    */
   scaleAndMirrorAndDrawSprite(p5, image) {
     p5.push();
+    //p5.scale(this.staticScale, this.staticScale);
     p5.translate(
       this.x +
         Math.round(this.size * this.scale) +
@@ -159,6 +163,7 @@ export default class FervieSprite {
    */
   scaleAndDrawSprite(p5, image) {
     p5.push();
+    //p5.scale(this.staticScale, this.staticScale);
     p5.translate(
       this.x +
         Math.round((this.size / 2) * (1 - this.scale)),
@@ -189,7 +194,7 @@ export default class FervieSprite {
         p5,
         environment,
         FervieSprite.Direction.Left,
-        -6,
+        -12,
         0,
         0
       );
@@ -198,7 +203,7 @@ export default class FervieSprite {
         p5,
         environment,
         FervieSprite.Direction.Right,
-        6,
+        12,
         0,
         0
       );
@@ -209,7 +214,7 @@ export default class FervieSprite {
         FervieSprite.Direction.Up,
         0,
         -2,
-        -0.01
+        -1 * this.scaleStep
       );
     } else if (p5.keyIsDown(p5.DOWN_ARROW)) {
       this.changeDirection(
@@ -218,7 +223,7 @@ export default class FervieSprite {
         FervieSprite.Direction.Down,
         0,
         2,
-        0.01
+        this.scaleStep
       );
     } else {
       this.changeDirection(
@@ -476,12 +481,14 @@ export default class FervieSprite {
   moveToPoint(x, y, scale) {
     if (!scale || scale === 0) {
       scale = this.originalScale;
+    } else {
+      scale = scale * 0.5;
     }
 
     let newScale =
-      scale + ((y - 20 - this.originalY) / 2) * 0.01;
+      scale + ((y - 20 - this.originalY) / 2) * this.scaleStep;
 
-    let newX = x - (this.size / 2) * newScale - 10; //difference I want to move in a negative x
+    let newX = x - (this.size) * newScale - 10; //difference I want to move in a negative x
     let newY = y - 20;
 
     this.x = newX;

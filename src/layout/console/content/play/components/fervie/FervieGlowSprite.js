@@ -30,17 +30,8 @@ export default class FervieGlowSprite {
    * @param p5
    */
   preload(p5) {
-    this.animationLoader.getAnimationImageWithManualFrame(
-      p5,
-      AnimationId.Animation.FervieGlow,
-      1,
-      this.size
-    );
-
-    this.animationLoader.getStaticImage(
-      p5,
-      FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE
-    );
+    this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.FervieGlow, 1, this.size);
+    this.animationLoader.getStaticImage(p5, FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE);
   }
 
   /**
@@ -51,21 +42,17 @@ export default class FervieGlowSprite {
    * @param scale
    */
   draw(p5, x, y, scale) {
-    let image =
-      this.animationLoader.getAnimationImageWithManualFrame(
+    let image = this.animationLoader.getAnimationImageWithManualFrame(
         p5,
         AnimationId.Animation.FervieGlow,
         1,
         this.size
       );
-    let overlay = this.animationLoader.getStaticImage(
-      p5,
-      FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE
-    );
+    let overlay = this.animationLoader.getStaticImage(p5, FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE);
 
     p5.push();
     p5.translate(
-      x + Math.round((this.size / 2) * (1 - scale)) + 45,
+      x + Math.round((this.size/2) * (1 - scale)) + 80,
       y + 5
     );
     p5.scale(scale, scale);
@@ -74,7 +61,7 @@ export default class FervieGlowSprite {
 
     p5.blendMode(p5.ADD);
     p5.tint(255, Math.round(255 * this.starAlpha));
-    p5.image(overlay, -22, -25);
+    p5.image(overlay, 25, 25);
     p5.blendMode(p5.BLEND);
 
     p5.pop();

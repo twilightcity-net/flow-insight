@@ -10,9 +10,9 @@ export default class GameState {
 
     this.props.set(GameState.Property.IS_ROPE_PICKED_UP, false);
     this.props.set(GameState.Property.IS_TOWEL_PICKED_UP, false);
-    this.props.set(GameState.Property.IS_ROPE_ON_TREE, true);
-    this.props.set(GameState.Property.IS_SWING_ON_TREE, true);
-    this.props.set(GameState.Property.IS_FISH_SUMMONED, true);
+    this.props.set(GameState.Property.IS_ROPE_ON_TREE, false);
+    this.props.set(GameState.Property.IS_SWING_ON_TREE, false);
+    this.props.set(GameState.Property.IS_FISH_SUMMONED, false);
     this.props.set(GameState.Property.IS_LADY_KISSED, false);
   }
 

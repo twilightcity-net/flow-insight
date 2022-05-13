@@ -60,7 +60,7 @@ export default class ShroomHouseInTheWoods extends Environment {
 
   getLeftSpawnProperties() {
     return {
-      x: Math.round(40 * this.scaleAmountX),
+      x: Math.round(20 * this.scaleAmountX),
       y: Math.round(170 * this.scaleAmountY),
     };
   }

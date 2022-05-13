@@ -108,7 +108,7 @@ export default class BigTreeInTheWoods extends Environment {
     console.log("getNorthSpawnPoint");
     return {
       x: Math.round(
-        (Environment.IMAGE_WIDTH / 2) * this.scaleAmountX
+        (Environment.IMAGE_WIDTH / 2 - 60) * this.scaleAmountX
       ),
       y: Math.round(190 * this.scaleAmountY),
       scale: 0.7,
