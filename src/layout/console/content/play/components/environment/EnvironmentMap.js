@@ -21,8 +21,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
-    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.LAKE];
+    this.activeMapId = EnvironmentMap.LAKE;
 
     this.mapShiftInProgress = false;
   }
@@ -95,9 +95,7 @@ export default class EnvironmentMap {
         this.activeMapId + EnvironmentMap.MAP_LEFT
       ];
     if (!newMapId) {
-      console.error(
-        "Walked off the left of the screen and no environment destination set!"
-      );
+      console.error("Walked off the left of the screen and no environment destination set!");
       this.mapShiftInProgress = false;
       return;
     } else {

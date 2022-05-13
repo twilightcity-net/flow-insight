@@ -125,13 +125,15 @@ export default class FervieSprite {
       );
       this.scaleAndMirrorAndDrawSprite(p5, image);
     }
+
+    p5.ellipse(this.getFervieFootX(), this.getFervieFootY(), 10, 10);
   }
 
   handleKiss(p5) {
     if (this.isMirror) {
-      this.fervieKissSprite.drawMirror(p5, this.kissX, this.kissY, this.scale);
+      this.fervieKissSprite.drawMirror(p5, this.x, this.y, this.scale);
     } else {
-      this.fervieKissSprite.draw(p5, this.kissX, this.kissY, this.scale);
+      this.fervieKissSprite.draw(p5, this.x, this.y, this.scale);
     }
   }
 
@@ -269,27 +271,13 @@ export default class FervieSprite {
     this.isVisible = true;
   }
 
-  kiss(x, y) {
-    if (x && y) {
-      this.kissX = x;
-      this.kissY = y;
-    } else {
-      this.kissX = this.x;
-      this.kissY = this.y;
-    }
-
-    this.isKissing = !this.isKissing;
+  kiss() {
+this.isKissing = !this.isKissing;
     this.isMirror = false;
   }
 
-  kissMirror(x, y) {
-    if (x && y) {
-      this.kissX = x;
-      this.kissY = y;
-    } else {
-      this.kissX = this.x;
-      this.kissY = this.y;
-    }
+  kissMirror() {
+
     this.isKissing = !this.isKissing;
     this.isMirror = true;
   }

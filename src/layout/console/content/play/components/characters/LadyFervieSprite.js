@@ -30,8 +30,8 @@ export default class LadyFervieSprite {
     this.heart = new HeartSprite(this.animationLoader, this.x, this.y);
   }
 
-  static UNSCALED_IMAGE_WIDTH = 376;
-  static UNSCALED_IMAGE_HEIGHT = 274;
+  static UNSCALED_IMAGE_WIDTH = 283;
+  static UNSCALED_IMAGE_HEIGHT = 330;
 
   static DANCE_LEFT_IMAGE = "./assets/animation/fervie/fervie_lady_dance_left.png";
   static DANCE_RIGHT_IMAGE = "./assets/animation/fervie/fervie_lady_dance_right.png";
@@ -86,9 +86,11 @@ export default class LadyFervieSprite {
    * @param p5
    */
   draw(p5) {
+
     if (!this.isVisible) {
       return;
     }
+
     //24 frames per second, blinks every 5 seconds for ~1/4 second
 
     p5.push();
@@ -112,33 +114,35 @@ export default class LadyFervieSprite {
     }
 
     p5.pop();
+
+    p5.ellipse(this.getFootPositionX(), this.getFootPositionY(), 10, 10);
   }
 
   getFootPositionX() {
-    return this.x + ((LadyFervieSprite.UNSCALED_IMAGE_WIDTH/2 - 55)*this.scale);
+    return this.x + ((LadyFervieSprite.UNSCALED_IMAGE_WIDTH/2)*this.scale);
   }
 
   getFootPositionY() {
-    return this.y + ((LadyFervieSprite.UNSCALED_IMAGE_HEIGHT/2 + 60)*this.scale);
+    return this.y - 35 + ((LadyFervieSprite.UNSCALED_IMAGE_HEIGHT - 10)*(this.scale));
   }
 
-  isFervieBehindLady(fervie) {
-    return fervie.getFervieFootY()+20 < this.getFootPositionY();
+  isFervieBehindLady(fervie, scaleAmountX, scaleAmountY) {
+    return fervie.getFervieFootY() < this.getFootPositionY() * scaleAmountY;
   }
 
-  isNextToLadyOnRight(fervie) {
-    let xDiff = this.getFootPositionX() - fervie.getFervieFootX();  //we want lady to be the left
-    let yDiff = this.getFootPositionY() - fervie.getFervieFootY();
+  isNextToLady(fervie, scaleAmountX, scaleAmountY) {
+    let xDiff = Math.abs(this.getFootPositionX() * scaleAmountX - fervie.getFervieFootX());  //we want lady to be the left
+    let yDiff = Math.abs(this.getFootPositionY() * scaleAmountY - fervie.getFervieFootY());
 
-    return xDiff > -25 && xDiff < -20 && yDiff > 7 && yDiff < 22 && !this.isFervieBehindLady(fervie);
-  }
+    console.log("xDiff = "+xDiff);
+    console.log("yDiff = "+yDiff);
 
-  isNextToLadyOnLeft(fervie) {
-    let xDiff = this.getFootPositionX() - fervie.getFervieFootX();  //we want lady to be the right
-    let yDiff = this.getFootPositionY() - fervie.getFervieFootY();
+    //buffer size is based on the size of the sprite
 
-    console.log("xDiff = "+xDiff + ", yDiff = "+yDiff);
-    return xDiff > 140 && xDiff < 170 && yDiff > 1 && yDiff < 15 && !this.isFervieBehindLady(fervie);
+    let sideBuffer = (LadyFervieSprite.UNSCALED_IMAGE_WIDTH + 80) / 2 * scaleAmountX * this.scale;
+    let yBuffer = 30 * scaleAmountY * this.scale;
+
+    return xDiff < sideBuffer && yDiff < yBuffer && !this.isFervieBehindLady(fervie, scaleAmountX, scaleAmountY);
   }
 
   isOverLady(x, y) {
@@ -156,25 +160,24 @@ export default class LadyFervieSprite {
     return true;
   }
 
+  isCollidingWithLady(direction, x, y, scaleAmountX, scaleAmountY) {
+    let ladyX = this.getFootPositionX() * scaleAmountX;
+    let ladyY = this.getFootPositionY() * scaleAmountY;
 
-  isCollidingWithLady(direction, x, y) {
-      let ladyX = this.getFootPositionX();
-      let ladyY = this.getFootPositionY() - 10;
+    //boundary of lady in X direction, ought to be the size (scaled) / 2;
 
-      let isWithinY = ((y < ladyY && (ladyY - y) < 20) || (y > ladyY && (y - ladyY) < 10) );
+    let diffX = Math.abs(x - ladyX);
 
-      if (isWithinY && direction === FervieSprite.Direction.Left && x > ladyX && (x - ladyX) < 20) {
-        return true;
-      }
-      if (isWithinY && direction === FervieSprite.Direction.Right && x < ladyX && (ladyX - x) < 90) {
-        return true;
-      }
+    let topBuffer = 40 * scaleAmountY * this.scale;
+    let bottomBuffer = 50 * scaleAmountY * this.scale;
 
-      if (isWithinY && (direction === FervieSprite.Direction.Up || direction === FervieSprite.Direction.Down)) {
-        if ((x > ladyX && (x - ladyX) < 20) || ( x < ladyX && (ladyX - x) < 90)) {
-          return true;
-        }
-      }
+    let isWithinY = ((y < ladyY && (ladyY - y) < topBuffer) || (y > ladyY && (y - ladyY) < bottomBuffer));
+
+    let sideBuffer = (LadyFervieSprite.UNSCALED_IMAGE_WIDTH + 40) / 2 * scaleAmountX * this.scale;
+
+    if (isWithinY && diffX < sideBuffer) {
+      return true;
+    }
 
     return false;
   }
@@ -243,7 +246,6 @@ export default class LadyFervieSprite {
     if (this.animationFrame < 115) {
       image =  this.animationLoader.getStaticImage(p5, LadyFervieSprite.NEUTRAL_IMAGE);
     } else {
-      console.log("blink!");
       image =  this.animationLoader.getStaticImage(p5, LadyFervieSprite.NEUTRAL_BLINK_IMAGE);
     }
 

@@ -47,7 +47,7 @@ export default class FervieKissSprite {
 
     p5.push();
     p5.translate(
-      x + Math.round((this.size / 2) * (1 - scale)) + 45,
+      x + Math.round((this.size/2) * (1 - scale)) + 90,
       y + 5
     );
     p5.scale(scale, scale);
@@ -60,7 +60,7 @@ export default class FervieKissSprite {
 
     p5.push();
     p5.translate(
-      x + Math.round((this.size / 2) * (1 - scale)) + 45,
+      x + Math.round((this.size / 2) * (1 - scale)) + 90,
       y + 5
     );
     p5.scale(scale, scale);

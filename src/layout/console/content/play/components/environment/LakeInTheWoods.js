@@ -124,7 +124,7 @@ export default class LakeInTheWoods extends Environment {
   }
 
   isColliding(direction, x, y) {
-    return (this.isLadyAcrossLake && this.ladyFervieSprite.isCollidingWithLady(direction, x, y));
+    return (this.isLadyAcrossLake && this.ladyFervieSprite.isCollidingWithLady(direction, x, y, this.scaleAmountX, this.scaleAmountY));
   }
 
   isWalkBehindPosition(p5, x, y) {
@@ -171,9 +171,9 @@ export default class LakeInTheWoods extends Environment {
       this.handleApplyItemToTree();
     }
 
-    if (this.isDoneSwinging && this.isOverLady(p5.mouseX, p5.mouseY) && this.ladyFervieSprite.isNextToLadyOnRight(fervie)) {
+    if (this.isDoneSwinging && this.isOverLady(p5.mouseX, p5.mouseY) && this.ladyFervieSprite.isNextToLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       if (!fervie.isKissing) {
-        fervie.kiss(164, 180);
+        fervie.kiss();
         setTimeout(() => {
           this.heartTransition.start();
           this.transitionOut = true;
@@ -181,8 +181,8 @@ export default class LakeInTheWoods extends Environment {
             this.heartTransition.finish();
             setTimeout(() => {
               fervie.stopKissing();
-              this.hasFervieMovingToHouse = true;
               this.globalHud.setGameStateProperty(GameState.Property.IS_LADY_KISSED, true);
+              this.hasFervieMovingToHouse = true;
             }, 1000);
           }, 3000);
         }, 3000);
@@ -300,7 +300,7 @@ export default class LakeInTheWoods extends Environment {
 
     this.glowSprite.draw(p5);
 
-    if (!this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+    if (!this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
     }
 
@@ -318,12 +318,12 @@ export default class LakeInTheWoods extends Environment {
       p5.image(trees, 0, 0);
       this.drawRopeSwing(p5);
 
-      if (!this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+      if (!this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
         this.ladyFervieSprite.draw(p5);
       }
     }
 
-    if (this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+    if (this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
     }
 
@@ -377,9 +377,11 @@ export default class LakeInTheWoods extends Environment {
     if (fervie.isChanneling() && this.ladyFervieSprite.isChanneling()) {
       this.channelingCount++;
       if (this.channelingCount > 96 && this.isSwingOnTree) {
-        this.fishySprite.emergeFromWater();
-        this.globalHud.setGameStateProperty(GameState.Property.IS_FISH_SUMMONED, true);
-        this.hasFishyTriggered = true;
+        if (!this.hasFishyTriggered) {
+          this.fishySprite.emergeFromWater();
+          this.globalHud.setGameStateProperty(GameState.Property.IS_FISH_SUMMONED, true);
+          this.hasFishyTriggered = true;
+        }
       }
     }
   }

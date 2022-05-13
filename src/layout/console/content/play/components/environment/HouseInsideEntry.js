@@ -56,6 +56,7 @@ export default class HouseInsideEntry extends Environment {
     this.isLadyVisible = this.globalHud.getGameStateProperty(GameState.Property.IS_LADY_KISSED);
 
     if (this.isLadyVisible) {
+      this.ladyFervieSprite.setVisible(true);
       this.ladyFervieSprite.neutral();
 
       setTimeout(() => {
@@ -197,7 +198,7 @@ export default class HouseInsideEntry extends Environment {
       this.globalHud.setIsActionableHover(false, false);
     }
 
-    if (!this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+    if (!this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
     }
 
@@ -218,7 +219,7 @@ export default class HouseInsideEntry extends Environment {
       this.drawWallArt(p5, this.wallArtIndex);
     }
 
-    if (this.ladyFervieSprite.isFervieBehindLady(fervie)) {
+    if (this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountY, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
     }
 
@@ -240,9 +241,8 @@ export default class HouseInsideEntry extends Environment {
     p5.image(wallArt, 0, 0);
   }
 
-  isColliding(direction, x, y) {
-    //TODO figure out why this doesnt work right in the house
-    return (this.ladyFervieSprite.isCollidingWithLady(direction, x, y));
+  isColliding(direction, fervieFootX, fervieFootY) {
+    return (this.ladyFervieSprite.isCollidingWithLady(direction, fervieFootX, fervieFootY, this.scaleAmountX, this.scaleAmountY));
   }
 
   hasFervieMovingNorth(fervie) {
@@ -250,6 +250,10 @@ export default class HouseInsideEntry extends Environment {
   }
 
   mousePressed(p5, fervie) {
+
+    console.log("fervieFootY = "+fervie.getFervieFootY());
+    console.log("ladyFootY = "+this.ladyFervieSprite.getFootPositionY());
+
     let x = p5.mouseX;
     let y = p5.mouseY;
 
@@ -263,7 +267,7 @@ export default class HouseInsideEntry extends Environment {
       this.showWallArt = false;
     }
 
-    if (this.isOverLady(x, y) && this.ladyFervieSprite.isNextToLadyOnLeft(fervie)) {
+    if (this.isOverLady(x, y) && this.ladyFervieSprite.isNextToLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       fervie.kissMirror();
     }
   }
