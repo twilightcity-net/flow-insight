@@ -1,5 +1,5 @@
 /**
- * Creates our monty sprite animation
+ * Creates our heart sprite animation
  */
 
 export default class HeartSprite {
@@ -15,9 +15,6 @@ export default class HeartSprite {
     this.alphaRate = 0.02;
     this.scaleRate = 0.02;
   }
-
-  static UNSCALED_IMAGE_WIDTH = 400;
-  static UNSCALED_IMAGE_HEIGHT = 282;
 
   static HEART_IMAGE = "./assets/animation/fervie/heart.png";
 

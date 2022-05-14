@@ -26,7 +26,7 @@ export default class HouseInsideBedroom extends Environment {
   constructor(animationLoader, width, height, globalHud) {
     super(animationLoader, width, height, globalHud);
 
-    this.ladyFervieSprite = new LadyFervieSprite(this.animationLoader, 600, 300, 200, 0.45);
+    this.ladyFervieSprite = new LadyFervieSprite(this.animationLoader, 600, 300, 130, 0.45);
   }
 
   /**
@@ -44,52 +44,11 @@ export default class HouseInsideBedroom extends Environment {
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.FIREPLACE_GIF);
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.CHAIR_OVERLAY);
 
-    let isLadyVisible = this.globalHud.getGameStateProperty(GameState.Property.HAS_ENTERED_BEDROOM);
-
-    if (isLadyVisible) {
-      this.ladyFervieSprite.setVisible(true);
-
-      let hasSettledIn = this.globalHud.getGameStateProperty(GameState.Property.HAS_SETTLED_IN_HOUSE);
-      if (!hasSettledIn) {
-        this.ladyFervieSprite.setPosition(600, 320);
-        this.playIntroAnimation();
-      } else {
-        this.ladyFervieSprite.setPosition(800, 300);
-      }
-    } else {
-      this.ladyFervieSprite.setVisible(false);
-    }
     this.ladyFervieSprite.preload(p5);
 
-    this.moovieFervieSprite = new MoovieFervieSprite(this.animationLoader,
-      500,
-      Math.round(HouseInsideBedroom.IMAGE_HEIGHT / 2 + 43),
-      150
-    );
-
-    this.moovieFervieSprite.preload(p5);
+    this.loadInitialAnimation();
   }
 
-  playIntroAnimation() {
-    this.ladyFervieSprite.walkLeft(150, () => {
-      console.log("done!");
-      this.ladyFervieSprite.neutral();
-      setTimeout(() => {
-        this.ladyFervieSprite.dance();
-        setTimeout(() => {
-          this.ladyFervieSprite.neutral();
-          setTimeout(() => {
-            this.ladyFervieSprite.walkRight(350, () => {
-              this.ladyFervieSprite.walkUp(20, () => {
-                this.ladyFervieSprite.neutral();
-                this.globalHud.setGameStateProperty(GameState.Property.HAS_SETTLED_IN_HOUSE, true);
-              });
-            });
-          }, 2000);
-        }, 2000);
-      }, 1000);
-    });
-  }
 
   getDefaultSpawnProperties() {
     return this.getSouthSpawnProperties();
@@ -100,10 +59,33 @@ export default class HouseInsideBedroom extends Environment {
       x: Math.round(this.width / 2),
       y: Math.round(
         (HouseInsideBedroom.IMAGE_HEIGHT - 180) *
-          this.scaleAmountY
+        this.scaleAmountY
       ),
       scale: 0.9
     };
+  }
+
+  loadInitialAnimation() {
+    let hasEnteredBedroom = this.globalHud.getGameStateProperty(GameState.Property.HAS_ENTERED_BEDROOM);
+    let hasSettledIn = this.globalHud.getGameStateProperty(GameState.Property.HAS_SETTLED_IN_HOUSE);
+    let homeActivity = this.globalHud.getGameStateProperty(GameState.Property.HOME_ACTIVITY);
+
+    if (hasEnteredBedroom) {
+      if (!hasSettledIn) {
+        this.ladyFervieSprite.setVisible(true);
+        this.playIntroAnimation();
+      } else {
+        if (homeActivity === GameState.HomeActivity.FIREPLACE) {
+          this.playFireplaceWiggleAnimation();
+        } else if (homeActivity === GameState.HomeActivity.READING) {
+          this.playReadingAnimation();
+        } else {
+          this.ladyFervieSprite.setVisible(false);
+        }
+      }
+    } else {
+      this.ladyFervieSprite.setVisible(false);
+    }
   }
 
   isColliding(direction, fervieFootX, fervieFootY) {
@@ -118,6 +100,47 @@ export default class HouseInsideBedroom extends Environment {
   isWalkBehindPosition(p5, x, y) {
     let walkAreaImage = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.WALK_BEHIND_AREA_IMAGE);
     return super.isWithinTargetArea(walkAreaImage, x, y);
+  }
+
+  playReadingAnimation() {
+    this.ladyFervieSprite.setVisible(true);
+    this.ladyFervieSprite.setPosition(520, 295);
+    this.ladyFervieSprite.read();
+  }
+
+  playFireplaceWiggleAnimation() {
+    this.ladyFervieSprite.setVisible(true);
+    this.ladyFervieSprite.setPosition(765, 300);
+    this.ladyFervieSprite.neutral();
+    setTimeout(() => {
+      this.ladyFervieSprite.dance();
+      setTimeout(() => {
+        this.ladyFervieSprite.neutral();
+      }, 2000);
+    }, 1000);
+  }
+
+  playIntroAnimation() {
+    this.ladyFervieSprite.setPosition(600, 320);
+    this.ladyFervieSprite.walkLeft(150, () => {
+      console.log("done!");
+      this.ladyFervieSprite.neutral();
+      setTimeout(() => {
+        this.ladyFervieSprite.dance();
+        setTimeout(() => {
+          this.ladyFervieSprite.neutral();
+          setTimeout(() => {
+            this.ladyFervieSprite.walkRight(320, () => {
+              this.ladyFervieSprite.walkUp(20, () => {
+                this.ladyFervieSprite.neutral();
+                this.globalHud.setGameStateProperty(GameState.Property.HAS_SETTLED_IN_HOUSE, true);
+                this.globalHud.setGameStateProperty(GameState.Property.HOME_ACTIVITY, GameState.HomeActivity.FIREPLACE);
+              });
+            });
+          }, 2000);
+        }, 2000);
+      }, 1000);
+    });
   }
 
   /**
@@ -135,6 +158,11 @@ export default class HouseInsideBedroom extends Environment {
 
     if (!this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
+    }
+
+    if (this.isLadyReading()) {
+      let chairArm = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.CHAIR_OVERLAY);
+      p5.image(chairArm, 0, 0);
     }
 
     if (this.isOverLady(p5.mouseX, p5.mouseY)) {
@@ -156,15 +184,7 @@ export default class HouseInsideBedroom extends Environment {
       p5.image(walkBehindItems, 0, 0);
     }
 
-    if (this.isFervieSittingDown(p5, fervie)) {
-      fervie.hide();
-      this.moovieFervieSprite.draw(p5);
-
-      let chairArm = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.CHAIR_OVERLAY);
-      p5.image(chairArm, 0, 0);
-    }
-
-    if (this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountY, this.scaleAmountY)) {
+    if (!this.isLadyReading() && this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountY, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
     }
 
@@ -175,8 +195,8 @@ export default class HouseInsideBedroom extends Environment {
     return this.ladyFervieSprite.isOverLady(this.getScaledX(x), this.getScaledY(y));
   }
 
-  isFervieSittingDown(p5, fervie) {
-    return false;
+  isLadyReading() {
+    return this.ladyFervieSprite.isReading();
   }
 
   drawFire(p5) {
@@ -217,7 +237,6 @@ export default class HouseInsideBedroom extends Environment {
   update(p5, fervie) {
     super.update(p5);
 
-    this.moovieFervieSprite.update(p5);
     this.ladyFervieSprite.update(p5);
   }
 }

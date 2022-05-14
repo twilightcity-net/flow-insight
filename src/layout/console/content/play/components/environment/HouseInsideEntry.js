@@ -207,8 +207,7 @@ export default class HouseInsideEntry extends Environment {
     p5.image(backgroundImage, 0, 0);
 
     if ((!this.showWallArt && this.isOverWallArtPosition(p5, p5.mouseX, p5.mouseY)) ||
-      (this.showWallArt && !this.isOverWallArtPopup(p5, p5.mouseX, p5.mouseY))
-    || this.isOverLady(p5.mouseX, p5.mouseY)) {
+      (this.showWallArt && !this.isOverWallArtPopup(p5, p5.mouseX, p5.mouseY))) {
       this.globalHud.setIsActionableHover(true, false);
     } else {
       this.globalHud.setIsActionableHover(false, false);
@@ -277,10 +276,8 @@ export default class HouseInsideEntry extends Environment {
       this.showWallArt = false;
     }
 
-    if (this.isOverLady(x, y) && this.ladyFervieSprite.isNextToLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
-      fervie.kissMirror();
-    }
   }
+
 
   /**
    * Update the environment according to where fervie has moved

@@ -57,6 +57,10 @@ export default class GlobalHud {
     this.gameState.set(property, value);
   }
 
+  randomizeGameStateProperty(property) {
+    this.gameState.randomizeProperty(property);
+  }
+
   addInventoryItem(item) {
     this.inventory.addItem(item);
   }

@@ -267,7 +267,6 @@ export default class LadyWalkSprite {
     }
     if (this.walkDirection === LadyWalkSprite.WalkDirection.Left && this.adjustX > this.adjustXTarget) {
       this.adjustX -= this.walkSpeed;
-      console.log("adjustX = "+this.adjustX);
       if (this.adjustX <= this.adjustXTarget) {
         this.cumulativeAdjustX += this.adjustXTarget;
         this.adjustX = 0;

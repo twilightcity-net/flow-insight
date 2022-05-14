@@ -5,6 +5,7 @@ import AnimationId from "../AnimationId";
 import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
 import GlowSprite from "../fervie/GlowSprite";
+import GameState from "../hud/GameState";
 
 export default class ShroomHouseInTheWoods extends Environment {
   static GROUND_IMAGE =
@@ -240,6 +241,7 @@ export default class ShroomHouseInTheWoods extends Environment {
       !this.isDoorTransitioning &&
       this.isFervieInFrontOfDoor(fervie)
     ) {
+      this.globalHud.randomizeGameStateProperty(GameState.Property.HOME_ACTIVITY);
       this.isGoingThroughDoor = true;
     } else {
       this.isGoingThroughDoor = false;

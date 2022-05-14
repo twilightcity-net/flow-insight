@@ -16,6 +16,8 @@ export default class GameState {
     this.props.set(GameState.Property.IS_LADY_KISSED, false);
     this.props.set(GameState.Property.HAS_ENTERED_BEDROOM, false);
     this.props.set(GameState.Property.HAS_SETTLED_IN_HOUSE, false);
+
+    this.props.set(GameState.Property.HOME_ACTIVITY, GameState.HomeActivity.FIREPLACE);
   }
 
   static get Property() {
@@ -27,7 +29,16 @@ export default class GameState {
       IS_FISH_SUMMONED: "isFishSummoned",
       IS_LADY_KISSED: "isLadyKissed",
       HAS_ENTERED_BEDROOM: "hasEnteredBedroom",
-      HAS_SETTLED_IN_HOUSE: "hasSettledInHouse"
+      HAS_SETTLED_IN_HOUSE: "hasSettledInHouse",
+      HOME_ACTIVITY: "homeActivity"
+    }
+  }
+
+  static get HomeActivity() {
+    return {
+      READING : "Reading",
+      COOKING: "Cooking",
+      FIREPLACE: "Fireplace"
     }
   }
 
@@ -52,8 +63,27 @@ export default class GameState {
     this.props.set(property, value);
   }
 
+  randomizeProperty(property) {
+    let value = null;
+    if (property === GameState.Property.HOME_ACTIVITY) {
+      let randomInt = this.getRandomInt(3);
+      if (randomInt === 0) {
+        value = GameState.HomeActivity.COOKING;
+      } else if (randomInt === 1) {
+        value = GameState.HomeActivity.READING;
+      } else if (randomInt === 2) {
+        value = GameState.HomeActivity.FIREPLACE;
+      }
+    } else {
+      let randomInt = this.getRandomInt(2);
+      value = randomInt === 0;
+    }
+    this.set(property, value);
+  }
 
-
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
 
 
 }
