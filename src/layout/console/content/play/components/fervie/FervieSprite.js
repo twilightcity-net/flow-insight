@@ -7,7 +7,7 @@ import FervieKissSprite from "./FervieKissSprite";
  */
 
 export default class FervieSprite {
-  constructor(animationLoader, x, y, size, direction) {
+  constructor(animationLoader, x, y, size, direction, scaleX, scaleY) {
     this.animationLoader = animationLoader;
     this.x = x - size / 2 - 10;
     this.y = y - 20;
@@ -15,7 +15,10 @@ export default class FervieSprite {
     this.direction = direction;
     this.velocityX = 0;
     this.velocityY = 0;
-    this.staticScale = 0.5;
+
+    this.scaleX = scaleX;
+    this.scaleY = scaleY;
+
     this.scale = 0.5;
     this.animationFrame = 8;
     this.imageHeight = 0;
@@ -77,6 +80,14 @@ export default class FervieSprite {
     this.fervieGlowSprite.preload(p5);
     this.fervieKissSprite.preload(p5);
 
+  }
+
+  getMaxVelocityX() {
+    return 14;
+  }
+
+  getMaxVelocityY() {
+    return 3;
   }
 
   /**
@@ -195,7 +206,7 @@ export default class FervieSprite {
         p5,
         environment,
         FervieSprite.Direction.Left,
-        -12,
+        -1 * this.getMaxVelocityX(),
         0,
         0
       );
@@ -204,7 +215,7 @@ export default class FervieSprite {
         p5,
         environment,
         FervieSprite.Direction.Right,
-        12,
+        this.getMaxVelocityX(),
         0,
         0
       );
@@ -214,7 +225,7 @@ export default class FervieSprite {
         environment,
         FervieSprite.Direction.Up,
         0,
-        -2,
+        -1 * this.getMaxVelocityY(),
         -1 * this.scaleStep
       );
     } else if (p5.keyIsDown(p5.DOWN_ARROW)) {
@@ -223,7 +234,7 @@ export default class FervieSprite {
         environment,
         FervieSprite.Direction.Down,
         0,
-        2,
+        this.getMaxVelocityY(),
         this.scaleStep
       );
     } else {

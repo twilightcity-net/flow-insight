@@ -26,35 +26,14 @@ export default class CityEntrance extends Environment {
    */
   preload(p5) {
     super.preload(p5);
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.GROUND_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.HOUSES_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.LAMPS_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.SHADOW_IMAGE
-    );
+    this.animationLoader.getStaticImage(p5, CityEntrance.GROUND_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityEntrance.HOUSES_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityEntrance.LAMPS_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityEntrance.SHADOW_IMAGE);
 
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.WALK_AREA_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.WALK_BEHIND_AREA_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.WALK_BEHIND2_AREA_IMAGE
-    );
+    this.animationLoader.getStaticImage(p5, CityEntrance.WALK_AREA_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityEntrance.WALK_BEHIND_AREA_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityEntrance.WALK_BEHIND2_AREA_IMAGE);
   }
 
   getDefaultSpawnProperties() {
@@ -68,8 +47,7 @@ export default class CityEntrance extends Environment {
         (CityEntrance.IMAGE_WIDTH - 300) * this.scaleAmountX
       ),
       y: Math.round(
-        (CityEntrance.IMAGE_HEIGHT - 180) *
-        this.scaleAmountY
+        (CityEntrance.IMAGE_HEIGHT - 160) * this.scaleAmountY
       ),
       scale: 0.2,
     };
@@ -95,39 +73,26 @@ export default class CityEntrance extends Environment {
   }
 
   isValidPosition(p5, x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.WALK_AREA_IMAGE
-    );
+    let walkAreaImage = this.animationLoader.getStaticImage(p5, CityEntrance.WALK_AREA_IMAGE);
     return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isWalkBehindLampsPosition(p5, x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.WALK_BEHIND_AREA_IMAGE
-    );
-
+    let walkAreaImage = this.animationLoader.getStaticImage(p5, CityEntrance.WALK_BEHIND_AREA_IMAGE);
     return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   isWalkBehindHousesPosition(p5, x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(
-      p5,
-      CityEntrance.WALK_BEHIND2_AREA_IMAGE
-    );
+    let walkAreaImage = this.animationLoader.getStaticImage(p5, CityEntrance.WALK_BEHIND2_AREA_IMAGE);
     return super.isWithinTargetArea(walkAreaImage, x, y);
   }
 
   hasFervieMovingNorth(fervie) {
     let x = fervie.getFervieFootX();
     let y = fervie.getFervieFootY();
-    if (y < 320 || (y < 336 && x < 680)) {
-      console.log("true!");
-      return true;
-    } else {
-      return false;
-    }
+    let adjustedX = x / this.scaleAmountX;
+    let adjustedY = y / this.scaleAmountY;
+    return adjustedY < 355 || (adjustedY < 365 && adjustedX < 780);
   }
 
   /**

@@ -19,6 +19,9 @@ export default class EnvironmentMap {
     this.height = height;
     this.globalHud = globalHud;
 
+    this.scaleAmountX = this.width / EnvironmentMap.IMAGE_WIDTH;
+    this.scaleAmountY = this.height / EnvironmentMap.IMAGE_HEIGHT;
+
     this.loadEnvironmentMap();
 
     this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
@@ -39,11 +42,13 @@ export default class EnvironmentMap {
   static CITY_STREET = "CityStreet";
 
 
-
   static MAP_LEFT = "-left";
   static MAP_RIGHT = "-right";
   static MAP_NORTH = "-north";
   static MAP_SOUTH = "-south";
+
+  static IMAGE_WIDTH = 1280;
+  static IMAGE_HEIGHT = 480;
 
   loadEnvironmentMap() {
     this.environmentMap = [];
@@ -80,6 +85,14 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_ENTRANCE;
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_ENTRANCE;
     this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.CITY_STREET;
+  }
+
+  getScaleX() {
+    return this.scaleAmountX;
+  }
+
+  getScaleY() {
+    return this.scaleAmountY;
   }
 
   moveMapLeft(p5) {

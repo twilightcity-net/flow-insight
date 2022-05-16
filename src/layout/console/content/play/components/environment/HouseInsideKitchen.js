@@ -168,7 +168,7 @@ export default class HouseInsideKitchen extends Environment {
 
     let adjustedX = Math.round(x / this.scaleAmountX);
     let adjustedY = Math.round(y / this.scaleAmountY);
-    let color = towelImage.get(adjustedX, adjustedY)
+    let color = towelImage.get(adjustedX, adjustedY);
 
     return !!(color && color[3] > 0 && adjustedX > 650);
   }
@@ -176,9 +176,7 @@ export default class HouseInsideKitchen extends Environment {
   isCloseToTowel(fervie) {
     let footX = fervie.getFervieFootX();
 
-    if (footX < 700) {
-      return true;
-    }
+    return (footX / this.scaleAmountX) < 800;
   }
 
   drawOverlay(p5, fervie) {
@@ -188,7 +186,7 @@ export default class HouseInsideKitchen extends Environment {
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
-    if (this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountY, this.scaleAmountY)) {
+    if (this.ladyFervieSprite.isFervieBehindLady(fervie, this.scaleAmountX, this.scaleAmountY)) {
       this.ladyFervieSprite.draw(p5);
     }
 

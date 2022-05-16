@@ -115,7 +115,7 @@ export default class FervieGarden extends Environment {
     let footX = fervie.getFervieFootX();
     let footY = fervie.getFervieFootY();
 
-    if (footX > 725 && footY < 360) {
+    if (footX / this.scaleAmountX > 725 && footY / this.scaleAmountY < 360) {
       return true;
     }
   }

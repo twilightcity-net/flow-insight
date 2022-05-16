@@ -63,8 +63,11 @@ export default class GameSketch extends Component {
           this.width / 2,
           this.height / 2,
           180,
-          FervieSprite.Direction.Right
+          FervieSprite.Direction.Right,
+          this.environment.getScaleX(),
+          this.environment.getScaleY()
         );
+
         this.fervieSprite.preload(p5);
 
         let spawnPoint =
