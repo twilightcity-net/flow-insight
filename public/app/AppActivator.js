@@ -58,7 +58,7 @@ module.exports = class AppActivator {
       log.error(
         "[AppActivator] Unable to save api-key : " + err
       );
-      this.events.closeActivator.dispatch(-1);
+      this.events.closeActivator.dispatch({result: -1});
       dialog.showErrorBox(
         "Flow Insight",
         "[FATAL] Unable to save api-key"

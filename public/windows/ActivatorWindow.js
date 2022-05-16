@@ -72,7 +72,7 @@ module.exports = class ActivatorWindow {
   }
 
   onActivatorCloseCb(event, arg) {
-    if (arg !== -1) {
+    if (arg.result !== -1) {
       this.activatorFinished = true;
       global.App.restart();
     } else {

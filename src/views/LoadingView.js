@@ -161,7 +161,8 @@ export default class LoadingView extends Component {
   };
 
   handleQuitAppBtn = () => {
-    this.events.quit.dispatch(0, true);
+    console.log("handleQuitAppBtn");
+    this.events.quit.dispatch({});
   };
 
   /// renders the view into our root element of our window
