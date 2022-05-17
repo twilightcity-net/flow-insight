@@ -14,6 +14,7 @@ import FerviePose from "./fervie/FerviePose";
 import MoovieFervie from "./fervie/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
+import {Button, Icon} from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -113,6 +114,21 @@ export default class GameSketch extends Component {
     this.sketchInstance.remove();
   }
 
+  getMoovieDialog() {
+    return (<div id="playDialog">
+      <div>
+        <Button color="violet">
+          Create a Moovie Room
+        </Button>
+      </div>
+      <div>
+        <Button color="violet">
+          Join a Moovie Room
+        </Button>
+      </div>
+    </div>);
+  }
+
   /**
    * renders the game
    */
@@ -128,6 +144,7 @@ export default class GameSketch extends Component {
       fervieShoeColor = this.props.me.fervieSecondaryColor;
     }
 
+    let moovieDialog = this.getMoovieDialog();
     return (
       <div
         id="component"
@@ -135,6 +152,7 @@ export default class GameSketch extends Component {
         style={{ height: height }}
       >
         <div id="mySketch" />
+        {moovieDialog}
         <div id="fervies">
           {FervieWalkUp.getFrame(
             1,

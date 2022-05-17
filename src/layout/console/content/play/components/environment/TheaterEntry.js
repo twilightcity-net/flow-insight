@@ -78,7 +78,8 @@ export default class TheaterEntry extends Environment {
       p5.image(foreground, 0, 0);
     }
 
-    if (this.isOverConciergeCow(p5) || this.isOverYummiesCow(p5)) {
+    if ((!this.globalHud.getMooviePickerOpen() && this.isOverConciergeCow(p5))
+      || (!this.globalHud.getStoreOpen() && this.isOverYummiesCow(p5))) {
       this.globalHud.setIsActionableHover(true, false);
     } else {
       this.globalHud.setIsActionableHover(false, false);
@@ -152,13 +153,17 @@ export default class TheaterEntry extends Environment {
 
 
   mousePressed(p5, fervie) {
-    if (this.isOverConciergeCow(p5) && this.isNextToConciergeCow(fervie)) {
+    if (!this.globalHud.getMooviePickerOpen() && this.isOverConciergeCow(p5) && this.isNextToConciergeCow(fervie)) {
       console.log("yes moo!");
-      this.globalHud.toggleMoviePicker();
+      this.globalHud.closeStore();
+      this.globalHud.openMooviePicker();
     }
-    if (this.isOverYummiesCow(p5) && this.isNextToYummiesCow(fervie)) {
+    if (!this.globalHud.getStoreOpen() && this.isOverYummiesCow(p5) && this.isNextToYummiesCow(fervie)) {
       console.log("yes!");
+      this.globalHud.closeMooviePicker();
+      this.globalHud.openStore();
     }
+
   }
 
   /**
@@ -169,5 +174,13 @@ export default class TheaterEntry extends Environment {
 
     this.conciergeCow.update(p5, this);
     this.yummiesCow.update(p5, this);
+
+    if (this.globalHud.getStoreOpen() && !this.isNextToYummiesCow(fervie)) {
+      this.globalHud.closeStore();
+    }
+
+    if (this.globalHud.getMooviePickerOpen() && !this.isNextToConciergeCow(fervie)) {
+      this.globalHud.closeMooviePicker();
+    }
   }
 }

@@ -4,6 +4,7 @@
 import Inventory from "./Inventory";
 import Cursor from "./Cursor";
 import GameState from "./GameState";
+import Store from "./Store";
 
 export default class GlobalHud {
 
@@ -14,14 +15,18 @@ export default class GlobalHud {
 
     this.isInventoryOpen = false;
     this.isMooviePickerOpen = false;
+    this.isStoreOpen = false;
+
 
     this.gameState = new GameState();
   }
   preload(p5) {
     this.inventory = new Inventory(this.animationLoader, this.width, this.height, this, this.onActiveItemChanged);
+    this.store = new Store(this.animationLoader, this.width, this.height, this);
     this.cursor = new Cursor(this.animationLoader, this.width, this.height);
 
     this.inventory.preload(p5);
+    this.store.preload(p5);
     this.cursor.preload(p5);
   }
 
@@ -29,6 +34,10 @@ export default class GlobalHud {
     if (this.isInventoryOpen) {
       this.inventory.draw(p5);
     }
+    if (this.isStoreOpen) {
+      this.store.draw(p5);
+    }
+
     this.cursor.draw(p5);
   }
 
@@ -41,6 +50,10 @@ export default class GlobalHud {
 
     if (this.isInventoryOpen) {
       this.inventory.mousePressed(p5, fervie);
+    }
+
+    if (this.isStoreOpen) {
+      this.store.mousePressed(p5, fervie);
     }
   }
 
@@ -77,21 +90,49 @@ export default class GlobalHud {
     return (this.inventory.getActiveItemSelection() !== null);
   }
 
-  toggleMoviePicker() {
-    this.isMooviePickerOpen = !this.isMooviePickerOpen;
+  openMooviePicker() {
+    this.isMooviePickerOpen = true;
+    let el = document.getElementById("playDialog");
+    el.style.visibility = "visible";
+  }
+
+  openStore() {
+    this.isStoreOpen = true;
+  }
+
+  closeStore() {
+    this.isStoreOpen = false;
+  }
+
+  getStoreOpen() {
+    return this.isStoreOpen;
+  }
+
+  getMooviePickerOpen() {
+    return this.isMooviePickerOpen;
+  }
+
+  closeMooviePicker() {
+    this.isMooviePickerOpen = false;
+    let el = document.getElementById("playDialog");
+    el.style.visibility = "hidden";
   }
 
   keyPressed(p5) {
     if (p5.keyCode === 73) {
       //i for inventory
       this.isInventoryOpen = !this.isInventoryOpen;
+      this.store.setInventoryOpen(this.isInventoryOpen);
     }
 
     if (p5.keyCode === 27) {
       //escape pressed, clear selection
       this.inventory.setActiveItemSelection(null);
       if (this.isMooviePickerOpen) {
-        this.isMooviePickerOpen = false;
+        this.closeMooviePicker();
+      }
+      if (this.isStoreOpen) {
+        this.closeStore();
       }
     }
   }
