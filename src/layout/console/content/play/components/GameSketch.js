@@ -11,7 +11,7 @@ import ShroomHouse from "./places/ShroomHouse";
 import EnvironmentMap from "./environment/EnvironmentMap";
 import LadyFervie from "./characters/LadyFervie";
 import FerviePose from "./fervie/FerviePose";
-import MoovieFervie from "./characters/MoovieFervie";
+import MoovieFervie from "./fervie/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
 

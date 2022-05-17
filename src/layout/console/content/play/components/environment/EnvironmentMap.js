@@ -11,6 +11,8 @@ import CityEntrance from "./CityEntrance";
 import CityTransition from "./CityTransition";
 import CityStreet from "./CityStreet";
 import FervieGarden from "./FervieGarden";
+import TheaterEntry from "./TheaterEntry";
+import TheaterRoom from "./TheaterRoom";
 
 export default class EnvironmentMap {
   constructor(animationLoader, width, height, globalHud) {
@@ -24,8 +26,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
-    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.THEATER_ENTRY];
+    this.activeMapId = EnvironmentMap.THEATER_ENTRY;
 
     this.mapShiftInProgress = false;
   }
@@ -40,6 +42,8 @@ export default class EnvironmentMap {
   static CITY_ENTRANCE = "CityEntrance";
   static CITY_TRANSITION = "CityTransition";
   static CITY_STREET = "CityStreet";
+  static THEATER_ENTRY = "TheaterEntry";
+  static THEATER_ROOM = "TheaterRoom";
 
 
   static MAP_LEFT = "-left";
@@ -62,6 +66,8 @@ export default class EnvironmentMap {
     this.environmentMap[EnvironmentMap.CITY_TRANSITION] = new CityTransition(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.GARDEN] = new FervieGarden(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.THEATER_ENTRY] = new TheaterEntry(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.THEATER_ROOM] = new TheaterRoom(this.animationLoader, this.width, this.height, this.globalHud);
 
 
     this.travelMap = [];

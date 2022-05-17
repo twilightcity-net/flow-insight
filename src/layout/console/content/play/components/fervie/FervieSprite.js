@@ -39,6 +39,8 @@ export default class FervieSprite {
 
     this.isKissing = false;
 
+    this.adjustDownAmount = 0;
+
     this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
     this.fervieKissSprite = new FervieKissSprite(this.animationLoader, this.size);
   }
@@ -83,11 +85,15 @@ export default class FervieSprite {
   }
 
   getMaxVelocityX() {
-    return 14;
+    return 14 * this.scaleX;
   }
 
   getMaxVelocityY() {
     return 3;
+  }
+
+  adjustDown(amount) {
+    this.adjustDownAmount = (amount + (this.scale * amount));
   }
 
   /**
@@ -160,12 +166,14 @@ export default class FervieSprite {
       this.x +
         Math.round(this.size * this.scale) +
         Math.round((this.size / 2) * (1 - this.scale)),
-      this.y
+      this.y + this.adjustDownAmount
     );
     p5.scale(this.scale, this.scale);
     p5.scale(-1, 1);
     p5.image(image, 0, 0);
     p5.pop();
+
+    this.adjustDownAmount = 0;
   }
 
   /**
@@ -179,11 +187,13 @@ export default class FervieSprite {
     p5.translate(
       this.x +
         Math.round((this.size / 2) * (1 - this.scale)),
-      this.y
+      this.y + this.adjustDownAmount
     );
     p5.scale(this.scale, this.scale);
     p5.image(image, 0, 0);
     p5.pop();
+
+    this.adjustDownAmount = 0;
   }
   /**
    * Update the fervie sprite properties for each subsequent frame,

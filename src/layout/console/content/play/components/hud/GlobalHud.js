@@ -13,6 +13,7 @@ export default class GlobalHud {
     this.height = height;
 
     this.isInventoryOpen = false;
+    this.isMooviePickerOpen = false;
 
     this.gameState = new GameState();
   }
@@ -37,7 +38,6 @@ export default class GlobalHud {
     let footX = fervie.getFervieFootX(),
       footY = fervie.getFervieFootY();
     console.log("footX = "+footX + ", footY = "+footY);
-    console.log("fx = "+fervie.x + "fy = "+fervie.y + "fs" + fervie.scale);
 
     if (this.isInventoryOpen) {
       this.inventory.mousePressed(p5, fervie);
@@ -77,6 +77,10 @@ export default class GlobalHud {
     return (this.inventory.getActiveItemSelection() !== null);
   }
 
+  toggleMoviePicker() {
+    this.isMooviePickerOpen = !this.isMooviePickerOpen;
+  }
+
   keyPressed(p5) {
     if (p5.keyCode === 73) {
       //i for inventory
@@ -86,8 +90,10 @@ export default class GlobalHud {
     if (p5.keyCode === 27) {
       //escape pressed, clear selection
       this.inventory.setActiveItemSelection(null);
+      if (this.isMooviePickerOpen) {
+        this.isMooviePickerOpen = false;
+      }
     }
-
   }
 
   onActiveItemChanged = (item) =>{
