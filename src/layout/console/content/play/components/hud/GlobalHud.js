@@ -18,8 +18,11 @@ export default class GlobalHud {
     this.isMooviePickerOpen = false;
     this.isStoreOpen = false;
 
+    this.areKeysDisabled = false;
 
     this.gameState = new GameState();
+
+    this.listeners = new Map();
   }
   preload(p5) {
     this.inventory = new Inventory(this.animationLoader, this.width, this.height, this, this.onActiveItemChanged);
@@ -100,6 +103,8 @@ export default class GlobalHud {
     this.isMooviePickerOpen = true;
     let el = document.getElementById("playDialog");
     el.style.visibility = "visible";
+
+    this.notifyListeners();
   }
 
   openStore() {
@@ -118,14 +123,39 @@ export default class GlobalHud {
     return this.isMooviePickerOpen;
   }
 
+  disableKeysWhileFormIsOpen() {
+    this.areKeysDisabled = true;
+  }
+
+  enableKeys() {
+    this.areKeysDisabled = false;
+  }
+
+  registerListener(name, callback) {
+    this.listeners.set(name, callback);
+  }
+
+  removeListener(name) {
+    this.listeners.delete(name);
+  }
+
   closeMooviePicker() {
     this.isMooviePickerOpen = false;
     let el = document.getElementById("playDialog");
     el.style.visibility = "hidden";
+
+    this.notifyListeners();
+  }
+
+  notifyListeners() {
+    for (let callback of this.listeners.values()) {
+      callback();
+    }
   }
 
   keyPressed(p5) {
-    if (p5.keyCode === 73) {
+
+    if (!this.areKeysDisabled && p5.keyCode === 73) {
       //i for inventory
       this.isInventoryOpen = !this.isInventoryOpen;
       this.store.setInventoryOpen(this.isInventoryOpen);

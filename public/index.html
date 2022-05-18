@@ -3277,53 +3277,54 @@
     right: 10px;
   }
 
-  #component.playLayout .dialogContent {
+  #component.playLayout .cancelButton {
+    position: absolute;
+    bottom: 10px;
+    right: 100px;
+  }
+
+  #component.playLayout .listContent {
     height: 70%;
     overflow-y: scroll;
   }
 
-  #component.playLayout .dialogContent .active {
+  #component.playLayout .listContent .active {
     background: #272727;
   }
 
-  #component.playLayout .dialogContent .ui.list .item .content .header {
+  #component.playLayout .listContent .ui.list .item .content .header {
     font-size: 1rem;
     line-height: 1rem;
     padding-left: 0.210em;
     color: rgba(211, 211, 211, 1);
   }
 
-  #component.playLayout .dialogContent .ui.list .item .content i.name {
+  #component.playLayout .listContent .ui.list .item .content i.name {
     font-weight: normal;
     font-size: 1rem;
     padding-left: 0.420em;
     color: rgba(211, 211, 211, 1);
   }
 
-  #component.playLayout .dialogContent .circuitLabelTimer {
+  #component.playLayout .listContent .circuitLabelTimer {
     margin-top: -0.420em;
     transform: translateY(50%);
   }
 
-  #component.playLayout .dialogContent .circuitLabelTimer .timer {
+  #component.playLayout .listContent .circuitLabelTimer .timer {
     width: 70px;
     display: inline-block;
   }
 
-  #component.playLayout .dialogContent .ui.list .item .circuitLabelTimer .ui.violet.label.active {
+  #component.playLayout .listContent .ui.list .item .circuitLabelTimer .ui.violet.label.active {
     background: #6435c9 !important;
   }
 
-  #component.playLayout .dialogContent .ui.list .item.selected {
+  #component.playLayout .listContent .ui.list .item.selected {
     background: rgba(48, 48, 49, 1);
   }
 
-  #component.playLayout .dialogContent .ui.list .item.selected .circuitLabelTimer .ui.label {
-    background: red !important;
-    color: white !important;
-  }
-
-  #component.playLayout .dialogContent .ui.list .item .circuitLabelTimer .ui.label {
+  #component.playLayout .listContent .ui.list .item .circuitLabelTimer .ui.label {
     padding: 0.420em 0.840em;
     background: rgba(48, 48, 48, 1) !important;
     border: none;
@@ -3331,33 +3332,47 @@
     transition: background 0.420s ease-out;
   }
 
-  #component.playLayout .dialogContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
+  #component.playLayout .listContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
     background: #6435c9 !important;
+    color: white !important;
   }
 
-  #component.playLayout .dialogContent .ui.list .item:hover .circuitLabelTimer .ui.label.red {
-    background: red !important;
-  }
-
-  #component.playLayout .dialogContent .circuitLabelTimer i.lightning.icon {
-    margin-right: 0.210em;
-  }
-
-  #component.playLayout .dialogContent .ui.list .item {
+  #component.playLayout .listContent .ui.list .item {
     padding: 0.840em;
     transition: background 0.840s ease-out, padding 0.210s ease-out;
   }
 
-  #component.playLayout .dialogContent .ui.list .item:hover {
+  #component.playLayout .listContent .ui.list .item:hover {
     padding-left: 1.260em;
     background: #272727;
     cursor: pointer;
   }
 
-  #component.playLayout .dialogContent .ui.list .item.selected {
+  #component.playLayout .listContent .ui.list .item.selected {
     padding-left: 1.260em;
   }
 
+  #component.playLayout .dialogContent {
+    padding: 10px;
+    opacity: 100%;
+  }
+
+  #component.playLayout .ui.input.playDialogInput input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    margin: 10px;
+  }
+
+  #component.playLayout .ui.input.playDialogInput input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.playLayout .ui.input.playDialogInput input::placeholder {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96)
+  }
 
 
   #component.playLayout #mySketch {

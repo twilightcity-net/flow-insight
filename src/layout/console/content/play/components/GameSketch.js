@@ -14,7 +14,7 @@ import FerviePose from "./fervie/FerviePose";
 import MoovieFervie from "./fervie/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
-import MoovieRoomListPanel from "./moovie/MoovieRoomListPanel";
+import MoovieRoomDialog from "./moovie/MoovieRoomDialog";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -30,24 +30,22 @@ export default class GameSketch extends Component {
     this.name = "[GameSketch]";
     this.animationLoader = new AnimationLoader();
     this.isInitialized = false;
+
+    this.height = DimensionController.getHeightFor(DimensionController.Components.PLAY_PANEL);
+    this.width = DimensionController.getFullRightPanelWidth();
+
+    this.globalHud = new GlobalHud(this.animationLoader, this.width, this.height);
   }
 
   /**
    * Load the chart when the component mounts
    */
   componentDidMount() {
-    this.height = DimensionController.getHeightFor(
-      DimensionController.Components.PLAY_PANEL
-    );
-    this.width =
-      DimensionController.getFullRightPanelWidth();
-
     const sketch = (p5) => {
       p5.setup = () => {
         p5.createCanvas(this.width, this.height);
         p5.frameRate(24);
 
-        this.globalHud = new GlobalHud(this.animationLoader, this.width, this.height);
         this.globalHud.preload(p5);
 
         this.environment = new EnvironmentMap(
@@ -136,7 +134,7 @@ export default class GameSketch extends Component {
         style={{ height: height }}
       >
         <div id="mySketch" />
-        <MoovieRoomListPanel globalHud={this.globalHud}/>
+        <MoovieRoomDialog globalHud={this.globalHud}/>
         <div id="fervies">
           {FervieWalkUp.getFrame(
             1,

@@ -119,9 +119,6 @@ export default class CityStreet extends Environment {
     let backgroundImage = this.animationLoader.getStaticImage(p5, CityStreet.GROUND_IMAGE);
     let cityStreetSignImage = this.animationLoader.getScaledSvgImage(p5, AnimationId.Animation.CityStreetSigns, 5160, 960);
 
-    console.log("city width = "+cityStreetSignImage.width);
-    console.log("city height = "+cityStreetSignImage.height);
-
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
