@@ -1,5 +1,3 @@
-import AnimationId from "../AnimationId";
-
 /**
  * Creates our lady swinging on the swing sprite animation
  */
@@ -51,8 +49,6 @@ export default class LadySwingSprite {
   }
 
   getSwingImageForFrame(p5, animationFrame) {
-    let image
-
     //each sec, swing 1 way.. [stay forward, move, move, stay back, move move]
     if (this.isBetween(animationFrame, 1, 20 )) {
       return this.animationLoader.getStaticImage(p5, LadySwingSprite.SWING_FORWARD);

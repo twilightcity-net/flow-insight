@@ -14,9 +14,7 @@ import FerviePose from "./fervie/FerviePose";
 import MoovieFervie from "./fervie/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
-import {Button, Icon, Label, List} from "semantic-ui-react";
-import GameState from "./hud/GameState";
-import MoovieListItem from "./moovie/MoovieListItem";
+import MoovieRoomListPanel from "./moovie/MoovieRoomListPanel";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -116,48 +114,6 @@ export default class GameSketch extends Component {
     this.sketchInstance.remove();
   }
 
-  openMoovieDoor(key) {
-    this.globalHud.closeMooviePicker();
-    //TODO this will have a uuid for whatever the movie is
-    this.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, key);
-  }
-
-  getMovieItem(key, people, timer) {
-    return <MoovieListItem id={key} people={people} timer={timer} onClickItem={() => {this.openMoovieDoor(key)}}/>
-  }
-
-  getMoovieDialog() {
-    return (<div id="playDialog">
-      <div className={"title"}>Moovie Rooms</div>
-      <div className="dialogContent">
-        <List
-          inverted
-          divided
-          celled
-          animated
-          verticalAlign="middle"
-          size="large"
-        >
-          {this.getMovieItem(1, 4, "Not Started")}
-          {this.getMovieItem(2, 2, "Not Started")}
-          {this.getMovieItem(3, 1, "00:01:14")}
-          {this.getMovieItem(4, 2, "00:05:13")}
-          {this.getMovieItem(5, 2, "00:12:12")}
-          {this.getMovieItem(6, 3, "00:14:45")}
-          {this.getMovieItem(7, 4, "00:21:22")}
-          {this.getMovieItem(8, 2, "00:35:15")}
-          {this.getMovieItem(9, 1, "00:42:03")}
-          {this.getMovieItem(10, 3, "00:14:04")}
-        </List>
-      </div>
-      <div>
-        <Button color="violet" className={"createButton"}>
-          Create a Moovie Room
-        </Button>
-      </div>
-    </div>);
-  }
-
   /**
    * renders the game
    */
@@ -173,7 +129,6 @@ export default class GameSketch extends Component {
       fervieShoeColor = this.props.me.fervieSecondaryColor;
     }
 
-    let moovieDialog = this.getMoovieDialog();
     return (
       <div
         id="component"
@@ -181,7 +136,7 @@ export default class GameSketch extends Component {
         style={{ height: height }}
       >
         <div id="mySketch" />
-        {moovieDialog}
+        <MoovieRoomListPanel globalHud={this.globalHud}/>
         <div id="fervies">
           {FervieWalkUp.getFrame(
             1,

@@ -25,9 +25,10 @@ export default class Cursor {
   }
 
   preload(p5) {
+    this.animationLoader.getStaticImage(p5, Cursor.STAR_CURSOR_IMAGE);
+
     let ropeCursor = this.animationLoader.getStaticImage(p5, Cursor.ROPE_CURSOR_IMAGE);
     let towelCursor = this.animationLoader.getStaticImage(p5, Cursor.TOWEL_CURSOR_IMAGE);
-    let starCursor = this.animationLoader.getStaticImage(p5, Cursor.STAR_CURSOR_IMAGE);
 
     this.cursorLookup = [];
     this.cursorLookup[Inventory.ItemType.ROPE] = ropeCursor;

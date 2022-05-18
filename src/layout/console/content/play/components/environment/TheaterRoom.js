@@ -2,10 +2,6 @@
  * Creates our moovie theater environment in TC
  */
 import Environment from "./Environment";
-import Inventory from "../hud/Inventory";
-import GameState from "../hud/GameState";
-import ConciergeCowSprite from "../characters/ConciergeCowSprite";
-import YummiesCowSprite from "../characters/YummiesCowSprite";
 
 export default class TheaterRoom extends Environment {
   static GROUND_IMAGE = "./assets/animation/theater/theater_room_background.png";

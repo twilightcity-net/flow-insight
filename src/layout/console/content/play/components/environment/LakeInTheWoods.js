@@ -6,7 +6,6 @@ import LadyFervieSprite from "../characters/LadyFervieSprite";
 import Inventory from "../hud/Inventory";
 import FishySprite from "../characters/FishySprite";
 import GlowSprite from "../fervie/GlowSprite";
-import FervieSprite from "../fervie/FervieSprite";
 import HeartTransition from "../transition/HeartTransition";
 import GameState from "../hud/GameState";
 

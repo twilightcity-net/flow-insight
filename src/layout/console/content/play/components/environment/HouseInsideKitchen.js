@@ -137,7 +137,7 @@ export default class HouseInsideKitchen extends Environment {
       p5.image(towelImage, 0, 0);
     }
 
-    if (this.isTowelPresent && this.isOverTowelPosition(p5, p5.mouseX, p5.mouseY)
+    if ((this.isTowelPresent && this.isOverTowelPosition(p5, p5.mouseX, p5.mouseY))
     || this.isOverLady(p5.mouseX, p5.mouseY)) {
       this.globalHud.setIsActionableHover(true, false);
     } else {

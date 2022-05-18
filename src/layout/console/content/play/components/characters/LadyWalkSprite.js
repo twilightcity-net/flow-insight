@@ -193,8 +193,9 @@ export default class LadyWalkSprite {
         return this.animationLoader.getStaticImage(p5, LadyWalkSprite.WALK_RIGHT_11);
       case 12:
         return this.animationLoader.getStaticImage(p5, LadyWalkSprite.WALK_RIGHT_12);
+      default:
+        return null;
     }
-    return null;
   }
 
 
@@ -225,8 +226,9 @@ export default class LadyWalkSprite {
         return this.animationLoader.getStaticImage(p5, LadyWalkSprite.WALK_UP_11);
       case 12:
         return this.animationLoader.getStaticImage(p5, LadyWalkSprite.WALK_UP_12);
+      default:
+        return null;
     }
-    return null;
   }
 
   walkLeft(amount, callback) {

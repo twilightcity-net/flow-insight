@@ -2,7 +2,6 @@
  * Creates our moovie theater inside entry environment in TC
  */
 import Environment from "./Environment";
-import Inventory from "../hud/Inventory";
 import GameState from "../hud/GameState";
 import ConciergeCowSprite from "../characters/ConciergeCowSprite";
 import YummiesCowSprite from "../characters/YummiesCowSprite";
