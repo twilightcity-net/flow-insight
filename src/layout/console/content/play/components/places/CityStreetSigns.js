@@ -25,6 +25,7 @@ export default class CityStreetSigns {
         height="480px"
         viewBox="0 0 2560 480"
       >
+
         <defs />
 
           <g id="sign_text">

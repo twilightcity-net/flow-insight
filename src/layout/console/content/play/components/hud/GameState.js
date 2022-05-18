@@ -30,7 +30,8 @@ export default class GameState {
       IS_LADY_KISSED: "isLadyKissed",
       HAS_ENTERED_BEDROOM: "hasEnteredBedroom",
       HAS_SETTLED_IN_HOUSE: "hasSettledInHouse",
-      HOME_ACTIVITY: "homeActivity"
+      HOME_ACTIVITY: "homeActivity",
+      OPENED_MOVIE_ID: "openedMovieId"
     }
   }
 
@@ -49,7 +50,6 @@ export default class GameState {
    */
   get(property) {
     let prop = this.props.get(property);
-    console.log("get prop : "+property + " "+prop);
     return prop;
   }
 

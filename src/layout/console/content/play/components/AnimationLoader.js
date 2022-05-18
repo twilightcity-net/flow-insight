@@ -37,12 +37,13 @@ export default class AnimationLoader {
     return staticImage;
   }
 
-  getScaledSvgImage(p5, animationId, size) {
+  getScaledSvgImage(p5, animationId, width, height) {
     let imageCache = this.getDefaultImageCache(animationId);
-    let staticImage = imageCache[size];
+    let staticImage = imageCache[width];
     if (!staticImage) {
       let svg1 = document.getElementById(animationId);
-      svg1.setAttribute("width", size + "px");
+      svg1.setAttribute("width", width + "px");
+      svg1.setAttribute("height", height + "px");
 
       let xml = new XMLSerializer().serializeToString(svg1);
       var svg = new Blob([xml], { type: "image/svg+xml" });
@@ -51,7 +52,7 @@ export default class AnimationLoader {
       var url = DOMURL.createObjectURL(svg);
 
       staticImage = p5.loadImage(url);
-      imageCache[size] = staticImage;
+      imageCache[width] = staticImage;
     }
 
     return staticImage;

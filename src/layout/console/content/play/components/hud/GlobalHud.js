@@ -5,6 +5,7 @@ import Inventory from "./Inventory";
 import Cursor from "./Cursor";
 import GameState from "./GameState";
 import Store from "./Store";
+import Environment from "../environment/Environment";
 
 export default class GlobalHud {
 
@@ -42,11 +43,16 @@ export default class GlobalHud {
   }
 
   mousePressed(p5, fervie) {
-    console.log("mousex = "+p5.mouseX + ", mousey = "+p5.mouseY);
+    console.log("mouseX = "+p5.mouseX + ", mouseY = "+p5.mouseY);
+    console.log("x = "+fervie.x + ", y = "+fervie.y);
 
     let footX = fervie.getFervieFootX(),
       footY = fervie.getFervieFootY();
     console.log("footX = "+footX + ", footY = "+footY);
+
+    let adjustX = footX / (this.width / Environment.IMAGE_WIDTH);
+    let adjustY = footY /  (this.height / Environment.IMAGE_HEIGHT)
+    console.log("adjustX = "+adjustX + ", adjustY = "+adjustY);
 
     if (this.isInventoryOpen) {
       this.inventory.mousePressed(p5, fervie);

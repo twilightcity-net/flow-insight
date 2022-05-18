@@ -26,8 +26,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.THEATER_ENTRY];
-    this.activeMapId = EnvironmentMap.THEATER_ENTRY;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
+    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
 
     this.mapShiftInProgress = false;
   }
@@ -90,7 +90,16 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_ENTRANCE;
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_ENTRANCE;
+    this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_NORTH] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.CITY_STREET;
+    this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_NORTH] = EnvironmentMap.THEATER_ROOM;
+    this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_STREET;
+    this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_LEFT] = EnvironmentMap.THEATER_ENTRY;
+    this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.THEATER_ENTRY;
+    this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.THEATER_ENTRY;
+
+
+
   }
 
   getScaleX() {

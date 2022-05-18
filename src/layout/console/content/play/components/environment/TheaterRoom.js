@@ -55,6 +55,9 @@ export default class TheaterRoom extends Environment {
    * @param p5
    */
   drawBackground(p5, fervie) {
+
+    fervie.adjustDown(20);
+
     let backgroundImage = this.animationLoader.getStaticImage(p5, TheaterRoom.GROUND_IMAGE);
     let chairsMid = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_MID_IMAGE);
     let chairsFront = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_FRONT_IMAGE);
@@ -122,7 +125,5 @@ export default class TheaterRoom extends Environment {
    */
   update(p5, fervie) {
     super.update(p5);
-
-    fervie.adjustDown(20);
   }
 }

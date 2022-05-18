@@ -7,7 +7,7 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
-  <meta http-equiv="Content-Security-Policy"
+<meta http-equiv="Content-Security-Policy"
         content="script-src 'self'; base-uri 'self';form-action 'self'">
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
@@ -3250,7 +3250,116 @@
     background: #000000;
   }
 
-  
+  #component.playLayout #playDialog {
+    visibility: hidden;
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    height: 325px;
+    width: 570px;
+    border-radius: 5px;
+    background: #333333;
+    opacity: 92%;
+    z-index: 1000;
+  }
+
+  #component.playLayout .title {
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+    margin-top:10px;
+    margin-bottom: 5px;
+  }
+
+  #component.playLayout .createButton {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  #component.playLayout .dialogContent {
+    height: 70%;
+    overflow-y: scroll;
+  }
+
+  #component.playLayout .dialogContent .active {
+    background: #272727;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item .content .header {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-left: 0.210em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.playLayout .dialogContent .ui.list .item .content i.name {
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 0.420em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.playLayout .dialogContent .circuitLabelTimer {
+    margin-top: -0.420em;
+    transform: translateY(50%);
+  }
+
+  #component.playLayout .dialogContent .circuitLabelTimer .timer {
+    width: 70px;
+    display: inline-block;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item .circuitLabelTimer .ui.violet.label.active {
+    background: #6435c9 !important;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item.selected {
+    background: rgba(48, 48, 49, 1);
+  }
+
+  #component.playLayout .dialogContent .ui.list .item.selected .circuitLabelTimer .ui.label {
+    background: red !important;
+    color: white !important;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item .circuitLabelTimer .ui.label {
+    padding: 0.420em 0.840em;
+    background: rgba(48, 48, 48, 1) !important;
+    border: none;
+    color: rgb(233, 233, 233) !important;
+    transition: background 0.420s ease-out;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
+    background: #6435c9 !important;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item:hover .circuitLabelTimer .ui.label.red {
+    background: red !important;
+  }
+
+  #component.playLayout .dialogContent .circuitLabelTimer i.lightning.icon {
+    margin-right: 0.210em;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item {
+    padding: 0.840em;
+    transition: background 0.840s ease-out, padding 0.210s ease-out;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item:hover {
+    padding-left: 1.260em;
+    background: #272727;
+    cursor: pointer;
+  }
+
+  #component.playLayout .dialogContent .ui.list .item.selected {
+    padding-left: 1.260em;
+  }
+
+
+
   #component.playLayout #mySketch {
     text-align: center;
   }
