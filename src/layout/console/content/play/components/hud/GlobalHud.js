@@ -47,7 +47,12 @@ export default class GlobalHud {
 
   mousePressed(p5, fervie) {
     console.log("mouseX = "+p5.mouseX + ", mouseY = "+p5.mouseY);
-    console.log("x = "+fervie.x + ", y = "+fervie.y);
+
+    let adjustMouseX = p5.mouseX / (this.width / Environment.IMAGE_WIDTH);
+    let adjustMouseY = p5.mouseY /  (this.height / Environment.IMAGE_HEIGHT)
+    console.log("adjMouseX = "+adjustMouseX + ", adjMouseY = "+adjustMouseY);
+
+    console.log("fx = "+fervie.x + ", fy = "+fervie.y);
 
     let footX = fervie.getFervieFootX(),
       footY = fervie.getFervieFootY();
@@ -55,7 +60,7 @@ export default class GlobalHud {
 
     let adjustX = footX / (this.width / Environment.IMAGE_WIDTH);
     let adjustY = footY /  (this.height / Environment.IMAGE_HEIGHT)
-    console.log("adjustX = "+adjustX + ", adjustY = "+adjustY);
+    console.log("footAdjustX = "+adjustX + ", footAdjustY = "+adjustY);
 
     if (this.isInventoryOpen) {
       this.inventory.mousePressed(p5, fervie);

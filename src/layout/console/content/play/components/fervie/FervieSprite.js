@@ -1,6 +1,7 @@
 import AnimationId from "../AnimationId";
 import FervieGlowSprite from "./FervieGlowSprite";
 import FervieKissSprite from "./FervieKissSprite";
+import FervieSitSprite from "./FervieSitSprite";
 
 /**
  * Creates our fervie sprite animation
@@ -38,11 +39,13 @@ export default class FervieSprite {
     this.isMirror = false;
 
     this.isKissing = false;
+    this.isSitting = false;
 
     this.adjustDownAmount = 0;
 
     this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
     this.fervieKissSprite = new FervieKissSprite(this.animationLoader, this.size);
+    this.fervieSitSprite = new FervieSitSprite(this.animationLoader, this.size);
   }
 
   /**
@@ -109,6 +112,8 @@ export default class FervieSprite {
       this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
     } else if (this.isKissing) {
       this.handleKiss(p5);
+    } else if (this.isSitting) {
+      this.handleSit(p5);
     } else if (this.direction === FervieSprite.Direction.Up) {
       image = this.animationLoader.getAnimationImage(
         p5,
@@ -152,6 +157,10 @@ export default class FervieSprite {
     } else {
       this.fervieKissSprite.draw(p5, this.x, this.y, this.scale);
     }
+  }
+
+  handleSit(p5) {
+      this.fervieSitSprite.draw(p5, this.x, this.y, this.scale);
   }
 
   /**
@@ -201,11 +210,11 @@ export default class FervieSprite {
    */
   update(p5, environment) {
     this.fervieGlowSprite.update(p5, environment);
-    if (
-      !this.fervieGlowSprite.isVisible ||
-      this.fervieGlowSprite.isTransitioning() ||
-      this.isKissing
-    ) {
+    if (!this.fervieGlowSprite.isVisible
+      || this.fervieGlowSprite.isTransitioning()
+      || this.isKissing
+      || this.isSitting) {
+      //only allow movement if we're walking
       return;
     }
 
@@ -292,7 +301,7 @@ export default class FervieSprite {
   }
 
   kiss() {
-this.isKissing = !this.isKissing;
+    this.isKissing = !this.isKissing;
     this.isMirror = false;
   }
 
@@ -304,6 +313,14 @@ this.isKissing = !this.isKissing;
 
   stopKissing() {
     this.isKissing = false;
+  }
+
+  sit() {
+    this.isSitting = true;
+  }
+
+  stand() {
+    this.isSitting = false;
   }
 
   /**
@@ -419,12 +436,19 @@ this.isKissing = !this.isKissing;
     );
   }
 
-  getFervieFootY() {
-    let imageScale =
-      this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
-    let adjustedHeight =
-      FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
+  getXForFoot(footX) {
+    return footX - Math.round(this.size / 2 * this.scale) - Math.round((this.size / 2) * (1 - this.scale));
+  }
 
+  getYForFoot(footY) {
+    let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
+    let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
+    return footY - adjustedHeight * 0.9 * this.scale;
+  }
+
+  getFervieFootY() {
+    let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
+    let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
     return Math.round(
       this.y + adjustedHeight * 0.9 * this.scale
     );

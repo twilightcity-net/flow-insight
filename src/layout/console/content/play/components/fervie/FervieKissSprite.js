@@ -1,7 +1,7 @@
 import AnimationId from "../AnimationId";
 
 /**
- * Creates our fervie glow sprite animation
+ * Creates our fervie kiss sprite animation
  */
 
 export default class FervieKissSprite {
@@ -9,12 +9,6 @@ export default class FervieKissSprite {
     this.animationLoader = animationLoader;
     this.size = size * 0.47;
     this.animationFrame = 1;
-
-    this.alpha = 1.0;
-    this.starAlpha = 0.0;
-    this.alphaDecayRate = 0.04;
-    this.isDisappearing = false;
-    this.isReappearing = false;
 
     this.isVisible = true;
   }

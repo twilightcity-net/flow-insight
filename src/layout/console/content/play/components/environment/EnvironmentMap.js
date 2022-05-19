@@ -26,8 +26,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.THEATER_ENTRY];
-    this.activeMapId = EnvironmentMap.THEATER_ENTRY;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.THEATER_ROOM];
+    this.activeMapId = EnvironmentMap.THEATER_ROOM;
 
     this.mapShiftInProgress = false;
   }
