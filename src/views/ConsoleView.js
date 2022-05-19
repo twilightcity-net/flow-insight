@@ -16,6 +16,7 @@ import { TerminalClient } from "../clients/TerminalClient";
 import { ChartClient } from "../clients/ChartClient";
 import { NotificationClient } from "../clients/NotificationClient";
 import {HotkeyClient} from "../clients/HotkeyClient";
+import {MoovieClient} from "../clients/MoovieClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -135,6 +136,7 @@ export default class ConsoleView extends Component {
     ChartClient.init(this);
     NotificationClient.init(this);
     HotkeyClient.init(this);
+    MoovieClient.init(this);
 
     this.notificationController.showGettingStartedNotification();
   };

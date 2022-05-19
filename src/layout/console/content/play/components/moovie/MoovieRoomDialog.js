@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Button, Input, List,} from "semantic-ui-react";
 import MoovieListItem from "./MoovieListItem";
 import GameState from "../hud/GameState";
+import {MoovieClient} from "../../../../../../clients/MoovieClient";
+import UtilRenderer from "../../../../../../UtilRenderer";
 
 export default class MoovieRoomDialog extends Component {
 
@@ -10,6 +12,7 @@ export default class MoovieRoomDialog extends Component {
 
     this.state = {
       creatingNewRoom: false,
+      moovies: [],
       currentTitleValue: "",
       currentYearValue: "",
       currentLinkValue: ""
@@ -18,6 +21,7 @@ export default class MoovieRoomDialog extends Component {
 
   componentDidMount() {
     this.props.globalHud.registerListener("MoovieRoomDialog", this.onOpenCloseMoovieDialog);
+    this.loadMoovieCircuits();
   }
 
   componentWillUnmount() {
@@ -27,16 +31,30 @@ export default class MoovieRoomDialog extends Component {
   onOpenCloseMoovieDialog = () => {
     if (!this.props.globalHud.getMooviePickerOpen()) {
       this.closeNewMoovieRoomForm();
+    } else {
+      this.loadMoovieCircuits();
     }
   }
 
-  getMovieItem(key, people, timer) {
-    return <MoovieListItem id={key} people={people} timer={timer} onClickItem={() => {this.openMoovieDoor(key)}}/>
+  loadMoovieCircuits() {
+    MoovieClient.getMoovieCircuits(this, (arg) => {
+      console.log("moovies retrieved!");
+      if (!arg.error) {
+        this.setState({
+          moovies: arg.data
+        });
+      } else {
+        console.error("Error: "+arg.error);
+      }
+    });
+  }
+
+  getMovieItem(key, people, timer, title, serviceProviderType) {
+    return <MoovieListItem key={key} id={key} people={people} timer={timer} title={title} serviceProviderType={serviceProviderType} onClickItem={() => {this.openMoovieDoor(key)}}/>
   }
 
   openMoovieDoor(key) {
     this.props.globalHud.closeMooviePicker();
-    //TODO this will have a uuid for whatever the movie is
     this.props.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, key);
   }
 
@@ -56,6 +74,37 @@ export default class MoovieRoomDialog extends Component {
     this.props.globalHud.enableKeys();
   }
 
+  createNewMoovie = () => {
+    console.log("createNewMoovie");
+    MoovieClient.createMoovieCircuit(
+      this.state.currentTitleValue,
+      this.state.currentYearValue,
+      this.state.currentLinkValue,
+      this, (arg) => {
+        console.log("created!");
+        if (!arg.error) {
+          this.closeNewMoovieRoomForm();
+          this.props.globalHud.closeMooviePicker();
+          this.props.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, arg.data.id);
+          this.setState((prevState => {
+            prevState.moovies.push(arg.data);
+            return {
+              moovies: prevState.moovies
+            }
+          }));
+
+          console.log(arg.data);
+        } else {
+          //TODO handle the error on the dialog page
+          console.error("Error:" +arg.error);
+        }
+      });
+  }
+
+  getTimer(moovie) {
+    return UtilRenderer.getTimerFromMoovieCircuit(moovie);
+  }
+
   getMoovieListContent() {
     return (<div id="playDialog">
       <div className={"title"}>Moovie Rooms</div>
@@ -68,16 +117,10 @@ export default class MoovieRoomDialog extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.getMovieItem(1, 4, "Not Started")}
-          {this.getMovieItem(2, 2, "Not Started")}
-          {this.getMovieItem(3, 1, "00:01:14")}
-          {this.getMovieItem(4, 2, "00:05:13")}
-          {this.getMovieItem(5, 2, "00:12:12")}
-          {this.getMovieItem(6, 3, "00:14:45")}
-          {this.getMovieItem(7, 4, "00:21:22")}
-          {this.getMovieItem(8, 2, "00:35:15")}
-          {this.getMovieItem(9, 1, "00:42:03")}
-          {this.getMovieItem(10, 3, "00:14:04")}
+          {this.state.moovies.map((moovie, i) => {
+            return this.getMovieItem(moovie.id, moovie.memberCount, this.getTimer(moovie), moovie.title, moovie.serviceProviderType);
+          })}
+
         </List>
       </div>
       <div>
@@ -146,7 +189,7 @@ export default class MoovieRoomDialog extends Component {
         <Button color="grey" className={"cancelButton"} onClick={this.closeNewMoovieRoomForm}>
           Cancel
         </Button>
-        <Button color="violet" className={"createButton"}>
+        <Button color="violet" className={"createButton"} onClick={this.createNewMoovie}>
           Create
         </Button>
       </div>

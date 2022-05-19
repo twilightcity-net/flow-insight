@@ -67,10 +67,10 @@ export default class MoovieListItem extends Component {
       <div>
         <div className="circuit">
           <div className="state">
-            <b>Moovie Name</b>
+            <b>{this.props.title}</b>
           </div>
           <div className="name">
-            <i>Description of the movie goes in here</i>
+            <i>Click to open the door to this moovie</i>
           </div>
         </div>
       </div>
@@ -111,10 +111,10 @@ export default class MoovieListItem extends Component {
         </List.Content>
         <List.Content>
           <List.Header>
-            Moovie Name
+            {this.props.title}
           </List.Header>
           <i className="name">
-            (Netflix)
+            ({this.props.serviceProviderType})
           </i>
         </List.Content>
       </List.Item>));

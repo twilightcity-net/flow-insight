@@ -162,6 +162,45 @@ export default class UtilRenderer {
     }
   }
 
+
+  /**
+   * gets our timer string from the time inside a moovie circuit.  If the circuit is paused,
+   *
+   * @param moovie
+   * @returns {string}
+   */
+  static getTimerFromMoovieCircuit(moovie) {
+    if (moovie.circuitState === "OPEN") {
+      return "Not Started";
+    }
+
+    let openUtcTime = moment.utc(moovie.startTime);
+    let totalPauseNanoTime = moovie.totalCircuitPausedNanoTime;
+    let totalElapsedNanoTime = moovie.totalCircuitElapsedNanoTime;
+
+    if (moovie.circuitState === "STARTED") {
+      // in this case, we want the ticking clock based on open time.
+      let seconds =
+        moment().diff(openUtcTime, "s") -
+        UtilRenderer.getSecondsFromNanoseconds(
+          totalPauseNanoTime
+        );
+
+      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+        seconds
+      );
+    } else {
+      //we want the clock to be fixed based on total elapsed time
+      let seconds = UtilRenderer.getSecondsFromNanoseconds(
+        totalElapsedNanoTime
+      );
+
+      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+        seconds
+      );
+    }
+  }
+
   /**
    * gets the number of seconds from the circuit timer to be used for math
    *

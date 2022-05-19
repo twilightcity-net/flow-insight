@@ -38,6 +38,8 @@ module.exports = class BaseController {
       CHAT: "/chat",
       JOIN: "/join",
       LEAVE: "/leave",
+      START: "/start",
+      PAUSE: "/pause",
       SOLVE: "/solve",
       CANCEL: "/cancel",
       MARK: "/mark",
@@ -53,6 +55,7 @@ module.exports = class BaseController {
       TAGS: "/tags",
       TAG: "/tag",
       FERVIE: "/fervie",
+      MOOVIE: "/moovie",
       DICTIONARY: "/dictionary",
       SCOPE: "/scope",
       CHART: "/chart",
@@ -167,7 +170,6 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{CANCEL_PAIR_REQUEST:string, STOP_PAIRING:string, REQUEST_PAIR_LINK:string, CONFIRM_PAIR_LINK:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_TAGS_FOR_USER: string, CHART_TOP_TAGS_FOR_TEAM: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, GET_MY_HOME_TEAM_CIRCUIT: string, GET_CIRCUIT_TASK_SUMMARY: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, LEAVE_WTF: string, GET_ALL_MY_TEAM_CIRCUITS: string, JOIN_WTF: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Names() {
@@ -210,6 +212,14 @@ module.exports = class BaseController {
       UPDATE_FLAME_RATING: "update-flame-rating",
       GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
+      CREATE_MOOVIE_CIRCUIT: "createMoovieCircuit",
+      GET_MOOVIE_CIRCUITS: "getMoovieCircuits",
+      GET_MOOVIE_CIRCUIT: "getMoovieCircuit",
+      JOIN_MOOVIE: "joinMoovie",
+      LEAVE_MOOVIE: "leaveMoovie",
+      START_MOOVIE: "startMoovie",
+      PAUSE_MOOVIE: "pauseMoovie",
+      RESUME_MOOVIE: "resumeMoovie",
       REQUEST_PAIR_LINK: "requestPairLink",
       CONFIRM_PAIR_LINK: "confirmPairLink",
       STOP_PAIRING: "stopPairing",
@@ -317,7 +327,7 @@ module.exports = class BaseController {
 
   /**
    * our possible client context scopes used by gridtime clients
-   * @returns {{FERVIE_CLIENT:string, TALK_CLIENT: string, TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
+   * @returns {{MOOVIE_CLIENT:string, FERVIE_CLIENT:string, TALK_CLIENT: string, TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
    * @constructor
    */
   static get Contexts() {
@@ -331,6 +341,7 @@ module.exports = class BaseController {
       JOURNAL_CLIENT: "JournalClient",
       DICTIONARY_CLIENT: "DictionaryClient",
       FERVIE_CLIENT: "FervieClient",
+      MOOVIE_CLIENT: "MoovieClient",
       CHART_CLIENT: "ChartClient",
       TERMINAL_CLIENT: "TerminalClient",
     };

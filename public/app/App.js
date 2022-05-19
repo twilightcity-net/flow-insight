@@ -56,6 +56,7 @@ const {
 } = require("electron-devtools-installer");
 const ConfigWindowManager = require("../managers/ConfigWindowManager");
 const HotkeyManager = require("../managers/HotkeyManager");
+const MoovieManager = require("../managers/MoovieManager");
 
 module.exports = class App {
   constructor() {
@@ -168,6 +169,7 @@ module.exports = class App {
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
+      global.App.MoovieManager = new MoovieManager();
       global.App.NotificationManager =
         new NotificationManager();
       global.App.TerminalManager = new TerminalManager();
