@@ -34,7 +34,10 @@ module.exports = class MoovieController extends (
       LEAVE_MOOVIE: "leave-moovie",
       START_MOOVIE: "start-moovie",
       PAUSE_MOOVIE: "pause-moovie",
-      RESUME_MOOVIE: "resume-moovie"
+      RESUME_MOOVIE: "resume-moovie",
+      CLAIM_SEAT: "claim-seat",
+      RELEASE_SEAT: "release-seat",
+      GET_SEAT_MAPPINGS: "get-seat-mappings"
     };
   }
 
@@ -100,6 +103,15 @@ module.exports = class MoovieController extends (
           break;
         case MoovieController.Events.RESUME_MOOVIE:
           this.handleResumeMoovieEvent(event, arg);
+          break;
+        case MoovieController.Events.CLAIM_SEAT:
+          this.handleClaimSeatEvent(event, arg);
+          break;
+        case MoovieController.Events.RELEASE_SEAT:
+          this.handleReleaseSeatEvent(event, arg);
+          break;
+        case MoovieController.Events.GET_SEAT_MAPPINGS:
+          this.handleGetSeatMappingsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -205,6 +217,100 @@ module.exports = class MoovieController extends (
   }
 
 
+  /**
+   * client event handler for claiming a seat in a moovie theatre
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleClaimSeatEvent(event, arg, callback) {
+    let circuitId = arg.args.circuitId,
+      row = arg.args.row,
+      seat = arg.args.seat,
+      urn =
+        MoovieController.Paths.MOOVIE +
+        MoovieController.Paths.SEPARATOR +
+        circuitId +
+        MoovieController.Paths.SEAT +
+        MoovieController.Paths.CLAIM;
+
+    this.doClientRequest(
+      MoovieController.Contexts.MOOVIE_CLIENT,
+      {row: row, seat: seat},
+      MoovieController.Names.CLAIM_SEAT,
+      MoovieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for release a seat in a moovie theatre
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleReleaseSeatEvent(event, arg, callback) {
+    let circuitId = arg.args.circuitId,
+      urn =
+        MoovieController.Paths.MOOVIE +
+        MoovieController.Paths.SEPARATOR +
+        circuitId +
+        MoovieController.Paths.SEAT +
+        MoovieController.Paths.RELEASE;
+
+    this.doClientRequest(
+      MoovieController.Contexts.MOOVIE_CLIENT,
+      {},
+      MoovieController.Names.RELEASE_SEAT,
+      MoovieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * client event handler for getting all the seat mappings for a theater
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetSeatMappingsEvent(event, arg, callback) {
+    let circuitId = arg.args.circuitId,
+      urn =
+        MoovieController.Paths.MOOVIE +
+        MoovieController.Paths.SEPARATOR +
+        circuitId +
+        MoovieController.Paths.SEAT;
+
+    this.doClientRequest(
+      MoovieController.Contexts.MOOVIE_CLIENT,
+      {},
+      MoovieController.Names.GET_SEAT_MAPPINGS,
+      MoovieController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
 
   /**
    * client event handler for joining an existing moovie

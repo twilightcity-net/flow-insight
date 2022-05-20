@@ -446,6 +446,10 @@ export default class FervieSprite {
     return footY - adjustedHeight * 0.9 * this.scale;
   }
 
+  getScaleForXY(x, y) {
+    return this.scale + (((y - this.y)/this.getMaxVelocityY())*this.scaleStep);
+  }
+
   getFervieFootY() {
     let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
     let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
@@ -510,6 +514,15 @@ export default class FervieSprite {
     }
   }
 
+  moveToRawPosition(x, y) {
+    console.log((this.y - y)); // up is negative, scale is smaller
+
+    //TODO fix the scaling on here, moveToPoint, and spawning... I don't get it
+    this.scale = this.scale + (((y - this.y)/this.getMaxVelocityY())*this.scaleStep);
+    this.x = x;
+    this.y = y;
+  }
+
   moveToPoint(x, y, scale) {
     if (!scale || scale === 0) {
       scale = this.originalScale;
@@ -517,8 +530,8 @@ export default class FervieSprite {
       scale = scale * 0.5;
     }
 
-    let newScale =
-      scale + ((y - 20 - this.originalY) / 2) * this.scaleStep;
+    //TODO this doesnt seem to actually work right, the spawning is messed up and having to compensate weirdly
+    let newScale = scale + ((y - 20 - this.originalY) / 2) * this.scaleStep;
 
     let newX = x - (this.size) * newScale - 10; //difference I want to move in a negative x
     let newY = y - 20;
@@ -533,14 +546,10 @@ export default class FervieSprite {
       Math.round(x + (this.size / 2) * scale) +
       Math.round((this.size / 2) * (1 - scale));
 
-    let imageScale =
-      this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
-    let adjustedHeight =
-      FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
+    let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
+    let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
 
-    let footY = Math.round(
-      y + adjustedHeight * 0.9 * scale
-    );
+    let footY = Math.round(y + adjustedHeight * 0.9 * scale);
 
     return [footX, footY];
   }

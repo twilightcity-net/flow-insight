@@ -49,8 +49,8 @@ export default class MoovieRoomDialog extends Component {
     });
   }
 
-  getMovieItem(key, people, timer, title, serviceProviderType) {
-    return <MoovieListItem key={key} id={key} people={people} timer={timer} title={title} serviceProviderType={serviceProviderType} onClickItem={() => {this.openMoovieDoor(key)}}/>
+  getMovieItem(key, people, timer, title, year, serviceProviderType) {
+    return <MoovieListItem key={key} id={key} people={people} timer={timer} title={title} year={year} serviceProviderType={serviceProviderType} onClickItem={() => {this.openMoovieDoor(key)}}/>
   }
 
   openMoovieDoor(key) {
@@ -118,7 +118,7 @@ export default class MoovieRoomDialog extends Component {
           size="large"
         >
           {this.state.moovies.map((moovie, i) => {
-            return this.getMovieItem(moovie.id, moovie.memberCount, this.getTimer(moovie), moovie.title, moovie.serviceProviderType);
+            return this.getMovieItem(moovie.id, moovie.memberCount, this.getTimer(moovie), moovie.title, moovie.year, moovie.serviceProviderType);
           })}
 
         </List>

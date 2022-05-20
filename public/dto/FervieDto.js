@@ -17,7 +17,7 @@ module.exports = class FervieDto {
   }
 
   isValid() {
-    if (this.xpSummary != null && this.xpSummary != null)
+    if (this.sparkId != null && this.xpSummary != null)
       return true;
     return false;
   }

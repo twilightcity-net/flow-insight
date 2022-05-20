@@ -32,6 +32,7 @@ export default class FervieSitSprite {
    * @param scale
    */
   draw(p5, x, y, scale) {
+    console.log("size = "+this.size);
     let image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.FervieWalkUp, 1, this.size);
 
     p5.push();

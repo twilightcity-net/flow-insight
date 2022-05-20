@@ -38,7 +38,10 @@ export class MoovieClient extends BaseClient {
       LEAVE_MOOVIE: "leave-moovie",
       START_MOOVIE: "start-moovie",
       PAUSE_MOOVIE: "pause-moovie",
-      RESUME_MOOVIE: "resume-moovie"
+      RESUME_MOOVIE: "resume-moovie",
+      CLAIM_SEAT: "claim-seat",
+      RELEASE_SEAT: "release-seat",
+      GET_SEAT_MAPPINGS: "get-seat-mappings"
     };
   }
 
@@ -126,6 +129,91 @@ export class MoovieClient extends BaseClient {
     MoovieClient.instance.notifyMoovie(event);
     return event;
   }
+
+  /**
+   * Claim a specific seat in a moovie theater
+   * @param circuitId
+   * @param row
+   * @param seat
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static claimSeat(
+    circuitId,
+    row,
+    seat,
+    scope,
+    callback
+  ) {
+    let event = MoovieClient.instance.createClientEvent(
+      MoovieClient.Events.CLAIM_SEAT,
+      {
+        circuitId: circuitId,
+        row: row,
+        seat: seat
+        },
+      scope,
+      callback
+    );
+
+    MoovieClient.instance.notifyMoovie(event);
+    return event;
+  }
+
+
+
+  /**
+   * Releases a specific seat in a moovie theater so it can be claimed by another user
+   * @param circuitId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static releaseSeat(
+    circuitId,
+    scope,
+    callback
+  ) {
+    let event = MoovieClient.instance.createClientEvent(
+      MoovieClient.Events.RELEASE_SEAT,
+      {
+        circuitId: circuitId
+      },
+      scope,
+      callback
+    );
+
+    MoovieClient.instance.notifyMoovie(event);
+    return event;
+  }
+
+
+  /**
+   * Gets all the seat mappings associated with a moovie theater
+   * @param circuitId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getSeatMappings(
+    circuitId,
+    scope,
+    callback
+  ) {
+    let event = MoovieClient.instance.createClientEvent(
+      MoovieClient.Events.GET_SEAT_MAPPINGS,
+      {
+        circuitId: circuitId
+      },
+      scope,
+      callback
+    );
+
+    MoovieClient.instance.notifyMoovie(event);
+    return event;
+  }
+
 
   /**
    * Add self to the specified moovie circuit

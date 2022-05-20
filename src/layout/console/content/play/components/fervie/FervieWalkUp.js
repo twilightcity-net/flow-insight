@@ -4282,6 +4282,7 @@ Q 262.65 19.3 236.3 7.4 280.45 -0.05 296.6 27.45 325.05 6.65 342.8 19.15 323.8 2
   ) {
     return (
       <svg
+        xmlns="http://www.w3.org/2000/svg"
         id={id}
         preserveAspectRatio="xMinYMin meet"
         x="0px"

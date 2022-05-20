@@ -1,4 +1,5 @@
 import AnimationId from "./AnimationId";
+import * as ReactDOMServer from "react-dom/server";
 
 /**
  * Loads images from scratch, then stores in an image cache by size
@@ -58,6 +59,28 @@ export default class AnimationLoader {
     return staticImage;
   }
 
+  loadPrecoloredSvg(p5, imageFamilyName, valueKey, svgObj) {
+    const cache = this.getDefaultImageCache(imageFamilyName);
+    const image = cache[valueKey];
+    if (image) {
+      return image;
+    } else {
+      let xml = ReactDOMServer.renderToStaticMarkup(svgObj);
+      const svg = new Blob([xml], { type: "image/svg+xml" });
+
+      const DOMURL = window.URL || window.webkitURL || window;
+      const url = DOMURL.createObjectURL(svg);
+
+      cache[valueKey] = p5.loadImage(url);
+      return cache[valueKey];
+    }
+  }
+
+  getPrecoloredSvg(imageFamilyName, valueKey) {
+    const cache = this.getDefaultImageCache(imageFamilyName);
+    return cache[valueKey];
+  }
+
   getAnimationImageWithManualFrame(
     p5,
     animationName,
@@ -115,6 +138,7 @@ export default class AnimationLoader {
       return cache[size];
     }
   }
+
 
   getDefaultImageCache(animationId) {
     let cache = this.imageCaches[animationId];

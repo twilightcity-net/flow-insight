@@ -68,6 +68,7 @@ export default class MoovieListItem extends Component {
         <div className="circuit">
           <div className="state">
             <b>{this.props.title}</b>
+            <div style={{float: "right"}}>{this.props.year}</div>
           </div>
           <div className="name">
             <i>Click to open the door to this moovie</i>

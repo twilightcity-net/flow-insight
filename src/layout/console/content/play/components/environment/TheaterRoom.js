@@ -5,10 +5,9 @@ import Environment from "./Environment";
 import GameState from "../hud/GameState";
 import {TalkToClient} from "../../../../../../clients/TalkToClient";
 import {RendererEventFactory} from "../../../../../../events/RendererEventFactory";
-import {BaseClient} from "../../../../../../clients/BaseClient";
-import {ResourceCircuitController} from "../../../../../../controllers/ResourceCircuitController";
-import {MemberClient} from "../../../../../../clients/MemberClient";
 import {MoovieClient} from "../../../../../../clients/MoovieClient";
+import TheaterFerviesSprite from "../fervie/TheaterFerviesSprite";
+import {MemberClient} from "../../../../../../clients/MemberClient";
 
 export default class TheaterRoom extends Environment {
   static GROUND_IMAGE = "./assets/animation/theater/theater_room_background.png";
@@ -34,7 +33,14 @@ export default class TheaterRoom extends Environment {
     this.animationLoader.getStaticImage(p5, TheaterRoom.WALK_AREA_IMAGE);
 
     this.moovieId = this.globalHud.getGameStateProperty(GameState.Property.OPENED_MOVIE_ID);
-    this.connectToRoom();
+
+    this.seatsReadyToLoad = false;
+    this.fervieSeatMappings = [];
+
+    this.theaterFervies = new TheaterFerviesSprite(this.animationLoader);
+    this.theaterFervies.preload(p5, this.fervieSeatMappings);
+
+    this.loadMoovieRoom(p5);
 
     this.talkRoomMessageListener =
       RendererEventFactory.createEvent(
@@ -51,7 +57,7 @@ export default class TheaterRoom extends Environment {
     this.talkRoomMessageListener.clear();
   }
 
-  connectToRoom() {
+  loadMoovieRoom(p5) {
     if (this.moovieId) {
       MoovieClient.getMoovieCircuit(this.moovieId, this, (arg) => {
         if (!arg.error) {
@@ -63,11 +69,30 @@ export default class TheaterRoom extends Environment {
               console.error("Unable to connect to room: "+arg.error);
             }
           });
+
+          MoovieClient.getSeatMappings(this.moovieId, this, (arg) => {
+            if (!arg.error) {
+              this.fervieSeatMappings = this.filterMeFromList(arg.data);
+              this.theaterFervies.preload(p5,  this.fervieSeatMappings);
+              this.seatsReadyToLoad = true;
+            } else {
+              console.error("Unable to load fervie seats");
+            }
+          });
         }
       });
-
-
     }
+  }
+
+  filterMeFromList(seatMappings) {
+    const me = MemberClient.me;
+    for (let i = 0; i <seatMappings.length ;i++) {
+      if (seatMappings[i].memberId === me.id) {
+        seatMappings.splice(i, 1);
+        return seatMappings;
+      }
+    }
+    return seatMappings;
   }
 
   disconnectFromRoom() {
@@ -78,7 +103,6 @@ export default class TheaterRoom extends Environment {
         } else {
           console.error("unable to leave room: " + arg.error);
         }
-
       });
     }
   }
@@ -123,12 +147,23 @@ export default class TheaterRoom extends Environment {
 
     p5.image(backgroundImage, 0, 0);
 
+    p5.pop();
+
     if (this.isBehindFrontRow(fervie)) {
+      //TODO fix this messy workaround because the fervie coordinates are in terms of the unscaled fervies instead of the environment...
+      this.theaterFervies.drawRow(p5, 1);
+      p5.push();
+      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsFront, 0, 0);
+      p5.pop();
     }
 
     if (this.isBehindMiddleRow(fervie)) {
+      this.theaterFervies.drawRow(p5, 2);
+      p5.push();
+      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsMid, 0, 0);
+      p5.pop();
     }
 
     const fervieRowNumber = this.getFervieRowNumber(fervie);
@@ -139,14 +174,12 @@ export default class TheaterRoom extends Environment {
     } else {
       this.globalHud.setIsActionableHover(false, false);
     }
-
     // p5.textSize(18);
     // p5.textAlign(p5.CENTER);
     // p5.textFont('sans-serif');
     // p5.fill(255, 255, 255);
     // p5.text("Your Moovie is about to begin...", Environment.IMAGE_WIDTH/2 - 200, Environment.IMAGE_HEIGHT/2 - 60, 400, 80);
 
-    p5.pop();
   }
 
   isOverChairsBack(p5, x, y) {
@@ -186,7 +219,7 @@ export default class TheaterRoom extends Environment {
     const adjustX = (fervie.getFervieFootX() / this.scaleAmountX);
     const adjustY = (fervie.getFervieFootY() / this.scaleAmountY);
 
-    if (adjustX > 199 && adjustX < 1090 && adjustY > 396 && adjustY < 416) {
+    if (adjustX > 199 && adjustX < 1090 && adjustY > 393 && adjustY < 416) {
       return 1;
     }
     if (adjustX > 133 && adjustX < 1165 && adjustY > 427 && adjustY < 444) {
@@ -230,13 +263,13 @@ export default class TheaterRoom extends Environment {
     if (rowNumber === 1) {
       offset = 191;
       rowWidth = 900;
-      adjustedFootY = 410;
+      adjustedFootY = 405;
     } else if (rowNumber === 2) {
       offset = 123;
       rowWidth = 1042;
       adjustedFootY = 440;
     } else if (rowNumber === 3) {
-      offset = 55;
+      offset = 53;
       rowWidth = 1185;
       adjustedFootY = 464;
     }
@@ -282,17 +315,26 @@ export default class TheaterRoom extends Environment {
     let chairsMid = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_MID_IMAGE);
     let chairsFront = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_FRONT_IMAGE);
 
-    p5.push();
-    p5.scale(this.scaleAmountX, this.scaleAmountY);
 
     if (!this.isBehindFrontRow(fervie)) {
+      this.theaterFervies.drawRow(p5, 1);
+      p5.push();
+      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsFront, 0, 0);
+      p5.pop();
     }
 
     if (!this.isBehindMiddleRow(fervie)) {
+      this.theaterFervies.drawRow(p5, 2);
+      p5.push();
+      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsMid, 0, 0);
+      p5.pop();
     }
 
+    this.theaterFervies.drawRow(p5, 3);
+    p5.push();
+    p5.scale(this.scaleAmountX, this.scaleAmountY);
     p5.image(chairsBack, 0, 0);
     p5.image(shadow, 0, 0);
     p5.pop();
@@ -308,27 +350,41 @@ export default class TheaterRoom extends Environment {
     return adjustY > 450;
   }
 
-  sitDown(fervie, rowNumber, seatInRow) {
+  sitDown(p5, fervie, rowNumber, seatInRow) {
     console.log("sit ["+rowNumber + ", "+seatInRow + "]");
 
-    const sitPosition = this.getSitXY(fervie, rowNumber, seatInRow);
-    fervie.x = sitPosition[0];
-    fervie.y = sitPosition[1];
-    fervie.sit();
+    MoovieClient.claimSeat(this.moovieId, rowNumber, seatInRow, this, (arg) => {
+      if (!arg.error) {
+        const sitPosition = this.getSitXY(fervie, rowNumber, seatInRow);
+        fervie.moveToRawPosition(sitPosition[0], sitPosition[1]);
+        fervie.sit();
+      } else {
+        console.error("Unable to claim seat, error:" +arg.error);
+      }
+    });
+  }
+
+  standUp(fervie) {
+    console.log("stand up!");
+    MoovieClient.releaseSeat(this.moovieId, this, (arg) => {
+      if (arg.error) {
+        console.error("Unable to release seat claim, error: "+arg.error);
+      }
+    });
+    //even if this fails, let fervie stand up anyway.
+    fervie.stand();
   }
 
   mousePressed(p5, fervie) {
-    console.log((fervie.getFervieFootY() / this.scaleAmountY));
-
     const rowNumber = this.getFervieRowNumber(fervie);
     if (rowNumber > 0) {
       const seatNum = this.getSeatNumber(rowNumber, p5.mouseX);
       const fervieSeat = this.getFervieNearestSeatNumber(rowNumber, fervie);
 
       if (!fervie.isSitting && Math.abs(seatNum - fervieSeat) <= 1) {
-        this.sitDown(fervie, rowNumber, seatNum);
+        this.sitDown(p5, fervie, rowNumber, seatNum);
       } else if (fervie.isSitting && this.isOverChairRow(p5, rowNumber, p5.mouseX, p5.mouseY)) {
-        fervie.stand();
+        this.standUp(fervie);
       }
     }
   }
@@ -338,5 +394,18 @@ export default class TheaterRoom extends Environment {
    */
   update(p5, fervie) {
     super.update(p5);
+
+    if (this.seatsReadyToLoad) {
+      for (let seat of this.fervieSeatMappings) {
+        const seatXY = this.getSitXY(fervie, seat.rowNumber, seat.seatNumber);
+        seat.x = seatXY[0];
+        seat.y = seatXY[1];
+        seat.scale = fervie.getScaleForXY(seatXY[0], seatXY[1]);
+      }
+      this.theaterFervies.refreshFervies(this.fervieSeatMappings);
+
+      this.seatsReadyToLoad = false;
+    }
   }
+
 }

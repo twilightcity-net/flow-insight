@@ -12,7 +12,6 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * Retrieves path information for various urls used with gridtime.
-   * @returns {{FERVIE:string, REQUEST:string, CONFIRM:string, PAIR: string, LINK:string, UNLINK:string, PARTICIPATING: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -76,6 +75,9 @@ module.exports = class BaseController {
       CONFIRM: "/confirm",
       LINK: "/link",
       UNLINK: "/unlink",
+      CLAIM: "/claim",
+      RELEASE: "/release",
+      SEAT: "/seat"
     };
   }
 
@@ -215,6 +217,9 @@ module.exports = class BaseController {
       CREATE_MOOVIE_CIRCUIT: "createMoovieCircuit",
       GET_MOOVIE_CIRCUITS: "getMoovieCircuits",
       GET_MOOVIE_CIRCUIT: "getMoovieCircuit",
+      CLAIM_SEAT: "claimSeat",
+      RELEASE_SEAT: "releaseSeat",
+      GET_SEAT_MAPPINGS: "getSeatMappings",
       JOIN_MOOVIE: "joinMoovie",
       LEAVE_MOOVIE: "leaveMoovie",
       START_MOOVIE: "startMoovie",
