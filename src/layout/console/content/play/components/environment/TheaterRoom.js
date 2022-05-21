@@ -437,15 +437,20 @@ export default class TheaterRoom extends Environment {
     super.update(p5);
 
     if (this.seatsReadyToLoad) {
+      let hasChanges = false;
       for (let seat of this.fervieSeatMappings) {
         if (!seat.x) {
           const seatXY = this.getSitXY(fervie, seat.rowNumber, seat.seatNumber);
           seat.x = seatXY[0];
           seat.y = seatXY[1];
           seat.scale = fervie.getScaleForXY(seatXY[0], seatXY[1]);
+          hasChanges = true;
         }
       }
-      this.theaterFervies.preload(p5, this.fervieSeatMappings);
+      if (hasChanges) {
+        this.theaterFervies.preload(p5, this.fervieSeatMappings);
+      }
+
       this.theaterFervies.refreshFervies(this.fervieSeatMappings);
 
       this.seatsReadyToLoad = false;
