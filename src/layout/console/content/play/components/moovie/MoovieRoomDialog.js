@@ -56,11 +56,19 @@ export default class MoovieRoomDialog extends Component {
   openMoovieDoor(key) {
     this.props.globalHud.closeMooviePicker();
     this.props.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, key);
+
     MoovieClient.joinMoovie(key, this, (arg) => {
       if (arg.error) {
         console.error("Error while joining moovie: "+arg.error);
       } else {
         console.log("Joining moovie");
+        MoovieClient.getSeatMappings(key, this, (arg) => {
+          if (arg.error) {
+            console.error("Error getting seat mappings: "+arg.error);
+          } else {
+            this.props.globalHud.setGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP, arg.data);
+          }
+        })
       }
     });
   }
@@ -93,6 +101,8 @@ export default class MoovieRoomDialog extends Component {
           this.closeNewMoovieRoomForm();
           this.props.globalHud.closeMooviePicker();
           this.props.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, arg.data.id);
+          this.props.globalHud.setGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP, []);
+
           this.setState((prevState => {
             prevState.moovies.push(arg.data);
             return {

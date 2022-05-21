@@ -565,15 +565,13 @@ module.exports = class TalkController extends (
           message
         );
         break;
-      case TalkController.MessageTypes
-        .CIRCUIT_MEMBER_STATUS_EVENT:
+      case TalkController.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
         this.handleCircuitMemberStatusEvent(
           message,
           circuitDatabase
         );
         break;
-      case TalkController.MessageTypes
-        .ROOM_MEMBER_STATUS_EVENT:
+      case TalkController.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
         talkDatabase.updateRoomMemberStatus(
           uri,
           message.data
@@ -622,11 +620,10 @@ module.exports = class TalkController extends (
         break;
       case TalkController.MessageTypes.TERMINAL_CMD_RESULT:
       case TalkController.MessageTypes.TERMINAL_ENVVARIABLE:
-      case TalkController.MessageTypes
-        .TERMINAL_CIRCUIT_CLOSED:
+      case TalkController.MessageTypes.TERMINAL_CIRCUIT_CLOSED:
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
-        let data = message.data,
+        const data = message.data,
           circuit = data.learningCircuitDto;
 
         switch (data.statusType) {
@@ -659,8 +656,7 @@ module.exports = class TalkController extends (
             );
             break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
-          case TalkController.StatusTypes
-            .TEAM_WTF_PAIR_JOIN:
+          case TalkController.StatusTypes.TEAM_WTF_PAIR_JOIN:
             this.handleTeamWtfJoined(
               message,
               me,
@@ -714,8 +710,7 @@ module.exports = class TalkController extends (
               circuit
             );
             break;
-          case TalkController.StatusTypes
-            .TEAM_RETRO_STARTED:
+          case TalkController.StatusTypes.TEAM_RETRO_STARTED:
             circuitDatabase.startRetroForCircuit(circuit);
             break;
           case TalkController.StatusTypes.TEAM_WTF_CANCELED:
@@ -744,13 +739,6 @@ module.exports = class TalkController extends (
               circuit
             );
             break;
-          case TalkController.StatusTypes
-            .TEAM_RETRO_STARTED:
-            console.log("XXX-TEAM_RETRO_STARTED");
-
-            /// ...
-
-            break;
           default:
             console.warn(
               chalk.bgRed(
@@ -763,30 +751,19 @@ module.exports = class TalkController extends (
             break;
         }
         break;
-      case TalkController.MessageTypes
-        .INTENTION_STARTED_DETAILS:
-        let intentionStarted = message.data;
-        journalDatabase.updateIntention(
-          intentionStarted.journalEntry
-        );
+      case TalkController.MessageTypes.INTENTION_STARTED_DETAILS:
+        journalDatabase.updateIntention(message.data.journalEntry);
         break;
-      case TalkController.MessageTypes
-        .INTENTION_FINISHED_DETAILS:
-        let intentionFinished = message.data;
-        journalDatabase.updateIntention(
-          intentionFinished.journalEntry
-        );
+      case TalkController.MessageTypes.INTENTION_FINISHED_DETAILS:
+        journalDatabase.updateIntention(message.data.journalEntry);
         break;
-      case TalkController.MessageTypes
-        .INTENTION_ABORTED_DETAILS:
-        let intentionAborted = message.data;
-        journalDatabase.updateIntention(
-          intentionAborted.journalEntry
-        );
+      case TalkController.MessageTypes.INTENTION_ABORTED_DETAILS:
+        journalDatabase.updateIntention(message.data.journalEntry);
         break;
       case TalkController.MessageTypes.JOURNAL_ENTRY_DTO:
-        let journalEntry = message.data;
-        journalDatabase.updateIntention(journalEntry);
+        journalDatabase.updateIntention(message.data);
+        break;
+      case TalkController.MessageTypes.FERVIE_SEAT_EVENT:
         break;
       default:
         console.warn(

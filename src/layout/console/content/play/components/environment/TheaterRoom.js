@@ -8,6 +8,8 @@ import {RendererEventFactory} from "../../../../../../events/RendererEventFactor
 import {MoovieClient} from "../../../../../../clients/MoovieClient";
 import TheaterFerviesSprite from "../fervie/TheaterFerviesSprite";
 import {MemberClient} from "../../../../../../clients/MemberClient";
+import UtilRenderer from "../../../../../../UtilRenderer";
+import {BaseClient} from "../../../../../../clients/BaseClient";
 
 export default class TheaterRoom extends Environment {
   static GROUND_IMAGE = "./assets/animation/theater/theater_room_background.png";
@@ -59,6 +61,24 @@ export default class TheaterRoom extends Environment {
 
   loadMoovieRoom(p5) {
     if (this.moovieId) {
+
+      const seatingMap = this.globalHud.getGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP);
+
+      if (seatingMap) {
+        if (this.includesMe(seatingMap)) {
+          //if we just walked into the theater and it has us sitting down, release our seat claim
+          MoovieClient.releaseSeat(this.moovieId, this, (arg) => {
+            if (arg.error) {
+              console.error("Unable to release seat claim, error: "+arg.error);
+            }
+          });
+        }
+
+        this.fervieSeatMappings = this.filterMeFromList(seatingMap);
+        this.theaterFervies.preload(p5, this.fervieSeatMappings);
+        this.seatsReadyToLoad = true;
+      }
+
       MoovieClient.getMoovieCircuit(this.moovieId, this, (arg) => {
         if (!arg.error) {
           this.talkRoomId = arg.data.talkRoomId;
@@ -69,19 +89,19 @@ export default class TheaterRoom extends Environment {
               console.error("Unable to connect to room: "+arg.error);
             }
           });
-
-          MoovieClient.getSeatMappings(this.moovieId, this, (arg) => {
-            if (!arg.error) {
-              this.fervieSeatMappings = this.filterMeFromList(arg.data);
-              this.theaterFervies.preload(p5,  this.fervieSeatMappings);
-              this.seatsReadyToLoad = true;
-            } else {
-              console.error("Unable to load fervie seats");
-            }
-          });
         }
       });
     }
+  }
+
+  includesMe(seatMappings) {
+    const me = MemberClient.me;
+    for (let i = 0; i <seatMappings.length ;i++) {
+      if (seatMappings[i].memberId === me.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   filterMeFromList(seatMappings) {
@@ -108,8 +128,35 @@ export default class TheaterRoom extends Environment {
   }
 
   onTalkRoomMessage = (event, arg) => {
-    console.log("messageType = "+arg.messageType);
+    let mType = arg.messageType,
+      memberId =  UtilRenderer.getMemberIdFromMetaProps(arg.metaProps);
+
+    if (mType === BaseClient.MessageTypes.FERVIE_SEAT_EVENT && MemberClient.me.id !== memberId) {
+      if (arg.data.fervieSeatEventType === "CLAIM") {
+        this.handleFervieSeatClaim(arg.data.seatClaim);
+      } else {
+        this.handleFervieSeatRelease(arg.data.seatClaim);
+      }
+      console.log("fervie seat update!");
+    }
   };
+
+  handleFervieSeatClaim(fervieSeatMappingDto) {
+    console.log("seat claim!");
+    this.fervieSeatMappings.push(fervieSeatMappingDto);
+    this.seatsReadyToLoad = true;
+  }
+
+  handleFervieSeatRelease(fervieSeatMappingDto) {
+    console.log("seat release")
+    for (let i = 0; i < this.fervieSeatMappings.length; i++) {
+      if (this.fervieSeatMappings[i].memberId === fervieSeatMappingDto.memberId) {
+        this.fervieSeatMappings.splice(i, 1);
+        break;
+      }
+    }
+    this.seatsReadyToLoad = true;
+  }
 
   getDefaultSpawnProperties() {
     return this.getSouthSpawnProperties();
@@ -304,11 +351,6 @@ export default class TheaterRoom extends Environment {
     return Math.floor(((adjustX - offset) / rowWidth)*11);
   }
 
-  // front 199 1090
-  // mid 133 (x) 1165
-  // back 62 1239
-
-
   drawOverlay(p5, fervie) {
     let shadow = this.animationLoader.getStaticImage(p5, TheaterRoom.SHADOW_IMAGE);
     let chairsBack = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_BACK_IMAGE);
@@ -397,10 +439,12 @@ export default class TheaterRoom extends Environment {
 
     if (this.seatsReadyToLoad) {
       for (let seat of this.fervieSeatMappings) {
-        const seatXY = this.getSitXY(fervie, seat.rowNumber, seat.seatNumber);
-        seat.x = seatXY[0];
-        seat.y = seatXY[1];
-        seat.scale = fervie.getScaleForXY(seatXY[0], seatXY[1]);
+        if (!seat.x) {
+          const seatXY = this.getSitXY(fervie, seat.rowNumber, seat.seatNumber);
+          seat.x = seatXY[0];
+          seat.y = seatXY[1];
+          seat.scale = fervie.getScaleForXY(seatXY[0], seatXY[1]);
+        }
       }
       this.theaterFervies.refreshFervies(this.fervieSeatMappings);
 

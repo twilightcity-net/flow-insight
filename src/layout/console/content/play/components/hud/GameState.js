@@ -31,7 +31,8 @@ export default class GameState {
       HAS_ENTERED_BEDROOM: "hasEnteredBedroom",
       HAS_SETTLED_IN_HOUSE: "hasSettledInHouse",
       HOME_ACTIVITY: "homeActivity",
-      OPENED_MOVIE_ID: "openedMovieId"
+      OPENED_MOVIE_ID: "openedMovieId",
+      MOOVIE_SEATING_MAP: "moovieSeatingMap"
     }
   }
 

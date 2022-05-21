@@ -515,8 +515,6 @@ export default class FervieSprite {
   }
 
   moveToRawPosition(x, y) {
-    console.log((this.y - y)); // up is negative, scale is smaller
-
     //TODO fix the scaling on here, moveToPoint, and spawning... I don't get it
     this.scale = this.scale + (((y - this.y)/this.getMaxVelocityY())*this.scaleStep);
     this.x = x;
