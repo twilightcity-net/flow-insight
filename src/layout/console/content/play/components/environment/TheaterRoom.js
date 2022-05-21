@@ -75,7 +75,6 @@ export default class TheaterRoom extends Environment {
         }
 
         this.fervieSeatMappings = this.filterMeFromList(seatingMap);
-        this.theaterFervies.preload(p5, this.fervieSeatMappings);
         this.seatsReadyToLoad = true;
       }
 
@@ -446,6 +445,7 @@ export default class TheaterRoom extends Environment {
           seat.scale = fervie.getScaleForXY(seatXY[0], seatXY[1]);
         }
       }
+      this.theaterFervies.preload(p5, this.fervieSeatMappings);
       this.theaterFervies.refreshFervies(this.fervieSeatMappings);
 
       this.seatsReadyToLoad = false;
