@@ -20,6 +20,9 @@ export default class TheaterRoom extends Environment {
 
   static WALK_AREA_IMAGE = "./assets/animation/theater/theater_room_walkarea.png";
 
+  static LAUNCH_BUTTON_WIDTH = 200;
+  static LAUNCH_BUTTON_HEIGHT = 60;
+
   /**
    * Preload all the environment images, so they are cached and ready to display
    * @param p5
@@ -33,6 +36,9 @@ export default class TheaterRoom extends Environment {
     this.animationLoader.getStaticImage(p5, TheaterRoom.SHADOW_IMAGE);
 
     this.animationLoader.getStaticImage(p5, TheaterRoom.WALK_AREA_IMAGE);
+
+    this.isButtonVisible = false;
+    this.buttonAlpha = 0;
 
     this.moovieId = this.globalHud.getGameStateProperty(GameState.Property.OPENED_MOVIE_ID);
 
@@ -57,6 +63,20 @@ export default class TheaterRoom extends Environment {
     console.log("unload");
     this.disconnectFromRoom();
     this.talkRoomMessageListener.clear();
+  }
+
+  getDefaultSpawnProperties() {
+    return this.getSouthSpawnProperties();
+  }
+
+
+  getSouthSpawnProperties() {
+    console.log("getSouthSpawnProperties");
+    return {
+      x: Math.round(50 * this.scaleAmountX),
+      y: Math.round((Environment.IMAGE_HEIGHT - 150) * this.scaleAmountY),
+      scale: 0.4
+    };
   }
 
   loadMoovieRoom(p5) {
@@ -157,19 +177,7 @@ export default class TheaterRoom extends Environment {
     this.seatsReadyToLoad = true;
   }
 
-  getDefaultSpawnProperties() {
-    return this.getSouthSpawnProperties();
-  }
 
-
-  getSouthSpawnProperties() {
-    console.log("getSouthSpawnProperties");
-    return {
-      x: Math.round(50 * this.scaleAmountX),
-      y: Math.round((Environment.IMAGE_HEIGHT - 150) * this.scaleAmountY),
-      scale: 0.4
-    };
-  }
 
   isValidPosition(p5, x, y) {
     let walkAreaImage = this.animationLoader.getStaticImage(p5, TheaterRoom.WALK_AREA_IMAGE);
@@ -193,6 +201,8 @@ export default class TheaterRoom extends Environment {
 
     p5.image(backgroundImage, 0, 0);
 
+    this.drawLaunchButtonIfVisible(p5);
+
     if (this.isBehindFrontRow(fervie)) {
       this.theaterFervies.drawRow(p5, 1);
       p5.image(chairsFront, 0, 0);
@@ -204,7 +214,9 @@ export default class TheaterRoom extends Environment {
     }
 
     const fervieRowNumber = this.getFervieRowNumber(fervie);
-    if ((fervieRowNumber === 1 && this.isOverChairsFront(p5, p5.mouseX, p5.mouseY))
+
+    if ((this.isButtonVisible && this.isOverLaunchButton(p5.mouseX, p5.mouseY))
+      || (fervieRowNumber === 1 && this.isOverChairsFront(p5, p5.mouseX, p5.mouseY))
      || (fervieRowNumber === 2 && this.isOverChairsMid(p5, p5.mouseX, p5.mouseY))
       || (fervieRowNumber === 3 && this.isOverChairsBack(p5, p5.mouseX, p5.mouseY))) {
       this.globalHud.setIsActionableHover(true, false);
@@ -213,11 +225,51 @@ export default class TheaterRoom extends Environment {
     }
 
     p5.pop();
-    // p5.textSize(18);
-    // p5.textAlign(p5.CENTER);
-    // p5.textFont('sans-serif');
-    // p5.fill(255, 255, 255);
-    // p5.text("Your Moovie is about to begin...", Environment.IMAGE_WIDTH/2 - 200, Environment.IMAGE_HEIGHT/2 - 60, 400, 80);
+  }
+
+  drawLaunchButtonIfVisible(p5) {
+    if (this.isButtonVisible) {
+      if (this.isOverLaunchButton(p5.mouseX, p5.mouseY)) {
+        if (p5.mouseIsPressed) {
+          this.drawLaunchButton(p5, "rgba(75,37,176,"+this.buttonAlpha+")");
+        } else {
+          this.drawLaunchButton(p5, "rgba(90,43,191,"+this.buttonAlpha+")");
+        }
+      } else {
+        this.drawLaunchButton(p5, "rgba(100,53,201,"+this.buttonAlpha+")");
+      }
+    }
+  }
+
+  isOverLaunchButton(x, y) {
+    const adjustX = x / this.scaleAmountX;
+    const adjustY = y / this.scaleAmountY;
+
+    if (adjustX > (TheaterRoom.IMAGE_WIDTH/2 - TheaterRoom.LAUNCH_BUTTON_WIDTH/2)
+      && adjustX < ((TheaterRoom.IMAGE_WIDTH/2 - TheaterRoom.LAUNCH_BUTTON_WIDTH/2) + TheaterRoom.LAUNCH_BUTTON_WIDTH)
+      && adjustY > (TheaterRoom.IMAGE_HEIGHT/2 - TheaterRoom.LAUNCH_BUTTON_HEIGHT/2 -50)
+      && adjustY < TheaterRoom.IMAGE_HEIGHT/2 - TheaterRoom.LAUNCH_BUTTON_HEIGHT/2 -50 + TheaterRoom.LAUNCH_BUTTON_HEIGHT) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  drawLaunchButton(p5, color) {
+    p5.fill(color);
+    p5.rect(
+      TheaterRoom.IMAGE_WIDTH/2 - TheaterRoom.LAUNCH_BUTTON_WIDTH/2,
+      TheaterRoom.IMAGE_HEIGHT/2 - TheaterRoom.LAUNCH_BUTTON_HEIGHT/2 -50,
+      TheaterRoom.LAUNCH_BUTTON_WIDTH,
+      TheaterRoom.LAUNCH_BUTTON_HEIGHT,
+      5
+    );
+
+    p5.textSize(20);
+    p5.textAlign(p5.CENTER);
+    p5.textFont('arial');
+    p5.fill("rgba(255,255,255, "+this.buttonAlpha+")");
+    p5.text("Launch Moovie", Environment.IMAGE_WIDTH/2 - 200, Environment.IMAGE_HEIGHT/2 - 60, 400, 80);
 
   }
 
@@ -389,6 +441,7 @@ export default class TheaterRoom extends Environment {
         fervie.sit();
         this.handleFervieSeatClaim({memberId: me.id, fervieColor: me.fervieColor, rowNumber: rowNumber, seatNumber: seatInRow})
         this.reloadTheaterFerviesOnReady(p5);
+        this.isButtonVisible = true;
       } else {
         console.error("Unable to claim seat, error:" +arg.error);
       }
@@ -422,15 +475,6 @@ export default class TheaterRoom extends Environment {
     }
   }
 
-  /**
-   * Update the environment according to where fervie has moved
-   */
-  update(p5, fervie) {
-    super.update(p5);
-
-    this.reloadTheaterFerviesOnReady(p5);
-  }
-
   reloadTheaterFerviesOnReady(p5) {
     if (this.seatsReadyToLoad) {
       let hasChanges = false;
@@ -451,4 +495,22 @@ export default class TheaterRoom extends Environment {
       this.seatsReadyToLoad = false;
     }
   }
+
+  /**
+   * Update the environment according to where fervie has moved
+   */
+  update(p5, fervie) {
+    super.update(p5);
+
+    if (this.isButtonVisible && this.buttonAlpha < 1) {
+      this.buttonAlpha += 0.05;
+      if (this.buttonAlpha > 1) {
+        this.buttonAlpha = 1;
+      }
+    }
+
+    this.reloadTheaterFerviesOnReady(p5);
+  }
+
+
 }
