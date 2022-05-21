@@ -108,7 +108,7 @@ export default class LakeInTheWoods extends Environment {
         (LakeInTheWoods.IMAGE_HEIGHT - 180) *
           this.scaleAmountY
       ),
-      scale: 0.8,
+      scale: 0.7,
     };
   }
 

@@ -27,6 +27,7 @@ export default class ActiveCircuitChat extends Component {
     this.state = {
       chatValue: "",
     };
+
   }
 
   /**

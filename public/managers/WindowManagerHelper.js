@@ -18,7 +18,8 @@ module.exports = class WindowManagerHelper {
         "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
       CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
-      HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY
+      HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY,
+      MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE
     };
   }
 
@@ -37,9 +38,24 @@ module.exports = class WindowManagerHelper {
     );
   }
 
-  static closeChartWindow(windowName) {
+  static closeWindow(windowName) {
     return global.App.WindowManager.closeWindowByName(
       windowName
+    );
+  }
+
+  /**
+   * creates new moovie popout window
+   * @returns {*}
+   */
+  static createMoovieWindow(moovieWindowName, arg) {
+    let windowClassName =
+      WindowManagerHelper.WindowNames.MOOVIE;
+
+    return global.App.WindowManager.createWindow(
+      moovieWindowName,
+      windowClassName,
+      arg
     );
   }
 

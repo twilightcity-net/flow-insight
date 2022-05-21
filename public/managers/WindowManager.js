@@ -14,6 +14,7 @@ const electron = require("electron"),
   ConsoleWindow = require("../windows/ConsoleWindow"),
   ChartWindow = require("../windows/ChartWindow");
 const HotkeyConfigWindow = require("../windows/HotkeyConfigWindow");
+const MoovieWindow = require("../windows/MoovieWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -231,9 +232,10 @@ class WindowManager {
       "[WindowManager] load window -> " + window.name
     );
 
-    let newUrl = this.getWindowViewURL(window.view, arg);
+    if (window.url) {
+      window.window.loadURL(window.url);
+    }
 
-    window.window.loadURL(newUrl);
     window.window.on("ready-to-show", () => {
       if (window.autoShow) {
         var that = this;
@@ -406,6 +408,8 @@ class WindowManager {
         return new ChartWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.HOTKEY:
         return new HotkeyConfigWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.MOOVIE:
+        return new MoovieWindow(windowName, arg);
       default:
         return null;
     }

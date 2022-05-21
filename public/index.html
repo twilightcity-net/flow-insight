@@ -7,8 +7,8 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
-<meta http-equiv="Content-Security-Policy"
-        content="script-src 'self'; base-uri 'self';form-action 'self'">
+<!--<meta http-equiv="Content-Security-Policy"
+        content="script-src 'self'; base-uri 'self';form-action 'self'">-->
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
   <title>FlowInsight</title>
@@ -39,6 +39,12 @@
 
   html,
   body.console {
+    background: none;
+    opacity: 1;
+  }
+
+  html,
+  body.moovie {
     background: none;
     opacity: 1;
   }
@@ -86,6 +92,8 @@
     background: #000000;
     height: 100%;
   }
+
+
 
   /*
        * VIEW: LOADING
@@ -3381,6 +3389,75 @@
 
   #component.playLayout #fervies {
     display: none;
+  }
+
+  /**
+  COMPONENT: MOOVIE-CONTROLS
+   */
+
+  #component.moovieChat {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    min-height:100vh;
+    position:relative;
+  }
+
+  #component.moovieChat .chatFeed {
+    width: 100%;
+    min-height:calc(100vh - 75px);
+    color: white;
+    transition: width 0.333s ease;
+  }
+
+  #component.moovieChat .chatInput {
+    width: 330px;
+    margin-left: 60px;
+    position:absolute;
+    bottom:10px;
+    padding: 5px;
+    height: 50px;
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-radius: 5px;
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    resize: none;
+  }
+
+  #component.moovieChat .chatInput:focus {
+    outline: none;
+    border: 0.105rem solid #6435c9;
+  }
+
+
+  #component.moovieChat .monty {
+    width: 50px;
+    position:absolute;
+    bottom:10px;
+    left:0;
+    opacity: 0.3;
+    margin-left: 5px;
+    transition: opacity 1s ease;
+  }
+
+  @media (max-width: 51px) {
+    #component.moovieChat {
+      background: none;
+    }
+    #component.moovieChat .chatFeed {
+      opacity: 0;
+    }
+  }
+
+  @media (min-width: 51px) {
+    #component.moovieChat .monty {
+      opacity: 1;
+    }
+  }
+
+  #component.moovieChat .monty:hover {
+    opacity: 1;
+    cursor: pointer;
   }
 
   /*

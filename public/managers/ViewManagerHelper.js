@@ -13,7 +13,8 @@ module.exports = class ViewManagerHelper {
       ACTIVATOR: "activator",
       CONSOLE: "console",
       CHART: "chart",
-      HOTKEY: "hotkey"
+      HOTKEY: "hotkey",
+      MOOVIE: "moovie"
     };
   }
 };

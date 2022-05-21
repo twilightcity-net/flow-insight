@@ -123,7 +123,7 @@ module.exports = class ChartWindowManager {
   closeChartWindow(arg) {
     let windowName = this.getWindowName(arg);
 
-    WindowManagerHelper.closeChartWindow(windowName);
+    WindowManagerHelper.closeWindow(windowName);
 
     this.chartWindowsByName.delete(windowName);
   }

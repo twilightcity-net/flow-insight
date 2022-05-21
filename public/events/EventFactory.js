@@ -65,8 +65,17 @@ class EventFactory {
         prefix + "window-console-browser-load",
       WINDOW_ACTIVATOR_CLOSE:
         prefix + "window-activator-close",
+      WINDOW_CHAT_CONSOLE_SHOW_HIDE:
+        prefix + "window-chat-console-show-hide",
+      WINDOW_CHAT_CONSOLE_SHOWN:
+        prefix + "window-chat-console-shown",
+      WINDOW_CHAT_CONSOLE_HIDDEN:
+        prefix + "window-chat-console-hidden",
+      WINDOW_CHAT_CONSOLE_BLUR:
+        prefix + "window-chat-console-blur",
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
+      WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_CHART_SHOWN: prefix + "window-chart-shown",
       WINDOW_CHART_CLOSED: prefix + "window-chart-closed",

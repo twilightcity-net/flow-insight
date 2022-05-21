@@ -56,6 +56,12 @@ export default class TheaterRoom extends Environment {
         this,
         this.onTalkRoomMessage
       );
+
+    this.launchMoovieEvent =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_OPEN_MOOVIE,
+        this
+      );
   }
 
   unload(p5) {
@@ -100,6 +106,7 @@ export default class TheaterRoom extends Environment {
 
       MoovieClient.getMoovieCircuit(this.moovieId, this, (arg) => {
         if (!arg.error) {
+          this.moovie = arg.data;
           this.talkRoomId = arg.data.talkRoomId;
           TalkToClient.joinExistingRoom(this.talkRoomId, this, (arg) => {
             if (!arg.error) {
@@ -440,7 +447,7 @@ export default class TheaterRoom extends Environment {
         fervie.moveToXPosition(fervie.getXForFoot(sitXY[0]*this.scaleAmountX));
         fervie.sit();
         this.handleFervieSeatClaim({memberId: me.id, fervieColor: me.fervieColor, rowNumber: rowNumber, seatNumber: seatInRow})
-        this.reloadTheaterFerviesOnReady(p5);
+        this.reloadTheaterFerviesIfReady(p5);
         this.isButtonVisible = true;
       } else {
         console.error("Unable to claim seat, error:" +arg.error);
@@ -473,9 +480,13 @@ export default class TheaterRoom extends Environment {
         this.standUp(fervie);
       }
     }
+
+    if (this.isButtonVisible && this.isOverLaunchButton(p5.mouseX, p5.mouseY)) {
+      this.launchMoovieEvent.dispatch({moovie: this.moovie})
+    }
   }
 
-  reloadTheaterFerviesOnReady(p5) {
+  reloadTheaterFerviesIfReady(p5) {
     if (this.seatsReadyToLoad) {
       let hasChanges = false;
       for (let seat of this.fervieSeatMappings) {
@@ -509,7 +520,7 @@ export default class TheaterRoom extends Environment {
       }
     }
 
-    this.reloadTheaterFerviesOnReady(p5);
+    this.reloadTheaterFerviesIfReady(p5);
   }
 
 

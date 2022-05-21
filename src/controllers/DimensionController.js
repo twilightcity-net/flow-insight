@@ -114,6 +114,18 @@ export class DimensionController {
     );
   }
 
+
+  /**
+   * gets the fervie panel width of the canvas
+   * @returns {number}
+   */
+  static getMoovieChatHeight() {
+    console.log("window.innerHeight = "+window.innerHeight);
+    return (
+      window.innerHeight
+    );
+  }
+
   /**
    * gets the fervie panel width of the canvas
    * @returns {number}

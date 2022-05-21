@@ -20,7 +20,6 @@ export class RendererEventFactory {
 
   /**
    * static enum subclass to store event names.
-   * @returns {{MOOVIE_CLIENT:string, HOTKEY_CLIENT:string, WINDOW_CLOSE_HOTKEY_CONFIG:string, NOTIFICATION_DATA_REFRESH:string, CIRCUIT_DATA_REFRESH:string, VIEW_CONSOLE_NOTIFICATION_READ_UPDATE:string, VIEW_CONSOLE_ME_UPDATE:string, ME_DATA_REFRESH:string, JOURNAL_DATA_REFRESH:string, NOTIFICATION_CLIENT:string, FERVIE_CLIENT:string,VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL:string, VIEW_CONSOLE_CIRCUIT_JOIN_FAIL:string, VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL:string, VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, VIEW_CONSOLE_DASHBOARD_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, VIEW_CONSOLE_CIRCUIT_SOLVE: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, VIEW_CONSOLE_JOIN_EXISTING_ROOM: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME: string, VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, VIEW_CONSOLE_LEAVE_EXISTING_ROOM: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_FERVIE_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, TERMINAL_CLIENT: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
    * @constructor
    */
   static get Events() {
@@ -36,6 +35,14 @@ export class RendererEventFactory {
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
       WINDOW_CONSOLE_SHOW_HIDE:
         prefix + "window-console-show-hide",
+      WINDOW_CHAT_CONSOLE_SHOW_HIDE:
+        prefix + "window-chat-console-show-hide",
+      WINDOW_CHAT_CONSOLE_SHOWN:
+        prefix + "window-chat-console-shown",
+      WINDOW_CHAT_CONSOLE_HIDDEN:
+        prefix + "window-chat-console-hidden",
+      WINDOW_CHAT_CONSOLE_BLUR:
+        prefix + "window-chat-console-blur",
       WINDOW_ACTIVATOR_CLOSE:
         prefix + "window-activator-close",
       WINDOW_CONSOLE_BROWSER_REQUEST:
@@ -45,6 +52,7 @@ export class RendererEventFactory {
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
+      WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       TALK_MESSAGE_CLIENT: prefix + "talk-message-client",

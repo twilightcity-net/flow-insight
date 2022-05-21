@@ -57,6 +57,7 @@ const {
 const ConfigWindowManager = require("../managers/ConfigWindowManager");
 const HotkeyManager = require("../managers/HotkeyManager");
 const MoovieManager = require("../managers/MoovieManager");
+const MoovieWindowManager = require("../managers/MoovieWindowManager");
 
 module.exports = class App {
   constructor() {
@@ -176,6 +177,7 @@ module.exports = class App {
       global.App.ChartManager = new ChartManager();
       global.App.HotkeyManager = new HotkeyManager();
       global.App.ChartWindowManager = new ChartWindowManager();
+      global.App.MoovieWindowManager = new MoovieWindowManager();
       global.App.ConfigWindowManager = new ConfigWindowManager();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
