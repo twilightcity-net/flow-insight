@@ -35,7 +35,6 @@ export default class TheaterFerviesSprite {
       let coloredSvg = FervieWalkUp.getFrame(1, fervie.fervieColor, null);
 
       this.animationLoader.loadPrecoloredSvg(p5, TheaterFerviesSprite.IMAGE_FAMILY, fervie.fervieColor, coloredSvg);
-
     }
   }
 
@@ -62,19 +61,38 @@ export default class TheaterFerviesSprite {
    * @param rowNumber
    */
   drawRow(p5, rowNumber) {
+    const scale = this.getFervieScaleForRow(rowNumber);
 
     for (let seatedFervie of this.seatedFervies) {
       if (seatedFervie.rowNumber === rowNumber && seatedFervie.x) {
         let image = this.animationLoader.getPrecoloredSvg(TheaterFerviesSprite.IMAGE_FAMILY, seatedFervie.fervieColor);
         p5.push();
-        p5.translate(seatedFervie.x + Math.round((360/2) * (1 - seatedFervie.scale)), seatedFervie.y + (120 * seatedFervie.scale));
+        p5.translate(seatedFervie.x - (175*scale), seatedFervie.y - (130*scale));
         p5.scale(TheaterFerviesSprite.STATIC_SCALE_RATIO, TheaterFerviesSprite.STATIC_SCALE_RATIO);
-        p5.scale(seatedFervie.scale, seatedFervie.scale);
+        p5.scale(scale, scale);
         p5.image(image, 0, 0);
         p5.pop();
       }
     }
   }
+
+
+
+  getFervieScaleForRow(rowNumber) {
+    switch (rowNumber) {
+      case 1:
+        return 0.46;
+      case 2:
+        return 0.51;
+      case 3:
+        return 0.53;
+      default:
+        return 0.5;
+    }
+  }
+
+  //+ Math.round((TheaterFerviesSprite.SCALED_WIDTH/2) * (1 - seatedFervie.scale))
+  // + (120 * seatedFervie.scale)
 
   /**
    * Update the fervie

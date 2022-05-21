@@ -193,23 +193,14 @@ export default class TheaterRoom extends Environment {
 
     p5.image(backgroundImage, 0, 0);
 
-    p5.pop();
-
     if (this.isBehindFrontRow(fervie)) {
-      //TODO fix this messy workaround because the fervie coordinates are in terms of the unscaled fervies instead of the environment...
       this.theaterFervies.drawRow(p5, 1);
-      p5.push();
-      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsFront, 0, 0);
-      p5.pop();
     }
 
     if (this.isBehindMiddleRow(fervie)) {
       this.theaterFervies.drawRow(p5, 2);
-      p5.push();
-      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsMid, 0, 0);
-      p5.pop();
     }
 
     const fervieRowNumber = this.getFervieRowNumber(fervie);
@@ -220,6 +211,8 @@ export default class TheaterRoom extends Environment {
     } else {
       this.globalHud.setIsActionableHover(false, false);
     }
+
+    p5.pop();
     // p5.textSize(18);
     // p5.textAlign(p5.CENTER);
     // p5.textFont('sans-serif');
@@ -300,7 +293,7 @@ export default class TheaterRoom extends Environment {
     return Math.floor(((adjustX - offset) / rowWidth)*11);
   }
 
-  getSitXY(fervie, rowNumber, seatInRow) {
+  getSitXY(rowNumber, seatInRow) {
 
     let offset = 0;
     let rowWidth = 1;
@@ -323,9 +316,7 @@ export default class TheaterRoom extends Environment {
     const seatWidth = (rowWidth / 11);
     let adjustedFootX = offset + (seatWidth * seatInRow) + (seatWidth/2);
 
-    //okay these adjustedCoords, so we need to unadjust too.
-
-    return [fervie.getXForFoot(adjustedFootX*this.scaleAmountX), fervie.getYForFoot(adjustedFootY*this.scaleAmountY)];
+    return [adjustedFootX, adjustedFootY];
   }
 
   getSeatNumber(rowNumber, x) {
@@ -356,28 +347,23 @@ export default class TheaterRoom extends Environment {
     let chairsMid = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_MID_IMAGE);
     let chairsFront = this.animationLoader.getStaticImage(p5, TheaterRoom.CHAIRS_FRONT_IMAGE);
 
+    p5.push();
+    p5.scale(this.scaleAmountX, this.scaleAmountY);
 
     if (!this.isBehindFrontRow(fervie)) {
       this.theaterFervies.drawRow(p5, 1);
-      p5.push();
-      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsFront, 0, 0);
-      p5.pop();
     }
 
     if (!this.isBehindMiddleRow(fervie)) {
       this.theaterFervies.drawRow(p5, 2);
-      p5.push();
-      p5.scale(this.scaleAmountX, this.scaleAmountY);
       p5.image(chairsMid, 0, 0);
-      p5.pop();
     }
 
     this.theaterFervies.drawRow(p5, 3);
-    p5.push();
-    p5.scale(this.scaleAmountX, this.scaleAmountY);
     p5.image(chairsBack, 0, 0);
     p5.image(shadow, 0, 0);
+
     p5.pop();
   }
 
@@ -396,9 +382,13 @@ export default class TheaterRoom extends Environment {
 
     MoovieClient.claimSeat(this.moovieId, rowNumber, seatInRow, this, (arg) => {
       if (!arg.error) {
-        const sitPosition = this.getSitXY(fervie, rowNumber, seatInRow);
-        fervie.moveToRawPosition(sitPosition[0], sitPosition[1]);
+        const me = MemberClient.me;
+
+        const sitXY = this.getSitXY(rowNumber, seatInRow);
+        fervie.moveToXPosition(fervie.getXForFoot(sitXY[0]*this.scaleAmountX));
         fervie.sit();
+        this.handleFervieSeatClaim({memberId: me.id, fervieColor: me.fervieColor, rowNumber: rowNumber, seatNumber: seatInRow})
+        this.reloadTheaterFerviesOnReady(p5);
       } else {
         console.error("Unable to claim seat, error:" +arg.error);
       }
@@ -413,6 +403,8 @@ export default class TheaterRoom extends Environment {
       }
     });
     //even if this fails, let fervie stand up anyway.
+    const me = MemberClient.me;
+    this.handleFervieSeatRelease({memberId: me.id})
     fervie.stand();
   }
 
@@ -436,14 +428,17 @@ export default class TheaterRoom extends Environment {
   update(p5, fervie) {
     super.update(p5);
 
+    this.reloadTheaterFerviesOnReady(p5);
+  }
+
+  reloadTheaterFerviesOnReady(p5) {
     if (this.seatsReadyToLoad) {
       let hasChanges = false;
       for (let seat of this.fervieSeatMappings) {
         if (!seat.x) {
-          const seatXY = this.getSitXY(fervie, seat.rowNumber, seat.seatNumber);
+          const seatXY = this.getSitXY(seat.rowNumber, seat.seatNumber); //these are now adustedFootPositions
           seat.x = seatXY[0];
           seat.y = seatXY[1];
-          seat.scale = fervie.getScaleForXY(seatXY[0], seatXY[1]);
           hasChanges = true;
         }
       }
@@ -456,5 +451,4 @@ export default class TheaterRoom extends Environment {
       this.seatsReadyToLoad = false;
     }
   }
-
 }

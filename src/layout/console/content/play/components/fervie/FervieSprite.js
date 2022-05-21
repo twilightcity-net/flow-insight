@@ -317,10 +317,12 @@ export default class FervieSprite {
 
   sit() {
     this.isSitting = true;
+    this.isVisible = false;
   }
 
   stand() {
     this.isSitting = false;
+    this.isVisible = true;
   }
 
   /**
@@ -446,10 +448,6 @@ export default class FervieSprite {
     return footY - adjustedHeight * 0.9 * this.scale;
   }
 
-  getScaleForXY(x, y) {
-    return this.scale + (((y - this.y)/this.getMaxVelocityY())*this.scaleStep);
-  }
-
   getFervieFootY() {
     let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
     let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
@@ -514,11 +512,8 @@ export default class FervieSprite {
     }
   }
 
-  moveToRawPosition(x, y) {
-    //TODO fix the scaling on here, moveToPoint, and spawning... I don't get it
-    this.scale = this.scale + (((y - this.y)/this.getMaxVelocityY())*this.scaleStep);
+  moveToXPosition(x) {
     this.x = x;
-    this.y = y;
   }
 
   moveToPoint(x, y, scale) {
