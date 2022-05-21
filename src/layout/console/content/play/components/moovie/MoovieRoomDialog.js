@@ -56,6 +56,13 @@ export default class MoovieRoomDialog extends Component {
   openMoovieDoor(key) {
     this.props.globalHud.closeMooviePicker();
     this.props.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, key);
+    MoovieClient.joinMoovie(key, this, (arg) => {
+      if (arg.error) {
+        console.error("Error while joining moovie: "+arg.error);
+      } else {
+        console.log("Joining moovie");
+      }
+    });
   }
 
   openNewMoovieRoomForm = () => {
