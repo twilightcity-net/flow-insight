@@ -64,7 +64,7 @@ export default class TheaterFerviesSprite {
   drawRow(p5, rowNumber) {
 
     for (let seatedFervie of this.seatedFervies) {
-      if (seatedFervie.rowNumber === rowNumber) {
+      if (seatedFervie.rowNumber === rowNumber && seatedFervie.x) {
         let image = this.animationLoader.getPrecoloredSvg(TheaterFerviesSprite.IMAGE_FAMILY, seatedFervie.fervieColor);
         p5.push();
         p5.translate(seatedFervie.x + Math.round((360/2) * (1 - seatedFervie.scale)), seatedFervie.y + (120 * seatedFervie.scale));
