@@ -101,6 +101,13 @@ module.exports = class MoovieWindow {
   onClosedCb() {
     log.info("[MoovieWindow] closed window");
     global.App.MoovieWindowManager.closeMoovieWindow();
+
+    if(is_mac) {
+      log.info("showing dock..");
+      app.dock.show().then(() => {
+        log.info("show returned!");
+      });
+    }
   }
 
   onBlurCb() {
