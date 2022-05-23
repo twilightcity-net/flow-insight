@@ -3396,18 +3396,37 @@
    */
 
   #component.moovieChat {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
     width: 100%;
     min-height:100vh;
     position:relative;
+    border-top: 1px solid rgba(41, 41, 41, 1);
+    border-left: 1px solid rgba(41, 41, 41, 1);
+    border-bottom: 1px solid rgba(41, 41, 41, 1);
   }
 
   #component.moovieChat .chatFeed {
     width: 100%;
-    min-height:calc(100vh - 75px);
-    color: white;
+    min-height:calc(100vh - 85px);
+    max-height: calc(100vh - 85px);
+    overflow-y: scroll;
     transition: width 0.333s ease;
     visibility: hidden;
+    padding: 10px;
+    scroll-behavior: smooth;
+    margin-top:10px;
+  }
+
+  #component.moovieChat .noMessages {
+    color: #777777;
+    font-style: italic;
+    text-align: center;
+  }
+
+  #component.moovieChat .chatFeed::-webkit-scrollbar {
+    display: none;
   }
 
   #component.moovieChat .chatInput {
@@ -3447,11 +3466,26 @@
     cursor: pointer;
   }
 
+  #component.moovieChat .content {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #component.moovieChat .chatFeed .segment {
+    background: transparent;
+  }
+
+  #component.moovieChat .chatFeed .feedLabel {
+    position: relative;
+  }
+
   #component.moovieChat .chatFeed .feedLabel svg {
     width: 100%;
     height: auto;
     border-radius: 500rem;
-    margin-top: 10px;
+    position: absolute;
+    bottom: 1.4rem;
+    margin-left: 5px;
   }
 
   #component.moovieChat .chatFeed a {
@@ -3491,36 +3525,62 @@
   }
 
   #component.moovieChat .chatFeed .text.extra {
-    color: #c0c0c0;
-    padding-left: 0.840rem;
+    color: white;
     line-height: 1.420rem;
     font-size: 1rem;
-    margin-top: 0px;
-    margin-bottom: 10px;
+    max-width: 280px;
+    background: #303336;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
   }
 
-  #component.moovieChat .chatFeed .images.extra {
-    margin-top: 0.840rem;
+  #component.moovieChat .chatFeed .text.extra.bubbleLeft {
+    background: #303336;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 15px;
+    float:left;
+    clear:left;
   }
 
-  #component.moovieChat .chatFeed .images.extra>img {
-    margin-right: 0.840rem;
+  #component.moovieChat .chatFeed .text.extra.bubbleRight {
+    background: #6435c9;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 15px;
+    float:right;
+    clear:right;
   }
 
-  #component.moovieChat .chatFeed .event .content {
-    margin-left: 0.420rem;
-    margin-top: 5px;
+  #component.moovieChat .chatFeed .meta.bubbleRight {
+    text-align: right;
   }
 
-  #component.moovieChat .chatFeed .event>.label {
-    margin-left: 0.420rem;
+
+  #component.moovieChat .chatFeed .meta {
+    line-height: 1rem;
+    margin:0;
+    color: #777777;
+    width: 100%;
   }
+
+  /*#component.moovieChat .chatFeed .event .content {*/
+  /*  margin-left: 0.420rem;*/
+  /*  margin-top: 5px;*/
+  /*}*/
+
+  /*#component.moovieChat .chatFeed .event>.label {*/
+  /*  margin-left: 0.420rem;*/
+  /*}*/
 
 
 
   @media (max-width: 51px) {
     #component.moovieChat {
       background: none;
+      border: 0px;
     }
     #component.moovieChat .chatFeed {
       opacity: 0;
@@ -3533,6 +3593,7 @@
     }
     #component.moovieChat .chatFeed {
       visibility: visible;
+
     }
     #component.moovieChat .chatInput {
       visibility: visible;

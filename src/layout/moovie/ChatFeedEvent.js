@@ -13,42 +13,43 @@ export default class ChatFeedEvent extends Component {
 
   }
 
-  /**
-   * gets our extra text element from our array of texts
-   * @returns {*}
-   */
-  getFeedExtraTextsContent() {
-    return this.props.texts.map((message, i) => {
-      return (
-        <Feed.Extra
-          key={i}
-          text
-          content={this.props.texts[i]}
-        />
-      );
-    });
+  getFeedTextBubbles(bubbleClass) {
+    return (
+      <div>
+      {this.props.texts.map((text, i) => {
+          return (<Feed.Extra key={i}
+                          text
+                          content={text}
+                          className={bubbleClass}/>);
+      })}
+      </div>);
   }
-
   /**
    * renders the active circuit feed event into the feed panel loop
    * @returns {*}
    */
   render() {
+    let profileImage = "";
+    let bubbleClass = "bubbleRight";
+    if (!this.props.isMe) {
+      profileImage = (<FervieProfile
+        fervieColor={this.props.fervieColor}
+        fervieAccessory={this.props.fervieAccessory}
+        fervieTertiaryColor={this.props.fervieTertiaryColor}
+      />);
+      bubbleClass = "bubbleLeft";
+    }
+
     return (
       <Feed.Event>
         <Feed.Label className="feedLabel">
-          <FervieProfile
-            fervieColor={this.props.fervieColor}
-            fervieAccessory={this.props.fervieAccessory}
-            fervieTertiaryColor={this.props.fervieTertiaryColor}
-          />
+          {profileImage}
         </Feed.Label>
         <Feed.Content>
-          <Feed.Summary>
-            <a href="#">@{this.props.name}</a>
-            <Feed.Date>{this.props.time}</Feed.Date>
-          </Feed.Summary>
-          {this.getFeedExtraTextsContent()}
+          {this.getFeedTextBubbles(bubbleClass)}
+          <Feed.Meta className={bubbleClass}>
+            {this.props.time}
+          </Feed.Meta>
         </Feed.Content>
       </Feed.Event>
     );

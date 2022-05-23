@@ -5,7 +5,7 @@ class ChatMessageDetailsDto {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
-      this.chatMessage = json.chatMessage;
+      this.message = json.message;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'ChatMessageDetailDto' : " +

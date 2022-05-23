@@ -313,8 +313,7 @@ export default class ActiveCircuit extends Component {
 
     for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
-      let username =
-        UtilRenderer.getUsernameFromMetaProps(metaProps);
+      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -366,8 +365,7 @@ export default class ActiveCircuit extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
-      case BaseClient.MessageTypes
-        .CIRCUIT_MEMBER_STATUS_EVENT:
+      case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
         this.handleCircuitMemberStatusEventMessage(arg);
         break;
       case BaseClient.MessageTypes.TEAM_MEMBER:
