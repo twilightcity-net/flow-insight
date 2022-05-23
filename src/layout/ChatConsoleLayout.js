@@ -99,7 +99,7 @@ export default class ChatConsoleLayout extends Component {
   updateMessages(messages, newMessage) {
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
-      if (lastMessage.time === newMessage.time) {
+      if (lastMessage.time === newMessage.time && lastMessage.username === newMessage.username) {
         lastMessage.texts.push(newMessage.texts[0]);
       } else {
         messages.push(newMessage);
