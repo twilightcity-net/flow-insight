@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Feed } from "semantic-ui-react";
-import FervieProfile from "./FervieProfile";
+import FervieProfile from "../shared/FervieProfile";
 
 export default class ChatFeedEvent extends Component {
   /**

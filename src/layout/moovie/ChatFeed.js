@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import {Feed, Segment, TextArea} from "semantic-ui-react";
-import FlowFeedEvent from "../console/content/flow/components/FlowFeedEvent";
+import {Feed, Segment} from "semantic-ui-react";
 import ChatFeedEvent from "./ChatFeedEvent";
 
 /**

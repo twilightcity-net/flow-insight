@@ -20,6 +20,14 @@ export default class FervieProfile extends Component {
     let fervieColor = "#B042FF";
     let fervieAccessory;
     let fervieTertiaryColor;
+    if (this.props.circuitMember) {
+      if (this.props.circuitMember.fervieColor) {
+        fervieColor = this.props.circuitMember.fervieColor;
+      }
+      fervieAccessory = this.props.circuitMember.fervieAccessory;
+      fervieTertiaryColor = this.props.circuitMember.fervieTertiaryColor;
+    }
+
     if (this.props.fervieColor) {
         fervieColor = this.props.fervieColor;
     }
@@ -29,10 +37,6 @@ export default class FervieProfile extends Component {
     if (this.props.fervieTertiaryColor) {
       fervieTertiaryColor = this.props.fervieTertiaryColor;
     }
-
-    console.log("fervieColor = "+fervieColor);
-    console.log("fervieAccessory = "+fervieAccessory);
-    console.log("fervieTertiaryColor = "+fervieTertiaryColor);
 
     return (
       <svg
