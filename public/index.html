@@ -3402,6 +3402,14 @@
     position:relative;
   }
 
+  #component.moovieChat .chatFeed {
+    width: 100%;
+    min-height:calc(100vh - 75px);
+    color: white;
+    transition: width 0.333s ease;
+    visibility: hidden;
+  }
+
   #component.moovieChat .chatInput {
     width: 330px;
     margin-left: 60px;
@@ -3415,6 +3423,7 @@
     border: 1px solid rgba(74, 74, 74, 0.96);
     color: rgba(241, 241, 241, 0.96);
     resize: none;
+    visibility: hidden;
   }
 
   #component.moovieChat .chatInput:focus {
@@ -3433,14 +3442,9 @@
     transition: opacity 1s ease;
   }
 
-  #component.moovieChat .chatFeed {
-    width: 100%;
-    min-height:calc(100vh - 75px);
-    transition: width 0.333s ease;
-    color: #c0c0c0;
-    overflow-y: auto;
-    height: 100%;
-    padding: 10px;
+  #component.moovieChat .monty:hover {
+    opacity: 1;
+    cursor: pointer;
   }
 
   #component.moovieChat .chatFeed .feedLabel svg {
@@ -3512,6 +3516,8 @@
     margin-left: 0.420rem;
   }
 
+
+
   @media (max-width: 51px) {
     #component.moovieChat {
       background: none;
@@ -3525,11 +3531,12 @@
     #component.moovieChat .monty {
       opacity: 1;
     }
-  }
-
-  #component.moovieChat .monty:hover {
-    opacity: 1;
-    cursor: pointer;
+    #component.moovieChat .chatFeed {
+      visibility: visible;
+    }
+    #component.moovieChat .chatInput {
+      visibility: visible;
+    }
   }
 
   /*

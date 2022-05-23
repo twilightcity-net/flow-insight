@@ -47,6 +47,9 @@ export default class MoovieView extends Component {
     TalkToClient.init(this);
     MoovieClient.init(this);
 
+    this.isOpen = false;
+    this.isOpening = false;
+    this.isHiding = false;
   }
 
   componentDidMount = () => {
@@ -150,8 +153,11 @@ export default class MoovieView extends Component {
 
   onConsoleBlur = () => {
     console.log("On console blur!");
-    this.isHiding = true;
-    this.playAnimateOut();
+    if (this.isOpen) {
+      console.log("playing animate out");
+      this.isHiding = true;
+      this.playAnimateOut();
+    }
   }
 
 
@@ -160,14 +166,14 @@ export default class MoovieView extends Component {
 
     if (!this.isOpening && !this.isOpen) {
       this.isOpening = true;
+      let root = document.getElementById("root");
+      root.style.transform = "translate(400px, 0px)";
+      root.style.opacity = "0";
       setTimeout(() => {
-
-        let root = document.getElementById("root");
-        root.style.transform = "translate(400px, 0px)";
-        root.style.opacity = "0";
-
-        this.events.consoleShowHide.dispatch({show: 1});
         this.playAnimateIn();
+        setTimeout(() => {
+          this.events.consoleShowHide.dispatch({show: 1});
+        }, 50);
       }, 333);
     }
   }

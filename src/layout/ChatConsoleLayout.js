@@ -137,11 +137,11 @@ export default class ChatConsoleLayout extends Component {
     return (
       <div id="component" className="moovieChat">
         <div id="chatFeedWindow" className="chatFeed" >
-          <ChatFeed />
+          {<ChatFeed />}
         </div>
         <div>
           <Image id="montyIcon" src={"./assets/animation/monty/monty_icon.png"} className="monty" onMouseOver={this.mouseOverIcon}/>
-          <ChatInput onEnterKey={this.onEnterKey}/>
+          {<ChatInput onEnterKey={this.onEnterKey}/>}
         </div>
       </div>
     );

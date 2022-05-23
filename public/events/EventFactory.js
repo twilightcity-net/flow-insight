@@ -76,6 +76,7 @@ class EventFactory {
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
+      WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_CHART_SHOWN: prefix + "window-chart-shown",
       WINDOW_CHART_CLOSED: prefix + "window-chart-closed",

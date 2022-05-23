@@ -53,6 +53,7 @@ export class RendererEventFactory {
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
+      WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       TALK_MESSAGE_CLIENT: prefix + "talk-message-client",

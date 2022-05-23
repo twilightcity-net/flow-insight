@@ -62,6 +62,12 @@ export default class TheaterRoom extends Environment {
         RendererEventFactory.Events.WINDOW_OPEN_MOOVIE,
         this
       );
+
+    this.closeMoovieEvent =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CLOSE_MOOVIE,
+        this
+      );
   }
 
   unload(p5) {
@@ -69,12 +75,13 @@ export default class TheaterRoom extends Environment {
     console.log("unload");
     this.disconnectFromRoom();
     this.talkRoomMessageListener.clear();
+
+    this.closeMoovieEvent.dispatch({});
   }
 
   getDefaultSpawnProperties() {
     return this.getSouthSpawnProperties();
   }
-
 
   getSouthSpawnProperties() {
     console.log("getSouthSpawnProperties");
