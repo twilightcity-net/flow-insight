@@ -134,15 +134,12 @@ export default class MoovieView extends Component {
   componentWillUnmount = () => {
   };
 
-
-
   onConsoleShown = () => {
     console.log("On console shown!");
     this.isOpen = true;
     this.isOpening = false;
     this.isHiding = false;
   }
-
 
   onConsoleHidden = () => {
     console.log("On console hidden!");

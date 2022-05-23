@@ -5,12 +5,12 @@ import {MoovieClient} from "../clients/MoovieClient";
 import {TalkToClient} from "../clients/TalkToClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {BaseClient} from "../clients/BaseClient";
+import ChatFeed from "./moovie/ChatFeed";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
  */
 export default class ChatConsoleLayout extends Component {
-  static sidebarWidth = "24em";
 
   /**
    * Initialize the component
@@ -137,11 +137,11 @@ export default class ChatConsoleLayout extends Component {
     return (
       <div id="component" className="moovieChat">
         <div id="chatFeedWindow" className="chatFeed" >
-          Chat goes here
+          <ChatFeed />
         </div>
         <div>
           <Image id="montyIcon" src={"./assets/animation/monty/monty_icon.png"} className="monty" onMouseOver={this.mouseOverIcon}/>
-        <ChatInput onEnterKey={this.onEnterKey}/>
+          <ChatInput onEnterKey={this.onEnterKey}/>
         </div>
       </div>
     );

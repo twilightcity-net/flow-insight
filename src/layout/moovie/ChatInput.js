@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import {TextArea} from "semantic-ui-react";
 
 /**
- * this component is the wrapper for the always-on-top chat overlay panel
+ * this component is the input box for the always-on-top chat overlay panel
  */
 export default class ChatInput extends Component {
-  static sidebarWidth = "24em";
 
   /**
    * Initialize the child components of the layout
@@ -32,12 +31,7 @@ export default class ChatInput extends Component {
   componentWillUnmount = () => {
   };
 
-  handleKeyPress = (e) => {
-    if (e.charCode === 13) {
-      e.preventDefault();
-      this.handleEnterKey();
-    }
-  };
+
 
   /**
    * handles our key press for when we use the enter or return keys. check out
@@ -83,6 +77,17 @@ export default class ChatInput extends Component {
   };
 
   /**
+   * Handle when a key is pressed so we can detect enter
+   * @param e
+   */
+  handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      e.preventDefault();
+      this.handleEnterKey();
+    }
+  };
+
+  /**
    * renders the root console layout of the chat console view
    * @returns {*} - the JSX to render
    */
@@ -92,7 +97,6 @@ export default class ChatInput extends Component {
             id="moovieChatInput"
             className="chatInput"
             value={this.state.chatValue}
-            // ref={this.chatInputRef}
             onKeyPress={this.handleKeyPress}
             onChange={this.handleChangeText}
       />

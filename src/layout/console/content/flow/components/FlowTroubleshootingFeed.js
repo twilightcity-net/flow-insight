@@ -136,7 +136,7 @@ export default class FlowTroubleshootingFeed extends Component {
           }}
         >
           <div style={{ height: "10px" }} />
-          {this.getFeedEventsFromMessagesArrayContent()}
+          {this.getFeedEvents()}
           <br />
         </Feed>
       </Segment>
@@ -183,7 +183,7 @@ export default class FlowTroubleshootingFeed extends Component {
    * renders our feed messages from our messages array.
    * @returns {*}
    */
-  getFeedEventsFromMessagesArrayContent() {
+  getFeedEvents() {
     return this.state.feedEvents.map((message, i) => {
       if (i === this.state.feedEvents.length - 1) {
         return (

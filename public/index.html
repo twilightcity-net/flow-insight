@@ -3402,13 +3402,6 @@
     position:relative;
   }
 
-  #component.moovieChat .chatFeed {
-    width: 100%;
-    min-height:calc(100vh - 75px);
-    color: white;
-    transition: width 0.333s ease;
-  }
-
   #component.moovieChat .chatInput {
     width: 330px;
     margin-left: 60px;
@@ -3438,6 +3431,85 @@
     opacity: 0.3;
     margin-left: 5px;
     transition: opacity 1s ease;
+  }
+
+  #component.moovieChat .chatFeed {
+    width: 100%;
+    min-height:calc(100vh - 75px);
+    transition: width 0.333s ease;
+    color: #c0c0c0;
+    overflow-y: auto;
+    height: 100%;
+    padding: 10px;
+  }
+
+  #component.moovieChat .chatFeed .feedLabel svg {
+    width: 100%;
+    height: auto;
+    border-radius: 500rem;
+    margin-top: 10px;
+  }
+
+  #component.moovieChat .chatFeed a {
+    font-weight: bolder;
+    color: #c0c0c0;
+    background: transparent;
+    border: 0.105rem solid transparent;
+    border-radius: 0.420rem;
+    transition: border 0.420s ease-out, background 0.420s ease-out;
+    padding: 0.210rem 0.420rem;
+    margin: -0.210rem 0;
+  }
+
+  #component.moovieChat .chatFeed a:hover {
+    border: 0.105rem solid #6435c9;
+    background: transparent;
+    color: #6435c9;
+    font-weight: bolder;
+    cursor: pointer !important;
+  }
+
+  #component.moovieChat .chatFeed .ui.divider {
+    font-size: 0.630rem;
+    font-style: italic;
+    color: #484848;
+    margin: 0.420rem 0.840rem 0.420rem 0;
+  }
+
+  #component.moovieChat .chatFeed .summary {
+    color: #c0c0c0;
+  }
+
+  #component.moovieChat .chatFeed .summary .date {
+    color: #484848;
+    font-weight: bolder;
+    font-style: italic;
+  }
+
+  #component.moovieChat .chatFeed .text.extra {
+    color: #c0c0c0;
+    padding-left: 0.840rem;
+    line-height: 1.420rem;
+    font-size: 1rem;
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+
+  #component.moovieChat .chatFeed .images.extra {
+    margin-top: 0.840rem;
+  }
+
+  #component.moovieChat .chatFeed .images.extra>img {
+    margin-right: 0.840rem;
+  }
+
+  #component.moovieChat .chatFeed .event .content {
+    margin-left: 0.420rem;
+    margin-top: 5px;
+  }
+
+  #component.moovieChat .chatFeed .event>.label {
+    margin-left: 0.420rem;
   }
 
   @media (max-width: 51px) {
