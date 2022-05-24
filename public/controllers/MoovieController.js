@@ -3,8 +3,8 @@ const BaseController = require("./BaseController"),
 const DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
- * This class is used to coordinate calls to gridtime for the Fervie service
- * @type {FervieController}
+ * This class is used to coordinate calls to gridtime for the Moovie service
+ * @type {MoovieController}
  */
 module.exports = class MoovieController extends (
   BaseController

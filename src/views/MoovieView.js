@@ -5,7 +5,7 @@ import {MoovieClient} from "../clients/MoovieClient";
 import ChatConsoleLayout from "../layout/ChatConsoleLayout";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {MemberClient} from "../clients/MemberClient";
-import {CircuitClient} from "../clients/CircuitClient";
+import {CircuitMemberClient} from "../clients/CircuitMemberClient";
 
 /**
  * This View will contain the invisible chat window that floats on top of the moovie,
@@ -49,7 +49,7 @@ export default class MoovieView extends Component {
     TalkToClient.init(this);
     MoovieClient.init(this);
     MemberClient.init(this);
-    CircuitClient.init(this);
+    CircuitMemberClient.init(this);
 
     this.isOpen = false;
     this.isOpening = false;

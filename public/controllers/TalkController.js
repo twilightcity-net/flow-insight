@@ -566,7 +566,7 @@ module.exports = class TalkController extends (
         );
         break;
       case TalkController.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
-        this.handleCircuitMemberStatusEvent(
+        this.handleRoomMemberStatusEvent(
           message,
           circuitDatabase
         );
@@ -786,7 +786,7 @@ module.exports = class TalkController extends (
    * @param message
    * @param circuitDatabase
    */
-  handleCircuitMemberStatusEvent(message, circuitDatabase) {
+  handleRoomMemberStatusEvent(message, circuitDatabase) {
     let data = message.data,
       circuitMembers = [data.roomMember];
 

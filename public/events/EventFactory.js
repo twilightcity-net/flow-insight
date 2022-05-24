@@ -46,6 +46,7 @@ class EventFactory {
       NOTIFICATION_CLIENT: prefix + "notification-client",
       FERVIE_CLIENT: prefix + "fervie-client",
       MOOVIE_CLIENT: prefix + "moovie-client",
+      CIRCUIT_MEMBER_CLIENT: prefix + "circuit-member-client",
       TERMINAL_CLIENT: prefix + "terminal-client",
       CHART_CLIENT: prefix + "chart-client",
       HOTKEY_CLIENT: prefix + "hotkey-client",

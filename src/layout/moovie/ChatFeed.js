@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Feed, Segment} from "semantic-ui-react";
 import ChatFeedEvent from "./ChatFeedEvent";
+import CircuitMemberHelper from "./CircuitMemberHelper";
 
 /**
  * this component is the feed of messages for the always-on-top chat overlay panel
@@ -53,12 +54,28 @@ export default class ChatFeed extends Component {
   }
 
   getFeedEvents() {
+    let fervieColor = null;
+    let fervieAccessory = null;
+    let fervieTertiaryColor = null;
+
     return this.props.messages.map((message, i) => {
+      const member = CircuitMemberHelper.getMemberForUsername(this.props.circuitMembers, message.username);
+
+      if (member) {
+        fervieColor = member.fervieColor;
+        fervieAccessory = member.fervieAccessory;
+        fervieTertiaryColor = member.fervieTertiaryColor;
+      } else {
+        fervieColor = null;
+        fervieAccessory = null;
+        fervieTertiaryColor = null;
+      }
+
       return (<ChatFeedEvent
           key={i}
-          fervieColor={message.fervieColor}
-          fervieAccessory={message.fervieAccessory}
-          fervieTertiaryColor={message.fervieTertiaryColor}
+          fervieColor={fervieColor}
+          fervieAccessory={fervieAccessory}
+          fervieTertiaryColor={fervieTertiaryColor}
           name={message.username}
           time={message.time}
           isMe={message.isMe}

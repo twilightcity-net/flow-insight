@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Feed } from "semantic-ui-react";
+import React, {Component} from "react";
 
 export default class FervieProfile extends Component {
   /**

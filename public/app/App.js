@@ -58,6 +58,7 @@ const ConfigWindowManager = require("../managers/ConfigWindowManager");
 const HotkeyManager = require("../managers/HotkeyManager");
 const MoovieManager = require("../managers/MoovieManager");
 const MoovieWindowManager = require("../managers/MoovieWindowManager");
+const CircuitMemberManager = require("../managers/CircuitMemberManager");
 
 module.exports = class App {
   constructor() {
@@ -161,18 +162,16 @@ module.exports = class App {
       global.App.TalkManager = new TalkManager();
       global.App.JournalManager = new JournalManager();
       global.App.TeamManager = new TeamManager();
-      global.App.DictionaryManager =
-        new DictionaryManager();
+      global.App.DictionaryManager = new DictionaryManager();
       global.App.MemberManager = new MemberManager();
       global.App.CircuitManager = new CircuitManager();
-      global.App.TeamCircuitManager =
-        new TeamCircuitManager();
+      global.App.TeamCircuitManager = new TeamCircuitManager();
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
       global.App.MoovieManager = new MoovieManager();
-      global.App.NotificationManager =
-        new NotificationManager();
+      global.App.CircuitMemberManager = new CircuitMemberManager();
+      global.App.NotificationManager = new NotificationManager();
       global.App.TerminalManager = new TerminalManager();
       global.App.ChartManager = new ChartManager();
       global.App.HotkeyManager = new HotkeyManager();

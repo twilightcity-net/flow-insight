@@ -21,6 +21,7 @@ module.exports = class BaseController {
       SEPARATOR: "/",
       INTENTION: "/intention",
       CIRCUIT: "/circuit",
+      GLOBAL: "/global",
       CIRCUIT_WTF: "/circuit/wtf",
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
@@ -226,6 +227,7 @@ module.exports = class BaseController {
       START_MOOVIE: "startMoovie",
       PAUSE_MOOVIE: "pauseMoovie",
       RESUME_MOOVIE: "resumeMoovie",
+      GET_CIRCUIT_MEMBERS_GLOBAL: "getCircuitMembersGlobal",
       REQUEST_PAIR_LINK: "requestPairLink",
       CONFIRM_PAIR_LINK: "confirmPairLink",
       STOP_PAIRING: "stopPairing",
@@ -333,7 +335,6 @@ module.exports = class BaseController {
 
   /**
    * our possible client context scopes used by gridtime clients
-   * @returns {{MOOVIE_CLIENT:string, FERVIE_CLIENT:string, TALK_CLIENT: string, TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
    * @constructor
    */
   static get Contexts() {
@@ -348,6 +349,7 @@ module.exports = class BaseController {
       DICTIONARY_CLIENT: "DictionaryClient",
       FERVIE_CLIENT: "FervieClient",
       MOOVIE_CLIENT: "MoovieClient",
+      CIRCUIT_MEMBER_CLIENT: "CircuitMemberClient",
       CHART_CLIENT: "ChartClient",
       TERMINAL_CLIENT: "TerminalClient",
     };

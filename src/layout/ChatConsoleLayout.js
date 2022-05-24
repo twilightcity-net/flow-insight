@@ -8,6 +8,7 @@ import {BaseClient} from "../clients/BaseClient";
 import ChatFeed from "./moovie/ChatFeed";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
+import CircuitMemberHelper from "./moovie/CircuitMemberHelper";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -22,7 +23,8 @@ export default class ChatConsoleLayout extends Component {
     super(props);
     this.name = "[MoovieLayout]";
     this.state = {
-      messages : []
+      messages : [],
+      circuitMembers : []
     };
 
     this.talkRoomMessageListener =
@@ -65,8 +67,52 @@ export default class ChatConsoleLayout extends Component {
       } else {
         console.log("not for me");
       }
+    } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
+      this.handleRoomMemberStatusEvent(arg);
     }
   };
+
+
+  /**
+   * When a member joins the room, we need to fetch their fervie member profile info,
+   * So we can display the proper fervie color and accessories in the icon
+   * @param arg
+   */
+  handleRoomMemberStatusEvent(arg) {
+    console.log("here we go!");
+    // let data = arg.data,
+    //   roomMember = data[ActiveCircuit.roomMemberPropStr];
+    //
+    // let metaProps = arg.metaProps,
+    //   username =
+    //     UtilRenderer.getUsernameFromMetaProps(metaProps),
+    //   time = UtilRenderer.getChatMessageTimeString(
+    //     arg.messageTime
+    //   );
+    //
+    // switch (data.statusEvent) {
+    //   case BaseClient.CircuitMemberStatus
+    //     .CIRCUIT_MEMBER_JOIN:
+    //     this.appendCircuitMemberEventMessage(
+    //       arg,
+    //       time,
+    //       "@" + username + " joined the session."
+    //     );
+    //     this.addCircuitMemberToCircuit(roomMember);
+    //     return;
+    //   case BaseClient.CircuitMemberStatus
+    //     .CIRCUIT_MEMBER_LEAVE:
+    //     this.appendCircuitMemberEventMessage(
+    //       arg,
+    //       time,
+    //       "@" + username + " left."
+    //     );
+    //     this.removeCircuitMemberFromCircuit(roomMember);
+    //     return;
+    //   default:
+    //     return;
+    // }
+  }
 
   /**
    * Add the chat message to the message feed for display
@@ -92,6 +138,8 @@ export default class ChatConsoleLayout extends Component {
     });
   }
 
+
+
   /**
    * If two messages at the same time, condense the data to display
    * bubbles adjacent without the timestamp underneath.
@@ -114,7 +162,7 @@ export default class ChatConsoleLayout extends Component {
   }
 
   /**
-   * Load the moovie circuit and connect to the chat room
+   * Load the moovie circuit, circuit members, and connect to the chat room
    * @param moovieId
    */
   loadMoovieAndConnectRoom(moovieId) {
@@ -131,6 +179,13 @@ export default class ChatConsoleLayout extends Component {
       } else {
         console.error("Unable to load moovie circuit: "+arg.error);
       }
+    });
+    this.memberHelper = new CircuitMemberHelper(this.props.moovieId);
+    this.memberHelper.loadMembers((members) => {
+      console.log("members loaded");
+      this.setState({
+        circuitMembers: members
+      })
     });
   }
 
@@ -185,7 +240,7 @@ export default class ChatConsoleLayout extends Component {
     return (
       <div id="component" className="moovieChat">
         <div id="chatFeedWindow" className="chatFeed" >
-          {<ChatFeed messages={this.state.messages}/>}
+          {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages}/>}
         </div>
         <div>
           <Image id="montyIcon" src={"./assets/animation/monty/monty_icon.png"} className="monty" onMouseOver={this.mouseOverIcon}/>
