@@ -23,6 +23,7 @@ module.exports = class MoovieWindow {
     this.autoShow = true;
     this.collapsedWindowWidth = 50;
     this.slideOutWindowWidth = 400;
+    this.isClosed = false;
     this.topMargin = Math.round(this.display.workAreaSize.height * 0.16);
     this.bottomMargin = Math.round(this.display.workAreaSize.height * 0.11);
     this.window = new BrowserWindow({
@@ -100,6 +101,7 @@ module.exports = class MoovieWindow {
 
   onClosedCb() {
     log.info("[MoovieWindow] closed window");
+    this.isClosed = true;
     global.App.MoovieWindowManager.closeMoovieWindow();
 
     if(is_mac) {
@@ -150,8 +152,10 @@ module.exports = class MoovieWindow {
     this.window.focus();
 
     setTimeout(() => {
-      this.state = this.states.SHOWN;
-      this.events.consoleShown.dispatch({});
+      if (!this.isClosed) {
+        this.state = this.states.SHOWN;
+        this.events.consoleShown.dispatch({});
+      }
     }, this.animateTimeMs);
   }
 
@@ -161,9 +165,11 @@ module.exports = class MoovieWindow {
   hideConsole() {
     this.state = this.states.HIDING;
     setTimeout(() => {
-      this.state = this.states.HIDDEN;
-      this.updateToCollapsedConsole();
-      this.events.consoleHidden.dispatch({});
+      if (!this.isClosed) {
+        this.state = this.states.HIDDEN;
+        this.updateToCollapsedConsole();
+        this.events.consoleHidden.dispatch({});
+      }
     }, this.animateTimeMs);
   }
 

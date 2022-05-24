@@ -54,6 +54,10 @@ export default class MoovieView extends Component {
     this.isOpen = false;
     this.isOpening = false;
     this.isHiding = false;
+
+    this.state = {
+      isOpen : false
+    }
   }
 
   componentDidMount = () => {
@@ -131,6 +135,11 @@ export default class MoovieView extends Component {
         this,
         this.onConsoleBlur
       ),
+      windowClose: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CLOSE_MOOVIE,
+        this
+      ),
+
     }
 
     this.isHiding = false;
@@ -142,44 +151,50 @@ export default class MoovieView extends Component {
   };
 
   onConsoleShown = () => {
-    console.log("On console shown!");
     this.isOpen = true;
     this.isOpening = false;
     this.isHiding = false;
+
+    this.setState({
+      isOpen: true
+    });
   }
 
   onConsoleHidden = () => {
-    console.log("On console hidden!");
     this.isOpen = false;
     this.isOpening = false;
     this.isHiding = false;
+
+    this.setState({
+      isOpen: false
+    });
   }
 
   onConsoleBlur = () => {
-    console.log("On console blur!");
     if (this.isOpen) {
-      console.log("playing animate out");
       this.isHiding = true;
       this.playAnimateOut();
     }
   }
 
-
-  onMouseOverIcon = () => {
-    console.log("mouseOverIcon!");
+  onClickMonty = () => {
+    console.log("onClickMonty!");
 
     if (!this.isOpening && !this.isOpen) {
       this.isOpening = true;
       let root = document.getElementById("root");
       root.style.transform = "translate(400px, 0px)";
       root.style.opacity = "0";
+      this.playAnimateIn();
       setTimeout(() => {
-        this.playAnimateIn();
-        setTimeout(() => {
-          this.events.consoleShowHide.dispatch({show: 1});
-        }, 50);
-      }, 333);
+        //delaying the event slightly keeps the visualization from glitching
+        this.events.consoleShowHide.dispatch({show: 1});
+      }, 50);
     }
+  }
+
+  onMontyExit = () => {
+    this.events.windowClose.dispatch({});
   }
 
   playMontyIn() {
@@ -221,7 +236,11 @@ export default class MoovieView extends Component {
 
     return (
       <div id="wrapper" className="moovie">
-        <ChatConsoleLayout moovieId={this.props.routeProps.moovieId} onMouseOverIcon={this.onMouseOverIcon}/>
+        <ChatConsoleLayout
+          moovieId={this.props.routeProps.moovieId}
+          isConsoleOpen={this.state.isOpen}
+          onClickMonty={this.onClickMonty}
+          onMontyExit={this.onMontyExit}/>
       </div>
     );
   }

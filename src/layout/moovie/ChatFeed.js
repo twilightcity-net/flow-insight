@@ -36,7 +36,9 @@ export default class ChatFeed extends Component {
    * Scroll to the bottom of the feed whenever there's an update
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    this.scrollToFeedBottom();
+    if (prevProps.messages.length !== this.props.messages.length) {
+      this.scrollToFeedBottom();
+    }
   }
 
   /**

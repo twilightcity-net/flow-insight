@@ -9,6 +9,7 @@ import ChatFeed from "./moovie/ChatFeed";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
 import CircuitMemberHelper from "./moovie/CircuitMemberHelper";
+import MontyButton from "./moovie/MontyButton";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -171,10 +172,24 @@ export default class ChatConsoleLayout extends Component {
   }
 
   /**
-   * When we mouse over the Monty icon
+   * When we click on the Monty icon
    */
-  mouseOverIcon = () => {
-    this.props.onMouseOverIcon();
+  onClickMonty = () => {
+    this.props.onClickMonty();
+  }
+
+  /**
+   * When we exit with the monty icon
+   */
+  onMontyExit = () => {
+    this.props.onMontyExit();
+  }
+
+  /**
+   * When we click on the Monty icon
+   */
+  onCloseActionMenu = () => {
+    this.props.onCloseActionMenu();
   }
 
   /**
@@ -224,8 +239,12 @@ export default class ChatConsoleLayout extends Component {
           {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages}/>}
         </div>
         <div>
-          <Image id="montyIcon" src={"./assets/animation/monty/monty_icon.png"} className="monty" onMouseOver={this.mouseOverIcon}/>
-          {<ChatInput onEnterKey={this.onEnterKey}/>}
+          <MontyButton
+            onCloseActionMenu={this.onCloseActionMenu}
+            isConsoleOpen={this.props.isConsoleOpen}
+            onClickMonty={this.onClickMonty}
+            onMontyExit={this.onMontyExit}/>
+          <ChatInput onEnterKey={this.onEnterKey}/>
         </div>
       </div>
     );
