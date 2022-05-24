@@ -10,6 +10,7 @@ import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
 import CircuitMemberHelper from "./moovie/CircuitMemberHelper";
 import MontyButton from "./moovie/MontyButton";
+import MoovieBanner from "./moovie/MoovieBanner";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -52,8 +53,8 @@ export default class ChatConsoleLayout extends Component {
    * called right before when the component will unmount
    */
   componentWillUnmount = () => {
-    if (this.moovie) {
-      TalkToClient.leaveExistingRoom(this.moovie.talkRoomId, this, (arg) => {
+    if (this.state.moovie) {
+      TalkToClient.leaveExistingRoom(this.state.moovie.talkRoomId, this, (arg) => {
         if (!arg.error) {
           console.log("room left");
         } else {
@@ -65,7 +66,7 @@ export default class ChatConsoleLayout extends Component {
 
   onTalkRoomMessage = (event, arg) => {
     if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
-      if (arg.uri === this.moovie.talkRoomId) {
+      if (arg.uri === this.state.moovie.talkRoomId) {
         console.log("message is for this room!!");
         this.addMessageToFeed(arg);
       } else {
@@ -151,8 +152,12 @@ export default class ChatConsoleLayout extends Component {
   loadMoovieAndConnectRoom(moovieId) {
     MoovieClient.getMoovieCircuit(moovieId, this, (arg) => {
       if (!arg.error) {
-        this.moovie = arg.data;
-        TalkToClient.joinExistingRoom(this.moovie.talkRoomId, this, (arg) => {
+        const moovie = arg.data;
+        this.setState({
+          moovie: moovie
+        });
+
+        TalkToClient.joinExistingRoom(moovie.talkRoomId, this, (arg) => {
           if (!arg.error) {
             console.log("room joined");
           } else {
@@ -185,11 +190,50 @@ export default class ChatConsoleLayout extends Component {
     this.props.onMontyExit();
   }
 
-  /**
-   * When we click on the Monty icon
-   */
-  onCloseActionMenu = () => {
-    this.props.onCloseActionMenu();
+  onStartMoovie = () => {
+    console.log("onStartMoovie");
+    if (!this.state.moovie) return;
+
+    MoovieClient.startMoovie(this.state.moovie.id, this, (arg) => {
+      this.handleMoovieResponse(arg);
+    });
+  }
+
+  onPauseMoovie = () => {
+    console.log("onPauseMoovie");
+    if (!this.state.moovie) return;
+
+    MoovieClient.pauseMoovie(this.state.moovie.id, this, (arg) => {
+      this.handleMoovieResponse(arg);
+    });
+  }
+
+  onResumeMoovie = () => {
+    console.log("onResumeMoovie");
+    if (!this.state.moovie) return;
+
+    MoovieClient.resumeMoovie(this.state.moovie.id, this, (arg) => {
+      this.handleMoovieResponse(arg);
+    });
+  }
+
+  onRestartMoovie = () => {
+    console.log("onRestartMoovie");
+    if (!this.state.moovie) return;
+
+    MoovieClient.restartMoovie(this.state.moovie.id, this, (arg) => {
+      this.handleMoovieResponse(arg);
+    });
+  }
+
+  handleMoovieResponse(arg) {
+    if (!arg.error) {
+      this.setState({
+        moovie: arg.data
+      });
+    } else {
+      console.error("Error: "+arg.error);
+    }
   }
 
   /**
@@ -208,11 +252,11 @@ export default class ChatConsoleLayout extends Component {
    * @param callback
    */
   addChatMessage = (text, callback) => {
-    if (!this.moovie) {
+    if (!this.state.moovie) {
       console.error("No moovie defined!  Unable to post chat");
       callback();
     } else {
-      TalkToClient.publishChatToRoom(this.moovie.talkRoomId, text, this,
+      TalkToClient.publishChatToRoom(this.state.moovie.talkRoomId, text, this,
         (arg) => {
           if (!arg.error) {
             console.log("chat published");
@@ -235,15 +279,19 @@ export default class ChatConsoleLayout extends Component {
   render() {
     return (
       <div id="component" className="moovieChat">
+        <MoovieBanner moovie={this.state.moovie}/>
         <div id="chatFeedWindow" className="chatFeed" >
           {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages}/>}
         </div>
         <div>
-          <MontyButton
-            onCloseActionMenu={this.onCloseActionMenu}
-            isConsoleOpen={this.props.isConsoleOpen}
-            onClickMonty={this.onClickMonty}
-            onMontyExit={this.onMontyExit}/>
+          <MontyButton moovie={this.state.moovie}
+                       isConsoleOpen={this.props.isConsoleOpen}
+                       onClickMonty={this.onClickMonty}
+                       onStartMoovie={this.onStartMoovie}
+                       onPauseMoovie={this.onPauseMoovie}
+                       onResumeMoovie={this.onResumeMoovie}
+                       onRestartMoovie={this.onRestartMoovie}
+                       onMontyExit={this.onMontyExit}/>
           <ChatInput onEnterKey={this.onEnterKey}/>
         </div>
       </div>

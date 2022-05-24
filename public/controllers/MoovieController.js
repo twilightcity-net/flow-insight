@@ -35,6 +35,7 @@ module.exports = class MoovieController extends (
       START_MOOVIE: "start-moovie",
       PAUSE_MOOVIE: "pause-moovie",
       RESUME_MOOVIE: "resume-moovie",
+      RESTART_MOOVIE: "restart-moovie",
       CLAIM_SEAT: "claim-seat",
       RELEASE_SEAT: "release-seat",
       GET_SEAT_MAPPINGS: "get-seat-mappings"
@@ -103,6 +104,9 @@ module.exports = class MoovieController extends (
           break;
         case MoovieController.Events.RESUME_MOOVIE:
           this.handleResumeMoovieEvent(event, arg);
+          break;
+        case MoovieController.Events.RESTART_MOOVIE:
+          this.handleRestartMoovieEvent(event, arg);
           break;
         case MoovieController.Events.CLAIM_SEAT:
           this.handleClaimSeatEvent(event, arg);
@@ -454,6 +458,37 @@ module.exports = class MoovieController extends (
       MoovieController.Contexts.MOOVIE_CLIENT,
       {},
       MoovieController.Names.RESUME_MOOVIE,
+      MoovieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for restarting the timer back to 00:00
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleRestartMoovieEvent(event, arg, callback) {
+    let circuitId = arg.args.circuitId,
+      urn =
+        MoovieController.Paths.MOOVIE +
+        MoovieController.Paths.SEPARATOR +
+        circuitId +
+        MoovieController.Paths.RESTART;
+
+    this.doClientRequest(
+      MoovieController.Contexts.MOOVIE_CLIENT,
+      {},
+      MoovieController.Names.RESTART_MOOVIE,
       MoovieController.Types.POST,
       urn,
       (store) =>

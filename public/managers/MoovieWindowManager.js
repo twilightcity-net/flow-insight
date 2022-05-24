@@ -13,7 +13,6 @@ module.exports = class MoovieWindowManager {
   static AMAZON_PREFIX = "https://www.amazon.com/";
   static HBOMAX_PREFIX = "https://play.hbomax.com/";
 
-
   /**
    * builds the ChartWindowManager for the global app scope
    */
@@ -65,7 +64,6 @@ module.exports = class MoovieWindowManager {
     return url.startsWith(MoovieWindowManager.AMAZON_PREFIX)
       || url.startsWith(MoovieWindowManager.NETFLIX_PREFIX)
       || url.startsWith(MoovieWindowManager.HBOMAX_PREFIX);
-
   }
 
   closeMoovieWindow() {

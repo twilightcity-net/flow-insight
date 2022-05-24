@@ -3407,10 +3407,37 @@
     border-bottom: 1px solid rgba(41, 41, 41, 1);
   }
 
+  #component.moovieChat .moovieBanner {
+    color: #777777;
+    background: rgba(27, 28, 29, 0.96);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.2rem;
+    font-style: italic;
+    position: relative;
+  }
+
+  #component.moovieChat .moovieBanner .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    display: block;
+  }
+
+  #component.moovieChat .moovieBanner .moovieTimer {
+    float: right;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+  }
+
   #component.moovieChat .chatFeed {
     width: 100%;
-    min-height:calc(100vh - 85px);
-    max-height: calc(100vh - 85px);
+    min-height:calc(100vh - 85px - 40px); /* subtract the header and footer */
+    max-height: calc(100vh - 85px - 40px);
     overflow-y: scroll;
     transition: width 0.333s ease;
     visibility: hidden;
@@ -3464,6 +3491,11 @@
   #component.moovieChat .monty:hover {
     opacity: 1;
     cursor: pointer;
+  }
+
+
+  #component.moovieChat .ui.dropdown {
+    margin-left: 10px;
   }
 
   #component.moovieChat .ui.dropdown>.dropdown.icon {
@@ -3590,6 +3622,10 @@
     #component.moovieChat .chatFeed {
       opacity: 0;
     }
+    #component.moovieChat .moovieBanner {
+      opacity: 0;
+    }
+
     #component.moovieChat .ui.dropdown {
       visibility: hidden;
     }

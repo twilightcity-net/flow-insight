@@ -186,7 +186,7 @@ export default class UtilRenderer {
           totalPauseNanoTime
         );
 
-      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+      return UtilRenderer.getTimerStringFromTimeDurationSeconds(
         seconds
       );
     } else {
@@ -195,7 +195,7 @@ export default class UtilRenderer {
         totalElapsedNanoTime
       );
 
-      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+      return UtilRenderer.getTimerStringFromTimeDurationSeconds(
         seconds
       );
     }
@@ -315,6 +315,24 @@ export default class UtilRenderer {
   }
 
   /**
+   * gets our timer string without the wtf prefix
+   * @param hours
+   * @param minutes
+   * @param seconds
+   * @returns {string}
+   */
+  static getTimerStringWithoutPrefix(hours, minutes, seconds) {
+    return (
+      (hours < 10 ? "0" + hours : hours) +
+      ":" +
+      (minutes < 10 ? "0" + minutes : minutes) +
+      ":" +
+      (seconds < 10 ? "0" + seconds : seconds) +
+      "s"
+    );
+  }
+
+  /**
    * returns the relative elased time based on the number of seconds
    * @param seconds
    */
@@ -337,6 +355,19 @@ export default class UtilRenderer {
    */
   static getWtfTimerStringFromTimeDurationSeconds(seconds) {
     return UtilRenderer.getWtfTimerString(
+      (seconds / 3600) | 0,
+      ((seconds / 60) | 0) % 60,
+      seconds % 60
+    );
+  }
+
+  /**
+   * returns our the total amount of time that has elapsed,
+   * displayed without any prefix
+   * @param seconds
+   */
+  static getTimerStringFromTimeDurationSeconds(seconds) {
+    return UtilRenderer.getTimerStringWithoutPrefix(
       (seconds / 3600) | 0,
       ((seconds / 60) | 0) % 60,
       seconds % 60

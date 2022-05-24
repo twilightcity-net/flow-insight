@@ -39,6 +39,7 @@ export class MoovieClient extends BaseClient {
       START_MOOVIE: "start-moovie",
       PAUSE_MOOVIE: "pause-moovie",
       RESUME_MOOVIE: "resume-moovie",
+      RESTART_MOOVIE: "restart-moovie",
       CLAIM_SEAT: "claim-seat",
       RELEASE_SEAT: "release-seat",
       GET_SEAT_MAPPINGS: "get-seat-mappings"
@@ -321,6 +322,29 @@ export class MoovieClient extends BaseClient {
   ) {
     let event = MoovieClient.instance.createClientEvent(
       MoovieClient.Events.RESUME_MOOVIE,
+      {circuitId: circuitId},
+      scope,
+      callback
+    );
+
+    MoovieClient.instance.notifyMoovie(event);
+    return event;
+  }
+
+  /**
+   * Restarts the moovie timer and sets it back to zero
+   * @param circuitId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static restartMoovie(
+    circuitId,
+    scope,
+    callback
+  ) {
+    let event = MoovieClient.instance.createClientEvent(
+      MoovieClient.Events.RESTART_MOOVIE,
       {circuitId: circuitId},
       scope,
       callback

@@ -9,6 +9,15 @@ export default class MontyButton extends Component {
   static montyActionsPopupId = "montyActionsPopup";
   static montyIcon = "montyIcon";
 
+  static get MoovieState() {
+    return {
+      OPEN: "OPEN",
+      STARTED: "STARTED",
+      PAUSED: "PAUSED",
+      CLOSED: "CLOSED"
+    }
+  }
+
   /**
    * Initialize the layout
    */
@@ -71,23 +80,43 @@ export default class MontyButton extends Component {
 
   onClickPlay = () => {
     console.log("onClickPlay!");
+    this.props.onStartMoovie();
   }
 
   onClickPause = () => {
     console.log("onClickPause!");
+    this.props.onPauseMoovie();
   }
 
   onClickResume = () => {
     console.log("onClickResume!");
+    this.props.onResumeMoovie();
   }
 
   onClickStartOver = () => {
     console.log("onClickStartOver!");
+    this.props.onRestartMoovie();
   }
 
   onClickExit = () => {
     console.log("onClickExit!");
     this.props.onMontyExit();
+  }
+
+  isPlayDisabled = () => {
+    return !(this.props.moovie && this.props.moovie.circuitState === MontyButton.MoovieState.OPEN);
+  }
+
+  isPauseDisabled = () => {
+    return !(this.props.moovie && this.props.moovie.circuitState === MontyButton.MoovieState.STARTED);
+  }
+
+  isResumeDisabled = () => {
+    return !(this.props.moovie && this.props.moovie.circuitState === MontyButton.MoovieState.PAUSED);
+  }
+
+  isStartOverDisabled = () => {
+    return !(this.props.moovie && this.props.moovie.circuitState === MontyButton.MoovieState.PAUSED);
   }
 
   /**
@@ -100,10 +129,10 @@ export default class MontyButton extends Component {
         <Dropdown id={MontyButton.montyActionsPopupId} text=""
                   openOnFocus={true} closeOnBlur={true} >
           <Dropdown.Menu>
-            <Dropdown.Item icon="play" text='Start Moovie' onClick={this.onClickPlay} />
-            <Dropdown.Item icon="pause circle outline" disabled={true} text='Pause' onClick={this.onClickPause} />
-            <Dropdown.Item icon="play circle outline" disabled={true} text='Resume' onClick={this.onClickResume}/>
-            <Dropdown.Item icon="redo" disabled={true} text='Start Over' onClick={this.onClickStartOver}/>
+            <Dropdown.Item icon="play" text='Start Moovie' disabled={this.isPlayDisabled()} onClick={this.onClickPlay} />
+            <Dropdown.Item icon="pause circle outline" disabled={this.isPauseDisabled()} text='Pause' onClick={this.onClickPause} />
+            <Dropdown.Item icon="play circle outline" disabled={this.isResumeDisabled()} text='Resume' onClick={this.onClickResume}/>
+            <Dropdown.Item icon="redo" disabled={this.isStartOverDisabled()} text='Start Over' onClick={this.onClickStartOver}/>
             <Dropdown.Divider />
             <Dropdown.Item text='Exit' onClick={this.onClickExit} />
           </Dropdown.Menu>

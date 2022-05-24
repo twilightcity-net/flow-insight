@@ -7,7 +7,7 @@ import {TextArea} from "semantic-ui-react";
 export default class ChatInput extends Component {
 
   /**
-   * Initialize the child components of the layout
+   * Initialize the layout
    * @param props - the properties of the component to render
    */
   constructor(props) {
@@ -88,7 +88,7 @@ export default class ChatInput extends Component {
   };
 
   /**
-   * renders the root console layout of the chat console view
+   * renders the layout of the view
    * @returns {*} - the JSX to render
    */
   render() {
