@@ -79,6 +79,7 @@ module.exports = class BaseController {
       UNLINK: "/unlink",
       CLAIM: "/claim",
       RELEASE: "/release",
+      PUPPET: "/puppet",
       SEAT: "/seat"
     };
   }
@@ -135,7 +136,8 @@ module.exports = class BaseController {
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
       TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto",
       PAIRING_REQUEST: "PairingRequestDto",
-      FERVIE_SEAT_EVENT: "FervieSeatEventDto"
+      FERVIE_SEAT_EVENT: "FervieSeatEventDto",
+      MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
     };
   }
 
@@ -229,6 +231,7 @@ module.exports = class BaseController {
       PAUSE_MOOVIE: "pauseMoovie",
       RESUME_MOOVIE: "resumeMoovie",
       RESTART_MOOVIE: "restartMoovie",
+      CLAIM_PUPPET: "claimPuppet",
       GET_CIRCUIT_MEMBERS_GLOBAL: "getCircuitMembersGlobal",
       REQUEST_PAIR_LINK: "requestPairLink",
       CONFIRM_PAIR_LINK: "confirmPairLink",

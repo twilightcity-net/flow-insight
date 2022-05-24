@@ -764,6 +764,7 @@ module.exports = class TalkController extends (
         journalDatabase.updateIntention(message.data);
         break;
       case TalkController.MessageTypes.FERVIE_SEAT_EVENT:
+      case TalkController.MessageTypes.MOOVIE_STATUS_UPDATE:
         break;
       default:
         console.warn(

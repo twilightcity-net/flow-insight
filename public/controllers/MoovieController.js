@@ -38,7 +38,8 @@ module.exports = class MoovieController extends (
       RESTART_MOOVIE: "restart-moovie",
       CLAIM_SEAT: "claim-seat",
       RELEASE_SEAT: "release-seat",
-      GET_SEAT_MAPPINGS: "get-seat-mappings"
+      GET_SEAT_MAPPINGS: "get-seat-mappings",
+      CLAIM_PUPPET: "claim-puppet"
     };
   }
 
@@ -107,6 +108,9 @@ module.exports = class MoovieController extends (
           break;
         case MoovieController.Events.RESTART_MOOVIE:
           this.handleRestartMoovieEvent(event, arg);
+          break;
+        case MoovieController.Events.CLAIM_PUPPET:
+          this.handleClaimPuppetEvent(event, arg);
           break;
         case MoovieController.Events.CLAIM_SEAT:
           this.handleClaimSeatEvent(event, arg);
@@ -489,6 +493,38 @@ module.exports = class MoovieController extends (
       MoovieController.Contexts.MOOVIE_CLIENT,
       {},
       MoovieController.Names.RESTART_MOOVIE,
+      MoovieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * client event handler for claiming the puppet and preventing other users
+   * from doing start actions at the same time and duplicating puppet messages
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleClaimPuppetEvent(event, arg, callback) {
+    let circuitId = arg.args.circuitId,
+      urn =
+        MoovieController.Paths.MOOVIE +
+        MoovieController.Paths.SEPARATOR +
+        circuitId +
+        MoovieController.Paths.CLAIM +
+        MoovieController.Paths.PUPPET;
+
+    this.doClientRequest(
+      MoovieController.Contexts.MOOVIE_CLIENT,
+      {},
+      MoovieController.Names.CLAIM_PUPPET,
       MoovieController.Types.POST,
       urn,
       (store) =>

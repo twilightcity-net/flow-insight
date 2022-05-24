@@ -66,7 +66,8 @@ export class BaseClient {
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
       TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto",
       PAIRING_REQUEST: "PairingRequestDto",
-      FERVIE_SEAT_EVENT: "FervieSeatEventDto"
+      FERVIE_SEAT_EVENT: "FervieSeatEventDto",
+      MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
     };
   }
 

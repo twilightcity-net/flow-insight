@@ -42,7 +42,8 @@ export class MoovieClient extends BaseClient {
       RESTART_MOOVIE: "restart-moovie",
       CLAIM_SEAT: "claim-seat",
       RELEASE_SEAT: "release-seat",
-      GET_SEAT_MAPPINGS: "get-seat-mappings"
+      GET_SEAT_MAPPINGS: "get-seat-mappings",
+      CLAIM_PUPPET: "claim-puppet"
     };
   }
 
@@ -353,6 +354,32 @@ export class MoovieClient extends BaseClient {
     MoovieClient.instance.notifyMoovie(event);
     return event;
   }
+
+  /**
+   * Claims the puppet to prevent others on the network from doing
+   * puppet actions at the same time.  Fails if the puppet is already claimed
+   * @param circuitId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static claimPuppet(
+    circuitId,
+    scope,
+    callback
+  ) {
+    let event = MoovieClient.instance.createClientEvent(
+      MoovieClient.Events.CLAIM_PUPPET,
+      {circuitId: circuitId},
+      scope,
+      callback
+    );
+
+    MoovieClient.instance.notifyMoovie(event);
+    return event;
+  }
+
+
 
   /**
    * the event callback used by the event manager. removes the event from

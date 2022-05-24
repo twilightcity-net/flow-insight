@@ -65,18 +65,28 @@ export default class ChatConsoleLayout extends Component {
   };
 
   onTalkRoomMessage = (event, arg) => {
-    if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
-      if (arg.uri === this.state.moovie.talkRoomId) {
-        console.log("message is for this room!!");
+    if (arg.uri === this.state.moovie.talkRoomId) {
+      console.log("message is for this room!!");
+      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
         this.addMessageToFeed(arg);
-      } else {
-        console.log("not for me");
+      } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
+        this.handleRoomMemberStatusEvent(arg);
+      } else if (arg.messageType === BaseClient.MessageTypes.MOOVIE_STATUS_UPDATE) {
+        this.handleMoovieStatusUpdate(arg);
       }
-    } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
-      this.handleRoomMemberStatusEvent(arg);
     }
   };
 
+  /**
+   * Handle moovie status update for our moovie
+   */
+  handleMoovieStatusUpdate(arg) {
+    console.log("MOOOOVIE UPDATE!");
+    console.log(arg.data);
+    this.setState({
+      moovie: arg.data
+    });
+  }
 
   /**
    * When a member joins the room, we need to fetch their fervie member profile info,
@@ -153,6 +163,8 @@ export default class ChatConsoleLayout extends Component {
     MoovieClient.getMoovieCircuit(moovieId, this, (arg) => {
       if (!arg.error) {
         const moovie = arg.data;
+        console.log("MOOOOVIE!!");
+        console.log(moovie);
         this.setState({
           moovie: moovie
         });
@@ -194,9 +206,16 @@ export default class ChatConsoleLayout extends Component {
     console.log("onStartMoovie");
     if (!this.state.moovie) return;
 
-    MoovieClient.startMoovie(this.state.moovie.id, this, (arg) => {
-      this.handleMoovieResponse(arg);
+    MoovieClient.claimPuppet(this.state.moovie.id, this, (arg) => {
+      if (!arg.error) {
+        MoovieClient.startMoovie(this.state.moovie.id, this, (arg) => {
+          this.handleMoovieResponse(arg);
+        });
+      } else {
+        console.error("Puppet claim failed");
+      }
     });
+
   }
 
   onPauseMoovie = () => {
@@ -212,9 +231,16 @@ export default class ChatConsoleLayout extends Component {
     console.log("onResumeMoovie");
     if (!this.state.moovie) return;
 
-    MoovieClient.resumeMoovie(this.state.moovie.id, this, (arg) => {
-      this.handleMoovieResponse(arg);
+    MoovieClient.claimPuppet(this.state.moovie.id, this, (arg) => {
+      if (!arg.error) {
+        MoovieClient.resumeMoovie(this.state.moovie.id, this, (arg) => {
+          this.handleMoovieResponse(arg);
+        });
+      } else {
+        console.error("Puppet claim failed");
+      }
     });
+
   }
 
   onRestartMoovie = () => {
@@ -228,9 +254,8 @@ export default class ChatConsoleLayout extends Component {
 
   handleMoovieResponse(arg) {
     if (!arg.error) {
-      this.setState({
-        moovie: arg.data
-      });
+      //moovie status is updated by talk messages now
+      console.log("call succeeded!");
     } else {
       console.error("Error: "+arg.error);
     }
