@@ -2,7 +2,6 @@
  * Helps manage a list of circuit members and all the join, leave, missing members stuff
  */
 import {MemberClient} from "../../clients/MemberClient";
-import {CircuitClient} from "../../clients/CircuitClient";
 import {CircuitMemberClient} from "../../clients/CircuitMemberClient";
 
 export default class CircuitMemberHelper {
@@ -36,13 +35,30 @@ export default class CircuitMemberHelper {
   /**
    * Load a specific member if they joined the room, for example
    * @param username
+   * @param memberInfo
+   */
+  addMemberIfMissing(username, memberInfo) {
+    let memberFound = this.getMemberForUsername(username);
+    if (!memberFound) {
+      this.missingMembers.push(memberInfo);
+    }
+  }
+
+  /**
+   * Load a specific member if they joined the room, for example
+   * @param username
    * @param callback
    */
-  loadMember(username, callback) {
-    this.loadMissingMemberProfiles(
-      [username],
-      callback
-    );
+  loadMemberIfMissing(username, callback) {
+    let memberFound = this.getMemberForUsername(username);
+    if (!memberFound) {
+      this.loadMissingMemberProfiles(
+        [username],
+        callback
+      );
+    } else {
+      callback([]);
+    }
   }
 
   /**
@@ -82,7 +98,6 @@ export default class CircuitMemberHelper {
   /**
    * Given a list of unique usernames find out which member profiles we're missing
    * @param uniqueUsernames
-   * @returns {*[]}
    */
   findMissingMembersList(uniqueUsernames) {
     let missingMemberList = [];
@@ -98,6 +113,20 @@ export default class CircuitMemberHelper {
       }
     }
     return missingMemberList;
+  }
+
+  /**
+   * Get all the members and missing members lists combined
+   */
+  getAllMembers() {
+    let membersList = [];
+    for (let member of this.members) {
+      membersList.push(member);
+    }
+    for (let member of this.missingMembers) {
+      membersList.push(member);
+    }
+    return membersList;
   }
 
   /**

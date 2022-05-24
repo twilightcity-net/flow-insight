@@ -15,6 +15,8 @@ import CircuitMemberHelper from "./moovie/CircuitMemberHelper";
  */
 export default class ChatConsoleLayout extends Component {
 
+  static roomMemberPropStr = "roomMember";
+
   /**
    * Initialize the component
    * @param props - the properties of the component to render
@@ -40,6 +42,7 @@ export default class ChatConsoleLayout extends Component {
    */
   componentDidMount = () => {
     if (this.props.moovieId) {
+      this.memberHelper = new CircuitMemberHelper(this.props.moovieId);
       this.loadMoovieAndConnectRoom(this.props.moovieId);
     }
   };
@@ -79,39 +82,18 @@ export default class ChatConsoleLayout extends Component {
    * @param arg
    */
   handleRoomMemberStatusEvent(arg) {
-    console.log("here we go!");
-    // let data = arg.data,
-    //   roomMember = data[ActiveCircuit.roomMemberPropStr];
-    //
-    // let metaProps = arg.metaProps,
-    //   username =
-    //     UtilRenderer.getUsernameFromMetaProps(metaProps),
-    //   time = UtilRenderer.getChatMessageTimeString(
-    //     arg.messageTime
-    //   );
-    //
-    // switch (data.statusEvent) {
-    //   case BaseClient.CircuitMemberStatus
-    //     .CIRCUIT_MEMBER_JOIN:
-    //     this.appendCircuitMemberEventMessage(
-    //       arg,
-    //       time,
-    //       "@" + username + " joined the session."
-    //     );
-    //     this.addCircuitMemberToCircuit(roomMember);
-    //     return;
-    //   case BaseClient.CircuitMemberStatus
-    //     .CIRCUIT_MEMBER_LEAVE:
-    //     this.appendCircuitMemberEventMessage(
-    //       arg,
-    //       time,
-    //       "@" + username + " left."
-    //     );
-    //     this.removeCircuitMemberFromCircuit(roomMember);
-    //     return;
-    //   default:
-    //     return;
-    // }
+    let data = arg.data,
+      roomMember = data[ChatConsoleLayout.roomMemberPropStr];
+
+    let metaProps = arg.metaProps,
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+
+    if (data.statusEvent === BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN) {
+      this.memberHelper.addMemberIfMissing(username, roomMember);
+      this.setState({
+        members : this.memberHelper.getAllMembers()}
+      );
+    }
   }
 
   /**
@@ -180,7 +162,6 @@ export default class ChatConsoleLayout extends Component {
         console.error("Unable to load moovie circuit: "+arg.error);
       }
     });
-    this.memberHelper = new CircuitMemberHelper(this.props.moovieId);
     this.memberHelper.loadMembers((members) => {
       console.log("members loaded");
       this.setState({
