@@ -765,6 +765,7 @@ module.exports = class TalkController extends (
         break;
       case TalkController.MessageTypes.FERVIE_SEAT_EVENT:
       case TalkController.MessageTypes.MOOVIE_STATUS_UPDATE:
+      case TalkController.MessageTypes.PUPPET_MESSAGE:
         break;
       default:
         console.warn(

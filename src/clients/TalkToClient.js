@@ -27,7 +27,6 @@ export class TalkToClient extends BaseClient {
 
   /**
    * our client events for this talk to service in gridtime
-   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, JOIN_EXISTING_ROOM: string, GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, PUBLISH_CHAT_TO_ROOM: string, LEAVE_EXISTING_ROOM: string}}
    * @constructor
    */
   static get Events() {
@@ -35,6 +34,7 @@ export class TalkToClient extends BaseClient {
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "get-all-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
+      PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
     };
@@ -92,6 +92,30 @@ export class TalkToClient extends BaseClient {
   ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.PUBLISH_CHAT_TO_ROOM,
+      { roomName: roomName, text: text },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
+  /**
+   * publishes a puppet chat message to a room
+   * @param roomName
+   * @param text
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static publishPuppetChatToRoom(
+    roomName,
+    text,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.PUBLISH_PUPPET_CHAT_TO_ROOM,
       { roomName: roomName, text: text },
       scope,
       callback

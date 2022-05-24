@@ -109,7 +109,6 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, CIRCUIT_MEMBER_STATUS_EVENT: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -119,6 +118,7 @@ module.exports = class BaseController {
         "CircuitMemberStatusEventDto",
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
+      PUPPET_MESSAGE: "PuppetMessageDto",
       TEAM_MEMBER: "TeamMemberDto",
       TEAM_MEMBER_ADDED: "TeamMemberAddedEventDto",
       TEAM_MEMBER_REMOVED: "TeamMemberRemovedEventDto",
@@ -206,6 +206,7 @@ module.exports = class BaseController {
       RESUME_WTF: "resumeWTF",
       START_RETRO_FOR_WTF: "startRetroForWTF",
       PUBLISH_CHAT_TO_ROOM: "publishChatToRoom",
+      PUBLISH_PUPPET_CHAT_TO_ROOM: "publishPuppetChatToRoom",
       JOIN_EXISTING_ROOM: "joinExistingRoom",
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
       GET_MY_HOME_TEAM: "getMyHomeTeam",

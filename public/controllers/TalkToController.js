@@ -24,7 +24,6 @@ module.exports = class TalkToController extends (
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
    * @constructor
    */
   static get Events() {
@@ -32,6 +31,7 @@ module.exports = class TalkToController extends (
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "get-all-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
+      PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
     };
@@ -85,6 +85,9 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.PUBLISH_CHAT_TO_ROOM:
           this.handlePublishChatToRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.PUBLISH_PUPPET_CHAT_TO_ROOM:
+          this.handlePublishPuppetChatToRoomEvent(event, arg);
           break;
         case TalkToController.Events.JOIN_EXISTING_ROOM:
           this.handleJoinExistingRoomEvent(event, arg);
@@ -316,6 +319,44 @@ module.exports = class TalkToController extends (
       }
     );
   }
+
+
+  /**
+   * Publish a puppet type message to the talk room,
+   * which works exactly the same as normal chat, except sends a different object type
+   * requires a puppet claim in the room
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handlePublishPuppetChatToRoomEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      text = arg.args.text,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.PUPPET;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { chatMessage: text },
+      TalkToController.Names.PUBLISH_PUPPET_CHAT_TO_ROOM,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.delegatePublishChatToRoomCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
 
   /**
    * process our publish to chat room service event. This is called by an action

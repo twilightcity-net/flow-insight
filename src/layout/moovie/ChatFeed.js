@@ -81,6 +81,7 @@ export default class ChatFeed extends Component {
           name={message.username}
           time={message.time}
           isMe={message.isMe}
+          isPuppet={message.isPuppet}
           texts={message.texts}
         />
         );

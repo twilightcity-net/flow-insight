@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import {Image} from "semantic-ui-react";
 import ChatInput from "./moovie/ChatInput";
 import {MoovieClient} from "../clients/MoovieClient";
 import {TalkToClient} from "../clients/TalkToClient";
@@ -67,7 +66,8 @@ export default class ChatConsoleLayout extends Component {
   onTalkRoomMessage = (event, arg) => {
     if (arg.uri === this.state.moovie.talkRoomId) {
       console.log("message is for this room!!");
-      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
+      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
+        || arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
         this.addMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
         this.handleRoomMemberStatusEvent(arg);
@@ -116,6 +116,7 @@ export default class ChatConsoleLayout extends Component {
     const username = UtilRenderer.getUsernameFromMetaProps(metaProps);
     const time = UtilRenderer.getChatMessageTimeString(talkMessage.messageTime);
     const isMe = (username === MemberClient.me.username);
+    const isPuppet = (talkMessage.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE);
 
     this.setState((prevState) => {
       const newMessage = {
@@ -123,6 +124,7 @@ export default class ChatConsoleLayout extends Component {
         time: time,
         texts: [talkMessage.data.message],
         isMe: isMe,
+        isPuppet: isPuppet,
         fervieColor: null,
         fervieAccessory: "SUNGLASSES",
         tertiaryColor: null

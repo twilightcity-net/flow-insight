@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Feed } from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
+import MontyProfile from "./MontyProfile";
 
 export default class ChatFeedEvent extends Component {
   /**
@@ -31,13 +32,20 @@ export default class ChatFeedEvent extends Component {
   render() {
     let profileImage = "";
     let bubbleClass = "bubbleRight";
-    if (!this.props.isMe) {
-      profileImage = (<FervieProfile
-        fervieColor={this.props.fervieColor}
-        fervieAccessory={this.props.fervieAccessory}
-        fervieTertiaryColor={this.props.fervieTertiaryColor}
-      />);
-      bubbleClass = "bubbleLeft";
+
+    if (this.props.isPuppet) {
+      bubbleClass = "bubblePuppet";
+      profileImage = (<MontyProfile />);
+
+    } else {
+      if (!this.props.isMe) {
+        profileImage = (<FervieProfile
+          fervieColor={this.props.fervieColor}
+          fervieAccessory={this.props.fervieAccessory}
+          fervieTertiaryColor={this.props.fervieTertiaryColor}
+        />);
+        bubbleClass = "bubbleLeft";
+      }
     }
 
     return (
