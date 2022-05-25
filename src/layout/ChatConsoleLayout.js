@@ -40,6 +40,8 @@ export default class ChatConsoleLayout extends Component {
       circuitMembers : []
     };
 
+    this.hasMontyDoneIntro = false;
+
     this.talkRoomMessageListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
@@ -52,11 +54,21 @@ export default class ChatConsoleLayout extends Component {
    * Called when the chat console is first loaded
    */
   componentDidMount = () => {
+
+    this.hasMontyDoneIntro = false;
+
     if (this.props.moovieId) {
       this.memberHelper = new CircuitMemberHelper(this.props.moovieId);
       this.loadMoovieAndConnectRoom(this.props.moovieId);
     }
   };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!prevProps.isConsoleOpen && this.props.isConsoleOpen && !this.hasMontyDoneIntro) {
+      this.hasMontyDoneIntro = true;
+      this.addMontyIntroMessage(this.state.moovie);
+    }
+  }
 
   /**
    * called right before when the component will unmount
@@ -183,8 +195,6 @@ export default class ChatConsoleLayout extends Component {
           moovie: moovie
         });
 
-        this.addMontyIntroMessage(moovie);
-
         TalkToClient.joinExistingRoom(moovie.talkRoomId, this, (arg) => {
           if (!arg.error) {
             console.log("room joined");
@@ -205,8 +215,13 @@ export default class ChatConsoleLayout extends Component {
   }
 
   addMontyIntroMessage(moovie) {
+    let forTitle = "";
+    if (moovie) {
+      forTitle = " for "+moovie.title;
+    }
+
     let text1 = "Hi, I'm Monty!";
-    let text2 = "I'll be your moovie host for "+moovie.title +
+    let text2 = "I'll be your moovie host"+forTitle +
       ", and help everyone get synced up so we can watch the moovie together! ";
     let text3 = "";
 
@@ -245,7 +260,7 @@ export default class ChatConsoleLayout extends Component {
             return this.updateMessages(prevState.messages, msg3);
           });
         }, 3000);
-      }, 2000);
+      }, 3000);
     }, 1000);
 
   }
