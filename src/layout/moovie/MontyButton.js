@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dropdown, Image, TextArea} from "semantic-ui-react";
+import {Dropdown, Image} from "semantic-ui-react";
 
 /**
  * this component is for the Monty app action button that starts/pauses the moovies
