@@ -45,7 +45,7 @@ module.exports = class MoovieWindowManager {
 
     if (this.isValidUrl(arg.moovie.link)) {
       shell.openExternal(arg.moovie.link);
-      WindowManagerHelper.createMoovieWindow(MoovieWindowManager.WINDOW_NAME, arg.moovie);
+      WindowManagerHelper.createMoovieWindow(MoovieWindowManager.WINDOW_NAME, {moovieId: arg.moovie.id});
     } else {
       throw Error("Unexpected link should be a movie site link");
     }

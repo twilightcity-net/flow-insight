@@ -232,9 +232,9 @@ class WindowManager {
       "[WindowManager] load window -> " + window.name
     );
 
-    if (window.url) {
-      window.window.loadURL(window.url);
-    }
+    //this needs to load a fresh url even if it's reloading the window
+    let newUrl = this.getWindowViewURL(window.view, arg);
+    window.window.loadURL(newUrl);
 
     window.window.on("ready-to-show", () => {
       if (window.autoShow) {

@@ -52,6 +52,11 @@ export default class MoovieBanner extends Component {
   startTimerIfMoovieStarted() {
     if (this.props.moovie.circuitState === MoovieBanner.MoovieState.STARTED) {
       this.timer = setInterval(() => {
+        let el = document.getElementById("moovieTimer");
+        el.style.color = "#888888";
+        setTimeout(() => {
+          el.style.color = "#777777";
+        }, 500);
         this.setState({});
       }, 1000);
     } else {
@@ -98,7 +103,7 @@ export default class MoovieBanner extends Component {
     return (
      <div className="moovieBanner">
        <span className="title"> {title}</span>
-       <span className="moovieTimer">{timer}</span>
+       <span id="moovieTimer" className="moovieTimer">{timer}</span>
      </div>
     );
   }
