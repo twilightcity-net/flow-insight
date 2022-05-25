@@ -67,7 +67,7 @@ module.exports = class MoovieWindowManager {
   }
 
   closeMoovieWindow() {
-    //WindowManagerHelper.closeWindow(MoovieWindowManager.windowName);
+    WindowManagerHelper.closeWindow(MoovieWindowManager.windowName);
   }
 
 };

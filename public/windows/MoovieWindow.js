@@ -147,9 +147,11 @@ module.exports = class MoovieWindow {
   showConsole() {
     this.state = this.states.SHOWING;
 
-    this.updateToExpandedConsole();
-    this.window.show();
-    this.window.focus();
+    if (!this.isClosed) {
+      this.updateToExpandedConsole();
+      this.window.show();
+      this.window.focus();
+    }
 
     setTimeout(() => {
       if (!this.isClosed) {
