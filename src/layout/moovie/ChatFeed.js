@@ -44,7 +44,6 @@ export default class ChatFeed extends Component {
    * list or get a new talk message event in from the talk client
    */
   scrollToFeedBottom = () => {
-    console.log("scroll to bottom!");
     let feedElement = document.getElementById(ChatFeed.feedWindowId);
     feedElement.scrollTop = feedElement.scrollHeight;
   };

@@ -33,6 +33,7 @@ export default class MontyButton extends Component {
    * Called when the chat console is first loaded
    */
   componentDidMount = () => {
+    this.lastOpened = null;
   };
 
   /**
@@ -54,13 +55,51 @@ export default class MontyButton extends Component {
    */
   focusActionMenu() {
     console.log("focusActionMenu");
+    this.isActionMenuOpen = true;
     document.getElementById(MontyButton.montyActionsPopupId).focus();
   }
 
   blurActionMenu() {
     console.log("blurActionMenu");
+    this.isActionMenuOpen = false;
     document.getElementById(MontyButton.montyActionsPopupId).blur();
     document.getElementById(MontyButton.montyIcon).focus();
+  }
+
+
+  toggleActionMenu() {
+    console.log("toggleActionMenu");
+
+    if (!this.isActionMenuOpen) {
+      this.lastOpened = window.performance.now();
+    } else {
+      this.lastOpened = null;
+    }
+
+    if (this.isActionMenuOpen) {
+      this.blurActionMenu();
+    } else {
+      this.focusActionMenu();
+    }
+  }
+
+  handleBlur = () => {
+    console.log("handleBlurX");
+
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      const endTime = window.performance.now();
+      let elapsed = null;
+      if (this.lastOpened) {
+        elapsed = endTime-this.lastOpened;
+      }
+
+      console.log("elapsed = "+elapsed);
+
+      if (elapsed && elapsed > 200) {
+        this.blurActionMenu();
+      }
+    }, 200);
   }
 
   onActionSelected() {
@@ -72,7 +111,7 @@ export default class MontyButton extends Component {
    */
   onClickMonty = () => {
     if (this.props.isConsoleOpen ) {
-      this.focusActionMenu();
+      this.toggleActionMenu();
     }
 
     this.props.onClickMonty();
@@ -127,7 +166,7 @@ export default class MontyButton extends Component {
     return (
       <div>
         <Dropdown id={MontyButton.montyActionsPopupId} text=""
-                  openOnFocus={true} closeOnBlur={true} >
+                  openOnFocus={true} closeOnBlur={true} onBlur={this.handleBlur}>
           <Dropdown.Menu>
             <Dropdown.Item icon="play" text='Start Moovie' disabled={this.isPlayDisabled()} onClick={this.onClickPlay} />
             <Dropdown.Item icon="pause circle outline" disabled={this.isPauseDisabled()} text='Pause' onClick={this.onClickPause} />

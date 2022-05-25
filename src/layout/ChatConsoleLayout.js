@@ -87,7 +87,6 @@ export default class ChatConsoleLayout extends Component {
 
   onTalkRoomMessage = (event, arg) => {
     if (arg.uri === this.state.moovie.talkRoomId) {
-      console.log("message is for this room!!");
       if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
         || arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
         this.addMessageToFeed(arg);
@@ -103,7 +102,6 @@ export default class ChatConsoleLayout extends Component {
    * Handle moovie status update for our moovie
    */
   handleMoovieStatusUpdate(arg) {
-    console.log("MOOOOVIE UPDATE!");
     console.log(arg.data);
     this.setState({
       moovie: arg.data
@@ -216,8 +214,10 @@ export default class ChatConsoleLayout extends Component {
 
   addMontyIntroMessage(moovie) {
     let forTitle = "";
+    let circuitState = null;
     if (moovie) {
       forTitle = " for "+moovie.title;
+      circuitState = moovie.circuitState;
     }
 
     let text1 = "Hi, I'm Monty!";
@@ -225,17 +225,17 @@ export default class ChatConsoleLayout extends Component {
       ", and help everyone get synced up so we can watch the moovie together! ";
     let text3 = "";
 
-    if (moovie.circuitState === ChatConsoleLayout.MoovieState.OPEN) {
+    if (!circuitState || circuitState === ChatConsoleLayout.MoovieState.OPEN) {
       text3 = "To get ready, put your moovie in full-screen mode, " +
         "start playing to make sure it's loaded, and then pause at 00:00. " +
       "Once everyone is ready, click the Monty icon in the left hand corner, " +
         "and select the 'Start Moovie' option."
-    } else if (moovie.circuitState === ChatConsoleLayout.MoovieState.STARTED) {
+    } else if (circuitState === ChatConsoleLayout.MoovieState.STARTED) {
       text3 = "It looks like the moovie is already started.  Once you put your moovie in full-screen mode, " +
         "find the timer in the upper right hand corner of this window.  You can sync up your moovie to the timer to " +
         "get your moovie playing at the same time as everyone else. " +
         "If it's okay with folks in the room, you can also ask if it's alright to pause while you get synced up."
-    } else if (moovie.circuitState === ChatConsoleLayout.MoovieState.PAUSED) {
+    } else if (circuitState === ChatConsoleLayout.MoovieState.PAUSED) {
       text3 = "It looks like the moovie is currently paused.  Once you put your moovie in full-screen mode, " +
         "find the timer in the upper right hand corner of the window.  You can sync up your moovie to the timer to " +
         "get your moovie playing at the same time as everyone else. " +
@@ -354,7 +354,7 @@ export default class ChatConsoleLayout extends Component {
   handleMoovieResponse(arg) {
     if (!arg.error) {
       //moovie status is updated by talk messages now
-      console.log("call succeeded!");
+      console.log("moovie status call succeeded!");
     } else {
       console.error("Error: "+arg.error);
     }
@@ -396,33 +396,6 @@ export default class ChatConsoleLayout extends Component {
   };
 
 
-  /**
-   * renders the chat console layout
-   * @returns {*} - the JSX to render
-   */
-  render() {
-    return (
-      <div id="component" className="moovieChat">
-        <MoovieBanner moovie={this.state.moovie}/>
-        <div id="chatFeedWindow" className="chatFeed" >
-          {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages}/>}
-        </div>
-        <div>
-          <MontyButton moovie={this.state.moovie}
-                       isConsoleOpen={this.props.isConsoleOpen}
-                       onClickMonty={this.onClickMonty}
-                       onStartMoovie={this.onStartMoovie}
-                       onPauseMoovie={this.onPauseMoovie}
-                       onResumeMoovie={this.onResumeMoovie}
-                       onRestartMoovie={this.onRestartMoovie}
-                       onMontyExit={this.onMontyExit}/>
-          <ChatInput onEnterKey={this.onEnterKey}/>
-        </div>
-      </div>
-    );
-  }
-
-
   sendReadySetGoAndStartMoovie(callAfterGo) {
     let text1 = "Are you ready?";
     let text2 = "Alright, when I say, everyone start their moovies!";
@@ -447,4 +420,31 @@ export default class ChatConsoleLayout extends Component {
       }, 2000);
     }, 1000);
   }
+
+  /**
+   * renders the chat console layout
+   * @returns {*} - the JSX to render
+   */
+  render() {
+    return (
+      <div id="component" className="moovieChat">
+        <MoovieBanner moovie={this.state.moovie}/>
+        <div id="chatFeedWindow" className="chatFeed" >
+          {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages}/>}
+        </div>
+        <div>
+          <MontyButton moovie={this.state.moovie}
+                       isConsoleOpen={this.props.isConsoleOpen}
+                       onClickMonty={this.onClickMonty}
+                       onStartMoovie={this.onStartMoovie}
+                       onPauseMoovie={this.onPauseMoovie}
+                       onResumeMoovie={this.onResumeMoovie}
+                       onRestartMoovie={this.onRestartMoovie}
+                       onMontyExit={this.onMontyExit}/>
+          <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey} onOpenEmojiPicker={this.onOpenEmojiPicker}/>
+        </div>
+      </div>
+    );
+  }
+
 }

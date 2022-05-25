@@ -77,8 +77,9 @@ export default class MoovieBanner extends Component {
         return "Paused: ";
       case MoovieBanner.MoovieState.CLOSED:
         return "Completed: ";
+      default:
+        return "";
     }
-    return "";
   }
 
   getTimer() {

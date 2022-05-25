@@ -3459,7 +3459,7 @@
   }
 
   #component.moovieChat .chatInput {
-    width: 330px;
+    width: 290px;
     margin-left: 60px;
     position:absolute;
     bottom:10px;
@@ -3472,6 +3472,89 @@
     color: rgba(241, 241, 241, 0.96);
     resize: none;
     visibility: hidden;
+  }
+
+  #component.moovieChat .emojiPickerButton {
+    float: right;
+    display: block;
+    padding-right: 10px;
+  }
+
+  #component.moovieChat .emojiPickerButton svg {
+    width: 30px;
+  }
+
+  #component.moovieChat .emojiPickerButton svg:hover {
+    cursor: pointer;
+  }
+
+  #component.moovieChat .emojiPickerButton svg:hover .emojiColor {
+    stroke: #8455e9;
+  }
+
+  #component.moovieChat .emojiPickerButton svg .emojiColor {
+    stroke: #6435c9;
+    transition: stroke 0.333s ease;
+  }
+
+  .moovie .ui.popup {
+    border: 0;
+  }
+
+  #emojiPicker {
+    max-width: 280px;
+  }
+
+  #emojiPicker .emojiSearch {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+  #emojiPicker .emojiSearch .ui.input {
+    width: 100%;
+  }
+
+  #emojiPicker .emojiSearch input {
+    background: rgba(27, 28, 29, 0.96) !important;
+    border-radius: 5px;
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+  }
+
+  #emojiPicker .emojiSearch .icon {
+    color: rgba(241, 241, 241, 0.96);
+  }
+
+
+  #emojiPicker .emoji {
+    padding: 0.35rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    filter: brightness(100%);
+    width: 35px;
+    display: inline-block;
+  }
+
+  #emojiPicker .emoji:hover {
+    filter: brightness(130%);
+  }
+
+  #emojiPicker .filterGroups .item {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  #emojiPicker .scrolling {
+    stroke: #6435c9;
+    min-height:200px;
+    max-height: 200px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  #emojiPicker .scrolling::-webkit-scrollbar {
+    display: none;
   }
 
   #component.moovieChat .chatInput:focus {
