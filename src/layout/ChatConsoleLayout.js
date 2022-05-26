@@ -279,8 +279,14 @@ export default class ChatConsoleLayout extends Component {
   }
 
   createMontyMessage(text) {
+    const me = MemberClient.me;
+    let username = "notloaded";
+    if (me) {
+      username = me.username;
+    }
+
     return {
-      username: MemberClient.me.username,
+      username: username,
       time: moment().utc().local().calendar(),
       texts: [text],
       isMe: true,

@@ -18,7 +18,8 @@ export default class ChatInput extends Component {
     this.name = "[ChatInput]";
     this.state = {
       chatValue: "",
-      isEmojiPickerOpen: false
+      isEmojiPickerOpen: false,
+      skinToneSelection: null
     };
 
     this.lastOpened = null;
@@ -142,6 +143,10 @@ export default class ChatInput extends Component {
     });
   }
 
+  setSkinToneSelection = (skinEmoji) => {
+    this.setState({skinToneSelection: skinEmoji});
+  }
+
   onClickEmojiButton = () => {
     console.log("onClickEmojiButton");
 
@@ -172,7 +177,9 @@ export default class ChatInput extends Component {
       <Popup.Content>
         <EmojiPicker onRefreshEmojiWindow={this.onRefreshEmojiWindow}
                      onClickEmojiSearch={this.onClickEmojiSearch}
-                     pasteEmojiInChat={this.pasteEmojiInChat}/>
+                     pasteEmojiInChat={this.pasteEmojiInChat}
+                     skinToneSelection={this.state.skinToneSelection}
+                     setSkinToneSelection={this.setSkinToneSelection}/>
       </Popup.Content>
     </Popup>);
   }

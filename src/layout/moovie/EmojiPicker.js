@@ -1,11 +1,13 @@
 import React, {Component} from "react";
 import * as unicodeEmoji from 'unicode-emoji';
-import {Input, Menu} from "semantic-ui-react";
+import {Button, Input, Label, Menu, Popup} from "semantic-ui-react";
 
 /**
  * this component handles the popup emoji picker
  */
 export default class EmojiPicker extends Component {
+
+  static defaultSkinTone = "🖖";
 
   /**
    * Initialize the layout
@@ -14,19 +16,33 @@ export default class EmojiPicker extends Component {
   constructor(props) {
     super(props);
     this.name = "[EmojiPicker]";
+
+    let skinToneSelection = EmojiPicker.defaultSkinTone;
+    if (this.props.skinToneSelection) {
+      skinToneSelection = this.props.skinToneSelection;
+    }
+
     this.state = {
       chatValue: "",
       currentSearchValue: "",
       activeGroup : "😀",
-      filteredEmojis: null
+      filteredEmojis: null,
+      isSkinTonePickerOpen: false,
+      skinToneSelection: skinToneSelection
     };
     this.isEnterKeyPressed = false;
 
     this.groupedEmojis = unicodeEmoji.getEmojisGroupedBy(EmojiPicker.categoryGroup, EmojiPicker.omitWhere);
     this.allEmojis = unicodeEmoji.getEmojis(EmojiPicker.omitWhere);
 
-    console.log("EMOJIS!!");
     console.log(this.groupedEmojis);
+
+    this.skinToneMap = new Map();
+    this.skinToneMap.set("🖖🏻", " light skin tone");
+    this.skinToneMap.set("🖖🏼", " medium-light skin tone");
+    this.skinToneMap.set("🖖🏽", " medium skin tone");
+    this.skinToneMap.set("🖖🏾", " medium-dark skin tone");
+    this.skinToneMap.set("🖖🏿", " dark skin tone");
 
   }
 
@@ -81,7 +97,6 @@ export default class EmojiPicker extends Component {
    * Called when the chat console is first loaded
    */
   componentDidMount = () => {
-
   };
 
   /**
@@ -152,6 +167,26 @@ export default class EmojiPicker extends Component {
     this.props.onClickEmojiSearch();
   }
 
+  handleSkinToneChooserClick = () => {
+    console.log("skin click");
+    this.props.onRefreshEmojiWindow();
+    this.setState((prevState) => {
+      return {
+        isSkinTonePickerOpen: !prevState.isSkinTonePickerOpen
+      }
+    });
+  }
+
+  handleSkinToneSelectionClick = (skinTone) => {
+    console.log("skin selectionClick");
+    this.props.onRefreshEmojiWindow();
+    this.setState({
+      skinToneSelection: skinTone,
+      isSkinTonePickerOpen: false
+    });
+    this.props.setSkinToneSelection(skinTone);
+  }
+
   getMenuItems() {
     return (
       <Menu pointing secondary inverted>
@@ -177,14 +212,29 @@ export default class EmojiPicker extends Component {
     let groupId = group.groupIds[index];
 
     return this.groupedEmojis[groupId].map((emojiDescription, i) => {
-      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{emojiDescription.emoji}</span>);
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{this.getEmojiVersion(emojiDescription)}</span>);
     });
   }
 
   getEmojisForFilteredList(emojiList) {
     return emojiList.map((emojiDescription, i) => {
-      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{emojiDescription.emoji}</span>);
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{this.getEmojiVersion(emojiDescription)}</span>);
     });
+  }
+
+  getEmojiVersion(emojiDescription) {
+    if (!emojiDescription.variations || this.state.skinToneSelection === EmojiPicker.defaultSkinTone) {
+      return emojiDescription.emoji;
+    }
+
+    let skinSearchString = this.skinToneMap.get(this.state.skinToneSelection);
+    for (let variation of emojiDescription.variations) {
+      if (variation.description.includes(skinSearchString)) {
+        return variation.emoji;
+      }
+    }
+    return emojiDescription.emoji;
+
   }
 
   getEmojisForSelection() {
@@ -202,10 +252,28 @@ export default class EmojiPicker extends Component {
     return EmojiPicker.groups[0];
   }
 
-  onClickEmojiWindow = () => {
-    this.props.onClickEmojiWindow();
-  }
 
+  getSkinToneChooser() {
+    return (<Popup
+      position='top right'
+      basic
+      inverted
+      offset={[10, 0]}
+      open={this.state.isSkinTonePickerOpen}
+      trigger={
+        (<Label onClick={this.handleSkinToneChooserClick} className="skinToneChooserButton">{this.state.skinToneSelection}</Label>)
+      }
+    >
+      <Popup.Content>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏿")}} className="skinTone">🖖🏿</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏾")}} className="skinTone">🖖🏾</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏽")}} className="skinTone">🖖🏽</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏼")}} className="skinTone">🖖🏼</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏻")}} className="skinTone">🖖🏻</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖")}} className="skinTone">🖖</Label>
+      </Popup.Content>
+    </Popup>);
+  }
 
   /**
    * renders the layout of the view
@@ -239,6 +307,7 @@ export default class EmojiPicker extends Component {
             onChange={this.handleChangeForSearch}
             onClick={this.handleSearchClick}
           />
+          {this.getSkinToneChooser()}
         </div>
         <div className="filterGroups">
           {this.getMenuItems()}
