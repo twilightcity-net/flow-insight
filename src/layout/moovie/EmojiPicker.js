@@ -17,19 +17,16 @@ export default class EmojiPicker extends Component {
     this.state = {
       chatValue: "",
       currentSearchValue: "",
-      activeGroup : "😀"
+      activeGroup : "😀",
+      filteredEmojis: null
     };
     this.isEnterKeyPressed = false;
 
-    this.emojis = unicodeEmoji.getEmojisGroupedBy(EmojiPicker.categoryGroup, EmojiPicker.omitWhere);
+    this.groupedEmojis = unicodeEmoji.getEmojisGroupedBy(EmojiPicker.categoryGroup, EmojiPicker.omitWhere);
+    this.allEmojis = unicodeEmoji.getEmojis(EmojiPicker.omitWhere);
+
     console.log("EMOJIS!!");
-    console.log(this.emojis);
-    //
-    // const props = Object.keys(this.emojis);
-    //
-    // for (let key of props) {
-    //   console.log(key);
-    // }
+    console.log(this.groupedEmojis);
 
   }
 
@@ -80,26 +77,12 @@ export default class EmojiPicker extends Component {
     },
   ];
 
-  // face-emotion
-  // EmojiPicker.js:48 symbols
-  // EmojiPicker.js:48 objects
-  // EmojiPicker.js:48 person-people
-  // EmojiPicker.js:48 animals-nature
-  // EmojiPicker.js:48 food-drink
-  // EmojiPicker.js:48 travel-places
-  // EmojiPicker.js:48 activities-events
-  // EmojiPicker.js:48 flags
-
   /**
    * Called when the chat console is first loaded
    */
   componentDidMount = () => {
 
-
-    //each of these groups has an emoji associated with it...
-    //for each group, we can create a menu item for the type of thingy.
   };
-
 
   /**
    * called right before when the component will unmount
@@ -107,14 +90,66 @@ export default class EmojiPicker extends Component {
   componentWillUnmount = () => {
   };
 
-  handleChangeForSearch = () => {
+  handleChangeForSearch = (e, { value }) => {
+    this.setState({
+      currentSearchValue: value,
+    });
 
+    if (value.length > 0) {
+      this.updateFilteredEmojis(value);
+    } else {
+      this.setState({
+        filteredEmojis: null
+      });
+    }
+
+
+  };
+
+  /**
+   * When we change the search value, look through the available emojis,
+   * and put together a filtered list based on the search results
+   * @param searchValue
+   */
+  updateFilteredEmojis(searchValue) {
+    let matchingEmojis = [];
+    for (let emoji of this.allEmojis) {
+      if (emoji.description.startsWith(searchValue)) {
+        matchingEmojis.push(emoji);
+      } else {
+        for (let keyword of emoji.keywords) {
+          if (keyword.includes(searchValue)) {
+            matchingEmojis.push(emoji);
+            break;
+          }
+        }
+      }
+    }
+
+    this.setState({
+      filteredEmojis: matchingEmojis
+    });
   }
+
+  //{emoji: '🎃', description: 'jack-o-lantern', version: '0.6', keywords: Array(5), category: 'activities-events', …}
+
+
 
   handleMenuClick = (emoji) => {
     this.setState({
       activeGroup: emoji
     });
+    this.props.onRefreshEmojiWindow();
+  }
+
+  handleEmojiClick = (emoji) => {
+    this.props.onRefreshEmojiWindow();
+    this.props.pasteEmojiInChat(emoji);
+  }
+
+  handleSearchClick = () => {
+    console.log("search click");
+    this.props.onClickEmojiSearch();
   }
 
   getMenuItems() {
@@ -141,12 +176,16 @@ export default class EmojiPicker extends Component {
   getEmojisForGroup(group, index) {
     let groupId = group.groupIds[index];
 
-    return this.emojis[groupId].map((emojiDescription, i) => {
-      return (<span key={i} className="emoji">{emojiDescription.emoji}</span>);
+    return this.groupedEmojis[groupId].map((emojiDescription, i) => {
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{emojiDescription.emoji}</span>);
     });
   }
 
-//{emoji: '🎃', description: 'jack-o-lantern', version: '0.6', keywords: Array(5), category: 'activities-events', …}
+  getEmojisForFilteredList(emojiList) {
+    return emojiList.map((emojiDescription, i) => {
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{emojiDescription.emoji}</span>);
+    });
+  }
 
   getEmojisForSelection() {
     const group = this.getActiveGroup();
@@ -163,14 +202,32 @@ export default class EmojiPicker extends Component {
     return EmojiPicker.groups[0];
   }
 
+  onClickEmojiWindow = () => {
+    this.props.onClickEmojiWindow();
+  }
+
+
   /**
    * renders the layout of the view
    * @returns {*} - the JSX to render
    */
   render() {
 
+    let emojiList = "";
+    let emojiListExtra = "";
+
+    if (this.state.filteredEmojis !== null) {
+      emojiList = this.getEmojisForFilteredList(this.state.filteredEmojis);
+    } else {
+      emojiList = this.getEmojisForSelection();
+
+      if (EmojiPicker.groups[0].emoji === this.state.activeGroup) {
+        emojiListExtra = this.getEmojisForGroup(EmojiPicker.groups[0], 1);
+      }
+    }
+
     return (
-      <div id="emojiPicker">
+      <div id="emojiPicker" >
         <div className="emojiSearch">
           <Input
             id="emojiSearchInput"
@@ -180,17 +237,19 @@ export default class EmojiPicker extends Component {
             placeholder={"Search emojis"}
             value={this.state.currentSearchValue}
             onChange={this.handleChangeForSearch}
+            onClick={this.handleSearchClick}
           />
         </div>
         <div className="filterGroups">
           {this.getMenuItems()}
         </div>
         <div className="scrolling">
-          {this.getEmojisForSelection()}
-          {EmojiPicker.groups[0].emoji === this.state.activeGroup?
-            this.getEmojisForGroup(EmojiPicker.groups[0], 1):""}
+          {emojiList}
+          {emojiListExtra}
         </div>
       </div>
     );
   }
+
+
 }

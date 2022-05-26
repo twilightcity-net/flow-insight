@@ -44,7 +44,7 @@ export default class ChatInput extends Component {
       });
     }
 
-    if (!prevState.isEmojiPickerOpen && this.state.isEmojiPickerOpen) {
+    if (prevState.isEmojiPickerOpen !== this.state.isEmojiPickerOpen) {
       document.getElementById(ChatInput.moovieChatInputId).focus();
     }
   }
@@ -105,10 +105,9 @@ export default class ChatInput extends Component {
   };
 
   handleBlur = () => {
-    console.log("handleBlur!");
-
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
+      console.log("handleBlur!");
       const endTime = window.performance.now();
       let elapsed = null;
       if (this.lastOpened) {
@@ -126,10 +125,25 @@ export default class ChatInput extends Component {
 
   }
 
+  onRefreshEmojiWindow = () => {
+    console.log("onRefreshEmojiWindow");
+    this.lastOpened = window.performance.now();
+    document.getElementById(ChatInput.moovieChatInputId).focus();
+  }
 
+  onClickEmojiSearch = () => {
+    console.log("onClickEmojiSearch");
+    this.lastOpened = window.performance.now();
+  }
 
-  onClickEmojiPicker = () => {
-    console.log("onClickEmojiPicker");
+  pasteEmojiInChat = (emoji) => {
+    this.setState((prevState) => {
+      return { chatValue: prevState.chatValue + emoji }
+    });
+  }
+
+  onClickEmojiButton = () => {
+    console.log("onClickEmojiButton");
 
     if (!this.state.isEmojiPickerOpen) {
       this.lastOpened = window.performance.now();
@@ -150,13 +164,15 @@ export default class ChatInput extends Component {
       offset={[-10, 10]}
       open={this.state.isEmojiPickerOpen}
       trigger={
-        (<span className="emojiPickerButton" onClick={this.onClickEmojiPicker} >
+        (<span className="emojiPickerButton" onClick={this.onClickEmojiButton} >
         {this.getEmojiPickerSvg()}
         </span>)
       }
     >
       <Popup.Content>
-        <EmojiPicker/>
+        <EmojiPicker onRefreshEmojiWindow={this.onRefreshEmojiWindow}
+                     onClickEmojiSearch={this.onClickEmojiSearch}
+                     pasteEmojiInChat={this.pasteEmojiInChat}/>
       </Popup.Content>
     </Popup>);
   }
