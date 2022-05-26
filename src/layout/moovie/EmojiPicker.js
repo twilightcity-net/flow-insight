@@ -167,6 +167,11 @@ export default class EmojiPicker extends Component {
     this.props.onClickEmojiSearch();
   }
 
+  handleSearchBlur = () => {
+    console.log("search click");
+    this.props.onBlurEmojiSearch();
+  }
+
   handleSkinToneChooserClick = () => {
     console.log("skin click");
     this.props.onRefreshEmojiWindow();
@@ -306,6 +311,7 @@ export default class EmojiPicker extends Component {
             value={this.state.currentSearchValue}
             onChange={this.handleChangeForSearch}
             onClick={this.handleSearchClick}
+            onBlur={this.handleSearchBlur}
           />
           {this.getSkinToneChooser()}
         </div>

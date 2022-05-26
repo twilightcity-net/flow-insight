@@ -63,7 +63,6 @@ export default class MontyButton extends Component {
     console.log("blurActionMenu");
     this.isActionMenuOpen = false;
     document.getElementById(MontyButton.montyActionsPopupId).blur();
-    document.getElementById(MontyButton.montyIcon).focus();
   }
 
 
@@ -96,7 +95,7 @@ export default class MontyButton extends Component {
 
       console.log("elapsed = "+elapsed);
 
-      if (elapsed && elapsed > 200) {
+      if (elapsed && elapsed > 400) {
         this.blurActionMenu();
       }
     }, 200);

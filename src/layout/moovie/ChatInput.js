@@ -137,6 +137,10 @@ export default class ChatInput extends Component {
     this.lastOpened = window.performance.now();
   }
 
+  onBlurEmojiSearch = () => {
+    this.handleBlur();
+  }
+
   pasteEmojiInChat = (emoji) => {
     this.setState((prevState) => {
       return { chatValue: prevState.chatValue + emoji }
@@ -177,6 +181,7 @@ export default class ChatInput extends Component {
       <Popup.Content>
         <EmojiPicker onRefreshEmojiWindow={this.onRefreshEmojiWindow}
                      onClickEmojiSearch={this.onClickEmojiSearch}
+                     onBlurEmojiSearch={this.onBlurEmojiSearch}
                      pasteEmojiInChat={this.pasteEmojiInChat}
                      skinToneSelection={this.state.skinToneSelection}
                      setSkinToneSelection={this.setSkinToneSelection}/>
