@@ -1181,24 +1181,25 @@ export default class JournalResource extends Component {
         </div>
       );
     } else {
-      return (
-        <div id="wrapper" className="journalEntry ">
-          <JournalLinkPanel
-            isLinking={this.state.isLinking}
-            incomingPairRequest={
-              this.state.incomingPairRequest
-            }
-            onClickStartPairing={this.onClickStartPairing}
-            onClickStopPairing={this.onClickStopPairing}
-            onClickCancelLink={this.onClickCancelLink}
-            onClickConfirmLink={this.onClickConfirmLink}
-            me={MemberClient.me}
-            username={this.username}
-            member={this.state.member}
-            error={this.state.linkError}
-          />
-        </div>
-      );
+      return "";
+      // return (
+      //   <div id="wrapper" className="journalEntry ">
+      //     <JournalLinkPanel
+      //       isLinking={this.state.isLinking}
+      //       incomingPairRequest={
+      //         this.state.incomingPairRequest
+      //       }
+      //       onClickStartPairing={this.onClickStartPairing}
+      //       onClickStopPairing={this.onClickStopPairing}
+      //       onClickCancelLink={this.onClickCancelLink}
+      //       onClickConfirmLink={this.onClickConfirmLink}
+      //       me={MemberClient.me}
+      //       username={this.username}
+      //       member={this.state.member}
+      //       error={this.state.linkError}
+      //     />
+      //   </div>
+      // );
     }
   }
 

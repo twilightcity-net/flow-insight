@@ -104,6 +104,10 @@ export class DimensionController {
       header: 51,
       entry: 50,
     };
+    if (!isEntryShowing) {
+      heights.entry = 0;
+    }
+
     return (
       window.innerHeight -
       heights.border -
