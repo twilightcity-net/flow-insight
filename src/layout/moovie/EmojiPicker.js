@@ -270,12 +270,12 @@ export default class EmojiPicker extends Component {
       }
     >
       <Popup.Content>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏿")}} className="skinTone">🖖🏿</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏾")}} className="skinTone">🖖🏾</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏽")}} className="skinTone">🖖🏽</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏼")}} className="skinTone">🖖🏼</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏻")}} className="skinTone">🖖🏻</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖")}} className="skinTone">🖖</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏿")}} className="emojiAction">🖖🏿</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏾")}} className="emojiAction">🖖🏾</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏽")}} className="emojiAction">🖖🏽</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏼")}} className="emojiAction">🖖🏼</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏻")}} className="emojiAction">🖖🏻</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖")}} className="emojiAction">🖖</Label>
       </Popup.Content>
     </Popup>);
   }

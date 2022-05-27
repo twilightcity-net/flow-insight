@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Feed } from "semantic-ui-react";
+import {Button, Feed, Icon, Label, Popup} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
 import MontyProfile from "./MontyProfile";
 
@@ -14,17 +14,90 @@ export default class ChatFeedEvent extends Component {
 
   }
 
+  hoverOverItem() {
+    console.log("hovering!");
+  }
+
   getFeedTextBubbles(bubbleClass) {
 
     return (
       <div>
       {this.props.texts.map((text, i) => {
-          return (<Feed.Extra key={i}
-                          text
-                          content={this.getWrappedEmojiText(text)}
-                          className={bubbleClass}/>);
+          return (
+            <div className="reactable" key={i}>
+              <Feed.Extra key={i}
+                    text
+                    content={this.getWrappedEmojiText(text)}
+                    className={bubbleClass}/>
+              {this.getActionButtons(text)}
+              {this.getReactions(bubbleClass)}
+          </div>);
       })}
       </div>);
+  }
+
+  getReactions(bubbleClass) {
+    return (
+      <Feed.Meta className={bubbleClass}>
+        <span className="reactionButton active">
+          <span className="reaction">💜</span>
+          <span className="reactionCount">1</span>
+        </span>
+        <span className="reactionButton">
+           <span className="reaction">😂</span>
+           <span className="reactionCount">1</span>
+        </span>
+      </Feed.Meta>
+    );
+  }
+
+  getActionButtons(text) {
+    let popupPosition = 'top right';
+
+    if (text.length < 20) {
+      popupPosition = 'top center';
+    }
+
+    let heartIcon =
+      <Icon.Group>
+        <Icon name='heart outline'/>
+        <Icon corner='bottom right' name='add' inverted/>
+      </Icon.Group>;
+
+    return (
+      <span className="actionButtons">
+        <span className="iconAction">
+          {this.getHeartReactionPopup(heartIcon, popupPosition)}
+        </span>
+        <span className="iconAction">
+          <Icon name="ellipsis horizontal" />
+        </span>
+      </span>
+    );
+  }
+
+  handleReactionClick(emoji) {
+    console.log("emoji clicked! "+emoji);
+  }
+
+  getHeartReactionPopup(trigger, position) {
+    return (<Popup
+      position={position}
+      basic
+      inverted
+      trigger={trigger}
+      on='click'
+    >
+      <Popup.Content>
+        <Label onClick={() => {this.handleReactionClick("😂")}} className="emojiAction">😂</Label>
+        <Label onClick={() => {this.handleReactionClick("😲")}} className="emojiAction">😲</Label>
+        <Label onClick={() => {this.handleReactionClick("😢")}} className="emojiAction">😢</Label>
+        <Label onClick={() => {this.handleReactionClick("💜")}} className="emojiAction">💜</Label>
+        <Label onClick={() => {this.handleReactionClick("🔥")}} className="emojiAction">🔥</Label>
+        <Label onClick={() => {this.handleReactionClick("👍")}} className="emojiAction">👍</Label>
+        <Label onClick={() => {this.handleReactionClick("👎")}} className="emojiAction">👎</Label>
+      </Popup.Content>
+    </Popup>);
   }
 
   getWrappedEmojiText(text) {

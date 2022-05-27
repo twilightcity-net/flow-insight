@@ -3546,7 +3546,7 @@
     filter: brightness(150%);
   }
 
-  .skinTone {
+  .emojiAction {
     background: rgba(30, 31, 32, 0.96) !important;
     border: 1px solid rgba(74, 74, 74, 0.96);
     border-radius: 5px;
@@ -3556,7 +3556,7 @@
     cursor: pointer;
   }
 
-  .skinTone:hover {
+  .emojiAction:hover {
     background: rgba(33, 34, 35, 0.96) !important;
     filter: brightness(150%);
   }
@@ -3694,7 +3694,7 @@
     color: white;
     line-height: 1.420rem;
     font-size: 1rem;
-    max-width: 280px;
+    max-width: 260px;
     background: #303336;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
@@ -3721,13 +3721,56 @@
     clear:left;
   }
 
-
   #component.moovieChat .chatFeed .text.extra.bubbleRight {
     background: #6435c9;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 15px;
     float:right;
     clear:right;
+  }
+
+  #component.moovieChat .chatFeed .reactable {
+    float: left;
+    width: 330px;
+    display:block;
+  }
+
+  #component.moovieChat .chatFeed .reactable:hover .text.extra {
+    filter: brightness(110%);
+  }
+
+  #component.moovieChat .chatFeed .reactable .actionButtons {
+    visibility: hidden;
+  }
+
+  #component.moovieChat .chatFeed .reactable:hover .actionButtons {
+    visibility: visible;
+  }
+
+  #component.moovieChat .chatFeed .actionButtons {
+    float:left;
+    padding-top: 10px;
+    padding-left: 5px;
+    cursor: pointer;
+  }
+
+  #component.moovieChat .chatFeed .iconAction {
+    padding: 5px;
+    color: #636970;
+    transition: color 0.333s ease;
+  }
+
+  #component.moovieChat .chatFeed .iconAction .corner.icon {
+    color: #636970;
+    transition: color 0.333s ease;
+  }
+
+  #component.moovieChat .chatFeed .iconAction:hover {
+    color: white;
+  }
+
+  #component.moovieChat .chatFeed .iconAction:hover .corner.icon{
+    color: white;
   }
 
   #component.moovieChat .chatFeed .meta.bubbleRight {
@@ -3740,6 +3783,39 @@
     margin:0;
     color: #777777;
     width: 100%;
+  }
+
+  #component.moovieChat .chatFeed .reactable .meta {
+    font-size: 1.2rem;
+    margin-top: 7px;
+  }
+
+  #component.moovieChat .chatFeed .reactable .reactionButton {
+    border-radius: 20px;
+    background: #222222;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin-left: 1px;
+  }
+
+  #component.moovieChat .chatFeed .reactable .reactionButton.active {
+    background: #333333;
+    border: #6435c9 1px solid;
+    cursor: pointer;
+  }
+
+  #component.moovieChat .chatFeed .reactable .reactionButton:hover {
+    background: #333333;
+  }
+
+  #component.moovieChat .chatFeed .reactable .reaction {
+    margin-left: 0;
+  }
+
+  #component.moovieChat .chatFeed .reactable .reactionCount {
+    font-size: 0.7rem;
+    color: #777777;
+    margin-left: 1px;
   }
 
   /*#component.moovieChat .chatFeed .event .content {*/
