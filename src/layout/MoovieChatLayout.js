@@ -15,7 +15,7 @@ import MontyPuppet from "./moovie/MontyPuppet";
 /**
  * this component is the layout for the always-on-top chat overlay panel
  */
-export default class ChatConsoleLayout extends Component {
+export default class MoovieChatLayout extends Component {
 
   static roomMemberPropStr = "roomMember";
 
@@ -108,7 +108,7 @@ export default class ChatConsoleLayout extends Component {
    */
   handleRoomMemberStatusEvent(arg) {
     let data = arg.data,
-      roomMember = data[ChatConsoleLayout.roomMemberPropStr];
+      roomMember = data[MoovieChatLayout.roomMemberPropStr];
 
     let metaProps = arg.metaProps,
       username = UtilRenderer.getUsernameFromMetaProps(metaProps);
@@ -146,8 +146,6 @@ export default class ChatConsoleLayout extends Component {
 
     });
   }
-
-
 
   /**
    * If two messages at the same time, condense the data to display

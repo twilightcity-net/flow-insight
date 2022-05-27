@@ -48,16 +48,6 @@ export default class FervieProfile extends Component {
       fervieTertiaryColor = this.props.circuitMember.fervieTertiaryColor;
     }
 
-    if (this.props.fervieColor) {
-        fervieColor = this.props.fervieColor;
-    }
-    if (this.props.fervieAccessory) {
-      fervieAccessory = this.props.fervieAccessory;
-    }
-    if (this.props.fervieTertiaryColor) {
-      fervieTertiaryColor = this.props.fervieTertiaryColor;
-    }
-
     return (
       <svg
         preserveAspectRatio="none"

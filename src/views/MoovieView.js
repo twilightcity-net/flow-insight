@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Keyframes from "@keyframes/core";
 import {TalkToClient} from "../clients/TalkToClient";
 import {MoovieClient} from "../clients/MoovieClient";
-import ChatConsoleLayout from "../layout/ChatConsoleLayout";
+import MoovieChatLayout from "../layout/MoovieChatLayout";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {MemberClient} from "../clients/MemberClient";
 import {CircuitMemberClient} from "../clients/CircuitMemberClient";
@@ -236,7 +236,7 @@ export default class MoovieView extends Component {
 
     return (
       <div id="wrapper" className="moovie">
-        <ChatConsoleLayout
+        <MoovieChatLayout
           moovieId={this.props.routeProps.moovieId}
           isConsoleOpen={this.state.isOpen}
           onClickMonty={this.onClickMonty}

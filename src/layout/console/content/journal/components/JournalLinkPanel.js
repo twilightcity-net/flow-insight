@@ -238,9 +238,8 @@ export default class JournalLinkPanel extends Component {
    * @returns {*}
    */
   render() {
-    //re-enable this after we've got the backend done
-    let linkButton = ""; //this.getLinkButton();
-    let linkMessage = ""; // this.getLinkMessage();
+    let linkButton = this.getLinkButton();
+    let linkMessage = this.getLinkMessage();
 
     return (
       <div id="component" className="journalLink">
