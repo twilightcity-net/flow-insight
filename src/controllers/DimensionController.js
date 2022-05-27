@@ -96,7 +96,7 @@ export class DimensionController {
    * gets the journal items height for the journal view
    * @returns {number}
    */
-  static getJournalItemsPanelHeight(isEntryShowing) {
+  static getJournalItemsPanelHeight(isPairingEnabled, isEntryShowing) {
     let heights = {
       border: 2,
       margin: 12,
@@ -104,7 +104,8 @@ export class DimensionController {
       header: 51,
       entry: 50,
     };
-    if (!isEntryShowing) {
+
+    if (!isPairingEnabled && !isEntryShowing) {
       heights.entry = 0;
     }
 

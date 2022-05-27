@@ -13,6 +13,7 @@ import Mousetrap from "mousetrap";
 import JournalLinkPanel from "./components/JournalLinkPanel";
 import { FervieClient } from "../../../../clients/FervieClient";
 import { NotificationClient } from "../../../../clients/NotificationClient";
+import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -49,6 +50,7 @@ export default class JournalResource extends Component {
    */
   constructor(props) {
     super(props);
+
     this.name = "[JournalResource]";
     this.resource = props.resource;
     this.journalIntentions = [];
@@ -1126,9 +1128,7 @@ export default class JournalResource extends Component {
           className="journalIntentions"
           style={{
             height:
-              DimensionController.getJournalItemsPanelHeight(
-                this.isMyJournal()
-              ),
+              DimensionController.getJournalItemsPanelHeight(FeatureToggle.isPairingEnabled, this.isMyJournal()),
           }}
         >
           <Grid id="journal-items-grid" inverted>
@@ -1181,25 +1181,28 @@ export default class JournalResource extends Component {
         </div>
       );
     } else {
-      return "";
-      // return (
-      //   <div id="wrapper" className="journalEntry ">
-      //     <JournalLinkPanel
-      //       isLinking={this.state.isLinking}
-      //       incomingPairRequest={
-      //         this.state.incomingPairRequest
-      //       }
-      //       onClickStartPairing={this.onClickStartPairing}
-      //       onClickStopPairing={this.onClickStopPairing}
-      //       onClickCancelLink={this.onClickCancelLink}
-      //       onClickConfirmLink={this.onClickConfirmLink}
-      //       me={MemberClient.me}
-      //       username={this.username}
-      //       member={this.state.member}
-      //       error={this.state.linkError}
-      //     />
-      //   </div>
-      // );
+      if (FeatureToggle.isPairingEnabled) {
+        return (
+          <div id="wrapper" className="journalEntry ">
+            <JournalLinkPanel
+              isLinking={this.state.isLinking}
+              incomingPairRequest={
+                this.state.incomingPairRequest
+              }
+              onClickStartPairing={this.onClickStartPairing}
+              onClickStopPairing={this.onClickStopPairing}
+              onClickCancelLink={this.onClickCancelLink}
+              onClickConfirmLink={this.onClickConfirmLink}
+              me={MemberClient.me}
+              username={this.username}
+              member={this.state.member}
+              error={this.state.linkError}
+            />
+          </div>
+        );
+      } else {
+        return "";
+      }
     }
   }
 
