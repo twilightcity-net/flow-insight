@@ -47,7 +47,7 @@ export default class ActiveRetroFeedEvent extends Component {
       return (
         <Feed.Event>
           <Feed.Label className="feedLabel">
-            <FervieProfile circuitMember={this.props.circuitMember}/>
+            <FervieProfile showPopup={false} circuitMember={this.props.circuitMember}/>
           </Feed.Label>
           <Feed.Content>
             <Feed.Summary>

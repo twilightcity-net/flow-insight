@@ -53,28 +53,12 @@ export default class ChatFeed extends Component {
   }
 
   getFeedEvents() {
-    let fervieColor = null;
-    let fervieAccessory = null;
-    let fervieTertiaryColor = null;
-
     return this.props.messages.map((message, i) => {
       const member = CircuitMemberHelper.getMemberForUsername(this.props.circuitMembers, message.username);
 
-      if (member) {
-        fervieColor = member.fervieColor;
-        fervieAccessory = member.fervieAccessory;
-        fervieTertiaryColor = member.fervieTertiaryColor;
-      } else {
-        fervieColor = null;
-        fervieAccessory = null;
-        fervieTertiaryColor = null;
-      }
-
       return (<ChatFeedEvent
           key={i}
-          fervieColor={fervieColor}
-          fervieAccessory={fervieAccessory}
-          fervieTertiaryColor={fervieTertiaryColor}
+          circuitMember={member}
           name={message.username}
           time={message.time}
           isMe={message.isMe}
@@ -85,46 +69,6 @@ export default class ChatFeed extends Component {
       });
   }
 
-  /**
-   * renders our feed messages
-   * @returns {*}
-   */
-  getFeedEvent(key, isMe) {
-        return (<ChatFeedEvent
-            key={key}
-            fervieColor={null}
-            fervieAccessory={"SUNGLASSES"}
-            fervieTertiaryColor={"#000000"}
-            name={"name"}
-            time={"Yesterday, 1:40PM"}
-            isMe={isMe}
-            texts={["Hello this is text.  Not sure what " +
-            "this is going to say, but I " +
-            "want it to wrap around a little bit " +
-            "so I can see the wordwrap."]}
-          />
-        );
-
-  }
-
-  /**
-   * renders our feed messages
-   * @returns {*}
-   */
-  getShortFeedEvent(key, isMe) {
-    return (<ChatFeedEvent
-        key={key}
-        fervieColor={null}
-        fervieAccessory={"SUNGLASSES"}
-        fervieTertiaryColor={"#000000"}
-        name={"name"}
-        time={"Yesterday, 1:40PM"}
-        isMe={isMe}
-        texts={["Yo"]}
-      />
-    );
-
-  }
 
   /**
    * renders the root console layout of the chat console view
@@ -145,11 +89,6 @@ export default class ChatFeed extends Component {
                 height: height,
               }}
         >
-          {/*{this.getFeedEvent(101, false)}*/}
-          {/*{this.getFeedEvent(102, false)}*/}
-          {/*{this.getFeedEvent(103, true)}*/}
-          {/*{this.getShortFeedEvent(104, false)}*/}
-          {/*{this.getShortFeedEvent(105, true)}*/}
           {hasMessages? this.getFeedEvents(): this.getNoMessage()}
         </Feed>
       </Segment>

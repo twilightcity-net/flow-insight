@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import {Popup} from "semantic-ui-react";
 
 export default class FervieProfile extends Component {
   /**
@@ -11,7 +12,27 @@ export default class FervieProfile extends Component {
   }
 
   render() {
-    return (<div>{this.getFervieProfileSvg()}</div>);
+    return (<div>{this.getFervieWithPopup()}</div>);
+  }
+
+  getFervieWithPopup() {
+    let popupContent = null;
+
+    if (this.props.circuitMember) {
+      popupContent = (<Popup.Content>{this.props.circuitMember.username}</Popup.Content>);
+    }
+
+    if (popupContent && this.props.showPopup) {
+      return (<Popup
+        trigger={this.getFervieProfileSvg()}
+        content={popupContent}
+        position="bottom left"
+        inverted
+        hideOnScroll
+      />);
+    } else {
+      return this.getFervieProfileSvg();
+    }
   }
 
   getFervieProfileSvg() {

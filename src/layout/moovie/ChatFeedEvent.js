@@ -97,9 +97,8 @@ export default class ChatFeedEvent extends Component {
     } else {
       if (!this.props.isMe) {
         profileImage = (<FervieProfile
-          fervieColor={this.props.fervieColor}
-          fervieAccessory={this.props.fervieAccessory}
-          fervieTertiaryColor={this.props.fervieTertiaryColor}
+          showPopup={true}
+          circuitMember={this.props.circuitMember}
         />);
         bubbleClass = "bubbleLeft";
       }
