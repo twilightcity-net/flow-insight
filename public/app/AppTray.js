@@ -16,7 +16,7 @@ module.exports = class AppTray extends Tray {
       iconPath = Util.getAssetPath(
         "/icons/mac/png/icon.png"
       );
-    } else if (process.platform !== "win32") {
+    } else if (process.platform === "win32") {
       iconPath = Util.getAssetPath("/icons/win/icon.ico");
     }
     log.info(`[AppTray] iconPath=${iconPath}`);
