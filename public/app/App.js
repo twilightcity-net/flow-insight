@@ -184,6 +184,12 @@ module.exports = class App {
       global.App.AppHeartbeat = new AppHeartbeat();
       global.App.createQuitListener();
       global.App.load();
+      global.App.hide = () => {
+        app.hide();
+      }
+      global.App.show = () => {
+        app.show();
+      }
     } catch (error) {
       App.handleError(error, true);
     } finally {

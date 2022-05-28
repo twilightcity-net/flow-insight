@@ -269,6 +269,7 @@ module.exports = class ConsoleWindow {
     this.window.focus();
     setTimeout(() => {
       this.state = this.states.SHOWN;
+      global.App.show();
       this.events.consoleShown.dispatch({});
     }, this.animateTimeMs);
   }
@@ -281,6 +282,7 @@ module.exports = class ConsoleWindow {
     setTimeout(() => {
       this.window.hide();
       this.state = this.states.HIDDEN;
+      global.App.hide();
     }, this.animateTimeMs);
   }
 };
