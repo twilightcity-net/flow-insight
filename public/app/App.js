@@ -59,6 +59,7 @@ const HotkeyManager = require("../managers/HotkeyManager");
 const MoovieManager = require("../managers/MoovieManager");
 const MoovieWindowManager = require("../managers/MoovieWindowManager");
 const CircuitMemberManager = require("../managers/CircuitMemberManager");
+const is_mac = process.platform==='darwin';
 
 module.exports = class App {
   constructor() {
@@ -185,10 +186,14 @@ module.exports = class App {
       global.App.createQuitListener();
       global.App.load();
       global.App.hide = () => {
-        app.hide();
+        if (is_mac) {
+          app.hide();
+        }
       }
       global.App.show = () => {
-        app.show();
+        if (is_mac) {
+          app.show();
+        }
       }
     } catch (error) {
       App.handleError(error, true);
