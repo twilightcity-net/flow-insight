@@ -223,8 +223,10 @@ export default class MoovieChatLayout extends Component {
 
     if (data.statusEvent === BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN) {
       this.memberHelper.addMemberIfMissing(username, roomMember);
+      const allMembers = this.memberHelper.getAllMembers();
       this.setState({
-        members : this.memberHelper.getAllMembers()}
+        circuitMembers : allMembers,
+        memberNameMap: this.memberHelper.createMemberNameMap(allMembers)}
       );
     }
   }
@@ -316,7 +318,8 @@ export default class MoovieChatLayout extends Component {
     this.memberHelper.loadMembers((members) => {
       console.log("members loaded");
       this.setState({
-        circuitMembers: members
+        circuitMembers: members,
+        memberNameMap: this.memberHelper.createMemberNameMap(members)
       })
     });
   }
@@ -509,7 +512,7 @@ export default class MoovieChatLayout extends Component {
       <div id="component" className="moovieChat">
         <MoovieBanner moovie={this.state.moovie}/>
         <div id="chatFeedWindow" className="chatFeed" >
-          {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages} onAddReaction={this.onAddReaction} onRemoveReaction={this.onRemoveReaction}/>}
+          {<ChatFeed circuitMembers={this.state.circuitMembers} memberNameMap={this.state.memberNameMap} messages={this.state.messages} onAddReaction={this.onAddReaction} onRemoveReaction={this.onRemoveReaction}/>}
         </div>
         <div>
           <MontyButton moovie={this.state.moovie}

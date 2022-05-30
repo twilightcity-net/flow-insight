@@ -59,16 +59,35 @@ export default class ChatFeedEvent extends Component {
       if (isActive) {
         activeClass = " active";
       }
-      return (
-        <span key={i} className={"reactionButton"+activeClass} onClick={() => this.handleExistingReactionClick(textObj.id, reaction)}>
+
+      const tooltip = (<div className="tooltip">{this.createTitleFromMembers(isActive, reaction.memberIds)}</div>);
+
+      const trigger = (<span key={i} className={"reactionButton"+activeClass} onClick={() => this.handleExistingReactionClick(textObj.id, reaction)}>
           <span className="reaction" role="img" aria-label="heart">{reaction.emoji}</span>
           <span className="reactionCount">{reaction.memberIds.length}</span>
-        </span>
+        </span>);
+
+      return (
+        this.wrapInSimplePopup(i, trigger, tooltip)
       );
     });
   }
 
+  wrapInSimplePopup(key, trigger, popupContent) {
+    return (<Popup
+      key={key}
+      trigger={trigger}
+      content={popupContent}
+      position="bottom left"
+      inverted
+      hideOnScroll
+    />);
+  }
+
   handleExistingReactionClick = (messageId, reaction) => {
+    if (this.props.isMe && !this.props.isPuppet) {
+      return;
+    }
     if (this.includesMe(reaction.memberIds)) {
       this.props.onRemoveReaction(messageId, reaction.emoji, this.props.isLocalOnly);
     } else {
@@ -197,6 +216,7 @@ export default class ChatFeedEvent extends Component {
 
 
 
+
   /**
    * renders the active circuit feed event into the feed panel loop
    * @returns {*}
@@ -207,7 +227,7 @@ export default class ChatFeedEvent extends Component {
 
     if (this.props.isPuppet) {
       bubbleClass = "bubblePuppet";
-      profileImage = (<MontyProfile />);
+      profileImage = (<MontyProfile showPopup={true} />);
 
     } else {
       if (!this.props.isMe) {
@@ -235,4 +255,36 @@ export default class ChatFeedEvent extends Component {
   }
 
 
+  createTitleFromMembers(includesMe, memberIdsList) {
+    const me = MemberClient.me;
+    const usernames = [];
+
+    let memberId;
+    for (let i = 0; i < memberIdsList.length; i++) {
+      memberId = memberIdsList[i];
+      if (i <= 5 && memberId !== me.id) {
+        const username = this.props.memberNameMap.get(memberId);
+        if (username) {
+          usernames.push(username);
+        } else {
+          console.warn("Unable to find username for memberId ="+memberId);
+        }
+      }
+    }
+    let title = "";
+    if (includesMe) {
+      title = "You";
+      if (usernames.length > 0) {
+        title += " and ";
+      }
+    }
+    for (let i = 0; i < usernames.length; i++) {
+      if (i > 0) {
+        title += ", ";
+      }
+      title += usernames[i];
+    }
+
+    return title;
+  }
 }

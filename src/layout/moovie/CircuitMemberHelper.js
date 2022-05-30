@@ -204,4 +204,11 @@ export default class CircuitMemberHelper {
     return null;
   }
 
+  createMemberNameMap(memberList) {
+    const map = new Map();
+    for (let member of memberList) {
+      map.set(member.memberId, member.username);
+    }
+    return map;
+  }
 }

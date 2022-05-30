@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Image} from "semantic-ui-react";
+import {Image, Popup} from "semantic-ui-react";
 
 export default class MontyProfile extends Component {
   /**
@@ -11,13 +11,24 @@ export default class MontyProfile extends Component {
     this.name = "[MontyProfile]";
   }
 
-  render() {
+  getMontyProfileContent() {
     return (
-      <div className="profileImage">
-        <Image src={"./assets/animation/monty/monty_profile.png"}
-               className="monty"/>
-      </div>
+      <Image src={"./assets/animation/monty/monty_profile.png"}
+             className="monty"/>
     );
+  }
+
+  render() {
+    const popupContent =  (<Popup.Content>Monty</Popup.Content>);
+
+    return (<div className="profileImage">
+      <Popup
+      trigger={this.getMontyProfileContent()}
+      content={popupContent}
+      position="bottom left"
+      inverted
+      hideOnScroll
+    /></div>);
   }
 
 }

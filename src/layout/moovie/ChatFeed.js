@@ -74,6 +74,7 @@ export default class ChatFeed extends Component {
           isPuppet={message.isPuppet}
           isLocalOnly={message.isLocalOnly}
           texts={message.texts}
+          memberNameMap={this.props.memberNameMap}
           onAddReaction={this.onAddReaction}
           onRemoveReaction={this.onRemoveReaction}
         />
