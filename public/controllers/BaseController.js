@@ -36,6 +36,7 @@ module.exports = class BaseController {
       MY: "/my",
       TO: "/to",
       ROOM: "/room",
+      MESSAGE: "/message",
       CHAT: "/chat",
       JOIN: "/join",
       LEAVE: "/leave",
@@ -138,6 +139,7 @@ module.exports = class BaseController {
       PAIRING_REQUEST: "PairingRequestDto",
       FERVIE_SEAT_EVENT: "FervieSeatEventDto",
       MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
+      CHAT_REACTION: "ChatReactionDto"
     };
   }
 
@@ -207,6 +209,7 @@ module.exports = class BaseController {
       START_RETRO_FOR_WTF: "startRetroForWTF",
       PUBLISH_CHAT_TO_ROOM: "publishChatToRoom",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publishPuppetChatToRoom",
+      REACT_TO_MESSAGE: "reactToMessage",
       JOIN_EXISTING_ROOM: "joinExistingRoom",
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
       GET_MY_HOME_TEAM: "getMyHomeTeam",

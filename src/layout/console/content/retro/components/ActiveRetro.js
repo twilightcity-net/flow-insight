@@ -350,9 +350,10 @@ export default class ActiveRetro extends Component {
     );
 
     switch (arg.messageType) {
-      case BaseClient.MessageTypes
-        .CIRCUIT_MEMBER_STATUS_EVENT:
-        this.handleCircuitMemberStatusEventMessage(arg);
+      case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
+        if (arg.uri === this.model.retroTalkRoomId) {
+          this.handleCircuitMemberStatusEventMessage(arg);
+        }
         break;
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         this.handleWtfStatusUpdateMessage(arg);
@@ -365,29 +366,10 @@ export default class ActiveRetro extends Component {
         break;
 
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-        if (!hasMessage) {
+        if (arg.uri === this.model.retroTalkRoomId && !hasMessage) {
           this.appendChatMessage(arg);
         } else {
-          console.log(
-            "Duplicate talk message observed: " +
-              JSON.stringify(arg)
-          );
-        }
-        break;
-      case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
-        switch (arg.data[ActiveRetro.statusEventPropStr]) {
-          case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
-            console.log("JOIN ROOM", arg.data);
-            // TODO add status message in the feed
-            break;
-          case BaseClient.RoomMemberStatus
-            .ROOM_MEMBER_LEAVE:
-            console.log("LEAVE ROOM", arg.data);
-
-            // TODO add status message in the feed
-            break;
-          default:
-            break;
+          console.log("Duplicate talk message observed: " + JSON.stringify(arg));
         }
         break;
       default:

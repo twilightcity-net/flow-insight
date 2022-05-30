@@ -19,6 +19,10 @@ export default class MoovieChatLayout extends Component {
 
   static roomMemberPropStr = "roomMember";
 
+  static chatReactionTypeAdd = "ADD";
+
+  static chatReactionTypeRemove = "REMOVE";
+
   /**
    * Initialize the component
    * @param props - the properties of the component to render
@@ -87,6 +91,8 @@ export default class MoovieChatLayout extends Component {
         this.handleRoomMemberStatusEvent(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.MOOVIE_STATUS_UPDATE) {
         this.handleMoovieStatusUpdate(arg);
+      } else if (arg.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
+        this.handleChatReaction(arg.data);
       }
     }
   };
@@ -99,6 +105,108 @@ export default class MoovieChatLayout extends Component {
     this.setState({
       moovie: arg.data
     });
+  }
+
+  /**
+   * Handle emoji change to one of the messages in the chat feed
+   * @param reactionInput
+   */
+  handleChatReaction(reactionInput) {
+    this.setState((prevState) => {
+      const foundText = this.findMessageTextWithId(prevState.messages, reactionInput.messageId);
+      if (foundText) {
+        if (reactionInput.chatReactionChangeType === MoovieChatLayout.chatReactionTypeAdd) {
+          this.addReactionToGroup(foundText.reactions,
+            {
+                          memberIds: [reactionInput.memberId],
+                          emoji: reactionInput.emoji
+                        });
+        } else if (reactionInput.chatReactionChangeType === MoovieChatLayout.chatReactionTypeRemove) {
+          console.log("removing reaction");
+          this.removeReactionFromGroup(foundText.reactions, reactionInput.memberId);
+        }
+      }
+      return {
+        messages: prevState.messages
+      }
+    });
+  }
+
+  addReactionToGroup(reactions, newReaction, isLocalOnly) {
+
+    const memberId = newReaction.memberIds[0];
+    for (let reaction of reactions) {
+      if (reaction.emoji === newReaction.emoji) {
+        let memberAlreadyFound = false;
+        if (isLocalOnly) {
+          for (let reactionMemberId of newReaction.memberIds) {
+            if (reactionMemberId === memberId) {
+              memberAlreadyFound = true;
+              break;
+            }
+          }
+        }
+        if (!memberAlreadyFound) {
+          reaction.memberIds.push(memberId);
+        }
+        return;
+      }
+    }
+    reactions.push(newReaction);
+  }
+
+  /**
+   * Remove the reaction from a specific memberId.  If the particular emoji
+   * only has one memberId reaction, remove the entire reaction entry
+   * @param reactions
+   * @param memberId
+   */
+  removeReactionFromGroup(reactions, memberId) {
+    const indexOfReactionByMember = this.findIndexesOfReactionByMember(reactions, memberId);
+    if (indexOfReactionByMember[0] >= 0) {
+      const reaction = reactions[indexOfReactionByMember[0]];
+      if (reaction.memberIds.length > 1) {
+        reaction.memberIds.splice(indexOfReactionByMember[1], 1);
+      } else {
+        reactions.splice(indexOfReactionByMember[0], 1);
+      }
+    }
+  }
+
+  /**
+   * Find a message text object matching the passed in id,
+   * or return null if not found
+   * @param messages
+   * @param id
+   */
+  findMessageTextWithId(messages, id) {
+    for (let message of messages) {
+      for (let text of message.texts) {
+        if (text.id === id) {
+          return text;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Find the index within the text of a reaction by the specified member.
+   * And the index of the member within the reaction.
+   * If we are removing the reaction, we need to find it first
+   * @param reactions
+   * @param memberId
+   */
+  findIndexesOfReactionByMember(reactions, memberId) {
+    for (let i = 0; i < reactions.length; i++) {
+      for (let j = 0; j < reactions[i].memberIds.length; j++) {
+        if (reactions[i].memberIds[j] === memberId) {
+          return [i,j];
+        }
+      }
+    }
+
+    return [-1,-1];
   }
 
   /**
@@ -131,13 +239,21 @@ export default class MoovieChatLayout extends Component {
     const isMe = (username === MemberClient.me.username);
     const isPuppet = (talkMessage.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE);
 
+    console.log("talkMessage id = "+talkMessage.id);
+
     this.setState((prevState) => {
       const newMessage = {
+        id : talkMessage.id,
         username: username,
         time: time,
-        texts: [talkMessage.data.message],
+        texts: [{
+          id: talkMessage.id,
+          message: talkMessage.data.message,
+          reactions:[]
+        }],
         isMe: isMe,
         isPuppet: isPuppet,
+        isLocalOnly: false,
         fervieColor: null,
         fervieAccessory: "SUNGLASSES",
         tertiaryColor: null
@@ -152,6 +268,8 @@ export default class MoovieChatLayout extends Component {
    * bubbles adjacent without the timestamp underneath.
    */
   updateMessages(messages, newMessage) {
+    console.log("new message");
+    console.log(newMessage);
     if (messages.length > 0) {
       const lastMessage = messages[messages.length - 1];
       if (lastMessage.time === newMessage.time
@@ -297,6 +415,64 @@ export default class MoovieChatLayout extends Component {
     this.addChatMessage(text, callback);
   }
 
+
+  /**
+   * When we add a reaction to a message in the chat
+   * @param messageId
+   * @param emoji
+   * @param isLocalOnly
+   */
+  onAddReaction = (messageId, emoji, isLocalOnly) => {
+   console.log("add reaction!");
+
+   if (isLocalOnly) {
+     this.setState((prevState) => {
+       const textObj = this.findMessageTextWithId(prevState.messages, messageId);
+       this.addReactionToGroup(textObj.reactions, {memberIds: [MemberClient.me.id], emoji: emoji}, isLocalOnly);
+       return {
+         messages: prevState.messages
+       }
+     });
+   } else {
+     TalkToClient.reactToMessage(this.state.moovie.talkRoomId, messageId, emoji, this, (arg) => {
+       if (arg.error) {
+         console.error("Error adding reaction! "+arg.error)
+       } else {
+         console.log("reaction added");
+       }
+     });
+   }
+  }
+
+  /**
+   * When we remove a reaction on a message in the chat
+   * @param messageId
+   * @param emoji
+   * @param isLocalOnly
+   */
+  onRemoveReaction = (messageId, emoji, isLocalOnly) => {
+    console.log("remove reaction!");
+    if (isLocalOnly) {
+      this.setState((prevState) => {
+        const foundText = this.findMessageTextWithId(prevState.messages, messageId);
+        if (foundText) {
+            this.removeReactionFromGroup(foundText.reactions, MemberClient.me.id);
+        }
+        return {
+          messages: prevState.messages
+        }
+      });
+    } else {
+      TalkToClient.clearReactionToMessage(this.state.moovie.talkRoomId, messageId, emoji, this, (arg) => {
+        if (arg.error) {
+          console.error("Error removing reaction! " + arg.error)
+        } else {
+          console.log("reaction removed");
+        }
+      });
+    }
+  }
+
   /**
    * adds a new message to our messages array and triggers a rerender
    * @param text
@@ -323,6 +499,7 @@ export default class MoovieChatLayout extends Component {
   };
 
 
+
   /**
    * renders the chat console layout
    * @returns {*} - the JSX to render
@@ -332,7 +509,7 @@ export default class MoovieChatLayout extends Component {
       <div id="component" className="moovieChat">
         <MoovieBanner moovie={this.state.moovie}/>
         <div id="chatFeedWindow" className="chatFeed" >
-          {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages}/>}
+          {<ChatFeed circuitMembers={this.state.circuitMembers} messages={this.state.messages} onAddReaction={this.onAddReaction} onRemoveReaction={this.onRemoveReaction}/>}
         </div>
         <div>
           <MontyButton moovie={this.state.moovie}
@@ -348,5 +525,7 @@ export default class MoovieChatLayout extends Component {
       </div>
     );
   }
+
+
 
 }

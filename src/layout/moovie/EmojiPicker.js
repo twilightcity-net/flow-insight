@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import * as unicodeEmoji from 'unicode-emoji';
-import {Button, Input, Label, Menu, Popup} from "semantic-ui-react";
+import {Input, Label, Menu, Popup} from "semantic-ui-react";
 
 /**
  * this component handles the popup emoji picker
@@ -270,12 +270,12 @@ export default class EmojiPicker extends Component {
       }
     >
       <Popup.Content>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏿")}} className="emojiAction">🖖🏿</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏾")}} className="emojiAction">🖖🏾</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏽")}} className="emojiAction">🖖🏽</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏼")}} className="emojiAction">🖖🏼</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏻")}} className="emojiAction">🖖🏻</Label>
-        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖")}} className="emojiAction">🖖</Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏿")}} className="emojiAction"><span role="img" aria-label="dark skin">🖖🏿</span></Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏾")}} className="emojiAction"><span role="img" aria-label="med-dark skin">🖖🏾</span></Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏽")}} className="emojiAction"><span role="img" aria-label="med skin">🖖🏽</span></Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏼")}} className="emojiAction"><span role="img" aria-label="med-light skin">🖖🏼</span></Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖🏻")}} className="emojiAction"><span role="img" aria-label="light skin">🖖🏻</span></Label>
+        <Label onClick={() => {this.handleSkinToneSelectionClick("🖖")}} className="emojiAction"><span role="img" aria-label="default skin">🖖</span></Label>
       </Popup.Content>
     </Popup>);
   }

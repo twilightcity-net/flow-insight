@@ -31,6 +31,8 @@ module.exports = class TalkToController extends (
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "get-all-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
+      REACT_TO_MESSAGE: "react-to-message",
+      CLEAR_REACTION_TO_MESSAGE: "clear-reaction-to-message",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
@@ -85,6 +87,12 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.PUBLISH_CHAT_TO_ROOM:
           this.handlePublishChatToRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.REACT_TO_MESSAGE:
+          this.handleReactToMessageEvent(event, arg);
+          break;
+        case TalkToController.Events.CLEAR_REACTION_TO_MESSAGE:
+          this.handleClearReactionToMessageEvent(event, arg);
           break;
         case TalkToController.Events.PUBLISH_PUPPET_CHAT_TO_ROOM:
           this.handlePublishPuppetChatToRoomEvent(event, arg);
@@ -347,7 +355,7 @@ module.exports = class TalkToController extends (
       TalkToController.Types.POST,
       urn,
       (store) =>
-        this.delegatePublishChatToRoomCallback(
+        this.defaultDelegateCallback(
           store,
           event,
           arg,
@@ -387,7 +395,7 @@ module.exports = class TalkToController extends (
       TalkToController.Types.POST,
       urn,
       (store) =>
-        this.delegatePublishChatToRoomCallback(
+        this.defaultDelegateCallback(
           store,
           event,
           arg,
@@ -397,36 +405,78 @@ module.exports = class TalkToController extends (
   }
 
   /**
-   * handles the callback logic of the publish to chat room event on gridtim. this collection is used to
-   * store temporary messages awaiting arrival from the gridtime to talk push.
-   * @param store
+   * Handles adding an emoji reaction to a message
    * @param event
    * @param arg
    * @param callback
    */
-  delegatePublishChatToRoomCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      JSON.stringify(arg.args)
-    );
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
+  handleReactToMessageEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      messageId = arg.args.messageId,
+      emoji = arg.args.emoji,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.MESSAGE +
+        TalkToController.Paths.SEPARATOR +
+        messageId;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { emoji: emoji, chatReactionChangeType: "ADD" },
+      TalkToController.Names.REACT_TO_MESSAGE,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
+
+
+  /**
+   * Handles clearing an existing emoji reaction on a message
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleClearReactionToMessageEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      messageId = arg.args.messageId,
+      emoji = arg.args.emoji,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.MESSAGE +
+        TalkToController.Paths.SEPARATOR +
+        messageId;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { emoji: emoji, chatReactionChangeType: "REMOVE" },
+      TalkToController.Names.REACT_TO_MESSAGE,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
   /**
    * joins a talk room from a given room name. This is set within the
@@ -457,7 +507,7 @@ module.exports = class TalkToController extends (
       TalkToController.Types.POST,
       urn,
       (store) =>
-        this.delegateJoinExistingRoomCallback(
+        this.defaultDelegateCallback(
           store,
           event,
           arg,
@@ -466,38 +516,6 @@ module.exports = class TalkToController extends (
     );
   }
 
-  /**
-   * processes the callback for our join existing room request on grid.
-   * This will just log the action, and if an error return it to the
-   * client.
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateJoinExistingRoomCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      JSON.stringify(arg.args)
-    );
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
 
   /**
    * processes our client event for leaving a room on talk. To do this
@@ -527,7 +545,7 @@ module.exports = class TalkToController extends (
       TalkToController.Types.POST,
       urn,
       (store) =>
-        this.delegateLeaveExistingRoomCallback(
+        this.defaultDelegateCallback(
           store,
           event,
           arg,
@@ -537,35 +555,35 @@ module.exports = class TalkToController extends (
   }
 
   /**
-   * processes our callback for leaving a room on the talk sever. This
-   * is done by making a http dto request to gridtime's TalkToClient
-   * class.
+   * callback delegator which processes our return from the dto
+   * request to gridtime
    * @param store
    * @param event
    * @param arg
    * @param callback
    */
-  delegateLeaveExistingRoomCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  defaultDelegateCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
+      //details will be pushed to team member DB, so we dont need to save separately
       arg.data = store.data;
     }
+
     this.logResults(
       this.name,
       arg.type,
       arg.id,
       JSON.stringify(arg.args)
     );
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
       callback
     );
   }
+
+
+
 };

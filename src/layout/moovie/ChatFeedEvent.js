@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import {Button, Feed, Icon, Label, Popup} from "semantic-ui-react";
+import React, {Component} from "react";
+import {Feed, Icon, Label, Popup} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
 import MontyProfile from "./MontyProfile";
+import {MemberClient} from "../../clients/MemberClient";
 
 export default class ChatFeedEvent extends Component {
   /**
@@ -23,42 +24,80 @@ export default class ChatFeedEvent extends Component {
     return (
       <div>
       {this.props.texts.map((text, i) => {
+          const textMsg = text.message;
           return (
             <div className="reactable" key={i}>
               <Feed.Extra key={i}
                     text
-                    content={this.getWrappedEmojiText(text)}
+                    content={this.getWrappedEmojiText(textMsg)}
                     className={bubbleClass}/>
-              {this.getActionButtons(text)}
-              {this.getReactions(bubbleClass)}
+              {this.getActionButtons((this.props.isMe && !this.props.isPuppet), textMsg, i)}
+              {this.getReactions(text, bubbleClass)}
           </div>);
       })}
       </div>);
   }
 
-  getReactions(bubbleClass) {
-    return (
-      <Feed.Meta className={bubbleClass}>
-        <span className="reactionButton active">
-          <span className="reaction">💜</span>
-          <span className="reactionCount">1</span>
-        </span>
-        <span className="reactionButton">
-           <span className="reaction">😂</span>
-           <span className="reactionCount">1</span>
-        </span>
-      </Feed.Meta>
-    );
+  getReactions(textObj, bubbleClass) {
+
+    if (textObj.reactions.length > 0) {
+      return (
+        <Feed.Meta className={bubbleClass}>
+          {this.getReactionList(textObj)}
+        </Feed.Meta>
+      );
+    } else {
+      return "";
+    }
+
   }
 
-  getActionButtons(text) {
+  getReactionList(textObj) {
+    return textObj.reactions.map((reaction, i) => {
+      const isActive = this.includesMe(reaction.memberIds);
+      let activeClass = "";
+      if (isActive) {
+        activeClass = " active";
+      }
+      return (
+        <span key={i} className={"reactionButton"+activeClass} onClick={() => this.handleExistingReactionClick(textObj.id, reaction)}>
+          <span className="reaction" role="img" aria-label="heart">{reaction.emoji}</span>
+          <span className="reactionCount">{reaction.memberIds.length}</span>
+        </span>
+      );
+    });
+  }
+
+  handleExistingReactionClick = (messageId, reaction) => {
+    if (this.includesMe(reaction.memberIds)) {
+      this.props.onRemoveReaction(messageId, reaction.emoji, this.props.isLocalOnly);
+    } else {
+      this.props.onAddReaction(messageId, reaction.emoji, this.props.isLocalOnly);
+    }
+  }
+
+  includesMe(memberIds) {
+    let me = MemberClient.me;
+    for (let memberId of memberIds) {
+      if (me.id === memberId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getActionButtons(isMe, text, textIndex) {
+    if (isMe) {
+      return "";
+    }
+
     let popupPosition = 'top right';
 
     if (text.length < 20) {
       popupPosition = 'top center';
     }
 
-    let heartIcon =
+    const heartIcon =
       <Icon.Group>
         <Icon name='heart outline'/>
         <Icon corner='bottom right' name='add' inverted/>
@@ -66,36 +105,39 @@ export default class ChatFeedEvent extends Component {
 
     return (
       <span className="actionButtons">
-        <span className="iconAction">
-          {this.getHeartReactionPopup(heartIcon, popupPosition)}
-        </span>
-        <span className="iconAction">
-          <Icon name="ellipsis horizontal" />
-        </span>
+      <span className="iconAction">
+        {this.getHeartReactionPopup(textIndex, heartIcon, popupPosition)}
       </span>
+      <span className="iconAction">
+        <Icon name="ellipsis horizontal" />
+      </span>
+    </span>
     );
   }
 
-  handleReactionClick(emoji) {
-    console.log("emoji clicked! "+emoji);
+  handleReactionClick(textIndex, emoji) {
+    console.log("emoji clicked! "+emoji + ", id = "+this.props.id +
+      ", localOnly = "+this.props.isLocalOnly + ", textIndex = "+textIndex);
+    this.props.onAddReaction(this.props.texts[textIndex].id, emoji, this.props.isLocalOnly);
   }
 
-  getHeartReactionPopup(trigger, position) {
+  getHeartReactionPopup(textIndex, trigger, position) {
     return (<Popup
       position={position}
       basic
       inverted
       trigger={trigger}
       on='click'
+      closeOnPortalMouseLeave={true}
     >
       <Popup.Content>
-        <Label onClick={() => {this.handleReactionClick("😂")}} className="emojiAction">😂</Label>
-        <Label onClick={() => {this.handleReactionClick("😲")}} className="emojiAction">😲</Label>
-        <Label onClick={() => {this.handleReactionClick("😢")}} className="emojiAction">😢</Label>
-        <Label onClick={() => {this.handleReactionClick("💜")}} className="emojiAction">💜</Label>
-        <Label onClick={() => {this.handleReactionClick("🔥")}} className="emojiAction">🔥</Label>
-        <Label onClick={() => {this.handleReactionClick("👍")}} className="emojiAction">👍</Label>
-        <Label onClick={() => {this.handleReactionClick("👎")}} className="emojiAction">👎</Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "😂")}} className="emojiAction"><span role="img" aria-label="joy">😂</span></Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "😲")}} className="emojiAction"><span role="img" aria-label="shocked">😲</span></Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "😢")}} className="emojiAction"><span role="img" aria-label="sad">😢</span></Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "💜")}} className="emojiAction"><span role="img" aria-label="heart">💜</span></Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "🔥")}} className="emojiAction"><span role="img" aria-label="fire">🔥</span></Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "👍")}} className="emojiAction"><span role="img" aria-label="thumbs up">👍</span></Label>
+        <Label onClick={() => {this.handleReactionClick(textIndex, "👎")}} className="emojiAction"><span role="img" aria-label="thumbs down">👎</span></Label>
       </Popup.Content>
     </Popup>);
   }
@@ -191,5 +233,6 @@ export default class ChatFeedEvent extends Component {
       </Feed.Event>
     );
   }
+
 
 }

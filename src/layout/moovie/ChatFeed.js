@@ -48,6 +48,14 @@ export default class ChatFeed extends Component {
     feedElement.scrollTop = feedElement.scrollHeight;
   };
 
+  onAddReaction = (messageId, emoji, isLocalOnly) => {
+    this.props.onAddReaction(messageId, emoji, isLocalOnly);
+  }
+
+  onRemoveReaction = (messageId, emoji, isLocalOnly) => {
+    this.props.onRemoveReaction(messageId, emoji, isLocalOnly);
+  }
+
   getNoMessage() {
     return (<div className="noMessages">No messages yet.</div>);
   }
@@ -59,11 +67,15 @@ export default class ChatFeed extends Component {
       return (<ChatFeedEvent
           key={i}
           circuitMember={member}
+          id={message.id}
           name={message.username}
           time={message.time}
           isMe={message.isMe}
           isPuppet={message.isPuppet}
+          isLocalOnly={message.isLocalOnly}
           texts={message.texts}
+          onAddReaction={this.onAddReaction}
+          onRemoveReaction={this.onRemoveReaction}
         />
         );
       });

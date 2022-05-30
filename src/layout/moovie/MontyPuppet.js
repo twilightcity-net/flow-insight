@@ -49,9 +49,9 @@ export default class MontyPuppet {
         "and select the 'Resume' option."
     }
 
-    const msg1 = this.createMontyMessage(text1);
-    const msg2 = this.createMontyMessage(text2);
-    const msg3 = this.createMontyMessage(text3);
+    const msg1 = this.createMontyMessage(text1, 1);
+    const msg2 = this.createMontyMessage(text2, 2);
+    const msg3 = this.createMontyMessage(text3, 3);
 
     return [msg1, msg2, msg3];
 
@@ -103,7 +103,7 @@ export default class MontyPuppet {
     });
   }
 
-  createMontyMessage(text) {
+  createMontyMessage(text, id) {
     const me = MemberClient.me;
     let username = "notloaded";
     if (me) {
@@ -111,10 +111,12 @@ export default class MontyPuppet {
     }
 
     return {
+      id: id,
       username: username,
       time: moment().utc().local().calendar(),
-      texts: [text],
+      texts: [{id:id, message:text, reactions:[]}],
       isMe: true,
-      isPuppet: true};
+      isPuppet: true,
+      isLocalOnly: true};
   }
 }

@@ -366,7 +366,9 @@ export default class ActiveCircuit extends Component {
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
       case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
-        this.handleCircuitMemberStatusEventMessage(arg);
+        if (arg.uri === this.model.wtfTalkRoomId ) {
+          this.handleCircuitMemberStatusEventMessage(arg);
+        }
         break;
       case BaseClient.MessageTypes.TEAM_MEMBER:
         this.handleTeamMemberStatusUpdate(arg);
@@ -378,18 +380,11 @@ export default class ActiveCircuit extends Component {
         this.handleDictionaryUpdateMessage(arg);
         break;
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-        if (
-          !UtilRenderer.hasMessageByIdInArray(
-            this.state.messages,
-            arg
-          )
-        ) {
+        if (arg.uri === this.model.wtfTalkRoomId &&
+          !UtilRenderer.hasMessageByIdInArray(this.state.messages, arg)) {
           this.appendChatMessage(arg);
         } else {
-          console.log(
-            "Duplicate talk message observed: " +
-              JSON.stringify(arg)
-          );
+          console.log("Duplicate talk message observed: " + JSON.stringify(arg));
         }
         break;
       default:

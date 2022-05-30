@@ -1,5 +1,4 @@
-import React, {Component} from "react";
-import {Popup} from "semantic-ui-react";
+import React from "react";
 
 export default class FeatureToggle  {
 
