@@ -92,7 +92,7 @@ export default class FervieSprite {
   }
 
   getMaxVelocityY() {
-    return 3;
+    return 3 * this.scaleY;
   }
 
   adjustDown(amount) {
