@@ -7,6 +7,7 @@ import {RendererEventFactory} from "../../../events/RendererEventFactory";
 import {BaseClient} from "../../../clients/BaseClient";
 import {MemberClient} from "../../../clients/MemberClient";
 import {NotificationClient} from "../../../clients/NotificationClient";
+import FeatureToggle from "../../shared/FeatureToggle";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -38,8 +39,7 @@ export default class ConsoleSidebar extends Component {
       isXPUpdate: false,
       xpUpdateAmount: 0,
       unreadNotificationCount: 0,
-      activeItem:
-        SidePanelViewController.MenuSelection.TEAM,
+      activeItem: this.getDefaultSelectedPanel(),
       iconFervie: "heart outline",
       iconTeam: "home",
       iconWTF: "lightning",
@@ -161,7 +161,18 @@ export default class ConsoleSidebar extends Component {
     this.circuitStartStopListener.clear();
     this.circuitPauseResumeListener.clear();
     this.talkRoomMessageListener.clear();
-    this.directMessageListener.clear();
+  }
+
+  /**
+   * Get the default selected panel to show in the left console
+   * @returns {string}
+   */
+  getDefaultSelectedPanel() {
+    if (FeatureToggle.isMoovieApp) {
+      return SidePanelViewController.MenuSelection.BUDDIES;
+    } else {
+      return SidePanelViewController.MenuSelection.TEAM;
+    }
   }
 
   /**
@@ -374,8 +385,7 @@ export default class ConsoleSidebar extends Component {
         break;
       case 4:
         this.showPanel(
-          SidePanelViewController.MenuSelection
-            .NOTIFICATIONS
+          SidePanelViewController.MenuSelection.NOTIFICATIONS
         );
         break;
       case 0:
@@ -408,37 +418,18 @@ export default class ConsoleSidebar extends Component {
     let oStr = " outline";
     switch (activeMenuItem) {
       case SidePanelViewController.MenuSelection.TEAM:
-        state.iconFervie += oStr;
-        //state.iconCircuit += oStr;
-        state.iconNotifications += oStr;
-        break;
+      case SidePanelViewController.MenuSelection.BUDDIES:
       case SidePanelViewController.MenuSelection.CIRCUITS:
+      case SidePanelViewController.MenuSelection.DASHBOARD:
+      case SidePanelViewController.MenuSelection.NONE:
         state.iconFervie += oStr;
-        //state.iconTeam += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.FERVIE:
-        //state.iconTeam += oStr;
-        //state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
-      case SidePanelViewController.MenuSelection
-        .NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
         state.iconFervie += oStr;
-        //state.iconTeam += oStr;
-        //state.iconCircuit += oStr;
-        break;
-      case SidePanelViewController.MenuSelection.DASHBOARD:
-        state.iconFervie += oStr;
-        state.iconNotifications += oStr;
-        //state.iconTeam += oStr;
-        //state.iconCircuit += oStr;
-        break;
-      case SidePanelViewController.MenuSelection.NONE:
-        state.iconFervie += oStr;
-        //state.iconTeam += oStr;
-        //state.iconCircuit += oStr;
-        state.iconNotifications += oStr;
         break;
       default:
         break;
@@ -526,12 +517,136 @@ export default class ConsoleSidebar extends Component {
     );
   }
 
-  /**
-   * renders the sidebar of the console view
-   */
-  render() {
+  getTeamMenuItem(activeItem) {
+    if (FeatureToggle.isMoovieApp) return "";
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.TEAM}
+        active={activeItem === SidePanelViewController.MenuSelection.TEAM}
+        onClick={this.handleItemClick}
+      >
+        <Icon name={this.state.iconTeam}/>
+      </Menu.Item>
+    );
+  }
+
+  getBuddiesMenuItem(activeItem) {
+    if (FeatureToggle.isFlowInsightApp()) return "";
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.BUDDIES}
+        active={activeItem === SidePanelViewController.MenuSelection.BUDDIES}
+        onClick={this.handleItemClick}
+      >
+        <Icon name={this.state.iconTeam}/>
+      </Menu.Item>
+    );
+  }
+
+  getCircuitsMenuItem(activeItem) {
+    if (FeatureToggle.isMoovieApp) return "";
+
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.CIRCUITS}
+        active={activeItem === SidePanelViewController.MenuSelection.CIRCUITS}
+        onClick={this.handleItemClick}
+      >
+        <Icon name={this.state.iconCircuit} />
+      </Menu.Item>
+    );
+  }
+
+  getFervieMenuItem(activeItem) {
+    let heartAnimClass = "";
+    let xpAnimClass = "";
+    let xpAmount = "";
+
+    if (this.state.isXPUpdate) {
+      heartAnimClass = "fervieHeartFade";
+      xpAnimClass = "xpFloat";
+      xpAmount = "+" + this.state.xpUpdateAmount + "XP";
+    }
+
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.FERVIE}
+        active={activeItem === SidePanelViewController.MenuSelection.FERVIE}
+        onClick={this.handleItemClick}
+      >
+        <Icon
+          className={heartAnimClass}
+          name={this.state.iconFervie}
+        />
+        <div className={xpAnimClass}>{xpAmount}</div>
+      </Menu.Item>
+    );
+  }
+
+  getNotificationsMenuItem(activeItem) {
+    let notificationIcon = "";
+    if (this.state.unreadNotificationCount > 0) {
+      notificationIcon = (
+        <Icon.Group>
+          <Icon name={this.state.iconNotifications} />
+          <Icon
+            inverted
+            corner="bottom right"
+            name="circle"
+            color="red"
+          />
+        </Icon.Group>
+      );
+    } else {
+      notificationIcon = (
+        <Icon name={this.state.iconNotifications} />
+      );
+    }
+
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
+        active={activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS}
+        onClick={this.handleItemClick}
+      >
+        {notificationIcon}
+      </Menu.Item>
+    );
+  }
+
+  getDashboardMenuItem(activeItem) {
+    if (FeatureToggle.isMoovieApp) return "";
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.DASHBOARD}
+        active={activeItem === SidePanelViewController.MenuSelection.DASHBOARD}
+        onClick={this.handleItemClick}
+      >
+        <Icon name={this.state.iconDashboard} />
+      </Menu.Item>
+    );
+  }
+
+  getWtfMenuItem(activeItem) {
+    if (FeatureToggle.isMoovieApp) return "";
+    return (
+      <Menu.Item
+        name={SidePanelViewController.MenuSelection.WTF}
+        active={activeItem === SidePanelViewController.MenuSelection.WTF}
+        onClick={this.handleItemClick}
+        className={
+          this.state.isAlarm
+            ? ConsoleSidebar.alarmClassName + " wtf"
+            : "wtf"
+        }
+      >
+        <Icon name={this.state.iconWTF} />
+      </Menu.Item>
+    );
+  }
+
+  getNetworkPopup() {
     const {
-      activeItem,
       isOnline,
       pingTime,
       latencyTime,
@@ -554,15 +669,6 @@ export default class ConsoleSidebar extends Component {
       iconColor = "grey";
     }
 
-    let heartAnimClass = "";
-    let xpAnimClass = "";
-    let xpAmount = "";
-
-    if (this.state.isXPUpdate) {
-      heartAnimClass = "fervieHeartFade";
-      xpAnimClass = "xpFloat";
-      xpAmount = "+" + this.state.xpUpdateAmount + "XP";
-    }
 
     const networkConnectMenuItem = (
       <Menu.Item header className={menuClassName}>
@@ -578,24 +684,23 @@ export default class ConsoleSidebar extends Component {
       errorMsg
     );
 
-    let notificationIcon = "";
-    if (this.state.unreadNotificationCount > 0) {
-      notificationIcon = (
-        <Icon.Group>
-          <Icon name={this.state.iconNotifications} />
-          <Icon
-            inverted
-            corner="bottom right"
-            name="circle"
-            color="red"
-          />
-        </Icon.Group>
-      );
-    } else {
-      notificationIcon = (
-        <Icon name={this.state.iconNotifications} />
-      );
-    }
+    return (
+      <Popup
+        trigger={networkConnectMenuItem}
+        className="chunkTitle"
+        content={popupContent}
+        position="top left"
+        inverted
+      />
+    );
+  }
+
+  /**
+   * renders the sidebar of the console view, some menu items might be disabled
+   * because of feature toggles
+   */
+  render() {
+    const activeItem = this.state.activeItem;
 
     return (
       <div
@@ -606,103 +711,17 @@ export default class ConsoleSidebar extends Component {
           inverted
           icon
           vertical
-          style={{
-            height:
-              DimensionController.getConsoleSidebarHeight(),
-          }}
+          style={{height: DimensionController.getConsoleSidebarHeight()}}
         >
-          <Menu.Item
-            name={
-              SidePanelViewController.MenuSelection.TEAM
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection.TEAM
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconTeam} />
-          </Menu.Item>
-          <Menu.Item
-            name={
-              SidePanelViewController.MenuSelection.CIRCUITS
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection.CIRCUITS
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconCircuit} />
-          </Menu.Item>
-          <Menu.Item
-            name={
-              SidePanelViewController.MenuSelection.FERVIE
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection.FERVIE
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon
-              className={heartAnimClass}
-              name={this.state.iconFervie}
-            />
-            <div className={xpAnimClass}>{xpAmount}</div>
-          </Menu.Item>
-          <Menu.Item
-            name={
-              SidePanelViewController.MenuSelection
-                .NOTIFICATIONS
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection
-                .NOTIFICATIONS
-            }
-            onClick={this.handleItemClick}
-          >
-            {notificationIcon}
-          </Menu.Item>
+          {this.getTeamMenuItem(activeItem)}
+          {this.getBuddiesMenuItem(activeItem)}
+          {this.getCircuitsMenuItem(activeItem)}
+          {this.getFervieMenuItem(activeItem)}
+          {this.getNotificationsMenuItem(activeItem)}
+          {this.getDashboardMenuItem(activeItem)}
+          {this.getWtfMenuItem(activeItem)}
+          {this.getNetworkPopup()}
 
-          <Menu.Item
-            name={
-              SidePanelViewController.MenuSelection
-                .DASHBOARD
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection
-                .DASHBOARD
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconDashboard} />
-          </Menu.Item>
-
-          <Menu.Item
-            name={SidePanelViewController.MenuSelection.WTF}
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection.WTF
-            }
-            onClick={this.handleItemClick}
-            className={
-              this.state.isAlarm
-                ? ConsoleSidebar.alarmClassName
-                : ""
-            }
-          >
-            <Icon name={this.state.iconWTF} />
-          </Menu.Item>
-          <Popup
-            trigger={networkConnectMenuItem}
-            className="chunkTitle"
-            content={popupContent}
-            position="top left"
-            inverted
-          />
         </Menu>
       </div>
     );

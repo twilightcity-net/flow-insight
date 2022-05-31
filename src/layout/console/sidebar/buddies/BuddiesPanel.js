@@ -1,39 +1,31 @@
-import React, { Component } from "react";
-import {
-  Accordion,
-  Menu,
-  Segment,
-  Transition,
-  Message,
-  List,
-} from "semantic-ui-react";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
-import { TeamClient } from "../../../../clients/TeamClient";
-import TeamPanelListItem from "./TeamPanelListItem";
-import { MemberClient } from "../../../../clients/MemberClient";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import { BaseClient } from "../../../../clients/BaseClient";
-import { BrowserController } from "../../../../controllers/BrowserController";
+import React, {Component} from "react";
+import {Accordion, List, Menu, Message, Segment, Transition,} from "semantic-ui-react";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import {TeamClient} from "../../../../clients/TeamClient";
+import {MemberClient} from "../../../../clients/MemberClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
+import {BrowserController} from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
+import BuddiesPanelListItem from "./BuddiesPanelListItem";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * this component is the buddies side panel content
  */
-export default class TeamPanel extends Component {
+export default class BuddiesPanel extends Component {
   /**
-   * builds the team panel for the renderer
+   * builds the buddies panel for the renderer
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TeamPanel]";
+    this.name = "[BuddiesPanel]";
     this.state = {
       activeIndex: 0,
-      activeItem:
-        SidePanelViewController.SubmenuSelection.TEAMS,
+      activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
       teamVisible: false,
       teams: [],
       orgName: TeamClient.orgName,
@@ -58,6 +50,7 @@ export default class TeamPanel extends Component {
         this,
         this.onTeamDataRefresh
       );
+
   }
 
   /**
@@ -241,6 +234,7 @@ export default class TeamPanel extends Component {
    * called when we render the team panel into the gui
    */
   componentDidMount() {
+    console.log("Buddies panel mounted!");
     this.myController.configureTeamPanelListener(
       this,
       this.refreshTeamPanel
@@ -279,8 +273,7 @@ export default class TeamPanel extends Component {
       } else {
         this.error = null;
         this.setState({
-          activeItem:
-            SidePanelViewController.SubmenuSelection.TEAMS,
+          activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
           teamVisible: true,
           teams: this.sortAllTeams(arg.data),
         });
@@ -409,32 +402,14 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelMembersListContent() {
-    let showOffline = false,
-      panels = this.state.teams.map((team, i) => {
-        showOffline = UtilRenderer.isEveryoneTeam(team);
-        return {
-          key: `panel-${i}`,
-          title: `${team.name}`,
-          content: {
-            content: this.getTeamPanelListMembersContent(
-              team.teamMembers,
-              showOffline
-            ),
-          },
-        };
-      });
+    let showOffline = true;
+    let firstTeam = this.state.teams[0];
 
-    return (
-      <Accordion
-        as={Menu}
-        vertical
-        defaultActiveIndex={[0]}
-        panels={panels}
-        exclusive={false}
-        fluid
-        inverted
-      />
-    );
+    if (firstTeam) {
+      return this.getTeamPanelListMembersContent(firstTeam.teamMembers, showOffline);
+    } else {
+      return "";
+    }
   }
 
   /**
@@ -455,7 +430,7 @@ export default class TeamPanel extends Component {
         verticalAlign="middle"
         size="large"
       >
-        <TeamPanelListItem
+        <BuddiesPanelListItem
           key={me.id}
           model={me}
           meUsername={me.username}
@@ -466,7 +441,7 @@ export default class TeamPanel extends Component {
           (member) =>
             me.id !== member.id &&
             (showOffline || UtilRenderer.isMemberOnline(member)) && (
-              <TeamPanelListItem
+              <BuddiesPanelListItem
                 key={member.id}
                 meUsername={me.username}
                 model={member}
@@ -486,11 +461,8 @@ export default class TeamPanel extends Component {
   render() {
     let { activeItem } = this.state;
 
-    let houseTitle = "Teams";
+    let houseTitle = "Moovie Buddies";
 
-    if (this.state.orgName != null) {
-      houseTitle = this.state.orgName + " Teams";
-    }
 
     return (
       <div
@@ -505,7 +477,7 @@ export default class TeamPanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={houseTitle}
-              active={activeItem === SidePanelViewController.SubmenuSelection.TEAMS}
+              active={activeItem === SidePanelViewController.SubmenuSelection.BUDDIES}
               onClick={this.handleMenuClick}
             />
           </Menu>

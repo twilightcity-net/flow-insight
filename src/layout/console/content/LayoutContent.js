@@ -14,6 +14,7 @@ import { MainPanelViewController } from "../../../controllers/MainPanelViewContr
 import RetroResource from "./retro/RetroResource";
 import PlayResource from "./play/PlayResource";
 import DashboardResource from "./dashboard/DashboardResource";
+import MoovieResource from "./moovie/MoovieResource";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -22,14 +23,14 @@ export default class LayoutContent extends Component {
   constructor(props) {
     super(props);
     this.name = "[LayoutContent]";
-    this.animationType =
-      MainPanelViewController.Animations.DROP;
-    this.animationTime =
-      MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
+    this.animationType = MainPanelViewController.Animations.DROP;
+    this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
+
     this.state = {
       resource: MainPanelViewController.Resources.NONE,
       browserVisible: true,
     };
+
     this.myController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.LAYOUT_CONTENT,
@@ -62,10 +63,9 @@ export default class LayoutContent extends Component {
       browserVisible: true,
     };
     if (
-      resource.uriArr[0] ===
-        MainPanelViewController.Resources.TERMINAL ||
-      resource.uriArr[0] ===
-        MainPanelViewController.Resources.PLAY
+      resource.uriArr[0] === MainPanelViewController.Resources.TERMINAL ||
+      resource.uriArr[0] === MainPanelViewController.Resources.PLAY ||
+      resource.uriArr[0] === MainPanelViewController.Resources.MOOVIE
     ) {
       state.browserVisible = false;
     }
@@ -83,83 +83,48 @@ export default class LayoutContent extends Component {
     console.log("resource: " + resource);
     switch (resource) {
       case MainPanelViewController.Resources.TERMINAL:
-        component = (
-          <TerminalResource
-            resource={this.state.resource}
-          />
-        );
-        className =
-          MainPanelViewController.Resources.TERMINAL +
-          className;
+        component = (<TerminalResource resource={this.state.resource}/>);
+        className = MainPanelViewController.Resources.TERMINAL + className;
         break;
       case MainPanelViewController.Resources.JOURNAL:
-        component = (
-          <JournalResource resource={this.state.resource} />
-        );
-        className =
-          MainPanelViewController.Resources.JOURNAL +
-          className;
+        component = (<JournalResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.JOURNAL + className;
         break;
       case MainPanelViewController.Resources.WTF:
-        component = (
-          <CircuitResource resource={this.state.resource} />
-        );
-        className =
-          MainPanelViewController.Resources.CIRCUIT +
-          className;
+        component = (<CircuitResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.CIRCUIT + className;
         break;
       case MainPanelViewController.Resources.RETRO:
-        component = (
-          <RetroResource resource={this.state.resource} />
-        );
-        className =
-          MainPanelViewController.Resources.RETRO +
-          className;
+        component = (<RetroResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.RETRO + className;
         break;
       case MainPanelViewController.Resources.FLOW:
-        component = (
-          <FlowResource resource={this.state.resource} />
-        );
-        className =
-          MainPanelViewController.Resources.FLOW +
-          className;
+        component = (<FlowResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.FLOW + className;
         break;
       case MainPanelViewController.Resources.DASHBOARD:
-        component = (
-          <DashboardResource
-            resource={this.state.resource}
-          />
-        );
-        className =
-          MainPanelViewController.Resources.DASHBOARD +
-          className;
+        component = (<DashboardResource resource={this.state.resource}/>);
+        className = MainPanelViewController.Resources.DASHBOARD + className;
         break;
       case MainPanelViewController.Resources.PLAY:
-        component = (
-          <PlayResource resource={this.state.resource} />
-        );
-        className =
-          MainPanelViewController.Resources.PLAY +
-          className;
+        component = (<PlayResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.PLAY + className;
+        break;
+      case MainPanelViewController.Resources.MOOVIE:
+        component = (<MoovieResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.MOOVIE + className;
         break;
       case MainPanelViewController.Resources.NONE:
         component = "";
-        className =
-          MainPanelViewController.Resources.NONE +
-          className;
+        className = MainPanelViewController.Resources.NONE + className;
         break;
       case MainPanelViewController.Resources.ERROR:
-        component = this.getJournalError(resource);
-        className =
-          MainPanelViewController.Resources.ERROR +
-          className;
+        component = this.getErrorPage(resource);
+        className = MainPanelViewController.Resources.ERROR + className;
         break;
       default:
-        component = this.getJournalError(resource);
-        className =
-          MainPanelViewController.Resources.ERROR +
-          className;
-
+        component = this.getErrorPage(resource);
+        className = MainPanelViewController.Resources.ERROR + className;
         break;
     }
     return (
@@ -190,7 +155,7 @@ export default class LayoutContent extends Component {
    * renders our error for the screen
    * @returns {*}
    */
-  getJournalError = (error) => {
+  getErrorPage = (error) => {
     return (
       <div id="component" className="errorLayout">
         <Message icon negative size="large">

@@ -6,7 +6,6 @@
 export class BrowserRequestFactory {
   /**
    * the possible types of request we have
-   * @returns {{CIRCUIT: string, DASHBOARD: string, PLAY: string, TERMINAL: string, BROWSER: string, RETRO_CIRCUIT: string, JOURNAL: string, ERROR: string, COMMAND: string, FLOW: string}}
    * @constructor
    */
   static get Requests() {
@@ -21,6 +20,7 @@ export class BrowserRequestFactory {
       RETRO_CIRCUIT: "retro-circuit",
       PLAY: "play",
       DASHBOARD: "dashboard",
+      MOOVIE: "moovie",
     };
   }
 
@@ -31,6 +31,7 @@ export class BrowserRequestFactory {
       JOURNAL: "journal",
       TERMINAL: "terminal",
       PLAY: "play",
+      MOOVIE: "moovie"
     };
   }
 
@@ -72,7 +73,6 @@ export class BrowserRequestFactory {
 
   /**
    * the possible locations we can use
-   * @returns {{TERMINAL: string, DASHBOARD: string, PLAY: string, ERROR: string, ACTIVE: string, JOURNAL: string, WTF: string, ME: string, RETRO: string, ROOM: string, FLOW: string, CIRCUIT: string}}
    * @constructor
    */
   static get Locations() {
@@ -83,6 +83,7 @@ export class BrowserRequestFactory {
       DASHBOARD: "dashboard",
       FLOW: "flow",
       PLAY: "play",
+      MOOVIE: "moovie",
       WTF: "wtf",
       RETRO: "retro",
       ROOM: "room",
@@ -164,6 +165,8 @@ export class BrowserRequestFactory {
           );
         case BrowserRequestFactory.Requests.PLAY:
           return BrowserRequestFactory._getPlayRequest();
+        case BrowserRequestFactory.Requests.MOOVIE:
+          return BrowserRequestFactory._getMoovieRequest();
         case BrowserRequestFactory.Requests.ERROR:
           return BrowserRequestFactory._getErrorRequest(
             args[0]
@@ -223,6 +226,8 @@ export class BrowserRequestFactory {
           );
         case BrowserRequestFactory.Commands.PLAY:
           return BrowserRequestFactory._getPlayRequest();
+        case BrowserRequestFactory.Commands.MOOVIE:
+          return BrowserRequestFactory._getMoovieRequest();
         default:
           return BrowserRequestFactory._getUnknownCommandErrorRequest();
       }
@@ -416,6 +421,20 @@ export class BrowserRequestFactory {
       BrowserRequestFactory.URI_SEPARATOR +
       BrowserRequestFactory.ROOT_SEPARATOR +
       BrowserRequestFactory.Locations.PLAY
+    );
+  }
+
+  /**
+   * gets the request for opening the moovie theater app
+   * @returns {string}
+   * @private
+   */
+  static _getMoovieRequest() {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.MOOVIE
     );
   }
 

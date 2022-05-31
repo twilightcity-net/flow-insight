@@ -30,6 +30,15 @@ export default class FervieKissSprite {
   }
 
   /**
+   * Clear cached images and reload when fervie is changing colors
+   * @param p5
+   */
+  reloadImages(p5) {
+    this.animationLoader.clearSingleAnimationFrameCache(AnimationId.Animation.FervieKiss, 1);
+    this.preload(p5);
+  }
+
+  /**
    * Draw the kissing fervie sprite on the screen based on the properties
    * @param p5
    * @param x

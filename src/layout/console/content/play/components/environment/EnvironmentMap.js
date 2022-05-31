@@ -13,6 +13,7 @@ import CityStreet from "./CityStreet";
 import FervieGarden from "./FervieGarden";
 import TheaterEntry from "./TheaterEntry";
 import TheaterRoom from "./TheaterRoom";
+import FeatureToggle from "../../../../../shared/FeatureToggle";
 
 export default class EnvironmentMap {
   constructor(animationLoader, width, height, globalHud) {
@@ -26,8 +27,8 @@ export default class EnvironmentMap {
 
     this.loadEnvironmentMap();
 
-    this.activeEnvironment = this.environmentMap[EnvironmentMap.THEATER_ENTRY];
-    this.activeMapId = EnvironmentMap.THEATER_ENTRY;
+    this.activeEnvironment = this.environmentMap[EnvironmentMap.SHROOMHOUSE];
+    this.activeMapId = EnvironmentMap.SHROOMHOUSE;
 
     this.mapShiftInProgress = false;
   }
@@ -93,13 +94,20 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_NORTH] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.CITY_STREET;
     this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_NORTH] = EnvironmentMap.THEATER_ROOM;
-    this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_STREET;
     this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_LEFT] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.THEATER_ENTRY;
 
+    if (FeatureToggle.isFlowInsightApp()) {
+      //dont sandbox to the theater for the main app
+      this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_STREET;
+    }
 
+  }
 
+  setInitialEnvironment(initialEnvironment) {
+    this.activeEnvironment = this.environmentMap[initialEnvironment];
+    this.activeMapId = initialEnvironment;
   }
 
   getScaleX() {
@@ -118,10 +126,7 @@ export default class EnvironmentMap {
     this.mapShiftInProgress = true;
 
     console.log("Shifting map left!");
-    let newMapId =
-      this.travelMap[
-        this.activeMapId + EnvironmentMap.MAP_LEFT
-      ];
+    let newMapId = this.travelMap[this.activeMapId + EnvironmentMap.MAP_LEFT];
     if (!newMapId) {
       console.error("Walked off the left of the screen and no environment destination set!");
       this.mapShiftInProgress = false;
@@ -133,8 +138,7 @@ export default class EnvironmentMap {
     this.loadNewEnvironment(p5, newMapId);
     this.mapShiftInProgress = false;
 
-    let spawnPoint =
-      this.activeEnvironment.getRightSpawnProperties();
+    let spawnPoint = this.activeEnvironment.getRightSpawnProperties();
     console.log(spawnPoint);
     return spawnPoint;
   }
@@ -146,15 +150,10 @@ export default class EnvironmentMap {
 
     this.mapShiftInProgress = true;
     console.log("Shifting map right!");
-    let newMapId =
-      this.travelMap[
-        this.activeMapId + EnvironmentMap.MAP_RIGHT
-      ];
+    let newMapId = this.travelMap[this.activeMapId + EnvironmentMap.MAP_RIGHT];
     if (!newMapId) {
       this.mapShiftInProgress = false;
-      console.error(
-        "Walked off the right of the screen and no environment destination set!"
-      );
+      console.error("Walked off the right of the screen and no environment destination set!");
       return;
     } else {
       console.log("Moving to map: " + newMapId);
@@ -177,8 +176,7 @@ export default class EnvironmentMap {
     this.mapShiftInProgress = true;
 
     console.log("Shifting map south!");
-    let newMapId =
-      this.travelMap[this.activeMapId + EnvironmentMap.MAP_SOUTH];
+    let newMapId = this.travelMap[this.activeMapId + EnvironmentMap.MAP_SOUTH];
     if (!newMapId) {
       console.error("Walked off the south of the screen and no environment destination set!");
       this.mapShiftInProgress = false;
@@ -310,39 +308,22 @@ export default class EnvironmentMap {
   update(p5, fervie, globalHud) {
     this.activeEnvironment.update(p5, fervie, globalHud);
 
-    if (
-      this.isEdgeOfScreenLeft(
-        fervie.getFervieFootX(),
-        fervie.getFervieFootY()
-      )
-    ) {
+    if (this.isEdgeOfScreenLeft(fervie.getFervieFootX(), fervie.getFervieFootY())) {
       let newSpawnProperties = this.moveMapLeft(p5);
       fervie.spawn(newSpawnProperties);
     }
 
-    if (
-      this.isEdgeOfScreenRight(
-        fervie.getFervieFootX(),
-        fervie.getFervieFootY()
-      )
-    ) {
+    if (this.isEdgeOfScreenRight(fervie.getFervieFootX(), fervie.getFervieFootY())) {
       let newSpawnProperties = this.moveMapRight(p5);
       fervie.spawn(newSpawnProperties);
     }
 
-    if (
-      this.isEdgeOfScreenSouth(
-        fervie.getFervieFootX(),
-        fervie.getFervieFootY()
-      )
-    ) {
+    if (this.isEdgeOfScreenSouth(fervie.getFervieFootX(), fervie.getFervieFootY())) {
       let newSpawnProperties = this.moveMapSouth(p5);
       fervie.spawn(newSpawnProperties);
     }
 
-    if (
-      this.activeEnvironment.hasFervieMovingNorth(fervie)
-    ) {
+    if (this.activeEnvironment.hasFervieMovingNorth(fervie)) {
       let newSpawnProperties = this.moveMapNorth(p5);
       fervie.spawn(newSpawnProperties);
     }
@@ -386,4 +367,6 @@ export default class EnvironmentMap {
     }
     return false;
   }
+
+
 }

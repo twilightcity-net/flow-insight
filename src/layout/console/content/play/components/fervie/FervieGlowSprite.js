@@ -35,6 +35,16 @@ export default class FervieGlowSprite {
   }
 
   /**
+   * Reload cached images in the case of a fervie color change
+   * @param p5
+   */
+  reloadImages(p5) {
+    this.animationLoader.clearSingleAnimationFrameCache(AnimationId.Animation.FervieGlow, 1);
+
+    this.preload(p5);
+  }
+
+  /**
    * Draw the glowy fervie sprite on the screen based on the properties
    * @param p5
    * @param x

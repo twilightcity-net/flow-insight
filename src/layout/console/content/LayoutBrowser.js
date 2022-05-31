@@ -7,6 +7,7 @@ import {
 } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../controllers/BrowserRequestFactory";
+import FeatureToggle from "../../shared/FeatureToggle";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -115,11 +116,20 @@ export default class LayoutBrowser extends Component {
    * #IMPORTANT #ENTRY-POINT default resource loaded page
    */
   requestBrowserToLoadDefaultContent() {
-    let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.JOURNAL,
-      BrowserRequestFactory.Locations.ME
-    );
-    this.myController.makeRequest(request);
+    let defaultRequest;
+
+    if (FeatureToggle.isFlowInsightApp()) {
+      defaultRequest = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        BrowserRequestFactory.Locations.ME
+      );
+    } else {
+      defaultRequest = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.MOOVIE
+      );
+    }
+
+    this.myController.makeRequest(defaultRequest);
   }
 
   /**

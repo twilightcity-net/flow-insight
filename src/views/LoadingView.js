@@ -10,6 +10,7 @@ import {
   Segment,
   Transition,
 } from "semantic-ui-react";
+import FeatureToggle from "../layout/shared/FeatureToggle";
 
 /**
  *  This view class is used to show application loading which consists of:
@@ -62,6 +63,10 @@ export default class LoadingView extends Component {
         RendererEventFactory.Events.TALK_CONNECT_FAILED,
         this,
         this.onTalkFailedCb
+      ),
+      introDone: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APP_INTRO_DONE,
+        this
       ),
       quit: RendererEventFactory.createEvent(
         RendererEventFactory.Events.APP_QUIT,
@@ -165,6 +170,29 @@ export default class LoadingView extends Component {
     this.events.quit.dispatch({});
   };
 
+  getVideoSrcLink() {
+    if (FeatureToggle.isMoovieApp) {
+      return "./assets/video/Moovies_Intro.mp4"
+    } else {
+      return "./assets/video/FlowInsight_Intro.mp4";
+    }
+  }
+
+  getProgressClass() {
+    if (FeatureToggle.isMoovieApp) {
+      return "moovie";
+    } else {
+      return "purple";
+    }
+  }
+
+  onVideoEnded = () => {
+    console.log("video ended!");
+    this.events.introDone.dispatch({});
+  }
+
+
+
   /// renders the view into our root element of our window
   render() {
     const progressContent = (
@@ -188,12 +216,11 @@ export default class LoadingView extends Component {
             <Header.Subheader></Header.Subheader>
           </Header.Content>
         </Header>
-        <Progress
+        <Progress className={this.getProgressClass()}
           color={this.state.progress.color}
           value={this.state.progress.value}
           total={this.state.progress.total}
           precision={0}
-          active
           size="tiny"
           inverted
           align="center"
@@ -254,16 +281,16 @@ export default class LoadingView extends Component {
         </Container>
       </Container>
     );
-    let videoPosterSrc = "./assets/images/TC_intro.png",
-      videoSrc = "./assets/video/FlowInsight_Intro.mp4",
+
+    let videoSrc =  this.getVideoSrcLink(),
       videoType = "video/mp4";
     return (
       <Container className="loading">
         <div className="fullscreen-bg">
           <video
+            onEnded={this.onVideoEnded}
             muted
             autoPlay
-            poster={videoPosterSrc}
             className="fullscreen-bg__video"
           >
             <source src={videoSrc} type={videoType} />

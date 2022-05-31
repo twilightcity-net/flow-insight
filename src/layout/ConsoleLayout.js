@@ -9,6 +9,7 @@ import { RendererControllerFactory } from "../controllers/RendererControllerFact
 import { SidePanelViewController } from "../controllers/SidePanelViewController";
 import { DimensionController } from "../controllers/DimensionController";
 import DashboardPanel from "./console/sidebar/dashboard/DashboardPanel";
+import BuddiesPanel from "./console/sidebar/buddies/BuddiesPanel";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -31,8 +32,7 @@ export default class ConsoleLayout extends Component {
       xpSummary: {},
       totalXP: 0,
       flameRating: 0,
-      activePanel:
-        SidePanelViewController.MenuSelection.FERVIE,
+      activePanel: SidePanelViewController.MenuSelection.FERVIE,
       consoleIsCollapsed: 0,
       me: {
         displayName: SidePanelViewController.ME,
@@ -82,8 +82,7 @@ export default class ConsoleLayout extends Component {
     if (show) {
       this.setState({
         sidebarPanelVisible: true,
-        activePanel:
-          this.sidePanelController.activeMenuSelection,
+        activePanel: this.sidePanelController.activeMenuSelection,
       });
       setTimeout(() => {
         this.setState({
@@ -161,6 +160,20 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
+   * the buddies panel that gets displayed to the user
+   * @returns {*}
+   */
+  getBuddiesPanelContent = () => {
+    return (
+      <BuddiesPanel
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+      />
+    );
+  };
+
+
+  /**
    * renders the sidebar content for circuits
    * @returns {*}
    */
@@ -211,7 +224,7 @@ export default class ConsoleLayout extends Component {
    * gets the sidebar panel content
    * @returns {*}
    */
-  getSidebarPanelConent = () => {
+  getSidebarPanelContent = () => {
     return (
       <div
         id="wrapper"
@@ -240,12 +253,13 @@ export default class ConsoleLayout extends Component {
         return this.getFerviePanelContent();
       case SidePanelViewController.MenuSelection.TEAM:
         return this.getTeamPanelContent();
+      case SidePanelViewController.MenuSelection.BUDDIES:
+        return this.getBuddiesPanelContent();
       case SidePanelViewController.MenuSelection.CIRCUITS:
         return this.getCircuitsContent();
       case SidePanelViewController.MenuSelection.DASHBOARD:
         return this.getDashboardContent();
-      case SidePanelViewController.MenuSelection
-        .NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
         return this.getNotificationsContent();
       default:
         throw new Error(
@@ -297,7 +311,7 @@ export default class ConsoleLayout extends Component {
       <div id="component" className="consoleLayout">
         {this.getConsoleSidebar()}
         {this.state.sidebarPanelVisible &&
-          this.getSidebarPanelConent()}
+          this.getSidebarPanelContent()}
         {this.getConsoleContent()}
       </div>
     );

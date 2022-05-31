@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   Button,
   Dropdown,
-  Icon,
+  Icon, Input,
   List,
   Menu,
   Popup,
@@ -21,6 +21,8 @@ import { BaseClient } from "../../../../clients/BaseClient";
 import { HexColorPicker } from "react-colorful";
 import { FervieClient } from "../../../../clients/FervieClient";
 import SkillListItem from "./SkillListItem";
+import FeatureToggle from "../../../shared/FeatureToggle";
+import AccessoryListItem from "./AccessoryListItem";
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
  * and accessories. Currently this only uses a simple canvas but will use
@@ -55,48 +57,36 @@ export default class FerviePanel extends Component {
     ];
 
     this.render3d = false;
-    this.animationType =
-      SidePanelViewController.AnimationTypes.FLY_DOWN;
-    this.animationDelay =
-      SidePanelViewController.AnimationDelays.SUBMENU;
+    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
     this.myController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
       );
 
     let fervieColor = MemberClient.me.fervieColor;
-    let fervieSecondaryColor =
-      MemberClient.me.fervieSecondaryColor;
-    let fervieTertiaryColor =
-      MemberClient.me.fervieTertiaryColor;
+    let fervieSecondaryColor = MemberClient.me.fervieSecondaryColor;
+    let fervieTertiaryColor = MemberClient.me.fervieTertiaryColor;
     let fervieAccessory = MemberClient.me.fervieAccessory;
 
     if (fervieColor === undefined || fervieColor === null) {
       fervieColor = "#B042FF";
     }
 
-    if (
-      fervieSecondaryColor === undefined ||
-      fervieSecondaryColor === null
-    ) {
+    if (fervieSecondaryColor === undefined || fervieSecondaryColor === null) {
       fervieSecondaryColor = "#FFFFFF";
     }
 
-    if (
-      fervieTertiaryColor === undefined ||
-      fervieTertiaryColor === null
-    ) {
+    if (fervieTertiaryColor === undefined || fervieTertiaryColor === null) {
       fervieTertiaryColor = "#000000";
     }
 
-    //TODO active skill is based on the active accessory name
-
     this.state = {
-      activeItem:
-        SidePanelViewController.SubmenuSelection.FERVIE,
+      activeItem: SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: false,
       skillsVisible: false,
       badgesVisible: false,
+      accessoriesVisible: false,
       xpSummary: MemberClient.me.xpSummary,
       pickColorVisible: false,
       color: fervieColor,
@@ -105,7 +95,9 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor: fervieTertiaryColor,
       fervieAccessory: fervieAccessory,
       whatToColor: FerviePanel.Colorables.FUR,
-      activeSkill: null,
+      isEditingName: false,
+      fervieName: "",
+      moovieWatchCount: 10
     };
     this.me = MemberClient.me;
 
@@ -188,11 +180,11 @@ export default class FerviePanel extends Component {
    */
   showFerviePanel() {
     this.setState({
-      activeItem:
-        SidePanelViewController.SubmenuSelection.FERVIE,
+      activeItem: SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: true,
       badgesVisible: false,
       skillsVisible: false,
+      accessoriesVisible: false
     });
   }
 
@@ -201,11 +193,11 @@ export default class FerviePanel extends Component {
    */
   showBadgesPanel() {
     this.setState({
-      activeItem:
-        SidePanelViewController.SubmenuSelection.BADGES,
+      activeItem: SidePanelViewController.SubmenuSelection.BADGES,
       fervieVisible: false,
       badgesVisible: true,
       skillsVisible: false,
+      accessoriesVisible: false
     });
   }
 
@@ -214,12 +206,37 @@ export default class FerviePanel extends Component {
    */
   showSkillsPanel() {
     this.setState({
-      activeItem:
-        SidePanelViewController.SubmenuSelection.SKILLS,
+      activeItem: SidePanelViewController.SubmenuSelection.SKILLS,
       fervieVisible: false,
       badgesVisible: false,
       skillsVisible: true,
+      accessoriesVisible: false
     });
+  }
+
+  /**
+   * the function that is called to open and display the skills panel in the side
+   */
+  showAccessoriesPanel() {
+    console.log("setting active item to accessories!");
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.ACCESSORIES,
+      fervieVisible: false,
+      badgesVisible: false,
+      skillsVisible: false,
+      accessoriesVisible: true
+    });
+  }
+
+  /**
+   * shows the skills or accessories panel based on feature flag options
+   */
+  showSkillsOrAccessoriesPanel() {
+    if (FeatureToggle.isMoovieApp) {
+      this.showAccessoriesPanel();
+    } else {
+      this.showSkillsPanel();
+    }
   }
 
   /**
@@ -237,6 +254,16 @@ export default class FerviePanel extends Component {
    * @param name - the name of the menu that was clicked
    */
   handleSkillsClick = (e, { name }) => {
+    this.myController.changeActiveFervieSubmenuPanel(name);
+  };
+
+
+  /**
+   * updates the display to show the accessories content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleAccessoriesClick = (e, { name }) => {
     this.myController.changeActiveFervieSubmenuPanel(name);
   };
 
@@ -277,6 +304,9 @@ export default class FerviePanel extends Component {
       case SidePanelViewController.SubmenuSelection.SKILLS:
         this.showSkillsPanel();
         break;
+      case SidePanelViewController.SubmenuSelection.ACCESSORIES:
+        this.showAccessoriesPanel();
+        break;
       default:
         throw new Error(
           "Unknown fervie panel type '" +
@@ -315,6 +345,116 @@ export default class FerviePanel extends Component {
     );
   };
 
+  onSunglassesClick = (itemComp) => {
+      this.setState((prevState) => {
+        if (prevState.fervieAccessory === itemComp.props.fervieAccessory) {
+          this.saveFervieDetailsToServer(
+            this.state.fervieColor,
+            this.state.fervieSecondaryColor,
+            null,
+            null
+          );
+          return {
+            fervieAccessory: null,
+            fervieTertiaryColor: null,
+          };
+        } else {
+          this.saveFervieDetailsToServer(
+            this.state.fervieColor,
+            this.state.fervieSecondaryColor,
+            "#000000",
+            itemComp.props.fervieAccessory
+          );
+
+          return {
+            fervieAccessory: itemComp.props.fervieAccessory,
+            fervieTertiaryColor: "#000000",
+          };
+        }
+      });
+  }
+
+  onHeartGlassesClick = (itemComp) => {
+    this.setState((prevState) => {
+      if (prevState.fervieAccessory === itemComp.props.fervieAccessory) {
+        this.saveFervieDetailsToServer(
+          this.state.fervieColor,
+          this.state.fervieSecondaryColor,
+          null,
+          null
+        );
+        return {
+          fervieAccessory: null,
+          fervieTertiaryColor: null,
+        };
+      } else {
+        this.saveFervieDetailsToServer(
+          this.state.fervieColor,
+          this.state.fervieSecondaryColor,
+          "#A12E79",
+          itemComp.props.fervieAccessory
+        );
+        return {
+          fervieAccessory:
+          itemComp.props.fervieAccessory,
+          fervieTertiaryColor: "#A12E79",
+        };
+      }
+    });
+  }
+
+
+  /**
+   * gets the accessories content panel for the sidebar
+   * @returns {*}
+   */
+  getAccessoriesContent = () => {
+    return (
+      <div
+        className="fervieSkillsContent"
+        style={{
+          height: 443,
+        }}
+      >
+        <List
+          inverted
+          divided
+          celled
+          animated
+          verticalAlign="middle"
+          size="large"
+        >
+          <AccessoryListItem
+            idkey={"1"}
+            isActive={this.state.fervieAccessory === "SUNGLASSES"}
+            moovieWatchCount={this.state.moovieWatchCount}
+            moovieWatchCountRequired={7}
+            skillName={"Neo Shades"}
+            skillEffect={
+              "Express your inner Neo.  If Neo can do it, so can Fervies."
+            }
+            accessoryName={"Sunglasses"}
+            fervieAccessory={"SUNGLASSES"}
+            onSkillItemClick={this.onSunglassesClick}
+          />
+          <AccessoryListItem
+            idkey={"2"}
+            isActive={this.state.fervieAccessory === "HEARTGLASSES"}
+            moovieWatchCount={this.state.moovieWatchCount}
+            moovieWatchCountRequired={7}
+            skillName={"Heart Shades"}
+            skillEffect={
+              "The perfect shades for making friends at the moovies."
+            }
+            accessoryName={"Sunglasses"}
+            fervieAccessory={"HEARTGLASSES"}
+            onSkillItemClick={this.onHeartGlassesClick}
+          />
+        </List>
+      </div>
+    );
+  };
+
   /**
    * gets the skills content panel for the sidebar
    * @returns {*}
@@ -337,9 +477,7 @@ export default class FerviePanel extends Component {
         >
           <SkillListItem
             idkey={"1"}
-            isActive={
-              this.state.fervieAccessory === "SUNGLASSES"
-            }
+            isActive={this.state.fervieAccessory === "SUNGLASSES"}
             skillName={"Fervie Neo"}
             skillEffect={
               "Earn 10% bonus XP while you learn the command line tools, and receive badges for exploring new commands"
@@ -347,49 +485,14 @@ export default class FerviePanel extends Component {
             skillBonus={"+10% bonus XP"}
             currentLevel={this.state.xpSummary.level}
             skillLevelRequired={7}
-            xpToLevel={
-              this.state.xpSummary.xpRequiredToLevel
-            }
+            xpToLevel={this.state.xpSummary.xpRequiredToLevel}
             accessoryName={"Sunglasses"}
             fervieAccessory={"SUNGLASSES"}
-            onSkillItemClick={(itemComp) => {
-              this.setState((prevState) => {
-                if (
-                  prevState.fervieAccessory ===
-                  itemComp.props.fervieAccessory
-                ) {
-                  this.saveFervieDetailsToServer(
-                    this.state.fervieColor,
-                    this.state.fervieSecondaryColor,
-                    null,
-                    null
-                  );
-                  return {
-                    fervieAccessory: null,
-                    fervieTertiaryColor: null,
-                  };
-                } else {
-                  this.saveFervieDetailsToServer(
-                    this.state.fervieColor,
-                    this.state.fervieSecondaryColor,
-                    "#000000",
-                    itemComp.props.fervieAccessory
-                  );
-
-                  return {
-                    fervieAccessory:
-                      itemComp.props.fervieAccessory,
-                    fervieTertiaryColor: "#000000",
-                  };
-                }
-              });
-            }}
+            onSkillItemClick={this.onSunglassesClick}
           />
           <SkillListItem
             idkey={"2"}
-            isActive={
-              this.state.fervieAccessory === "HEARTGLASSES"
-            }
+            isActive={this.state.fervieAccessory === "HEARTGLASSES"}
             skillName={"Fervie Love"}
             skillEffect={
               "Earn 10% bonus XP when you help your teammates troubleshoot, and receive badges for helping out"
@@ -397,47 +500,85 @@ export default class FerviePanel extends Component {
             skillBonus={"+10% bonus XP"}
             currentLevel={this.state.xpSummary.level}
             skillLevelRequired={7}
-            xpToLevel={
-              this.state.xpSummary.xpRequiredToLevel
-            }
+            xpToLevel={this.state.xpSummary.xpRequiredToLevel}
             accessoryName={"Sunglasses"}
             fervieAccessory={"HEARTGLASSES"}
-            onSkillItemClick={(itemComp) => {
-              this.setState((prevState) => {
-                if (
-                  prevState.fervieAccessory ===
-                  itemComp.props.fervieAccessory
-                ) {
-                  this.saveFervieDetailsToServer(
-                    this.state.fervieColor,
-                    this.state.fervieSecondaryColor,
-                    null,
-                    null
-                  );
-                  return {
-                    fervieAccessory: null,
-                    fervieTertiaryColor: null,
-                  };
-                } else {
-                  this.saveFervieDetailsToServer(
-                    this.state.fervieColor,
-                    this.state.fervieSecondaryColor,
-                    "#A12E79",
-                    itemComp.props.fervieAccessory
-                  );
-                  return {
-                    fervieAccessory:
-                      itemComp.props.fervieAccessory,
-                    fervieTertiaryColor: "#A12E79",
-                  };
-                }
-              });
-            }}
+            onSkillItemClick={this.onHeartGlassesClick}
           />
         </List>
       </div>
     );
   };
+
+  onStartEditing = () => {
+    console.log("editing!");
+    this.setState({
+      isEditingName: true
+    });
+  }
+
+  /**
+   * When we hit the enter key, should accept the new fervie name
+   * @param e
+   */
+  handleKeyPressForNameChange = (e) => {
+    if (e.charCode === 13) {
+      this.setState({
+        isEditingName: false
+      });
+    }
+  };
+
+  /**
+   * Handles our editing of the fervie name
+   * @param e - the event that was generated by user gui event
+   * @param value
+   */
+  handleChangeForNameChange = (e, { value }) => {
+    this.setState({
+      fervieName: value,
+    });
+  };
+
+  /**
+   * renders the moovie version of fervie title content
+   * @returns {*}
+   */
+  getMoovieFervieTitle = () => {
+    let displayName = this.state.fervieName;
+    if (!displayName) {
+      displayName = "Your Fervie";
+    }
+
+    if (!this.state.isEditingName) {
+      return (<Popup
+        trigger={
+          <div className="fervieName" onClick={this.onStartEditing}>
+            {displayName}
+          </div>}
+        content={"Click to edit name"}
+        position="bottom center"
+        inverted
+        hideOnScroll
+      />);
+    } else {
+      return (<Input
+        id="fervieNameInput"
+        className="fervieNameInput"
+        fluid
+        inverted
+        placeholder="Name your Fervie"
+        value={this.state.fervieName}
+        onKeyPress={this.handleKeyPressForNameChange}
+        onChange={this.handleChangeForNameChange}
+        autoFocus
+      />)
+    }
+
+
+
+  };
+
 
   /**
    * renders the fervie title content for the panel
@@ -457,7 +598,7 @@ export default class FerviePanel extends Component {
       <div className="fervieTitle">
         <div className="level">
           <div className="infoTitle">
-            <b>{displayName}</b>
+            {displayName}
           </div>
           <div className="infoLevel">
             <b>Level {this.state.xpSummary.level} </b>
@@ -526,25 +667,17 @@ export default class FerviePanel extends Component {
       this.state.fervieTertiaryColor;
 
     //make sure we apply the last color setting, and figure out what needs to be sent to server
-    if (
-      this.state.whatToColor === FerviePanel.Colorables.FUR
-    ) {
+    if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
       fervieColor = this.state.color;
       this.setState({
         fervieColor: this.state.color,
       });
-    } else if (
-      this.state.whatToColor ===
-      FerviePanel.Colorables.SHOES
-    ) {
+    } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
       fervieSecondaryColor = this.state.color;
       this.setState({
         fervieSecondaryColor: this.state.color,
       });
-    } else if (
-      this.state.whatToColor ===
-      FerviePanel.Colorables.ACCESSORY
-    ) {
+    } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
       fervieTertiaryColor = this.state.color;
       this.setState({
         fervieTertiaryColor: this.state.color,
@@ -595,24 +728,16 @@ export default class FerviePanel extends Component {
 
   handleChangeForWhatToColor = (e, { value }) => {
     //when its changed, whatever the color was set to for the prior color, need to save this
-    if (
-      this.state.whatToColor === FerviePanel.Colorables.FUR
-    ) {
+    if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
       //existing color state, we need to copy out to the particular variable type
       this.setState({
         fervieColor: this.state.color,
       });
-    } else if (
-      this.state.whatToColor ===
-      FerviePanel.Colorables.SHOES
-    ) {
+    } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
       this.setState({
         fervieSecondaryColor: this.state.color,
       });
-    } else if (
-      this.state.whatToColor ===
-      FerviePanel.Colorables.ACCESSORY
-    ) {
+    } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
       this.setState({
         fervieTertiaryColor: this.state.color,
       });
@@ -645,7 +770,7 @@ export default class FerviePanel extends Component {
           size="mini"
           color="violet"
           onClick={() => {
-            this.showSkillsPanel();
+            this.showSkillsOrAccessoriesPanel();
           }}
         >
           <Icon name="gem outline" />
@@ -698,10 +823,8 @@ export default class FerviePanel extends Component {
         <div
           style={{
             margin: "auto",
-            height:
-              DimensionController.getMiniFervieCanvasHeight(),
-            width:
-              DimensionController.getMiniFervieCanvasWidth(),
+            height: DimensionController.getMiniFervieCanvasHeight(),
+            width: DimensionController.getMiniFervieCanvasWidth(),
           }}
         >
           <FervieCanvas
@@ -729,33 +852,23 @@ export default class FerviePanel extends Component {
 
         <div
           style={{
-            height:
-              DimensionController.getColorPickerDivHeight(),
+            height: DimensionController.getColorPickerDivHeight(),
           }}
         >
           <HexColorPicker
             color={this.state.color}
             onChange={(color) => {
-              if (
-                this.state.whatToColor ===
-                FerviePanel.Colorables.FUR
-              ) {
+              if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
                 this.setState({
                   color: color,
                   fervieColor: color,
                 });
-              } else if (
-                this.state.whatToColor ===
-                FerviePanel.Colorables.SHOES
-              ) {
+              } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
                 this.setState({
                   color: color,
                   fervieSecondaryColor: color,
                 });
-              } else if (
-                this.state.whatToColor ===
-                FerviePanel.Colorables.ACCESSORY
-              ) {
+              } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
                 this.setState({
                   color: color,
                   fervieTertiaryColor: color,
@@ -770,9 +883,17 @@ export default class FerviePanel extends Component {
   }
 
   getNormalFervieContent() {
+
+    let fervieTitle;
+    if (FeatureToggle.isMoovieApp) {
+      fervieTitle = this.getMoovieFervieTitle();
+    } else {
+      fervieTitle = this.getFervieTitle();
+    }
+
     return (
       <div className="fervieContent">
-        {this.getFervieTitle()}
+        {fervieTitle}
         {this.getFervieCanvas()}
         {this.getFervieButtonPanel()}
       </div>
@@ -791,6 +912,50 @@ export default class FerviePanel extends Component {
     }
   };
 
+  getFervieMenuItem(activeItem) {
+    return (
+      <Menu.Item
+        name={SidePanelViewController.SubmenuSelection.FERVIE}
+        active={activeItem === SidePanelViewController.SubmenuSelection.FERVIE}
+        onClick={this.handleFervieClick}
+      />
+    );
+  }
+
+  getSkillsMenuItem(activeItem) {
+    if (FeatureToggle.isMoovieApp) return "";
+    return (
+      <Menu.Item
+      name={SidePanelViewController.SubmenuSelection.SKILLS}
+      active={activeItem === SidePanelViewController.SubmenuSelection.SKILLS}
+      onClick={this.handleSkillsClick}
+    />
+    );
+  }
+
+  getAccessoriesMenuItem(activeItem) {
+    if (FeatureToggle.isFlowInsightApp()) return "";
+    return (
+      <Menu.Item
+        name={SidePanelViewController.SubmenuSelection.ACCESSORIES}
+        active={activeItem === SidePanelViewController.SubmenuSelection.ACCESSORIES}
+        onClick={this.handleAccessoriesClick}
+      />
+    );
+  }
+
+  getBadgesMenuItem(activeItem) {
+    return (
+      <Menu.Item
+        name={SidePanelViewController.SubmenuSelection.BADGES}
+        active={activeItem === SidePanelViewController.SubmenuSelection.BADGES}
+        onClick={this.handleBadgesClick}
+      />
+    );
+  }
+
+
+
   /**
    * renders the console sidebar panel of the console view
    * @returns {*}
@@ -801,6 +966,7 @@ export default class FerviePanel extends Component {
     const fervieContent = this.getFervieContent();
     const badgesContent = this.getBadgesContent();
     const skillsContent = this.getSkillsContent();
+    const accessoriesContent = this.getAccessoriesContent();
 
     return (
       <div
@@ -808,49 +974,16 @@ export default class FerviePanel extends Component {
         className="consoleSidebarPanel ferviePanel"
         style={{
           width: "100%",
-          height:
-            DimensionController.getConsoleLayoutHeight(),
+          height: DimensionController.getConsoleLayoutHeight(),
           opacity: 1,
         }}
       >
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
-            <Menu.Item
-              name={
-                SidePanelViewController.SubmenuSelection
-                  .FERVIE
-              }
-              active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .FERVIE
-              }
-              onClick={this.handleFervieClick}
-            />
-            <Menu.Item
-              name={
-                SidePanelViewController.SubmenuSelection
-                  .SKILLS
-              }
-              active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .SKILLS
-              }
-              onClick={this.handleSkillsClick}
-            />
-            <Menu.Item
-              name={
-                SidePanelViewController.SubmenuSelection
-                  .BADGES
-              }
-              active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .BADGES
-              }
-              onClick={this.handleBadgesClick}
-            />
+            {this.getFervieMenuItem(activeItem)}
+            {this.getSkillsMenuItem(activeItem)}
+            {this.getAccessoriesMenuItem(activeItem)}
+            {this.getBadgesMenuItem(activeItem)}
           </Menu>
           <Segment
             inverted
@@ -875,6 +1008,14 @@ export default class FerviePanel extends Component {
               unmountOnHide
             >
               {skillsContent}
+            </Transition>
+            <Transition
+              visible={this.state.accessoriesVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {accessoriesContent}
             </Transition>
             <Transition
               visible={this.state.badgesVisible}

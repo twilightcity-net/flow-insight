@@ -3,6 +3,7 @@ import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { CircuitClient } from "../clients/CircuitClient";
+import FeatureToggle from "../layout/shared/FeatureToggle";
 
 /**
  * control the sidebar panels
@@ -31,18 +32,11 @@ export class SidePanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.show = true;
-    this.activeMenuSelection =
-      SidePanelViewController.MenuSelection.TEAM;
-    this.activeFervieSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.FERVIE;
-    this.activeTeamSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.TEAMS;
-    this.activeCircuitsSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.ACTIVE;
-    this.activeNotificationsSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
-    this.activeDashboardSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.DASHBOARD;
+    this.activeMenuSelection = SidePanelViewController.getDefaultMenuSelection();
+    this.activeFervieSubmenuSelection = SidePanelViewController.SubmenuSelection.FERVIE;
+    this.activeCircuitsSubmenuSelection = SidePanelViewController.SubmenuSelection.ACTIVE;
+    this.activeNotificationsSubmenuSelection = SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
+    this.activeDashboardSubmenuSelection = SidePanelViewController.SubmenuSelection.DASHBOARD;
     this.circuitStartStopListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -141,9 +135,16 @@ export class SidePanelViewController extends ActiveViewController {
       );
   }
 
+  static getDefaultMenuSelection() {
+    if (FeatureToggle.isMoovieApp) {
+      return SidePanelViewController.MenuSelection.BUDDIES;
+    } else {
+      return SidePanelViewController.MenuSelection.TEAM;
+    }
+  }
+
   /**
    * enum list of the possible menu types of the console sidebar
-   * @returns {{CIRCUITS: string, DASHBOARD: string, WTF: string, FERVIE: string, TEAM: string, NOTIFICATIONS: string, NONE: string}}
    * @constructor
    */
   static get MenuSelection() {
@@ -151,6 +152,7 @@ export class SidePanelViewController extends ActiveViewController {
       WTF: "wtf",
       FERVIE: "fervie",
       TEAM: "team",
+      BUDDIES: "buddies",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
       DASHBOARD: "dashboard",
@@ -160,7 +162,6 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DASHBOARD: string, DO_IT_LATER: string, ACTIVE: string, TEAMS: string, FERVIE: string, RETRO: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
@@ -168,7 +169,9 @@ export class SidePanelViewController extends ActiveViewController {
       FERVIE: "fervie",
       BADGES: "badges",
       SKILLS: "skills",
+      ACCESSORIES: "accessories",
       TEAMS: "teams",
+      BUDDIES: "buddies",
       ACTIVE: "active",
       DO_IT_LATER: "do-it-later",
       RETRO: "retro",
@@ -417,16 +420,6 @@ export class SidePanelViewController extends ActiveViewController {
     this.activeFervieSubmenuSelection = submenuItem;
     this.fireFerviePanelNotifyEvent();
   }
-
-  /// TODO support multiple teams, below previous bad way, don't do this way.
-  // /**
-  //  * function called when we wish to change the content of the team panel
-  //  * @param submenuItem
-  //  */
-  // changeActiveTeamSubmenuPanel(submenuItem) {
-  //   this.activeTeamSubmenuSelection = submenuItem;
-  //   this.fireTeamPanelNotifyEvent();
-  // }
 
   /**
    * function called when we wish to change the content of the circuits panel

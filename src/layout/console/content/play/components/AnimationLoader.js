@@ -20,6 +20,20 @@ export default class AnimationLoader {
     return staticImage;
   }
 
+  clear12FrameAnimationCache(animationName) {
+    for (let i = 1; i <= 12; i++) {
+      this.imageCaches[animationName + "_" + i] = [];
+    }
+  }
+
+  clearSingleAnimationFrameCache(animationName, frame) {
+    this.imageCaches[animationName + "_" + frame] = [];
+  }
+
+  clearStaticImageCache(imagePath) {
+    this.staticImages[imagePath] = null;
+  }
+
   getStaticSvgImage(p5, animationId) {
     let imageCache = this.getDefaultImageCache(animationId);
     let staticImage = imageCache["default"];
@@ -112,6 +126,8 @@ export default class AnimationLoader {
     }
   }
 
+
+
   getAnimationImage(p5, animationName, frameOn24, size) {
     let cache = this.getImageCache(
       animationName,
@@ -150,8 +166,7 @@ export default class AnimationLoader {
   }
 
   getImageCache(animationName, animationFrame) {
-    let frameOnTwos =
-      AnimationId.getFrameOnTwos(animationFrame);
+    let frameOnTwos = AnimationId.getFrameOnTwos(animationFrame);
 
     let key = animationName + "_" + frameOnTwos;
 

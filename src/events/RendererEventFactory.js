@@ -30,6 +30,7 @@ export class RendererEventFactory {
       APPLOADER_LOAD: prefix + "apploader-load",
       APP_LOADED: prefix + "app-loaded",
       APP_QUIT: prefix + "app-quit",
+      APP_INTRO_DONE: prefix + "app-intro-done",
       WINDOW_LOADING_LOGIN_FAILED:
         prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",

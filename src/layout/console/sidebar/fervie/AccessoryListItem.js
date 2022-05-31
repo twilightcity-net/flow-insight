@@ -6,7 +6,7 @@ import {
   Popup,
 } from "semantic-ui-react";
 
-export default class SkillListItem extends Component {
+export default class AccessoryListItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -70,19 +70,16 @@ export default class SkillListItem extends Component {
    */
   getDisabledPopupContent(trigger) {
     let popupContent = (
-      //show XP remaining in the tooltip
-
       <div>
         <div className="skill">
           <div className="skillname">
             <b>
-              Skill requires level{" "}
-              {this.props.skillLevelRequired}
+              Accessory
             </b>
           </div>
           <div className="description">
             <i>
-              {this.props.xpToLevel + " XP to next level"}
+              Unlock by watching moovies
             </i>
           </div>
         </div>
@@ -117,14 +114,13 @@ export default class SkillListItem extends Component {
             className={"disabled"}
           >
             <span>
-              <Icon name={this.state.timerIcon} /> {"???"}
+              <Icon name={this.state.timerIcon} />
             </span>
           </Label>
         </List.Content>
         <List.Content>
           <List.Header>
-            {"Unlock at level " +
-              this.props.skillLevelRequired}
+            {"Accessory"}
           </List.Header>
           <i className="description">
             ({this.props.accessoryName})
@@ -155,7 +151,6 @@ export default class SkillListItem extends Component {
           >
             <span>
               <Icon name={this.state.timerIcon} />{" "}
-              {this.props.skillBonus}
             </span>
           </Label>
         </List.Content>
@@ -170,10 +165,7 @@ export default class SkillListItem extends Component {
   }
 
   render() {
-    if (
-      this.props.currentLevel <
-      this.props.skillLevelRequired
-    ) {
+    if (this.props.moovieWatchCount < this.props.moovieWatchCountRequired) {
       return this.getDisabledPopupContent(
         this.getDisabledSkillCard()
       );

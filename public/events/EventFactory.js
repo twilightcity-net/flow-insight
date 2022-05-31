@@ -34,6 +34,7 @@ class EventFactory {
       APP_QUIT: prefix + "app-quit",
       APP_HEARTBEAT: prefix + "app-heartbeat",
       APP_PULSE: prefix + "app-pulse",
+      APP_INTRO_DONE: prefix + "app-intro-done",
       DATABASE_CLIENT: prefix + "database-client",
       DATABASE_VOLUMES_READY:
         prefix + "database-farm-ready",

@@ -87,6 +87,18 @@ export default class FervieSprite {
 
   }
 
+  reloadImages(p5) {
+    console.log("reload fervie images!");
+    this.animationLoader.clear12FrameAnimationCache(AnimationId.Animation.FervieWalkUp);
+    this.animationLoader.clear12FrameAnimationCache(AnimationId.Animation.FervieWalkRight);
+    this.animationLoader.clear12FrameAnimationCache(AnimationId.Animation.FervieWalkDown);
+
+    this.preload(p5);
+
+    this.fervieGlowSprite.reloadImages(p5);
+    this.fervieKissSprite.reloadImages(p5);
+  }
+
   getMaxVelocityX() {
     return 14 * this.scaleX;
   }
@@ -546,4 +558,6 @@ export default class FervieSprite {
 
     return [footX, footY];
   }
+
+
 }

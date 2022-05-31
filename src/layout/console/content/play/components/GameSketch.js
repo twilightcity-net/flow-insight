@@ -54,8 +54,11 @@ export default class GameSketch extends Component {
           this.height,
           this.globalHud
         );
-        this.environment.preload(p5);
+        if (this.props.initialEnvironment) {
+          this.environment.setInitialEnvironment(this.props.initialEnvironment);
+        }
 
+        this.environment.preload(p5);
 
         this.fervieSprite = new FervieSprite(
           this.animationLoader,
@@ -110,6 +113,13 @@ export default class GameSketch extends Component {
 
   componentWillUnmount() {
     this.sketchInstance.remove();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.me !== this.props.me) {
+      console.log("me changed!");
+      this.fervieSprite.reloadImages(this.sketchInstance);
+    }
   }
 
   /**

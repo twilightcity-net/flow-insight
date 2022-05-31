@@ -85,6 +85,11 @@ module.exports = class AppLoader {
         this,
         (..._) => this.onLoadCb(..._)
       ),
+      introEnded: EventFactory.createEvent(
+        EventFactory.Types.APP_INTRO_DONE,
+        this,
+        (..._) => this.onIntroDone(..._)
+      ),
     };
   }
 
@@ -217,6 +222,23 @@ module.exports = class AppLoader {
    * called when AppLoader is completed
    */
   onFinished() {
+    this.isFinished = true;
+    if (this.introDone) {
+      this.setTimeoutToCloseWindowAndStartHeartbeat();
+    }
+  }
+
+  onIntroDone = () => {
+    this.introDone = true;
+    if (this.isFinished) {
+      this.setTimeoutToCloseWindowAndStartHeartbeat();
+    }
+    console.log("XXXXXXX INTRO DONE!!XXXXXX");
+    console.log("XXXXXXX INTRO DONE!!XXXXXX");
+    console.log("XXXXXXX INTRO DONE!!XXXXXX");
+  }
+
+  setTimeoutToCloseWindowAndStartHeartbeat() {
     setTimeout(() => {
       global.App.WindowManager.closeWindow(
         this.loadingWindow,
@@ -225,7 +247,7 @@ module.exports = class AppLoader {
       this.unwireEvents();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
-    }, this.eventTimerMs * 4.2);
+    }, this.eventTimerMs);
   }
 
   /**
