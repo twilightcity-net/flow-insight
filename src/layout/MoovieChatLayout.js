@@ -29,7 +29,7 @@ export default class MoovieChatLayout extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[MoovieLayout]";
+    this.name = "[MoovieChatLayout]";
     this.state = {
       messages : [],
       circuitMembers : []
@@ -123,7 +123,7 @@ export default class MoovieChatLayout extends Component {
                         });
         } else if (reactionInput.chatReactionChangeType === MoovieChatLayout.chatReactionTypeRemove) {
           console.log("removing reaction");
-          this.removeReactionFromGroup(foundText.reactions, reactionInput.memberId);
+          this.removeReactionFromGroup(foundText.reactions, reactionInput.memberId, reactionInput.emoji);
         }
       }
       return {
@@ -156,13 +156,14 @@ export default class MoovieChatLayout extends Component {
   }
 
   /**
-   * Remove the reaction from a specific memberId.  If the particular emoji
+   * Remove the reaction from a specific memberId for specific emoji.  If the particular emoji
    * only has one memberId reaction, remove the entire reaction entry
    * @param reactions
    * @param memberId
+   * @param emoji
    */
-  removeReactionFromGroup(reactions, memberId) {
-    const indexOfReactionByMember = this.findIndexesOfReactionByMember(reactions, memberId);
+  removeReactionFromGroup(reactions, memberId, emoji) {
+    const indexOfReactionByMember = this.findIndexesOfReactionByMember(reactions, memberId, emoji);
     if (indexOfReactionByMember[0] >= 0) {
       const reaction = reactions[indexOfReactionByMember[0]];
       if (reaction.memberIds.length > 1) {
@@ -196,12 +197,17 @@ export default class MoovieChatLayout extends Component {
    * If we are removing the reaction, we need to find it first
    * @param reactions
    * @param memberId
+   * @param emoji
    */
-  findIndexesOfReactionByMember(reactions, memberId) {
+  findIndexesOfReactionByMember(reactions, memberId, emoji) {
+    let reaction;
     for (let i = 0; i < reactions.length; i++) {
-      for (let j = 0; j < reactions[i].memberIds.length; j++) {
-        if (reactions[i].memberIds[j] === memberId) {
-          return [i,j];
+      reaction = reactions[i];
+      if (reaction.emoji === emoji) {
+        for (let j = 0; j < reactions[i].memberIds.length; j++) {
+          if (reactions[i].memberIds[j] === memberId) {
+            return [i,j];
+          }
         }
       }
     }

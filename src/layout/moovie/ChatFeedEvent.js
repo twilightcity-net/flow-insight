@@ -78,7 +78,7 @@ export default class ChatFeedEvent extends Component {
       key={key}
       trigger={trigger}
       content={popupContent}
-      position="bottom left"
+      basic
       inverted
       hideOnScroll
     />);
