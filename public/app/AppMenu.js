@@ -2,18 +2,9 @@ const { Menu } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
-const helpSubmenu = [
-  {
-    label: "FlowInsight - Learn More",
-    click() {
-      log.info(
-        "[AppMenu] open browser-> http://flowinsight.com/"
-      );
-      Util.openExternalBrowser("http://flowinsight.com/");
-    },
-  },
-];
+
 
 class AppMenuException extends Error {
   constructor(
@@ -69,9 +60,37 @@ module.exports = class AppMenu extends Menu {
       },
       {
         role: "help",
-        submenu: helpSubmenu,
+        submenu: AppMenu.getHelpSubmenu(),
       },
     ];
+  }
+
+  static getHelpSubmenu() {
+    if (AppFeatureToggle.isMoovieApp) {
+      return [
+        {
+          label: "WatchMoovies - Learn More",
+          click() {
+            log.info(
+              "[AppMenu] open browser-> http://watchmoovies.com/"
+            );
+            Util.openExternalBrowser("http://watchmoovies.com/");
+          },
+        },
+      ];
+    } else {
+      return [
+        {
+          label: "FlowInsight - Learn More",
+          click() {
+            log.info(
+              "[AppMenu] open browser-> http://flowinsight.com/"
+            );
+            Util.openExternalBrowser("http://flowinsight.com/");
+          },
+        },
+      ];
+    }
   }
 
   static getTemplateForMacOS() {
@@ -147,7 +166,7 @@ module.exports = class AppMenu extends Menu {
       },
       {
         role: "help",
-        submenu: helpSubmenu,
+        submenu: AppMenu.getHelpSubmenu(),
       },
     ];
   }

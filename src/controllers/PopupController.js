@@ -6,13 +6,12 @@ import { RendererControllerFactory } from "./RendererControllerFactory";
 import { MemberClient } from "../clients/MemberClient";
 import { SidePanelViewController } from "./SidePanelViewController";
 import {HotkeyClient} from "../clients/HotkeyClient";
+import FeatureToggle from "../layout/shared/FeatureToggle";
 
 /**
  * used to show popup notifications in the app
  */
 export class PopupController {
-  static notifyHeader = "FlowInsight";
-
   constructor(scope) {
     this.scope = scope;
 
@@ -48,6 +47,14 @@ export class PopupController {
         this
       );
 
+  }
+
+  static getPopupHeader() {
+    if (FeatureToggle.isMoovieApp) {
+      return "WatchMoovies";
+    } else {
+      return "FlowInsight";
+    }
   }
 
   onTalkRoomMessage = (event, arg) => {
@@ -214,7 +221,7 @@ export class PopupController {
   showGettingStartedPopupAndAutoClose(hotkey) {
     this.isGettingStartedPopupOpen = true;
     let n = PopupController.showNotification(
-      "FlowInsight",
+      PopupController.getPopupHeader(),
       "Press "+hotkey+" to open the console."
     );
     n.onclose = () => {

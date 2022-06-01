@@ -97,6 +97,7 @@ export default class FerviePanel extends Component {
       whatToColor: FerviePanel.Colorables.FUR,
       isEditingName: false,
       fervieName: "",
+      currentFervieName: "",
       moovieWatchCount: 10
     };
     this.me = MemberClient.me;
@@ -523,10 +524,25 @@ export default class FerviePanel extends Component {
    */
   handleKeyPressForNameChange = (e) => {
     if (e.charCode === 13) {
-      this.setState({
-        isEditingName: false
+      this.setState((prevState) => {
+        return {
+          isEditingName: false,
+          fervieName: prevState.currentFervieName
+        }
       });
     }
+  };
+
+  /**
+   * Handles blurring (cancelling) of our name change
+   */
+  handleNameChangeBlur = () => {
+    this.setState((prevState) => {
+      return {
+        isEditingName: false,
+        currentFervieName: prevState.fervieName
+      }
+    });
   };
 
   /**
@@ -536,7 +552,7 @@ export default class FerviePanel extends Component {
    */
   handleChangeForNameChange = (e, { value }) => {
     this.setState({
-      fervieName: value,
+      currentFervieName: value,
     });
   };
 
@@ -568,9 +584,10 @@ export default class FerviePanel extends Component {
         fluid
         inverted
         placeholder="Name your Fervie"
-        value={this.state.fervieName}
+        value={this.state.currentFervieName}
         onKeyPress={this.handleKeyPressForNameChange}
         onChange={this.handleChangeForNameChange}
+        onBlur={this.handleNameChangeBlur}
         autoFocus
       />)
     }

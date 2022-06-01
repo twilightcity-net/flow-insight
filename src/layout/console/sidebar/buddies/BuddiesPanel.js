@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Accordion, List, Menu, Message, Segment, Transition,} from "semantic-ui-react";
+import {List, Menu, Message, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";

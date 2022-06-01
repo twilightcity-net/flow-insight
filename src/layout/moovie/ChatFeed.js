@@ -36,7 +36,31 @@ export default class ChatFeed extends Component {
    * Scroll to the bottom of the feed whenever there's an update
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    this.scrollToFeedBottom();
+    console.log(this.props.messages);
+    if (this.hasMessageChange(prevProps.messages, this.props.messages)) {
+      this.scrollToFeedBottom();
+    }
+  }
+
+  /**
+   * Detect whether there's a new message added
+   * @param oldMessages
+   * @param newMessages
+   */
+  hasMessageChange(oldMessages, newMessages) {
+    if (oldMessages.length !== newMessages.length) {
+      return true;
+    }
+
+    if (oldMessages.length > 0) {
+      const lastOldMessage = oldMessages[oldMessages.length - 1];
+      const lastNewMessage = newMessages[newMessages.length - 1];
+
+      if (lastOldMessage.texts.length !== lastNewMessage.texts.length) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

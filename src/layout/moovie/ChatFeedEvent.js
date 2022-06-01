@@ -89,6 +89,7 @@ export default class ChatFeedEvent extends Component {
       return;
     }
     if (this.includesMe(reaction.memberIds)) {
+
       this.props.onRemoveReaction(messageId, reaction.emoji, this.props.isLocalOnly);
     } else {
       this.props.onAddReaction(messageId, reaction.emoji, this.props.isLocalOnly);

@@ -1,4 +1,3 @@
-import React from "react";
 import {TalkToClient} from "../../clients/TalkToClient";
 import {MemberClient} from "../../clients/MemberClient";
 import moment from "moment";

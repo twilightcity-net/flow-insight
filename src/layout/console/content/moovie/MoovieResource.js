@@ -46,7 +46,6 @@ export default class MoovieResource extends Component {
 
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType,
-      data = arg.data,
       memberId = UtilRenderer.getMemberIdFromMetaProps(arg.metaProps);
 
     if (mType === BaseClient.MessageTypes.TEAM_MEMBER

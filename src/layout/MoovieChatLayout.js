@@ -122,7 +122,6 @@ export default class MoovieChatLayout extends Component {
                           emoji: reactionInput.emoji
                         });
         } else if (reactionInput.chatReactionChangeType === MoovieChatLayout.chatReactionTypeRemove) {
-          console.log("removing reaction");
           this.removeReactionFromGroup(foundText.reactions, reactionInput.memberId, reactionInput.emoji);
         }
       }
@@ -247,8 +246,6 @@ export default class MoovieChatLayout extends Component {
     const isMe = (username === MemberClient.me.username);
     const isPuppet = (talkMessage.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE);
 
-    console.log("talkMessage id = "+talkMessage.id);
-
     this.setState((prevState) => {
       const newMessage = {
         id : talkMessage.id,
@@ -276,24 +273,38 @@ export default class MoovieChatLayout extends Component {
    * bubbles adjacent without the timestamp underneath.
    */
   updateMessages(messages, newMessage) {
-    console.log("new message");
-    console.log(newMessage);
+
+    const messagesCopy = [...messages];
+
     if (messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
+      const lastMessage = messagesCopy[messages.length - 1];
       if (lastMessage.time === newMessage.time
         && lastMessage.username === newMessage.username
         && lastMessage.isPuppet === newMessage.isPuppet) {
-        lastMessage.texts.push(newMessage.texts[0]);
+
+        const lastMessageCopy = this.cloneMessage(lastMessage);
+        lastMessageCopy.texts.push(newMessage.texts[0]);
+        messagesCopy[messagesCopy.length - 1] = lastMessageCopy;
       } else {
-        messages.push(newMessage);
+        messagesCopy.push(newMessage);
       }
     } else {
-      messages.push(newMessage);
+      messagesCopy.push(newMessage);
     }
 
     return {
-      messages: messages
+      messages: messagesCopy
     }
+  }
+
+  cloneMessage(message) {
+    const clonedMessage = {};
+    Object.assign(clonedMessage, message);
+
+    clonedMessage.texts = [];
+    clonedMessage.texts = [... message.texts];
+
+    return clonedMessage;
   }
 
   /**
@@ -460,12 +471,11 @@ export default class MoovieChatLayout extends Component {
    * @param isLocalOnly
    */
   onRemoveReaction = (messageId, emoji, isLocalOnly) => {
-    console.log("remove reaction!");
     if (isLocalOnly) {
       this.setState((prevState) => {
         const foundText = this.findMessageTextWithId(prevState.messages, messageId);
         if (foundText) {
-            this.removeReactionFromGroup(foundText.reactions, MemberClient.me.id);
+            this.removeReactionFromGroup(foundText.reactions, MemberClient.me.id, emoji);
         }
         return {
           messages: prevState.messages
