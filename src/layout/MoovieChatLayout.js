@@ -302,7 +302,7 @@ export default class MoovieChatLayout extends Component {
     Object.assign(clonedMessage, message);
 
     clonedMessage.texts = [];
-    clonedMessage.texts = [... message.texts];
+    clonedMessage.texts = [...message.texts];
 
     return clonedMessage;
   }

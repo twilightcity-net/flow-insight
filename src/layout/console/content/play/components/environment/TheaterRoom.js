@@ -94,21 +94,19 @@ export default class TheaterRoom extends Environment {
 
   loadMoovieRoom(p5) {
     if (this.moovieId) {
-
       const seatingMap = this.globalHud.getGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP);
 
       if (seatingMap) {
-        if (this.includesMe(seatingMap)) {
-          //if we just walked into the theater and it has us sitting down, release our seat claim
-          MoovieClient.releaseSeat(this.moovieId, this, (arg) => {
-            if (arg.error) {
-              console.error("Unable to release seat claim, error: "+arg.error);
-            }
-          });
-        }
-
-        this.fervieSeatMappings = this.filterMeFromList(seatingMap);
-        this.seatsReadyToLoad = true;
+        this.initializeSeatingMap(seatingMap);
+      } else {
+        MoovieClient.getSeatMappings(this.moovieId, this, (arg) => {
+          if (arg.error) {
+            console.error("Error getting seat mappings: "+arg.error);
+          } else {
+            this.globalHud.setGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP, arg.data);
+            this.initializeSeatingMap(arg.data);
+          }
+        });
       }
 
       MoovieClient.getMoovieCircuit(this.moovieId, this, (arg) => {
@@ -125,6 +123,20 @@ export default class TheaterRoom extends Environment {
         }
       });
     }
+  }
+
+  initializeSeatingMap(seatingMap) {
+    if (this.includesMe(seatingMap)) {
+      //if we just walked into the theater and it has us sitting down, release our seat claim
+      MoovieClient.releaseSeat(this.moovieId, this, (arg) => {
+        if (arg.error) {
+          console.error("Unable to release seat claim, error: " + arg.error);
+        }
+      });
+    }
+
+    this.fervieSeatMappings = this.filterMeFromList(seatingMap);
+    this.seatsReadyToLoad = true;
   }
 
   includesMe(seatMappings) {
