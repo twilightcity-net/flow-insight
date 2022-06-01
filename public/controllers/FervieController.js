@@ -115,6 +115,7 @@ module.exports = class FervieController extends (
       fervieSecondaryColor = arg.args.fervieSecondaryColor,
       fervieTertiaryColor = arg.args.fervieTertiaryColor,
       fervieAccessory = arg.args.fervieAccessory,
+      fervieName = arg.args.fervieName,
       urn =
         FervieController.Paths.FERVIE +
         FervieController.Paths.SEPARATOR +
@@ -127,6 +128,7 @@ module.exports = class FervieController extends (
         fervieSecondaryColor: fervieSecondaryColor,
         fervieTertiaryColor: fervieTertiaryColor,
         fervieAccessory: fervieAccessory,
+        fervieName: fervieName
       },
       FervieController.Names.SAVE_FERVIE_DETAILS,
       FervieController.Types.POST,

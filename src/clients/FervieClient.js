@@ -57,6 +57,7 @@ export class FervieClient extends BaseClient {
    * @param fervieSecondaryColor
    * @param fervieTertiaryColor
    * @param fervieAccessory
+   * @param fervieName
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
@@ -66,6 +67,7 @@ export class FervieClient extends BaseClient {
     fervieSecondaryColor,
     fervieTertiaryColor,
     fervieAccessory,
+    fervieName,
     scope,
     callback
   ) {
@@ -76,6 +78,7 @@ export class FervieClient extends BaseClient {
         fervieSecondaryColor: fervieSecondaryColor,
         fervieTertiaryColor: fervieTertiaryColor,
         fervieAccessory: fervieAccessory,
+        fervieName: fervieName,
       },
       scope,
       callback

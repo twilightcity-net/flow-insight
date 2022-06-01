@@ -29,6 +29,7 @@ export default class GameSketch extends Component {
     super(props);
     this.name = "[GameSketch]";
     this.animationLoader = new AnimationLoader();
+    this.initialFramesToLoad = 2;
     this.isInitialized = false;
 
     this.height = DimensionController.getHeightFor(DimensionController.Components.PLAY_PANEL);
@@ -91,7 +92,9 @@ export default class GameSketch extends Component {
         this.environment.update(p5, this.fervieSprite);
         this.fervieSprite.update(p5, this.environment);
 
-        if (!this.isInitialized) {
+        if (this.initialFramesToLoad > 0) {
+          this.initialFramesToLoad--;
+        } else if (!this.isInitialized) {
           this.props.onFinishedLoading();
           this.isInitialized = true;
           console.log("Finished!");

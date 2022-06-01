@@ -18,6 +18,7 @@ class CircuitMemberStatusDto {
       this.fervieSecondaryColor = json.fervieSecondaryColor;
       this.fervieTertiaryColor = json.fervieTertiaryColor;
       this.fervieAccessory = json.fervieAccessory;
+      this.fervieName = json.fervieName;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'LearningCircuitDto' : " +
