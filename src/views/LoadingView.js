@@ -178,13 +178,6 @@ export default class LoadingView extends Component {
     }
   }
 
-  getProgressClass() {
-    if (FeatureToggle.isMoovieApp) {
-      return "moovie";
-    } else {
-      return "purple";
-    }
-  }
 
   onVideoEnded = () => {
     console.log("video ended!");
@@ -216,7 +209,7 @@ export default class LoadingView extends Component {
             <Header.Subheader></Header.Subheader>
           </Header.Content>
         </Header>
-        <Progress className={this.getProgressClass()}
+        <Progress className={"purple"}
           color={this.state.progress.color}
           value={this.state.progress.value}
           total={this.state.progress.total}

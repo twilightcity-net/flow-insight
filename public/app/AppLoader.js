@@ -233,9 +233,6 @@ module.exports = class AppLoader {
     if (this.isFinished) {
       this.setTimeoutToCloseWindowAndStartHeartbeat();
     }
-    console.log("XXXXXXX INTRO DONE!!XXXXXX");
-    console.log("XXXXXXX INTRO DONE!!XXXXXX");
-    console.log("XXXXXXX INTRO DONE!!XXXXXX");
   }
 
   setTimeoutToCloseWindowAndStartHeartbeat() {
