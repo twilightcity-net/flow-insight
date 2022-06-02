@@ -232,10 +232,12 @@ export default class ChatFeedEvent extends Component {
 
     } else {
       if (!this.props.isMe) {
+        this.getFriendPopup()
         profileImage = (<FervieProfile
-          showPopup={true}
+          showPopup={false}
           circuitMember={this.props.circuitMember}
-        />);
+        />
+        );
         bubbleClass = "bubbleLeft";
       }
     }

@@ -24,7 +24,7 @@ class VolumeManager {
   constructor() {
     VolumeManager.volumes = new Map();
     VolumeManager.initializedVolumes = 0;
-    VolumeManager.maxVolumes = 7;
+    VolumeManager.maxVolumes = 8;
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -56,10 +56,14 @@ class VolumeManager {
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.NOTIFICATION
     );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.BUDDY
+    );
 
     VolumeManager.loadDefaultJournalDatabase();
     VolumeManager.loadDefaultCircuitDatabase();
     VolumeManager.loadDefaultTeamDatabase();
+    VolumeManager.loadDefaultBuddyDatabase();
     VolumeManager.loadDefaultMemberDatabase();
     VolumeManager.loadDefaultDictionaryDatabase();
   }
@@ -125,6 +129,17 @@ class VolumeManager {
       VolumeManager.handleFinishLoadingVolumes();
     });
   }
+
+  /**
+   * loads our team data into team database that
+   * exists in our memory
+   */
+  static loadDefaultBuddyDatabase() {
+    global.App.FervieManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
+  }
+
 
   /**
    * loads our member database into our memory

@@ -456,6 +456,9 @@ module.exports = class TalkController extends (
       case TalkController.MessageTypes.PAIRING_REQUEST:
         this.handlePairingRequest(message);
         break;
+      case TalkController.MessageTypes.PENDING_BUDDY_REQUEST:
+        this.handlePendingBuddyRequest(message);
+        break;
       default:
         console.warn(
           chalk.bgRed(
@@ -470,6 +473,17 @@ module.exports = class TalkController extends (
     this.talkMessageClientListener.dispatch(message);
   }
 
+  handlePendingBuddyRequest(message) {
+    let id = message.id,
+      messageTime = message.messageTime,
+      metaProps = message.metaProps,
+      buddyDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.BUDDY
+      );
+
+    buddyDatabase.addPendingBuddyRequest(message.data);
+  }
+
   handlePairingRequest(message) {
     let id = message.id,
       messageTime = message.messageTime,
@@ -478,13 +492,10 @@ module.exports = class TalkController extends (
         DatabaseFactory.Names.NOTIFICATION
       );
 
-    let fromMemberId =
-      metaProps[TalkController.fromMemberIdMetaPropsStr];
-    let fromUsername =
-      metaProps[TalkController.fromUserNameMetaPropsStr];
+    let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
+    let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
 
-    let pairingRequestType =
-      message.data.pairingRequestType;
+    let pairingRequestType = message.data.pairingRequestType;
 
     switch (pairingRequestType) {
       case TalkController.PAIRING_REQUEST:

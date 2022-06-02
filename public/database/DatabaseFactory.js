@@ -2,6 +2,7 @@ const TalkDB = require("./TalkDatabase"),
   JournalDB = require("./JournalDatabase"),
   CircuitDB = require("./CircuitDatabase"),
   TeamDB = require("./TeamDatabase"),
+  BuddyDB = require("./BuddyDatabase"),
   MemberDB = require("./MemberDatabase"),
   NotificationDB = require("./NotificationDatabase"),
   DictionaryDB = require("./DictionaryDatabase");
@@ -13,7 +14,6 @@ const TalkDB = require("./TalkDatabase"),
 class DatabaseFactory {
   /**
    * the names of our databases
-   * @returns {{NOTIFICATION:string, JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string, MEMBER: string, DICTIONARY: string}}
    * @constructor
    */
   static get Names() {
@@ -25,6 +25,7 @@ class DatabaseFactory {
       MEMBER: "member",
       DICTIONARY: "dictionary",
       NOTIFICATION: "notification",
+      BUDDY: "buddy"
     };
   }
 
@@ -43,6 +44,8 @@ class DatabaseFactory {
         return new CircuitDB();
       case DatabaseFactory.Names.TEAM:
         return new TeamDB();
+      case DatabaseFactory.Names.BUDDY:
+        return new BuddyDB();
       case DatabaseFactory.Names.MEMBER:
         return new MemberDB();
       case DatabaseFactory.Names.DICTIONARY:

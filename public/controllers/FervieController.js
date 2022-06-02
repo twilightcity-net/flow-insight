@@ -9,6 +9,7 @@ const DatabaseFactory = require("../database/DatabaseFactory");
 module.exports = class FervieController extends (
   BaseController
 ) {
+
   /**
    * builds our Fervie Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -23,7 +24,6 @@ module.exports = class FervieController extends (
 
   /**
    * general enum list of all of our possible circuit events for fervie
-   * @returns {{HAS_OUTGOING_PAIR_REQUEST:string, CANCEL_PAIR_REQUEST:string, SAVE_FERVIE_DETAILS: string, REQUEST_PAIR_LINK:string, CONFIRM_PAIR_LINK:string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
@@ -33,7 +33,14 @@ module.exports = class FervieController extends (
       CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
       CANCEL_PAIR_REQUEST: "cancel-pair-request",
-      HAS_OUTGOING_PAIR_REQUEST: "has-outgoing-pair-request"
+      HAS_OUTGOING_PAIR_REQUEST: "has-outgoing-pair-request",
+      REQUEST_BUDDY_LINK: "request-buddy-link",
+      CONFIRM_BUDDY_LINK: "confirm-buddy-link",
+      REMOVE_BUDDY_LINK: "remove-buddy-link",
+      GET_BUDDY_LIST: "get-buddy-list",
+      GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
+      LOAD_BUDDY_LIST: "load-buddy-list",
+      INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
     };
   }
 
@@ -78,6 +85,27 @@ module.exports = class FervieController extends (
       switch (arg.type) {
         case FervieController.Events.SAVE_FERVIE_DETAILS:
           this.handleSaveFervieDetailsEvent(event, arg);
+          break;
+        case FervieController.Events.REQUEST_BUDDY_LINK:
+          this.handleRequestBuddyLinkEvent(event, arg);
+          break;
+        case FervieController.Events.INVITE_TO_BUDDY_LIST:
+          this.handleInviteToBuddyListEvent(event, arg);
+          break;
+        case FervieController.Events.CONFIRM_BUDDY_LINK:
+          this.handleConfirmBuddyLinkEvent(event, arg);
+          break;
+        case FervieController.Events.REMOVE_BUDDY_LINK:
+          this.handleRemoveBuddyLinkEvent(event, arg);
+          break;
+        case FervieController.Events.GET_BUDDY_LIST:
+          this.handleGetBuddyListEventWithFallback(event, arg);
+          break;
+        case FervieController.Events.GET_PENDING_BUDDY_REQUEST_LIST:
+          this.handleGetPendingBuddyListEvent(event, arg);
+          break;
+        case FervieController.Events.LOAD_BUDDY_LIST:
+          this.handleLoadBuddyListEvent(event, arg);
           break;
         case FervieController.Events.REQUEST_PAIR_LINK:
           this.handleRequestPairLinkEvent(event, arg);
@@ -135,6 +163,319 @@ module.exports = class FervieController extends (
       urn,
       (store) =>
         this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for our getting all our buddies
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetBuddyListEventWithFallback(event, arg, callback) {
+
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+    if (this.isBuddyListLoaded) {
+      let view = database.getViewForBuddies();
+      arg.data = view.data();
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadBuddyListEvent({}, {}, (args) => {
+        if (args.error) {
+          arg.error = args.error;
+        }
+        if (args.data) {
+          let view = database.getViewForBuddies();
+          arg.data = view.data();
+        }
+
+        this.delegateCallbackOrEventReplyTo(
+          event,
+          arg,
+          callback
+        );
+      });
+    }
+  }
+
+
+
+  /**
+   * client event handler for our getting all our pending buddies
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetPendingBuddyListEvent(event, arg, callback) {
+
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+    let view = database.getViewForPendingBuddies();
+    arg.data = view.data();
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+
+  }
+
+
+  /**
+   * client event handler for loading all our buddies in the local DB
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadBuddyListEvent(event, arg, callback) {
+    let urn =
+      FervieController.Paths.FERVIE +
+      FervieController.Paths.SEPARATOR +
+      FervieController.Strings.ME +
+      FervieController.Paths.BUDDY;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.GET_BUDDY_LIST,
+      FervieController.Types.GET,
+      urn,
+      (store) =>
+        this.loadBuddiesIntoDB(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * Add the returned buddy to the database
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  addBuddyToDB(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+
+      const database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+      if (arg.data) {
+        database.addOrUpdateBuddy(arg.data);
+      }
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * Remove the requested buddy from the local database
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  removeBuddyFromDB(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+
+      const database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+      database.removeBuddy(arg.args.buddyMemberId);
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * Load all our queried buddies into the database
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  loadBuddiesIntoDB(store, event, arg, callback) {
+      if (store.error) {
+        arg.error = store.error;
+        this.isBuddyListLoaded = false;
+      } else {
+        arg.data = store.data;
+        const buddyList = arg.data.buddies;
+        const pendingRequests = arg.data.pendingBuddyRequests;
+
+        const database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+        if (buddyList) {
+          database.loadBuddyList(buddyList);
+        }
+
+        if (pendingRequests) {
+          database.loadPendingRequests(pendingRequests);
+        }
+
+        this.isBuddyListLoaded = true;
+      }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * client event handler for confirming a buddy request
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleConfirmBuddyLinkEvent(event, arg, callback) {
+
+    let requestingMemberId = arg.args.requestingMemberId,
+      requestId = arg.args.requestId,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.SEPARATOR +
+        requestingMemberId +
+        FervieController.Paths.BUDDY +
+        FervieController.Paths.LINK +
+        FervieController.Paths.CONFIRM;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {requestId: requestId},
+      FervieController.Names.CONFIRM_BUDDY_LINK,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for adding a member to your buddy list, sends a request
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleRequestBuddyLinkEvent(event, arg, callback) {
+    let buddyMemberId = arg.args.buddyMemberId,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.SEPARATOR +
+        buddyMemberId +
+        FervieController.Paths.BUDDY +
+        FervieController.Paths.LINK +
+        FervieController.Paths.REQUEST;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.REQUEST_BUDDY_LINK,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * client event handler for inviting a buddy to list using email
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleInviteToBuddyListEvent(event, arg, callback) {
+    let email = arg.args.email,
+      urn =
+        FervieController.Paths.INVITE +
+        FervieController.Paths.TO +
+        FervieController.Paths.BUDDY +
+        FervieController.Paths.WITH +
+        FervieController.Paths.EMAIL;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {email : email},
+      FervieController.Names.INVITE_TO_BUDDY_LIST_WITH_EMAIL,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for removing a member from your buddy list
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleRemoveBuddyLinkEvent(event, arg, callback) {
+    let buddyMemberId = arg.args.buddyMemberId,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.SEPARATOR +
+        buddyMemberId +
+        FervieController.Paths.BUDDY +
+        FervieController.Paths.LINK +
+        FervieController.Paths.REMOVE;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.REMOVE_BUDDY_LINK,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.removeBuddyFromDB(
           store,
           event,
           arg,
@@ -339,4 +680,6 @@ module.exports = class FervieController extends (
       callback
     );
   }
+
+
 };

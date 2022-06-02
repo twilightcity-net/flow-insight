@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {List, Menu, Message, Segment, Transition,} from "semantic-ui-react";
+import {Icon, Input, Label, List, Menu, Message, Popup, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
@@ -11,6 +11,7 @@ import {BaseClient} from "../../../../clients/BaseClient";
 import {BrowserController} from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
 import BuddiesPanelListItem from "./BuddiesPanelListItem";
+import {FervieClient} from "../../../../clients/FervieClient";
 
 /**
  * this component is the buddies side panel content
@@ -26,9 +27,10 @@ export default class BuddiesPanel extends Component {
     this.state = {
       activeIndex: 0,
       activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
-      teamVisible: false,
-      teams: [],
-      orgName: TeamClient.orgName,
+      buddies: [],
+      pendingBuddies: [],
+      currentEmailValue: "",
+      emailErrorFeedback: "",
     };
     this.myController =
       RendererControllerFactory.getViewController(
@@ -44,11 +46,11 @@ export default class BuddiesPanel extends Component {
         this.onTalkRoomMessage
       );
 
-    this.teamDataRefreshListener =
+    this.buddiesDataRefreshListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TEAM_DATA_REFRESH,
+        RendererEventFactory.Events.BUDDIES_DATA_REFRESH,
         this,
-        this.onTeamDataRefresh
+        this.onBuddiesDataRefresh
       );
 
   }
@@ -93,7 +95,7 @@ export default class BuddiesPanel extends Component {
       for (let i = 0; i < teams.length; i++) {
         if (teams[i].id === data.teamId) {
           if (data.memberId === MemberClient.me.id) {
-            this.refreshTeamPanel();
+            this.refreshBuddiesPanel();
           } else {
             teams[i].teamMembers =
               this.removeTeamMemberFromList(
@@ -235,59 +237,49 @@ export default class BuddiesPanel extends Component {
    */
   componentDidMount() {
     console.log("Buddies panel mounted!");
-    this.myController.configureTeamPanelListener(
-      this,
-      this.refreshTeamPanel
-    );
-    this.refreshTeamPanel();
+    this.refreshBuddiesPanel();
   }
 
   /**
-   * Force refresh the team data manually on triggering event.  This is called after the connection
+   * Force refresh the buddies data manually on triggering event.  This is called after the connection
    * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
    */
-  onTeamDataRefresh() {
-    this.refreshTeamPanel();
+  onBuddiesDataRefresh() {
+    this.refreshBuddiesPanel();
   }
 
   /**
    * called to refresh the team panel with new data
    */
-  refreshTeamPanel() {
-    if (this.state.orgName == null) {
-      TeamClient.getActiveOrg(this, (arg) => {
-        if (arg.error) {
-          this.error = arg.error;
-        } else {
-          this.error = null;
-          this.setState({
-            orgName: arg.data.orgName,
-          });
-        }
-      });
-    }
+  refreshBuddiesPanel() {
+    console.log("refresh!");
 
-    TeamClient.getAllMyTeams(this, (arg) => {
-      if (arg.error) {
-        this.error = arg.error;
-      } else {
-        this.error = null;
-        this.setState({
-          activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
-          teamVisible: true,
-          teams: this.sortAllTeams(arg.data),
-        });
-      }
+    let callCount = 0;
+    FervieClient.getPendingBuddyList(this, (arg) => {
+      callCount++;
+      this.pendingBuddies = arg.data;
+      this.handleDataLoadFinished(callCount, arg);
+
+    });
+    FervieClient.getBuddyList(this, (arg) => {
+      callCount++;
+      this.buddies = arg.data;
+      this.handleDataLoadFinished(callCount, arg);
     });
   }
 
-  sortAllTeams(teams) {
-    for (let i = 0; i < teams.length; i++) {
-      teams[i].teamMembers = this.sortTeamMembers(
-        teams[i].teamMembers
-      );
+  handleDataLoadFinished(callCount, arg) {
+    if (arg.error) {
+      console.error("Error during buddy data load: "+arg.error);
     }
-    return teams;
+
+    if (callCount !== 2) return;
+
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
+      buddies: this.buddies,
+      pendingBuddies: this.pendingBuddies
+    });
   }
 
   /**
@@ -296,11 +288,7 @@ export default class BuddiesPanel extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
-    this.teamDataRefreshListener.clear();
-    this.myController.configureTeamPanelListener(
-      this,
-      null
-    );
+    this.buddiesDataRefreshListener.clear();
   }
 
   /**
@@ -314,28 +302,14 @@ export default class BuddiesPanel extends Component {
   };
 
   /**
-   * selects a team member in the list
+   * selects a member in the list and opens the journal
    * @param member
    */
   handleClickRow = (member) => {
-    let name = member.username,
-      activeCircuit = member.activeCircuit,
-      uri = BrowserController.uri + "";
+    let name = member.username;
 
     if (this.lastClickedUser && this.lastClickedUser === name) {
-      if (
-        activeCircuit &&
-        uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR + BrowserRequestFactory.Requests.JOURNAL)) {
-        this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
-      } else {
         this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
-      }
-    } else {
-      if (activeCircuit) {
-        this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
-      } else {
-        this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
-      }
     }
 
     this.lastClickedUser = name;
@@ -343,24 +317,12 @@ export default class BuddiesPanel extends Component {
 
   /**
    * creates a new request and dispatch this to the browser request listener
-   * @param teamMember
+   * @param memberUsername
    */
-  requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
+  requestBrowserToLoadTeamJournalAndSetActiveMember(memberUsername) {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.JOURNAL,
-      teamMember
-    );
-    this.myController.makeSidebarBrowserRequest(request);
-  }
-
-  /**
-   * creates a new request to load the active circuit
-   * @param circuitName
-   */
-  requestBrowserToLoadTeamMemberActiveCircuit(circuitName) {
-    let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.CIRCUIT,
-      circuitName
+      memberUsername
     );
     this.myController.makeSidebarBrowserRequest(request);
   }
@@ -385,31 +347,77 @@ export default class BuddiesPanel extends Component {
    * gets our team panel content with the team model that was passed in from the props
    * @returns {*}
    */
-  getTeamPanelMembersContent() {
+  getBuddyPanelContent() {
     if (this.error) {
       return this.getErrorContent(this.error);
     } else {
       return (
         <div className="teamPanelMembersContent">
-          {this.getTeamPanelMembersListContent()}
+          {this.getPendingBuddyListContent()}
+          {this.getBuddyListContent()}
         </div>
       );
     }
   }
 
   /**
-   * gets our team panel list for our team panel in the sidebar
+   * gets our buddy list for our buddy panel in the sidebar
    * @returns {*}
    */
-  getTeamPanelMembersListContent() {
+  getBuddyListContent() {
     let showOffline = true;
-    let firstTeam = this.state.teams[0];
 
-    if (firstTeam) {
-      return this.getTeamPanelListMembersContent(firstTeam.teamMembers, showOffline);
-    } else {
-      return "";
-    }
+    //TODO get the list of buddies... need to update this to display from fervie dtos...
+    //these have online status, my fervie dtos don't, the current API isn't going to work......
+    //maybe I should just return our "team member dtos" here.
+
+    //current uses username/display name we need to use our fervie name on this list.
+
+    //maybe our fervie name should change our display name?
+
+    let me = MemberClient.me;
+    return (
+      <List
+        inverted
+        divided
+        celled
+        animated
+        verticalAlign="middle"
+        size="large"
+      >
+        <BuddiesPanelListItem
+          key={me.id}
+          model={me}
+          meUsername={me.username}
+          isMe={true}
+          onClickRow={this.handleClickRow}
+        />
+        {this.state.buddies.map(
+          (member) =>
+            me.id !== member.id &&
+            (showOffline || UtilRenderer.isMemberOnline(member)) && (
+              <BuddiesPanelListItem
+                key={member.id}
+                meUsername={me.username}
+                model={member}
+                isMe={false}
+                onClickRow={this.handleClickRow}
+              />
+            )
+        )}
+      </List>
+    );
+  }
+
+  /**
+   * gets our pending buddy list for our buddy panel in the sidebar
+   * @returns {*}
+   */
+  getPendingBuddyListContent() {
+    let showOffline = true;
+
+    //TODO get
+
   }
 
   /**
@@ -455,6 +463,106 @@ export default class BuddiesPanel extends Component {
   }
 
   /**
+   * Sends a buddy invite request and adds a pending request to the buddy list
+   * @param email
+   */
+  sendInviteRequest(email) {
+    console.log("Sending request!");
+    FervieClient.inviteToBuddyList(email, this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+        this.setState({
+          emailErrorFeedback: arg.error
+        });
+      } else {
+        console.log("Buddy invite sent");
+      }
+    });
+  }
+
+  /**
+   * Basic validation to make sure the email matches anything@anything.anything
+   * and doesnt include multiple @ signs
+   * @param email
+   * @returns {boolean}
+   */
+  isValidEmail(email) {
+    let re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  }
+
+  /**
+   * Handle pressing enter in the email box
+   * @param e
+   */
+  handleKeyPressForEmail = (e) => {
+    if (e.charCode === 13) {
+      if (this.isValidEmail(this.state.currentEmailValue)) {
+        this.sendInviteRequest(this.state.currentEmailValue);
+        this.setState({
+          currentEmailValue: ""
+        });
+      } else {
+        this.setState({
+          emailErrorFeedback: "Invalid email"
+        });
+      }
+    }
+  };
+
+  /**
+   * handle changing the value of the email input box
+   * @param e - the event that was generated by user gui event
+   * @param value
+   */
+  handleChangeForEmail = (e, { value }) => {
+    this.setState({
+      currentEmailValue: value,
+      emailErrorFeedback: ""
+    });
+  };
+
+  onCloseBuddyInvite = () => {
+    this.setState({
+      currentEmailValue: "",
+      emailErrorFeedback: ""
+    });
+  }
+
+
+  getAddBuddyButton() {
+    return (<Popup
+      position={"bottom center"}
+      className={"invitePopup"}
+      basic
+      inverted
+      trigger={<Icon className={"addIcon"} inverted name="plus circle"/>}
+      on='click'
+      closeOnDocumentClick={true}
+      onClose={this.onCloseBuddyInvite}
+    >
+      <Popup.Content>
+        <div className="inviteTitle">
+        Invite Buddies to WatchMoovies
+        </div>
+        <div className="inviteEmailInput">
+        <Input
+          id="inviteEmailInput"
+          fluid
+          inverted
+          autoFocus
+          placeholder={"email address"}
+          value={this.state.currentEmailValue}
+          onKeyPress={this.handleKeyPressForEmail}
+          onChange={this.handleChangeForEmail}
+        />
+        </div>
+        <div className="errorFeedback">&nbsp;{this.state.emailErrorFeedback}</div>
+      </Popup.Content>
+    </Popup>);
+  }
+
+  /**
    * renders the console sidebar panel of the console view
    * @returns {*}
    */
@@ -480,6 +588,8 @@ export default class BuddiesPanel extends Component {
               active={activeItem === SidePanelViewController.SubmenuSelection.BUDDIES}
               onClick={this.handleMenuClick}
             />
+            {this.getAddBuddyButton()}
+
           </Menu>
           <Segment
             inverted
@@ -493,7 +603,7 @@ export default class BuddiesPanel extends Component {
               duration={this.animationDelay}
               unmountOnHide
             >
-              {this.getTeamPanelMembersContent()}
+              {this.getBuddyPanelContent()}
             </Transition>
           </Segment>
         </Segment.Group>

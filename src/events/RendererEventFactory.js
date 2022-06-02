@@ -118,6 +118,7 @@ export class RendererEventFactory {
       DATASTORE_LOADED: prefix + "datastore-loaded",
       ME_DATA_REFRESH: prefix + "me-data-refresh",
       TEAM_DATA_REFRESH: prefix + "team-data-refresh",
+      BUDDIES_DATA_REFRESH: prefix + "buddies-data-refresh",
       CIRCUIT_DATA_REFRESH: prefix + "circuit-data-refresh",
       JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
       DICTIONARY_DATA_REFRESH:

@@ -9,6 +9,16 @@ module.exports = class FervieDto {
       this.sparkId = json.sparkId;
       this.xpSummary = json.xpSummary;
       this.activeSparkLinks = json.activeSparkLinks;
+
+      this.fervieColor = json.fervieColor;
+      this.fervieSecondaryColor = json.fervieSecondaryColor;
+      this.fervieTertiaryColor = json.fervieTertiaryColor;
+      this.fervieAccessory = json.fervieAccessory;
+      this.fervieName = json.fervieName;
+
+      this.username = json.username;
+      this.onlineStatus = json.onlineStatus;
+
     } catch (e) {
       throw new Error(
         "Unable to create dto 'FervieDto' : " + e.message

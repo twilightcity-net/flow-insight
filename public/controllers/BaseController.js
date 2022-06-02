@@ -81,7 +81,11 @@ module.exports = class BaseController {
       CLAIM: "/claim",
       RELEASE: "/release",
       PUPPET: "/puppet",
-      SEAT: "/seat"
+      SEAT: "/seat",
+      BUDDY: "/buddy",
+      INVITE: "/invite",
+      WITH: "/with",
+      EMAIL: "/email"
     };
   }
 
@@ -139,7 +143,8 @@ module.exports = class BaseController {
       PAIRING_REQUEST: "PairingRequestDto",
       FERVIE_SEAT_EVENT: "FervieSeatEventDto",
       MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
-      CHAT_REACTION: "ChatReactionDto"
+      CHAT_REACTION: "ChatReactionDto",
+      PENDING_BUDDY_REQUEST: "PendingBuddyRequestDto",
     };
   }
 
@@ -223,6 +228,11 @@ module.exports = class BaseController {
       UPDATE_FLAME_RATING: "update-flame-rating",
       GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
+      GET_BUDDY_LIST: "getBuddyList",
+      REQUEST_BUDDY_LINK: "requestBuddyLink",
+      CONFIRM_BUDDY_LINK: "confirmBuddyLink",
+      REMOVE_BUDDY_LINK: "removeBuddyLink",
+      INVITE_TO_BUDDY_LIST_WITH_EMAIL: "inviteToBuddyListWithEmail",
       CREATE_MOOVIE_CIRCUIT: "createMoovieCircuit",
       GET_MOOVIE_CIRCUITS: "getMoovieCircuits",
       GET_MOOVIE_CIRCUIT: "getMoovieCircuit",

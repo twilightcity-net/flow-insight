@@ -577,6 +577,20 @@
     margin: 0;
   }
 
+  #component.consoleSidebarPanel .ui.menu .addIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.2em;
+    cursor: pointer !important;
+    color: rgba(180, 180, 180, 0.96);
+    transition: color 0.333s ease;
+  }
+
+  #component.consoleSidebarPanel .ui.menu .addIcon:hover {
+    color: white;
+  }
+
   #component.consoleSidebarPanel .ui.segments .ui.segment {
     padding: 0.420em 0.840em !important
   }
@@ -4926,6 +4940,45 @@
   .ui.popup .ui.divider {
     margin: 8px 0 6px 0;
   }
+
+  /**
+  BUDDIES STYLES
+   */
+
+  .ui.popup.invitePopup {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .ui.popup.invitePopup .inviteTitle {
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+
+  .ui.popup.invitePopup .inviteEmailInput input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96) !important;
+    border: 1px solid rgba(74, 74, 74, 0.96) !important;
+    color: rgba(241, 241, 241, 0.96) !important;
+  }
+
+  .ui.popup.invitePopup .inviteEmailInput input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96) !important;
+  }
+
+  .ui.popup.invitePopup .inviteEmailInput input::placeholder {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96)
+  }
+
+  .ui.popup.invitePopup .errorFeedback {
+    float: right;
+    margin-top: 10px;
+    color: #960000;
+  }
+
   </style>
 </head>
 

@@ -1,5 +1,6 @@
 const FervieController = require("../controllers/FervieController"),
   log = require("electron-log");
+const TeamController = require("../controllers/TeamController");
 
 /**
  * managing class for the fervie client
@@ -14,7 +15,29 @@ module.exports = class FervieManager {
     this.myController.configureEvents();
   }
 
+  /**
+   * Initializes our fervie buddies in the DB
+   * @param callback
+   */
   init(callback) {
     //nothing to do for preloading
+    this.loadCount = 0;
+    FervieController.instance.handleLoadBuddyListEvent(
+      {},
+      { args: {} },
+      () => this.handleInitCallback(callback)
+    );
+  }
+
+
+  /**
+   * handles our callback in response from our controller event processing
+   * @param callback
+   */
+  handleInitCallback(callback) {
+    this.loadCount++;
+    if (callback && this.loadCount === 1) {
+      callback();
+    }
   }
 };

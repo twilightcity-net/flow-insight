@@ -27,7 +27,6 @@ export class FervieClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{HAS_OUTGOING_PAIR_REQUEST:string, CANCEL_PAIR_REQUEST:string, SAVE_FERVIE_DETAILS: string, REQUEST_PAIR_LINK: string, CONFIRM_PAIR_LINK:string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
@@ -37,7 +36,13 @@ export class FervieClient extends BaseClient {
       CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
       CANCEL_PAIR_REQUEST: "cancel-pair-request",
-      HAS_OUTGOING_PAIR_REQUEST: "has-outgoing-pair-request"
+      HAS_OUTGOING_PAIR_REQUEST: "has-outgoing-pair-request",
+      REQUEST_BUDDY_LINK: "request-buddy-link",
+      CONFIRM_BUDDY_LINK: "confirm-buddy-link",
+      REMOVE_BUDDY_LINK: "remove-buddy-link",
+      GET_BUDDY_LIST: "get-buddy-list",
+      GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
+      INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
     };
   }
 
@@ -87,6 +92,161 @@ export class FervieClient extends BaseClient {
     FervieClient.instance.notifyFervie(event);
     return event;
   }
+
+  /**
+   * Invites a fervie to the buddy list via email, a talk message should
+   * come back with the pending buddy request so we can add it to the view
+   * @param email
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static inviteToBuddyList(
+    email,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.INVITE_TO_BUDDY_LIST,
+      {
+        email: email
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Add a fervie to your buddy list by sending a request (must be confirmed by recipient)
+   * @param buddyMemberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static requestBuddyLink(
+    buddyMemberId,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.REQUEST_BUDDY_LINK,
+      {
+        buddyMemberId: buddyMemberId
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+  /**
+   * Confirm adding the requesting member as a buddy
+   * @param requestingMemberId
+   * @param requestId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static confirmBuddyLink(
+    requestingMemberId,
+    requestId,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.CONFIRM_BUDDY_LINK,
+      {
+        requestingMemberId: requestingMemberId,
+        requestId: requestId
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+
+  /**
+   * Removes a fervie from your buddy list
+   * @param buddyMemberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static removeBuddyLink(
+    buddyMemberId,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.REMOVE_BUDDY_LINK,
+      {
+        buddyMemberId: buddyMemberId
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+
+  /**
+   * Gets all the fervies on your buddy list
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getBuddyList(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.GET_BUDDY_LIST,
+      {},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+
+  /**
+   * Gets all the pending fervie adds on your buddy list
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getPendingBuddyList(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.GET_PENDING_BUDDY_REQUEST_LIST,
+      {},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
 
   /**
    * Create a pairing link with the specified team member
