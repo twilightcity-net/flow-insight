@@ -69,7 +69,8 @@ export class BaseClient {
       PAIRING_REQUEST: "PairingRequestDto",
       FERVIE_SEAT_EVENT: "FervieSeatEventDto",
       MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
-      CHAT_REACTION: "ChatReactionDto"
+      CHAT_REACTION: "ChatReactionDto",
+      PENDING_BUDDY_REQUEST: "PendingBuddyRequestDto"
     };
   }
 

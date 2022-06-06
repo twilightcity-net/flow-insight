@@ -1,37 +1,35 @@
 import React, {Component} from "react";
 import {Icon, List,} from "semantic-ui-react";
 import {BaseClient} from "../../../../clients/BaseClient";
-import UtilRenderer from "../../../../UtilRenderer";
 
 /**
  * our list items that are displayed in our buddy panel.
  */
-export default class BuddiesPanelListItem extends Component {
+export default class PendingBuddyListItem extends Component {
 
   constructor(props) {
     super(props);
-    this.name = "[BuddiesPanelListItem]";
+    this.name = "[PendingBuddyListItem]";
     this.state = {
     };
   }
-
-
-  /**
-   * event handler for when we click on one of these items
-   */
-  handleClick = () => {
-    this.props.onClickRow(this.props.model);
-  };
 
   /**
    * gets our display name for our team panel list item
    * @returns {*}
    */
   getDisplayName() {
+    let displayName = "";
+    if (this.props.model.email) {
+      displayName = this.props.model.email;
+    } else if (this.props.model.toFervieName) {
+      displayName = this.props.model.toFervieName;
+    } else {
+      displayName = this.props.model.toUsername;
+    }
     return (
       <span>
-        {this.props.model.fervieName}
-        {this.props.isMe && <i>{BaseClient.Strings.YOU}</i>}
+        Invite: {displayName}
       </span>
     );
   }
@@ -45,10 +43,6 @@ export default class BuddiesPanelListItem extends Component {
     let name = "circle outline",
       color = "grey";
 
-    if (UtilRenderer.isMemberOnline(this.props.model)) {
-      name = "circle";
-      color = "green";
-    }
     return <Icon name={name} color={color} />;
   }
 
@@ -57,13 +51,7 @@ export default class BuddiesPanelListItem extends Component {
    * @returns {string}
    */
   getClassName() {
-    let className;
-    if (UtilRenderer.isMemberOnline(this.props.model)) {
-      className = BaseClient.Strings.ONLINE;
-    } else {
-      className = BaseClient.Strings.OFFLINE;
-    }
-    return className;
+    return  BaseClient.Strings.OFFLINE;
   }
 
 
@@ -75,8 +63,7 @@ export default class BuddiesPanelListItem extends Component {
     return (
       <List.Item
       className={this.getClassName()}
-      key={this.props.model.id}
-      onClick={this.handleClick}
+      key={this.props.model.buddyRequestId}
     >
       {this.getIcon()}
       <List.Content>

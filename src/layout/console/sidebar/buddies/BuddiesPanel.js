@@ -1,17 +1,16 @@
 import React, {Component} from "react";
-import {Icon, Input, Label, List, Menu, Message, Popup, Segment, Transition,} from "semantic-ui-react";
+import {Icon, Input, List, Menu, Message, Popup, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
-import {TeamClient} from "../../../../clients/TeamClient";
 import {MemberClient} from "../../../../clients/MemberClient";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import {BaseClient} from "../../../../clients/BaseClient";
-import {BrowserController} from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
 import BuddiesPanelListItem from "./BuddiesPanelListItem";
 import {FervieClient} from "../../../../clients/FervieClient";
+import PendingBuddyListItem from "./PendingBuddyListItem";
 
 /**
  * this component is the buddies side panel content
@@ -24,6 +23,7 @@ export default class BuddiesPanel extends Component {
   constructor(props) {
     super(props);
     this.name = "[BuddiesPanel]";
+    this.me = MemberClient.me;
     this.state = {
       activeIndex: 0,
       activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
@@ -39,12 +39,13 @@ export default class BuddiesPanel extends Component {
     this.lastClickedUser = null;
     this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
-    this.talkRoomMessageListener =
+    this.talkDirectMessageListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
         this,
-        this.onTalkRoomMessage
+        this.onTalkDirectMessage
       );
+
 
     this.buddiesDataRefreshListener =
       RendererEventFactory.createEvent(
@@ -63,174 +64,19 @@ export default class BuddiesPanel extends Component {
    * @param event
    * @param arg
    */
-  onTalkRoomMessage = (event, arg) => {
+  onTalkDirectMessage = (event, arg) => {
     let mType = arg.messageType,
       data = arg.data;
-    let teams = this.state.teams;
 
-    if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
-      for (let i = 0; i < teams.length; i++) {
-        teams[i].teamMembers = this.updateTeamMembers(
-          teams[i].teamMembers,
-          data
-        );
-      }
-      this.setState({
-        teams: teams,
+    if (mType === BaseClient.MessageTypes.PENDING_BUDDY_REQUEST) {
+      this.setState((prevState) => {
+        prevState.pendingBuddies.push(data);
+        return {
+          pendingBuddies: prevState.pendingBuddies
+        };
       });
-    } else if (mType === BaseClient.MessageTypes.TEAM_MEMBER_ADDED) {
-      for (let i = 0; i < teams.length; i++) {
-        if (teams[i].id === data.teamId) {
-          teams[i].teamMembers = this.addTeamMemberToList(
-            teams[i].teamMembers,
-            data
-          );
-          break;
-        }
-      }
-      this.setState({
-        teams: teams,
-      });
-    } else if (mType === BaseClient.MessageTypes.TEAM_MEMBER_REMOVED) {
-      for (let i = 0; i < teams.length; i++) {
-        if (teams[i].id === data.teamId) {
-          if (data.memberId === MemberClient.me.id) {
-            this.refreshBuddiesPanel();
-          } else {
-            teams[i].teamMembers =
-              this.removeTeamMemberFromList(
-                teams[i].teamMembers,
-                data
-              );
-            this.setState({
-              teams: teams,
-            });
-          }
-
-          break;
-        }
-      }
     }
   };
-
-  /**
-   * updates our team members list by adding a new member that just joined
-   * @param teamMembers
-   * @param teamMemberAddedDto
-   * @returns {*}
-   */
-  addTeamMemberToList(teamMembers, teamMemberAddedDto) {
-    teamMembers.push(teamMemberAddedDto.teamMemberDto);
-    teamMembers = this.sortTeamMembers(teamMembers);
-
-    return teamMembers;
-  }
-
-  /**
-   * Remove a team member from a team member list
-   * @param teamMembers
-   * @param teamMemberAddedDto
-   * @returns {*}
-   */
-  removeTeamMemberFromList(teamMembers, teamMemberRemovedDto) {
-    for (let i = 0; i < teamMembers.length; i++) {
-      if (
-        teamMembers[i].id === teamMemberRemovedDto.memberId
-      ) {
-        teamMembers.splice(i, 1);
-      }
-    }
-
-    return teamMembers;
-  }
-
-  /**
-   * updates our team members with our components state so that the tiny red light
-   * goes on. This is a result of many thousands of lines of code in order to make
-   * this light turn on. It is control via our talk network which is distributed over
-   * a peer to peer grid.
-   * @param teamMembers
-   * @param teamMember
-   * @returns {*}
-   */
-  updateTeamMembers(teamMembers, teamMember) {
-    let statusChange = false;
-
-    for (let i = 0; i < teamMembers.length; i++) {
-      if (teamMembers[i].id === teamMember.id) {
-        if (
-          teamMembers[i].onlineStatus !==
-            teamMember.onlineStatus ||
-          (teamMembers[i].activeCircuit === null &&
-            teamMember.activeCircuit !== null) ||
-          (teamMembers[i].activeCircuit !== null &&
-            teamMember.activeCircuit === null)
-        ) {
-          //online/offline or alarm status change
-          statusChange = true;
-        }
-        teamMembers[i] = teamMember;
-
-        break;
-      }
-    }
-
-    if (statusChange) {
-      teamMembers = this.sortTeamMembers(teamMembers);
-    }
-
-    return teamMembers;
-  }
-
-  sortTeamMembers(teamMembers) {
-    //you are always at the top.
-    //then, red lights
-    //then, purple lights
-    //then, green lights
-    //then offline
-    let myId = MemberClient.me.id;
-
-    let team = teamMembers.sort((a, b) => {
-      let aIsOnline = UtilRenderer.isMemberOnline(a);
-      let bIsOnline = UtilRenderer.isMemberOnline(b);
-
-      if (a.id === myId && b.id !== myId) {
-        return -1;
-      } else if (b.id === myId && a.id !== myId) {
-        return 1;
-      }
-
-      if (aIsOnline && !bIsOnline) {
-        return -1;
-      } else if (bIsOnline && !aIsOnline) {
-        return 1;
-      } else if (aIsOnline && bIsOnline) {
-        if (a.activeCircuit && !b.activeCircuit) {
-          return -1;
-        } else if (b.activeCircuit && !a.activeCircuit) {
-          return 1;
-        }
-        if (a.activeCircuit && b.activeCircuit) {
-          let aIsHelping = UtilRenderer.isMemberHelping(a);
-          let bIsHelping = UtilRenderer.isMemberHelping(b);
-          if (!aIsHelping && bIsHelping) {
-            return -1;
-          } else if (aIsHelping && !bIsHelping) {
-            return 1;
-          }
-        }
-
-        if (a.displayName < b.displayName) {
-          return -1;
-        } else if (a.displayName > b.displayName) {
-          return 1;
-        }
-      }
-      return 0;
-    });
-
-    return team;
-  }
 
   /**
    * called when we render the team panel into the gui
@@ -287,7 +133,7 @@ export default class BuddiesPanel extends Component {
    * memory management
    */
   componentWillUnmount() {
-    this.talkRoomMessageListener.clear();
+    this.talkDirectMessageListener.clear();
     this.buddiesDataRefreshListener.clear();
   }
 
@@ -353,7 +199,6 @@ export default class BuddiesPanel extends Component {
     } else {
       return (
         <div className="teamPanelMembersContent">
-          {this.getPendingBuddyListContent()}
           {this.getBuddyListContent()}
         </div>
       );
@@ -367,15 +212,8 @@ export default class BuddiesPanel extends Component {
   getBuddyListContent() {
     let showOffline = true;
 
-    //TODO get the list of buddies... need to update this to display from fervie dtos...
-    //these have online status, my fervie dtos don't, the current API isn't going to work......
-    //maybe I should just return our "team member dtos" here.
-
-    //current uses username/display name we need to use our fervie name on this list.
-
-    //maybe our fervie name should change our display name?
-
     let me = MemberClient.me;
+
     return (
       <List
         inverted
@@ -405,59 +243,15 @@ export default class BuddiesPanel extends Component {
               />
             )
         )}
-      </List>
-    );
-  }
-
-  /**
-   * gets our pending buddy list for our buddy panel in the sidebar
-   * @returns {*}
-   */
-  getPendingBuddyListContent() {
-    let showOffline = true;
-
-    //TODO get
-
-  }
-
-  /**
-   * generates a list of our teams members for our accordion panel, pass in true for show
-   * offline members for the param showOffline
-   * @param members
-   * @param showOffline
-   * @returns {*}
-   */
-  getTeamPanelListMembersContent(members, showOffline) {
-    let me = MemberClient.me;
-    return (
-      <List
-        inverted
-        divided
-        celled
-        animated
-        verticalAlign="middle"
-        size="large"
-      >
-        <BuddiesPanelListItem
-          key={me.id}
-          model={me}
-          meUsername={me.username}
-          isMe={true}
-          onClickRow={this.handleClickRow}
-        />
-        {members.map(
-          (member) =>
-            me.id !== member.id &&
-            (showOffline || UtilRenderer.isMemberOnline(member)) && (
-              <BuddiesPanelListItem
-                key={member.id}
-                meUsername={me.username}
-                model={member}
-                isMe={false}
-                onClickRow={this.handleClickRow}
-              />
-            )
-        )}
+        {this.state.pendingBuddies.map((request) => {
+          return (
+            <PendingBuddyListItem
+              key={request.buddyRequestId}
+              model={request}
+            />
+          );
+        })
+        }
       </List>
     );
   }
@@ -571,6 +365,11 @@ export default class BuddiesPanel extends Component {
 
     let houseTitle = "Moovie Buddies";
 
+    let me = MemberClient.me;
+
+    if (!me) {
+      return "";
+    }
 
     return (
       <div
