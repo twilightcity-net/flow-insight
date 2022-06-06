@@ -3,11 +3,24 @@ import {Label, List, Popup,} from "semantic-ui-react";
 import {FervieClient} from "../../../../clients/FervieClient";
 import {NotificationClient} from "../../../../clients/NotificationClient";
 
-export default class PairingRequestListItem extends Component {
+export default class BuddyRequestListItem extends Component {
   constructor(props) {
     super(props);
     this.wtfTimer = null;
+  }
 
+  getDisplayName() {
+    const fromFervie = this.props.model.data.fromFervieName;
+    const fromUsername = this.props.model.data.fromUsername;
+
+    let displayName;
+    if (fromFervie) {
+      displayName = fromFervie;
+    } else {
+      displayName = "@" + fromUsername;
+    }
+
+    return displayName;
   }
 
   /**
@@ -16,21 +29,21 @@ export default class PairingRequestListItem extends Component {
    * @returns {*}
    */
   getPopupContent(trigger) {
-    let teamMemberName =
-      this.props.model.data.fromDisplayName;
+
+    const displayName = this.getDisplayName();
 
     let message =
-      teamMemberName + " would like to pair with you.";
+      displayName + " would like to be your buddy.";
     if (this.props.model.canceled) {
       message =
-        teamMemberName + " canceled the pairing request.";
+        displayName + " canceled the buddy request.";
     }
 
     let popupContent = (
       <div>
         <div>
           <div>
-            <b>Pairing Request</b>
+            <b>Buddy Request</b>
           </div>
           <div>
             <i>{message}</i>
@@ -54,17 +67,18 @@ export default class PairingRequestListItem extends Component {
   handleConfirmClick = () => {
     console.log("Confirm clicked!");
 
-    let fromMemberId = this.props.model.data.fromMemberId;
-    let toMemberId = this.props.model.data.toMemberId;
-    FervieClient.confirmPairingLink(
+    const fromMemberId = this.props.model.data.fromMemberId;
+    const requestId = this.props.model.data.buddyRequestId;
+
+    FervieClient.confirmBuddyLink(
       fromMemberId,
-      toMemberId,
+      requestId,
       this,
       (arg) => {
         if (arg.error) {
-          console.error("Unable to confirm pairing link: "+arg.error);
+          console.error("Unable to confirm buddy link: "+arg.error);
         } else {
-          console.log("confirm pairing returned!");
+          console.log("confirm buddy returned!");
           NotificationClient.deleteNotification(
             this.props.model.id,
             this,
@@ -84,10 +98,8 @@ export default class PairingRequestListItem extends Component {
   };
 
   render() {
-    let fullName = "Team Member";
-    if (this.props.model && this.props.model.data) {
-      fullName = this.props.model.data.fromFullName;
-    }
+    let displayName = this.getDisplayName();
+
     let unreadClass = "";
     if (!this.props.model.read) {
       unreadClass = " unread";
@@ -132,10 +144,10 @@ export default class PairingRequestListItem extends Component {
         </List.Content>
         <List.Content>
           <List.Header className={canceledClass}>
-            Pairing Request
+            Buddy Request
           </List.Header>
           <i className={"name" + canceledClass}>
-            ({fullName})
+            ({displayName})
           </i>
         </List.Content>
       </List.Item>

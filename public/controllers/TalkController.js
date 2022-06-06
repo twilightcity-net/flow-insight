@@ -445,6 +445,8 @@ module.exports = class TalkController extends (
   static PAIRING_REQUEST = "PAIRING_REQUEST";
   static PAIRING_CANCELLATION = "PAIRING_CANCELLATION";
   static PAIRING_CONFIRMED = "PAIRING_CONFIRMED";
+  static BUDDY_REQUEST = "BUDDY_REQUEST";
+
 
   /**
    * our event callback handler for direct talk messages. This function sorts incoming talk
@@ -458,6 +460,9 @@ module.exports = class TalkController extends (
         break;
       case TalkController.MessageTypes.PENDING_BUDDY_REQUEST:
         this.handlePendingBuddyRequest(message);
+        break;
+      case TalkController.MessageTypes.BUDDY_CONFIRMATION_REQUEST:
+        this.handleBuddyConfirmationRequest(message);
         break;
       default:
         console.warn(
@@ -482,6 +487,30 @@ module.exports = class TalkController extends (
       );
 
     buddyDatabase.addPendingBuddyRequest(message.data);
+  }
+
+  handleBuddyConfirmationRequest(message) {
+    let id = message.id,
+      messageTime = message.messageTime,
+      metaProps = message.metaProps,
+      notificationDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.NOTIFICATION
+      );
+
+    let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
+    let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
+
+    notificationDatabase.addNotification({
+      id: id,
+      type: TalkController.BUDDY_REQUEST,
+      timestamp: messageTime,
+      fromMemberId: fromMemberId,
+      fromUsername: fromUsername,
+      read: false,
+      canceled: false,
+      data: message.data,
+    });
+    this.notificationRefreshNotifier.dispatch({});
   }
 
   handlePairingRequest(message) {

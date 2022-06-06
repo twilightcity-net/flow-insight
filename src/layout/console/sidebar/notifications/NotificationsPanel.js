@@ -7,6 +7,7 @@ import PairingRequestListItem from "./PairingRequestListItem";
 import {NotificationClient} from "../../../../clients/NotificationClient";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import WTFThresholdListItem from "./WTFThresholdListItem";
+import BuddyRequestListItem from "./BuddyRequestListItem";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -216,7 +217,15 @@ export default class NotificationsPanel extends Component {
                     model={notification}
                     refresh={this.refreshNotifications}
                   />);
+                } else if (notification.type === "BUDDY_REQUEST") {
+                  return (<BuddyRequestListItem
+                    key={i}
+                    id={i}
+                    model={notification}
+                    refresh={this.refreshNotifications}
+                  />);
                 }
+
                 return "";
               }
             )}
