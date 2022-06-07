@@ -373,7 +373,7 @@ module.exports = class FervieController extends (
 
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
-      {requestId: requestId},
+      {buddyRequestId: requestId},
       FervieController.Names.CONFIRM_BUDDY_LINK,
       FervieController.Types.POST,
       urn,
