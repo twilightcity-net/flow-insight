@@ -509,6 +509,14 @@ export default class RetroSidebar extends Component {
       progress = Math.round(taskSummary.percentProgress);
     }
 
+    if (learning + confusion + progress > 100) {
+      if (learning > 0) {
+        learning -= 1;
+      } else if (progress > 0) {
+        progress -= 1;
+      }
+    }
+
     let confusionBar = "";
     let learningBar = "";
     let progressBar = "";

@@ -58,9 +58,8 @@ export default class BuddiesPanel extends Component {
 
   /**
    * event handler that is called whenever we receive a talk message
-   * from our talk network. This panel is looking for team member updates
-   * and will loop over all of the known teams looking for the specific
-   * team member to update. yay!
+   * from our talk network. This panel is looking for buddy member updates,
+   * or pending buddy updates
    * @param event
    * @param arg
    */
@@ -75,11 +74,23 @@ export default class BuddiesPanel extends Component {
           pendingBuddies: prevState.pendingBuddies
         };
       });
+    } else if (mType === BaseClient.MessageTypes.BUDDY_STATUS_EVENT) {
+      this.setState((prevState) => {
+        for (let buddy of prevState.buddies) {
+          if (buddy.sparkId === data.buddy.sparkId ) {
+            Object.assign(buddy, data.buddy);
+            break;
+          }
+        }
+        return {
+          buddies: prevState.buddies
+        };
+      });
     }
   };
 
   /**
-   * called when we render the team panel into the gui
+   * called when we render the buddy panel into the gui
    */
   componentDidMount() {
     console.log("Buddies panel mounted!");
@@ -95,7 +106,7 @@ export default class BuddiesPanel extends Component {
   }
 
   /**
-   * called to refresh the team panel with new data
+   * called to refresh the buddy panel with new data
    */
   refreshBuddiesPanel() {
     console.log("refresh!");
@@ -138,13 +149,12 @@ export default class BuddiesPanel extends Component {
   }
 
   /**
-   * updates display to show fervie content
+   * updates display when you click on a buddy item
    * @param e
    * @param name
    */
   handleMenuClick = (e, { name }) => {
-    // TODO support multiple teams
-    // this.myController.changeActiveTeamSubmenuPanel(name);
+    //menu click here
   };
 
   /**

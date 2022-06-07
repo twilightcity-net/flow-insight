@@ -464,6 +464,9 @@ module.exports = class TalkController extends (
       case TalkController.MessageTypes.BUDDY_CONFIRMATION_REQUEST:
         this.handleBuddyConfirmationRequest(message);
         break;
+      case TalkController.MessageTypes.BUDDY_STATUS_EVENT:
+        this.handleBuddyStatusEvent(message);
+        break;
       default:
         console.warn(
           chalk.bgRed(
@@ -479,14 +482,19 @@ module.exports = class TalkController extends (
   }
 
   handlePendingBuddyRequest(message) {
-    let id = message.id,
-      messageTime = message.messageTime,
-      metaProps = message.metaProps,
-      buddyDatabase = DatabaseFactory.getDatabase(
+    let buddyDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.BUDDY
       );
 
     buddyDatabase.addPendingBuddyRequest(message.data);
+  }
+
+  handleBuddyStatusEvent(message) {
+    let buddyDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.BUDDY
+      );
+
+    buddyDatabase.addOrUpdateBuddy(message.data.buddy);
   }
 
   handleBuddyConfirmationRequest(message) {

@@ -145,7 +145,8 @@ module.exports = class BaseController {
       MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
       CHAT_REACTION: "ChatReactionDto",
       PENDING_BUDDY_REQUEST: "PendingBuddyRequestDto",
-      BUDDY_CONFIRMATION_REQUEST: "BuddyConfirmationRequestDto"
+      BUDDY_CONFIRMATION_REQUEST: "BuddyConfirmationRequestDto",
+      BUDDY_STATUS_EVENT: "BuddyEventDto"
     };
   }
 

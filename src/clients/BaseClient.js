@@ -70,7 +70,8 @@ export class BaseClient {
       FERVIE_SEAT_EVENT: "FervieSeatEventDto",
       MOOVIE_STATUS_UPDATE: "MoovieCircuitDto",
       CHAT_REACTION: "ChatReactionDto",
-      PENDING_BUDDY_REQUEST: "PendingBuddyRequestDto"
+      PENDING_BUDDY_REQUEST: "PendingBuddyRequestDto",
+      BUDDY_STATUS_EVENT: "BuddyEventDto"
     };
   }
 

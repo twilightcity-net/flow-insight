@@ -224,18 +224,18 @@ module.exports = class AppLoader {
   onFinished() {
     this.isFinished = true;
     if (this.introDone) {
-      this.setTimeoutToCloseWindowAndStartHeartbeat();
+      this.setTimeoutToCloseWindowAndStartHeartbeat(4.2);
     }
   }
 
   onIntroDone = () => {
     this.introDone = true;
     if (this.isFinished) {
-      this.setTimeoutToCloseWindowAndStartHeartbeat();
+      this.setTimeoutToCloseWindowAndStartHeartbeat(1);
     }
   }
 
-  setTimeoutToCloseWindowAndStartHeartbeat() {
+  setTimeoutToCloseWindowAndStartHeartbeat(factor) {
     setTimeout(() => {
       global.App.WindowManager.closeWindow(
         this.loadingWindow,
@@ -244,7 +244,7 @@ module.exports = class AppLoader {
       this.unwireEvents();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
-    }, this.eventTimerMs);
+    }, this.eventTimerMs * factor);
   }
 
   /**
