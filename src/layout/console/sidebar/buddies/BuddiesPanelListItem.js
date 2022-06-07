@@ -72,10 +72,10 @@ export default class BuddiesPanelListItem extends Component {
    * @returns {*}
    */
   render() {
+    console.log(this.props.model.sparkId);
     return (
       <List.Item
       className={this.getClassName()}
-      key={this.props.model.id}
       onClick={this.handleClick}
     >
       {this.getIcon()}

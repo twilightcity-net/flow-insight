@@ -670,7 +670,6 @@ module.exports = class FervieController extends (
     if (store.error) {
       arg.error = store.error;
     } else {
-      //details will be pushed to team member DB, so we dont need to save separately
       arg.data = store.data;
     }
 

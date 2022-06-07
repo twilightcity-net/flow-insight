@@ -1,5 +1,4 @@
-const NotificationController = require("../controllers/NotificationController"),
-  log = require("electron-log");
+const NotificationController = require("../controllers/NotificationController");
 
 /**
  * managing class for the notification client
@@ -14,7 +13,25 @@ module.exports = class NotificationManager {
     this.myController.configureEvents();
   }
 
+  /**
+   * Initializes any persistent notifications into the DB
+   * @param callback
+   */
   init(callback) {
-    //nothing to do for preloading
+    NotificationController.instance.handleLoadNotificationsEvent(
+      {},
+      { args: {} },
+      () => this.handleInitCallback(callback)
+    );
+  }
+
+  /**
+   * handles our callback in response from our controller event processing
+   * @param callback
+   */
+  handleInitCallback(callback) {
+    if (callback) {
+      callback();
+    }
   }
 };

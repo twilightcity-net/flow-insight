@@ -245,7 +245,7 @@ export default class BuddiesPanel extends Component {
             me.id !== member.id &&
             (showOffline || UtilRenderer.isMemberOnline(member)) && (
               <BuddiesPanelListItem
-                key={member.id}
+                key={member.sparkId}
                 meUsername={me.username}
                 model={member}
                 isMe={false}

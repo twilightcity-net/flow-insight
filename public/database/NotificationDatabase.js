@@ -159,7 +159,6 @@ module.exports = class NotificationDatabase extends LokiJS {
    * @param toMemberId
    */
   addOutgoingPairRequest(toMemberId) {
-    console.log("XXX ADDING PAIR REQUEST for "+toMemberId);
     let collection = this.getCollection(
       NotificationDatabase.Collections.PAIR_REQUEST
     );
@@ -193,8 +192,6 @@ module.exports = class NotificationDatabase extends LokiJS {
     );
 
     let result = collection.findOne({ id: toMemberId });
-
-    console.log("XXX FOUND REQUEST = "+result);
 
     return !!result;
   }

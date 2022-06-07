@@ -24,7 +24,7 @@ class VolumeManager {
   constructor() {
     VolumeManager.volumes = new Map();
     VolumeManager.initializedVolumes = 0;
-    VolumeManager.maxVolumes = 8;
+    VolumeManager.maxVolumes = 9;
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -64,6 +64,7 @@ class VolumeManager {
     VolumeManager.loadDefaultCircuitDatabase();
     VolumeManager.loadDefaultTeamDatabase();
     VolumeManager.loadDefaultBuddyDatabase();
+    VolumeManager.loadDefaultNotificationsDatabase();
     VolumeManager.loadDefaultMemberDatabase();
     VolumeManager.loadDefaultDictionaryDatabase();
   }
@@ -136,6 +137,16 @@ class VolumeManager {
    */
   static loadDefaultBuddyDatabase() {
     global.App.FervieManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
+  }
+
+  /**
+   * loads our persistent notifications DB that
+   * exists in our memory
+   */
+  static loadDefaultNotificationsDatabase() {
+    global.App.NotificationManager.init(() => {
       VolumeManager.handleFinishLoadingVolumes();
     });
   }

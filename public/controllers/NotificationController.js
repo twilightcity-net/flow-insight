@@ -24,7 +24,6 @@ module.exports = class NotificationController extends (
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{GET_NOTIFICATION_OF_TYPE_FOR_USER:string, MARK_ALL_NOTIFICATION_AS_READ:string, MARK_NOTIFICATION_AS_READ:string, DELETE_NOTIFICATION: string, GET_NOTIFICATION_COUNT: string, GET_NOTIFICATIONS: string}}
    * @constructor
    */
   static get Events() {
@@ -38,6 +37,7 @@ module.exports = class NotificationController extends (
         "mark-all-notification-as-read",
       GET_NOTIFICATION_OF_TYPE_FOR_USER:
         "get-notification-of-type-for-user",
+      LOAD_NOTIFICATIONS: "load-notifications"
     };
   }
 
@@ -85,6 +85,10 @@ module.exports = class NotificationController extends (
         case NotificationController.Events
           .GET_NOTIFICATIONS:
           this.handleGetNotificationsEvent(event, arg);
+          break;
+        case NotificationController.Events
+          .LOAD_NOTIFICATIONS:
+          this.handleLoadNotificationsEvent(event, arg);
           break;
         case NotificationController.Events
           .GET_NOTIFICATION_COUNT:
@@ -148,6 +152,81 @@ module.exports = class NotificationController extends (
   }
 
   /**
+   * Loads all the persistent notifications from the server into the local DB
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadNotificationsEvent(event, arg, callback) {
+    let urn =
+        NotificationController.Paths.NOTIFICATION;
+
+    this.doClientRequest(
+      NotificationController.Contexts.NOTIFICATION_CLIENT,
+      {},
+      NotificationController.Names.GET_NOTIFICATIONS,
+      NotificationController.Types.GET,
+      urn,
+      (store) =>
+        this.loadNotificationsToDB(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+
+  }
+
+
+
+  /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  loadNotificationsToDB(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+
+    for (let notification of arg.data) {
+      database.addNotification(
+        {
+          id: notification.id,
+          type: notification.notificationType,
+          timestamp: notification.createdDate,
+          fromMemberId: notification.fromMemberId,
+          fromUsername: notification.fromUsername,
+          read: notification.isRead,
+          canceled: false,
+          data: notification,
+        }
+      )
+    }
+
+    let view = database.getViewForNotifications();
+    arg.data = view.data();
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+
+  }
+
+
+  /**
    * Deletes a specific notification from the local store
    * @param event
    * @param arg
@@ -184,6 +263,8 @@ module.exports = class NotificationController extends (
 
     database.markRead(notificationId);
 
+
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -202,6 +283,43 @@ module.exports = class NotificationController extends (
     arg,
     callback
   ) {
+    let urn =
+      NotificationController.Paths.NOTIFICATION +
+      NotificationController.Paths.MARK +
+      NotificationController.Paths.READ;
+
+    this.doClientRequest(
+      NotificationController.Contexts.NOTIFICATION_CLIENT,
+      {},
+      NotificationController.Names.MARK_NOTIFICATIONS_AS_READ,
+      NotificationController.Types.POST,
+      urn,
+      (store) =>
+        this.markNotificationsAsReadInDB(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+
+  }
+
+
+  /**
+   * callback which updates the DB read property
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  markNotificationsAsReadInDB(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.NOTIFICATION
     );
@@ -213,6 +331,7 @@ module.exports = class NotificationController extends (
       arg,
       callback
     );
+
   }
 
   /**

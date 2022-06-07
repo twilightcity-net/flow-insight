@@ -23,6 +23,21 @@ export default class BuddyRequestListItem extends Component {
     return displayName;
   }
 
+  getComboDisplayName() {
+    const fromFervie = this.props.model.data.fromFervieName;
+    const fromUsername = this.props.model.data.fromUsername;
+
+    let displayName;
+    if (fromFervie) {
+      displayName = fromFervie + " (@"+fromUsername+")";
+    } else {
+      displayName = "@" + fromUsername;
+    }
+
+    return displayName;
+  }
+
+
   /**
    * renders our popup content for our GUI to display to the user
    * @param trigger
@@ -30,7 +45,7 @@ export default class BuddyRequestListItem extends Component {
    */
   getPopupContent(trigger) {
 
-    const displayName = this.getDisplayName();
+    const displayName = this.getComboDisplayName();
 
     let message =
       displayName + " would like to be your buddy.";
@@ -133,7 +148,6 @@ export default class BuddyRequestListItem extends Component {
         className={
           "notificationItem" + unreadClass + canceledClass
         }
-        key={this.props.id}
       >
         <List.Content
           floated="right"

@@ -217,13 +217,15 @@ export default class NotificationsPanel extends Component {
                     model={notification}
                     refresh={this.refreshNotifications}
                   />);
-                } else if (notification.type === "BUDDY_REQUEST") {
+                } else if (notification.type === "BUDDY_CONFIRMATION_REQUEST") {
                   return (<BuddyRequestListItem
                     key={i}
                     id={i}
                     model={notification}
                     refresh={this.refreshNotifications}
                   />);
+                } else {
+                  console.error("Unknown notification type! "+notification.type);
                 }
 
                 return "";

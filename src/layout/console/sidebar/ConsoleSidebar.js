@@ -593,7 +593,7 @@ export default class ConsoleSidebar extends Component {
             inverted
             corner="bottom right"
             name="circle"
-            color="red"
+            color="green"
           />
         </Icon.Group>
       );

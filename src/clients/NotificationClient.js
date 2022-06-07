@@ -27,7 +27,6 @@ export class NotificationClient extends BaseClient {
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{GET_NOTIFICATION_OF_TYPE_FOR_USER:string, MARK_ALL_NOTIFICATION_AS_READ:string, MARK_NOTIFICATION_AS_READ:string, DELETE_NOTIFICATION: string, GET_NOTIFICATION_COUNT: string, GET_NOTIFICATIONS: string}}
    * @constructor
    */
   static get Events() {
@@ -41,6 +40,7 @@ export class NotificationClient extends BaseClient {
         "mark-all-notification-as-read",
       GET_NOTIFICATION_OF_TYPE_FOR_USER:
         "get-notification-of-type-for-user",
+      LOAD_NOTIFICATIONS: "load-notifications"
     };
   }
 
@@ -67,6 +67,24 @@ export class NotificationClient extends BaseClient {
     let event =
       NotificationClient.instance.createClientEvent(
         NotificationClient.Events.GET_NOTIFICATIONS,
+        {},
+        scope,
+        callback
+      );
+    NotificationClient.instance.notifyNotification(event);
+    return event;
+  }
+
+  /**
+   * Loads all persistent notifications into the local DB
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadNotifications(scope, callback) {
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events.LOAD_NOTIFICATIONS,
         {},
         scope,
         callback

@@ -45,6 +45,7 @@ module.exports = class BaseController {
       SOLVE: "/solve",
       CANCEL: "/cancel",
       MARK: "/mark",
+      READ: "/read",
       CLOSE: "/close",
       HOME: "/home",
       MEMBER: "/member",
@@ -85,7 +86,8 @@ module.exports = class BaseController {
       BUDDY: "/buddy",
       INVITE: "/invite",
       WITH: "/with",
-      EMAIL: "/email"
+      EMAIL: "/email",
+      NOTIFICATION: "/notification"
     };
   }
 
@@ -230,6 +232,8 @@ module.exports = class BaseController {
       UPDATE_FLAME_RATING: "update-flame-rating",
       GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
+      GET_NOTIFICATIONS: "getNotifications",
+      MARK_NOTIFICATIONS_AS_READ: "markNotificationsAsRead",
       GET_BUDDY_LIST: "getBuddyList",
       REQUEST_BUDDY_LINK: "requestBuddyLink",
       CONFIRM_BUDDY_LINK: "confirmBuddyLink",
@@ -373,6 +377,7 @@ module.exports = class BaseController {
       CIRCUIT_MEMBER_CLIENT: "CircuitMemberClient",
       CHART_CLIENT: "ChartClient",
       TERMINAL_CLIENT: "TerminalClient",
+      NOTIFICATION_CLIENT: "NotificationClient"
     };
   }
 
