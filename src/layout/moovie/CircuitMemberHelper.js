@@ -204,10 +204,10 @@ export default class CircuitMemberHelper {
     return null;
   }
 
-  createMemberNameMap(memberList) {
+  createMemberByIdMap(memberList) {
     const map = new Map();
     for (let member of memberList) {
-      map.set(member.memberId, member.username);
+      map.set(member.memberId, member);
     }
     return map;
   }

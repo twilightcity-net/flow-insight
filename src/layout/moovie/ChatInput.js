@@ -108,14 +108,11 @@ export default class ChatInput extends Component {
   handleBlur = () => {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      console.log("handleBlur!");
       const endTime = window.performance.now();
       let elapsed = null;
       if (this.lastOpened) {
         elapsed = endTime-this.lastOpened;
       }
-
-      console.log("elapsed = "+elapsed);
 
       if (elapsed && elapsed > 200) {
         this.setState({

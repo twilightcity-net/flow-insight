@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Popup} from "semantic-ui-react";
+import {Button, Popup} from "semantic-ui-react";
 
 export default class FervieProfile extends Component {
   /**
@@ -9,24 +9,53 @@ export default class FervieProfile extends Component {
   constructor(props) {
     super(props);
     this.name = "[FervieProfile]";
+    this.state = {
+      hasBuddyBeenRequested: false
+    }
   }
 
   render() {
     return (<div>{this.getFervieWithPopup()}</div>);
   }
 
+  onClickAddBuddy = () => {
+    this.setState({
+      hasBuddyBeenRequested: true
+    });
+    this.props.onClickAddBuddy();
+  }
+
+  getBuddyContent() {
+    if (!this.props.hasBuddyActions) return "";
+
+    if (this.props.isBuddy) {
+      return "Buddy"
+    } else if (!this.state.hasBuddyBeenRequested) {
+      return <Button size="tiny" color="violet" onClick={this.onClickAddBuddy}>Add Buddy</Button>
+    } else {
+      return "Buddy request pending..."
+    }
+  }
+
   getFervieWithPopup() {
     let popupContent = null;
 
     if (this.props.circuitMember) {
-      popupContent = (<Popup.Content>{this.props.circuitMember.username}</Popup.Content>);
+      popupContent = (<Popup.Content>
+        <div className="name">{this.props.circuitMember.fervieName}</div>
+        <div className="username">@{this.props.circuitMember.username}</div>
+
+        <div className="buddy">{this.getBuddyContent()}</div>
+      </Popup.Content>);
     }
 
     if (popupContent && this.props.showPopup) {
       return (<Popup
+        className="ferviePopup"
         trigger={this.getFervieProfileSvg()}
         content={popupContent}
         position="bottom left"
+        closeOnPortalMouseLeave={true}
         inverted
         hideOnScroll
       />);

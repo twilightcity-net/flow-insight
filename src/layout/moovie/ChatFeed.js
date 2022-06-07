@@ -36,7 +36,6 @@ export default class ChatFeed extends Component {
    * Scroll to the bottom of the feed whenever there's an update
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(this.props.messages);
     if (this.hasMessageChange(prevProps.messages, this.props.messages)) {
       this.scrollToFeedBottom();
     }
@@ -80,6 +79,10 @@ export default class ChatFeed extends Component {
     this.props.onRemoveReaction(messageId, emoji, isLocalOnly);
   }
 
+  onAddBuddy = (circuitMember) => {
+    this.props.onAddBuddy(circuitMember);
+  }
+
   getNoMessage() {
     return (<div className="noMessages">No messages yet.</div>);
   }
@@ -87,7 +90,7 @@ export default class ChatFeed extends Component {
   getFeedEvents() {
     return this.props.messages.map((message, i) => {
       const member = CircuitMemberHelper.getMemberForUsername(this.props.circuitMembers, message.username);
-
+      const isBuddy = member && this.props.buddiesById.get(member.memberId);
       return (<ChatFeedEvent
           key={i}
           circuitMember={member}
@@ -95,12 +98,14 @@ export default class ChatFeed extends Component {
           name={message.username}
           time={message.time}
           isMe={message.isMe}
+          isBuddy={isBuddy}
           isPuppet={message.isPuppet}
           isLocalOnly={message.isLocalOnly}
           texts={message.texts}
-          memberNameMap={this.props.memberNameMap}
+          memberByIdMap={this.props.memberByIdMap}
           onAddReaction={this.onAddReaction}
           onRemoveReaction={this.onRemoveReaction}
+          onAddBuddy={this.onAddBuddy}
         />
         );
       });

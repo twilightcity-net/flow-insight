@@ -11,6 +11,7 @@ import CircuitMemberHelper from "./moovie/CircuitMemberHelper";
 import MontyButton from "./moovie/MontyButton";
 import MoovieBanner from "./moovie/MoovieBanner";
 import MontyPuppet from "./moovie/MontyPuppet";
+import {FervieClient} from "../clients/FervieClient";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -20,7 +21,6 @@ export default class MoovieChatLayout extends Component {
   static roomMemberPropStr = "roomMember";
 
   static chatReactionTypeAdd = "ADD";
-
   static chatReactionTypeRemove = "REMOVE";
 
   /**
@@ -32,7 +32,10 @@ export default class MoovieChatLayout extends Component {
     this.name = "[MoovieChatLayout]";
     this.state = {
       messages : [],
-      circuitMembers : []
+      circuitMembers : [],
+      buddiesById: [],
+      memberByIdMap: new Map(),
+      moovie: null
     };
 
     this.hasMontyDoneIntro = false;
@@ -56,10 +59,16 @@ export default class MoovieChatLayout extends Component {
 
     if (this.props.moovieId) {
       this.memberHelper = new CircuitMemberHelper(this.props.moovieId);
-      this.loadMoovieAndConnectRoom(this.props.moovieId);
+      this.refreshMoovieData(this.props.moovieId);
     }
   };
 
+  /**
+   * When one of the properties or state variable has changed
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (!prevProps.isConsoleOpen && this.props.isConsoleOpen && !this.hasMontyDoneIntro) {
       this.hasMontyDoneIntro = true;
@@ -82,6 +91,11 @@ export default class MoovieChatLayout extends Component {
     }
   };
 
+  /**
+   * Handle chat room messages
+   * @param event
+   * @param arg
+   */
   onTalkRoomMessage = (event, arg) => {
     if (arg.uri === this.state.moovie.talkRoomId) {
       if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
@@ -131,6 +145,12 @@ export default class MoovieChatLayout extends Component {
     });
   }
 
+  /**
+   * Add an emoji reaction to a group of reactions
+   * @param reactions
+   * @param newReaction
+   * @param isLocalOnly
+   */
   addReactionToGroup(reactions, newReaction, isLocalOnly) {
 
     const memberId = newReaction.memberIds[0];
@@ -231,7 +251,7 @@ export default class MoovieChatLayout extends Component {
       const allMembers = this.memberHelper.getAllMembers();
       this.setState({
         circuitMembers : allMembers,
-        memberNameMap: this.memberHelper.createMemberNameMap(allMembers)}
+        memberByIdMap: this.memberHelper.createMemberByIdMap(allMembers)}
       );
     }
   }
@@ -311,36 +331,84 @@ export default class MoovieChatLayout extends Component {
    * Load the moovie circuit, circuit members, and connect to the chat room
    * @param moovieId
    */
-  loadMoovieAndConnectRoom(moovieId) {
+  refreshMoovieData(moovieId) {
+    this.loadMoovieCircuitAndConnectToRoom(moovieId);
+    this.loadMoovieCircuitMembers();
+    this.loadBuddies();
+  }
+
+  /**
+   * Load the moovie circuit and connect to the room, then update the moovie
+   * state
+   * @param moovieId
+   */
+  loadMoovieCircuitAndConnectToRoom(moovieId) {
     MoovieClient.getMoovieCircuit(moovieId, this, (arg) => {
       if (!arg.error) {
         const moovie = arg.data;
-        console.log("MOOOOVIE!!");
-        console.log(moovie);
+        this.connectToRoom(moovie);
         this.setState({
           moovie: moovie
         });
-
-        TalkToClient.joinExistingRoom(moovie.talkRoomId, this, (arg) => {
-          if (!arg.error) {
-            console.log("room joined");
-          } else {
-            console.error("Unable to join room: "+arg.error);
-          }
-        });
       } else {
-        console.error("Unable to load moovie circuit: "+arg.error);
+        console.error("Unable to load moovie circuit: " + arg.error);
       }
     });
+  }
+
+  /**
+   * Load up our buddies list so we know when someone is a friend or not
+   * for display in the chat
+   */
+  loadBuddies() {
+    FervieClient.getBuddyList(this, (arg) => {
+      if (!arg.error) {
+        this.setState({
+          buddiesById: this.createBuddyByIdMap(arg.data)
+        });
+      }
+    });
+  }
+
+  createBuddyByIdMap(buddies) {
+    const map = new Map();
+    for (let buddy of buddies) {
+      map.set(buddy.sparkId, buddy);
+    }
+    return map;
+  }
+
+  /**
+   * Load the member profiles for those in the circuit
+   * so we can display the fervie profile pictures and names of peeps
+   */
+  loadMoovieCircuitMembers() {
     this.memberHelper.loadMembers((members) => {
-      console.log("members loaded");
       this.setState({
         circuitMembers: members,
-        memberNameMap: this.memberHelper.createMemberNameMap(members)
+        memberByIdMap: this.memberHelper.createMemberByIdMap(members)
       })
     });
   }
 
+  /**
+   * Connect to the talk room so we get the chat message events
+   * @param moovie
+   */
+  connectToRoom(moovie) {
+    TalkToClient.joinExistingRoom(moovie.talkRoomId, this, (arg) => {
+      if (!arg.error) {
+        console.log("room joined");
+      } else {
+        console.error("Unable to join room: " + arg.error);
+      }
+    });
+  }
+
+  /**
+   * Make Monty do his little talking intro spiel
+   * @param moovie
+   */
   addMontyIntroMessage(moovie) {
     let montyIntroMsgs = this.puppet.getMontyIntroMessage(moovie);
 
@@ -435,6 +503,17 @@ export default class MoovieChatLayout extends Component {
     this.addChatMessage(text, callback);
   }
 
+  onAddBuddy = (circuitMember) => {
+    console.log("onAddBuddy!");
+
+    FervieClient.requestBuddyLink(circuitMember.memberId, this, (arg) => {
+      if (arg.error) {
+        console.error("Unable to request buddy link: "+arg.error);
+      } else {
+        console.log("Buddy request sent");
+      }
+    });
+  }
 
   /**
    * When we add a reaction to a message in the chat
@@ -528,7 +607,14 @@ export default class MoovieChatLayout extends Component {
       <div id="component" className="moovieChat">
         <MoovieBanner moovie={this.state.moovie}/>
         <div id="chatFeedWindow" className="chatFeed" >
-          {<ChatFeed circuitMembers={this.state.circuitMembers} memberNameMap={this.state.memberNameMap} messages={this.state.messages} onAddReaction={this.onAddReaction} onRemoveReaction={this.onRemoveReaction}/>}
+          {<ChatFeed circuitMembers={this.state.circuitMembers}
+                     buddiesById={this.state.buddiesById}
+                     memberByIdMap={this.state.memberByIdMap}
+                     messages={this.state.messages}
+                     onAddReaction={this.onAddReaction}
+                     onRemoveReaction={this.onRemoveReaction}
+                     onAddBuddy={this.onAddBuddy}
+          />}
         </div>
         <div>
           <MontyButton moovie={this.state.moovie}

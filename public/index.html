@@ -1458,6 +1458,10 @@
     line-height: 1.310rem;
     padding-left: 0;
     color: rgba(211, 211, 211, 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 230px;
   }
 
   #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .item.selected {
@@ -3567,6 +3571,33 @@
   .moovie .ui.popup {
     border: 0;
   }
+
+  .ferviePopup {
+     width: 200px;
+   }
+
+  .ferviePopup .name {
+    max-width: 230px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: white;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ferviePopup .username {
+    font-size: 0.9rem;
+    color: #cccccc;
+  }
+
+  .ferviePopup .buddy {
+    float: right;
+    font-size: 0.8rem;
+    color: #9C6EFA;
+  }
+
 
   #emojiPicker {
     max-width: 280px;

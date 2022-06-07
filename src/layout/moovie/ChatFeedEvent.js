@@ -215,7 +215,9 @@ export default class ChatFeedEvent extends Component {
   }
 
 
-
+  onClickAddBuddy = () => {
+    this.props.onAddBuddy(this.props.circuitMember);
+  }
 
 
   /**
@@ -232,11 +234,13 @@ export default class ChatFeedEvent extends Component {
 
     } else {
       if (!this.props.isMe) {
-        this.getFriendPopup()
         profileImage = (<FervieProfile
-          showPopup={false}
-          circuitMember={this.props.circuitMember}
-        />
+              showPopup={true}
+              isBuddy={this.props.isBuddy}
+              hasBuddyActions={true}
+              circuitMember={this.props.circuitMember}
+              onClickAddBuddy={this.onClickAddBuddy}
+            />
         );
         bubbleClass = "bubbleLeft";
       }
@@ -266,7 +270,7 @@ export default class ChatFeedEvent extends Component {
     for (let i = 0; i < memberIdsList.length; i++) {
       memberId = memberIdsList[i];
       if (i <= 5 && memberId !== me.id) {
-        const username = this.props.memberNameMap.get(memberId);
+        const username = this.props.memberByIdMap.get(memberId).username;
         if (username) {
           usernames.push(username);
         } else {

@@ -60,7 +60,6 @@ export default class MontyButton extends Component {
   }
 
   blurActionMenu() {
-    console.log("blurActionMenu");
     this.isActionMenuOpen = false;
     document.getElementById(MontyButton.montyActionsPopupId).blur();
   }
@@ -83,7 +82,6 @@ export default class MontyButton extends Component {
   }
 
   handleBlur = () => {
-    console.log("handleBlurX");
 
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
