@@ -8,8 +8,9 @@ import FervieSitSprite from "./FervieSitSprite";
  */
 
 export default class FervieSprite {
-  constructor(animationLoader, x, y, size, direction, scaleX, scaleY) {
+  constructor(animationLoader, globalHud, x, y, size, direction, scaleX, scaleY) {
     this.animationLoader = animationLoader;
+    this.globalHud = globalHud;
     this.x = x - size / 2 - 10;
     this.y = y - 20;
     this.size = size * 2;
@@ -231,6 +232,10 @@ export default class FervieSprite {
     }
 
     if (!this.isVisible) return;
+
+    if (this.globalHud.areKeysDisabled) {
+      return;
+    }
 
     if (p5.keyIsDown(p5.LEFT_ARROW)) {
       this.changeDirection(

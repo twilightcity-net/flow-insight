@@ -63,6 +63,7 @@ export default class GameSketch extends Component {
 
         this.fervieSprite = new FervieSprite(
           this.animationLoader,
+          this.globalHud,
           this.width / 2,
           this.height / 2,
           180,
@@ -116,6 +117,7 @@ export default class GameSketch extends Component {
 
   componentWillUnmount() {
     this.sketchInstance.remove();
+    this.globalHud.unload();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {

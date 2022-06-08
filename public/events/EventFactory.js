@@ -25,7 +25,8 @@ class EventFactory {
   }
 
   /**
-   * Static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
+   * Static enum to store event types. These are basically the type of possible events
+   * that can be dispatched by the Manager.
    * @constructor
    */
   static get Types() {
@@ -36,8 +37,7 @@ class EventFactory {
       APP_PULSE: prefix + "app-pulse",
       APP_INTRO_DONE: prefix + "app-intro-done",
       DATABASE_CLIENT: prefix + "database-client",
-      DATABASE_VOLUMES_READY:
-        prefix + "database-farm-ready",
+      DATABASE_VOLUMES_READY: prefix + "database-farm-ready",
       TEAM_CLIENT: prefix + "team-client",
       TEAM_CIRCUIT_CLIENT: prefix + "team-circuit-client",
       MEMBER_CLIENT: prefix + "member-client",
@@ -55,26 +55,17 @@ class EventFactory {
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
       WINDOW_LOADING_LOGIN: prefix + "window-loading-login",
-      WINDOW_LOADING_LOGIN_FAILED:
-        prefix + "window-loading-login-failed",
+      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
-      WINDOW_CONSOLE_SHOW_HIDE:
-        prefix + "window-console-show-hide",
-      WINDOW_CONSOLE_BROWSER_REQUEST:
-        prefix + "window-console-browser-request",
-      WINDOW_CONSOLE_BROWSER_LOAD:
-        prefix + "window-console-browser-load",
-      WINDOW_ACTIVATOR_CLOSE:
-        prefix + "window-activator-close",
-      WINDOW_CHAT_CONSOLE_SHOW_HIDE:
-        prefix + "window-chat-console-show-hide",
-      WINDOW_CHAT_CONSOLE_SHOWN:
-        prefix + "window-chat-console-shown",
-      WINDOW_CHAT_CONSOLE_HIDDEN:
-        prefix + "window-chat-console-hidden",
-      WINDOW_CHAT_CONSOLE_BLUR:
-        prefix + "window-chat-console-blur",
+      WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
+      WINDOW_CONSOLE_BROWSER_REQUEST: prefix + "window-console-browser-request",
+      WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",
+      WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
+      WINDOW_CHAT_CONSOLE_SHOW_HIDE: prefix + "window-chat-console-show-hide",
+      WINDOW_CHAT_CONSOLE_SHOWN: prefix + "window-chat-console-shown",
+      WINDOW_CHAT_CONSOLE_HIDDEN: prefix + "window-chat-console-hidden",
+      WINDOW_CHAT_CONSOLE_BLUR: prefix + "window-chat-console-blur",
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
@@ -90,33 +81,26 @@ class EventFactory {
       TALK_LEAVE_ROOM: prefix + "talk-leave-room",
       TALK_TO_CLIENT: prefix + "talk-to-client",
       CIRCUIT_CLIENT: prefix + "circuit-client",
-      APPACTIVATOR_SAVE_ACTIVATION:
-        prefix + "appactivator-save-activation",
-      APPACTIVATOR_ACTIVATION_SAVED:
-        prefix + "appactivator-activation-saved",
+      APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
+      APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       APPLOADER_LOAD: prefix + "apploader-load",
       SHORTCUTS_CREATED: prefix + "shortcuts-created",
       SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
-      SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
-        prefix + "shortcuts-window-console-sidebar-show",
-      UPDATE_SHORTCUTS:
-        prefix + "update-shortcuts",
+      SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: prefix + "shortcuts-window-console-sidebar-show",
+      UPDATE_SHORTCUTS: prefix + "update-shortcuts",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",
       ME_DATA_REFRESH: prefix + "me-data-refresh",
       TEAM_DATA_REFRESH: prefix + "team-data-refresh",
       CIRCUIT_DATA_REFRESH: prefix + "circuit-data-refresh",
       JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
-      DICTIONARY_DATA_REFRESH:
-        prefix + "dictionary-data-refresh",
-      NOTIFICATION_DATA_REFRESH:
-        prefix + "notification-data-refresh",
-      PREPARE_FOR_SCREENSHOT:
-        prefix + "prepare-for-screenshot",
+      DICTIONARY_DATA_REFRESH: prefix + "dictionary-data-refresh",
+      NOTIFICATION_DATA_REFRESH: prefix + "notification-data-refresh",
+      BUDDIES_DATA_REFRESH: prefix + "buddies-data-refresh",
+      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
       SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
-      SCREENSHOT_READY_FOR_DISPLAY:
-        prefix + "screenshot-ready-for-display",
+      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display",
     };
   }
 }

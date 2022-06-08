@@ -134,6 +134,12 @@ module.exports = class TalkController extends (
         EventFactory.Types.NOTIFICATION_DATA_REFRESH,
         this
       );
+
+    this.buddiesDataRefreshListener =
+      EventFactory.createEvent(
+        EventFactory.Types.BUDDIES_DATA_REFRESH,
+        this
+      );
   }
 
   /**
@@ -447,6 +453,10 @@ module.exports = class TalkController extends (
   static PAIRING_CONFIRMED = "PAIRING_CONFIRMED";
   static BUDDY_REQUEST = "BUDDY_CONFIRMATION_REQUEST";
 
+  static BUDDY_ADDED = "BUDDY_ADDED";
+  static BUDDY_REMOVED = "BUDDY_REMOVED";
+  static BUDDY_STATUS_UPDATE = "BUDDY_STATUS_UPDATE";
+
 
   /**
    * our event callback handler for direct talk messages. This function sorts incoming talk
@@ -494,7 +504,18 @@ module.exports = class TalkController extends (
         DatabaseFactory.Names.BUDDY
       );
 
-    buddyDatabase.addOrUpdateBuddy(message.data.buddy);
+    const buddyEventType = message.data.buddyEventType;
+    const buddyEvent = message.data;
+    if (buddyEventType === TalkController.BUDDY_ADDED) {
+      buddyDatabase.addOrUpdateBuddy(buddyEvent.buddy);
+      buddyDatabase.removePendingBuddy(buddyEvent);
+    } else if (buddyEventType === TalkController.BUDDY_STATUS_UPDATE) {
+      buddyDatabase.addOrUpdateBuddy(buddyEvent.buddy);
+    } else if (buddyEventType === TalkController.BUDDY_REMOVED ) {
+      buddyDatabase.removeBuddy(buddyEvent.buddy);
+    }
+
+    this.buddiesDataRefreshListener.dispatch({});
   }
 
   handleBuddyConfirmationRequest(message) {

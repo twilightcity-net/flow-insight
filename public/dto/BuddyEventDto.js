@@ -7,6 +7,7 @@ module.exports = class BuddyEventDto {
       if (typeof json === "string") json = JSON.parse(json);
 
       this.buddyEventType = json.buddyEventType;
+      this.buddyRequestId = json.buddyRequestId;
       this.buddy = json.buddy;
 
     } catch (e) {

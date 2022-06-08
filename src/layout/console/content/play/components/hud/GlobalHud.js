@@ -6,6 +6,7 @@ import Cursor from "./Cursor";
 import GameState from "./GameState";
 import Store from "./Store";
 import Environment from "../environment/Environment";
+import {RendererEventFactory} from "../../../../../../events/RendererEventFactory";
 
 export default class GlobalHud {
 
@@ -23,6 +24,7 @@ export default class GlobalHud {
     this.gameState = new GameState();
 
     this.listeners = new Map();
+
   }
   preload(p5) {
     this.inventory = new Inventory(this.animationLoader, this.width, this.height, this, this.onActiveItemChanged);
@@ -32,6 +34,18 @@ export default class GlobalHud {
     this.inventory.preload(p5);
     this.store.preload(p5);
     this.cursor.preload(p5);
+
+
+    this.globalHudInputLockNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.GLOBAL_HUD_INPUT_LOCK,
+        this,
+        this.onKeylockEvent
+      );
+  }
+
+  unload() {
+    this.globalHudInputLockNotifier.clear();
   }
 
   draw(p5) {
@@ -68,6 +82,14 @@ export default class GlobalHud {
 
     if (this.isStoreOpen) {
       this.store.mousePressed(p5, fervie);
+    }
+  }
+
+  onKeylockEvent(event, arg) {
+    if (arg.lockInput) {
+      this.disableKeysWhileFormIsOpen();
+    } else {
+      this.enableKeys();
     }
   }
 

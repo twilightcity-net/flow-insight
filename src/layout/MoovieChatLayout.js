@@ -33,7 +33,7 @@ export default class MoovieChatLayout extends Component {
     this.state = {
       messages : [],
       circuitMembers : [],
-      buddiesById: [],
+      buddiesById: new Map(),
       memberByIdMap: new Map(),
       moovie: null
     };
@@ -45,6 +45,13 @@ export default class MoovieChatLayout extends Component {
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
         this,
         this.onTalkRoomMessage
+      );
+
+    this.directMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
+        this,
+        this.onTalkDirectMessage
       );
 
     this.puppet = new MontyPuppet();
@@ -110,6 +117,33 @@ export default class MoovieChatLayout extends Component {
       }
     }
   };
+
+  /**
+   * Handle direct messages like buddy status updates
+   * @param event
+   * @param arg
+   */
+  onTalkDirectMessage = (event, arg) => {
+    if (arg.messageType === BaseClient.MessageTypes.BUDDY_STATUS_EVENT) {
+      if (arg.data.buddyEventType === "BUDDY_ADDED") {
+        this.addBuddyToMap(arg.data);
+      }
+    }
+  };
+
+  /**
+   * Add a buddy to our buddies map that shows whether or not a chat member is a buddy
+   * @param buddyEvent
+   */
+  addBuddyToMap(buddyEvent) {
+    this.setState((prevState) => {
+      const buddy = buddyEvent.buddy;
+      prevState.buddiesById.set(buddy.sparkId, buddy);
+      return {
+        buddiesById: prevState.buddiesById
+      };
+    });
+  }
 
   /**
    * Handle moovie status update for our moovie

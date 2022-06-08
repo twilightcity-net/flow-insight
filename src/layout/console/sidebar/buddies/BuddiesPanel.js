@@ -54,6 +54,12 @@ export default class BuddiesPanel extends Component {
         this.onBuddiesDataRefresh
       );
 
+    this.globalHudInputLockNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.GLOBAL_HUD_INPUT_LOCK,
+        this
+      );
+
   }
 
   /**
@@ -333,6 +339,14 @@ export default class BuddiesPanel extends Component {
     });
   }
 
+  handleGlobalHudInputLock = () => {
+    this.globalHudInputLockNotifier.dispatch({lockInput: true});
+  }
+
+  handleGlubalHudInputUnlock = () => {
+    this.globalHudInputLockNotifier.dispatch({lockInput: false});
+  }
+
 
   getAddBuddyButton() {
     return (<Popup
@@ -359,6 +373,8 @@ export default class BuddiesPanel extends Component {
           value={this.state.currentEmailValue}
           onKeyPress={this.handleKeyPressForEmail}
           onChange={this.handleChangeForEmail}
+          onFocus={this.handleGlobalHudInputLock}
+          onBlur={this.handleGlubalHudInputUnlock}
         />
         </div>
         <div className="errorFeedback">&nbsp;{this.state.emailErrorFeedback}</div>

@@ -181,4 +181,30 @@ module.exports = class BuddyDatabase extends LokiJS {
     DatabaseUtil.findRemove(buddy, collection);
   }
 
+  /**
+   * Removes the buddy from the pending request list using the requestId
+   * when the buddy has been added.
+   * @param buddyEvent
+   */
+  removePendingBuddy(buddyEvent) {
+    let collection = this.getCollection(
+      BuddyDatabase.Collections.PENDING_REQUESTS
+    );
+
+    if (buddyEvent.buddyRequestId) {
+      let result = collection.findOne({ id: buddyEvent.buddyRequestId });
+      if (result) {
+        collection.remove(result);
+      }
+    } else {
+      const pendingRequests = this.getViewForPendingBuddies().data();
+      for (let request of pendingRequests) {
+        if (request.toMemberId === buddyEvent.buddy.sparkId) {
+          collection.remove(request);
+          break;
+        }
+      }
+    }
+  }
+
 };

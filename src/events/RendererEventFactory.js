@@ -133,6 +133,8 @@ export class RendererEventFactory {
         prefix + "screenshot-ready-for-display",
       SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
         prefix + "shortcuts-window-console-sidebar-show",
+      GLOBAL_HUD_INPUT_LOCK:
+        prefix + "global-hud-input-lock",
 
     };
   }
