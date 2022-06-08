@@ -4,11 +4,13 @@ import ChatFeedEvent from "./ChatFeedEvent";
 import CircuitMemberHelper from "./CircuitMemberHelper";
 
 /**
- * this component is the feed of messages for the always-on-top chat overlay panel
+ * this component displays the transparent popup window
+ * that only contains recent messages on a transparent background
+ * then fades away
  */
-export default class ChatFeed extends Component {
+export default class ChatPeekPopup extends Component {
 
-  static feedWindowId = "chatFeedWindow";
+  static feedWindowId = "chatPeekWindow";
 
   /**
    * Initialize the child components of the layout
@@ -16,7 +18,7 @@ export default class ChatFeed extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[ChatFeed]";
+    this.name = "[ChatPeekPopup]";
   }
 
 
@@ -24,7 +26,6 @@ export default class ChatFeed extends Component {
    * Called when the chat console is first loaded
    */
   componentDidMount = () => {
-    this.scrollToFeedBottom();
   };
 
   /**
@@ -68,30 +69,17 @@ export default class ChatFeed extends Component {
    * list or get a new talk message event in from the talk client
    */
   scrollToFeedBottom = () => {
-    let feedElement = document.getElementById(ChatFeed.feedWindowId);
-    feedElement.scrollTop = feedElement.scrollHeight;
+    let feedElement = document.getElementById(ChatPeekPopup.feedWindowId);
+    if (feedElement) {
+      feedElement.scrollTop = feedElement.scrollHeight;
+    }
   };
-
-  onAddReaction = (messageId, emoji, isLocalOnly) => {
-    this.props.onAddReaction(messageId, emoji, isLocalOnly);
-  }
-
-  onRemoveReaction = (messageId, emoji, isLocalOnly) => {
-    this.props.onRemoveReaction(messageId, emoji, isLocalOnly);
-  }
-
-  onAddBuddy = (circuitMember) => {
-    this.props.onAddBuddy(circuitMember);
-  }
-
-  getNoMessage() {
-    return (<div className="noMessages">No messages yet.</div>);
-  }
 
   getFeedEvents() {
     return this.props.messages.map((message, i) => {
       const member = CircuitMemberHelper.getMemberForUsername(this.props.circuitMembers, message.username);
       const isBuddy = member && this.props.buddiesById.get(member.memberId);
+      const isLast = i === this.props.messages.length - 1;
       return (<ChatFeedEvent
           key={i}
           circuitMember={member}
@@ -102,7 +90,8 @@ export default class ChatFeed extends Component {
           isBuddy={isBuddy}
           isPuppet={message.isPuppet}
           isLocalOnly={message.isLocalOnly}
-          hasPopup={true}
+          hasPopup={false}
+          isLast={isLast}
           texts={message.texts}
           memberByIdMap={this.props.memberByIdMap}
           onAddReaction={this.onAddReaction}
@@ -114,11 +103,12 @@ export default class ChatFeed extends Component {
   }
 
   getBlankFeedEvents() {
-    return <div><br/><br/><br/><br/><br/>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
+    return <div><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
   }
 
+  onClickWindow =() => {
+    this.props.onActivateFullChatWindow();
+  }
   /**
    * renders the root console layout of the chat console view
    * @returns {*} - the JSX to render
@@ -126,7 +116,7 @@ export default class ChatFeed extends Component {
   render() {
     const height = "95%";
     return (
-      <Segment inverted
+      <Segment inverted onClick={this.onClickWindow}
         style={{
           height: height,
           padding: "0px",

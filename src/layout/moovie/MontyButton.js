@@ -160,6 +160,11 @@ export default class MontyButton extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
+    let extraMontyClass = "";
+    if (this.props.moovie && this.props.moovie.circuitState === MontyButton.MoovieState.STARTED) {
+      extraMontyClass = " moovieStarted";
+    }
+
     return (
       <div>
         <Dropdown id={MontyButton.montyActionsPopupId} text=""
@@ -175,7 +180,7 @@ export default class MontyButton extends Component {
         </Dropdown>
            <Image id="montyIcon"
                  src={"./assets/animation/monty/monty_icon.png"}
-                 className="monty"
+                 className={"monty" + extraMontyClass}
                  onClick={this.onClickMonty}/>
 
       </div>

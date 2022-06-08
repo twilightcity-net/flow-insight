@@ -12,7 +12,37 @@ export default class ChatFeedEvent extends Component {
   constructor(props) {
     super(props);
     this.name = "[ChatFeedEvent]";
+    this.state = {
+      isLast: false
+    }
+  }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.handleLastTextAnimationFade(prevProps, this.props);
+  }
+
+
+  /**
+   * Handles making the chat bubble fade after it's been sitting on the screen for
+   * a few seconds.  This is a bit of a hack, to make the last class not appear initially
+   * then get added after a short timeout so that we invoke the transition animation
+   * Any new text message has to take the last class off and on again to re-invoke the transition
+   * @param prevProps
+   */
+  handleLastTextAnimationFade(prevProps) {
+    const el = document.getElementById("isLast");
+
+    if (prevProps.texts.length !== this.props.texts.length) {
+      if (el && el.classList.contains("fade") ){
+        el.classList.remove("fade");
+      }
+    }
+
+    setTimeout( () => {
+      if (el && !el.classList.contains("fade")) {
+        el.classList.add("fade");
+      }
+    }, 333);
   }
 
   hoverOverItem() {
@@ -22,7 +52,7 @@ export default class ChatFeedEvent extends Component {
   getFeedTextBubbles(bubbleClass) {
 
     return (
-      <div>
+      <div className="messageBlock">
       {this.props.texts.map((text, i) => {
           const textMsg = text.message;
           return (
@@ -220,48 +250,6 @@ export default class ChatFeedEvent extends Component {
   }
 
 
-  /**
-   * renders the active circuit feed event into the feed panel loop
-   * @returns {*}
-   */
-  render() {
-    let profileImage = "";
-    let bubbleClass = "bubbleRight";
-
-    if (this.props.isPuppet) {
-      bubbleClass = "bubblePuppet";
-      profileImage = (<MontyProfile showPopup={true} />);
-
-    } else {
-      if (!this.props.isMe) {
-        profileImage = (<FervieProfile
-              showPopup={true}
-              isBuddy={this.props.isBuddy}
-              hasBuddyActions={true}
-              circuitMember={this.props.circuitMember}
-              onClickAddBuddy={this.onClickAddBuddy}
-            />
-        );
-        bubbleClass = "bubbleLeft";
-      }
-    }
-
-    return (
-      <Feed.Event>
-        <Feed.Label className="feedLabel">
-          {profileImage}
-        </Feed.Label>
-        <Feed.Content>
-          {this.getFeedTextBubbles(bubbleClass)}
-          <Feed.Meta className={bubbleClass}>
-            {this.props.time}
-          </Feed.Meta>
-        </Feed.Content>
-      </Feed.Event>
-    );
-  }
-
-
   createTitleFromMembers(includesMe, memberIdsList) {
     const me = MemberClient.me;
     const usernames = [];
@@ -294,4 +282,51 @@ export default class ChatFeedEvent extends Component {
 
     return title;
   }
+
+  /**
+   * renders the active circuit feed event into the feed panel loop
+   * @returns {*}
+   */
+  render() {
+    let profileImage = "";
+    let bubbleClass = "bubbleRight";
+    let id = "event";
+    if (this.props.isLast) {
+      id = "isLast";
+    }
+
+    if (this.props.isPuppet) {
+      bubbleClass = "bubblePuppet";
+      profileImage = (<MontyProfile showPopup={this.props.hasPopup} />);
+
+    } else {
+      if (!this.props.isMe) {
+        profileImage = (<FervieProfile
+              showPopup={this.props.hasPopup}
+              isBuddy={this.props.isBuddy}
+              hasBuddyActions={true}
+              circuitMember={this.props.circuitMember}
+              onClickAddBuddy={this.onClickAddBuddy}
+            />
+        );
+        bubbleClass = "bubbleLeft";
+      }
+    }
+
+    return (
+      <Feed.Event id={id} className={"feedEvent"}>
+        <Feed.Label className="feedLabel">
+          {profileImage}
+        </Feed.Label>
+        <Feed.Content>
+          {this.getFeedTextBubbles(bubbleClass)}
+          <Feed.Meta className={bubbleClass}>
+            {this.props.time}
+          </Feed.Meta>
+        </Feed.Content>
+      </Feed.Event>
+    );
+  }
+
+
 }

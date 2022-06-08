@@ -110,6 +110,11 @@ module.exports = class MoovieWindow {
         log.info("show returned!");
       });
     }
+
+    this.events.consoleShowHide.remove();
+    this.events.consoleShown.remove();
+    this.events.consoleHidden.remove();
+    this.events.consoleBlur.remove();
   }
 
   onBlurCb() {

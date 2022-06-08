@@ -58,7 +58,8 @@ export default class MoovieView extends Component {
     this.isHiding = false;
 
     this.state = {
-      isOpen : false
+      isOpen : false,
+      showPeekView: false
     }
   }
 
@@ -147,6 +148,10 @@ export default class MoovieView extends Component {
     this.isHiding = false;
     this.isOpening = false;
     this.isOpen = false;
+
+    setTimeout(() => {
+      this.slideOpenWindow();
+    }, 2000);
   };
 
   componentWillUnmount = () => {
@@ -176,12 +181,52 @@ export default class MoovieView extends Component {
     if (this.isOpen) {
       this.isHiding = true;
       this.playAnimateOut();
+
+      setTimeout(() => {
+        this.setState({
+          showPeekView: false
+        });
+      }, 400);
     }
+
   }
 
   onClickMonty = () => {
     console.log("onClickMonty!");
 
+    this.slideOpenWindow();
+  }
+
+  onActivateFullChatWindow = () => {
+    clearTimeout(this.peekWindowTimeout);
+    this.setState({
+      showPeekView: false
+    });
+  }
+
+  onMessageSlideWindow = () => {
+    console.log("onMessage peek window!");
+
+    clearTimeout(this.peekWindowTimeout);
+
+    if (!this.isOpening && !this.isOpen) {
+      this.setState({
+        showPeekView: true
+      });
+      this.slideOpenWindow();
+    }
+
+    this.peekWindowTimeout = setTimeout(() => {
+      this.slideCloseWindow();
+      setTimeout(() => {
+        this.setState({
+          showPeekView: false
+        });
+      }, 400);
+    }, 7000);
+  }
+
+  slideOpenWindow() {
     if (!this.isOpening && !this.isOpen) {
       this.isOpening = true;
       let root = document.getElementById("root");
@@ -192,6 +237,14 @@ export default class MoovieView extends Component {
         //delaying the event slightly keeps the visualization from glitching
         this.events.consoleShowHide.dispatch({show: 1});
       }, 50);
+    }
+  }
+
+  slideCloseWindow() {
+    if (this.isOpen && !this.isHiding) {
+      this.events.consoleShowHide.dispatch({show: 0});
+      this.isHiding = true;
+      this.playAnimateOut();
     }
   }
 
@@ -242,7 +295,10 @@ export default class MoovieView extends Component {
           moovieId={this.props.routeProps.moovieId}
           isConsoleOpen={this.state.isOpen}
           onClickMonty={this.onClickMonty}
-          onMontyExit={this.onMontyExit}/>
+          onMontyExit={this.onMontyExit}
+          showPeekView={this.state.showPeekView}
+          onMessageSlideWindow={this.onMessageSlideWindow}
+          onActivateFullChatWindow={this.onActivateFullChatWindow}/>
       </div>
     );
   }

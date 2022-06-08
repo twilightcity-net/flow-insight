@@ -12,6 +12,7 @@ import MontyButton from "./moovie/MontyButton";
 import MoovieBanner from "./moovie/MoovieBanner";
 import MontyPuppet from "./moovie/MontyPuppet";
 import {FervieClient} from "../clients/FervieClient";
+import ChatPeekPopup from "./moovie/ChatPeekPopup";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -81,6 +82,21 @@ export default class MoovieChatLayout extends Component {
       this.hasMontyDoneIntro = true;
       this.addMontyIntroMessage(this.state.moovie);
     }
+
+    if (prevProps.showPeekView && !this.props.showPeekView) {
+      let el = document.getElementById(ChatFeed.feedWindowId);
+      if (el) {
+        el.classList.remove("smoothScroll");
+        el.scrollTop = el.scrollHeight;
+        setTimeout(() => {
+          el.classList.add("smoothScroll");
+        }, 33);
+      }
+      let chatInput = document.getElementById(ChatInput.moovieChatInputId);
+      if (chatInput) {
+        chatInput.focus();
+      }
+    }
   }
 
   /**
@@ -105,8 +121,11 @@ export default class MoovieChatLayout extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     if (arg.uri === this.state.moovie.talkRoomId) {
-      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
-        || arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
+      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
+        this.props.onMessageSlideWindow();
+        this.addMessageToFeed(arg);
+
+      } else if (arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
         this.addMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
         this.handleRoomMemberStatusEvent(arg);
@@ -149,7 +168,6 @@ export default class MoovieChatLayout extends Component {
    * Handle moovie status update for our moovie
    */
   handleMoovieStatusUpdate(arg) {
-    console.log(arg.data);
     this.setState({
       moovie: arg.data
     });
@@ -549,6 +567,10 @@ export default class MoovieChatLayout extends Component {
     });
   }
 
+  onActivateFullChatWindow = () => {
+    this.props.onActivateFullChatWindow();
+  }
+
   /**
    * When we add a reaction to a message in the chat
    * @param messageId
@@ -630,17 +652,36 @@ export default class MoovieChatLayout extends Component {
     }
   };
 
-
-
-  /**
-   * renders the chat console layout
-   * @returns {*} - the JSX to render
-   */
-  render() {
+  getChatPeekPopup() {
+    let visibility = "none";
+    if (this.props.showPeekView) {
+      visibility = "block";
+    }
     return (
-      <div id="component" className="moovieChat">
+      <div id="component" className="moovieChat peekWindow" style={{display : visibility}}>
+        <div id={ChatPeekPopup.feedWindowId} className="chatFeed smoothScroll">
+        <ChatPeekPopup circuitMembers={this.state.circuitMembers}
+                       buddiesById={this.state.buddiesById}
+                       memberByIdMap={this.state.memberByIdMap}
+                       messages={this.state.messages}
+                       onActivateFullChatWindow={this.onActivateFullChatWindow}
+                       onAddReaction={this.onAddReaction}
+                       onRemoveReaction={this.onRemoveReaction}
+                       onAddBuddy={this.onAddBuddy}/>
+        </div>
+      </div>);
+  }
+
+
+  getFullChatView() {
+    let visibility = "none";
+    if (!this.props.showPeekView) {
+      visibility = "block";
+    }
+    return (
+      <div id="component" className="moovieChat" style={{display : visibility}}>
         <MoovieBanner moovie={this.state.moovie}/>
-        <div id="chatFeedWindow" className="chatFeed" >
+        <div id={ChatFeed.feedWindowId} className="chatFeed smoothScroll" >
           {<ChatFeed circuitMembers={this.state.circuitMembers}
                      buddiesById={this.state.buddiesById}
                      memberByIdMap={this.state.memberByIdMap}
@@ -659,12 +700,25 @@ export default class MoovieChatLayout extends Component {
                        onResumeMoovie={this.onResumeMoovie}
                        onRestartMoovie={this.onRestartMoovie}
                        onMontyExit={this.onMontyExit}/>
-          <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey} onOpenEmojiPicker={this.onOpenEmojiPicker}/>
+          <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey}
+                     onOpenEmojiPicker={this.onOpenEmojiPicker}/>
         </div>
       </div>
     );
   }
 
 
+  /**
+   * renders the chat console layout
+   * @returns {*} - the JSX to render
+   */
+  render() {
+    return (
+    <div>
+      {this.getChatPeekPopup()}
+      {this.getFullChatView()}
+    </div>
+    );
+  }
 
 }
