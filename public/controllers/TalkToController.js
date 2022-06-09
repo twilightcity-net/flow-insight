@@ -31,6 +31,7 @@ module.exports = class TalkToController extends (
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "get-all-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
+      PUBLISH_CHAT_TO_DM: "publish-chat-to-dm",
       REACT_TO_MESSAGE: "react-to-message",
       CLEAR_REACTION_TO_MESSAGE: "clear-reaction-to-message",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
@@ -87,6 +88,9 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.PUBLISH_CHAT_TO_ROOM:
           this.handlePublishChatToRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.PUBLISH_CHAT_TO_DM:
+          this.handlePublishChatToDMEvent(event, arg);
           break;
         case TalkToController.Events.REACT_TO_MESSAGE:
           this.handleReactToMessageEvent(event, arg);
@@ -403,6 +407,42 @@ module.exports = class TalkToController extends (
         )
     );
   }
+
+
+  /**
+   * process our publish to chat dm (direct message) service event.
+   * This posts the chat to gridtime which is sent directly to the client over talk
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handlePublishChatToDMEvent(event, arg, callback) {
+    let memberId = arg.args.memberId,
+      text = arg.args.text,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.MEMBER +
+        TalkToController.Paths.SEPARATOR +
+        memberId +
+        TalkToController.Paths.CHAT;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { chatMessage: text },
+      TalkToController.Names.PUBLISH_CHAT_TO_DM,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
   /**
    * Handles adding an emoji reaction to a message

@@ -7,35 +7,38 @@ import {RendererEventFactory} from "../events/RendererEventFactory";
 import {MemberClient} from "../clients/MemberClient";
 import {CircuitMemberClient} from "../clients/CircuitMemberClient";
 import {FervieClient} from "../clients/FervieClient";
+import DMLayout from "../layout/DMLayout";
+import {RendererControllerFactory} from "../controllers/RendererControllerFactory";
 
 /**
- * This View will contain the invisible chat window that floats on top of the moovie,
+ * This View will contain the invisible chat window that floats on top for chatting with buddies,
  * should be able to slide in and out from the side, so the invisible window isn't permanently
  * blocking click through.
  */
-export default class MoovieView extends Component {
+export default class MessageView extends Component {
   /**
-   * the amount of time to animate the moovie view when opening the window
+   * the amount of time to animate the message view when opening the window
    * @type {number}
    */
   static animationTime = 0.4;
 
   /**
-   * this is the animation css class to use to slide the moovie console window in
+   * this is the animation css class to use to slide the message console window in
    * @type {string}
    */
-  static animationTypeIn = "moovie-slidein";
+  static animationTypeIn = "dm-slidein";
 
   /**
-   * this is the animation css class to use to slide the moovie console window out
+   * this is the animation css class to use to slide the message console window out
    * @type {string}
    */
-  static animationTypeOut = "moovie-slideout";
+  static animationTypeOut = "dm-slideout";
 
-  static animationTypeMontyBackOut = "monty-back-out";
+  static animationTypeIconBackOut = "icon-back-out";
 
-  static animationTypeMontySlideIn = "monty-slide-in";
+  static animationTypeIconSlideIn = "icon-slide-in";
 
+  static fervieIcon = "fervieIcon";
 
   /**
    * the css scalar to apply the animation vector to
@@ -45,7 +48,7 @@ export default class MoovieView extends Component {
 
   constructor(props) {
     super(props);
-    this.name = "[MoovieView]";
+    this.name = "[MessageView]";
 
     TalkToClient.init(this);
     MoovieClient.init(this);
@@ -64,13 +67,12 @@ export default class MoovieView extends Component {
   }
 
   componentDidMount = () => {
-    console.log("moovieId = "+this.props.routeProps.moovieId);
     let root = document.getElementById("root");
     root.style.border = "0px";
 
     this.chatWindowKeyframes = new Keyframes(root);
     Keyframes.define({
-      name: MoovieView.animationTypeIn,
+      name: MessageView.animationTypeIn,
       from: {
         transform: "translate(400px, 0px)",
         opacity: "0",
@@ -81,7 +83,7 @@ export default class MoovieView extends Component {
       },
     });
     Keyframes.define({
-      name: MoovieView.animationTypeOut,
+      name: MessageView.animationTypeOut,
       from: {
         transform: "translate(0px,0px)",
         opacity: "1",
@@ -92,7 +94,7 @@ export default class MoovieView extends Component {
       },
     });
     Keyframes.define({
-      name: MoovieView.animationTypeMontyBackOut,
+      name: MessageView.animationTypeIconBackOut,
       from: {
         transform: "translate(50px,0px)",
         opacity: "0",
@@ -103,11 +105,11 @@ export default class MoovieView extends Component {
       },
     });
 
-    let montyIcon = document.getElementById("montyIcon");
-    this.montyKeyframes = new Keyframes(montyIcon);
+    let fervieIcon = document.getElementById(MessageView.fervieIcon);
+    this.iconKeyframes = new Keyframes(fervieIcon);
 
     Keyframes.define({
-      name: MoovieView.animationTypeMontySlideIn,
+      name: MessageView.animationTypeIconSlideIn,
       from: {
         transform: "translate(0px,0px)",
         opacity: "1",
@@ -120,26 +122,26 @@ export default class MoovieView extends Component {
 
     this.events = {
       consoleShowHide: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_MOOVIE_CONSOLE_SHOW_HIDE,
+        RendererEventFactory.Events.WINDOW_CHAT_CONSOLE_SHOW_HIDE,
         this
       ),
       consoleShown: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_MOOVIE_CONSOLE_SHOWN,
+        RendererEventFactory.Events.WINDOW_CHAT_CONSOLE_SHOWN,
         this,
         this.onConsoleShown
       ),
       consoleHidden: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_MOOVIE_CONSOLE_HIDDEN,
+        RendererEventFactory.Events.WINDOW_CHAT_CONSOLE_HIDDEN,
         this,
         this.onConsoleHidden
       ),
       consoleBlur: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_MOOVIE_CONSOLE_BLUR,
+        RendererEventFactory.Events.WINDOW_CHAT_CONSOLE_BLUR,
         this,
         this.onConsoleBlur
       ),
       windowClose: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CLOSE_MOOVIE,
+        RendererEventFactory.Events.WINDOW_CLOSE_DM,
         this
       ),
 
@@ -149,17 +151,14 @@ export default class MoovieView extends Component {
     this.isOpening = false;
     this.isOpen = false;
 
-    setTimeout(() => {
-      this.slideOpenWindow();
-    }, 2000);
   };
 
   componentWillUnmount = () => {
-    this.events.consoleShowHide.clear();
-    this.events.consoleShown.clear();
-    this.events.consoleHidden.clear();
-    this.events.consoleBlur.clear();
-    this.events.windowClose.clear();
+      this.events.consoleShowHide.clear();
+      this.events.consoleShown.clear();
+      this.events.consoleHidden.clear();
+      this.events.consoleBlur.clear();
+      this.events.windowClose.clear();
   };
 
   onConsoleShown = () => {
@@ -196,8 +195,8 @@ export default class MoovieView extends Component {
 
   }
 
-  onClickMonty = () => {
-    console.log("onClickMonty!");
+  onClickAppIcon = () => {
+    console.log("onClickIcon!");
 
     this.slideOpenWindow();
   }
@@ -254,37 +253,39 @@ export default class MoovieView extends Component {
     }
   }
 
-  onMontyExit = () => {
-    this.events.windowClose.dispatch({});
+  onAppExit = () => {
+    console.log("on app exit!");
+
+    this.events.windowClose.dispatch({memberId: this.props.routeProps.memberId});
   }
 
   playMontyIn() {
-    this.montyKeyframes.play({
-      name: MoovieView.animationTypeMontySlideIn,
-      duration: MoovieView.animationTime + "s",
-      timingFunction: MoovieView.animationTiming,
+    this.iconKeyframes.play({
+      name: MessageView.animationTypeIconSlideIn,
+      duration: MessageView.animationTime + "s",
+      timingFunction: MessageView.animationTiming,
     });
   }
 
   playAnimateIn() {
     this.chatWindowKeyframes.play({
-      name: MoovieView.animationTypeIn,
-      duration: MoovieView.animationTime + "s",
-      timingFunction: MoovieView.animationTiming,
+      name: MessageView.animationTypeIn,
+      duration: MessageView.animationTime + "s",
+      timingFunction: MessageView.animationTiming,
     });
   }
 
   playAnimateOut() {
     this.chatWindowKeyframes.play({
-      name: MoovieView.animationTypeOut,
-      duration: MoovieView.animationTime + "s",
-      timingFunction: MoovieView.animationTiming,
+      name: MessageView.animationTypeOut,
+      duration: MessageView.animationTime + "s",
+      timingFunction: MessageView.animationTiming,
     });
     setTimeout(() => {
       this.chatWindowKeyframes.play({
-        name: MoovieView.animationTypeMontyBackOut,
-        duration: MoovieView.animationTime + "s",
-        timingFunction: MoovieView.animationTiming,
+        name: MessageView.animationTypeIconBackOut,
+        duration: MessageView.animationTime + "s",
+        timingFunction: MessageView.animationTiming,
       });
     }, 400);
   }
@@ -297,11 +298,11 @@ export default class MoovieView extends Component {
 
     return (
       <div id="wrapper" className="moovie">
-        <MoovieChatLayout
-          moovieId={this.props.routeProps.moovieId}
+        <DMLayout
+          memberId={this.props.routeProps.memberId}
           isConsoleOpen={this.state.isOpen}
-          onClickMonty={this.onClickMonty}
-          onMontyExit={this.onMontyExit}
+          onClickAppIcon={this.onClickAppIcon}
+          onAppExit={this.onAppExit}
           showPeekView={this.state.showPeekView}
           onMessageSlideWindow={this.onMessageSlideWindow}
           onActivateFullChatWindow={this.onActivateFullChatWindow}/>

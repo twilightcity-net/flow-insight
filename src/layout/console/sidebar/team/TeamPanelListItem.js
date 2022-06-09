@@ -227,7 +227,7 @@ export default class TeamPanelListItem extends Component {
       name = "circle";
       color = "red";
     }
-    return <Icon name={name} color={color} />;
+    return <Icon className="online" name={name} color={color} />;
   }
 
   /**

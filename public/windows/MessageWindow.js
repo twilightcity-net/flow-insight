@@ -8,15 +8,14 @@ const { app, BrowserWindow } = require("electron"),
 const is_mac = process.platform==='darwin';
 
 /**
- * Launch a separate moovie window for holding an always-on-top invisible chat window
- * for the moovie.  Should be able to put the movie in full screen mode, and still have
- * the chat window float on top
+ * Launch a separate direct messaging window that appears as a tabbed
+ * slide-outable window for talking with a specific person
  */
-module.exports = class MoovieWindow {
+module.exports = class MessageWindow {
   constructor(windowName, arg) {
     this.arg = arg;
     this.name = windowName;
-    this.view = ViewManagerHelper.ViewNames.MOOVIE;
+    this.view = ViewManagerHelper.ViewNames.MESSAGE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view, arg);
     this.icon = Util.getAppIcon("icon.ico");
     this.display = global.App.WindowManager.getDisplay();
@@ -28,13 +27,14 @@ module.exports = class MoovieWindow {
     this.topMargin = Math.round(this.display.workAreaSize.height * 0.16);
     this.bottomMargin = Math.round(this.display.workAreaSize.height * 0.11);
     this.height = this.display.workAreaSize.height - this.topMargin - this.bottomMargin;
+    this.tabAdjustment = 80;
 
     this.window = new BrowserWindow({
       name: this.name,
       width: this.collapsedWindowWidth,
       height: this.collapsedWindowHeight,
       x: this.display.workArea.x + this.display.workAreaSize.width - this.collapsedWindowWidth,
-      y: this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight,
+      y: this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight - this.tabAdjustment,
       show: false,
       frame: false,
       movable: false,
@@ -68,20 +68,20 @@ module.exports = class MoovieWindow {
 
     this.events = {
       consoleShowHide: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_MOOVIE_CONSOLE_SHOW_HIDE,
+        EventFactory.Types.WINDOW_CHAT_CONSOLE_SHOW_HIDE,
         this,
         (event, arg) => this.onChatConsoleShowHideCb(event, arg)
       ),
       consoleShown: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_MOOVIE_CONSOLE_SHOWN,
+        EventFactory.Types.WINDOW_CHAT_CONSOLE_SHOWN,
         this
       ),
       consoleHidden: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_MOOVIE_CONSOLE_HIDDEN,
+        EventFactory.Types.WINDOW_CHAT_CONSOLE_HIDDEN,
         this
       ),
       consoleBlur: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_MOOVIE_CONSOLE_BLUR,
+        EventFactory.Types.WINDOW_CHAT_CONSOLE_BLUR,
         this
       ),
     };
@@ -99,13 +99,13 @@ module.exports = class MoovieWindow {
   }
 
   onShowCb() {
-    log.info("[MoovieWindow] opened window");
+    log.info("[DMWindow] opened window");
   }
 
   onClosedCb() {
-    log.info("[MoovieWindow] closed window");
+    log.info("[DMWindow] closed window");
     this.isClosed = true;
-    global.App.MoovieWindowManager.closeMoovieWindow();
+    global.App.DMWindowManager.closeDMWindow(this.arg);
 
     if(is_mac) {
       log.info("showing dock..");
@@ -121,7 +121,7 @@ module.exports = class MoovieWindow {
   }
 
   onBlurCb() {
-    log.info("[MoovieWindow] blur window");
+    log.info("[DMWindow] blur window");
 
     if (this.state !== this.states.HIDING) {
       this.events.consoleBlur.dispatch({});
@@ -194,7 +194,7 @@ module.exports = class MoovieWindow {
 
     this.window.setPosition(
       this.display.workArea.x + this.display.workAreaSize.width - this.slideOutWindowWidth,
-      this.display.workArea.y + this.topMargin
+      this.display.workArea.y + this.topMargin - this.tabAdjustment
     );
     this.window.setSize(this.slideOutWindowWidth,
       this.display.workAreaSize.height - this.topMargin - this.bottomMargin,
@@ -202,14 +202,14 @@ module.exports = class MoovieWindow {
   }
 
   /**
-   * Collapse the chat console to only show the little Monty, and the rest being hidden off the screen
+   * Collapse the chat console to only show the little Profile, and the rest being hidden off the screen
    */
   updateToCollapsedConsole() {
     this.display = global.App.WindowManager.getDisplay();
 
     this.window.setPosition(
       this.display.workArea.x + this.display.workAreaSize.width - this.collapsedWindowWidth,
-      this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight
+      this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight - this.tabAdjustment
     );
     this.window.setSize(this.collapsedWindowWidth,
       this.collapsedWindowHeight,

@@ -64,7 +64,7 @@ export default class FervieProfile extends Component {
     }
   }
 
-  getFervieProfileSvg() {
+  getFervieProfileSvg(hasBorder) {
 
     let fervieColor = "#B042FF";
     let fervieAccessory;

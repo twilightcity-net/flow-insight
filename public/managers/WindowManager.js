@@ -15,6 +15,7 @@ const electron = require("electron"),
   ChartWindow = require("../windows/ChartWindow");
 const HotkeyConfigWindow = require("../windows/HotkeyConfigWindow");
 const MoovieWindow = require("../windows/MoovieWindow");
+const MessageWindow = require("../windows/MessageWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -410,6 +411,8 @@ class WindowManager {
         return new HotkeyConfigWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.MOOVIE:
         return new MoovieWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.MESSAGE:
+        return new MessageWindow(windowName, arg);
       default:
         return null;
     }

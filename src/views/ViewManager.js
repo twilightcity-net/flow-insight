@@ -10,27 +10,13 @@ import ConsoleView from "./ConsoleView";
 import ChartView from "./ChartView";
 import HotkeyView from "./HotkeyView";
 import MoovieView from "./MoovieView";
+import MessageView from "./MessageView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
  * helper class ViewManagerHelper that is used to store the names of the views.
  */
 export default class ViewManager extends Component {
-  /**
-   * When adding new views be sure to also update ViewManagerHelper with the name
-   * of the view you wish to reference from main process
-   * @returns {{LOADING: *, ACTIVATOR: *, CONSOLE: *, CHART: *}}
-   * @constructor
-   */
-  static get Views() {
-    return {
-      LOADING: <LoadingView />,
-      ACTIVATOR: <ActivatorView />,
-      CONSOLE: <ConsoleView />,
-      CHART: <ChartView />,
-      HOTKEY: <HotkeyView />
-    };
-  }
 
   /**
    * this is a static get function that returns the view name dynamically based
@@ -68,6 +54,8 @@ export default class ViewManager extends Component {
       return <HotkeyView routeProps={props}/>;
     } else if (viewNameUpper === "MOOVIE") {
         return <MoovieView routeProps={props} />;
+    } else if (viewNameUpper === "MESSAGE") {
+      return <MessageView routeProps={props} />;
     } else {
       throw new Error(
         "Unable to render unknown view type " +

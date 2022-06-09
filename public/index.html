@@ -49,6 +49,11 @@
     opacity: 1;
   }
 
+  body.message {
+    background: none;
+    opacity: 1;
+  }
+
   body.chart {
     background: black;
     opacity: 1;
@@ -1461,7 +1466,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 230px;
+    max-width: 200px;
   }
 
   #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .item.selected {
@@ -1487,10 +1492,28 @@
     line-height: 1.840rem;
   }
 
-  #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .icon {
+  #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .online.icon {
     width: 1.18em;
     float: right;
     margin: 0 0 0 0.5em;
+  }
+
+  #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .message.icon {
+    width: 1.18em;
+    float: right;
+    margin-right: 1em;
+    opacity: 0;
+    transition: opacity 0.333s ease;
+    filter: brightness(80%);
+  }
+
+  #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .message.icon:hover {
+    filter: brightness(100%);
+    cursor: pointer;
+  }
+
+  #component.consoleSidebarPanel.teamPanel .teamPanelMembersContent .ui.list .item:hover .message.icon {
+    opacity: 1;
   }
 
   .teamLink {
@@ -3462,7 +3485,7 @@
   COMPONENT: MOOVIE-CONTROLS
    */
 
-  #component.moovieChat {
+  #component.chatWindow {
     background: rgba(0, 0, 0, 0.7);
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -3480,7 +3503,7 @@
   }
 
 
-  #component.moovieChat .moovieBanner {
+  #component.chatWindow .moovieBanner {
     color: #777777;
     background: rgba(27, 28, 29, 0.96);
     padding-top: 10px;
@@ -3492,7 +3515,7 @@
     position: relative;
   }
 
-  #component.moovieChat .moovieBanner .title {
+  #component.chatWindow .moovieBanner .title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -3500,7 +3523,7 @@
     display: block;
   }
 
-  #component.moovieChat .moovieBanner .moovieTimer {
+  #component.chatWindow .moovieBanner .moovieTimer {
     color: #777777;
     float: right;
     position: absolute;
@@ -3509,7 +3532,7 @@
     transition: color 0.500s ease;
   }
 
-  #component.moovieChat .chatFeed {
+  #component.chatWindow .chatFeed {
     width: 100%;
     min-height:calc(100vh - 85px - 40px); /* subtract the header and footer */
     max-height: calc(100vh - 85px - 40px);
@@ -3520,25 +3543,25 @@
     margin-top:10px;
   }
 
-  #component.moovieChat .chatFeed.smoothScroll {
+  #component.chatWindow .chatFeed.smoothScroll {
     scroll-behavior: smooth;
   }
 
-  #component.moovieChat .chatFeed .emoji {
+  #component.chatWindow .chatFeed .emoji {
     font-size: 1.2rem;
   }
 
-  #component.moovieChat .noMessages {
+  #component.chatWindow .noMessages {
     color: #777777;
     font-style: italic;
     text-align: center;
   }
 
-  #component.moovieChat .chatFeed::-webkit-scrollbar {
+  #component.chatWindow .chatFeed::-webkit-scrollbar {
     display: none;
   }
 
-  #component.moovieChat .chatInput {
+  #component.chatWindow .chatInput {
     width: 290px;
     margin-left: 60px;
     position:absolute;
@@ -3554,25 +3577,25 @@
     visibility: hidden;
   }
 
-  #component.moovieChat .emojiPickerButton {
+  #component.chatWindow .emojiPickerButton {
     float: right;
     display: block;
     padding-right: 10px;
   }
 
-  #component.moovieChat .emojiPickerButton svg {
+  #component.chatWindow .emojiPickerButton svg {
     width: 30px;
   }
 
-  #component.moovieChat .emojiPickerButton svg:hover {
+  #component.chatWindow .emojiPickerButton svg:hover {
     cursor: pointer;
   }
 
-  #component.moovieChat .emojiPickerButton svg:hover .emojiColor {
+  #component.chatWindow .emojiPickerButton svg:hover .emojiColor {
     stroke: #8455e9;
   }
 
-  #component.moovieChat .emojiPickerButton svg .emojiColor {
+  #component.chatWindow .emojiPickerButton svg .emojiColor {
     stroke: #6435c9;
     transition: stroke 0.333s ease;
   }
@@ -3582,7 +3605,7 @@
     Moovie chat peek window styles
    */
 
-  #component.moovieChat.peekWindow {
+  #component.chatWindow.peekWindow {
     background: transparent !important;
     border: none !important;
     min-height:40vh !important;
@@ -3591,48 +3614,48 @@
     bottom: 69px;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .messageBlock .reactable {
+  #component.chatWindow.peekWindow .chatFeed .messageBlock .reactable {
     opacity: 0;
     transition: opacity 0.5s ease;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedEvent:last-child .messageBlock .reactable:last-child {
+  #component.chatWindow.peekWindow .chatFeed .feedEvent:last-child .messageBlock .reactable:last-child {
     opacity: 1 !important;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedEvent {
+  #component.chatWindow.peekWindow .chatFeed .feedEvent {
     opacity: 0;
     transition: opacity 0.5s ease;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedLabel {
+  #component.chatWindow.peekWindow .chatFeed .feedLabel {
     opacity: 0;
     transition: opacity 0.5s ease;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .meta {
+  #component.chatWindow.peekWindow .chatFeed .meta {
     opacity: 0;
     transition: opacity 0.5s ease;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedEvent:last-child .feedLabel {
+  #component.chatWindow.peekWindow .chatFeed .feedEvent:last-child .feedLabel {
     opacity: 1;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedEvent:last-child .meta {
+  #component.chatWindow.peekWindow .chatFeed .feedEvent:last-child .meta {
     opacity: 1;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedEvent:last-child {
+  #component.chatWindow.peekWindow .chatFeed .feedEvent:last-child {
     opacity: 1;
   }
 
-  #component.moovieChat.peekWindow .chatFeed .feedEvent.fade {
+  #component.chatWindow.peekWindow .chatFeed .feedEvent.fade {
     opacity: 0;
     transition: opacity 1.5s ease 5.5s;
   }
 
-  #component.moovieChat.peekWindow .chatFeed {
+  #component.chatWindow.peekWindow .chatFeed {
     min-height:calc(40vh - 15px) !important; /* subtract the header and footer */
     max-height:calc(40vh - 15px) !important;
   }
@@ -3642,7 +3665,33 @@
    Chat feed styles
    */
 
-  #component.moovieChat .monty {
+
+  #component.chatWindow .appIcon {
+    width: 50px;
+    height: 50px;
+    position:absolute;
+    bottom:10px;
+    left:0;
+    opacity: 0.7;
+    transition: opacity 0.7s ease;
+  }
+
+  #component.chatWindow .appIcon:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  #component.chatWindow .appIcon svg {
+    width: 100%;
+    height: 98%;
+    position: absolute;
+    border-radius: 10px;
+    bottom: 0rem;
+    margin-left: 5px;
+    border: 4px black solid;
+  }
+
+  #component.chatWindow .monty {
     width: 50px;
     position:absolute;
     bottom:10px;
@@ -3652,35 +3701,35 @@
     transition: opacity 0.7s ease;
   }
 
-  #component.moovieChat .monty:hover {
+  #component.chatWindow .monty:hover {
     opacity: 1;
     cursor: pointer;
   }
 
-  #component.moovieChat .ui.dropdown {
+  #component.chatWindow .ui.dropdown {
     margin-left: 10px;
   }
 
-  #component.moovieChat .ui.dropdown>.dropdown.icon {
+  #component.chatWindow .ui.dropdown>.dropdown.icon {
     visibility: hidden;
   }
 
 
-  #component.moovieChat .content {
+  #component.chatWindow .content {
     margin-top: 0;
     margin-bottom: 0;
   }
 
-  #component.moovieChat .chatFeed .segment {
+  #component.chatWindow .chatFeed .segment {
     background: transparent;
   }
 
-  #component.moovieChat .chatFeed .feedLabel {
+  #component.chatWindow .chatFeed .feedLabel {
     position: relative;
     width: 3em;
   }
 
-  #component.moovieChat .chatFeed .feedLabel svg {
+  #component.chatWindow .chatFeed .feedLabel svg {
     width: 100%;
     height: auto;
     border-radius: 500rem;
@@ -3689,14 +3738,14 @@
     margin-left: 5px;
   }
 
-  #component.moovieChat .chatFeed .feedLabel img {
+  #component.chatWindow .chatFeed .feedLabel img {
     border-radius: 500rem;
     position: absolute;
     bottom: 1.4rem;
   }
 
 
-  #component.moovieChat .chatFeed .feedLabel a {
+  #component.chatWindow .chatFeed .feedLabel a {
     font-weight: bolder;
     color: #c0c0c0;
     background: transparent;
@@ -3707,7 +3756,7 @@
     margin: -0.210rem 0;
   }
 
-  #component.moovieChat .chatFeed a:hover {
+  #component.chatWindow .chatFeed a:hover {
     border: 0.105rem solid #6435c9;
     background: transparent;
     color: #6435c9;
@@ -3715,24 +3764,24 @@
     cursor: pointer !important;
   }
 
-  #component.moovieChat .chatFeed .ui.divider {
+  #component.chatWindow .chatFeed .ui.divider {
     font-size: 0.630rem;
     font-style: italic;
     color: #484848;
     margin: 0.420rem 0.840rem 0.420rem 0;
   }
 
-  #component.moovieChat .chatFeed .summary {
+  #component.chatWindow .chatFeed .summary {
     color: #c0c0c0;
   }
 
-  #component.moovieChat .chatFeed .summary .date {
+  #component.chatWindow .chatFeed .summary .date {
     color: #484848;
     font-weight: bolder;
     font-style: italic;
   }
 
-  #component.moovieChat .chatFeed .text.extra {
+  #component.chatWindow .chatFeed .text.extra {
     color: white;
     line-height: 1.420rem;
     font-size: 1rem;
@@ -3746,7 +3795,7 @@
     padding-left: 1.5rem;
   }
 
-  #component.moovieChat .chatFeed .text.extra.bubbleLeft {
+  #component.chatWindow .chatFeed .text.extra.bubbleLeft {
     background: #303336;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 15px;
@@ -3754,7 +3803,7 @@
     clear:left;
   }
 
-  #component.moovieChat .chatFeed .text.extra.bubblePuppet {
+  #component.chatWindow .chatFeed .text.extra.bubblePuppet {
     background: #636970;
     color: white;
     border-bottom-left-radius: 0px;
@@ -3763,7 +3812,7 @@
     clear:left;
   }
 
-  #component.moovieChat .chatFeed .text.extra.bubbleRight {
+  #component.chatWindow .chatFeed .text.extra.bubbleRight {
     background: #6435c9;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 15px;
@@ -3771,68 +3820,68 @@
     clear:right;
   }
 
-  #component.moovieChat .chatFeed .reactable {
+  #component.chatWindow .chatFeed .reactable {
     float: left;
     width: 330px;
     display:block;
   }
 
-  #component.moovieChat .chatFeed .reactable:hover .text.extra {
+  #component.chatWindow .chatFeed .reactable:hover .text.extra {
     filter: brightness(110%);
   }
 
-  #component.moovieChat .chatFeed .reactable .actionButtons {
+  #component.chatWindow .chatFeed .reactable .actionButtons {
     visibility: hidden;
   }
 
-  #component.moovieChat .chatFeed .reactable:hover .actionButtons {
+  #component.chatWindow .chatFeed .reactable:hover .actionButtons {
     visibility: visible;
   }
 
-  #component.moovieChat .chatFeed .actionButtons {
+  #component.chatWindow .chatFeed .actionButtons {
     float:left;
     padding-top: 10px;
     padding-left: 5px;
     cursor: pointer;
   }
 
-  #component.moovieChat .chatFeed .iconAction {
+  #component.chatWindow .chatFeed .iconAction {
     padding: 5px;
     color: #636970;
     transition: color 0.333s ease;
   }
 
-  #component.moovieChat .chatFeed .iconAction .corner.icon {
+  #component.chatWindow .chatFeed .iconAction .corner.icon {
     color: #636970;
     transition: color 0.333s ease;
   }
 
-  #component.moovieChat .chatFeed .iconAction:hover {
+  #component.chatWindow .chatFeed .iconAction:hover {
     color: white;
   }
 
-  #component.moovieChat .chatFeed .iconAction:hover .corner.icon{
+  #component.chatWindow .chatFeed .iconAction:hover .corner.icon{
     color: white;
   }
 
-  #component.moovieChat .chatFeed .meta.bubbleRight {
+  #component.chatWindow .chatFeed .meta.bubbleRight {
     text-align: right;
   }
 
 
-  #component.moovieChat .chatFeed .meta {
+  #component.chatWindow .chatFeed .meta {
     line-height: 1rem;
     margin:0;
     color: #777777;
     width: 100%;
   }
 
-  #component.moovieChat .chatFeed .reactable .meta {
+  #component.chatWindow .chatFeed .reactable .meta {
     font-size: 1.2rem;
     margin-top: 7px;
   }
 
-  #component.moovieChat .chatFeed .reactable .reactionButton {
+  #component.chatWindow .chatFeed .reactable .reactionButton {
     border-radius: 20px;
     background: #222222;
     padding-left: 7px;
@@ -3840,21 +3889,21 @@
     margin-left: 1px;
   }
 
-  #component.moovieChat .chatFeed .reactable .reactionButton.active {
+  #component.chatWindow .chatFeed .reactable .reactionButton.active {
     background: #333333;
     border: #6435c9 1px solid;
     cursor: pointer;
   }
 
-  #component.moovieChat .chatFeed .reactable .reactionButton:hover {
+  #component.chatWindow .chatFeed .reactable .reactionButton:hover {
     background: #333333;
   }
 
-  #component.moovieChat .chatFeed .reactable .reaction {
+  #component.chatWindow .chatFeed .reactable .reaction {
     margin-left: 0;
   }
 
-  #component.moovieChat .chatFeed .reactable .reactionCount {
+  #component.chatWindow .chatFeed .reactable .reactionCount {
     font-size: 0.7rem;
     color: #777777;
     margin-left: 1px;
@@ -3978,55 +4027,69 @@
     display: none;
   }
 
-  #component.moovieChat .chatInput:focus {
+  #component.chatWindow .chatInput:focus {
     outline: none;
     border: 0.105rem solid #6435c9;
   }
 
 
+
   @media (max-width: 51px) {
-    #component.moovieChat {
+    #component.chatWindow {
       background: none;
       border: 0px;
     }
-    #component.moovieChat .chatFeed {
+    #component.chatWindow .chatFeed {
       opacity: 0;
     }
-    #component.moovieChat .moovieBanner {
+    #component.chatWindow .moovieBanner {
       opacity: 0;
     }
 
-    #component.moovieChat .ui.dropdown {
+    #component.chatWindow .ui.dropdown {
       visibility: hidden;
     }
 
-    #component.moovieChat .menu {
+    #component.chatWindow .menu {
       visibility: hidden !important;
     }
 
-    #component.moovieChat .monty.moovieStarted {
+    #component.chatWindow .monty.moovieStarted {
       opacity: 0.3 !important;
     }
 
-    #component.moovieChat .monty.moovieStarted:hover {
+    #component.chatWindow .monty.moovieStarted:hover {
       opacity: 1 !important;
     }
+
+    #component.chatWindow .monty {
+      bottom: 40px;
+    }
+
+    #component.chatWindow .appIcon {
+      bottom: 30px;
+    }
+
   }
 
   @media (min-width: 51px) {
-    #component.moovieChat .monty {
+    #component.chatWindow .moovieBanner {
       opacity: 1;
     }
-    #component.moovieChat .monty:hover {
+
+    #component.chatWindow .monty {
+      opacity: 1;
+    }
+    #component.chatWindow .monty:hover {
       filter: brightness(110%);
       opacity: 1;
     }
 
-    #component.moovieChat .chatFeed {
+    #component.chatWindow .chatFeed {
       visibility: visible;
 
     }
-    #component.moovieChat .chatInput {
+    #component.chatWindow .chatInput {
       visibility: visible;
     }
   }

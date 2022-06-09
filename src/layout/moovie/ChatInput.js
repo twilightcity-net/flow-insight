@@ -7,7 +7,7 @@ import EmojiPicker from "./EmojiPicker";
  */
 export default class ChatInput extends Component {
 
-  static moovieChatInputId = "moovieChatInput";
+  static chatInputId = "chatInput";
 
   /**
    * Initialize the layout
@@ -46,7 +46,7 @@ export default class ChatInput extends Component {
     }
 
     if (prevState.isEmojiPickerOpen !== this.state.isEmojiPickerOpen) {
-      document.getElementById(ChatInput.moovieChatInputId).focus();
+      document.getElementById(ChatInput.chatInputId).focus();
     }
   }
 
@@ -126,7 +126,7 @@ export default class ChatInput extends Component {
   onRefreshEmojiWindow = () => {
     console.log("onRefreshEmojiWindow");
     this.lastOpened = window.performance.now();
-    document.getElementById(ChatInput.moovieChatInputId).focus();
+    document.getElementById(ChatInput.chatInputId).focus();
   }
 
   onClickEmojiSearch = () => {
@@ -195,7 +195,7 @@ export default class ChatInput extends Component {
     return (
       <div className="windowFooter">
        <TextArea
-              id={ChatInput.moovieChatInputId}
+              id={ChatInput.chatInputId}
               className="chatInput"
               value={this.state.chatValue}
               onKeyPress={this.handleKeyPress}

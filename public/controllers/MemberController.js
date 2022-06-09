@@ -23,7 +23,6 @@ class MemberController extends BaseController {
 
   /**
    * general enum list of all of our possible member events
-   * @returns {{GET_MEMBER:string, UPDATE_ME: string, LOAD_ME: string, GET_ME: string}}
    */
   static get Events() {
     return {
@@ -31,6 +30,7 @@ class MemberController extends BaseController {
       LOAD_ME: "load-me",
       GET_ME: "get-me",
       GET_MEMBER: "get-member",
+      GET_MEMBER_BY_ID: "get-member-by-id",
     };
   }
 
@@ -86,6 +86,9 @@ class MemberController extends BaseController {
           break;
         case MemberController.Events.GET_MEMBER:
           this.handleGetMemberEvent(event, arg);
+          break;
+        case MemberController.Events.GET_MEMBER_BY_ID:
+          this.handleGetMemberByIdEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -200,6 +203,76 @@ class MemberController extends BaseController {
     }
 
     arg.data = database.getMemberByUsername(username);
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * get a member by memberId from the local DB, doesnt fallback to gridtime
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetMemberByIdEvent(event, arg, callback) {
+    let memberId = arg.args.memberId;
+    console.log("member id passed is ="+memberId);
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.MEMBER
+    );
+
+    arg.data = database.getMemberById(memberId);
+
+    if (!arg.data) {
+      this.fallbackGetMemberFromServer(event, arg, callback);
+    } else {
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    }
+  }
+
+  fallbackGetMemberFromServer(event, arg, callback) {
+    let memberId = arg.args.memberId;
+    let urn =
+        MemberController.Paths.MEMBER +
+        MemberController.Paths.SEPARATOR +
+        memberId;
+
+    this.doClientRequest(
+      MemberController.Contexts.MEMBER_CLIENT,
+      {},
+      MemberController.Names.GET_MEMBER_BY_ID,
+      MemberController.Types.GET,
+      urn,
+      (store) =>
+        this.addMemberToDB(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  addMemberToDB(store, event, arg, callback) {
+    if (store.data) {
+      arg.data = store.data;
+
+      let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.MEMBER
+      );
+      database.updateMemberInMembers(arg.data);
+    }
+    if (store.error) {
+      arg.error = store.error;
+    }
 
     this.delegateCallbackOrEventReplyTo(
       event,

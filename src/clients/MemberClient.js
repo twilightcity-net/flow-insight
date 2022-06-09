@@ -45,7 +45,6 @@ export class MemberClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{UPDATE_ME: string, LOAD_ME: string, GET_ME: string}}
    * @constructor
    */
   static get Events() {
@@ -54,6 +53,7 @@ export class MemberClient extends BaseClient {
       LOAD_ME: "load-me",
       GET_ME: "get-me",
       GET_MEMBER: "get-member",
+      GET_MEMBER_BY_ID: "get-member-by-id",
       VIEW_CONSOLE_ME_UPDATE: "view-console-me-update",
     };
   }
@@ -106,6 +106,18 @@ export class MemberClient extends BaseClient {
     let event = MemberClient.instance.createClientEvent(
       MemberClient.Events.GET_MEMBER,
       { username: username },
+      scope,
+      callback
+    );
+    MemberClient.instance.notifyMember(event);
+    return event;
+  }
+
+  static getMemberById(memberId, scope, callback) {
+    console.log("getMemberById "+memberId);
+    let event = MemberClient.instance.createClientEvent(
+      MemberClient.Events.GET_MEMBER_BY_ID,
+      { memberId: memberId },
       scope,
       callback
     );

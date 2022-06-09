@@ -230,6 +230,8 @@ export default class BuddiesPanel extends Component {
 
     let me = MemberClient.me;
 
+    console.log("BUDDIES!");
+    console.log(this.state.buddies);
     return (
       <List
         inverted
@@ -242,6 +244,7 @@ export default class BuddiesPanel extends Component {
         <BuddiesPanelListItem
           key={me.id}
           model={me}
+          id={me.id}
           meUsername={me.username}
           isMe={true}
           onClickRow={this.handleClickRow}
@@ -252,6 +255,7 @@ export default class BuddiesPanel extends Component {
             (showOffline || UtilRenderer.isMemberOnline(member)) && (
               <BuddiesPanelListItem
                 key={member.sparkId}
+                id={member.sparkId}
                 meUsername={me.username}
                 model={member}
                 isMe={false}

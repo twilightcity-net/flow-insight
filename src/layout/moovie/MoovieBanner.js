@@ -94,7 +94,7 @@ export default class MoovieBanner extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    let title = "";
+    let title = ".";
     let timer = "";
     if (this.props.moovie) {
       title = this.getBannerPrefix() + this.props.moovie.title;

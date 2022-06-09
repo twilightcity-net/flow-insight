@@ -14,7 +14,8 @@ module.exports = class ViewManagerHelper {
       CONSOLE: "console",
       CHART: "chart",
       HOTKEY: "hotkey",
-      MOOVIE: "moovie"
+      MOOVIE: "moovie",
+      MESSAGE: "message"
     };
   }
 };

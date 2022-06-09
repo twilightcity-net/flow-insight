@@ -296,6 +296,12 @@ export default class FerviePanel extends Component {
       this.onRefreshFerviePanel
     );
     this.onRefreshFerviePanel();
+
+    this.globalHudInputLockNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.GLOBAL_HUD_INPUT_LOCK,
+        this
+      );
   };
 
   /**
@@ -336,6 +342,14 @@ export default class FerviePanel extends Component {
     );
     this.talkRoomMessageListener.clear();
     this.meDataRefreshListener.clear();
+  }
+
+  handleGlobalHudInputLock = () => {
+    this.globalHudInputLockNotifier.dispatch({lockInput: true});
+  }
+
+  handleGlubalHudInputUnlock = () => {
+    this.globalHudInputLockNotifier.dispatch({lockInput: false});
   }
 
   /**
@@ -552,8 +566,9 @@ export default class FerviePanel extends Component {
           fervieName: prevState.currentFervieName
         }
       });
-
+      this.handleGlubalHudInputUnlock();
     }
+
   };
 
   /**
@@ -566,6 +581,14 @@ export default class FerviePanel extends Component {
         currentFervieName: prevState.fervieName
       }
     });
+    this.handleGlubalHudInputUnlock();
+  };
+
+  /**
+   * Handles blurring (cancelling) of our name change
+   */
+  handleNameChangeFocus = () => {
+    this.handleGlobalHudInputLock();
   };
 
   /**
@@ -611,6 +634,7 @@ export default class FerviePanel extends Component {
         onKeyPress={this.handleKeyPressForNameChange}
         onChange={this.handleChangeForNameChange}
         onBlur={this.handleNameChangeBlur}
+        onFocus={this.handleNameChangeFocus}
         autoFocus
       />)
     }

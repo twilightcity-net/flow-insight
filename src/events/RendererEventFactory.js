@@ -36,14 +36,15 @@ export class RendererEventFactory {
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
       WINDOW_CONSOLE_SHOW_HIDE:
         prefix + "window-console-show-hide",
-      WINDOW_CHAT_CONSOLE_SHOW_HIDE:
-        prefix + "window-chat-console-show-hide",
-      WINDOW_CHAT_CONSOLE_SHOWN:
-        prefix + "window-chat-console-shown",
-      WINDOW_CHAT_CONSOLE_HIDDEN:
-        prefix + "window-chat-console-hidden",
-      WINDOW_CHAT_CONSOLE_BLUR:
-        prefix + "window-chat-console-blur",
+      WINDOW_CHAT_CONSOLE_SHOW_HIDE: prefix + "window-chat-console-show-hide",
+      WINDOW_CHAT_CONSOLE_SHOWN: prefix + "window-chat-console-shown",
+      WINDOW_CHAT_CONSOLE_HIDDEN: prefix + "window-chat-console-hidden",
+      WINDOW_CHAT_CONSOLE_BLUR: prefix + "window-chat-console-blur",
+
+      WINDOW_MOOVIE_CONSOLE_SHOW_HIDE: prefix + "window-moovie-console-show-hide",
+      WINDOW_MOOVIE_CONSOLE_SHOWN: prefix + "window-moovie-console-shown",
+      WINDOW_MOOVIE_CONSOLE_HIDDEN: prefix + "window-moovie-console-hidden",
+      WINDOW_MOOVIE_CONSOLE_BLUR: prefix + "window-moovie-console-blur",
       WINDOW_ACTIVATOR_CLOSE:
         prefix + "window-activator-close",
       WINDOW_CONSOLE_BROWSER_REQUEST:
@@ -52,6 +53,8 @@ export class RendererEventFactory {
         prefix + "window-console-browser-load",
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
+      WINDOW_OPEN_DM: prefix + "window-open-dm",
+      WINDOW_CLOSE_DM: prefix + "window-close-dm",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
       WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
@@ -135,7 +138,6 @@ export class RendererEventFactory {
         prefix + "shortcuts-window-console-sidebar-show",
       GLOBAL_HUD_INPUT_LOCK:
         prefix + "global-hud-input-lock",
-
     };
   }
 }

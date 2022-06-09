@@ -213,7 +213,7 @@ module.exports = class MemberDatabase extends LokiJS {
     collection.insert(Object.assign({}, member));
     this.updateMemberMe(member);
 
-    DatabaseUtil.log("update member -> ME", member.id);
+    DatabaseUtil.log("update member in members", member.id);
   }
 
   isMemberMe(member) {
@@ -236,5 +236,15 @@ module.exports = class MemberDatabase extends LokiJS {
     } else {
       return null;
     }
+  }
+
+  getMemberById(memberId) {
+    let collection = this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    );
+
+    let member = collection.findOne({ id: memberId });
+
+    return member;
   }
 };

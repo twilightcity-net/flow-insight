@@ -19,7 +19,8 @@ module.exports = class WindowManagerHelper {
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
       CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
       HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY,
-      MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE
+      MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE,
+      MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
     };
   }
 
@@ -54,6 +55,21 @@ module.exports = class WindowManagerHelper {
 
     return global.App.WindowManager.createWindow(
       moovieWindowName,
+      windowClassName,
+      arg
+    );
+  }
+
+  /**
+   * creates new direct message slide window
+   * @returns {*}
+   */
+  static createDMWindow(windowName, arg) {
+    let windowClassName =
+      WindowManagerHelper.WindowNames.MESSAGE;
+
+    return global.App.WindowManager.createWindow(
+      windowName,
       windowClassName,
       arg
     );

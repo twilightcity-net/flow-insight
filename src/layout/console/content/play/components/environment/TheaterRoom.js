@@ -141,6 +141,8 @@ export default class TheaterRoom extends Environment {
 
   includesMe(seatMappings) {
     const me = MemberClient.me;
+    if (!me) return;
+
     for (let i = 0; i <seatMappings.length ;i++) {
       if (seatMappings[i].memberId === me.id) {
         return true;
@@ -151,6 +153,8 @@ export default class TheaterRoom extends Environment {
 
   filterMeFromList(seatMappings) {
     const me = MemberClient.me;
+    if (!me) return;
+
     for (let i = 0; i <seatMappings.length ;i++) {
       if (seatMappings[i].memberId === me.id) {
         seatMappings.splice(i, 1);
