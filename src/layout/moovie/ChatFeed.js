@@ -90,6 +90,8 @@ export default class ChatFeed extends Component {
 
   getFeedEvents() {
     return this.props.messages.map((message, i) => {
+      console.log("message username = "+message.username);
+      console.log(this.props.circuitMembers);
       const member = CircuitMemberHelper.getMemberForUsername(this.props.circuitMembers, message.username);
       const isBuddy = member && this.props.buddiesById.get(member.memberId);
       return (<ChatFeedEvent

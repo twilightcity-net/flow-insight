@@ -53,8 +53,13 @@ export default class DMLayout extends Component {
     console.log("memberID = "+this.props.memberId);
     MemberClient.getMemberById(this.props.memberId, this, (arg) => {
       if (!arg.error) {
+        //below is a work around since we're using teamMemberDto in place of circuitMemberStatusDto
+        arg.data.memberId = this.props.memberId;
+
         this.setState({
-          member: arg.data
+          member: arg.data,
+          circuitMembers: [arg.data],
+          buddiesById: this.createBuddyMap(this.props.memberId, arg.data)
         });
       } else {
         console.error("Unable to load member: "+arg.error);
@@ -122,9 +127,20 @@ export default class DMLayout extends Component {
    * @param arg
    */
   onTalkDirectMessage = (event, arg) => {
+    let metaProps = arg.metaProps,
+      messageFromMemberId = UtilRenderer.getMemberIdFromMetaProps(metaProps);
     //TODO handle direct message responses from this specific user
+    if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
+      && messageFromMemberId === this.props.memberId) {
+      this.addMessageToFeed(arg);
+    }
   };
 
+  createBuddyMap(id, buddy) {
+    const map = new Map();
+    map.set(id, buddy);
+    return map;
+  }
 
   /**
    * Handle emoji change to one of the messages in the chat feed
@@ -359,7 +375,7 @@ export default class DMLayout extends Component {
        }
      });
    } else {
-     TalkToClient.reactToMessage(this.state.moovie.talkRoomId, messageId, emoji, this, (arg) => {
+     TalkToClient.reactToDirectMessage(this.props.memberId, messageId, emoji, this, (arg) => {
        if (arg.error) {
          console.error("Error adding reaction! "+arg.error)
        } else {
@@ -387,7 +403,7 @@ export default class DMLayout extends Component {
         }
       });
     } else {
-      TalkToClient.clearReactionToMessage(this.state.moovie.talkRoomId, messageId, emoji, this, (arg) => {
+      TalkToClient.clearReactionToDirectMessage(this.props.memberId, messageId, emoji, this, (arg) => {
         if (arg.error) {
           console.error("Error removing reaction! " + arg.error)
         } else {

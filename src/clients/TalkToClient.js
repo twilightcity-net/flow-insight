@@ -36,7 +36,9 @@ export class TalkToClient extends BaseClient {
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
       PUBLISH_CHAT_TO_DM: "publish-chat-to-dm",
       REACT_TO_MESSAGE: "react-to-message",
+      REACT_TO_DIRECT_MESSAGE: "react-to-direct-message",
       CLEAR_REACTION_TO_MESSAGE: "clear-reaction-to-message",
+      CLEAR_REACTION_TO_DIRECT_MESSAGE: "clear-reaction-to-direct-message",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
@@ -155,6 +157,34 @@ export class TalkToClient extends BaseClient {
   }
 
 
+
+  /**
+   * Reacts to a specific direct message with an emoji.
+   * If the user has already reacted with an emoji, adding a new emoji will replace the old one
+   * @param memberId
+   * @param messageId
+   * @param emoji
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static reactToDirectMessage(
+    memberId,
+    messageId,
+    emoji,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.REACT_TO_DIRECT_MESSAGE,
+      { memberId: memberId, messageId: messageId, emoji: emoji },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
   /**
    * Clears an existing reaction to a message, such as when the user clicks the reaction
    * to turn it off.
@@ -181,6 +211,36 @@ export class TalkToClient extends BaseClient {
     TalkToClient.instance.notifyTalkTo(event);
     return event;
   }
+
+
+
+  /**
+   * Clears an existing reaction to a message, such as when the user clicks the reaction
+   * to turn it off.
+   * @param memberId
+   * @param messageId
+   * @param emoji
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static clearReactionToDirectMessage(
+    memberId,
+    messageId,
+    emoji,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.CLEAR_REACTION_TO_DIRECT_MESSAGE,
+      { memberId: memberId, emoji: emoji, messageId: messageId },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
 
   /**
    * publishes a puppet chat message to a room

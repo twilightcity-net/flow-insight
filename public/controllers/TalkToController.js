@@ -33,7 +33,9 @@ module.exports = class TalkToController extends (
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
       PUBLISH_CHAT_TO_DM: "publish-chat-to-dm",
       REACT_TO_MESSAGE: "react-to-message",
+      REACT_TO_DIRECT_MESSAGE: "react-to-direct-message",
       CLEAR_REACTION_TO_MESSAGE: "clear-reaction-to-message",
+      CLEAR_REACTION_TO_DIRECT_MESSAGE: "clear-reaction-to-direct-message",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
@@ -95,8 +97,14 @@ module.exports = class TalkToController extends (
         case TalkToController.Events.REACT_TO_MESSAGE:
           this.handleReactToMessageEvent(event, arg);
           break;
+        case TalkToController.Events.REACT_TO_DIRECT_MESSAGE:
+          this.handleReactToDirectMessageEvent(event, arg);
+          break;
         case TalkToController.Events.CLEAR_REACTION_TO_MESSAGE:
           this.handleClearReactionToMessageEvent(event, arg);
+          break;
+        case TalkToController.Events.CLEAR_REACTION_TO_DIRECT_MESSAGE:
+          this.handleClearReactionToDirectMessageEvent(event, arg);
           break;
         case TalkToController.Events.PUBLISH_PUPPET_CHAT_TO_ROOM:
           this.handlePublishPuppetChatToRoomEvent(event, arg);
@@ -482,6 +490,43 @@ module.exports = class TalkToController extends (
 
 
   /**
+   * Handles adding an emoji reaction to a direct message
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleReactToDirectMessageEvent(event, arg, callback) {
+    let memberId = arg.args.memberId,
+      messageId = arg.args.messageId,
+      emoji = arg.args.emoji,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.MEMBER +
+        TalkToController.Paths.SEPARATOR +
+        memberId +
+        TalkToController.Paths.MESSAGE +
+        TalkToController.Paths.SEPARATOR +
+        messageId;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { emoji: emoji, chatReactionChangeType: "ADD" },
+      TalkToController.Names.REACT_TO_MESSAGE,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
    * Handles clearing an existing emoji reaction on a message
    * @param event
    * @param arg
@@ -517,6 +562,43 @@ module.exports = class TalkToController extends (
     );
   }
 
+
+
+  /**
+   * Handles clearing an existing emoji reaction on a direct message
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleClearReactionToDirectMessageEvent(event, arg, callback) {
+    let memberId = arg.args.memberId,
+      messageId = arg.args.messageId,
+      emoji = arg.args.emoji,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.MEMBER +
+        TalkToController.Paths.SEPARATOR +
+        memberId +
+        TalkToController.Paths.MESSAGE +
+        TalkToController.Paths.SEPARATOR +
+        messageId;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { emoji: emoji, chatReactionChangeType: "REMOVE" },
+      TalkToController.Names.REACT_TO_MESSAGE,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
 
   /**
    * joins a talk room from a given room name. This is set within the

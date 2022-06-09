@@ -477,6 +477,10 @@ module.exports = class TalkController extends (
       case TalkController.MessageTypes.BUDDY_STATUS_EVENT:
         this.handleBuddyStatusEvent(message);
         break;
+      case TalkController.MessageTypes.CHAT_MESSAGE_DETAILS:
+        //handled by the client
+        //TODO if the user doesn't have their chat open, send a notification to open chat
+        break;
       default:
         console.warn(
           chalk.bgRed(
