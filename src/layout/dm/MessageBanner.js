@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import UtilRenderer from "../../UtilRenderer";
+import FervieProfile from "../shared/FervieProfile";
 
 /**
  * this component is the DM message banner that gives you a little info about the chat window
@@ -39,12 +40,25 @@ export default class MessageBanner extends Component {
    */
   render() {
     let title = ".";
+    let username = "";
+    let profileImage = "";
     if (this.props.member) {
-      title = "Conversation with "+this.props.member.fervieName + " (@"+this.props.member.username + ")";
+      title = this.props.member.fervieName;
+      username = "@"+this.props.member.username;
+
+      profileImage = (<FervieProfile
+        showPopup={false}
+        isBuddy={false}
+        hasBuddyActions={false}
+        circuitMember={this.props.member}
+      />);
     }
+
     return (
-     <div className="moovieBanner">
+     <div className="chatBanner">
+       <span className="profileImage">{profileImage}</span>
        <span className="title"> {title}</span>
+       <span className="username"> { username}</span>
      </div>
     );
   }

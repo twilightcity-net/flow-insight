@@ -3486,7 +3486,7 @@
    */
 
   #component.chatWindow {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.9);
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     width: 100%;
@@ -3502,6 +3502,39 @@
     border: 0;
   }
 
+  #component.chatWindow .chatBanner {
+    color: #777777;
+    background: rgba(27, 28, 29, 0.96);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: relative;
+  }
+
+  #component.chatWindow .chatBanner .title {
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    display: block;
+    margin-left: 40px;
+  }
+
+  #component.chatWindow .chatBanner .username {
+    margin-left: 10px;
+  }
+
+  #component.chatWindow .chatBanner .profileImage svg {
+    float:left;
+    width: 30px;
+    height: 30px;
+    border-radius: 500px;
+    margin-top: 3px;
+  }
 
   #component.chatWindow .moovieBanner {
     color: #777777;
@@ -3534,13 +3567,18 @@
 
   #component.chatWindow .chatFeed {
     width: 100%;
-    min-height:calc(100vh - 85px - 40px); /* subtract the header and footer */
-    max-height: calc(100vh - 85px - 40px);
+    min-height:calc(100vh - 85px - 50px); /* subtract the header and footer */
+    max-height: calc(100vh - 85px - 50px);
     overflow-y: scroll;
     transition: width 0.333s ease;
     visibility: hidden;
     padding: 10px;
     margin-top:10px;
+  }
+
+  #component.chatWindow .chatFeed.smoothScroll.message {
+    min-height:calc(100vh - 85px - 70px) !important;
+    max-height: calc(100vh - 85px - 70px) !important;
   }
 
   #component.chatWindow .chatFeed.smoothScroll {
@@ -3580,6 +3618,9 @@
   #component.chatWindow .emojiPickerButton {
     float: right;
     display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
     padding-right: 10px;
   }
 
@@ -3707,6 +3748,8 @@
   }
 
   #component.chatWindow .ui.dropdown {
+    position: absolute;
+    bottom: 50px;
     margin-left: 10px;
   }
 
@@ -3744,6 +3787,13 @@
     bottom: 1.4rem;
   }
 
+  #component.chatWindow .chatFeed .feedLabel.shiftUp svg {
+    bottom: 3.2rem !important;
+  }
+
+  #component.chatWindow .chatFeed .feedLabel.shiftUp img {
+    bottom: 3.2rem !important;
+  }
 
   #component.chatWindow .chatFeed .feedLabel a {
     font-weight: bolder;
@@ -4044,6 +4094,12 @@
     }
     #component.chatWindow .moovieBanner {
       opacity: 0;
+      display: none;
+    }
+
+    #component.chatWindow .chatBanner {
+      opacity: 0;
+      display: none;
     }
 
     #component.chatWindow .ui.dropdown {
@@ -4063,11 +4119,15 @@
     }
 
     #component.chatWindow .monty {
-      bottom: 40px;
+      bottom: 15px;
     }
 
     #component.chatWindow .appIcon {
-      bottom: 30px;
+      bottom: 15px;
+    }
+
+    #component.chatWindow .appIcon.fervieMe {
+      display: none;
     }
 
   }
@@ -4091,6 +4151,10 @@
     }
     #component.chatWindow .chatInput {
       visibility: visible;
+    }
+
+    #component.chatWindow .appIcon.fervieMember {
+      display: none;
     }
   }
 

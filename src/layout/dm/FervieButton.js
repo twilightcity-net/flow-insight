@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Dropdown, Image} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
+import {MemberClient} from "../../clients/MemberClient";
 
 /**
  * this component is for the Fervie dm app action button that allows exiting the window
@@ -125,6 +126,9 @@ export default class FervieButton extends Component {
    */
   render() {
 
+    const fervieMe = <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={MemberClient.me} hasBorder={true} />
+    const fervieMember = <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={this.props.member} hasBorder={true} />;
+
     return (
       <div>
         <Dropdown id={FervieButton.fervieActionsPopupId} text=""
@@ -135,9 +139,12 @@ export default class FervieButton extends Component {
             <Dropdown.Item text='Exit' onClick={this.onClickExit} />
           </Dropdown.Menu>
         </Dropdown>
-           <div className={"appIcon"} onClick={this.onClickFervie}>
-           <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={this.props.member} hasBorder={true} />
+           <div className={"appIcon fervieMe"} onClick={this.onClickFervie}>
+             {fervieMe}
            </div>
+        <div className={"appIcon fervieMember"} onClick={this.onClickFervie}>
+          {fervieMember}
+        </div>
       </div>
         );
 

@@ -58,7 +58,11 @@ export default class BuddiesPanelListItem extends Component {
    * @returns {*}
    */
   getMessagingIcon() {
-    return <Icon className="message" name="comment" onClick={this.onClickMessageIcon}/>;
+    if (!this.props.isMe) {
+      return <Icon className="message" name="comment" onClick={this.onClickMessageIcon}/>;
+    } else {
+      return "";
+    }
   }
 
   onClickMessageIcon = () => {

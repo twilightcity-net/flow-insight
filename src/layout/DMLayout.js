@@ -59,7 +59,8 @@ export default class DMLayout extends Component {
         this.setState({
           member: arg.data,
           circuitMembers: [arg.data],
-          buddiesById: this.createBuddyMap(this.props.memberId, arg.data)
+          buddiesById: this.createMap(this.props.memberId, arg.data),
+          memberByIdMap: this.createMap(this.props.memberId, arg.data)
         });
       } else {
         console.error("Unable to load member: "+arg.error);
@@ -127,18 +128,26 @@ export default class DMLayout extends Component {
    * @param arg
    */
   onTalkDirectMessage = (event, arg) => {
+    console.log("message received!");
+
     let metaProps = arg.metaProps,
       messageFromMemberId = UtilRenderer.getMemberIdFromMetaProps(metaProps);
+
+    console.log(messageFromMemberId);
+    console.log("props: "+this.props.memberId);
+
     //TODO handle direct message responses from this specific user
     if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
       && messageFromMemberId === this.props.memberId) {
       this.addMessageToFeed(arg);
+    } else if (arg.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
+      this.handleChatReaction(messageFromMemberId, arg.data);
     }
   };
 
-  createBuddyMap(id, buddy) {
+  createMap(id, mapItem) {
     const map = new Map();
-    map.set(id, buddy);
+    map.set(id, mapItem);
     return map;
   }
 
@@ -146,7 +155,8 @@ export default class DMLayout extends Component {
    * Handle emoji change to one of the messages in the chat feed
    * @param reactionInput
    */
-  handleChatReaction(reactionInput) {
+  handleChatReaction(messageFromMemberId, reactionInput) {
+    console.log(reactionInput);
     this.setState((prevState) => {
       const foundText = this.findMessageTextWithId(prevState.messages, reactionInput.messageId);
       if (foundText) {
@@ -259,6 +269,7 @@ export default class DMLayout extends Component {
    * Add the chat message to the message feed for display
    */
   addMessageToFeed(talkMessage) {
+    console.log(talkMessage);
     const metaProps = talkMessage.metaProps;
     const username = UtilRenderer.getUsernameFromMetaProps(metaProps);
     const time = UtilRenderer.getChatMessageTimeString(talkMessage.messageTime);
@@ -293,6 +304,7 @@ export default class DMLayout extends Component {
    */
   updateMessages(messages, newMessage) {
 
+    console.log("update messages");
     const messagesCopy = [...messages];
 
     if (messages.length > 0) {
@@ -308,6 +320,7 @@ export default class DMLayout extends Component {
         messagesCopy.push(newMessage);
       }
     } else {
+      console.log("push");
       messagesCopy.push(newMessage);
     }
 
@@ -379,6 +392,14 @@ export default class DMLayout extends Component {
        if (arg.error) {
          console.error("Error adding reaction! "+arg.error)
        } else {
+         this.setState((prevState) => {
+           const textObj = this.findMessageTextWithId(prevState.messages, messageId);
+           this.addReactionToGroup(textObj.reactions, {memberIds: [MemberClient.me.id], emoji: emoji}, isLocalOnly);
+           return {
+             messages: prevState.messages
+           }
+         });
+
          console.log("reaction added");
        }
      });
@@ -407,6 +428,15 @@ export default class DMLayout extends Component {
         if (arg.error) {
           console.error("Error removing reaction! " + arg.error)
         } else {
+          this.setState((prevState) => {
+            const foundText = this.findMessageTextWithId(prevState.messages, messageId);
+            if (foundText) {
+              this.removeReactionFromGroup(foundText.reactions, MemberClient.me.id, emoji);
+            }
+            return {
+              messages: prevState.messages
+            }
+          });
           console.log("reaction removed");
         }
       });
@@ -422,7 +452,8 @@ export default class DMLayout extends Component {
     TalkToClient.publishChatToDM(this.props.memberId, text, this, (arg) => {
       if (!arg.error) {
         console.log("chat published");
-        this.echoChatMessageToFeed(text);
+        this.addMessageToFeed(arg.data);
+        //this.echoChatMessageToFeed(text);
       } else {
         console.error("Unable to publish chat: "+arg.error);
       }
@@ -490,7 +521,7 @@ export default class DMLayout extends Component {
     return (
       <div id="component" className="chatWindow" style={{display : visibility}}>
         <MessageBanner member={this.state.member}/>
-        <div id={ChatFeed.feedWindowId} className="chatFeed smoothScroll" >
+        <div id={ChatFeed.feedWindowId} className="chatFeed smoothScroll message" >
           {<ChatFeed circuitMembers={this.state.circuitMembers}
                      buddiesById={this.state.buddiesById}
                      memberByIdMap={this.state.memberByIdMap}

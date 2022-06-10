@@ -50,7 +50,6 @@ export default class ChatFeedEvent extends Component {
   }
 
   getFeedTextBubbles(bubbleClass) {
-
     return (
       <div className="messageBlock">
       {this.props.texts.map((text, i) => {
@@ -283,6 +282,14 @@ export default class ChatFeedEvent extends Component {
     return title;
   }
 
+  lastMessageHasReactions() {
+    if (this.props.texts.length > 0) {
+      const lastText = this.props.texts[this.props.texts.length - 1];
+      return lastText.reactions.length > 0;
+    }
+    return false;
+  }
+
   /**
    * renders the active circuit feed event into the feed panel loop
    * @returns {*}
@@ -293,6 +300,11 @@ export default class ChatFeedEvent extends Component {
     let id = "event";
     if (this.props.isLast) {
       id = "isLast";
+    }
+
+    let extraProfileClass = "";
+    if (this.lastMessageHasReactions()) {
+      extraProfileClass = " shiftUp";
     }
 
     if (this.props.isPuppet) {
@@ -315,7 +327,7 @@ export default class ChatFeedEvent extends Component {
 
     return (
       <Feed.Event id={id} className={"feedEvent"}>
-        <Feed.Label className="feedLabel">
+        <Feed.Label className={"feedLabel"+extraProfileClass}>
           {profileImage}
         </Feed.Label>
         <Feed.Content>
