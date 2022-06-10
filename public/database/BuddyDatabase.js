@@ -119,6 +119,7 @@ module.exports = class BuddyDatabase extends LokiJS {
       );
 
       for (let i = 0; i < buddyList.length; i++) {
+        buddyList[i].id = buddyList[i].sparkId;
         DatabaseUtil.findRemoveInsert(
           buddyList[i],
           collection
