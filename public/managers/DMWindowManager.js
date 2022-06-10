@@ -27,6 +27,7 @@ module.exports = class DMWindowManager {
     );
 
     this.dmWindowsByName = new Map();
+    this.orderedWindows = [];
   }
 
 
@@ -41,13 +42,19 @@ module.exports = class DMWindowManager {
     console.log(arg);
     let windowName = this.getWindowName(arg);
 
-    arg.chartIndex = this.dmWindowsByName.size;
+    const existingWindow = this.dmWindowsByName.get(windowName);
+    if (!existingWindow) {
+      console.log("creating window!");
+      arg.dmIndex = this.dmWindowsByName.size;
 
-    let window = WindowManagerHelper.createDMWindow(
-      windowName,
-      arg
-    );
-    this.dmWindowsByName.set(windowName, window);
+      let window = WindowManagerHelper.createDMWindow(
+        windowName,
+        arg
+      );
+      this.dmWindowsByName.set(windowName, window);
+      this.orderedWindows.push(windowName);
+    }
+
   }
 
   /**
@@ -57,9 +64,7 @@ module.exports = class DMWindowManager {
    */
   getWindowName(arg) {
     let memberId = arg.memberId;
-
     let windowName = DMWindowManager.windowNamePrefix;
-
     windowName += memberId;
 
     return windowName;
@@ -77,6 +82,31 @@ module.exports = class DMWindowManager {
     let window = this.dmWindowsByName.get(windowName);
     if (window) {
       window.window.close();
+      this.dmWindowsByName.delete(windowName);
+      this.removeFromOrderedWindows(windowName);
+      this.reassignWindowOrderPositions();
+    }
+
+  }
+
+  reassignWindowOrderPositions() {
+    for (let i = 0; i < this.orderedWindows.length; i++) {
+      const windowName = this.orderedWindows[i];
+      const window = this.dmWindowsByName.get(windowName);
+      window.resetDMIndex(i);
+    }
+  }
+
+  /**
+   * Remove the window form the ordered window list since we're closing it
+   * @param windowName
+   */
+  removeFromOrderedWindows(windowName) {
+    for (let i = 0; i < this.orderedWindows.length; i++) {
+      if (this.orderedWindows[i] === windowName) {
+        this.orderedWindows.splice(i, 1);
+        break;
+      }
     }
   }
 

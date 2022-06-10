@@ -165,6 +165,7 @@ module.exports = class BuddyDatabase extends LokiJS {
     let collection = this.getCollection(
       BuddyDatabase.Collections.BUDDIES
     );
+    buddy.id = buddy.sparkId;
 
     DatabaseUtil.findRemoveInsert(buddy, collection);
   }
@@ -179,6 +180,7 @@ module.exports = class BuddyDatabase extends LokiJS {
       BuddyDatabase.Collections.BUDDIES
     );
 
+    buddy.id = buddy.sparkId;
     DatabaseUtil.findRemove(buddy, collection);
   }
 

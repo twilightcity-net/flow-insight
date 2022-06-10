@@ -46,6 +46,8 @@ module.exports = class LoadingWindow {
     });
     this.window.name = this.name;
     this.window.setMenu(null);
+    this.window.setAlwaysOnTop(true, "screen-saver");
+    
     this.window.on("show", () => this.onShowCb());
     this.window.on("closed", () => this.onClosedCb());
     this.events = {

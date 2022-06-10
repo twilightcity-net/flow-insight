@@ -161,38 +161,52 @@ export default class MessageView extends Component {
       this.events.windowClose.clear();
   };
 
-  onConsoleShown = () => {
-    this.isOpen = true;
-    this.isOpening = false;
-    this.isHiding = false;
+  onConsoleShown = (event, arg) => {
+    console.log("onConsoleShown");
+    console.log("arg.memberId = "+arg.memberId);
+    if (arg.memberId === this.props.routeProps.memberId) {
+      console.log("for me!");
+      this.isOpen = true;
+      this.isOpening = false;
+      this.isHiding = false;
 
-    this.setState({
-      isOpen: true
-    });
-  }
-
-  onConsoleHidden = () => {
-    this.isOpen = false;
-    this.isOpening = false;
-    this.isHiding = false;
-
-    this.setState({
-      isOpen: false
-    });
-  }
-
-  onConsoleBlur = () => {
-    if (this.isOpen) {
-      this.isHiding = true;
-      this.playAnimateOut();
-
-      setTimeout(() => {
-        this.setState({
-          showPeekView: false
-        });
-      }, 400);
+      this.setState({
+        isOpen: true
+      });
     }
+  }
 
+  onConsoleHidden = (event, arg) => {
+    console.log("onConsoleHidden");
+    console.log("arg.memberId = "+arg.memberId);
+    if (arg.memberId === this.props.routeProps.memberId) {
+      console.log("for me!");
+      this.isOpen = false;
+      this.isOpening = false;
+      this.isHiding = false;
+
+      this.setState({
+        isOpen: false
+      });
+    }
+  }
+
+  onConsoleBlur = (event, arg) => {
+    console.log("onConsoleBlur");
+    console.log("arg.memberId = "+arg.memberId);
+    if (arg.memberId === this.props.routeProps.memberId) {
+      console.log("for me!");
+      if (this.isOpen) {
+        this.isHiding = true;
+        this.playAnimateOut();
+
+        setTimeout(() => {
+          this.setState({
+            showPeekView: false
+          });
+        }, 400);
+      }
+    }
   }
 
   onClickAppIcon = () => {
@@ -232,6 +246,8 @@ export default class MessageView extends Component {
   }
 
   slideOpenWindow() {
+    console.log("slideOpenWindow");
+    console.log("memberId = "+this.props.routeProps.memberId);
     if (!this.isOpening && !this.isOpen) {
       this.isOpening = true;
       let root = document.getElementById("root");
@@ -240,14 +256,14 @@ export default class MessageView extends Component {
       this.playAnimateIn();
       setTimeout(() => {
         //delaying the event slightly keeps the visualization from glitching
-        this.events.consoleShowHide.dispatch({show: 1});
+        this.events.consoleShowHide.dispatch({memberId: this.props.routeProps.memberId, show: 1});
       }, 50);
     }
   }
 
   slideCloseWindow() {
     if (this.isOpen && !this.isHiding) {
-      this.events.consoleShowHide.dispatch({show: 0});
+      this.events.consoleShowHide.dispatch({memberId: this.props.routeProps.memberId, show: 0});
       this.isHiding = true;
       this.playAnimateOut();
     }

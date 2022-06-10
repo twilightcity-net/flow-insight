@@ -15,26 +15,30 @@ module.exports = class MessageWindow {
   constructor(windowName, arg) {
     this.arg = arg;
     this.name = windowName;
+    this.dmIndex = this.arg.dmIndex;
+    this.memberId = this.arg.memberId;
+    console.log("Window: "+this.dmIndex + ":" + this.memberId);
     this.view = ViewManagerHelper.ViewNames.MESSAGE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view, arg);
     this.icon = Util.getAppIcon("icon.ico");
     this.display = global.App.WindowManager.getDisplay();
-    this.autoShow = true;
     this.collapsedWindowWidth = 50;
-    this.collapsedWindowHeight = 65;
+    this.collapsedWindowHeight = 60;
     this.slideOutWindowWidth = 400;
+    this.tabAdjustment = 65;
+    this.autoShow = true;
     this.isClosed = false;
+
     this.topMargin = Math.round(this.display.workAreaSize.height * 0.16);
     this.bottomMargin = Math.round(this.display.workAreaSize.height * 0.11);
-    this.height = this.display.workAreaSize.height - this.topMargin - this.bottomMargin;
-    this.tabAdjustment = 80;
+    this.baseHeight = this.display.workAreaSize.height - this.topMargin - this.bottomMargin;
 
     this.window = new BrowserWindow({
       name: this.name,
       width: this.collapsedWindowWidth,
       height: this.collapsedWindowHeight,
       x: this.display.workArea.x + this.display.workAreaSize.width - this.collapsedWindowWidth,
-      y: this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight - this.tabAdjustment,
+      y: this.getCollapsedYPosition(),
       show: false,
       frame: false,
       movable: false,
@@ -62,7 +66,8 @@ module.exports = class MessageWindow {
     this.window.on("closed", () => this.onClosedCb());
     this.window.on('blur', () => this.onBlurCb());
 
-    if(is_mac) {
+
+    if(is_mac && app.dock.isVisible()) {
       app.dock.hide();
     }
 
@@ -98,6 +103,34 @@ module.exports = class MessageWindow {
     this.animateTimeMs = 400;
   }
 
+  getCollapsedYPosition() {
+    return (this.display.workArea.y + this.topMargin + this.baseHeight
+      - this.collapsedWindowHeight - ((this.dmIndex+1)*this.tabAdjustment));
+  }
+
+  getYPosition() {
+    return (this.display.workArea.y + this.topMargin - this.tabAdjustment)
+  }
+
+  getHeight() {
+    return (this.display.workAreaSize.height - this.topMargin - this.bottomMargin - (this.dmIndex*this.tabAdjustment))
+  }
+
+  /**
+   * Updates the dm tab index position, and refresh the window in it's new location
+   * If a tab is closed, the other windows are adjusted to fill in the gap.
+   * @param newIndex
+   */
+  resetDMIndex(newIndex) {
+    console.log("resetDMIndex = "+newIndex);
+    this.dmIndex = newIndex;
+    if (this.isClosed) {
+      this.updateToCollapsedConsole();
+    } else {
+      this.updateToExpandedConsole();
+    }
+  }
+
   onShowCb() {
     log.info("[DMWindow] opened window");
   }
@@ -106,13 +139,6 @@ module.exports = class MessageWindow {
     log.info("[DMWindow] closed window");
     this.isClosed = true;
     global.App.DMWindowManager.closeDMWindow(this.arg);
-
-    if(is_mac) {
-      log.info("showing dock..");
-      app.dock.show().then(() => {
-        log.info("show returned!");
-      });
-    }
 
     this.events.consoleShowHide.remove();
     this.events.consoleShown.remove();
@@ -124,7 +150,7 @@ module.exports = class MessageWindow {
     log.info("[DMWindow] blur window");
 
     if (this.state !== this.states.HIDING) {
-      this.events.consoleBlur.dispatch({});
+      this.events.consoleBlur.dispatch({memberId: this.memberId});
       this.hideConsole();
     }
   }
@@ -135,6 +161,12 @@ module.exports = class MessageWindow {
   onChatConsoleShowHideCb(event, arg) {
     console.log("called onChatConsoleShowHideCb");
     console.log("arg = "+arg.show);
+    console.log("memberId = "+arg.memberId);
+
+    if (arg.memberId !== this.memberId) {
+      return;
+    }
+
 
     //ignore requests when there is already an animation going on
     if (this.state === this.states.SHOWING ||
@@ -153,6 +185,7 @@ module.exports = class MessageWindow {
    * After the showing of the console, updates the state to shown and dispatches event
    */
   showConsole() {
+    console.log("show console!");
     this.state = this.states.SHOWING;
 
     if (!this.isClosed) {
@@ -164,7 +197,7 @@ module.exports = class MessageWindow {
     setTimeout(() => {
       if (!this.isClosed) {
         this.state = this.states.SHOWN;
-        this.events.consoleShown.dispatch({});
+        this.events.consoleShown.dispatch({memberId: this.memberId});
       }
     }, this.animateTimeMs);
   }
@@ -178,7 +211,7 @@ module.exports = class MessageWindow {
       if (!this.isClosed) {
         this.state = this.states.HIDDEN;
         this.updateToCollapsedConsole();
-        this.events.consoleHidden.dispatch({});
+        this.events.consoleHidden.dispatch({memberId: this.memberId});
       }
     }, this.animateTimeMs);
   }
@@ -194,10 +227,10 @@ module.exports = class MessageWindow {
 
     this.window.setPosition(
       this.display.workArea.x + this.display.workAreaSize.width - this.slideOutWindowWidth,
-      this.display.workArea.y + this.topMargin - this.tabAdjustment
+      this.getYPosition()
     );
     this.window.setSize(this.slideOutWindowWidth,
-      this.display.workAreaSize.height - this.topMargin - this.bottomMargin,
+      this.getHeight(),
     );
   }
 
@@ -209,7 +242,7 @@ module.exports = class MessageWindow {
 
     this.window.setPosition(
       this.display.workArea.x + this.display.workAreaSize.width - this.collapsedWindowWidth,
-      this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight - this.tabAdjustment
+      this.getCollapsedYPosition()
     );
     this.window.setSize(this.collapsedWindowWidth,
       this.collapsedWindowHeight,

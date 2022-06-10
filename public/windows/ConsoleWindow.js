@@ -1,4 +1,4 @@
-const { BrowserWindow } = require("electron"),
+const { app, BrowserWindow } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
@@ -8,6 +8,8 @@ const { BrowserWindow } = require("electron"),
     Shortcut,
     ShortcutManager,
   } = require("../managers/ShortcutManager");
+
+const is_mac = process.platform==='darwin';
 
 /**
  * the main application window for UX. Suspose to slide in and out of
@@ -55,6 +57,12 @@ module.exports = class ConsoleWindow {
     });
     this.window.name = this.name;
     this.window.setMenu(null);
+
+    this.window.setAlwaysOnTop(true, "screen-saver");
+    if(is_mac && app.dock.isVisible()) {
+      app.dock.hide();
+    }
+
     // this.window.setAlwaysOnTop(true, "torn-off-menu");
     this.window.on("ready-to-show", () =>
       this.onReadyToShowCb()

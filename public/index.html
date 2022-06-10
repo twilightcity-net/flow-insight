@@ -3713,12 +3713,12 @@
     position:absolute;
     bottom:10px;
     left:0;
-    opacity: 0.7;
-    transition: opacity 0.7s ease;
+    filter: brightness(90%);
+    transition: filter 0.333s ease;
   }
 
   #component.chatWindow .appIcon:hover {
-    opacity: 1;
+    filter: brightness(105%);
     cursor: pointer;
   }
 
@@ -3737,14 +3737,16 @@
     position:absolute;
     bottom:10px;
     left:0;
-    opacity: 0.7;
+    opacity: 1;
     margin-left: 5px;
-    transition: opacity 0.7s ease;
+    filter: brightness(90%);
+    transition: filter 0.333s ease;
   }
 
   #component.chatWindow .monty:hover {
     opacity: 1;
     cursor: pointer;
+    filter: brightness(105%);
   }
 
   #component.chatWindow .ui.dropdown {
@@ -4094,12 +4096,10 @@
     }
     #component.chatWindow .moovieBanner {
       opacity: 0;
-      display: none;
     }
 
     #component.chatWindow .chatBanner {
       opacity: 0;
-      display: none;
     }
 
     #component.chatWindow .ui.dropdown {
@@ -4123,7 +4123,7 @@
     }
 
     #component.chatWindow .appIcon {
-      bottom: 15px;
+      bottom: 40px;
     }
 
     #component.chatWindow .appIcon.fervieMe {

@@ -1,7 +1,7 @@
 
 module.exports = class AppFeatureToggle {
 
-  static isMoovieApp = true;
+  static isMoovieApp = false;
 
   static isFlowInsightApp() {
     return !AppFeatureToggle.isMoovieApp;
