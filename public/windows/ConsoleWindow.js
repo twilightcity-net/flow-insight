@@ -81,6 +81,10 @@ module.exports = class ConsoleWindow {
         EventFactory.Types.WINDOW_CONSOLE_SHOWN,
         this
       ),
+      consoleHidden: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_HIDDEN,
+        this
+      ),
       prepareForScreenShot: EventFactory.createEvent(
         EventFactory.Types.PREPARE_FOR_SCREENSHOT,
         this,
@@ -238,17 +242,13 @@ module.exports = class ConsoleWindow {
    * event dispatched from global shortcut callback. in charge of showing or hiding the console window.
    */
   onConsoleShowHideCb(event, arg) {
-    if (
-      this.state === this.states.SHOWING ||
-      this.state === this.states.HIDING
-    ) {
-      this.state = this.states.CANCEL;
+    if (this.state === this.states.SHOWING || this.state === this.states.HIDING) {
       return;
     }
-    if (!this.window.isVisible()) {
-      this.updateConsole();
+    if (this.state === this.states.HIDDEN) {
+      this.updateConsoleToOpenPosition();
       this.showConsole();
-    } else {
+    } else if (this.state === this.states.SHOWN) {
       this.hideConsole();
     }
   }
@@ -256,7 +256,7 @@ module.exports = class ConsoleWindow {
   /**
    * updates the console's size and position from the currently stored display
    */
-  updateConsole() {
+  updateConsoleToOpenPosition() {
     this.display = global.App.WindowManager.getDisplay();
     this.window.setPosition(
       this.display.workArea.x,
@@ -288,8 +288,11 @@ module.exports = class ConsoleWindow {
     this.state = this.states.HIDING;
     setTimeout(() => {
       this.window.hide();
+
+      //this is only necessary if we have the app in dock
+      //this.restorePreviousWindowFocus();
       this.state = this.states.HIDDEN;
-      this.restorePreviousWindowFocus();
+      this.events.consoleHidden.dispatch({});
     }, this.animateTimeMs);
   }
 

@@ -60,7 +60,6 @@ class ShortcutManager {
   /**
    * static enum to store shortcut names. These are basically the type
    * of possible shortcuts that can be registered by the Manager.
-   * @returns {{GLOBAL_SHOW_HIDE_CONSOLE_ALT:string, WINDOW_SIDEBAR_FIRST_ITEM: string, GLOBAL_SHOW_HIDE_CONSOLE: string, GLOBAL_WINDOW_DEV_MODE: string}}
    * @constructor
    */
   static get Names() {
@@ -92,7 +91,6 @@ class ShortcutManager {
   /**
    * an enum array of shortcut strings which are formated to electron specification
    * see => https://electronjs.org/docs/api/accelerator
-   * @returns {{CONSOLE_SHORTCUT: string}}
    * @constructor
    */
   static get Accelerators() {

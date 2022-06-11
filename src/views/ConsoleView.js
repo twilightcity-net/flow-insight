@@ -29,7 +29,6 @@ export default class ConsoleView extends Component {
    * @type {number}
    */
   static animationTime = 0.4;
-
   /**
    * this is the type of animation css class to use to slide the console in
    * @type {string}
@@ -79,9 +78,9 @@ export default class ConsoleView extends Component {
       );
 
     let root = document.getElementById("root");
-    root.style.transform =
-      "translate(0px," + window.innerHeight * -1 + "px)";
+    root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";
     root.style.opacity = "0";
+
     this.keyframes = new Keyframes(root);
     Keyframes.define({
       name: ConsoleView.animationTypeIn,
@@ -155,25 +154,34 @@ export default class ConsoleView extends Component {
    * @param arg
    */
   onLoadCb(event, arg) {
-    if (
-      arg.showHideFlag ===
-      ConsoleView.ConsoleStates.SHOW_CONSOLE
-    ) {
+    if (arg.showHideFlag === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
+      this.playAnimateIn();
+    } else if (arg.showHideFlag === ConsoleView.ConsoleStates.HIDE_CONSOLE) {
+      this.playAnimateOut();
+    }
+  }
+
+  playAnimateIn() {
+    let root = document.getElementById("root");
+    root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";
+    root.style.opacity = "0";
+    setTimeout(() => {
       this.keyframes.play({
         name: ConsoleView.animationTypeIn,
         duration: ConsoleView.animationTime + "s",
         timingFunction: ConsoleView.animationTiming,
       });
-    } else if (
-      arg.showHideFlag ===
-      ConsoleView.ConsoleStates.HIDE_CONSOLE
-    ) {
-      this.keyframes.play({
-        name: ConsoleView.animationTypeOut,
-        duration: ConsoleView.animationTime + "s",
-        timingFunction: ConsoleView.animationTiming,
-      });
-    }
+    }, 33);
+
+  }
+
+  playAnimateOut() {
+    this.keyframes.play({
+      name: ConsoleView.animationTypeOut,
+      duration: ConsoleView.animationTime + "s",
+      timingFunction: ConsoleView.animationTiming,
+    });
+
   }
 
   /**
