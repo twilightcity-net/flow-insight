@@ -2,6 +2,7 @@ const { Menu, Tray } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util");
 const WindowManagerHelper = require("../managers/WindowManagerHelper");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
 /*
  * This class is used to init the Application tray
@@ -9,15 +10,25 @@ const WindowManagerHelper = require("../managers/WindowManagerHelper");
 module.exports = class AppTray extends Tray {
   constructor() {
     log.info("[AppTray] created -> okay");
-    let iconPath = Util.getAssetPath("/icons/icon.png");
+    let iconPath;
     if (process.platform === "darwin") {
-      // ??? Why didn't this work according to https://www.christianengvall.se/electron-app-icons/
-      // iconPath = Util.getAssetPath("/icons/mac/icon.icns");
-      iconPath = Util.getAssetPath(
-        "/icons/mac/png/icon.png"
-      );
+      if (AppFeatureToggle.isMoovieApp) {
+        iconPath = Util.getAssetPath("/icons/moovies/iconTemplate.png");
+      } else {
+        iconPath = Util.getAssetPath("/icons/mac/iconTemplate.png");
+      }
     } else if (process.platform === "win32") {
-      iconPath = Util.getAssetPath("/icons/win/icon.ico");
+      if (AppFeatureToggle.isMoovieApp) {
+        iconPath = Util.getAssetPath("/icons/moovies/iconTemplate.ico");
+      } else {
+        iconPath = Util.getAssetPath("/icons/win/icon.ico");
+      }
+    } else {
+      if (AppFeatureToggle.isMoovieApp) {
+        iconPath = Util.getAssetPath("/icons/moovies/iconTemplate.png");
+      } else {
+        iconPath = Util.getAssetPath("/icons/iconTemplate.png");
+      }
     }
     log.info(`[AppTray] iconPath=${iconPath}`);
     super(iconPath);
@@ -32,7 +43,13 @@ module.exports = class AppTray extends Tray {
         role: "quit",
       }
     ]);
-    this.setToolTip("Flow Insight");
+
+    if (AppFeatureToggle.isMoovieApp) {
+      this.setToolTip("WatchMoovies");
+    } else {
+      this.setToolTip("FlowInsight");
+    }
+
     this.setContextMenu(menu);
     this.on("click", (event, bounds, position) => {
       log.info("[AppTray] tray event -> click");
