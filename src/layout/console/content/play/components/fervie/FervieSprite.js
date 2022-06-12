@@ -2,14 +2,16 @@ import AnimationId from "../AnimationId";
 import FervieGlowSprite from "./FervieGlowSprite";
 import FervieKissSprite from "./FervieKissSprite";
 import FervieSitSprite from "./FervieSitSprite";
+import CompositeAnimationBuilder from "../CompositeAnimationBuilder";
 
 /**
  * Creates our fervie sprite animation
  */
 
 export default class FervieSprite {
-  constructor(animationLoader, globalHud, x, y, size, direction, scaleX, scaleY) {
+  constructor(animationLoader, accessoryManager, globalHud, x, y, size, direction, scaleX, scaleY) {
     this.animationLoader = animationLoader;
+    this.accessoryManager = accessoryManager;
     this.globalHud = globalHud;
     this.x = x - size / 2 - 10;
     this.y = y - 20;
@@ -47,6 +49,8 @@ export default class FervieSprite {
     this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
     this.fervieKissSprite = new FervieKissSprite(this.animationLoader, this.size);
     this.fervieSitSprite = new FervieSitSprite(this.animationLoader, this.size);
+
+    this.compositeAnimationBuilder = new CompositeAnimationBuilder();
   }
 
   /**
@@ -86,6 +90,9 @@ export default class FervieSprite {
     this.fervieGlowSprite.preload(p5);
     this.fervieKissSprite.preload(p5);
 
+    this.compositeAnimationBuilder.initGraphics(p5, FervieSprite.UNSCALED_IMAGE_WIDTH, FervieSprite.UNSCALED_IMAGE_HEIGHT);
+    this.accessoryManager.preload(p5, this.size);
+
   }
 
   reloadImages(p5) {
@@ -95,6 +102,8 @@ export default class FervieSprite {
     this.animationLoader.clear12FrameAnimationCache(AnimationId.Animation.FervieWalkDown);
 
     this.preload(p5);
+
+    this.accessoryManager.reloadImages(p5, this.size);
 
     this.fervieGlowSprite.reloadImages(p5);
     this.fervieKissSprite.reloadImages(p5);
@@ -110,6 +119,17 @@ export default class FervieSprite {
 
   adjustDown(amount) {
     this.adjustDownAmount = (amount + (this.scale * amount));
+  }
+
+  createFervieWithAccessories(p5, image, size, direction) {
+    const accessory = this.accessoryManager.getAccessoryWithXY(p5, this.animationFrame, size, direction );
+    if (accessory) {
+      this.compositeAnimationBuilder.loadBaseImage(image);
+      this.compositeAnimationBuilder.loadOverlay(accessory.image, accessory.x, accessory.y);
+      return this.compositeAnimationBuilder.getGraphics();
+    } else {
+      return image;
+    }
   }
 
   /**
@@ -134,6 +154,7 @@ export default class FervieSprite {
         this.animationFrame,
         this.size
       );
+      image = this.createFervieWithAccessories(p5, image, this.size, this.direction);
       this.scaleAndDrawSprite(p5, image);
     } else if (this.direction === FervieSprite.Direction.Down) {
       image = this.animationLoader.getAnimationImage(
@@ -142,6 +163,7 @@ export default class FervieSprite {
         this.animationFrame,
         this.size
       );
+      image = this.createFervieWithAccessories(p5, image, this.size, this.direction);
       this.scaleAndDrawSprite(p5, image);
     } else if (this.direction === FervieSprite.Direction.Right) {
       image = this.animationLoader.getAnimationImage(
@@ -150,6 +172,7 @@ export default class FervieSprite {
         this.animationFrame,
         this.size
       );
+      image = this.createFervieWithAccessories(p5, image, this.size, this.direction);
       this.scaleAndDrawSprite(p5, image);
     } else if (this.direction === FervieSprite.Direction.Left) {
       image = this.animationLoader.getAnimationImage(
@@ -158,6 +181,7 @@ export default class FervieSprite {
         this.animationFrame,
         this.size
       );
+      image = this.createFervieWithAccessories(p5, image, this.size, this.direction);
       this.scaleAndMirrorAndDrawSprite(p5, image);
     }
 
@@ -222,6 +246,7 @@ export default class FervieSprite {
    * changing the direction of fervie based on the arrow keys
    */
   update(p5, environment) {
+    //console.log(Math.floor(this.animationFrame/2));
     this.fervieGlowSprite.update(p5, environment);
     if (!this.fervieGlowSprite.isVisible
       || this.fervieGlowSprite.isTransitioning()

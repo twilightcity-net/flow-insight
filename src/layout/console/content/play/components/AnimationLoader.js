@@ -30,6 +30,10 @@ export default class AnimationLoader {
     this.imageCaches[animationName + "_" + frame] = [];
   }
 
+  clearScaledSvgCache(animationName) {
+    this.imageCaches[animationName] = [];
+  }
+
   clearStaticImageCache(imagePath) {
     this.staticImages[imagePath] = null;
   }
@@ -58,7 +62,9 @@ export default class AnimationLoader {
     if (!staticImage) {
       let svg1 = document.getElementById(animationId);
       svg1.setAttribute("width", width + "px");
-      svg1.setAttribute("height", height + "px");
+      if (height) {
+        svg1.setAttribute("height", height + "px");
+      }
 
       let xml = new XMLSerializer().serializeToString(svg1);
       var svg = new Blob([xml], { type: "image/svg+xml" });
@@ -126,7 +132,19 @@ export default class AnimationLoader {
     }
   }
 
-
+  getAnimationImageWithFallback(p5, animationName, fallbackAnimationName, frameOn24, size) {
+    let cache = this.getImageCache(
+      animationName,
+      frameOn24
+    );
+    let image = cache[size];
+    if (!image) {
+      return this.getAnimationImage(p5, fallbackAnimationName, frameOn24, size);
+    } else {
+      console.log(image);
+      return image;
+    }
+  }
 
   getAnimationImage(p5, animationName, frameOn24, size) {
     let cache = this.getImageCache(
@@ -155,6 +173,13 @@ export default class AnimationLoader {
     }
   }
 
+  cacheImage(animationName, frameOn24, size, image) {
+    let cache = this.getImageCache(
+      animationName,
+      frameOn24
+    );
+    cache[size] = image;
+  }
 
   getDefaultImageCache(animationId) {
     let cache = this.imageCaches[animationId];

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { MemberClient } from "../../../../clients/MemberClient";
 import GameSketch from "./components/GameSketch";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import UtilRenderer from "../../../../UtilRenderer";
+import {BaseClient} from "../../../../clients/BaseClient";
 
 /**
  * this component is the tab panel wrapper for the play game content
@@ -26,6 +29,34 @@ export default class PlayResource extends Component {
         visible: true,
       });
     }, 333);
+
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
+  }
+
+  componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
+  }
+
+
+  onTalkRoomMessage = (event, arg) => {
+    let mType = arg.messageType,
+      memberId = UtilRenderer.getMemberIdFromMetaProps(arg.metaProps);
+
+    if (mType === BaseClient.MessageTypes.TEAM_MEMBER
+      && this.state.me && memberId === this.state.me.id) {
+      this.updateMe(arg.data);
+    }
+  }
+
+  updateMe(me) {
+    this.setState({
+      me: me
+    });
   }
 
   onFinishedLoading = () => {

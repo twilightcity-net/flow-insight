@@ -4,6 +4,7 @@
 export default class FervieColors {
   static defaultFervieColor = "#B042FF";
   static defaultShoeColor = "#FFFFFF";
+  static defaultSunglassColor = "#000000";
 
   static getShoeInsideColor(shoecolor) {
     let rgb = this.hexToRgb(shoecolor);

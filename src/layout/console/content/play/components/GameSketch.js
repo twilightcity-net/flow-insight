@@ -15,6 +15,10 @@ import MoovieFervie from "./fervie/MoovieFervie";
 import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
 import MoovieRoomDialog from "./moovie/MoovieRoomDialog";
+import {Sunglasses} from "./accessories/Sunglasses";
+import CompositeAnimationBuilder from "./CompositeAnimationBuilder";
+import AccessoryManager from "./accessories/AccessoryManager";
+import {Heartglasses} from "./accessories/Heartglasses";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -61,8 +65,11 @@ export default class GameSketch extends Component {
 
         this.environment.preload(p5);
 
+        this.accessoryManager = new AccessoryManager(this.props.me, this.animationLoader);
+
         this.fervieSprite = new FervieSprite(
           this.animationLoader,
+          this.accessoryManager,
           this.globalHud,
           this.width / 2,
           this.height / 2,
@@ -116,14 +123,20 @@ export default class GameSketch extends Component {
   }
 
   componentWillUnmount() {
-    this.sketchInstance.remove();
-    this.globalHud.unload();
+    if (this.sketchInstance) {
+      this.sketchInstance.remove();
+    }
+    if (this.globalHud) {
+      this.globalHud.unload();
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.me !== this.props.me) {
       console.log("me changed!");
+      this.accessoryManager.updateMember(this.props.me);
       this.fervieSprite.reloadImages(this.sketchInstance);
+
     }
   }
 
@@ -134,12 +147,17 @@ export default class GameSketch extends Component {
     let height = DimensionController.getHeightFor(
       DimensionController.Components.PLAY_PANEL
     );
+    let fervieAccessory = null;
     let fervieColor = FervieColors.defaultFervieColor;
     let fervieShoeColor = FervieColors.defaultShoeColor;
+    let fervieAccessoryColor = FervieColors.defaultSunglassColor;
 
     if (this.props.me) {
       fervieColor = this.props.me.fervieColor;
       fervieShoeColor = this.props.me.fervieSecondaryColor;
+      fervieAccessoryColor = this.props.me.fervieTertiaryColor;
+      console.log(fervieAccessoryColor);
+      fervieAccessory = this.props.me.fervieAccessory;
     }
 
     return (
@@ -214,122 +232,146 @@ export default class GameSketch extends Component {
           {FervieWalkRight.getFrame(
             1,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             2,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             3,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             4,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             5,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             6,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             7,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             8,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             9,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             10,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             11,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkRight.getFrame(
             12,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             1,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             2,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             3,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             4,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             5,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             6,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             7,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             8,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             9,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             10,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             11,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FervieWalkDown.getFrame(
             12,
             fervieColor,
-            fervieShoeColor
+            fervieShoeColor,
+            fervieAccessory
           )}
           {FerviePose.getPose(FerviePose.Pose.Glow,
             fervieColor,
@@ -353,6 +395,10 @@ export default class GameSketch extends Component {
             fervieColor,
             fervieShoeColor
           )}
+          {Sunglasses.getFervieRight(fervieAccessoryColor)}
+          {Sunglasses.getFervieDown(fervieAccessoryColor)}
+          {Heartglasses.getFervieRight(fervieAccessoryColor)}
+          {Heartglasses.getFervieDown(fervieAccessoryColor)}
         </div>
       </div>
     );

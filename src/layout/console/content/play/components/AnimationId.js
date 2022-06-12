@@ -21,6 +21,15 @@ export default class AnimationId {
     };
   }
 
+  static get Accessory() {
+    return {
+      SunglassRight: "SunglassRight",
+      SunglassDown: "SunglassDown",
+      HeartglassRight: "HeartglassRight",
+      HeartglassDown: "HeartglassDown"
+    }
+  }
+
   static getFrameOnTwos(animationFrame) {
     return (
       Math.floor((parseInt(animationFrame, 10) - 1) / 2) + 1
