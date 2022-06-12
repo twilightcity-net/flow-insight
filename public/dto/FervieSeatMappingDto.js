@@ -8,6 +8,7 @@ module.exports = class FervieSeatMappingDto {
 
       this.memberId = json.memberId;
       this.username = json.username;
+      this.fervieName = json.fervieName;
       this.fervieColor = json.fervieColor;
 
       this.rowNumber = json.rowNumber;

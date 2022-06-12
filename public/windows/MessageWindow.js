@@ -122,8 +122,6 @@ module.exports = class MessageWindow {
    * @param newIndex
    */
   resetDMIndex(newIndex) {
-    console.log("resetDMIndex = "+newIndex);
-    console.log("current state = "+this.state);
     this.dmIndex = newIndex;
     if (this.state === this.states.SHOWN) {
       this.updateToExpandedConsole();

@@ -328,6 +328,7 @@ export default class TheaterRoom extends Environment {
     }
   }
 
+
   isOverImage(image, x, y) {
     let color = image.get(
       Math.round(x / this.scaleAmountX),
@@ -446,7 +447,22 @@ export default class TheaterRoom extends Environment {
     p5.image(chairsBack, 0, 0);
     p5.image(shadow, 0, 0);
 
+    const fervieInSeat = this.getMouseOverFervieInSeat(p5,fervie);
+    if (fervieInSeat && fervieInSeat.memberId !== MemberClient.me.id) {
+      this.drawFervieTooltip(p5, fervieInSeat);
+    }
+
     p5.pop();
+  }
+
+  drawFervieTooltip(p5, fervieInSeat) {
+    p5.fill('rgba(0,0,0,0.7)');
+    p5.rect(fervieInSeat.x - 45, fervieInSeat.y - 100, 100, 30, 5);
+    p5.textSize(12);
+    p5.textAlign(p5.CENTER);
+    p5.textFont('arial');
+    p5.fill(220);
+    p5.text(fervieInSeat.fervieName, fervieInSeat.x - 45, fervieInSeat.y - 90, 100, 30);
   }
 
   isBehindFrontRow(fervie) {
@@ -492,8 +508,9 @@ export default class TheaterRoom extends Environment {
   }
 
   mousePressed(p5, fervie) {
+
     const rowNumber = this.getFervieRowNumber(fervie);
-    if (rowNumber > 0) {
+    if (rowNumber > 0 && this.isOverChairRow(p5, rowNumber, p5.mouseX, p5.mouseY)) {
       const seatNum = this.getSeatNumber(rowNumber, p5.mouseX);
       const fervieSeat = this.getFervieNearestSeatNumber(rowNumber, fervie);
 
@@ -508,6 +525,28 @@ export default class TheaterRoom extends Environment {
       this.launchMoovieEvent.dispatch({moovie: this.moovie})
     }
   }
+
+  getMouseOverFervieInSeat(p5, fervie) {
+    const rowNumber = this.getFervieRowNumber(fervie);
+    const x = p5.mouseX;
+    const y = p5.mouseY;
+    //if my mouse is above the chair, then adding to the chair value should put
+    if (this.isOverChairRow(p5, rowNumber, x, y+30)) {
+      const seatNum = this.getSeatNumber(rowNumber, x);
+      return this.getFervieInSeat(rowNumber, seatNum);
+    }
+    return null;
+  }
+
+  getFervieInSeat(row, seat) {
+    for (let sittingFervie of this.fervieSeatMappings) {
+      if (sittingFervie.rowNumber === row && sittingFervie.seatNumber === seat) {
+        return sittingFervie;
+      }
+    }
+    return null;
+  }
+
 
   reloadTheaterFerviesIfReady(p5) {
     if (this.seatsReadyToLoad) {
