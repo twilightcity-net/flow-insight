@@ -96,6 +96,9 @@ export default class FerviePanel extends Component {
       fervieSecondaryColor: fervieSecondaryColor,
       fervieTertiaryColor: fervieTertiaryColor,
       fervieAccessory: fervieAccessory,
+      editedFervieColor: fervieColor,
+      editedFervieSecondaryColor: fervieSecondaryColor,
+      editedfervieTertiaryColor: fervieTertiaryColor,
       whatToColor: FerviePanel.Colorables.FUR,
       isEditingName: false,
       fervieName: this.getFervieName(this.me),
@@ -394,7 +397,7 @@ export default class FerviePanel extends Component {
 
           return {
             fervieAccessory: itemComp.props.fervieAccessory,
-            fervieTertiaryColor: "#000000",
+            fervieTertiaryColor: "#000000"
           };
         }
       });
@@ -717,40 +720,57 @@ export default class FerviePanel extends Component {
   };
 
   handleChooseColorOnClick = () => {
-    this.setState({ pickColorVisible: true });
+    this.setState({
+      pickColorVisible: true,
+      editedFervieColor: this.state.fervieColor,
+      editedFervieSecondaryColor: this.state.fervieSecondaryColor,
+      editedFervieTertiaryColor: this.state.fervieTertiaryColor,
+      whatToColor : FerviePanel.Colorables.FUR,
+      color: this.state.fervieColor
+    });
   };
 
   handleCancelColorClick = () => {
-    this.setState({ pickColorVisible: false });
+    this.setState({
+      pickColorVisible: false
+    });
   }
 
   /**
    * When color change is done, save the details on the server
    */
   handleColorDoneOnClick = () => {
-    let fervieColor = this.state.fervieColor;
-    let fervieSecondaryColor = this.state.fervieSecondaryColor;
-    let fervieTertiaryColor = this.state.fervieTertiaryColor;
+    let fervieColor = this.state.editedFervieColor;
+    let fervieSecondaryColor = this.state.editedFervieSecondaryColor;
+    let fervieTertiaryColor = this.state.editedFervieTertiaryColor;
 
     //make sure we apply the last color setting, and figure out what needs to be sent to server
     if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
       fervieColor = this.state.color;
       this.setState({
+        editedFervieColor: this.state.color,
         fervieColor: this.state.color,
       });
     } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
       fervieSecondaryColor = this.state.color;
       this.setState({
+        editedFervieSecondaryColor: this.state.color,
         fervieSecondaryColor: this.state.color,
       });
     } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
       fervieTertiaryColor = this.state.color;
       this.setState({
+        editedFervieTertiaryColor: this.state.color,
         fervieTertiaryColor: this.state.color,
       });
     }
 
-    this.setState({ pickColorVisible: false });
+    this.setState({
+      pickColorVisible: false,
+      fervieColor: fervieColor,
+      fervieSecondaryColor: fervieSecondaryColor,
+      fervieTertiaryColor: fervieTertiaryColor
+    });
     FervieClient.saveFervieDetails(
       fervieColor,
       fervieSecondaryColor,
@@ -801,25 +821,25 @@ export default class FerviePanel extends Component {
     if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
       //existing color state, we need to copy out to the particular variable type
       this.setState({
-        fervieColor: this.state.color,
+        editedFervieColor: this.state.color,
       });
     } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
       this.setState({
-        fervieSecondaryColor: this.state.color,
+        editedFervieSecondaryColor: this.state.color,
       });
     } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
       this.setState({
-        fervieTertiaryColor: this.state.color,
+        editedFervieTertiaryColor: this.state.color,
       });
     }
 
     let newColor = null;
     if (value === FerviePanel.Colorables.FUR) {
-      newColor = this.state.fervieColor;
+      newColor = this.state.editedFervieColor;
     } else if (value === FerviePanel.Colorables.SHOES) {
-      newColor = this.state.fervieSecondaryColor;
+      newColor = this.state.editedFervieSecondaryColor;
     } else if (value === FerviePanel.Colorables.ACCESSORY) {
-      newColor = this.state.fervieTertiaryColor;
+      newColor = this.state.editedFervieTertiaryColor;
     }
 
     this.setState({
@@ -906,9 +926,9 @@ export default class FerviePanel extends Component {
           }}
         >
           <FervieCanvas
-            haircolor={this.state.fervieColor}
-            shoecolor={this.state.fervieSecondaryColor}
-            accessorycolor={this.state.fervieTertiaryColor}
+            haircolor={this.state.editedFervieColor}
+            shoecolor={this.state.editedFervieSecondaryColor}
+            accessorycolor={this.state.editedFervieTertiaryColor}
             accessory={this.state.fervieAccessory}
             render3d={this.render3d}
           />
@@ -939,17 +959,17 @@ export default class FerviePanel extends Component {
               if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
                 this.setState({
                   color: color,
-                  fervieColor: color,
+                  editedFervieColor: color,
                 });
               } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
                 this.setState({
                   color: color,
-                  fervieSecondaryColor: color,
+                  editedFervieSecondaryColor: color,
                 });
               } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
                 this.setState({
                   color: color,
-                  fervieTertiaryColor: color,
+                  editedFervieTertiaryColor: color,
                 });
               }
             }}
