@@ -123,11 +123,12 @@ module.exports = class MessageWindow {
    */
   resetDMIndex(newIndex) {
     console.log("resetDMIndex = "+newIndex);
+    console.log("current state = "+this.state);
     this.dmIndex = newIndex;
-    if (this.isClosed) {
-      this.updateToCollapsedConsole();
-    } else {
+    if (this.state === this.states.SHOWN) {
       this.updateToExpandedConsole();
+    } else {
+      this.updateToCollapsedConsole();
     }
   }
 
