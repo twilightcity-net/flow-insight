@@ -29,9 +29,15 @@ export default class BuddiesPanelListItem extends Component {
    * @returns {*}
    */
   getDisplayName() {
+    let displayName = "";
+    if (this.props.model.fervieName) {
+      displayName = this.props.model.fervieName;
+    } else {
+      displayName = this.props.model.username;
+    }
     return (
       <span>
-        {this.props.model.fervieName}
+        {displayName}
         {this.props.isMe && <i>{BaseClient.Strings.YOU}</i>}
       </span>
     );
