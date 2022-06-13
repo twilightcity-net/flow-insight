@@ -8,6 +8,7 @@ const WindowManagerHelper = require("./WindowManagerHelper");
 module.exports = class DMWindowManager {
   static windowNamePrefix = "tc-dm-";
 
+  static WINDOW_LIMIT = 3;
   /**
    * builds the DMWindowManager for the global app scope
    */
@@ -43,7 +44,11 @@ module.exports = class DMWindowManager {
     let windowName = this.getWindowName(arg);
 
     const existingWindow = this.dmWindowsByName.get(windowName);
+
     if (!existingWindow) {
+
+      this.closeOldestWindowIfOverLimit();
+
       console.log("creating window!");
       arg.dmIndex = this.dmWindowsByName.size;
 
@@ -55,6 +60,14 @@ module.exports = class DMWindowManager {
       this.orderedWindows.push(windowName);
     }
 
+  }
+
+  closeOldestWindowIfOverLimit() {
+    if (this.dmWindowsByName.size === DMWindowManager.WINDOW_LIMIT) {
+      const firstWindowName = this.orderedWindows[0];
+
+      this.closeAndCleanUpWindow(firstWindowName);
+    }
   }
 
   /**
@@ -79,6 +92,10 @@ module.exports = class DMWindowManager {
   onCloseDMCb(event, arg) {
     let windowName = this.getWindowName(arg);
 
+    this.closeAndCleanUpWindow(windowName);
+  }
+
+  closeAndCleanUpWindow(windowName) {
     let window = this.dmWindowsByName.get(windowName);
     if (window) {
       window.window.close();
@@ -86,7 +103,6 @@ module.exports = class DMWindowManager {
       this.removeFromOrderedWindows(windowName);
       this.reassignWindowOrderPositions();
     }
-
   }
 
   reassignWindowOrderPositions() {
