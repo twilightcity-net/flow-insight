@@ -137,18 +137,31 @@ export default class DMLayout extends Component {
     console.log("props: "+this.props.memberId);
 
     //TODO handle direct message responses from this specific user
-    if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
-      && messageFromMemberId === this.props.memberId) {
-      this.addMessageToFeed(arg);
-    } else if (arg.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
-      this.handleChatReaction(messageFromMemberId, arg.data);
+    if (messageFromMemberId === this.props.memberId) {
+      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
+        this.addMessageToFeed(arg);
+      } else if (arg.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
+        this.handleChatReaction(messageFromMemberId, arg.data);
+      } else if (arg.messageType === BaseClient.MessageTypes.BUDDY_STATUS_EVENT) {
+        this.handleBuddyStatusUpdate(arg.data);
+      }
     }
+
+
   };
 
   createMap(id, mapItem) {
     const map = new Map();
     map.set(id, mapItem);
     return map;
+  }
+
+  handleBuddyStatusUpdate(buddyEvent) {
+    if (buddyEvent.buddy.sparkId === this.props.memberId) {
+      this.setState({
+        member: buddyEvent.buddy
+      });
+    }
   }
 
   /**

@@ -3524,6 +3524,20 @@
     margin-left: 40px;
   }
 
+  #component.chatWindow .chatBanner .title.offline {
+    color: #777777;
+    font-style: italic;
+  }
+
+  #component.chatWindow .chatBanner .username.offline {
+    font-style: italic;
+  }
+
+  #component.chatWindow .chatBanner .profileImage.offline svg {
+    filter: brightness(60%);
+  }
+
+
   #component.chatWindow .chatBanner .username {
     margin-left: 10px;
   }
@@ -3720,6 +3734,14 @@
   #component.chatWindow .appIcon:hover {
     filter: brightness(105%);
     cursor: pointer;
+  }
+
+  #component.chatWindow .appIcon.offline {
+    filter: brightness(50%);
+  }
+
+  #component.chatWindow .appIcon.offline:hover {
+    filter: brightness(70%);
   }
 
   #component.chatWindow .appIcon svg {

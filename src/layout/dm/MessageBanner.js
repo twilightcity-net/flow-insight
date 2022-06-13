@@ -42,9 +42,15 @@ export default class MessageBanner extends Component {
     let title = ".";
     let username = "";
     let profileImage = "";
+    let offline = "";
+    let offlineClass = "";
     if (this.props.member) {
       title = this.props.member.fervieName;
       username = "@"+this.props.member.username;
+      if (this.props.member.onlineStatus !== "Online") {
+        offline = " (Offline)";
+        offlineClass = " offline";
+      }
 
       profileImage = (<FervieProfile
         showPopup={false}
@@ -56,9 +62,9 @@ export default class MessageBanner extends Component {
 
     return (
      <div className="chatBanner">
-       <span className="profileImage">{profileImage}</span>
-       <span className="title"> {title}</span>
-       <span className="username"> { username}</span>
+       <span className={"profileImage"+offlineClass}>{profileImage}</span>
+       <span className={"title" + offlineClass}> {title+offline}</span>
+       <span className={"username"+offlineClass}> { username}</span>
      </div>
     );
   }

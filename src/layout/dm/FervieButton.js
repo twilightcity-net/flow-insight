@@ -129,6 +129,11 @@ export default class FervieButton extends Component {
     const fervieMe = <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={MemberClient.me} hasBorder={true} />
     const fervieMember = <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={this.props.member} hasBorder={true} />;
 
+    let offlineClass = "";
+    if (this.props.member && this.props.member.onlineStatus !== "Online") {
+      offlineClass = " offline";
+    }
+
     return (
       <div>
         <Dropdown id={FervieButton.fervieActionsPopupId} text=""
@@ -142,7 +147,7 @@ export default class FervieButton extends Component {
            <div className={"appIcon fervieMe"} onClick={this.onClickFervie}>
              {fervieMe}
            </div>
-        <div className={"appIcon fervieMember"} onClick={this.onClickFervie}>
+        <div className={"appIcon fervieMember"+offlineClass} onClick={this.onClickFervie}>
           {fervieMember}
         </div>
       </div>
