@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import UtilRenderer from "../../UtilRenderer";
 import FervieProfile from "../shared/FervieProfile";
 
 /**

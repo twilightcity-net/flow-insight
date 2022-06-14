@@ -6,10 +6,10 @@ import {BaseClient} from "../clients/BaseClient";
 import ChatFeed from "./moovie/ChatFeed";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
-import ChatPeekPopup from "./moovie/ChatPeekPopup";
 import FervieButton from "./dm/FervieButton";
 import MessageBanner from "./dm/MessageBanner";
 import moment from "moment";
+import {NotificationClient} from "../clients/NotificationClient";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -35,21 +35,12 @@ export default class DMLayout extends Component {
       memberByIdMap: new Map(),
       member: null
     };
-
-    this.directMessageListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
-        this,
-        this.onTalkDirectMessage
-      );
-
   }
 
   /**
    * Called when the chat console is first loaded
    */
   componentDidMount = () => {
-
     console.log("memberID = "+this.props.memberId);
     MemberClient.getMemberById(this.props.memberId, this, (arg) => {
       if (!arg.error) {
@@ -62,11 +53,108 @@ export default class DMLayout extends Component {
           buddiesById: this.createMap(this.props.memberId, arg.data),
           memberByIdMap: this.createMap(this.props.memberId, arg.data)
         });
+
       } else {
         console.error("Unable to load member: "+arg.error);
       }
     });
+
+    this.refreshDMs();
+
+    this.directMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
+        this,
+        this.onTalkDirectMessage
+      );
+
+    this.refreshDMsListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.DM_DATA_REFRESH,
+        this,
+        this.refreshDMs
+      );
+
   };
+
+  refreshDMs() {
+    TalkToClient.getDMsWithMember(this.props.memberId, this, (arg) => {
+      if (!arg.error) {
+        console.log(arg.data);
+        this.handleLoadMessages(arg.data);
+      } else {
+        console.error("Unable to load messages: "+arg.error);
+      }
+    });
+  }
+
+  /**
+   * detach any listeners when we remove this from view
+   */
+  componentWillUnmount = () => {
+    if (this.directMessageListener) {
+      this.directMessageListener.clear();
+    }
+
+    if (this.refreshDMsListener) {
+      this.refreshDMsListener.clear();
+    }
+  };
+
+
+  /**
+   * Loads the messages from the local DB into a state that we can use
+   * for the chat feed display
+   * @param dbMessages
+   */
+  handleLoadMessages(dbMessages) {
+    let messages = [];
+
+    let me = MemberClient.me;
+    for (let dbMessage of dbMessages) {
+
+      const isMe = (me.id === dbMessage.fromMemberId);
+
+      let viewMessage = {
+        id: dbMessage.id,
+        username: dbMessage.fromUsername,
+        time: dbMessage.createdDate,
+        texts: [{id: dbMessage.id, message: dbMessage.message, reactions: []}],
+        isMe: isMe,
+        isPuppet: false,
+        isLocalOnly: false
+      };
+
+      messages = this.addMessage(messages, viewMessage);
+    }
+
+    this.setState({
+      messages: messages
+    });
+  }
+
+
+  /**
+   * Updates messages to the list without copying the whole list
+   */
+  addMessage(messages, newMessage) {
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.time === newMessage.time
+        && lastMessage.username === newMessage.username
+        && lastMessage.isPuppet === newMessage.isPuppet) {
+
+        lastMessage.texts.push(newMessage.texts[0]);
+        messages[messages.length - 1] = lastMessage;
+      } else {
+        messages.push(newMessage);
+      }
+    } else {
+      messages.push(newMessage);
+    }
+
+    return messages;
+  }
 
   /**
    * When one of the properties or state variable has changed
@@ -80,6 +168,15 @@ export default class DMLayout extends Component {
       if (chatInput) {
         chatInput.focus();
       }
+
+      //mark messages as read when slide window is opened
+      NotificationClient.markChatAsReadForMember(this.props.memberId, this, (arg) => {
+        if (!arg.error) {
+          console.log("messages marked as read");
+        } else {
+          console.error("Unable to mark offline chat as read: "+arg.error);
+        }
+      });
     }
 
     if (prevProps.showPeekView && !this.props.showPeekView) {
@@ -97,30 +194,6 @@ export default class DMLayout extends Component {
       }
     }
   }
-  //
-  //
-  // /**
-  //  * Handle chat room messages
-  //  * @param event
-  //  * @param arg
-  //  */
-  // onTalkRoomMessage = (event, arg) => {
-  //   if (arg.uri === this.state.moovie.talkRoomId) {
-  //     if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
-  //       this.props.onMessageSlideWindow();
-  //       this.addMessageToFeed(arg);
-  //
-  //     } else if (arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
-  //       this.addMessageToFeed(arg);
-  //     } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
-  //       this.handleRoomMemberStatusEvent(arg);
-  //     } else if (arg.messageType === BaseClient.MessageTypes.MOOVIE_STATUS_UPDATE) {
-  //       this.handleMoovieStatusUpdate(arg);
-  //     } else if (arg.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
-  //       this.handleChatReaction(arg.data);
-  //     }
-  //   }
-  // };
 
   /**
    * Handle direct messages like buddy status updates
@@ -136,7 +209,6 @@ export default class DMLayout extends Component {
     console.log(messageFromMemberId);
     console.log("props: "+this.props.memberId);
 
-    //TODO handle direct message responses from this specific user
     if (messageFromMemberId === this.props.memberId) {
       if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
         this.addMessageToFeed(arg);
@@ -505,27 +577,6 @@ export default class DMLayout extends Component {
 
   }
 
-  getChatPeekPopup() {
-    let visibility = "none";
-    if (this.props.showPeekView) {
-      visibility = "block";
-    }
-    return (
-      <div id="component" className="moovieChat peekWindow" style={{display : visibility}}>
-        <div id={ChatPeekPopup.feedWindowId} className="chatFeed smoothScroll">
-        <ChatPeekPopup circuitMembers={this.state.circuitMembers}
-                       buddiesById={this.state.buddiesById}
-                       memberByIdMap={this.state.memberByIdMap}
-                       messages={this.state.messages}
-                       onActivateFullChatWindow={this.onActivateFullChatWindow}
-                       onAddReaction={this.onAddReaction}
-                       onRemoveReaction={this.onRemoveReaction}
-                       onAddBuddy={this.onAddBuddy}/>
-        </div>
-      </div>);
-  }
-
-
   getFullChatView() {
     let visibility = "none";
     if (!this.props.showPeekView) {
@@ -564,7 +615,6 @@ export default class DMLayout extends Component {
   render() {
     return (
     <div>
-      {this.getChatPeekPopup()}
       {this.getFullChatView()}
     </div>
     );

@@ -158,14 +158,9 @@ module.exports = class MessageWindow {
    * event dispatched from global shortcut callback. in charge of showing or hiding the console window.
    */
   onChatConsoleShowHideCb(event, arg) {
-    console.log("called onChatConsoleShowHideCb");
-    console.log("arg = "+arg.show);
-    console.log("memberId = "+arg.memberId);
-
     if (arg.memberId !== this.memberId) {
       return;
     }
-
 
     //ignore requests when there is already an animation going on
     if (this.state === this.states.SHOWING ||

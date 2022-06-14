@@ -1,6 +1,3 @@
-import AnimationId from "./AnimationId";
-import * as ReactDOMServer from "react-dom/server";
-
 /**
  * Loads composite images by creating a graphics
  * canvas, loading multiple overlay images,

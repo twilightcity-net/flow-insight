@@ -39,6 +39,7 @@ module.exports = class TalkToController extends (
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
+      GET_DMS_WITH_MEMBER: "get-dms-with-member"
     };
   }
 
@@ -93,6 +94,9 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.PUBLISH_CHAT_TO_DM:
           this.handlePublishChatToDMEvent(event, arg);
+          break;
+        case TalkToController.Events.GET_DMS_WITH_MEMBER:
+          this.handleGetDMsWithMemberEvent(event, arg);
           break;
         case TalkToController.Events.REACT_TO_MESSAGE:
           this.handleReactToMessageEvent(event, arg);
@@ -442,7 +446,7 @@ module.exports = class TalkToController extends (
       TalkToController.Types.POST,
       urn,
       (store) =>
-        this.defaultDelegateCallback(
+        this.saveDMMessage(
           store,
           event,
           arg,
@@ -451,6 +455,86 @@ module.exports = class TalkToController extends (
     );
   }
 
+  static fromUserNameMetaPropsStr = "from.username";
+  static fromMemberIdMetaPropsStr = "from.member.id";
+
+  /**
+   * Save the DM message to the local DB, then do the normal callback
+   */
+  saveDMMessage(store, event, arg, callback) {
+
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+
+      let dmDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.DM
+      );
+
+      let id = arg.data.id,
+        messageTime = arg.data.messageTime,
+        metaProps = arg.data.metaProps;
+
+      let fromMemberId = metaProps[TalkToController.fromMemberIdMetaPropsStr];
+      let fromUsername = metaProps[TalkToController.fromUserNameMetaPropsStr];
+
+      dmDatabase.addMessage({
+        id: id,
+        timestamp: messageTime,
+        createdDate: Util.getTimeString(messageTime),
+        withMemberId: arg.args.memberId,
+        fromMemberId: fromMemberId,
+        fromUsername: fromUsername,
+        message: arg.args.text,
+        isOffline: false,
+        read: true
+      });
+    }
+
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify({memberId: arg.args.memberId}) //dont log the chat messages
+    );
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * Retrieves the existing DMs from a member from the local DB
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetDMsWithMemberEvent(event, arg, callback) {
+    let memberId = arg.args.memberId;
+
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.DM
+      );
+
+    arg.data = database.findDMsWithMember(memberId);
+
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify(arg.args)
+    );
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
 
   /**
    * Handles adding an emoji reaction to a message

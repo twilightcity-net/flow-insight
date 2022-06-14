@@ -38,6 +38,8 @@ export class NotificationClient extends BaseClient {
         "mark-notification-as-read",
       MARK_ALL_NOTIFICATION_AS_READ:
         "mark-all-notification-as-read",
+      MARK_CHAT_NOTIFICATION_FOR_MEMBER_AS_READ:
+        "mark-chat-notification-for-member-as-read",
       GET_NOTIFICATION_OF_TYPE_FOR_USER:
         "get-notification-of-type-for-user",
       LOAD_NOTIFICATIONS: "load-notifications"
@@ -176,6 +178,26 @@ export class NotificationClient extends BaseClient {
       NotificationClient.instance.createClientEvent(
         NotificationClient.Events.MARK_NOTIFICATION_AS_READ,
         { id: notificationId },
+        scope,
+        callback
+      );
+    NotificationClient.instance.notifyNotification(event);
+    return event;
+  }
+
+
+  /**
+   * Marks a specific notification as read
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static markChatAsReadForMember(memberId, scope, callback) {
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events.MARK_CHAT_NOTIFICATION_FOR_MEMBER_AS_READ,
+        { memberId: memberId },
         scope,
         callback
       );

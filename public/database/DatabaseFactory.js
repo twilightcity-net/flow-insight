@@ -5,7 +5,8 @@ const TalkDB = require("./TalkDatabase"),
   BuddyDB = require("./BuddyDatabase"),
   MemberDB = require("./MemberDatabase"),
   NotificationDB = require("./NotificationDatabase"),
-  DictionaryDB = require("./DictionaryDatabase");
+  DictionaryDB = require("./DictionaryDatabase"),
+  DMDB = require("./DMDatabase");
 
 /**
  * this class is used to build new databases
@@ -25,7 +26,8 @@ class DatabaseFactory {
       MEMBER: "member",
       DICTIONARY: "dictionary",
       NOTIFICATION: "notification",
-      BUDDY: "buddy"
+      BUDDY: "buddy",
+      DM: "dm"
     };
   }
 
@@ -52,6 +54,8 @@ class DatabaseFactory {
         return new DictionaryDB();
       case DatabaseFactory.Names.NOTIFICATION:
         return new NotificationDB();
+      case DatabaseFactory.Names.DM:
+        return new DMDB();
       default:
         throw new Error(
           "Unknown database type '" + name + "'"

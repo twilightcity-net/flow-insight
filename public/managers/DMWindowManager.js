@@ -39,8 +39,6 @@ module.exports = class DMWindowManager {
    * @param arg
    */
   onOpenDMCb(event, arg) {
-    console.log("open DM!");
-    console.log(arg);
     let windowName = this.getWindowName(arg);
 
     const existingWindow = this.dmWindowsByName.get(windowName);
@@ -58,6 +56,9 @@ module.exports = class DMWindowManager {
       );
       this.dmWindowsByName.set(windowName, window);
       this.orderedWindows.push(windowName);
+    } else {
+      arg.dmIndex = existingWindow.dmIndex;
+      WindowManagerHelper.reloadDMWindow(existingWindow, arg);
     }
 
   }

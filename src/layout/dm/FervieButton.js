@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dropdown, Image} from "semantic-ui-react";
+import {Dropdown} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
 import {MemberClient} from "../../clients/MemberClient";
 
@@ -38,6 +38,7 @@ export default class FervieButton extends Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate");
     if (prevProps.isConsoleOpen && !this.props.isConsoleOpen) {
       console.log("Console was closed blurring!");
       this.isActionMenuOpen = false;
@@ -129,9 +130,9 @@ export default class FervieButton extends Component {
     const fervieMe = <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={MemberClient.me} hasBorder={true} />
     const fervieMember = <FervieProfile showPopup={false} hasBuddyActions={false} isBuddy={false} circuitMember={this.props.member} hasBorder={true} />;
 
-    let offlineClass = "";
-    if (this.props.member && this.props.member.onlineStatus !== "Online") {
-      offlineClass = " offline";
+    let onlineClass = "";
+    if (this.props.member && this.props.member.onlineStatus === "Online") {
+      onlineClass = " online";
     }
 
     return (
@@ -144,10 +145,10 @@ export default class FervieButton extends Component {
             <Dropdown.Item text='Exit' onClick={this.onClickExit} />
           </Dropdown.Menu>
         </Dropdown>
-           <div className={"appIcon fervieMe"} onClick={this.onClickFervie}>
+           <div className={"appIcon fervieMe online"} onClick={this.onClickFervie}>
              {fervieMe}
            </div>
-        <div className={"appIcon fervieMember"+offlineClass} onClick={this.onClickFervie}>
+        <div className={"appIcon fervieMember"+onlineClass} onClick={this.onClickFervie}>
           {fervieMember}
         </div>
       </div>

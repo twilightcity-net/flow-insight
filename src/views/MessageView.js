@@ -2,13 +2,12 @@ import React, {Component} from "react";
 import Keyframes from "@keyframes/core";
 import {TalkToClient} from "../clients/TalkToClient";
 import {MoovieClient} from "../clients/MoovieClient";
-import MoovieChatLayout from "../layout/MoovieChatLayout";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {MemberClient} from "../clients/MemberClient";
 import {CircuitMemberClient} from "../clients/CircuitMemberClient";
 import {FervieClient} from "../clients/FervieClient";
 import DMLayout from "../layout/DMLayout";
-import {RendererControllerFactory} from "../controllers/RendererControllerFactory";
+import {NotificationClient} from "../clients/NotificationClient";
 
 /**
  * This View will contain the invisible chat window that floats on top for chatting with buddies,
@@ -55,6 +54,7 @@ export default class MessageView extends Component {
     MemberClient.init(this);
     CircuitMemberClient.init(this);
     FervieClient.init(this);
+    NotificationClient.init(this);
 
     this.isOpen = false;
     this.isOpening = false;
@@ -151,6 +151,9 @@ export default class MessageView extends Component {
     this.isOpening = false;
     this.isOpen = false;
 
+    setTimeout(() => {
+      this.slideOpenWindow();
+    }, 2000);
   };
 
   componentWillUnmount = () => {
@@ -163,9 +166,7 @@ export default class MessageView extends Component {
 
   onConsoleShown = (event, arg) => {
     console.log("onConsoleShown");
-    console.log("arg.memberId = "+arg.memberId);
     if (arg.memberId === this.props.routeProps.memberId) {
-      console.log("for me!");
       this.isOpen = true;
       this.isOpening = false;
       this.isHiding = false;
@@ -178,9 +179,7 @@ export default class MessageView extends Component {
 
   onConsoleHidden = (event, arg) => {
     console.log("onConsoleHidden");
-    console.log("arg.memberId = "+arg.memberId);
     if (arg.memberId === this.props.routeProps.memberId) {
-      console.log("for me!");
       this.isOpen = false;
       this.isOpening = false;
       this.isHiding = false;
@@ -193,9 +192,7 @@ export default class MessageView extends Component {
 
   onConsoleBlur = (event, arg) => {
     console.log("onConsoleBlur");
-    console.log("arg.memberId = "+arg.memberId);
     if (arg.memberId === this.props.routeProps.memberId) {
-      console.log("for me!");
       if (this.isOpen) {
         this.isHiding = true;
         this.playAnimateOut();
@@ -247,7 +244,6 @@ export default class MessageView extends Component {
 
   slideOpenWindow() {
     console.log("slideOpenWindow");
-    console.log("memberId = "+this.props.routeProps.memberId);
     if (!this.isOpening && !this.isOpen) {
       this.isOpening = true;
       let root = document.getElementById("root");

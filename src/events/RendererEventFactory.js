@@ -125,6 +125,7 @@ export class RendererEventFactory {
       BUDDIES_DATA_REFRESH: prefix + "buddies-data-refresh",
       CIRCUIT_DATA_REFRESH: prefix + "circuit-data-refresh",
       JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
+      DM_DATA_REFRESH: prefix + "dm-data-refresh",
       DICTIONARY_DATA_REFRESH:
         prefix + "dictionary-data-refresh",
       NOTIFICATION_DATA_REFRESH:

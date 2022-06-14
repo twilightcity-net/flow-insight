@@ -76,6 +76,14 @@ module.exports = class WindowManagerHelper {
   }
 
   /**
+   * reloads an existing dm window
+   * @returns {*}
+   */
+  static reloadDMWindow(window, arg) {
+    return global.App.WindowManager.loadWindow(window, arg);
+  }
+
+  /**
    * creates new loading window
    * @returns {*}
    */

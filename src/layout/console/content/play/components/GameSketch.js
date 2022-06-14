@@ -16,7 +16,6 @@ import CityStreetSigns from "./places/CityStreetSigns";
 import GlobalHud from "./hud/GlobalHud";
 import MoovieRoomDialog from "./moovie/MoovieRoomDialog";
 import {Sunglasses} from "./accessories/Sunglasses";
-import CompositeAnimationBuilder from "./CompositeAnimationBuilder";
 import AccessoryManager from "./accessories/AccessoryManager";
 import {Heartglasses} from "./accessories/Heartglasses";
 

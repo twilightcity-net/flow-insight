@@ -24,7 +24,7 @@ class VolumeManager {
   constructor() {
     VolumeManager.volumes = new Map();
     VolumeManager.initializedVolumes = 0;
-    VolumeManager.maxVolumes = 9;
+    VolumeManager.maxVolumes = 7;
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -58,6 +58,9 @@ class VolumeManager {
     );
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.BUDDY
+    );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.DM
     );
 
     VolumeManager.loadDefaultJournalDatabase();

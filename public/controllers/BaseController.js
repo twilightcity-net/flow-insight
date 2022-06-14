@@ -236,6 +236,7 @@ module.exports = class BaseController {
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
       GET_NOTIFICATIONS: "getNotifications",
       MARK_NOTIFICATIONS_AS_READ: "markNotificationsAsRead",
+      MARK_CHAT_NOTIFICATIONS_FOR_MEMBER_AS_READ: "markChatNotificationsForMemberAsRead",
       GET_BUDDY_LIST: "getBuddyList",
       REQUEST_BUDDY_LINK: "requestBuddyLink",
       CONFIRM_BUDDY_LINK: "confirmBuddyLink",

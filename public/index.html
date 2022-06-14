@@ -1224,6 +1224,14 @@
     color: rgba(211, 211, 211, 1);
   }
 
+  #component.consoleSidebarPanel .notificationsContent .ui.list .chat.read .content .header{
+    color: #555555 !important;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .chat.read .content i.name {
+    color: #555555 !important;
+  }
+
   #component.consoleSidebarPanel .notificationsContent .actionButton {
     margin-top: -0.420em;
     transform: translateY(50%);
@@ -3529,18 +3537,14 @@
     font-style: italic;
   }
 
+  #component.chatWindow .chatBanner .username {
+    margin-left: 10px;
+  }
+
   #component.chatWindow .chatBanner .username.offline {
     font-style: italic;
   }
 
-  #component.chatWindow .chatBanner .profileImage.offline svg {
-    filter: brightness(60%);
-  }
-
-
-  #component.chatWindow .chatBanner .username {
-    margin-left: 10px;
-  }
 
   #component.chatWindow .chatBanner .profileImage svg {
     float:left;
@@ -3548,6 +3552,10 @@
     height: 30px;
     border-radius: 500px;
     margin-top: 3px;
+  }
+
+  #component.chatWindow .chatBanner .profileImage.offline svg {
+    filter: brightness(60%);
   }
 
   #component.chatWindow .moovieBanner {
@@ -3727,21 +3735,21 @@
     position:absolute;
     bottom:10px;
     left:0;
-    filter: brightness(90%);
     transition: filter 0.333s ease;
-  }
-
-  #component.chatWindow .appIcon:hover {
-    filter: brightness(105%);
-    cursor: pointer;
-  }
-
-  #component.chatWindow .appIcon.offline {
     filter: brightness(50%);
   }
 
-  #component.chatWindow .appIcon.offline:hover {
+  #component.chatWindow .appIcon:hover {
     filter: brightness(70%);
+    cursor: pointer;
+  }
+
+  #component.chatWindow .appIcon.online {
+    filter: brightness(90%);
+  }
+
+  #component.chatWindow .appIcon.online:hover {
+    filter: brightness(105%);
   }
 
   #component.chatWindow .appIcon svg {

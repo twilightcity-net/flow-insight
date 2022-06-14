@@ -8,6 +8,7 @@ import {NotificationClient} from "../../../../clients/NotificationClient";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import WTFThresholdListItem from "./WTFThresholdListItem";
 import BuddyRequestListItem from "./BuddyRequestListItem";
+import OfflineChatListItem from "./OfflineChatListItem";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -31,22 +32,6 @@ export default class NotificationsPanel extends Component {
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
       );
-
-    this.notificationReadUpdate =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
-        this
-      );
-
-    this.refreshNotificationsListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .NOTIFICATION_DATA_REFRESH,
-        this,
-        this.refreshNotifications
-      );
-
   }
 
 
@@ -90,6 +75,19 @@ export default class NotificationsPanel extends Component {
       this.onRefreshNotificationsPanel
     );
     this.onRefreshNotificationsPanel();
+
+    this.notificationReadUpdate =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
+        this
+      );
+
+    this.refreshNotificationsListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.NOTIFICATION_DATA_REFRESH,
+        this,
+        this.refreshNotifications
+      );
   };
 
   /**
@@ -201,8 +199,6 @@ export default class NotificationsPanel extends Component {
           >
             {this.state.notifications.map(
               (notification, i) => {
-
-                console.log(JSON.stringify(notification));
                 if (notification.type === "PAIRING_REQUEST") {
                   return (<PairingRequestListItem
                     key={i}
@@ -224,6 +220,13 @@ export default class NotificationsPanel extends Component {
                     model={notification}
                     refresh={this.refreshNotifications}
                   />);
+                } else if (notification.type === "CHAT") {
+                    return (<OfflineChatListItem
+                      key={i}
+                      id={i}
+                      model={notification}
+                      refresh={this.refreshNotifications}
+                    />);
                 } else {
                   console.error("Unknown notification type! "+notification.type);
                 }

@@ -20,6 +20,8 @@ module.exports = class NotificationDto {
 
       this.isRead = json.isRead;
 
+      this.details = json.details;
+
     } catch (e) {
       throw new Error(
         "Unable to create dto 'NotificationDto' : " + e.message

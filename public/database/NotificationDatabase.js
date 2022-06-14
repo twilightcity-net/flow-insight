@@ -43,12 +43,12 @@ module.exports = class NotificationDatabase extends LokiJS {
 
   /**
    * indices of our database so we can index things for fast queries
-   * @returns {{TO_MEMBER_ID:string, READ:string, ID: string, TYPE: string}}
    * @constructor
    */
   static get Indices() {
     return {
       ID: "id",
+      FROM_MEMBER_ID: "fromMemberId",
       TYPE: "type",
       READ: "read",
     };
@@ -67,6 +67,7 @@ module.exports = class NotificationDatabase extends LokiJS {
         indices: [
           NotificationDatabase.Indices.ID,
           NotificationDatabase.Indices.TYPE,
+          NotificationDatabase.Indices.FROM_MEMBER_ID,
           NotificationDatabase.Indices.READ,
         ],
       }
@@ -212,6 +213,7 @@ module.exports = class NotificationDatabase extends LokiJS {
       canceled: false,
     });
     if (!duplicate) {
+      notificationObj.count = 1;
       DatabaseUtil.findRemoveInsert(
         notificationObj,
         collection
@@ -219,6 +221,8 @@ module.exports = class NotificationDatabase extends LokiJS {
 
       let count = this.getViewForUnreadNotifications().count();
       global.App.updateBadgeCount(count);
+    } else {
+      duplicate.count++;
     }
   }
 
@@ -345,6 +349,18 @@ module.exports = class NotificationDatabase extends LokiJS {
   }
 
   /**
+   * Delete everything in the collection and start over, as is the case with refreshing
+   * from the server, in case we missed some messages.
+   */
+  reset() {
+    let collection = this.getCollection(
+      NotificationDatabase.Collections.NOTIFICATION
+    );
+
+    collection.chain().remove();
+  }
+
+  /**
    * Marks all notification from our local DB as read
    */
   markAllAsRead() {
@@ -369,4 +385,26 @@ module.exports = class NotificationDatabase extends LokiJS {
     let count = this.getViewForUnreadNotifications().count();
     global.App.updateBadgeCount(count);
   }
+
+  /**
+   * Mark all the chat notifications from a specific member as read
+   */
+  markChatNotificationsForMemberAsRead(memberId) {
+    console.log("markChatNotificationsForMemberAsRead");
+    let collection = this.getCollection(
+      NotificationDatabase.Collections.NOTIFICATION
+    );
+
+    const results = collection.find({fromMemberId: memberId, type: "CHAT", read: false});
+
+    for (let result of results) {
+      result.read = true;
+      collection.update(result);
+    }
+
+    let count = this.getViewForUnreadNotifications().count();
+    global.App.updateBadgeCount(count);
+
+  }
+
 };

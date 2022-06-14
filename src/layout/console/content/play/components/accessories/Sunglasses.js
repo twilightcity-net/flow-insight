@@ -1,5 +1,4 @@
 import React from "react";
-import FervieColors from "../../../support/FervieColors";
 import AnimationId from "../AnimationId";
 
 /**

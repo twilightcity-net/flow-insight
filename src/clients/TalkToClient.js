@@ -42,6 +42,7 @@ export class TalkToClient extends BaseClient {
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
+      GET_DMS_WITH_MEMBER: "get-dms-with-member"
     };
   }
 
@@ -128,6 +129,32 @@ export class TalkToClient extends BaseClient {
     TalkToClient.instance.notifyTalkTo(event);
     return event;
   }
+
+
+  /**
+   * Gets all available DMs from a specific member.
+   * Will include any offline notifications, and recent direct messages
+   * while the app has been online
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getDMsWithMember(
+    memberId,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.GET_DMS_WITH_MEMBER,
+      { memberId: memberId},
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
 
   /**
    * Reacts to a specific message with an emoji.

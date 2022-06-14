@@ -2,6 +2,7 @@ const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   NotificationDatabase = require("../database/NotificationDatabase");
+const Util = require("../Util");
 
 /**
  * This class is used to manage requests for notifications data
@@ -35,6 +36,8 @@ module.exports = class NotificationController extends (
         "mark-notification-as-read",
       MARK_ALL_NOTIFICATION_AS_READ:
         "mark-all-notification-as-read",
+      MARK_CHAT_NOTIFICATION_FOR_MEMBER_AS_READ:
+        "mark-chat-notification-for-member-as-read",
       GET_NOTIFICATION_OF_TYPE_FOR_USER:
         "get-notification-of-type-for-user",
       LOAD_NOTIFICATIONS: "load-notifications"
@@ -63,6 +66,12 @@ module.exports = class NotificationController extends (
         this,
         this.onNotificationClientEvent,
         null
+      );
+
+    this.notificationRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.NOTIFICATION_DATA_REFRESH,
+        this
       );
   }
 
@@ -108,6 +117,13 @@ module.exports = class NotificationController extends (
         case NotificationController.Events
           .MARK_ALL_NOTIFICATION_AS_READ:
           this.handleMarkAllNotificationAsReadEvent(
+            event,
+            arg
+          );
+          break;
+        case NotificationController.Events
+          .MARK_CHAT_NOTIFICATION_FOR_MEMBER_AS_READ:
+          this.handleMarkChatNotificationForMemberAsReadEvent(
             event,
             arg
           );
@@ -178,8 +194,6 @@ module.exports = class NotificationController extends (
 
   }
 
-
-
   /**
    * callback delegator which processes our return from the dto
    * request to gridtime
@@ -199,6 +213,12 @@ module.exports = class NotificationController extends (
       DatabaseFactory.Names.NOTIFICATION
     );
 
+    database.reset();
+
+    let dmdb = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.DM
+    );
+
     for (let notification of arg.data) {
       database.addNotification(
         {
@@ -211,7 +231,21 @@ module.exports = class NotificationController extends (
           canceled: false,
           data: notification,
         }
-      )
+      );
+
+      if (notification.notificationType === 'CHAT') {
+        dmdb.addMessage({
+          id: notification.id,
+          timestamp: notification.createdDate,
+          createdDate: Util.getTimeString(notification.createdDate),
+          withMemberId: notification.fromMemberId,
+          fromMemberId: notification.fromMemberId,
+          fromUsername: notification.fromUsername,
+          message: notification.details.message,
+          isOffline: true,
+          read: false
+        });
+      }
     }
 
     let view = database.getViewForNotifications();
@@ -301,6 +335,79 @@ module.exports = class NotificationController extends (
           arg,
           callback
         )
+    );
+
+  }
+
+
+  /**
+   * Marks all chat notifications from a specific member as read
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleMarkChatNotificationForMemberAsReadEvent(
+    event,
+    arg,
+    callback
+  ) {
+    let memberId = arg.args.memberId,
+      urn = NotificationController.Paths.NOTIFICATION +
+      NotificationController.Paths.MARK +
+      NotificationController.Paths.READ +
+      NotificationController.Paths.MEMBER +
+      NotificationController.Paths.SEPARATOR +
+      memberId +
+      NotificationController.Paths.CHAT;
+
+    this.doClientRequest(
+      NotificationController.Contexts.NOTIFICATION_CLIENT,
+      {},
+      NotificationController.Names.MARK_NOTIFICATIONS_AS_READ,
+      NotificationController.Types.POST,
+      urn,
+      (store) =>
+        this.markChatNotificationsForMemberAsReadInDB(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+
+  }
+
+
+  /**
+   * callback which updates the DB read property
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  markChatNotificationsForMemberAsReadInDB(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+    database.markChatNotificationsForMemberAsRead(arg.args.memberId);
+
+    let dmDatabase = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.DM
+    );
+    dmDatabase.markChatForMemberAsRead(arg.args.memberId);
+
+    this.notificationRefreshNotifier.dispatch({});
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
     );
 
   }

@@ -30,6 +30,20 @@ class Util {
   }
 
   /**
+   * Get a nicely formatted time string from a utc db timestamp
+   * @param formattedTime
+   * @returns {string}
+   */
+  static getTimeString(formattedTime) {
+    let t = moment.utc(
+      formattedTime,
+      "YYYY-MM-DDTHH:mm:ss.SSS"
+    );
+
+    return t.utc().local().calendar();
+  }
+
+  /**
    * shortcut helper link to a baked util.inspect
    * @param object
    * @returns {string}

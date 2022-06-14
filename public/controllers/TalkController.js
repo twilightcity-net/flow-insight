@@ -5,6 +5,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   AppLogin = require("../app/AppLogin");
+const moment = require("moment");
 
 /**
  * This class is used to coordinate controllers across the talknet service
@@ -50,6 +51,19 @@ module.exports = class TalkController extends (
       LEAVE_ROOM: "leave_room",
     };
   }
+
+
+  static fromUserNameMetaPropsStr = "from.username";
+  static fromMemberIdMetaPropsStr = "from.member.id";
+
+  static PAIRING_REQUEST = "PAIRING_REQUEST";
+  static PAIRING_CANCELLATION = "PAIRING_CANCELLATION";
+  static PAIRING_CONFIRMED = "PAIRING_CONFIRMED";
+  static BUDDY_REQUEST = "BUDDY_CONFIRMATION_REQUEST";
+
+  static BUDDY_ADDED = "BUDDY_ADDED";
+  static BUDDY_REMOVED = "BUDDY_REMOVED";
+  static BUDDY_STATUS_UPDATE = "BUDDY_STATUS_UPDATE";
 
   /**
    * links associated controller classes here
@@ -132,6 +146,12 @@ module.exports = class TalkController extends (
     this.notificationRefreshNotifier =
       EventFactory.createEvent(
         EventFactory.Types.NOTIFICATION_DATA_REFRESH,
+        this
+      );
+
+    this.dmRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.DM_DATA_REFRESH,
         this
       );
 
@@ -435,6 +455,11 @@ module.exports = class TalkController extends (
     global.App.JournalManager.reset(() => {
       this.journalDataRefreshNotifier.dispatch({});
     });
+
+    global.App.NotificationManager.init(() => {
+      this.notificationRefreshNotifier.dispatch({});
+      this.dmRefreshNotifier.dispatch({});
+    });
   }
 
   trackMessage(uri, nanoTime, message) {
@@ -444,19 +469,6 @@ module.exports = class TalkController extends (
       message
     );
   }
-
-  static fromUserNameMetaPropsStr = "from.username";
-  static fromMemberIdMetaPropsStr = "from.member.id";
-
-  static PAIRING_REQUEST = "PAIRING_REQUEST";
-  static PAIRING_CANCELLATION = "PAIRING_CANCELLATION";
-  static PAIRING_CONFIRMED = "PAIRING_CONFIRMED";
-  static BUDDY_REQUEST = "BUDDY_CONFIRMATION_REQUEST";
-
-  static BUDDY_ADDED = "BUDDY_ADDED";
-  static BUDDY_REMOVED = "BUDDY_REMOVED";
-  static BUDDY_STATUS_UPDATE = "BUDDY_STATUS_UPDATE";
-
 
   /**
    * our event callback handler for direct talk messages. This function sorts incoming talk
@@ -478,6 +490,9 @@ module.exports = class TalkController extends (
         this.handleBuddyStatusEvent(message);
         break;
       case TalkController.MessageTypes.CHAT_MESSAGE_DETAILS:
+        this.handleChatMessage(message);
+
+        break;
       case TalkController.MessageTypes.CHAT_REACTION:
         //handled by the client
         //TODO if the user doesn't have their chat open, send a notification to open chat
@@ -494,6 +509,30 @@ module.exports = class TalkController extends (
         break;
     }
     this.talkMessageClientListener.dispatch(message);
+  }
+
+  handleChatMessage(message) {
+    let dmDatabase = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.DM
+    );
+    let id = message.id,
+      messageTime = message.messageTime,
+      metaProps = message.metaProps;
+
+    let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
+    let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
+
+    dmDatabase.addMessage({
+      id: id,
+      timestamp: messageTime,
+      createdDate: Util.getTimeString(messageTime),
+      withMemberId: fromMemberId,
+      fromMemberId: fromMemberId,
+      fromUsername: fromUsername,
+      message: message.data.message,
+      isOffline: false,
+      read: false
+    });
   }
 
   handlePendingBuddyRequest(message) {
@@ -588,6 +627,9 @@ module.exports = class TalkController extends (
         break;
     }
   }
+
+
+
   /**
    * our event callback handler talk messages. This function sorts incoming talk
    * messages into status and details.s
@@ -709,7 +751,6 @@ module.exports = class TalkController extends (
             break;
           case TalkController.StatusTypes.TEAM_WTF_THRESHOLD:
             if (fromUsername !== me.username) {
-              console.log("XXX Adding threshold notification!! ");
               notificationDatabase.addNotification({
                 id: message.id,
                 type: TalkController.StatusTypes.TEAM_WTF_THRESHOLD,
