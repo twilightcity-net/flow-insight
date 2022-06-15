@@ -43,7 +43,8 @@ export class TalkToClient extends BaseClient {
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
       GET_DMS_WITH_MEMBER: "get-dms-with-member",
-      GET_DM_REACTIONS_WITH_MEMBER: "get-dm-reactions-with-member"
+      GET_DM_REACTIONS_WITH_MEMBER: "get-dm-reactions-with-member",
+      CLEAR_CHAT: "clear-chat",
     };
   }
 
@@ -100,6 +101,29 @@ export class TalkToClient extends BaseClient {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.PUBLISH_CHAT_TO_ROOM,
       { roomName: roomName, text: text },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
+
+  /**
+   * Clear the dm chat messages for a specific memberId
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static clearChat(
+    memberId,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.CLEAR_CHAT,
+      { memberId: memberId },
       scope,
       callback
     );

@@ -288,6 +288,7 @@ export default class DMLayout extends Component {
 
   /**
    * Handle emoji change to one of the messages in the chat feed
+   * @param messageFromMemberId
    * @param reactionInput
    */
   handleChatReaction(messageFromMemberId, reactionInput) {
@@ -304,6 +305,8 @@ export default class DMLayout extends Component {
         } else if (reactionInput.chatReactionChangeType === DMLayout.chatReactionTypeRemove) {
           this.removeReactionFromGroup(foundText.reactions, reactionInput.memberId, reactionInput.emoji);
         }
+      } else {
+        console.warn("Received reaction for message that wasnt found. id = "+reactionInput.messageId);
       }
       return {
         messages: prevState.messages
@@ -489,6 +492,21 @@ export default class DMLayout extends Component {
     this.props.onAppExit();
   }
 
+  /**
+   * When we clear chat with the fervie app icon
+   */
+  onFervieClearChat = () => {
+    TalkToClient.clearChat(this.props.memberId, this, (arg) => {
+      if (!arg.error) {
+        this.setState({
+          messages: []
+        });
+      } else {
+        console.error("Unable to clear chat");
+      }
+    });
+  }
+
 
   /**
    * When we hit the enter key in the chat
@@ -650,6 +668,7 @@ export default class DMLayout extends Component {
                         isConsoleOpen={this.props.isConsoleOpen}
                        onClickFervie={this.onClickFervie}
                        onFervieExit={this.onFervieExit}
+                        onFervieClearChat={this.onFervieClearChat}
                        hasNewMessages={this.state.hasNewMessage}/>
           <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey}
                      onOpenEmojiPicker={this.onOpenEmojiPicker}/>

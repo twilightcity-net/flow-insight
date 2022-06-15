@@ -116,6 +116,7 @@ export default class FervieButton extends Component {
 
   onClickClearChat = () => {
     console.log("onClickClearChat");
+    this.props.onFervieClearChat();
   }
 
   isClearChatDisabled = () => {

@@ -168,6 +168,32 @@ module.exports = class DMDatabase extends LokiJS {
   }
 
   /**
+   * Clears all the local db chat messages for the specified member
+   * @param memberId
+   */
+  clearChat(memberId) {
+    let messageCollection = this.getCollection(
+      DMDatabase.Collections.MESSAGE
+    );
+
+    let reactionCollection = this.getCollection(
+      DMDatabase.Collections.REACTION
+    );
+
+    const messages = messageCollection.chain().find({ withMemberId: memberId }).data();
+
+    for (let message of messages) {
+      messageCollection.remove(message);
+    }
+
+    const reactions = reactionCollection.chain().find({ withMemberId: memberId }).data();
+
+    for (let reaction of reactions) {
+      reactionCollection.remove(reaction);
+    }
+  }
+
+  /**
    * Mark all the chat for a specific member as read
    */
   markChatForMemberAsRead(memberId) {

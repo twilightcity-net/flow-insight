@@ -40,7 +40,8 @@ module.exports = class TalkToController extends (
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
       GET_DMS_WITH_MEMBER: "get-dms-with-member",
-      GET_DM_REACTIONS_WITH_MEMBER: "get-dm-reactions-with-member"
+      GET_DM_REACTIONS_WITH_MEMBER: "get-dm-reactions-with-member",
+      CLEAR_CHAT: "clear-chat",
     };
   }
 
@@ -101,6 +102,9 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.GET_DM_REACTIONS_WITH_MEMBER:
           this.handleGetDMReactionsWithMemberEvent(event, arg);
+          break;
+        case TalkToController.Events.CLEAR_CHAT:
+          this.handleClearChatEvent(event, arg);
           break;
         case TalkToController.Events.REACT_TO_MESSAGE:
           this.handleReactToMessageEvent(event, arg);
@@ -621,6 +625,46 @@ module.exports = class TalkToController extends (
       event,
       arg,
       callback
+    );
+  }
+
+
+  /**
+   * Handles clearing the local chat cache
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleClearChatEvent(event, arg, callback) {
+    let memberId = arg.args.memberId;
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.DM
+    );
+
+    database.clearChat(memberId);
+
+    let urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.MEMBER +
+        TalkToController.Paths.SEPARATOR +
+         memberId +
+        TalkToController.Paths.CLEAR;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      {},
+      TalkToController.Names.CLEAR_CHAT,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
