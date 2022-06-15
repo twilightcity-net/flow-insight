@@ -42,7 +42,8 @@ export class TalkToClient extends BaseClient {
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
-      GET_DMS_WITH_MEMBER: "get-dms-with-member"
+      GET_DMS_WITH_MEMBER: "get-dms-with-member",
+      GET_DM_REACTIONS_WITH_MEMBER: "get-dm-reactions-with-member"
     };
   }
 
@@ -155,6 +156,29 @@ export class TalkToClient extends BaseClient {
     return event;
   }
 
+
+  /**
+   * Gets all available DM reactions for a specific member conversation.
+   * Will include any known reactions to offline or online messages
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getDMReactionsWithMember(
+    memberId,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.GET_DM_REACTIONS_WITH_MEMBER,
+      { memberId: memberId},
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
 
   /**
    * Reacts to a specific message with an emoji.

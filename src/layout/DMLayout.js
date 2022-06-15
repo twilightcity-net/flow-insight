@@ -81,8 +81,14 @@ export default class DMLayout extends Component {
   refreshDMs() {
     TalkToClient.getDMsWithMember(this.props.memberId, this, (arg) => {
       if (!arg.error) {
-        console.log(arg.data);
-        this.handleLoadMessages(arg.data);
+        const messages = this.handleLoadMessages(arg.data);
+
+        TalkToClient.getDMReactionsWithMember(this.props.memberId, this, (arg) => {
+          if (!arg.error) {
+            console.log(arg.data);
+            this.handleLoadReactions(messages, arg.data);
+          }
+        });
       } else {
         console.error("Unable to load messages: "+arg.error);
       }
@@ -127,6 +133,38 @@ export default class DMLayout extends Component {
       };
 
       messages = this.addMessage(messages, viewMessage);
+    }
+
+    this.setState({
+      messages: messages
+    });
+    return messages;
+  }
+
+  /**
+   * Loads the reactions to db messages from the local DB and alters the original
+   * dataset of messages to include all the reactions
+   * @param messages
+   * @param dbReactions
+   */
+  handleLoadReactions(messages, dbReactions) {
+
+    for (let dbReaction of dbReactions) {
+
+      const foundText = this.findMessageTextWithId(this.state.messages, dbReaction.messageId);
+      if (foundText) {
+        if (dbReaction.chatReactionChangeType === DMLayout.chatReactionTypeAdd) {
+          this.addReactionToGroup(foundText.reactions,
+            {
+              memberIds: [dbReaction.fromMemberId],
+              emoji: dbReaction.emoji
+            });
+        } else if (dbReaction.chatReactionChangeType === DMLayout.chatReactionTypeRemove) {
+          this.removeReactionFromGroup(foundText.reactions, dbReaction.fromMemberId, dbReaction.emoji);
+        }
+      } else {
+        console.warn("Cant process reaction for unknown message id = "+dbReaction.messageId);
+      }
     }
 
     this.setState({

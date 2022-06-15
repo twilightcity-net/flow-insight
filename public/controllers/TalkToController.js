@@ -39,7 +39,8 @@ module.exports = class TalkToController extends (
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
-      GET_DMS_WITH_MEMBER: "get-dms-with-member"
+      GET_DMS_WITH_MEMBER: "get-dms-with-member",
+      GET_DM_REACTIONS_WITH_MEMBER: "get-dm-reactions-with-member"
     };
   }
 
@@ -97,6 +98,9 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.GET_DMS_WITH_MEMBER:
           this.handleGetDMsWithMemberEvent(event, arg);
+          break;
+        case TalkToController.Events.GET_DM_REACTIONS_WITH_MEMBER:
+          this.handleGetDMReactionsWithMemberEvent(event, arg);
           break;
         case TalkToController.Events.REACT_TO_MESSAGE:
           this.handleReactToMessageEvent(event, arg);
@@ -507,6 +511,90 @@ module.exports = class TalkToController extends (
   }
 
 
+
+  /**
+   * Save the DM reaction to the local DB, then do the normal callback
+   */
+  saveDMReactionMessage(store, event, arg, callback) {
+
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+
+      let dmDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.DM
+      );
+
+      let id = arg.data.id,
+        messageTime = arg.data.messageTime,
+        metaProps = arg.data.metaProps,
+        reaction = arg.data.data;
+
+      let fromMemberId = metaProps[TalkToController.fromMemberIdMetaPropsStr];
+      let fromUsername = metaProps[TalkToController.fromUserNameMetaPropsStr];
+
+      dmDatabase.addReaction({
+        id: id,
+        timestamp: messageTime,
+        createdDate: Util.getTimeString(messageTime),
+        withMemberId: arg.args.memberId,
+        fromMemberId: fromMemberId,
+        fromUsername: fromUsername,
+        emoji: reaction.emoji,
+        messageId: reaction.messageId,
+        chatReactionChangeType: reaction.chatReactionChangeType,
+        isOffline: false,
+        read: true
+      });
+    }
+
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify({memberId: arg.args.memberId}) //dont log the chat messages
+    );
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+
+  /**
+   * Retrieves the existing DM reactions for a member conversation from the local DB
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetDMReactionsWithMemberEvent(event, arg, callback) {
+    let memberId = arg.args.memberId;
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.DM
+    );
+
+    arg.data = database.findReactionsWithMember(memberId);
+
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify(arg.args)
+    );
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
   /**
    * Retrieves the existing DMs from a member from the local DB
    * @param event
@@ -600,7 +688,7 @@ module.exports = class TalkToController extends (
       TalkToController.Types.POST,
       urn,
       (store) =>
-        this.defaultDelegateCallback(
+        this.saveDMReactionMessage(
           store,
           event,
           arg,

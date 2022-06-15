@@ -44,8 +44,7 @@ export default class NotificationsPanel extends Component {
     if (!state) {
       return {
         activeItem:
-          SidePanelViewController.SubmenuSelection
-            .NOTIFICATIONS,
+          SidePanelViewController.SubmenuSelection.NOTIFICATIONS,
         notificationsVisible: false,
         animationType:
           SidePanelViewController.AnimationTypes.FLY_DOWN,

@@ -117,10 +117,27 @@ module.exports = class DMDatabase extends LokiJS {
     );
   }
 
-
+  /**
+   * Get all the DMs for a conversation with a member
+   * @param memberId
+   * @returns {*}
+   */
   findDMsWithMember(memberId) {
     let collection = this.getCollection(
       DMDatabase.Collections.MESSAGE
+    );
+
+    return collection.chain().find({ withMemberId: memberId }).simplesort('timestamp').data();
+  }
+
+  /**
+   * Get all the reactions for a conversation with a member
+   * @param memberId
+   * @returns {*}
+   */
+  findReactionsWithMember(memberId) {
+    let collection = this.getCollection(
+      DMDatabase.Collections.REACTION
     );
 
     return collection.chain().find({ withMemberId: memberId }).simplesort('timestamp').data();
@@ -138,6 +155,17 @@ module.exports = class DMDatabase extends LokiJS {
     DatabaseUtil.findRemoveInsert(message, collection);
   }
 
+  /**
+   * Add a reaction to the DM reaction database
+   * @param reaction
+   */
+  addReaction(reaction) {
+    let collection = this.getCollection(
+      DMDatabase.Collections.REACTION
+    );
+
+    DatabaseUtil.findRemoveInsert(reaction, collection);
+  }
 
   /**
    * Mark all the chat for a specific member as read

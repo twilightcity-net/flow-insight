@@ -494,8 +494,7 @@ module.exports = class TalkController extends (
 
         break;
       case TalkController.MessageTypes.CHAT_REACTION:
-        //handled by the client
-        //TODO if the user doesn't have their chat open, send a notification to open chat
+        this.handleChatReactionMessage(message);
         break;
       default:
         console.warn(
@@ -533,6 +532,35 @@ module.exports = class TalkController extends (
       isOffline: false,
       read: false
     });
+  }
+
+
+  handleChatReactionMessage(message) {
+    let dmDatabase = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.DM
+    );
+    let id = message.id,
+      messageTime = message.messageTime,
+      metaProps = message.metaProps,
+      reaction = message.data;
+
+    let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
+    let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
+
+    dmDatabase.addReaction({
+      id: id,
+      timestamp: messageTime,
+      createdDate: Util.getTimeString(messageTime),
+      withMemberId: fromMemberId,
+      fromMemberId: fromMemberId,
+      fromUsername: fromUsername,
+      emoji: reaction.emoji,
+      messageId: reaction.messageId,
+      chatReactionChangeType: reaction.chatReactionChangeType,
+      isOffline: false,
+      read: false
+    });
+
   }
 
   handlePendingBuddyRequest(message) {
