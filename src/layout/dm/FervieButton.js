@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dropdown} from "semantic-ui-react";
+import {Dropdown, Icon} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
 import {MemberClient} from "../../clients/MemberClient";
 
@@ -135,6 +135,11 @@ export default class FervieButton extends Component {
       onlineClass = " online";
     }
 
+    let hasMessagesClass = "";
+    if (this.props.hasNewMessages) {
+      hasMessagesClass = " hasMessages";
+    }
+
     return (
       <div>
         <Dropdown id={FervieButton.fervieActionsPopupId} text=""
@@ -148,7 +153,7 @@ export default class FervieButton extends Component {
            <div className={"appIcon fervieMe online"} onClick={this.onClickFervie}>
              {fervieMe}
            </div>
-        <div className={"appIcon fervieMember"+onlineClass} onClick={this.onClickFervie}>
+        <div className={"appIcon fervieMember"+onlineClass+hasMessagesClass} onClick={this.onClickFervie}>
           {fervieMember}
         </div>
       </div>

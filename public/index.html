@@ -3752,6 +3752,10 @@
     filter: brightness(105%);
   }
 
+  #component.chatWindow .appIcon.hasMessages svg {
+    border: 4px #9C6EFA solid
+  }
+
   #component.chatWindow .appIcon svg {
     width: 100%;
     height: 98%;
@@ -3789,6 +3793,28 @@
     visibility: hidden;
   }
 
+  #component.chatWindow .ui.dropdown .menu {
+    background: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+  }
+
+  #component.chatWindow .ui.dropdown .menu .item {
+    color: rgba(222, 222, 222, 0.96);
+    transition: background, color 0.420s ease-out;
+  }
+
+  #component.chatWindow .ui.dropdown .menu .item.disabled {
+    color: gray;
+  }
+
+  #component.chatWindow .ui.dropdown .menu .divider {
+    border: 1px #2e2e2e solid;
+  }
+
+  #component.chatWindow .ui.dropdown .menu .item:hover {
+    background: #2b2b2b;
+    color: white;
+  }
 
   #component.chatWindow .content {
     margin-top: 0;
@@ -4149,11 +4175,11 @@
     }
 
     #component.chatWindow .monty {
-      bottom: 15px;
+      bottom: 10px;
     }
 
     #component.chatWindow .appIcon {
-      bottom: 40px;
+      bottom: 35px;
     }
 
     #component.chatWindow .appIcon.fervieMe {

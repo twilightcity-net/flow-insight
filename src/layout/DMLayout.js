@@ -33,7 +33,8 @@ export default class DMLayout extends Component {
       circuitMembers : [],
       buddiesById: new Map(),
       memberByIdMap: new Map(),
-      member: null
+      member: null,
+      hasNewMessage: false
     };
   }
 
@@ -177,6 +178,9 @@ export default class DMLayout extends Component {
           console.error("Unable to mark offline chat as read: "+arg.error);
         }
       });
+      this.setState({
+        hasNewMessage: false
+      });
     }
 
     if (prevProps.showPeekView && !this.props.showPeekView) {
@@ -212,15 +216,23 @@ export default class DMLayout extends Component {
     if (messageFromMemberId === this.props.memberId) {
       if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
         this.addMessageToFeed(arg);
+        this.alertNewMessage();
       } else if (arg.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
         this.handleChatReaction(messageFromMemberId, arg.data);
+        this.alertNewMessage();
       } else if (arg.messageType === BaseClient.MessageTypes.BUDDY_STATUS_EVENT) {
         this.handleBuddyStatusUpdate(arg.data);
       }
     }
-
-
   };
+
+  alertNewMessage() {
+    if (!this.props.isConsoleOpen) {
+      this.setState({
+        hasNewMessage: true
+      });
+    }
+  }
 
   createMap(id, mapItem) {
     const map = new Map();
@@ -599,7 +611,8 @@ export default class DMLayout extends Component {
           <FervieButton member={this.state.member}
                         isConsoleOpen={this.props.isConsoleOpen}
                        onClickFervie={this.onClickFervie}
-                       onFervieExit={this.onFervieExit}/>
+                       onFervieExit={this.onFervieExit}
+                       hasNewMessages={this.state.hasNewMessage}/>
           <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey}
                      onOpenEmojiPicker={this.onOpenEmojiPicker}/>
         </div>
