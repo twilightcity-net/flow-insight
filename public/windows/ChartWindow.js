@@ -53,7 +53,7 @@ module.exports = class ChartWindow {
     });
     this.window.name = this.name;
     this.window.setMenu(null);
-    this.window.setAlwaysOnTop(true, "screen-saver");
+    //this.window.setAlwaysOnTop(true, "screen-saver");
 
 
     this.window.on("show", () => this.onShowCb());

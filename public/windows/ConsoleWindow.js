@@ -58,12 +58,13 @@ module.exports = class ConsoleWindow {
     this.window.name = this.name;
     this.window.setMenu(null);
 
-    this.window.setAlwaysOnTop(true, "screen-saver");
-    if(is_mac && app.dock.isVisible()) {
+    if(is_mac) {
       app.dock.hide();
     }
 
+    //this.window.setAlwaysOnTop(true, "screen-saver");
     // this.window.setAlwaysOnTop(true, "torn-off-menu");
+
     this.window.on("ready-to-show", () =>
       this.onReadyToShowCb()
     );
@@ -253,6 +254,14 @@ module.exports = class ConsoleWindow {
     }
   }
 
+  forceOnTop() {
+    this.window.setAlwaysOnTop(true, "screen-saver");
+  }
+
+  relieveOnTop() {
+    this.window.setAlwaysOnTop(false, "screen-saver");
+  }
+
   /**
    * updates the console's size and position from the currently stored display
    */
@@ -290,7 +299,7 @@ module.exports = class ConsoleWindow {
       this.window.hide();
 
       //this is only necessary if we have the app in dock
-      //this.restorePreviousWindowFocus();
+      this.restorePreviousWindowFocus();
       this.state = this.states.HIDDEN;
       this.events.consoleHidden.dispatch({});
     }, this.animateTimeMs);

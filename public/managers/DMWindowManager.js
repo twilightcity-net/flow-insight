@@ -1,6 +1,9 @@
 const log = require("electron-log");
 const EventFactory = require("../events/EventFactory");
 const WindowManagerHelper = require("./WindowManagerHelper");
+const {app} = require("electron");
+
+const is_mac = process.platform==='darwin';
 
 /**
  * managing class for the sliding direct message windows
@@ -69,14 +72,14 @@ module.exports = class DMWindowManager {
 
     const existingWindow = this.dmWindowsByName.get(windowName);
 
+    arg.dmIndex = this.dmWindowsByName.size;
+    arg.autoSlideOpen = true;
+
     if (!existingWindow) {
 
       this.closeOldestWindowIfOverLimit();
 
       console.log("creating window!");
-      arg.dmIndex = this.dmWindowsByName.size;
-      arg.autoSlideOpen = true;
-
       let window = WindowManagerHelper.createDMWindow(
         windowName,
         arg
@@ -84,7 +87,6 @@ module.exports = class DMWindowManager {
       this.dmWindowsByName.set(windowName, window);
       this.orderedWindows.push(windowName);
     } else {
-      arg.dmIndex = existingWindow.dmIndex;
       WindowManagerHelper.reloadDMWindow(existingWindow, arg);
     }
 
@@ -96,6 +98,19 @@ module.exports = class DMWindowManager {
 
       this.closeAndCleanUpWindow(firstWindowName);
     }
+  }
+
+  /**
+   * Unhide docked app if no windows are open
+   */
+  unhideDockIfNoWindowsOpen() {
+    //don't show docked window...
+    // if(is_mac && this.dmWindowsByName.size === 0) {
+    //   log.info("showing dock..");
+    //   app.dock.show().then(() => {
+    //     log.info("show returned!");
+    //   });
+    // }
   }
 
   /**

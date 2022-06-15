@@ -67,8 +67,11 @@ module.exports = class MessageWindow {
     this.window.on('blur', () => this.onBlurCb());
 
 
-    if(is_mac && app.dock.isVisible()) {
+    if(is_mac) {
+      //required to get the chat windows to work in full screen
+      WindowManagerHelper.forceConsoleWindowOnTop();
       app.dock.hide();
+      WindowManagerHelper.relieveConsoleFromAlwaysOnTop();
     }
 
     this.events = {
@@ -143,6 +146,9 @@ module.exports = class MessageWindow {
     this.events.consoleShown.remove();
     this.events.consoleHidden.remove();
     this.events.consoleBlur.remove();
+
+    global.App.DMWindowManager.unhideDockIfNoWindowsOpen();
+
   }
 
   onBlurCb() {

@@ -109,6 +109,8 @@ module.exports = class WindowManagerHelper {
     );
   }
 
+
+
   /**
    * creates new console window
    * @returns {*}
@@ -120,6 +122,26 @@ module.exports = class WindowManagerHelper {
       windowName,
       windowName
     );
+  }
+
+  /**
+   * creates new console window
+   * @returns {*}
+   */
+  static forceConsoleWindowOnTop() {
+    const windowName = WindowManagerHelper.WindowNames.CONSOLE;
+    const window = global.App.WindowManager.getWindow(windowName);
+    window.forceOnTop();
+  }
+
+  /**
+   * creates new console window
+   * @returns {*}
+   */
+  static relieveConsoleFromAlwaysOnTop() {
+    const windowName = WindowManagerHelper.WindowNames.CONSOLE;
+    const window = global.App.WindowManager.getWindow(windowName);
+    window.relieveOnTop();
   }
 
   /**

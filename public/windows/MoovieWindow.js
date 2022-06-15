@@ -107,17 +107,12 @@ module.exports = class MoovieWindow {
     this.isClosed = true;
     global.App.MoovieWindowManager.closeMoovieWindow();
 
-    if(is_mac) {
-      log.info("showing dock..");
-      app.dock.show().then(() => {
-        log.info("show returned!");
-      });
-    }
-
     this.events.consoleShowHide.remove();
     this.events.consoleShown.remove();
     this.events.consoleHidden.remove();
     this.events.consoleBlur.remove();
+
+    global.App.DMWindowManager.unhideDockIfNoWindowsOpen();
   }
 
   onBlurCb() {
