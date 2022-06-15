@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Feed, Segment} from "semantic-ui-react";
 import ChatFeedEvent from "./ChatFeedEvent";
 import CircuitMemberHelper from "./CircuitMemberHelper";
+import ErrorFeedEvent from "./ErrorFeedEvent";
 
 /**
  * this component is the feed of messages for the always-on-top chat overlay panel
@@ -92,25 +93,34 @@ export default class ChatFeed extends Component {
     return this.props.messages.map((message, i) => {
       const member = CircuitMemberHelper.getMemberForUsername(this.props.circuitMembers, message.username);
       const isBuddy = member && this.props.buddiesById.get(member.memberId);
-      return (<ChatFeedEvent
+      if (message.isErrorMsg) {
+        return <ErrorFeedEvent
           key={i}
-          circuitMember={member}
           id={message.id}
-          name={message.username}
           time={message.time}
-          isMe={message.isMe}
-          isBuddy={isBuddy}
-          isPuppet={message.isPuppet}
-          isLocalOnly={message.isLocalOnly}
-          hasPopup={true}
           texts={message.texts}
-          memberByIdMap={this.props.memberByIdMap}
-          onAddReaction={this.onAddReaction}
-          onRemoveReaction={this.onRemoveReaction}
-          onAddBuddy={this.onAddBuddy}
         />
+      } else {
+        return (<ChatFeedEvent
+            key={i}
+            circuitMember={member}
+            id={message.id}
+            name={message.username}
+            time={message.time}
+            isMe={message.isMe}
+            isBuddy={isBuddy}
+            isPuppet={message.isPuppet}
+            isLocalOnly={message.isLocalOnly}
+            hasPopup={true}
+            texts={message.texts}
+            memberByIdMap={this.props.memberByIdMap}
+            onAddReaction={this.onAddReaction}
+            onRemoveReaction={this.onRemoveReaction}
+            onAddBuddy={this.onAddBuddy}
+          />
         );
-      });
+      }
+    });
   }
 
   getBlankFeedEvents() {

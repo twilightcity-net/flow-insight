@@ -34,7 +34,7 @@ export default class DMLayout extends Component {
       buddiesById: new Map(),
       memberByIdMap: new Map(),
       member: null,
-      hasNewMessage: false
+      hasNewMessage: !this.props.isAutoSlideOpen
     };
   }
 
@@ -436,6 +436,37 @@ export default class DMLayout extends Component {
     });
   }
 
+
+
+  /**
+   * Add error message to chat
+   */
+  addErrorToChat(errorMessage) {
+
+    this.setState((prevState) => {
+
+      const newMessage = {
+        id : -99,
+        username: "Fervie",
+        time: "",
+        texts: [{
+          id: -99,
+          message: errorMessage,
+          reactions:[]
+        }],
+        isMe: false,
+        isPuppet: false,
+        isLocalOnly: false,
+        fervieColor: null,
+        fervieAccessory: null,
+        tertiaryColor: null,
+        isErrorMsg: true
+      };
+      return this.updateMessages(prevState.messages, newMessage);
+    });
+  }
+
+
   /**
    * If two messages at the same time, condense the data to display
    * bubbles adjacent without the timestamp underneath.
@@ -606,9 +637,11 @@ export default class DMLayout extends Component {
       if (!arg.error) {
         console.log("chat published");
         this.addMessageToFeed(arg.data);
-        //this.echoChatMessageToFeed(text);
+
       } else {
         console.error("Unable to publish chat: "+arg.error);
+        this.addErrorToChat("Chat message send failed. Please try again.");
+
       }
       if (callback) {
         callback();

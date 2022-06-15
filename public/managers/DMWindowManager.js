@@ -32,6 +32,32 @@ module.exports = class DMWindowManager {
   }
 
 
+  openDMIfNotOpen(memberId) {
+    let windowName = this.getWindowNameFromMemberId(memberId);
+
+    const existingWindow = this.dmWindowsByName.get(windowName);
+
+    if (!existingWindow) {
+      this.closeOldestWindowIfOverLimit();
+
+      console.log("creating window!");
+      const arg = {
+        memberId : memberId,
+        dmIndex: this.dmWindowsByName.size,
+        autoSlideOpen: false
+      }
+
+      let window = WindowManagerHelper.createDMWindow(
+        windowName,
+        arg
+      );
+      this.dmWindowsByName.set(windowName, window);
+      this.orderedWindows.push(windowName);
+    } else {
+      //do nothing if window is already open
+    }
+  }
+
   /**
    * When an open chart window is triggered, opens and creates the window
    * and passes in the properties.
@@ -49,6 +75,7 @@ module.exports = class DMWindowManager {
 
       console.log("creating window!");
       arg.dmIndex = this.dmWindowsByName.size;
+      arg.autoSlideOpen = true;
 
       let window = WindowManagerHelper.createDMWindow(
         windowName,
@@ -78,6 +105,18 @@ module.exports = class DMWindowManager {
    */
   getWindowName(arg) {
     let memberId = arg.memberId;
+    let windowName = DMWindowManager.windowNamePrefix;
+    windowName += memberId;
+
+    return windowName;
+  }
+
+  /**
+   * Get the windows name using the memberId argument
+   * @param memberId
+   * @returns {string}
+   */
+  getWindowNameFromMemberId(memberId) {
     let windowName = DMWindowManager.windowNamePrefix;
     windowName += memberId;
 

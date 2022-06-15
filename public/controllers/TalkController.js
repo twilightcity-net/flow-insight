@@ -532,6 +532,8 @@ module.exports = class TalkController extends (
       isOffline: false,
       read: false
     });
+
+    global.App.DMWindowManager.openDMIfNotOpen(fromMemberId);
   }
 
 

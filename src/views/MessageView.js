@@ -151,10 +151,20 @@ export default class MessageView extends Component {
     this.isOpening = false;
     this.isOpen = false;
 
-    setTimeout(() => {
-      this.slideOpenWindow();
-    }, 2000);
+    if (this.getBoolValue(this.props.routeProps.autoSlideOpen)) {
+      setTimeout(() => {
+        this.slideOpenWindow();
+      }, 2000);
+    }
   };
+
+  getBoolValue(boolStrProp) {
+    if (boolStrProp === "true") {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   componentWillUnmount = () => {
       this.events.consoleShowHide.clear();
@@ -317,7 +327,9 @@ export default class MessageView extends Component {
           onAppExit={this.onAppExit}
           showPeekView={this.state.showPeekView}
           onMessageSlideWindow={this.onMessageSlideWindow}
-          onActivateFullChatWindow={this.onActivateFullChatWindow}/>
+          onActivateFullChatWindow={this.onActivateFullChatWindow}
+          isAutoSlideOpen={this.getBoolValue(this.props.routeProps.autoSlideOpen)}
+        />
       </div>
     );
   }
