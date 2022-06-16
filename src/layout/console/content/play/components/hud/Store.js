@@ -23,6 +23,7 @@ export default class Store {
   static INVENTORY_OFFSET_SHIFT = 231;
 
   static STORE_IMAGE = "./assets/animation/hud/store.png";
+  static CLOSE_IMAGE = "./assets/animation/hud/close_icon.png";
 
   static YUMMY_OWNER_ICON_IMAGE = "./assets/animation/store/cow_yummies_icon.png";
 
@@ -70,6 +71,7 @@ export default class Store {
 
   preload(p5) {
     this.animationLoader.getStaticImage(p5, Store.STORE_IMAGE);
+    this.animationLoader.getStaticImage(p5, Store.CLOSE_IMAGE);
     this.animationLoader.getStaticImage(p5, Store.YUMMY_OWNER_ICON_IMAGE);
 
 
@@ -85,16 +87,18 @@ export default class Store {
   draw(p5) {
     p5.fill(30, 30, 30, 200);
 
-    let image = this.animationLoader.getStaticImage(p5, Store.STORE_IMAGE);
+    let storeImage = this.animationLoader.getStaticImage(p5, Store.STORE_IMAGE);
+    let closeImage = this.animationLoader.getStaticImage(p5, Store.CLOSE_IMAGE);
 
     p5.push();
       p5.tint(255, 235);
-      p5.image(image,
+      p5.image(storeImage,
         this.width - Store.WINDOW_WIDTH - 20 - (this.isInventoryOpen? Store.INVENTORY_OFFSET_SHIFT : 0),
         this.height - Store.WINDOW_HEIGHT - 20
       );
+    this.drawCloseIcon(p5, closeImage);
 
-      this.drawStoreIcon(p5);
+    this.drawStoreIcon(p5);
       this.drawIcons(p5);
 
       if (this.isOverInventory(p5.mouseX, p5.mouseY)) {
@@ -106,6 +110,33 @@ export default class Store {
       }
 
     p5.pop();
+  }
+
+  drawCloseIcon(p5, closeImage) {
+
+    p5.push();
+    p5.translate(this.width - 20 - 25 - (this.isInventoryOpen ? Store.INVENTORY_OFFSET_SHIFT : 0),
+      this.height - Store.WINDOW_HEIGHT - 20 + 10);
+    p5.scale(0.5, 0.5);
+
+    if (this.isOverCloseIcon(p5)) {
+      p5.blendMode(p5.ADD);
+      this.globalHud.setIsPointerHover(true);
+    } else {
+      this.globalHud.setIsPointerHover(false);
+    }
+
+    p5.image(closeImage, 0, 0);
+
+    p5.pop();
+  }
+
+  isOverCloseIcon(p5) {
+    let xPosition = this.width - 20 - 25 - (this.isInventoryOpen ? Store.INVENTORY_OFFSET_SHIFT : 0);
+    let yPosition = this.height - Store.WINDOW_HEIGHT - 20 + 10;
+
+    return (p5.mouseX > xPosition && p5.mouseX < (xPosition + 20)
+      && (p5.mouseY > yPosition && p5.mouseY < (yPosition + 20)));
   }
 
   drawStoreIcon(p5) {
@@ -164,7 +195,7 @@ export default class Store {
   }
 
   isOverIcon(x, y) {
-    return this.getIconAtPosition(x, y) !== null;
+    return !!this.getIconAtPosition(x, y);
   }
 
   isOverInventory(x, y) {
@@ -210,6 +241,10 @@ export default class Store {
     //
     let clickedIcon = this.getIconAtPosition(p5.mouseX, p5.mouseY);
     console.log("clicked "+clickedIcon);
+
+    if (this.isOverCloseIcon(p5)) {
+      this.globalHud.closeStore();
+    }
 
     // if (clickedIcon) {
     //   if (this.activeItemSelection === null) {

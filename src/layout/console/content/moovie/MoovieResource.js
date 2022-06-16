@@ -5,6 +5,8 @@ import EnvironmentMap from "../play/components/environment/EnvironmentMap";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import {BaseClient} from "../../../../clients/BaseClient";
+import {FervieClient} from "../../../../clients/FervieClient";
+import GameState from "../play/components/hud/GameState";
 
 /**
  * this component is the launch screen for the docked moovie app
@@ -19,13 +21,26 @@ export default class MoovieResource extends Component {
     super(props);
     this.name = "[MoovieResource]";
     this.state = {
-      me: MemberClient.me,
+      me: null,
       visible: false,
     };
 
   }
 
   componentDidMount() {
+    FervieClient.getBuddyMe(this, (arg) => {
+      if (!arg.error) {
+        console.log("XX BUDDY ME!!");
+        console.log(arg.data);
+
+        this.setState({
+          me: arg.data
+        });
+      } else {
+        console.error("Unable to load buddy me: "+arg.error);
+      }
+    });
+
     setTimeout(() => {
       this.setState({
         visible: true,
@@ -75,11 +90,20 @@ export default class MoovieResource extends Component {
    */
   render() {
     let content = "";
-    if (this.state.visible) {
+    let initialEnvironment = EnvironmentMap.THEATER_ENTRY;
+    let initialMoovieId = null;
+    if (this.state.visible && this.state.me) {
+      if (this.state.me.moovieId) {
+        initialEnvironment = EnvironmentMap.THEATER_ROOM;
+        initialMoovieId = this.state.me.moovieId;
+        console.log("XXXXX initialMoovieId = "+initialMoovieId);
+      }
+
       content = (
         <GameSketch
           me={this.state.me}
-          initialEnvironment={EnvironmentMap.THEATER_ENTRY}
+          initialEnvironment={initialEnvironment}
+          initialMoovieId={initialMoovieId}
           onFinishedLoading={this.onFinishedLoading}
         />
       );

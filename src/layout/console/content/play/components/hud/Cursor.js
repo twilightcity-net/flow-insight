@@ -22,6 +22,8 @@ export default class Cursor {
     this.activeItem = null;
     this.isActionableHover = false;
     this.isItemActionable = false;
+
+    this.isPointerHover = false;
   }
 
   preload(p5) {
@@ -47,6 +49,10 @@ export default class Cursor {
     this.isItemActionable = isItemActionable;
   }
 
+  setIsPointerHover(isActionable) {
+    this.isPointerHover = isActionable;
+  }
+
   draw(p5) {
     p5.push();
 
@@ -67,6 +73,8 @@ export default class Cursor {
           let starCursor = this.animationLoader.getStaticImage(p5, Cursor.STAR_CURSOR_IMAGE);
           p5.noCursor();
           p5.image(starCursor, p5.mouseX - Cursor.CURSOR_ICON_SIZE/2, p5.mouseY - Cursor.CURSOR_ICON_SIZE /2);
+        } else if (this.isPointerHover) {
+          p5.cursor(p5.HAND);
         } else {
           p5.cursor(p5.ARROW);
         }

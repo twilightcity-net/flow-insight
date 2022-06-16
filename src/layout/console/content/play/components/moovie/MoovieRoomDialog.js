@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Input, List,} from "semantic-ui-react";
+import {Button, Icon, Input, List,} from "semantic-ui-react";
 import MoovieListItem from "./MoovieListItem";
 import GameState from "../hud/GameState";
 import {MoovieClient} from "../../../../../../clients/MoovieClient";
@@ -90,6 +90,10 @@ export default class MoovieRoomDialog extends Component {
     this.props.globalHud.enableKeys();
   }
 
+  onClickCloseIcon = () => {
+    this.props.globalHud.closeMooviePicker();
+  }
+
   createNewMoovie = () => {
     console.log("createNewMoovie");
     MoovieClient.createMoovieCircuit(
@@ -125,6 +129,7 @@ export default class MoovieRoomDialog extends Component {
 
   getMoovieListContent() {
     return (<div id="playDialog">
+      <div className="closeIcon"><Icon name="close" size="large" onClick={this.onClickCloseIcon}/></div>
       <div className={"title"}>Moovie Rooms</div>
       <div className="listContent">
         <List

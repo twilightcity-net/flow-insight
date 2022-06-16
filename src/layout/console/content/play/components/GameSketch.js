@@ -18,6 +18,7 @@ import MoovieRoomDialog from "./moovie/MoovieRoomDialog";
 import {Sunglasses} from "./accessories/Sunglasses";
 import AccessoryManager from "./accessories/AccessoryManager";
 import {Heartglasses} from "./accessories/Heartglasses";
+import GameState from "./hud/GameState";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -60,6 +61,10 @@ export default class GameSketch extends Component {
         );
         if (this.props.initialEnvironment) {
           this.environment.setInitialEnvironment(this.props.initialEnvironment);
+        }
+
+        if (this.props.initialMoovieId) {
+          this.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, this.props.initialMoovieId);
         }
 
         this.environment.preload(p5);

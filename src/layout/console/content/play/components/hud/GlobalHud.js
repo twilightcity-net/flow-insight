@@ -98,6 +98,10 @@ export default class GlobalHud {
     this.cursor.setIsItemActionable(isItemActionable);
   }
 
+  setIsPointerHover(isActionable) {
+    this.cursor.setIsPointerHover(isActionable);
+  }
+
   getGameStateProperty(property) {
     return this.gameState.get(property);
   }
