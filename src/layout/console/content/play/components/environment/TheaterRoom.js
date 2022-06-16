@@ -77,6 +77,14 @@ export default class TheaterRoom extends Environment {
     this.talkRoomMessageListener.clear();
 
     this.closeMoovieEvent.dispatch({});
+
+    MoovieClient.leaveMoovie(this.moovieId, this, (arg) => {
+      if (!arg.error) {
+        console.log("Left the moovie");
+      } else {
+        console.error("Error while leaving the moovie: "+arg.error);
+      }
+    });
   }
 
   getDefaultSpawnProperties() {

@@ -19,6 +19,11 @@ module.exports = class FervieDto {
       this.username = json.username;
       this.onlineStatus = json.onlineStatus;
 
+      this.currentActivity = json.currentActivity;
+      this.moovieId = json.moovieId;
+
+      this.moovieCount = json.moovieCount;
+
     } catch (e) {
       throw new Error(
         "Unable to create dto 'FervieDto' : " + e.message

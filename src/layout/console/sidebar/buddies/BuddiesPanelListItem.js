@@ -70,7 +70,7 @@ export default class BuddiesPanelListItem extends Component {
     let member = this.props.model,
       username = member.username,
       name = member.fervieName,
-      activeMoovie = "";
+      activeMoovie = member.currentActivity;
 
     let profileImage = (<FervieProfile
       showPopup={false}
@@ -88,7 +88,7 @@ export default class BuddiesPanelListItem extends Component {
           <div>
             <b>
               <div className="activeMoovie">
-                {activeMoovie}
+                Moovie: {member.currentActivity}
               </div>
             </b>
           </div>

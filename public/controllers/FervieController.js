@@ -37,6 +37,7 @@ module.exports = class FervieController extends (
       REQUEST_BUDDY_LINK: "request-buddy-link",
       CONFIRM_BUDDY_LINK: "confirm-buddy-link",
       REMOVE_BUDDY_LINK: "remove-buddy-link",
+      GET_BUDDY_ME: "get-buddy-me",
       GET_BUDDY_LIST: "get-buddy-list",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       LOAD_BUDDY_LIST: "load-buddy-list",
@@ -100,6 +101,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.GET_BUDDY_LIST:
           this.handleGetBuddyListEventWithFallback(event, arg);
+          break;
+        case FervieController.Events.GET_BUDDY_ME:
+          this.handleGetBuddyMeEvent(event, arg);
           break;
         case FervieController.Events.GET_PENDING_BUDDY_REQUEST_LIST:
           this.handleGetPendingBuddyListEvent(event, arg);
@@ -210,6 +214,30 @@ module.exports = class FervieController extends (
     }
   }
 
+
+
+  /**
+   * client event handler for our getting the me fervieDto from our
+   * buddy representation
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetBuddyMeEvent(event, arg, callback) {
+
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+    if (this.isBuddyListLoaded) {
+
+      arg.data = database.getBuddyMe();
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    }
+  }
 
 
   /**
@@ -329,10 +357,15 @@ module.exports = class FervieController extends (
         this.isBuddyListLoaded = false;
       } else {
         arg.data = store.data;
+        const buddyMe = arg.data.me;
         const buddyList = arg.data.buddies;
         const pendingRequests = arg.data.pendingBuddyRequests;
 
         const database = DatabaseFactory.getDatabase(DatabaseFactory.Names.BUDDY);
+
+        if (buddyMe) {
+          database.loadBuddyMe(buddyMe);
+        }
 
         if (buddyList) {
           database.loadBuddyList(buddyList);

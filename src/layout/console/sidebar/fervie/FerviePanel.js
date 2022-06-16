@@ -56,6 +56,8 @@ export default class FerviePanel extends Component {
       },
     ];
 
+    this.state = this.createInitialState(this.me);
+
     this.render3d = false;
     this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
@@ -63,48 +65,6 @@ export default class FerviePanel extends Component {
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
       );
-
-    let fervieColor = MemberClient.me.fervieColor;
-    let fervieSecondaryColor = MemberClient.me.fervieSecondaryColor;
-    let fervieTertiaryColor = MemberClient.me.fervieTertiaryColor;
-    let fervieAccessory = MemberClient.me.fervieAccessory;
-
-    if (fervieColor === undefined || fervieColor === null) {
-      fervieColor = "#B042FF";
-    }
-
-    if (fervieSecondaryColor === undefined || fervieSecondaryColor === null) {
-      fervieSecondaryColor = "#FFFFFF";
-    }
-
-    if (fervieTertiaryColor === undefined || fervieTertiaryColor === null) {
-      fervieTertiaryColor = "#000000";
-    }
-
-    this.me = MemberClient.me;
-
-    this.state = {
-      activeItem: SidePanelViewController.SubmenuSelection.FERVIE,
-      fervieVisible: false,
-      skillsVisible: false,
-      badgesVisible: false,
-      accessoriesVisible: false,
-      xpSummary: MemberClient.me.xpSummary,
-      pickColorVisible: false,
-      color: fervieColor,
-      fervieColor: fervieColor,
-      fervieSecondaryColor: fervieSecondaryColor,
-      fervieTertiaryColor: fervieTertiaryColor,
-      fervieAccessory: fervieAccessory,
-      editedFervieColor: fervieColor,
-      editedFervieSecondaryColor: fervieSecondaryColor,
-      editedfervieTertiaryColor: fervieTertiaryColor,
-      whatToColor: FerviePanel.Colorables.FUR,
-      isEditingName: false,
-      fervieName: this.getFervieName(this.me),
-      currentFervieName:  this.getFervieName(this.me),
-      moovieWatchCount: 10
-    };
 
     this.talkRoomMessageListener =
       RendererEventFactory.createEvent(
@@ -135,6 +95,7 @@ export default class FerviePanel extends Component {
   onMeRefresh() {
     MemberClient.getMe(this, (arg) => {
       this.me = arg.data;
+      this.setState(this.createMeStateUpdate(this.me));
       this.onRefreshFerviePanel();
     });
   }
@@ -145,6 +106,97 @@ export default class FerviePanel extends Component {
       SHOES: "Shoes",
       ACCESSORY: "Accessory",
     };
+  }
+
+
+  /**
+   * Take all the color and property info out of the passed in me,
+   * and return as a property set for updating the state
+   * @param me
+   */
+  createInitialState(me) {
+
+    let fervieColor = me.fervieColor;
+    let fervieSecondaryColor = me.fervieSecondaryColor;
+    let fervieTertiaryColor = me.fervieTertiaryColor;
+    let fervieAccessory = me.fervieAccessory;
+
+    if (fervieColor === undefined || fervieColor === null) {
+      fervieColor = "#B042FF";
+    }
+
+    if (fervieSecondaryColor === undefined || fervieSecondaryColor === null) {
+      fervieSecondaryColor = "#FFFFFF";
+    }
+
+    if (fervieTertiaryColor === undefined || fervieTertiaryColor === null) {
+      fervieTertiaryColor = "#000000";
+    }
+
+    return {
+      activeItem: SidePanelViewController.SubmenuSelection.FERVIE,
+      fervieVisible: false,
+      skillsVisible: false,
+      badgesVisible: false,
+      accessoriesVisible: false,
+      xpSummary: me.xpSummary,
+      pickColorVisible: false,
+      color: fervieColor,
+      fervieColor: fervieColor,
+      fervieSecondaryColor: fervieSecondaryColor,
+      fervieTertiaryColor: fervieTertiaryColor,
+      fervieAccessory: fervieAccessory,
+      editedFervieColor: fervieColor,
+      editedFervieSecondaryColor: fervieSecondaryColor,
+      editedfervieTertiaryColor: fervieTertiaryColor,
+      whatToColor: FerviePanel.Colorables.FUR,
+      isEditingName: false,
+      fervieName: this.getFervieName(me),
+      currentFervieName:  this.getFervieName(me),
+      moovieWatchCount : me.moovieCount
+    };
+
+  }
+
+  /**
+   * Create state update just for fervie me properties
+   * @param me
+   */
+  createMeStateUpdate(me) {
+
+    let fervieColor = me.fervieColor;
+    let fervieSecondaryColor = me.fervieSecondaryColor;
+    let fervieTertiaryColor = me.fervieTertiaryColor;
+    let fervieAccessory = me.fervieAccessory;
+
+    if (fervieColor === undefined || fervieColor === null) {
+      fervieColor = "#B042FF";
+    }
+
+    if (fervieSecondaryColor === undefined || fervieSecondaryColor === null) {
+      fervieSecondaryColor = "#FFFFFF";
+    }
+
+    if (fervieTertiaryColor === undefined || fervieTertiaryColor === null) {
+      fervieTertiaryColor = "#000000";
+    }
+
+    return {
+      xpSummary: me.xpSummary,
+      color: fervieColor,
+      fervieColor: fervieColor,
+      fervieSecondaryColor: fervieSecondaryColor,
+      fervieTertiaryColor: fervieTertiaryColor,
+      fervieAccessory: fervieAccessory,
+      editedFervieColor: fervieColor,
+      editedFervieSecondaryColor: fervieSecondaryColor,
+      editedfervieTertiaryColor: fervieTertiaryColor,
+      whatToColor: FerviePanel.Colorables.FUR,
+      fervieName: this.getFervieName(me),
+      currentFervieName:  this.getFervieName(me),
+      moovieWatchCount : me.moovieCount
+    };
+
   }
 
   /**
@@ -299,6 +351,13 @@ export default class FerviePanel extends Component {
       this.onRefreshFerviePanel
     );
     this.onRefreshFerviePanel();
+
+    FervieClient.getBuddyMe(this, (arg) => {
+      if (!arg.error) {
+        this.me = arg.data;
+        this.setState(this.createMeStateUpdate(this.me));
+      }
+    });
 
     this.globalHudInputLockNotifier =
       RendererEventFactory.createEvent(
@@ -459,7 +518,7 @@ export default class FerviePanel extends Component {
             idkey={"1"}
             isActive={this.state.fervieAccessory === "SUNGLASSES"}
             moovieWatchCount={this.state.moovieWatchCount}
-            moovieWatchCountRequired={7}
+            moovieWatchCountRequired={5}
             skillName={"Neo Shades"}
             skillEffect={
               "Express your inner Neo.  If Neo can do it, so can Fervies."
@@ -472,7 +531,7 @@ export default class FerviePanel extends Component {
             idkey={"2"}
             isActive={this.state.fervieAccessory === "HEARTGLASSES"}
             moovieWatchCount={this.state.moovieWatchCount}
-            moovieWatchCountRequired={7}
+            moovieWatchCountRequired={5}
             skillName={"Heart Shades"}
             skillEffect={
               "The perfect shades for making friends at the moovies."

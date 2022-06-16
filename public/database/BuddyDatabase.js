@@ -58,6 +58,8 @@ module.exports = class BuddyDatabase extends LokiJS {
     super(BuddyDatabase.Name);
     this.name = "[BuddyDatabase]";
     this.guid = Util.getGuid();
+    this.buddyMe = null;
+
     this.addCollection(BuddyDatabase.Collections.BUDDIES, {
       indices: [
         BuddyDatabase.Indices.ID,
@@ -106,6 +108,23 @@ module.exports = class BuddyDatabase extends LokiJS {
     return collection.getDynamicView(
       BuddyDatabase.Views.PENDING_REQUESTS
     );
+  }
+
+  /**
+   * gets our saved buddyMe reference
+   */
+  getBuddyMe() {
+    return this.buddyMe;
+  }
+
+  /**
+   * Initial load of the fervieDto representing me
+   * from the buddy list
+   * @param buddyMe
+   */
+  loadBuddyMe(buddyMe) {
+    buddyMe.id = buddyMe.sparkId;
+    this.buddyMe = buddyMe;
   }
 
   /**
@@ -162,12 +181,16 @@ module.exports = class BuddyDatabase extends LokiJS {
    * @param buddy
    */
   addOrUpdateBuddy(buddy) {
-    let collection = this.getCollection(
-      BuddyDatabase.Collections.BUDDIES
-    );
-    buddy.id = buddy.sparkId;
+    if (buddy.sparkId === this.buddyMe.sparkId) {
+      this.loadBuddyMe(buddy);
+    } else {
+      let collection = this.getCollection(
+        BuddyDatabase.Collections.BUDDIES
+      );
+      buddy.id = buddy.sparkId;
 
-    DatabaseUtil.findRemoveInsert(buddy, collection);
+      DatabaseUtil.findRemoveInsert(buddy, collection);
+    }
   }
 
   /**

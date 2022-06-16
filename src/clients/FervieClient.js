@@ -41,6 +41,7 @@ export class FervieClient extends BaseClient {
       CONFIRM_BUDDY_LINK: "confirm-buddy-link",
       REMOVE_BUDDY_LINK: "remove-buddy-link",
       GET_BUDDY_LIST: "get-buddy-list",
+      GET_BUDDY_ME: "get-buddy-me",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
     };
@@ -214,6 +215,29 @@ export class FervieClient extends BaseClient {
   ) {
     let event = FervieClient.instance.createClientEvent(
       FervieClient.Events.GET_BUDDY_LIST,
+      {},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+
+  /**
+   * Gets all the fervies on your buddy list
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getBuddyMe(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.GET_BUDDY_ME,
       {},
       scope,
       callback

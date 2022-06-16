@@ -79,7 +79,7 @@ export default class AccessoryListItem extends Component {
           </div>
           <div className="description">
             <i>
-              Unlock by watching moovies
+              Unlock by watching {this.props.moovieWatchCountRequired} moovies
             </i>
           </div>
         </div>

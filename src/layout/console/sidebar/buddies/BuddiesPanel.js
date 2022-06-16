@@ -118,6 +118,13 @@ export default class BuddiesPanel extends Component {
     console.log("refresh!");
 
     let callCount = 0;
+
+    FervieClient.getBuddyMe(this, (arg) => {
+      callCount++;
+      this.buddyMe = arg.data;
+      this.handleDataLoadFinished(callCount, arg);
+    });
+
     FervieClient.getPendingBuddyList(this, (arg) => {
       callCount++;
       this.pendingBuddies = arg.data;
@@ -136,10 +143,11 @@ export default class BuddiesPanel extends Component {
       console.error("Error during buddy data load: "+arg.error);
     }
 
-    if (callCount !== 2) return;
+    if (callCount !== 3) return;
 
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
+      buddyMe: this.buddyMe,
       buddies: this.buddies,
       pendingBuddies: this.pendingBuddies
     });
@@ -228,7 +236,8 @@ export default class BuddiesPanel extends Component {
   getBuddyListContent() {
     let showOffline = true;
 
-    let me = MemberClient.me;
+    let me = this.state.buddyMe;
+    if (!me) return "";
 
     console.log("BUDDIES!");
     console.log(this.state.buddies);
