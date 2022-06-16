@@ -2,13 +2,14 @@ const log = require("electron-log");
 const EventFactory = require("../events/EventFactory");
 const WindowManagerHelper = require("./WindowManagerHelper");
 const {app} = require("electron");
+const AppFeatureToggle = require("../app/AppFeatureToggle");
 
 const is_mac = process.platform==='darwin';
 
 /**
  * managing class for the sliding direct message windows
  */
-module.exports = class DMWindowManager {
+module.exports = class MessageWindowManager {
   static windowNamePrefix = "tc-dm-";
 
   static WINDOW_LIMIT = 3;
@@ -93,24 +94,51 @@ module.exports = class DMWindowManager {
   }
 
   closeOldestWindowIfOverLimit() {
-    if (this.dmWindowsByName.size === DMWindowManager.WINDOW_LIMIT) {
+    if (this.dmWindowsByName.size === MessageWindowManager.WINDOW_LIMIT) {
       const firstWindowName = this.orderedWindows[0];
 
       this.closeAndCleanUpWindow(firstWindowName);
     }
   }
 
+
+
+
   /**
-   * Unhide docked app if no windows are open
+   * Unhide docked app if no windows are open, will be called in the onClose
+   * handler of all the different DM message window types.  If the Moovie window
+   * is still open, don't show the docked window yet, the moovie window will handle
+   * putting the docked window back on close.
    */
-  unhideDockIfNoWindowsOpen() {
-    //don't show docked window...
-    // if(is_mac && this.dmWindowsByName.size === 0) {
-    //   log.info("showing dock..");
-    //   app.dock.show().then(() => {
-    //     log.info("show returned!");
-    //   });
-    // }
+  unhideDockIfNoMessageWindowsOpenIncludingMoovie() {
+    if (AppFeatureToggle.consoleHasWindowInDock) {
+      //unhide docked window when all DM windows are closed
+      if(is_mac && this.dmWindowsByName.size === 0
+        && !global.App.MoovieWindowManager.isMoovieWindowOpen()) {
+        log.info("showing dock..");
+        app.dock.show().then(() => {
+          log.info("show returned!");
+        });
+      }
+    }
+  }
+
+  /**
+   * Unhide docked app if no windows are open, will be called in the onClose
+   * handler of all the different DM message window types. This is called by
+   * the Moovie window.  If there's dm message windows still open, they
+   * will be responsible for bringing back the docked window.
+   */
+  unhideDockIfNoMessageWindowsOpen() {
+    if (AppFeatureToggle.consoleHasWindowInDock) {
+      //unhide docked window when all DM windows are closed
+      if(is_mac && this.dmWindowsByName.size === 0) {
+        log.info("showing dock..");
+        app.dock.show().then(() => {
+          log.info("show returned!");
+        });
+      }
+    }
   }
 
   /**
@@ -120,7 +148,7 @@ module.exports = class DMWindowManager {
    */
   getWindowName(arg) {
     let memberId = arg.memberId;
-    let windowName = DMWindowManager.windowNamePrefix;
+    let windowName = MessageWindowManager.windowNamePrefix;
     windowName += memberId;
 
     return windowName;
@@ -132,7 +160,7 @@ module.exports = class DMWindowManager {
    * @returns {string}
    */
   getWindowNameFromMemberId(memberId) {
-    let windowName = DMWindowManager.windowNamePrefix;
+    let windowName = MessageWindowManager.windowNamePrefix;
     windowName += memberId;
 
     return windowName;

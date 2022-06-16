@@ -7,8 +7,6 @@ const shell = require('electron').shell;
  * managing class for opening the popup moovie windows
  */
 module.exports = class MoovieWindowManager {
-  static WINDOW_NAME = "tc-moovie-chat";
-
   static NETFLIX_PREFIX = "https://www.netflix.com/";
   static AMAZON_PREFIX = "https://www.amazon.com/";
   static HBOMAX_PREFIX = "https://play.hbomax.com/";
@@ -45,7 +43,7 @@ module.exports = class MoovieWindowManager {
 
     if (this.isValidUrl(arg.moovie.link)) {
       shell.openExternal(arg.moovie.link);
-      WindowManagerHelper.createMoovieWindow(MoovieWindowManager.WINDOW_NAME, {moovieId: arg.moovie.id});
+      WindowManagerHelper.createMoovieWindow({moovieId: arg.moovie.id});
     } else {
       throw Error("Unexpected link should be a movie site link");
     }
@@ -55,9 +53,10 @@ module.exports = class MoovieWindowManager {
    * When we exit the theater we want to close the moovie window
    */
   onCloseMoovieCb(event, arg) {
-
     console.log("Closing moovie!");
-    WindowManagerHelper.closeWindow(MoovieWindowManager.WINDOW_NAME);
+    WindowManagerHelper.closeMoovieWindow();
+
+    global.App.MessageWindowManager.unhideDockIfNoMessageWindowsOpen();
   }
 
   isValidUrl(url) {
@@ -67,7 +66,11 @@ module.exports = class MoovieWindowManager {
   }
 
   closeMoovieWindow() {
-    WindowManagerHelper.closeWindow(MoovieWindowManager.windowName);
+    WindowManagerHelper.closeMoovieWindow();
+  }
+
+  isMoovieWindowOpen() {
+    return WindowManagerHelper.isMoovieWindowOpen();
   }
 
 };

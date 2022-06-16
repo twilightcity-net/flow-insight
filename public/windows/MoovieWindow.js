@@ -112,7 +112,7 @@ module.exports = class MoovieWindow {
     this.events.consoleHidden.remove();
     this.events.consoleBlur.remove();
 
-    global.App.DMWindowManager.unhideDockIfNoWindowsOpen();
+    global.App.MessageWindowManager.unhideDockIfNoMessageWindowsOpen();
   }
 
   onBlurCb() {

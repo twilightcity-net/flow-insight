@@ -1,4 +1,8 @@
 const ViewManagerHelper = require("./ViewManagerHelper");
+const log = require("electron-log");
+const {app} = require("electron");
+
+const is_mac = process.platform==='darwin';
 
 /**
  * Simpler helper function for the ViewManager used to store the
@@ -45,19 +49,35 @@ module.exports = class WindowManagerHelper {
     );
   }
 
+  static closeMoovieWindow() {
+    return global.App.WindowManager.closeWindowByName(
+      WindowManagerHelper.WindowNames.MOOVIE
+    );
+  }
+
   /**
    * creates new moovie popout window
    * @returns {*}
    */
-  static createMoovieWindow(moovieWindowName, arg) {
+  static createMoovieWindow(arg) {
     let windowClassName =
       WindowManagerHelper.WindowNames.MOOVIE;
 
     return global.App.WindowManager.createWindow(
-      moovieWindowName,
+      windowClassName,
       windowClassName,
       arg
     );
+  }
+
+  /**
+   * Returns true if the specified window with name is open
+   * @param windowName
+   */
+  static isMoovieWindowOpen() {
+    const window = global.App.WindowManager.getWindow(WindowManagerHelper.WindowNames.MOOVIE);
+    console.log(window);
+    return !!window;
   }
 
   /**
@@ -166,4 +186,26 @@ module.exports = class WindowManagerHelper {
       WindowManagerHelper.WindowNames.HOTKEY;
     global.App.WindowManager.closeWindowByName(windowName);
   }
+
+
+  /**
+   * Hide the window bar dock while keeping the console window on top.
+   * Normally, focus shifts to the app behind the main app,
+   * which the dock is hidden.  This keeps the console app, temporarily on top.
+   */
+  static hideDockWhileConsoleStaysOnTop() {
+    if (is_mac) {
+      //required to get the chat windows to work in full screen
+      WindowManagerHelper.forceConsoleWindowOnTop();
+      log.info("hide dock..");
+      setTimeout(() => {
+        app.dock.hide();
+        setTimeout(() => {
+          WindowManagerHelper.relieveConsoleFromAlwaysOnTop();
+        }, 333);
+      }, 333);
+    }
+  }
+
 };
+

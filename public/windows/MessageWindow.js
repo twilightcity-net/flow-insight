@@ -66,13 +66,7 @@ module.exports = class MessageWindow {
     this.window.on("closed", () => this.onClosedCb());
     this.window.on('blur', () => this.onBlurCb());
 
-
-    if(is_mac) {
-      //required to get the chat windows to work in full screen
-      WindowManagerHelper.forceConsoleWindowOnTop();
-      app.dock.hide();
-      WindowManagerHelper.relieveConsoleFromAlwaysOnTop();
-    }
+    WindowManagerHelper.hideDockWhileConsoleStaysOnTop();
 
     this.events = {
       consoleShowHide: EventFactory.createEvent(
@@ -140,14 +134,14 @@ module.exports = class MessageWindow {
   onClosedCb() {
     log.info("[DMWindow] closed window");
     this.isClosed = true;
-    global.App.DMWindowManager.closeDMWindow(this.arg);
+    global.App.MessageWindowManager.closeDMWindow(this.arg);
 
     this.events.consoleShowHide.remove();
     this.events.consoleShown.remove();
     this.events.consoleHidden.remove();
     this.events.consoleBlur.remove();
 
-    global.App.DMWindowManager.unhideDockIfNoWindowsOpen();
+    global.App.MessageWindowManager.unhideDockIfNoMessageWindowsOpenIncludingMoovie();
 
   }
 

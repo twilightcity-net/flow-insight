@@ -59,7 +59,7 @@ const HotkeyManager = require("../managers/HotkeyManager");
 const MoovieManager = require("../managers/MoovieManager");
 const MoovieWindowManager = require("../managers/MoovieWindowManager");
 const CircuitMemberManager = require("../managers/CircuitMemberManager");
-const DMWindowManager = require("../managers/DMWindowManager");
+const MessageWindowManager = require("../managers/MessageWindowManager");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -178,7 +178,7 @@ module.exports = class App {
       global.App.ChartManager = new ChartManager();
       global.App.HotkeyManager = new HotkeyManager();
       global.App.ChartWindowManager = new ChartWindowManager();
-      global.App.DMWindowManager = new DMWindowManager();
+      global.App.MessageWindowManager = new MessageWindowManager();
       global.App.MoovieWindowManager = new MoovieWindowManager();
       global.App.ConfigWindowManager = new ConfigWindowManager();
       global.App.DataStoreManager = new DataStoreManager();

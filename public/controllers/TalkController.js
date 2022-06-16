@@ -533,7 +533,7 @@ module.exports = class TalkController extends (
       read: false
     });
 
-    global.App.DMWindowManager.openDMIfNotOpen(fromMemberId);
+    global.App.MessageWindowManager.openDMIfNotOpen(fromMemberId);
   }
 
 
