@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {Icon, List,} from "semantic-ui-react";
+import {Divider, Icon, Label, List, Popup,} from "semantic-ui-react";
 import {BaseClient} from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import FervieProfile from "../../../shared/FervieProfile";
 
 /**
  * our list items that are displayed in our buddy panel.
@@ -59,6 +60,74 @@ export default class BuddiesPanelListItem extends Component {
     return <Icon className="online" name={name} color={color} />;
   }
 
+
+  /**
+   * renders our popup content for our GUI to display to the user
+   * @param trigger
+   * @returns {*}
+   */
+  getPopupContent(trigger) {
+    let member = this.props.model,
+      username = member.username,
+      name = member.fervieName,
+      activeMoovie = "";
+
+    let profileImage = (<FervieProfile
+      showPopup={false}
+      isBuddy={false}
+      hasBuddyActions={false}
+      circuitMember={this.props.model}
+    />);
+
+    let activeMoovieBlock = "";
+
+    if (activeMoovie) {
+      activeMoovieBlock = (
+        <div className="activity">
+          <Divider />
+          <div>
+            <b>
+              <div className="activeMoovie">
+                {activeMoovie}
+              </div>
+            </b>
+          </div>
+        </div>
+      );
+    }
+
+    let popupContent = (
+      <div>
+        <div className="profileImage">{profileImage}</div>
+        <div>
+          <div>
+
+          </div>
+          <div className="fervieName">
+            {name}
+          </div>
+          <div className="names">
+            <div className="username">@{username}</div>
+          </div>
+        </div>
+        {activeMoovieBlock}
+      </div>
+    );
+
+    return (
+      <Popup
+        style={{ maxWidth: "300px" }}
+        trigger={trigger}
+        className="buddyPanel"
+        content={popupContent}
+        position="right center"
+        inverted
+        hideOnScroll
+      />
+    );
+  }
+
+
   /**
    * gets our direct messaging icon which is only visible when hovering
    * @returns {*}
@@ -100,25 +169,38 @@ export default class BuddiesPanelListItem extends Component {
     return className;
   }
 
+  getBuddyItem() {
+    let profileImage = (<FervieProfile
+      showPopup={false}
+      isBuddy={false}
+      hasBuddyActions={false}
+      circuitMember={this.props.model}
+    />);
+    return (
+      <List.Item
+        className={this.getClassName()}
+        onClick={this.handleClick}
+      >
+        {this.getOnlineIcon()}
+        {this.getMessagingIcon()}
+        <List.Content>
+          <List.Header>
+            <div className="hiddenProfile">{profileImage}</div>
+            {this.getDisplayName()}
+          </List.Header>
+        </List.Content>
+      </List.Item>
+    );
+  }
+
 
   /**
    * renders our list item JSX
    * @returns {*}
    */
   render() {
-    return (
-      <List.Item
-      className={this.getClassName()}
-      onClick={this.handleClick}
-    >
-      {this.getOnlineIcon()}
-      {this.getMessagingIcon()}
-      <List.Content>
-        <List.Header>
-          {this.getDisplayName()}
-        </List.Header>
-      </List.Content>
-    </List.Item>
+    return this.getPopupContent(
+      this.getBuddyItem()
     );
   }
 }

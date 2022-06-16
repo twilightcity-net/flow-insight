@@ -1,7 +1,7 @@
 
 module.exports = class AppFeatureToggle {
 
-  static isMoovieApp = true;
+  static isMoovieApp = false;
   static consoleHasWindowInDock = true;
 
   static isFlowInsightApp() {
