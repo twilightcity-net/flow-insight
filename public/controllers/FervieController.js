@@ -42,7 +42,9 @@ module.exports = class FervieController extends (
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       LOAD_BUDDY_LIST: "load-buddy-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
-      UPDATE_ACCOUNT_USERNAME: "update-account-username"
+      UPDATE_ACCOUNT_USERNAME: "update-account-username",
+      UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
+      UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
     };
   }
 
@@ -90,6 +92,12 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.UPDATE_ACCOUNT_USERNAME:
           this.handleUpdateAccountUsernameEvent(event, arg);
+          break;
+        case FervieController.Events.UPDATE_ACCOUNT_FULLNAME:
+          this.handleUpdateAccountFullnameEvent(event, arg);
+          break;
+        case FervieController.Events.UPDATE_ACCOUNT_DISPLAYNAME:
+          this.handleUpdateAccountDisplaynameEvent(event, arg);
           break;
         case FervieController.Events.REQUEST_BUDDY_LINK:
           this.handleRequestBuddyLinkEvent(event, arg);
@@ -173,6 +181,69 @@ module.exports = class FervieController extends (
     );
   }
 
+
+
+  /**
+   * Update the account fullName
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUpdateAccountFullnameEvent(event, arg, callback) {
+    let fullName = arg.args.fullName,
+      urn =
+        FervieController.Paths.ACCOUNT +
+        FervieController.Paths.PROFILE +
+        FervieController.Paths.ROOT +
+        FervieController.Paths.PROPERTY +
+        FervieController.Paths.FULLNAME;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {fullName : fullName},
+      FervieController.Names.UPDATE_ACCOUNT_FULLNAME,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * Update the account displayName
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUpdateAccountDisplaynameEvent(event, arg, callback) {
+    let displayName = arg.args.displayName,
+      urn =
+        FervieController.Paths.ACCOUNT +
+        FervieController.Paths.PROFILE +
+        FervieController.Paths.ROOT +
+        FervieController.Paths.PROPERTY +
+        FervieController.Paths.DISPLAYNAME;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {displayName : displayName},
+      FervieController.Names.UPDATE_ACCOUNT_DISPLAYNAME,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
 
   /**
    * client event handler for our save fervie details function

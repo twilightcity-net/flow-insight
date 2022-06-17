@@ -181,7 +181,7 @@ module.exports = class BuddyDatabase extends LokiJS {
    * @param buddy
    */
   addOrUpdateBuddy(buddy) {
-    if (buddy.sparkId === this.buddyMe.sparkId) {
+    if (this.buddyMe && buddy.sparkId === this.buddyMe.sparkId) {
       this.loadBuddyMe(buddy);
     } else {
       let collection = this.getCollection(

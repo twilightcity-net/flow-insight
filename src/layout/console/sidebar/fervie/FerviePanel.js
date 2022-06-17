@@ -125,6 +125,8 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor: fervieTertiaryColor,
       fervieAccessory: fervieAccessory,
       username: me.username,
+      fullName: me.fullName,
+      displayName: me.displayName,
       fervieName: this.getFervieName(me),
       moovieWatchCount : me.moovieCount
     };
@@ -162,6 +164,8 @@ export default class FerviePanel extends Component {
       fervieAccessory: fervieAccessory,
       fervieName: this.getFervieName(me),
       username: me.username,
+      fullName: me.fullName,
+      displayName: me.displayName,
       moovieWatchCount : me.moovieCount
     };
 
@@ -339,12 +343,14 @@ export default class FerviePanel extends Component {
     );
     this.onRefreshFerviePanel();
 
-    FervieClient.getBuddyMe(this, (arg) => {
-      if (!arg.error) {
-        this.me = arg.data;
-        this.setState(this.createMeStateUpdate(this.me));
-      }
-    });
+    if (FeatureToggle.isMoovieApp) {
+      FervieClient.getBuddyMe(this, (arg) => {
+        if (!arg.error) {
+          this.me = arg.data;
+          this.setState(this.createMeStateUpdate(this.me));
+        }
+      });
+    }
 
     this.globalHudInputLockNotifier =
       RendererEventFactory.createEvent(
@@ -396,14 +402,26 @@ export default class FerviePanel extends Component {
     this.meDataRefreshListener.clear();
   }
 
+  /**
+   * Prevents input keystrokes from being used to walk or open inventory in the game
+   */
   handleGlobalHudInputLock = () => {
     this.globalHudInputLockNotifier.dispatch({lockInput: true});
   }
 
+  /**
+   * Unlocks the input keystrokes so they can be used again to walk and open inventory
+   * in the game
+   */
   handleGlobalHudInputUnlock = () => {
     this.globalHudInputLockNotifier.dispatch({lockInput: false});
   }
 
+  /**
+   * Updates the username on the server
+   * @param newUsername
+   * @param callback
+   */
   onUpdateUsername = (newUsername, callback) => {
     console.log("Update username!!");
     FervieClient.updateAccountUsername(newUsername, this, (arg) => {
@@ -411,6 +429,42 @@ export default class FerviePanel extends Component {
       if (arg.data && arg.data.status === "SUCCESS") {
         this.setState({
           username: newUsername
+        });
+      }
+
+    });
+  }
+
+  /**
+   * Updates the fullName on the server
+   * @param newFullName
+   * @param callback
+   */
+  onUpdateFullName = (newFullName, callback) => {
+    console.log("Update fullname!!");
+    FervieClient.updateAccountFullName(newFullName, this, (arg) => {
+      callback(arg);
+      if (arg.data && arg.data.status === "SUCCESS") {
+        this.setState({
+          fullName: newFullName
+        });
+      }
+
+    });
+  }
+
+  /**
+   * Updates the displayName on the server
+   * @param newDisplayName
+   * @param callback
+   */
+  onUpdateDisplayName = (newDisplayName, callback) => {
+    console.log("Update display!!");
+    FervieClient.updateAccountDisplayName(newDisplayName, this, (arg) => {
+      callback(arg);
+      if (arg.data && arg.data.status === "SUCCESS") {
+        this.setState({
+          displayName: newDisplayName
         });
       }
 
@@ -586,9 +640,13 @@ export default class FerviePanel extends Component {
                                                          moovieWatchCount={this.state.moovieWatchCount}
                                                          onUpdateAccessory={this.onUpdateAccessory}/>;
     const accountContent = <AccountContent username={this.state.username}
+                                           fullName={this.state.fullName}
+                                           displayName={this.state.displayName}
                                            handleGlobalHudInputUnlock={this.handleGlobalHudInputUnlock}
                                            handleGlobalHudInputLock={this.handleGlobalHudInputLock}
-                                           onUpdateUsername={this.onUpdateUsername}/>;
+                                           onUpdateUsername={this.onUpdateUsername}
+                                           onUpdateFullName={this.onUpdateFullName}
+                                           onUpdateDisplayName={this.onUpdateDisplayName}/>;
 
     return (
       <div

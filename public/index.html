@@ -7,8 +7,8 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
-<!--<meta http-equiv="Content-Security-Policy"
-        content="script-src 'self'; base-uri 'self';form-action 'self'">-->
+<meta http-equiv="Content-Security-Policy"
+        content="script-src 'self'; base-uri 'self';form-action 'self'">
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
   <title>FlowInsight</title>
@@ -636,28 +636,46 @@
     margin-top: 20px;
   }
 
+  #component.consoleSidebarPanel.ferviePanel .accountContent .fullnameInput {
+    margin-top: 40px;
+  }
+
+  #component.consoleSidebarPanel.ferviePanel .accountContent .displayNameInput {
+    margin-top: 40px;
+  }
+
   #component.consoleSidebarPanel.ferviePanel .accountContent .usernameInput.focus .label {
     background: rgba(100, 53, 201, 0.96);
   }
 
-  #component.consoleSidebarPanel.ferviePanel .accountContent .usernameInput .label {
+  #component.consoleSidebarPanel.ferviePanel .accountContent .fullnameInput.focus .label {
+    background: rgba(100, 53, 201, 0.96);
+  }
+
+  #component.consoleSidebarPanel.ferviePanel .accountContent .displayNameInput.focus .label {
+    background: rgba(100, 53, 201, 0.96);
+  }
+
+  #component.consoleSidebarPanel.ferviePanel .accountContent .label {
     background: rgba(74, 74, 74, 0.96);
-    transition: background 0.840s ease-out;
+    transition: background 0.333s ease-out;
+    width: 90px;
+    text-align: center;
   }
 
 
-  #component.consoleSidebarPanel.ferviePanel .accountContent .usernameInput input {
-    transition: border 0.840s ease-out;
+  #component.consoleSidebarPanel.ferviePanel .accountContent input {
+    transition: border 0.333s ease-out;
     background: rgba(27, 28, 29, 0.96);
     border: 1px solid rgba(74, 74, 74, 0.96);
     color: rgba(241, 241, 241, 0.96);
   }
 
-  #component.consoleSidebarPanel.ferviePanel .accountContent .usernameInput input:focus {
+  #component.consoleSidebarPanel.ferviePanel .accountContent input:focus {
     border: 1px solid rgba(100, 53, 201, 0.96);
   }
 
-  #component.consoleSidebarPanel.ferviePanel .accountContent .usernameInput input::placeholder {
+  #component.consoleSidebarPanel.ferviePanel .accountContent input::placeholder {
     font-style: italic;
     color: rgba(100, 100, 100, 0.96);
   }
