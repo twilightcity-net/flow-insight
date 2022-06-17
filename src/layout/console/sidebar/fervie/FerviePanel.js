@@ -124,6 +124,7 @@ export default class FerviePanel extends Component {
       fervieSecondaryColor: fervieSecondaryColor,
       fervieTertiaryColor: fervieTertiaryColor,
       fervieAccessory: fervieAccessory,
+      username: me.username,
       fervieName: this.getFervieName(me),
       moovieWatchCount : me.moovieCount
     };
@@ -160,6 +161,7 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor: fervieTertiaryColor,
       fervieAccessory: fervieAccessory,
       fervieName: this.getFervieName(me),
+      username: me.username,
       moovieWatchCount : me.moovieCount
     };
 
@@ -402,6 +404,18 @@ export default class FerviePanel extends Component {
     this.globalHudInputLockNotifier.dispatch({lockInput: false});
   }
 
+  onUpdateUsername = (newUsername, callback) => {
+    console.log("Update username!!");
+    FervieClient.updateAccountUsername(newUsername, this, (arg) => {
+      callback(arg);
+      if (arg.data && arg.data.status === "SUCCESS") {
+        this.setState({
+          username: newUsername
+        });
+      }
+
+    });
+  }
 
   /**
    * Update the accessory and the accessory color based on a click
@@ -571,7 +585,10 @@ export default class FerviePanel extends Component {
                                                          xpSummary={this.state.xpSummary}
                                                          moovieWatchCount={this.state.moovieWatchCount}
                                                          onUpdateAccessory={this.onUpdateAccessory}/>;
-    const accountContent = <AccountContent />;
+    const accountContent = <AccountContent username={this.state.username}
+                                           handleGlobalHudInputUnlock={this.handleGlobalHudInputUnlock}
+                                           handleGlobalHudInputLock={this.handleGlobalHudInputLock}
+                                           onUpdateUsername={this.onUpdateUsername}/>;
 
     return (
       <div
@@ -643,9 +660,7 @@ export default class FerviePanel extends Component {
               duration={this.state.animationDelay}
               unmountOnHide
             >
-              <div>
               {accountContent}
-              </div>
             </Transition>
           </Segment>
         </Segment.Group>

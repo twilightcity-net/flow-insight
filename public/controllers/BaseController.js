@@ -88,7 +88,11 @@ module.exports = class BaseController {
       INVITE: "/invite",
       WITH: "/with",
       EMAIL: "/email",
-      NOTIFICATION: "/notification"
+      NOTIFICATION: "/notification",
+      ACCOUNT: "/account",
+      PROFILE: "/profile",
+      ORGANIZATION: "/organization",
+      USERNAME: "/username"
     };
   }
 
@@ -244,6 +248,7 @@ module.exports = class BaseController {
       CONFIRM_BUDDY_LINK: "confirmBuddyLink",
       REMOVE_BUDDY_LINK: "removeBuddyLink",
       INVITE_TO_BUDDY_LIST_WITH_EMAIL: "inviteToBuddyListWithEmail",
+      UPDATE_ACCOUNT_USERNAME: "updateAccountUsername",
       CREATE_MOOVIE_CIRCUIT: "createMoovieCircuit",
       GET_MOOVIE_CIRCUITS: "getMoovieCircuits",
       GET_MOOVIE_CIRCUIT: "getMoovieCircuit",

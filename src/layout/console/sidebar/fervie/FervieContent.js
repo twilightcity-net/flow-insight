@@ -387,11 +387,9 @@ export default class FervieContent extends Component {
    * Handles blurring (cancelling) of our name change
    */
   handleNameChangeBlur = () => {
-    this.setState((prevState) => {
-      return {
-        isEditingName: false,
-        currentFervieName: prevState.fervieName
-      }
+    this.setState( {
+      isEditingName: false,
+      currentFervieName: this.props.fervieName
     });
     this.props.handleGlobalHudInputUnlock();
   };

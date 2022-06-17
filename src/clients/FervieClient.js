@@ -44,6 +44,7 @@ export class FervieClient extends BaseClient {
       GET_BUDDY_ME: "get-buddy-me",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
+      UPDATE_ACCOUNT_USERNAME: "update-account-username"
     };
   }
 
@@ -119,6 +120,34 @@ export class FervieClient extends BaseClient {
     FervieClient.instance.notifyFervie(event);
     return event;
   }
+
+
+  /**
+   * Updates the username associated with an account, will send a status update
+   * message over talk if successful
+   * @param username
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static updateAccountUsername(
+    username,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.UPDATE_ACCOUNT_USERNAME,
+      {
+        username: username
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
 
 
   /**

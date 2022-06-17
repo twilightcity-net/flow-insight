@@ -42,6 +42,7 @@ module.exports = class FervieController extends (
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       LOAD_BUDDY_LIST: "load-buddy-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
+      UPDATE_ACCOUNT_USERNAME: "update-account-username"
     };
   }
 
@@ -86,6 +87,9 @@ module.exports = class FervieController extends (
       switch (arg.type) {
         case FervieController.Events.SAVE_FERVIE_DETAILS:
           this.handleSaveFervieDetailsEvent(event, arg);
+          break;
+        case FervieController.Events.UPDATE_ACCOUNT_USERNAME:
+          this.handleUpdateAccountUsernameEvent(event, arg);
           break;
         case FervieController.Events.REQUEST_BUDDY_LINK:
           this.handleRequestBuddyLinkEvent(event, arg);
@@ -135,6 +139,40 @@ module.exports = class FervieController extends (
       }
     }
   }
+
+
+  /**
+   * Update the account username, must be globally unique
+   * will send back an error message if the username is already taken
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUpdateAccountUsernameEvent(event, arg, callback) {
+    let username = arg.args.username,
+      urn =
+        FervieController.Paths.ACCOUNT +
+        FervieController.Paths.PROFILE +
+        FervieController.Paths.ORGANIZATION +
+        FervieController.Paths.PROPERTY +
+        FervieController.Paths.USERNAME;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {username : username},
+      FervieController.Names.UPDATE_ACCOUNT_USERNAME,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
   /**
    * client event handler for our save fervie details function
