@@ -44,6 +44,10 @@ export default class GlobalHud {
       );
   }
 
+  reloadStore(p5) {
+    this.store.preload(p5);
+  }
+
   unload() {
     this.globalHudInputLockNotifier.clear();
   }

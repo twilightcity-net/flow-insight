@@ -44,13 +44,6 @@ export default class Store {
     this.leftSideOfWindow = this.width - Store.WINDOW_WIDTH - 20 + Store.LEFT_MARGIN;
     this.topOfWindow = this.height - Store.WINDOW_HEIGHT - 20 + Store.TOP_MARGIN;
 
-    this.inventoryItems = [
-      Store.ItemType.POPCORN,
-      Store.ItemType.SODA,
-      Store.ItemType.MUFFIN,
-      Store.ItemType.PIZZA,
-      Store.ItemType.ICE_CREAM,
-      Store.ItemType.CHOCOLATE];
     this.activeItemSelection = null;
 
     this.iconLookup = [];
@@ -74,6 +67,21 @@ export default class Store {
     this.animationLoader.getStaticImage(p5, Store.CLOSE_IMAGE);
     this.animationLoader.getStaticImage(p5, Store.YUMMY_OWNER_ICON_IMAGE);
 
+    this.inventoryItems = [
+      Store.ItemType.POPCORN,
+      Store.ItemType.SODA,
+      Store.ItemType.MUFFIN,
+      Store.ItemType.PIZZA,
+      Store.ItemType.ICE_CREAM,
+      Store.ItemType.CHOCOLATE];
+
+    this.inventoryAmounts = [];
+    this.inventoryAmounts[Store.ItemType.POPCORN] = 5;
+    this.inventoryAmounts[Store.ItemType.SODA] = 5;
+    this.inventoryAmounts[Store.ItemType.MUFFIN] = 5;
+    this.inventoryAmounts[Store.ItemType.PIZZA] = 5;
+    this.inventoryAmounts[Store.ItemType.ICE_CREAM] = 5;
+    this.inventoryAmounts[Store.ItemType.CHOCOLATE] = 5;
 
     this.iconLookup = [];
     this.iconLookup[Store.ItemType.SODA] =  this.animationLoader.getStaticImage(p5, Store.SODA_ICON_IMAGE);
@@ -152,11 +160,11 @@ export default class Store {
     for (let i = 0; i < this.inventoryItems.length; i++) {
       let item = this.inventoryItems[i];
       let image = this.iconLookup[item];
-      this.drawIconInPosition(p5, image, i);
+      this.drawIconInPosition(p5, item, image, i);
     }
   }
 
-  drawIconInPosition(p5, icon, index) {
+  drawIconInPosition(p5, item, icon, index) {
     let row = Math.floor(index / 3);
     let col = Math.floor(index % 3);
 
@@ -176,12 +184,37 @@ export default class Store {
      p5.fill(255);
      p5.textFont('sans-serif');
      p5.textAlign(p5.CENTER);
-     p5.text("5", labelX, labelY, Store.LABEL_WIDTH, 10);
+     p5.text(this.getInventoryAmount(item), labelX, labelY, Store.LABEL_WIDTH, 10);
   }
 
   // clearActiveSelection() {
   //   this.setActiveItemSelection(null);
   // }
+
+  getInventoryAmount(item) {
+    const amount = this.inventoryAmounts[item];
+    return amount + "";
+  }
+
+  reduceInventoryAmount(item) {
+    let amount = this.inventoryAmounts[item];
+    amount--;
+
+    if (amount > 0) {
+      this.inventoryAmounts[item] = amount;
+    } else {
+      this.removeItemFromStore(item);
+    }
+  }
+
+  removeItemFromStore(item) {
+    for (let i = 0; i < this.inventoryItems.length; i++) {
+      if (this.inventoryItems[i] === item) {
+        this.inventoryItems.splice(i, 1);
+        break;
+      }
+    }
+  }
 
   setInventoryOpen(isOpen) {
     this.isInventoryOpen = isOpen;
@@ -246,12 +279,9 @@ export default class Store {
       this.globalHud.closeStore();
     }
 
-    // if (clickedIcon) {
-    //   if (this.activeItemSelection === null) {
-    //     this.setActiveItemSelection(clickedIcon);
-    //   } else {
-    //     this.setActiveItemSelection(null); //can we combine items?  Maybe in the future, for now this is invalid
-    //   }
-    // }
+    if (clickedIcon) {
+      this.reduceInventoryAmount(clickedIcon);
+      this.globalHud.addInventoryItem(clickedIcon);
+    }
   }
 }

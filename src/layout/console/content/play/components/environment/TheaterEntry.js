@@ -41,6 +41,8 @@ export default class TheaterEntry extends Environment {
 
     this.globalHud.setGameStateProperty(GameState.Property.OPENED_MOVIE_ID, null);
     console.log("preload!");
+
+    this.globalHud.reloadStore(p5);
   }
 
   getDefaultSpawnProperties() {

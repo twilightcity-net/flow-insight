@@ -10,8 +10,10 @@ export default class Inventory {
   static LEFT_MARGIN = 16;
   static TOP_MARGIN = 11;
 
-  static VERTICAL_MARGIN = 10;
-  static HORIZONTAL_MARGIN = 10;
+  static VERTICAL_MARGIN = 11;
+  static HORIZONTAL_MARGIN = 12;
+
+  static LABEL_WIDTH = 20;
 
   static ICON_WIDTH = 46;
 
@@ -19,6 +21,13 @@ export default class Inventory {
 
   static ROPE_ICON_IMAGE = "./assets/animation/inventory/rope_icon.png";
   static TOWEL_ICON_IMAGE = "./assets/animation/inventory/towel_icon.png";
+
+  static SODA_ICON_IMAGE = "./assets/animation/inventory/soda_icon.png";
+  static POPCORN_ICON_IMAGE = "./assets/animation/inventory/popcorn_icon.png";
+  static PIZZA_ICON_IMAGE = "./assets/animation/inventory/pizza_icon.png";
+  static MUFFIN_ICON_IMAGE = "./assets/animation/inventory/muffin_icon.png";
+  static ICECREAM_ICON_IMAGE = "./assets/animation/inventory/icecream_icon.png";
+  static CANDY_ICON_IMAGE = "./assets/animation/inventory/candy_icon.png";
 
   constructor(animationLoader, width, height, globalHud, onActiveItemChangeCallback) {
     this.globalHud = globalHud;
@@ -32,6 +41,8 @@ export default class Inventory {
     this.inventoryItems = [];
     this.activeItemSelection = null;
 
+    this.inventoryAmounts = [];
+
     this.iconLookup = [];
 
     this.onActiveItemChangeCallback = onActiveItemChangeCallback;
@@ -40,12 +51,32 @@ export default class Inventory {
   static get ItemType() {
     return {
       ROPE : "Rope",
-      TOWEL : "Blue Towel"
+      TOWEL : "Blue Towel",
+      POPCORN : "Popcorn",
+      PIZZA : "Pizza",
+      MUFFIN: "Muffin",
+      ICE_CREAM: "Ice Cream",
+      SODA: "Soda",
+      CHOCOLATE: "Chocolate"
     }
   }
 
   addItem(itemType) {
-    this.inventoryItems.push(itemType);
+    if (this.hasInventoryItem(itemType)) {
+      this.inventoryAmounts[itemType]++;
+    } else {
+      this.inventoryItems.push(itemType);
+      this.inventoryAmounts[itemType] = 1;
+    }
+  }
+
+  hasInventoryItem(itemType) {
+    for (let item of this.inventoryItems) {
+      if (item === itemType) {
+        return true;
+      }
+    }
+    return false;
   }
 
   removeActiveItem() {
@@ -66,12 +97,16 @@ export default class Inventory {
   preload(p5) {
     this.animationLoader.getStaticImage(p5, Inventory.INVENTORY_IMAGE);
 
-    let ropeIcon = this.animationLoader.getStaticImage(p5, Inventory.ROPE_ICON_IMAGE);
-    let towelIcon = this.animationLoader.getStaticImage(p5, Inventory.TOWEL_ICON_IMAGE);
-
     this.iconLookup = [];
-    this.iconLookup[Inventory.ItemType.ROPE] = ropeIcon;
-    this.iconLookup[Inventory.ItemType.TOWEL] = towelIcon;
+    this.iconLookup[Inventory.ItemType.ROPE] = this.animationLoader.getStaticImage(p5, Inventory.ROPE_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.TOWEL] = this.animationLoader.getStaticImage(p5, Inventory.TOWEL_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.SODA] =  this.animationLoader.getStaticImage(p5, Inventory.SODA_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.POPCORN] = this.animationLoader.getStaticImage(p5, Inventory.POPCORN_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.CHOCOLATE] = this.animationLoader.getStaticImage(p5, Inventory.CANDY_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.MUFFIN] = this.animationLoader.getStaticImage(p5, Inventory.MUFFIN_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.PIZZA] = this.animationLoader.getStaticImage(p5, Inventory.PIZZA_ICON_IMAGE);
+    this.iconLookup[Inventory.ItemType.ICE_CREAM] = this.animationLoader.getStaticImage(p5, Inventory.ICECREAM_ICON_IMAGE);
+
   }
 
   draw(p5) {
@@ -104,11 +139,11 @@ export default class Inventory {
     for (let i = 0; i < this.inventoryItems.length; i++) {
       let item = this.inventoryItems[i];
       let image = this.iconLookup[item];
-      this.drawIconInPosition(p5, image, i);
+      this.drawIconInPosition(p5, item, image, i);
     }
   }
 
-  drawIconInPosition(p5, icon, index) {
+  drawIconInPosition(p5, item, icon, index) {
     let row = Math.floor(index / 3);
     let col = Math.floor(index % 3);
 
@@ -116,6 +151,34 @@ export default class Inventory {
      let y = this.topOfInventoryWindow + (row * (Inventory.HORIZONTAL_MARGIN + Inventory.ICON_WIDTH));
 
      p5.image(icon, x, y);
+
+    this.drawLabel(p5, item, x, y);
+
+  }
+
+  drawLabel(p5, item, x, y) {
+    const inventoryAmount = this.getInventoryAmount(item);
+    if (inventoryAmount === "1") {
+      return;
+    }
+
+    const labelX = x + Inventory.ICON_WIDTH - Inventory.LABEL_WIDTH - 2;
+    const labelY = y + Inventory.ICON_WIDTH - 12;
+
+    p5.fill(0);
+    p5.noStroke();
+    p5.rect(labelX, labelY, Inventory.LABEL_WIDTH, 10);
+
+    p5.textSize(10);
+    p5.fill(255);
+    p5.textFont('sans-serif');
+    p5.textAlign(p5.CENTER);
+    p5.text(inventoryAmount, labelX, labelY, Inventory.LABEL_WIDTH, 10);
+  }
+
+  getInventoryAmount(item) {
+    const amount = this.inventoryAmounts[item];
+    return amount + "";
   }
 
   clearActiveSelection() {
@@ -168,6 +231,35 @@ export default class Inventory {
     }
   }
 
+  isConsumableItem(item) {
+    return item === Inventory.ItemType.POPCORN ||
+      item === Inventory.ItemType.PIZZA ||
+      item === Inventory.ItemType.MUFFIN ||
+      item === Inventory.ItemType.ICE_CREAM ||
+      item === Inventory.ItemType.SODA ||
+      item === Inventory.ItemType.CHOCOLATE;
+  }
+
+  reduceInventoryAmount(item) {
+    let amount = this.inventoryAmounts[item];
+    amount--;
+
+    if (amount > 0) {
+      this.inventoryAmounts[item] = amount;
+    } else {
+      this.removeItemFromInventory(item);
+    }
+  }
+
+  removeItemFromInventory(item) {
+    for (let i = 0; i < this.inventoryItems.length; i++) {
+      if (this.inventoryItems[i] === item) {
+        this.inventoryItems.splice(i, 1);
+        break;
+      }
+    }
+  }
+
   mousePressed(p5, fervie) {
     console.log("mousex = "+p5.mouseX + ", mousey = "+p5.mouseY);
 
@@ -175,10 +267,14 @@ export default class Inventory {
     console.log("clicked "+clickedIcon);
 
     if (clickedIcon) {
-      if (this.activeItemSelection === null) {
-        this.setActiveItemSelection(clickedIcon);
+      if (this.isConsumableItem(clickedIcon)) {
+        this.reduceInventoryAmount(clickedIcon);
       } else {
-        this.setActiveItemSelection(null); //can we combine items?  Maybe in the future, for now this is invalid
+        if (this.activeItemSelection === null) {
+          this.setActiveItemSelection(clickedIcon);
+        } else {
+          this.setActiveItemSelection(null); //can we combine items?  Maybe in the future, for now this is invalid
+        }
       }
     }
   }
