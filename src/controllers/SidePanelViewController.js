@@ -177,18 +177,19 @@ export class SidePanelViewController extends ActiveViewController {
       RETRO: "retro",
       NOTIFICATIONS: "notifications",
       DASHBOARD: "dashboard",
+      ACCOUNT: "account"
     };
   }
 
   /**
    * enum list of the possible animation types
-   * @returns {{FLY_DOWN: string}}
    * @constructor
    */
   static get AnimationTypes() {
     return {
       FLY_DOWN: "fade down",
       FADE_IN: "fade right",
+      SLIDE_DOWN: "slide down",
       SLIDE_IN: "slide left",
     };
   }
