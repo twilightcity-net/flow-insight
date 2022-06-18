@@ -251,6 +251,7 @@ module.exports = class BaseController {
       CONFIRM_BUDDY_LINK: "confirmBuddyLink",
       REMOVE_BUDDY_LINK: "removeBuddyLink",
       INVITE_TO_BUDDY_LIST_WITH_EMAIL: "inviteToBuddyListWithEmail",
+      INVITE_TO_TEAM_WITH_EMAIL: "inviteToTeamWithEmail",
       UPDATE_ACCOUNT_USERNAME: "updateAccountUsername",
       UPDATE_ACCOUNT_FULLNAME: "updateAccountFullName",
       UPDATE_ACCOUNT_DISPLAYNAME: "updateAccountDisplayName",

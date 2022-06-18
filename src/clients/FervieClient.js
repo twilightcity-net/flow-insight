@@ -44,6 +44,7 @@ export class FervieClient extends BaseClient {
       GET_BUDDY_ME: "get-buddy-me",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
+      INVITE_TO_TEAM: "invite-to-team",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -122,6 +123,35 @@ export class FervieClient extends BaseClient {
     FervieClient.instance.notifyFervie(event);
     return event;
   }
+
+
+  /**
+   * Invites a member to the team, should send an email with
+   * an activation code for downloading the app.  Then when logging in,
+   * will automatically be added to the team
+   * @param email
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static inviteToTeam(
+    email,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.INVITE_TO_TEAM,
+      {
+        email: email
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
 
 
   /**

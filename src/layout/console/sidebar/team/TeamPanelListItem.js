@@ -8,6 +8,7 @@ import {
 } from "semantic-ui-react";
 import { BaseClient } from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 
 /**
  * our list items that are displayed in our team panel. contains
@@ -30,6 +31,7 @@ export default class TeamPanelListItem extends Component {
       isAlarm: UtilRenderer.isMemberAlarm(props.model),
       isHelping: UtilRenderer.isMemberHelping(props.model),
     };
+    this.lastMessageClickTime = null;
   }
 
   /**
@@ -59,7 +61,14 @@ export default class TeamPanelListItem extends Component {
    * event handler for when we click on one of these items
    */
   handleClick = () => {
-    this.props.onClickRow(this.props.model);
+    console.log("handleClick!");
+    setTimeout(() => {
+      const clickTime = window.performance.now();
+      console.log("elapsed = "+(clickTime - this.lastMessageClickTime));
+      if (!this.lastMessageClickTime || clickTime - this.lastMessageClickTime >= 200) {
+        this.props.onClickRow(this.props.model);
+      }
+    }, 33);
   };
 
   /**
@@ -210,7 +219,7 @@ export default class TeamPanelListItem extends Component {
    * gets our icon for our team panel list item
    * @returns {*}
    */
-  getIcon() {
+  getOnlineIcon() {
     let name = "circle outline",
       color = "grey";
 
@@ -265,6 +274,33 @@ export default class TeamPanelListItem extends Component {
     return false;
   }
 
+
+  /**
+   * gets our direct messaging icon which is only visible when hovering
+   * @returns {*}
+   */
+  getMessagingIcon() {
+    if (!this.props.isMe) {
+      return <Icon className="message" name="comment" onClick={this.onClickMessageIcon}/>;
+    } else {
+      return "";
+    }
+  }
+
+  onClickMessageIcon = () => {
+    console.log("click message!");
+    this.lastMessageClickTime = window.performance.now();
+    let dmPopoutController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.DM_POPOUT,
+        this
+      );
+
+    dmPopoutController.openDMForMember(
+      this.props.model.id
+    );
+  }
+
   getTeamMemberListItem() {
     let optionalLinkIcon = "";
     if (
@@ -286,7 +322,8 @@ export default class TeamPanelListItem extends Component {
         key={this.props.model.id}
         onClick={this.handleClick}
       >
-        {this.getIcon()}
+        {this.getOnlineIcon()}
+        {this.getMessagingIcon()}
         <List.Content>
           <List.Header>
             {this.getDisplayName()}

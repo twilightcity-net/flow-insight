@@ -42,6 +42,7 @@ module.exports = class FervieController extends (
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       LOAD_BUDDY_LIST: "load-buddy-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
+      INVITE_TO_TEAM: "invite-to-team",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -104,6 +105,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.INVITE_TO_BUDDY_LIST:
           this.handleInviteToBuddyListEvent(event, arg);
+          break;
+        case FervieController.Events.INVITE_TO_TEAM:
+          this.handleInviteToTeamEvent(event, arg);
           break;
         case FervieController.Events.CONFIRM_BUDDY_LINK:
           this.handleConfirmBuddyLinkEvent(event, arg);
@@ -581,6 +585,39 @@ module.exports = class FervieController extends (
       FervieController.Contexts.FERVIE_CLIENT,
       {email : email},
       FervieController.Names.INVITE_TO_BUDDY_LIST_WITH_EMAIL,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for inviting a member to the team via email.
+   * For the org, domain restrictions apply depending on the org subscription
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleInviteToTeamEvent(event, arg, callback) {
+    let email = arg.args.email,
+      urn =
+        FervieController.Paths.INVITE +
+        FervieController.Paths.TO +
+        FervieController.Paths.TEAM +
+        FervieController.Paths.WITH +
+        FervieController.Paths.EMAIL;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {email : email},
+      FervieController.Names.INVITE_TO_TEAM_WITH_EMAIL,
       FervieController.Types.POST,
       urn,
       (store) =>

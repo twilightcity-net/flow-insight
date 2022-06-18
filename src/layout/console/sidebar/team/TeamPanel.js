@@ -5,7 +5,7 @@ import {
   Segment,
   Transition,
   Message,
-  List,
+  List, Popup, Icon, Input,
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
@@ -18,6 +18,8 @@ import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
 import { BrowserController } from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
+import {FervieClient} from "../../../../clients/FervieClient";
+import InviteMemberPopup from "../buddies/InviteMemberPopup";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -57,6 +59,12 @@ export default class TeamPanel extends Component {
         RendererEventFactory.Events.TEAM_DATA_REFRESH,
         this,
         this.onTeamDataRefresh
+      );
+
+    this.globalHudInputLockNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.GLOBAL_HUD_INPUT_LOCK,
+        this
       );
   }
 
@@ -479,6 +487,36 @@ export default class TeamPanel extends Component {
     );
   }
 
+
+  /**
+   * Sends a buddy invite request and adds a pending request to the buddy list
+   * @param email
+   */
+  sendInviteRequest(email, callback) {
+    console.log("Sending request!");
+    FervieClient.inviteToBuddyList(email, this, (arg) => {
+      callback(arg);
+    });
+  }
+
+
+  handleGlobalHudInputLock = () => {
+    this.globalHudInputLockNotifier.dispatch({lockInput: true});
+  }
+
+  handleGlobalHudInputUnlock = () => {
+    this.globalHudInputLockNotifier.dispatch({lockInput: false});
+  }
+
+  getInviteMemberButton() {
+    return <InviteMemberPopup
+      handleGlobalHudInputLock={this.handleGlobalHudInputLock}
+      handleGlobalHudInputUnlock={this.handleGlobalHudInputUnlock}
+      sendInviteRequest={this.sendInviteRequest}
+    />
+  }
+
+
   /**
    * renders the console sidebar panel of the console view
    * @returns {*}
@@ -508,6 +546,7 @@ export default class TeamPanel extends Component {
               active={activeItem === SidePanelViewController.SubmenuSelection.TEAMS}
               onClick={this.handleMenuClick}
             />
+            {this.getInviteMemberButton()}
           </Menu>
           <Segment
             inverted

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import FervieProfile from "../shared/FervieProfile";
+import FeatureToggle from "../shared/FeatureToggle";
 
 /**
  * this component is the DM message banner that gives you a little info about the chat window
@@ -44,8 +45,17 @@ export default class MessageBanner extends Component {
     let offline = "";
     let offlineClass = "";
     if (this.props.member) {
-      title = this.props.member.fervieName;
+      if (FeatureToggle.isMoovieApp) {
+        title = this.props.member.fervieName;
+      } else {
+        title = this.props.member.displayName;
+      }
       username = "@"+this.props.member.username;
+
+      if (!title) {
+        title = username;
+      }
+
       if (this.props.member.onlineStatus !== "Online") {
         offline = " (Offline)";
         offlineClass = " offline";

@@ -73,21 +73,24 @@ module.exports = class MessageWindowManager {
 
     const existingWindow = this.dmWindowsByName.get(windowName);
 
-    arg.dmIndex = this.dmWindowsByName.size;
-    arg.autoSlideOpen = true;
-
     if (!existingWindow) {
 
       this.closeOldestWindowIfOverLimit();
 
       console.log("creating window!");
+      arg.dmIndex = this.dmWindowsByName.size;
+      arg.autoSlideOpen = true;
+
       let window = WindowManagerHelper.createDMWindow(
         windowName,
         arg
       );
+
       this.dmWindowsByName.set(windowName, window);
       this.orderedWindows.push(windowName);
     } else {
+      arg.dmIndex = this.dmWindowsByName.size;
+      arg.autoSlideOpen = true;
       WindowManagerHelper.reloadDMWindow(existingWindow, arg);
     }
 
