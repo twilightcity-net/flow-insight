@@ -172,31 +172,6 @@ export default class BuddiesPanel extends Component {
     //menu click here
   };
 
-  /**
-   * selects a member in the list and opens the journal
-   * @param member
-   */
-  handleClickRow = (member) => {
-    let name = member.username;
-
-    if (this.lastClickedUser && this.lastClickedUser === name) {
-        this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
-    }
-
-    this.lastClickedUser = name;
-  };
-
-  /**
-   * creates a new request and dispatch this to the browser request listener
-   * @param memberUsername
-   */
-  requestBrowserToLoadTeamJournalAndSetActiveMember(memberUsername) {
-    let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.JOURNAL,
-      memberUsername
-    );
-    this.myController.makeSidebarBrowserRequest(request);
-  }
 
   /**
    * renders some error content is things fuck up
@@ -257,7 +232,6 @@ export default class BuddiesPanel extends Component {
           id={me.id}
           meUsername={me.username}
           isMe={true}
-          onClickRow={this.handleClickRow}
         />
         {this.state.buddies.map(
           (member) =>
@@ -269,7 +243,6 @@ export default class BuddiesPanel extends Component {
                 meUsername={me.username}
                 model={member}
                 isMe={false}
-                onClickRow={this.handleClickRow}
               />
             )
         )}

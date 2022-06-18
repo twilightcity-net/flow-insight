@@ -19,13 +19,6 @@ export default class BuddiesPanelListItem extends Component {
 
 
   /**
-   * event handler for when we click on one of these items
-   */
-  handleClick = () => {
-    this.props.onClickRow(this.props.model);
-  };
-
-  /**
    * gets our display name for our team panel list item
    * @returns {*}
    */
@@ -179,7 +172,6 @@ export default class BuddiesPanelListItem extends Component {
     return (
       <List.Item
         className={this.getClassName()}
-        onClick={this.handleClick}
       >
         {this.getOnlineIcon()}
         {this.getMessagingIcon()}
