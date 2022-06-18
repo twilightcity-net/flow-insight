@@ -1,9 +1,8 @@
 import React, {Component} from "react";
-import {Icon, Input, List, Menu, Message, Popup, Segment, Transition,} from "semantic-ui-react";
+import {List, Menu, Message, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
-import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 import {MemberClient} from "../../../../clients/MemberClient";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import {BaseClient} from "../../../../clients/BaseClient";
@@ -47,7 +46,6 @@ export default class BuddiesPanel extends Component {
         this.onTalkDirectMessage
       );
 
-
     this.buddiesDataRefreshListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.BUDDIES_DATA_REFRESH,
@@ -90,7 +88,7 @@ export default class BuddiesPanel extends Component {
           }
         }
         return {
-          buddies: prevState.buddies
+          buddies: this.sortBuddies(prevState.buddies)
         };
       });
     }
@@ -125,18 +123,36 @@ export default class BuddiesPanel extends Component {
       this.buddyMe = arg.data;
       this.handleDataLoadFinished(callCount, arg);
     });
-
     FervieClient.getPendingBuddyList(this, (arg) => {
       callCount++;
       this.pendingBuddies = arg.data;
       this.handleDataLoadFinished(callCount, arg);
-
     });
     FervieClient.getBuddyList(this, (arg) => {
       callCount++;
-      this.buddies = arg.data;
+      this.buddies = this.sortBuddies(arg.data);
       this.handleDataLoadFinished(callCount, arg);
     });
+  }
+
+  sortBuddies(buddyList) {
+    return buddyList.sort((a, b) => {
+        let aIsOnline = UtilRenderer.isMemberOnline(a);
+        let bIsOnline = UtilRenderer.isMemberOnline(b);
+
+        if (aIsOnline && !bIsOnline) {
+          return -1;
+        } else if (bIsOnline && !aIsOnline) {
+          return 1;
+        } else if (aIsOnline && bIsOnline) {
+          if (a.fervieName < b.fervieName) {
+            return -1;
+          } else if (a.fervieName > b.fervieName) {
+            return 1;
+          }
+        }
+        return 0;
+      });
   }
 
   handleDataLoadFinished(callCount, arg) {

@@ -188,6 +188,7 @@ export default class MoovieView extends Component {
       this.playAnimateOut();
 
       setTimeout(() => {
+        console.log("showPeekView: false");
         this.setState({
           showPeekView: false
         });
@@ -203,6 +204,7 @@ export default class MoovieView extends Component {
   }
 
   onActivateFullChatWindow = () => {
+    console.log("2clear timeout");
     clearTimeout(this.peekWindowTimeout);
     this.setState({
       showPeekView: false
@@ -212,24 +214,32 @@ export default class MoovieView extends Component {
   onMessageSlideWindow = () => {
     console.log("onMessage peek window!");
 
-    clearTimeout(this.peekWindowTimeout);
+    console.log("clear timeout");
 
     if (!this.isOpening && !this.isOpen) {
       this.setState({
         showPeekView: true
       });
       this.slideOpenWindow();
-
-      this.peekWindowTimeout = setTimeout(() => {
-        this.slideCloseWindow();
-        setTimeout(() => {
-          this.setState({
-            showPeekView: false
-          });
-        }, 400);
-      }, 7000);
+      this.resetTimeoutForClosingPeekWindow();
+    } else {
+      this.resetTimeoutForClosingPeekWindow();
     }
+  }
 
+  resetTimeoutForClosingPeekWindow() {
+    clearTimeout(this.peekWindowTimeout);
+    console.log("set new timeout");
+    this.peekWindowTimeout = setTimeout(() => {
+      console.log("slide closed");
+      this.slideCloseWindow();
+      setTimeout(() => {
+        console.log("2showPeekView: false");
+        this.setState({
+          showPeekView: false
+        });
+      }, 400);
+    }, 7000);
   }
 
   slideOpenWindow() {
