@@ -1,36 +1,49 @@
 import React, {Component} from "react";
 import {List, Popup,} from "semantic-ui-react";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {MemberClient} from "../../../../clients/MemberClient";
+import FeatureToggle from "../../../shared/FeatureToggle";
 
 export default class OfflineChatListItem extends Component {
   constructor(props) {
     super(props);
     this.wtfTimer = null;
+    this.state = {
+
+    }
+  }
+
+  componentDidMount() {
+    const fromUsername = this.props.model.data.fromUsername;
+    MemberClient.getMember(fromUsername, this, (arg) => {
+      if (arg.data) {
+        this.setState({
+          member: arg.data
+        });
+      }
+    });
   }
 
   getDisplayName() {
-    const fromFervie = this.props.model.data.fromFervieName;
-    const fromUsername = this.props.model.data.fromUsername;
-
-    let displayName;
-    if (fromFervie) {
-      displayName = fromFervie;
-    } else {
-      displayName = "@" + fromUsername;
+    let fromName = "@" + this.props.model.data.fromUsername;
+    if (FeatureToggle.isMoovieApp && this.props.model.data.fromFervieName) {
+      fromName = this.props.model.data.fromFervieName;
+    } else if (this.state.member) {
+      fromName = this.state.member.displayName;
     }
 
-    return displayName;
+    return fromName;
   }
 
   getComboDisplayName() {
-    const fromFervie = this.props.model.data.fromFervieName;
+    const fromName = this.getDisplayName();
     const fromUsername = this.props.model.data.fromUsername;
 
     let displayName;
-    if (fromFervie) {
-      displayName = fromFervie + " (@"+fromUsername+")";
+    if (!fromName.includes("@")) {
+      displayName = fromName + " (@"+fromUsername+")";
     } else {
-      displayName = "@" + fromUsername;
+      displayName = fromName;
     }
 
     return displayName;

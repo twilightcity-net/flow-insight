@@ -3,6 +3,7 @@ import {Feed, Icon, Label, Popup} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
 import MontyProfile from "./MontyProfile";
 import {MemberClient} from "../../clients/MemberClient";
+import FeatureToggle from "../shared/FeatureToggle";
 
 export default class ChatFeedEvent extends Component {
   /**
@@ -313,10 +314,15 @@ export default class ChatFeedEvent extends Component {
 
     } else {
       if (!this.props.isMe) {
+        let hasBuddyActions = false;
+        if (FeatureToggle.isMoovieApp) {
+          hasBuddyActions = true;
+        }
+
         profileImage = (<FervieProfile
               showPopup={this.props.hasPopup}
               isBuddy={this.props.isBuddy}
-              hasBuddyActions={true}
+              hasBuddyActions={hasBuddyActions}
               circuitMember={this.props.circuitMember}
               onClickAddBuddy={this.onClickAddBuddy}
             />

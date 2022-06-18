@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Popup} from "semantic-ui-react";
+import FeatureToggle from "./FeatureToggle";
 
 export default class FervieProfile extends Component {
   /**
@@ -41,8 +42,13 @@ export default class FervieProfile extends Component {
     let popupContent = null;
 
     if (this.props.circuitMember) {
+      let name = this.props.circuitMember.displayName;
+      if (FeatureToggle.isMoovieApp) {
+        name = this.props.circuitMember.fervieName;
+      }
+
       popupContent = (<Popup.Content>
-        <div className="name">{this.props.circuitMember.fervieName}</div>
+        <div className="name">{name}</div>
         <div className="username">@{this.props.circuitMember.username}</div>
 
         <div className="buddy">{this.getBuddyContent()}</div>
