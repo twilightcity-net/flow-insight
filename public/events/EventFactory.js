@@ -109,6 +109,8 @@ class EventFactory {
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
       SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
       SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display",
+      MOOVIE_START: prefix + "moovie-start",
+      MOOVIE_STOP: prefix + "moovie-stop"
     };
   }
 }

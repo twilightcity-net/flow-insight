@@ -140,6 +140,8 @@ export class RendererEventFactory {
         prefix + "shortcuts-window-console-sidebar-show",
       GLOBAL_HUD_INPUT_LOCK:
         prefix + "global-hud-input-lock",
+      MOOVIE_START: prefix + "moovie-start",
+      MOOVIE_STOP: prefix + "moovie-stop"
     };
   }
 }

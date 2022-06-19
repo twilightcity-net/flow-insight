@@ -3824,7 +3824,7 @@
     position:absolute;
     bottom:10px;
     left:0;
-    transition: filter 0.333s ease;
+    transition: opacity, filter 0.333s ease;
     filter: brightness(50%);
   }
 
@@ -3863,7 +3863,7 @@
     opacity: 1;
     margin-left: 5px;
     filter: brightness(90%);
-    transition: filter 0.333s ease;
+    transition: opacity, filter 0.333s ease;
   }
 
   #component.chatWindow .monty:hover {
@@ -3875,6 +3875,7 @@
   #component.chatWindow .ui.dropdown {
     position: absolute;
     bottom: 50px;
+    margin-left: 10px;
     margin-left: 10px;
   }
 
@@ -4321,6 +4322,14 @@
 
     #component.chatWindow .appIcon.fervieMe {
       display: none;
+    }
+
+    #component.chatWindow .appIcon.moovieStarted {
+      opacity: 0.3 !important;
+    }
+
+    #component.chatWindow .appIcon.moovieStarted:hover {
+      opacity: 1 !important;
     }
 
   }

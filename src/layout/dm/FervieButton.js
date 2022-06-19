@@ -141,6 +141,11 @@ export default class FervieButton extends Component {
       hasMessagesClass = " hasMessages";
     }
 
+    let moovieStartedClass = "";
+    if (this.props.isMooviePlaying) {
+      moovieStartedClass = " moovieStarted";
+    }
+
     return (
       <div>
         <Dropdown id={FervieButton.fervieActionsPopupId} text=""
@@ -154,7 +159,7 @@ export default class FervieButton extends Component {
            <div className={"appIcon fervieMe online"} onClick={this.onClickFervie}>
              {fervieMe}
            </div>
-        <div className={"appIcon fervieMember"+onlineClass+hasMessagesClass} onClick={this.onClickFervie}>
+        <div className={"appIcon fervieMember"+onlineClass+hasMessagesClass+moovieStartedClass} onClick={this.onClickFervie}>
           {fervieMember}
         </div>
       </div>

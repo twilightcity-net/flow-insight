@@ -55,6 +55,18 @@ export default class MoovieChatLayout extends Component {
         this.onTalkDirectMessage
       );
 
+    this.moovieStartNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.MOOVIE_START,
+        this
+      );
+
+    this.moovieStopNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.MOOVIE_STOP,
+        this
+      );
+
     this.puppet = new MontyPuppet();
   }
 
@@ -131,7 +143,6 @@ export default class MoovieChatLayout extends Component {
       if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
         this.props.onMessageSlideWindow();
         this.addMessageToFeed(arg);
-
       } else if (arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
         this.addMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
@@ -509,6 +520,7 @@ export default class MoovieChatLayout extends Component {
 
     this.puppet.runMontyStartMoovieScript(this.state.moovie, () => {
       MoovieClient.startMoovie(this.state.moovie.id, this, (arg) => {
+        this.moovieStartNotifier.dispatch({});
         this.handleMoovieResponse(arg);
       });
     });
@@ -519,6 +531,7 @@ export default class MoovieChatLayout extends Component {
     if (!this.state.moovie) return;
 
     MoovieClient.pauseMoovie(this.state.moovie.id, this, (arg) => {
+      this.moovieStopNotifier.dispatch({});
       this.handleMoovieResponse(arg);
     });
   }
@@ -529,6 +542,7 @@ export default class MoovieChatLayout extends Component {
 
     this.puppet.runMontyStartMoovieScript(this.state.moovie, () => {
       MoovieClient.resumeMoovie(this.state.moovie.id, this, (arg) => {
+        this.moovieStartNotifier.dispatch({});
         this.handleMoovieResponse(arg);
       });
     });
@@ -537,7 +551,6 @@ export default class MoovieChatLayout extends Component {
   onRestartMoovie = () => {
     console.log("onRestartMoovie");
     if (!this.state.moovie) return;
-
     MoovieClient.restartMoovie(this.state.moovie.id, this, (arg) => {
       this.handleMoovieResponse(arg);
     });

@@ -10,6 +10,8 @@ import FervieButton from "./dm/FervieButton";
 import MessageBanner from "./dm/MessageBanner";
 import moment from "moment";
 import {NotificationClient} from "../clients/NotificationClient";
+import {FervieClient} from "../clients/FervieClient";
+import {MoovieClient} from "../clients/MoovieClient";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -34,7 +36,8 @@ export default class DMLayout extends Component {
       buddiesById: new Map(),
       memberByIdMap: new Map(),
       member: null,
-      hasNewMessage: !this.props.isAutoSlideOpen
+      hasNewMessage: !this.props.isAutoSlideOpen,
+      isMooviePlaying: false
     };
   }
 
@@ -60,6 +63,8 @@ export default class DMLayout extends Component {
       }
     });
 
+    this.loadMooviePlayingState();
+
     this.refreshDMs();
 
     this.directMessageListener =
@@ -76,7 +81,36 @@ export default class DMLayout extends Component {
         this.refreshDMs
       );
 
+    this.moovieStartListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.MOOVIE_START,
+        this,
+        this.onMoovieStart
+      );
+
+    this.moovieStopListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.MOOVIE_STOP,
+        this,
+        this.onMoovieStop
+      );
+
   };
+
+  loadMooviePlayingState() {
+    FervieClient.getBuddyMe(this, (arg) => {
+      if (arg.data && arg.data.moovieId) {
+        console.log("in moovie");
+        MoovieClient.getMoovieCircuit(arg.data.moovieId, this, (arg) => {
+          if (arg.data && arg.data.circuitState === "STARTED") {
+            this.setState({
+              isMooviePlaying: true
+            });
+          }
+        });
+      }
+    });
+  }
 
   refreshDMs() {
     TalkToClient.getDMsWithMember(this.props.memberId, this, (arg) => {
@@ -106,8 +140,26 @@ export default class DMLayout extends Component {
     if (this.refreshDMsListener) {
       this.refreshDMsListener.clear();
     }
+
+    if (this.moovieStartNotifier) {
+      this.moovieStartListener.clear();
+    }
+    if (this.moovieStopListener) {
+      this.moovieStopListener.clear();
+    }
   };
 
+  onMoovieStart = () => {
+    this.setState({
+      isMooviePlaying: true
+    });
+  }
+
+  onMoovieStop = () => {
+    this.setState({
+      isMooviePlaying: false
+    });
+  }
 
   /**
    * Loads the messages from the local DB into a state that we can use
@@ -697,12 +749,13 @@ export default class DMLayout extends Component {
           />}
         </div>
         <div>
-          <FervieButton member={this.state.member}
+          <FervieButton isMooviePlaying={this.state.isMooviePlaying}
+                        member={this.state.member}
                         isConsoleOpen={this.props.isConsoleOpen}
-                       onClickFervie={this.onClickFervie}
-                       onFervieExit={this.onFervieExit}
+                        onClickFervie={this.onClickFervie}
+                        onFervieExit={this.onFervieExit}
                         onFervieClearChat={this.onFervieClearChat}
-                       hasNewMessages={this.state.hasNewMessage}/>
+                        hasNewMessages={this.state.hasNewMessage}/>
           <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey}
                      onOpenEmojiPicker={this.onOpenEmojiPicker}/>
         </div>
