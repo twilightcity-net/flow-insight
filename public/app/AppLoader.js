@@ -116,8 +116,7 @@ module.exports = class AppLoader {
   load() {
     log.info("[AppLoader] start loading...");
     Util.setAppTray(new AppTray());
-    this.loadingWindow =
-      WindowManagerHelper.createWindowLoading();
+    this.loadingWindow = WindowManagerHelper.createWindowLoading();
     this.createMenu();
   }
 
@@ -242,9 +241,20 @@ module.exports = class AppLoader {
         true
       );
       this.unwireEvents();
+      this.showGettingStartedWindow();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
     }, this.eventTimerMs * factor);
+  }
+
+  showGettingStartedWindow() {
+    setTimeout( () => {
+      try {
+        WindowManagerHelper.createGettingStartedWindow();
+      } catch (error) {
+        AppError.handleError(error, true);
+      }
+    }, 333);
   }
 
   /**

@@ -15,7 +15,8 @@ module.exports = class ViewManagerHelper {
       CHART: "chart",
       HOTKEY: "hotkey",
       MOOVIE: "moovie",
-      MESSAGE: "message"
+      MESSAGE: "message",
+      GETSTARTED: "getstarted"
     };
   }
 };

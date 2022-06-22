@@ -18,13 +18,13 @@ module.exports = class WindowManagerHelper {
   static get WindowNames() {
     return {
       LOADING: "tc-" + ViewManagerHelper.ViewNames.LOADING,
-      ACTIVATOR:
-        "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
+      ACTIVATOR: "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
       CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
       HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY,
       MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE,
       MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
+      GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED
     };
   }
 
@@ -41,6 +41,29 @@ module.exports = class WindowManagerHelper {
       windowClassName,
       arg
     );
+  }
+
+  /**
+   * creates new getting started popup window
+   * @returns {*}
+   */
+  static createGettingStartedWindow() {
+    let windowClassName = WindowManagerHelper.WindowNames.GETSTARTED;
+
+    return global.App.WindowManager.createWindow(
+      windowClassName,
+      windowClassName
+    );
+  }
+
+  /**
+   * Closes the getting started window
+   * @returns {*}
+   */
+  static closeGettingStartedWindow() {
+    let windowClassName = WindowManagerHelper.WindowNames.GETSTARTED;
+
+    return WindowManagerHelper.closeWindow(windowClassName);
   }
 
   static closeWindow(windowName) {
@@ -60,8 +83,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createMoovieWindow(arg) {
-    let windowClassName =
-      WindowManagerHelper.WindowNames.MOOVIE;
+    let windowClassName = WindowManagerHelper.WindowNames.MOOVIE;
 
     return global.App.WindowManager.createWindow(
       windowClassName,
@@ -85,8 +107,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createDMWindow(windowName, arg) {
-    let windowClassName =
-      WindowManagerHelper.WindowNames.MESSAGE;
+    let windowClassName = WindowManagerHelper.WindowNames.MESSAGE;
 
     return global.App.WindowManager.createWindow(
       windowName,
@@ -108,8 +129,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowLoading() {
-    let windowName =
-      WindowManagerHelper.WindowNames.LOADING;
+    let windowName = WindowManagerHelper.WindowNames.LOADING;
     return global.App.WindowManager.createWindow(
       windowName,
       windowName
@@ -121,8 +141,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowActivator() {
-    let windowName =
-      WindowManagerHelper.WindowNames.ACTIVATOR;
+    let windowName = WindowManagerHelper.WindowNames.ACTIVATOR;
     return global.App.WindowManager.createWindow(
       windowName,
       windowName
@@ -136,8 +155,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowConsole() {
-    let windowName =
-      WindowManagerHelper.WindowNames.CONSOLE;
+    let windowName = WindowManagerHelper.WindowNames.CONSOLE;
     return global.App.WindowManager.createWindow(
       windowName,
       windowName
@@ -169,8 +187,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowHotkeyConfig() {
-    let windowName =
-      WindowManagerHelper.WindowNames.HOTKEY;
+    let windowName = WindowManagerHelper.WindowNames.HOTKEY;
     return global.App.WindowManager.createWindow(
       windowName,
       windowName
@@ -182,8 +199,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static closeWindowHotkeyConfig() {
-    let windowName =
-      WindowManagerHelper.WindowNames.HOTKEY;
+    let windowName = WindowManagerHelper.WindowNames.HOTKEY;
     global.App.WindowManager.closeWindowByName(windowName);
   }
 

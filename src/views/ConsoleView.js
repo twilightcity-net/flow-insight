@@ -136,8 +136,6 @@ export default class ConsoleView extends Component {
     NotificationClient.init(this);
     HotkeyClient.init(this);
     MoovieClient.init(this);
-
-    this.notificationController.showGettingStartedNotification();
   };
 
   componentWillUnmount = () => {
