@@ -7,7 +7,7 @@ import MomentumChartContent from "./components/MomentumChartContent";
 
 /**
  * this component is the tab panel wrapper for dashboard content
- * @copyright Twilight City, Inc. 2021©®™√
+ * @copyright Twilight City, Inc. 2022©®™√
  */
 export default class DashboardResource extends Component {
   /**

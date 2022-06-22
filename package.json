@@ -1,7 +1,7 @@
 {
   "name": "flow-insight",
   "productName": "FlowInsight",
-  "description": "FlowInsight - © 2021 Twilight City, Inc. All rights reserved.",
+  "description": "FlowInsight - © 2022 Twilight City, Inc. All rights reserved.",
   "version": "0.5.22",
   "engines": {
     "node": "16.13.0"
@@ -11,7 +11,7 @@
     "name": "Twilight City, Inc.",
     "email": "admin@twilightcity.net"
   },
-  "copyright": "Copyright © 2021 - Twilight City, Inc.",
+  "copyright": "Copyright © 2022 - Twilight City, Inc.",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {
@@ -200,7 +200,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* Copyright © 2021 Twilight City, Inc // FlowInsight */",
+      "preamble": "/* Copyright © 2022 Twilight City, Inc // FlowInsight */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,

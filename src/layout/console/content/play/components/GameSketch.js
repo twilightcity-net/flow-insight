@@ -22,7 +22,7 @@ import GameState from "./hud/GameState";
 
 /**
  * this component is the tab panel wrapper for the game content
- * @copyright Twilight City, Inc. 2021©®™√
+ * @copyright Twilight City, Inc. 2022©®™√
  */
 export default class GameSketch extends Component {
   /**

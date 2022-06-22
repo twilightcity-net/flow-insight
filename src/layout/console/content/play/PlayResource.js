@@ -7,7 +7,7 @@ import {BaseClient} from "../../../../clients/BaseClient";
 
 /**
  * this component is the tab panel wrapper for the play game content
- * @copyright Twilight City, Inc. 2021©®™√
+ * @copyright Twilight City, Inc. 2022©®™√
  */
 export default class PlayResource extends Component {
   /**

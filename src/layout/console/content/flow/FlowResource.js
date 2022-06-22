@@ -5,7 +5,7 @@ import { DimensionController } from "../../../../controllers/DimensionController
 
 /**
  * this component is the tab panel wrapper for the flow content
- * @copyright Twilight City, Inc. 2021©®™√
+ * @copyright Twilight City, Inc. 2022©®™√
  */
 export default class FlowResource extends Component {
   /**

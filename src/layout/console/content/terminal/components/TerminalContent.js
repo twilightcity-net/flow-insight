@@ -9,7 +9,7 @@ import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the terminal content
- * @copyright Twilight City, Inc. 2021©®™√
+ * @copyright Twilight City, Inc. 2022©®™√
  */
 export default class TerminalContent extends Component {
   /**
