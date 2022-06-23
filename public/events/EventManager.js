@@ -363,17 +363,7 @@ class EventManager {
         " } "
     );
 
-    let jsonArg = JSON.stringify(arg);
-
-    for (var j = 0; j < windows.length; j++) {
-      // log.info("sending arg (raw): "+arg);
-      // log.info("sending arg: "+JSON.stringify(arg));
-      // log.info("eventtype: "+eventType);
-      windows[j].window.webContents.send(
-        eventType,
-        jsonArg
-      );
-    }
+    EventManager.tryToSendUpdates(windows, eventType, arg);
 
     for (var i = 0; i < manager.events.length; i++) {
       if (manager.events[i].type === eventType) {
@@ -396,6 +386,20 @@ class EventManager {
     }
 
     return returnedEvents;
+  }
+
+  static tryToSendUpdates(windows, eventType, arg) {
+    let jsonArg = JSON.stringify(arg);
+    for (let j = 0; j < windows.length; j++) {
+      try {
+        windows[j].window.webContents.send(
+          eventType,
+          jsonArg
+        );
+      } catch (error) {
+        log.error("Error while sending event to window "+windows[j].name + jsonArg);
+      }
+    }
   }
 
   /**
