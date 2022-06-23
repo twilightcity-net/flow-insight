@@ -111,7 +111,10 @@ export default class MoovieRoomDialog extends Component {
           this.setState((prevState => {
             prevState.moovies.push(arg.data);
             return {
-              moovies: prevState.moovies
+              moovies: prevState.moovies,
+              currentTitleValue: "",
+              currentYearValue: "",
+              currentLinkValue: ""
             }
           }));
 
