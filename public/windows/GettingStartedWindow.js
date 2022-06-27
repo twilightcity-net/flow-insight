@@ -61,6 +61,8 @@ module.exports = class GettingStartedWindow {
       this,
       (event, arg) => this.onHideConsole(event, arg)
     );
+
+    this.isOpen = true;
   }
 
   onShowCb() {
@@ -73,6 +75,9 @@ module.exports = class GettingStartedWindow {
   }
 
   onHideConsole(event, arg) {
-    WindowManagerHelper.closeGettingStartedWindow();
+    if (this.isOpen) {
+      this.isOpen = false;
+      WindowManagerHelper.closeGettingStartedWindow();
+    }
   }
 };
