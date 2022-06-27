@@ -243,7 +243,7 @@ class WindowManager {
         var that = this;
         setTimeout(function () {
           that.openWindow(window);
-        }, 500);
+       }, 500);
       }
     });
   }
@@ -253,11 +253,11 @@ class WindowManager {
    * @param window
    */
   openWindow(window) {
-    log.info(
-      "[WindowManager] open window -> " + window.name
-    );
-    window.window.show();
-    window.window.focus();
+    log.info("[WindowManager] open window -> " + window.name);
+    if (!window.window.isDestroyed()) {
+      window.window.show();
+      window.window.focus();
+    }
   }
 
   /**
