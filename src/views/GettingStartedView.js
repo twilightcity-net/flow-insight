@@ -54,10 +54,7 @@ export default class GettingStartedView extends Component {
 
   /// renders the view into our root element of our window
   render() {
-    let appName = "FlowInsight";
-    if (FeatureToggle.isMoovieApp) {
-      appName = "WatchMoovies";
-    }
+    let appName = FeatureToggle.appName;
 
     if (!this.state.hotkey) {
       return <div id="component" className="gettingStartedLayout" >

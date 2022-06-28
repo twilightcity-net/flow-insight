@@ -1,9 +1,8 @@
-const { Menu } = require("electron"),
+const {Menu} = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
 const AppFeatureToggle = require("./AppFeatureToggle");
-
 
 
 class AppMenuException extends Error {
@@ -43,20 +42,20 @@ module.exports = class AppMenu extends Menu {
       {
         label: "Edit",
         submenu: [
-          { role: "undo" },
-          { role: "redo" },
-          { type: "separator" },
-          { role: "cut" },
-          { role: "copy" },
-          { role: "paste" },
-          { role: "pasteandmatchstyle" },
-          { role: "delete" },
-          { role: "selectall" },
+          {role: "undo"},
+          {role: "redo"},
+          {type: "separator"},
+          {role: "cut"},
+          {role: "copy"},
+          {role: "paste"},
+          {role: "pasteandmatchstyle"},
+          {role: "delete"},
+          {role: "selectall"},
         ],
       },
       {
         role: "window",
-        submenu: [{ role: "minimize" }, { role: "close" }],
+        submenu: [{role: "minimize"}, {role: "close"}],
       },
       {
         role: "help",
@@ -96,20 +95,20 @@ module.exports = class AppMenu extends Menu {
   static getTemplateForMacOS() {
     return [
       {
-        label: "Flow Insight",
+        label: AppFeatureToggle.appName,
         submenu: [
-          { role: "about" },
-          { type: "separator" },
+          {role: "about"},
+          {type: "separator"},
           {
             label: "Configure Hotkeys",
             click: AppMenu.onClickConfigHotkeys
           },
-          { type: "separator" },
-          { role: "hide" },
-          { role: "hideothers" },
-          { role: "unhide" },
-          { type: "separator" },
-          { role: "quit" },
+          {type: "separator"},
+          {role: "hide"},
+          {role: "hideothers"},
+          {role: "unhide"},
+          {type: "separator"},
+          {role: "quit"},
         ],
       },
       {
@@ -125,7 +124,7 @@ module.exports = class AppMenu extends Menu {
             accelerator: "Shift+CmdOrCtrl+Z",
             selector: "redo:",
           },
-          { type: "separator" },
+          {type: "separator"},
           {
             label: "Cut",
             accelerator: "CmdOrCtrl+X",
@@ -156,12 +155,12 @@ module.exports = class AppMenu extends Menu {
             label: "Displays",
             submenu: this.getDisplaysSubmenu(),
           },
-          { type: "separator" },
-          { role: "close" },
-          { role: "minimize" },
-          { type: "separator" },
-          { role: "front" },
-          { type: "separator" },
+          {type: "separator"},
+          {role: "close"},
+          {role: "minimize"},
+          {type: "separator"},
+          {role: "front"},
+          {type: "separator"},
         ],
       },
       {

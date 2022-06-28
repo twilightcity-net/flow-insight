@@ -44,11 +44,7 @@ module.exports = class AppTray extends Tray {
       }
     ]);
 
-    if (AppFeatureToggle.isMoovieApp) {
-      this.setToolTip("WatchMoovies");
-    } else {
-      this.setToolTip("FlowInsight");
-    }
+    this.setToolTip(AppFeatureToggle.appName);
 
     this.setContextMenu(menu);
     this.on("click", (event, bounds, position) => {

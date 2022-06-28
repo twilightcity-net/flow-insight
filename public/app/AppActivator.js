@@ -5,6 +5,7 @@ let { dialog } = require("electron"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
   AccountActivationDto = require("../dto/AccountActivationDto");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
  * class that is used to activate the application
@@ -60,7 +61,7 @@ module.exports = class AppActivator {
       );
       this.events.closeActivator.dispatch({result: -1});
       dialog.showErrorBox(
-        "Flow Insight",
+        AppFeatureToggle.appName,
         "[FATAL] Unable to save api-key"
       );
       process.exit(1);

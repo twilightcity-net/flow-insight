@@ -20,5 +20,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-The logos, artwork, and trademarks for Twilight City, Inc. Flow Insight, and Fervie are not among the things being made available with this license.
+The logos, artwork, and trademarks under copyright of Twilight City, Inc., 
+including FlowInsight, WatchMoovies, Monty, and Fervie are not among the things 
+being made available with this license.
 

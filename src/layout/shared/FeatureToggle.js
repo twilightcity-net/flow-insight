@@ -4,6 +4,8 @@ export default class FeatureToggle  {
 
   static isMoovieApp = false;
 
+  static appName = "FlowInsight";
+
   static isFlowInsightApp() {
     return !FeatureToggle.isMoovieApp;
   }

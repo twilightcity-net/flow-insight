@@ -50,11 +50,7 @@ export class PopupController {
   }
 
   static getPopupHeader() {
-    if (FeatureToggle.isMoovieApp) {
-      return "WatchMoovies";
-    } else {
-      return "FlowInsight";
-    }
+    return FeatureToggle.appName;
   }
 
   onTalkRoomMessage = (event, arg) => {

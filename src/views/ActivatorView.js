@@ -12,6 +12,7 @@ import {
   Segment,
   Transition,
 } from "semantic-ui-react";
+import FeatureToggle from "../layout/shared/FeatureToggle";
 
 /**
  * This view class is used to activate the application
@@ -299,6 +300,9 @@ export default class ActivatorView extends Component {
         </Segment>
       </Container>
     );
+
+    const appName = FeatureToggle.appName;
+
     const termsContent = (
       <Container className="termsContent">
         <Header as="h4" floated="left" inverted>
@@ -328,12 +332,12 @@ export default class ActivatorView extends Component {
             and Twilight City, Inc. (the
             &quot;Licensor&quot;). The terms of this
             Agreement apply to all current and future
-            versions and updates of FlowInsight
-            collaborative learning software
-            (&quot;FlowInsight&quot;).
+            versions and updates of {appName}
+            application software
+            (&quot;{appName}&quot;).
           </p>
           <p>
-            By installing, enabling or using FlowInsight,
+            By installing, enabling or using {appName},
             Licensee agrees with all the terms of this
             Agreement. Licensor reserves all rights not
             specifically granted and transferred to
@@ -346,33 +350,33 @@ export default class ActivatorView extends Component {
           <ul>
             <li>
               Licensor grants Licensee a non-exclusive and
-              non-transferable license to use FlowInsight
+              non-transferable license to use {appName}
               for non-commercial purposes only. Licensee
-              therefore does not own FlowInsight, Licensor
-              remains the owner of FlowInsight.
+              therefore does not own {appName}, Licensor
+              remains the owner of {appName}.
             </li>
             <li>
-              Licensor provides FlowInsight on an &quot;as
+              Licensor provides {appName} on an &quot;as
               is&quot; basis without warranty of any kind.
               Licensor neither guarantees the correct,
-              error-free functioning of TC nor is Licensor
+              error-free functioning of {appName} nor is Licensor
               responsible for any damage caused by the use
-              of FlowInsight.
+              of {appName}.
             </li>
             <li>
               Licensee may not decompile, disassemble,
               reverse-engineer, modify or redistribute
-              FlowInsight in any way.
+              {appName} in any way.
             </li>
             <li>
-              TC will automatically, without notice to
+              {appName} will automatically, without notice to
               Licensee, download and install updates from
               time to time.
             </li>
             <li>
-              TC may report and store Licensee&apos;s
+              {appName} may report and store Licensee&apos;s
               Internet Protocol address, account name and
-              identifier, in-app nickname, and
+              identifier, in-app nickname, email address, and
               system-related and hardware-related
               information including, but not limited to,
               device identifiers and hardware serial
@@ -381,14 +385,14 @@ export default class ActivatorView extends Component {
             <li>
               Licensor values Licensee&apos;s privacy and
               does its utmost to protect it at all times.
-              FlowInsight does not report any personally
+              {appName} does not report any personally
               identifiable information or personal data
               except for any information/data specifically
               mentioned herein.
             </li>
             <li>
               Licensor stores all information collected by
-              TC on servers located in Europe and/or the US.
+              {appName} on servers located in Europe and/or the US.
               Licensor may share the information with its
               partners and/or affiliates.
             </li>
@@ -427,7 +431,7 @@ export default class ActivatorView extends Component {
           <Divider clearing />
           <Header as="h3" floated="left" inverted>
             <Header.Content>
-              Activating FlowInsight...
+              Activating {appName}...
               <Header.Subheader>
                 <i>
                   Please standby while we verify your
