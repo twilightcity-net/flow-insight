@@ -1,12 +1,10 @@
 import React, {Component} from "react";
-import {MemberClient} from "../../../../clients/MemberClient";
 import GameSketch from "../play/components/GameSketch";
 import EnvironmentMap from "../play/components/environment/EnvironmentMap";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import {BaseClient} from "../../../../clients/BaseClient";
 import {FervieClient} from "../../../../clients/FervieClient";
-import GameState from "../play/components/hud/GameState";
 
 /**
  * this component is the launch screen for the docked moovie app

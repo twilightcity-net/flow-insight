@@ -1,4 +1,3 @@
-import React from "react";
 import AnimationId from "../AnimationId";
 import {Sunglasses} from "./Sunglasses";
 import FervieSprite from "../fervie/FervieSprite";

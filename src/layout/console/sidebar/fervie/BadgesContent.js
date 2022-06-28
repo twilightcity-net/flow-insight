@@ -1,9 +1,6 @@
 import React, {Component} from "react";
 
 export default class BadgesContent extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   /**
    * gets the badges content panel for the sidebar

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Divider, Icon, Label, List, Popup,} from "semantic-ui-react";
+import {Divider, Icon, List, Popup,} from "semantic-ui-react";
 import {BaseClient} from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Input, Popup} from "semantic-ui-react";
+import {Input} from "semantic-ui-react";
 import FeatureToggle from "../../../shared/FeatureToggle";
 
 export default class AccountContent extends Component {

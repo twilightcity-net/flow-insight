@@ -1,10 +1,5 @@
-import React, { Component } from "react";
-import {
-  Icon,
-  Label,
-  List,
-  Popup,
-} from "semantic-ui-react";
+import React, {Component} from "react";
+import {List,} from "semantic-ui-react";
 import AccessoryListItem from "./AccessoryListItem";
 import SkillListItem from "./SkillListItem";
 
@@ -13,11 +8,6 @@ import SkillListItem from "./SkillListItem";
  * for the same set of items
  */
 export default class SkillsAccessoriesContent extends Component {
-  constructor(props) {
-    super(props);
-
-  }
-
 
   onSunglassesClick = (itemComp) => {
     if (this.props.fervieAccessory === itemComp.props.fervieAccessory) {

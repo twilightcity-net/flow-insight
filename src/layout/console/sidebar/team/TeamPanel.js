@@ -1,22 +1,15 @@
-import React, { Component } from "react";
-import {
-  Accordion,
-  Menu,
-  Segment,
-  Transition,
-  Message,
-  List, Popup, Icon, Input,
-} from "semantic-ui-react";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
-import { TeamClient } from "../../../../clients/TeamClient";
+import React, {Component} from "react";
+import {Accordion, List, Menu, Message, Segment, Transition,} from "semantic-ui-react";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import {TeamClient} from "../../../../clients/TeamClient";
 import TeamPanelListItem from "./TeamPanelListItem";
-import { MemberClient } from "../../../../clients/MemberClient";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import { BaseClient } from "../../../../clients/BaseClient";
-import { BrowserController } from "../../../../controllers/BrowserController";
+import {MemberClient} from "../../../../clients/MemberClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
+import {BrowserController} from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
 import {FervieClient} from "../../../../clients/FervieClient";
 import InviteMemberPopup from "../buddies/InviteMemberPopup";

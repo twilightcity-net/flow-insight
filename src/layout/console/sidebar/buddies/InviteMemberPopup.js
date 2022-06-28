@@ -1,10 +1,5 @@
 import React, {Component} from "react";
-import {Divider, Icon, Input, Label, List, Popup,} from "semantic-ui-react";
-import {BaseClient} from "../../../../clients/BaseClient";
-import UtilRenderer from "../../../../UtilRenderer";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
-import FervieProfile from "../../../shared/FervieProfile";
-import {FervieClient} from "../../../../clients/FervieClient";
+import {Icon, Input, Popup,} from "semantic-ui-react";
 import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**

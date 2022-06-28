@@ -1,11 +1,10 @@
-import { RendererEventFactory } from "../events/RendererEventFactory";
-import { BaseClient } from "../clients/BaseClient";
-import { ResourceCircuitController } from "./ResourceCircuitController";
-import { BrowserRequestFactory } from "./BrowserRequestFactory";
-import { RendererControllerFactory } from "./RendererControllerFactory";
-import { MemberClient } from "../clients/MemberClient";
-import { SidePanelViewController } from "./SidePanelViewController";
-import {HotkeyClient} from "../clients/HotkeyClient";
+import {RendererEventFactory} from "../events/RendererEventFactory";
+import {BaseClient} from "../clients/BaseClient";
+import {ResourceCircuitController} from "./ResourceCircuitController";
+import {BrowserRequestFactory} from "./BrowserRequestFactory";
+import {RendererControllerFactory} from "./RendererControllerFactory";
+import {MemberClient} from "../clients/MemberClient";
+import {SidePanelViewController} from "./SidePanelViewController";
 import FeatureToggle from "../layout/shared/FeatureToggle";
 
 /**

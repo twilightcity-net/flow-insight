@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dropdown, Icon} from "semantic-ui-react";
+import {Dropdown} from "semantic-ui-react";
 import FervieProfile from "../shared/FervieProfile";
 import {MemberClient} from "../../clients/MemberClient";
 

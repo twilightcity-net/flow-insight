@@ -1,33 +1,19 @@
-import React, { Component } from "react";
-import {
-  Button,
-  Dropdown,
-  Icon, Input,
-  List,
-  Menu,
-  Popup,
-  Progress,
-  Segment,
-  Transition,
-} from "semantic-ui-react";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import FervieCanvas from "./FervieCanvas";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { MemberClient } from "../../../../clients/MemberClient";
-import UtilRenderer from "../../../../UtilRenderer";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import { BaseClient } from "../../../../clients/BaseClient";
-import { HexColorPicker } from "react-colorful";
-import { FervieClient } from "../../../../clients/FervieClient";
-import SkillListItem from "./SkillListItem";
+import React, {Component} from "react";
+import {Menu, Segment, Transition,} from "semantic-ui-react";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {MemberClient} from "../../../../clients/MemberClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
+import {FervieClient} from "../../../../clients/FervieClient";
 import FeatureToggle from "../../../shared/FeatureToggle";
-import AccessoryListItem from "./AccessoryListItem";
 import SkillsAccessoriesContent from "./SkillsAccessoriesContent";
 import FervieColors from "../../content/support/FervieColors";
 import FervieContent from "./FervieContent";
 import BadgesContent from "./BadgesContent";
 import AccountContent from "./AccountContent";
+
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
  * and accessories. Currently this only uses a simple canvas but will use
