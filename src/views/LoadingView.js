@@ -26,7 +26,7 @@ export default class LoadingView extends Component {
     super(props);
     this.animationTime = 500;
     this.header = {
-      title: "Flow Insight",
+      title: FeatureToggle.appName,
       text: "Loading...",
       icon: "hand spock outline",
     };
