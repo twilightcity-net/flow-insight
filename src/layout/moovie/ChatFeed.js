@@ -3,6 +3,7 @@ import {Feed, Segment} from "semantic-ui-react";
 import ChatFeedEvent from "./ChatFeedEvent";
 import CircuitMemberHelper from "./CircuitMemberHelper";
 import ErrorFeedEvent from "./ErrorFeedEvent";
+import StatusFeedEvent from "./StatusFeedEvent";
 
 /**
  * this component is the feed of messages for the always-on-top chat overlay panel
@@ -95,6 +96,13 @@ export default class ChatFeed extends Component {
       const isBuddy = member && this.props.buddiesById.get(member.memberId);
       if (message.isErrorMsg) {
         return <ErrorFeedEvent
+          key={i}
+          id={message.id}
+          time={message.time}
+          texts={message.texts}
+        />
+      } else if (message.isStatusMsg) {
+        return <StatusFeedEvent
           key={i}
           id={message.id}
           time={message.time}

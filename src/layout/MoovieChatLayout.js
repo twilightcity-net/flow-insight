@@ -330,6 +330,7 @@ export default class MoovieChatLayout extends Component {
         circuitMembers : allMembers,
         memberByIdMap: this.memberHelper.createMemberByIdMap(allMembers)}
       );
+      this.addStatusToChat(roomMember.fervieName + " joined the moovie.");
     }
   }
 
@@ -513,6 +514,19 @@ export default class MoovieChatLayout extends Component {
     });
   }
 
+  reloadMoovieCircuit() {
+    MoovieClient.getMoovieCircuit(this.props.moovieId, this, (arg) => {
+      if (!arg.error) {
+        const moovie = arg.data;
+        this.setState({
+          moovie: moovie
+        });
+      } else {
+        console.error("Unable to load moovie circuit: " + arg.error);
+      }
+    });
+  }
+
   /**
    * Load up our buddies list so we know when someone is a friend or not
    * for display in the chat
@@ -619,8 +633,10 @@ export default class MoovieChatLayout extends Component {
 
     this.puppet.runMontyStartMoovieScript(this.state.moovie, () => {
       MoovieClient.startMoovie(this.state.moovie.id, this, (arg) => {
-        this.moovieStartNotifier.dispatch({});
-        this.handleMoovieResponse(arg);
+        if (!arg.error) {
+          this.moovieStartNotifier.dispatch({});
+        }
+        this.handleMoovieResponse(arg, "start");
       });
     });
   }
@@ -630,8 +646,10 @@ export default class MoovieChatLayout extends Component {
     if (!this.state.moovie) return;
 
     MoovieClient.pauseMoovie(this.state.moovie.id, this, (arg) => {
-      this.moovieStopNotifier.dispatch({});
-      this.handleMoovieResponse(arg);
+      if (!arg.error) {
+        this.moovieStopNotifier.dispatch({});
+      }
+      this.handleMoovieResponse(arg, "pause");
     });
   }
 
@@ -641,8 +659,10 @@ export default class MoovieChatLayout extends Component {
 
     this.puppet.runMontyStartMoovieScript(this.state.moovie, () => {
       MoovieClient.resumeMoovie(this.state.moovie.id, this, (arg) => {
-        this.moovieStartNotifier.dispatch({});
-        this.handleMoovieResponse(arg);
+        if (!arg.error) {
+          this.moovieStartNotifier.dispatch({});
+        }
+        this.handleMoovieResponse(arg, "resume");
       });
     });
   }
@@ -651,16 +671,18 @@ export default class MoovieChatLayout extends Component {
     console.log("onRestartMoovie");
     if (!this.state.moovie) return;
     MoovieClient.restartMoovie(this.state.moovie.id, this, (arg) => {
-      this.handleMoovieResponse(arg);
+      this.handleMoovieResponse(arg, "restart");
     });
   }
 
-  handleMoovieResponse(arg) {
+  handleMoovieResponse(arg, action) {
     if (!arg.error) {
       //moovie status is updated by talk messages now
       console.log("moovie status call succeeded!");
     } else {
       console.error("Error: "+arg.error);
+      this.addErrorToChat("Unable to " + action + " moovie.  Please wait a moment and try again.");
+      this.reloadMoovieCircuit(); //status might be out of sync somehow try to correct
     }
   }
 
@@ -746,6 +768,64 @@ export default class MoovieChatLayout extends Component {
     }
   }
 
+
+  /**
+   * Add error message to chat
+   */
+  addErrorToChat(errorMessage) {
+
+    this.setState((prevState) => {
+
+      const newMessage = {
+        id : -99,
+        username: "Fervie",
+        time: "",
+        texts: [{
+          id: -99,
+          message: errorMessage,
+          reactions:[]
+        }],
+        isMe: false,
+        isPuppet: false,
+        isLocalOnly: false,
+        fervieColor: null,
+        fervieAccessory: null,
+        tertiaryColor: null,
+        isErrorMsg: true
+      };
+      return this.updateMessages(prevState.messages, newMessage);
+    });
+  }
+
+
+  /**
+   * Add status message to chat
+   */
+  addStatusToChat(statusMessage) {
+
+    this.setState((prevState) => {
+
+      const newMessage = {
+        id : -99,
+        username: "Fervie",
+        time: "",
+        texts: [{
+          id: -99,
+          message: statusMessage,
+          reactions:[]
+        }],
+        isMe: false,
+        isPuppet: false,
+        isLocalOnly: false,
+        fervieColor: null,
+        fervieAccessory: null,
+        tertiaryColor: null,
+        isStatusMsg: true
+      };
+      return this.updateMessages(prevState.messages, newMessage);
+    });
+  }
+
   /**
    * adds a new message to our messages array and triggers a rerender
    * @param text
@@ -762,6 +842,7 @@ export default class MoovieChatLayout extends Component {
             console.log("chat published");
           } else {
             console.error("Unable to publish chat: "+arg.error);
+            this.addErrorToChat("Unable to publish chat message.  Please wait and try again.");
           }
           if (callback) {
             callback();

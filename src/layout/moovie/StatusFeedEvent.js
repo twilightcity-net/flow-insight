@@ -1,18 +1,18 @@
 import React, {Component} from "react";
 import {Feed} from "semantic-ui-react";
 
-export default class ErrorFeedEvent extends Component {
+export default class StatusFeedEvent extends Component {
   /**
-   * builds our feed event for an error message
+   * builds our feed event for a status message
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[ErrorFeedEvent]";
+    this.name = "[StatusFeedEvent]";
   }
 
 
-  getErrorTexts() {
+  getStatusTexts() {
     return (
       <div>
         {this.props.texts.map((text, i) => {
@@ -21,7 +21,7 @@ export default class ErrorFeedEvent extends Component {
             <Feed.Meta key={i}
                         text
                         content={textMsg}
-                        className="errorText"/>
+                        className="statusText"/>
             );
         })}
       </div>);
@@ -33,9 +33,9 @@ export default class ErrorFeedEvent extends Component {
    */
   render() {
     return (
-      <Feed.Event id={this.props.id} className={"feedErrorEvent"}>
+      <Feed.Event id={this.props.id} className={"feedStatusEvent"}>
         <Feed.Content>
-          {this.getErrorTexts()}
+          {this.getStatusTexts()}
         </Feed.Content>
       </Feed.Event>
     );
