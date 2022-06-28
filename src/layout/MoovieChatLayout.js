@@ -36,7 +36,8 @@ export default class MoovieChatLayout extends Component {
       circuitMembers : [],
       buddiesById: new Map(),
       memberByIdMap: new Map(),
-      moovie: null
+      moovie: null,
+      hasLoadedMessages: false
     };
 
     this.hasMontyDoneIntro = false;
@@ -90,7 +91,9 @@ export default class MoovieChatLayout extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.isConsoleOpen && this.props.isConsoleOpen && !this.hasMontyDoneIntro) {
+    if ((!prevProps.isConsoleOpen && this.props.isConsoleOpen && !this.hasMontyDoneIntro && this.state.hasLoadedMessages)
+      || (this.props.isConsoleOpen && !prevState.hasLoadedMessages && this.state.hasLoadedMessages)
+    ) {
       this.hasMontyDoneIntro = true;
       this.addMontyIntroMessage(this.state.moovie);
     }
@@ -198,7 +201,10 @@ export default class MoovieChatLayout extends Component {
   handleChatReaction(reactionInput) {
     this.setState((prevState) => {
       const foundText = this.findMessageTextWithId(prevState.messages, reactionInput.messageId);
+      console.log("looking for : "+reactionInput.messageId);
       if (foundText) {
+        console.log("Found it!");
+        console.log(foundText);
         if (reactionInput.chatReactionChangeType === MoovieChatLayout.chatReactionTypeAdd) {
           this.addReactionToGroup(foundText.reactions,
             {
@@ -209,6 +215,7 @@ export default class MoovieChatLayout extends Component {
           this.removeReactionFromGroup(foundText.reactions, reactionInput.memberId, reactionInput.emoji);
         }
       }
+
       return {
         messages: prevState.messages
       }
@@ -326,6 +333,64 @@ export default class MoovieChatLayout extends Component {
     }
   }
 
+
+  /**
+   * Loads all the past messages from the local DB into a state that we can use
+   * for the chat feed display
+   * @param talkMessages
+   */
+  handleLoadMessages(talkMessages) {
+    let messages = [];
+
+    let me = MemberClient.me;
+    for (let talkMessage of talkMessages) {
+      console.log(talkMessage);
+      if (talkMessage.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
+
+        const metaProps = talkMessage.metaProps;
+        const username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+        const memberId = UtilRenderer.getMemberIdFromMetaProps(metaProps);
+        const time = UtilRenderer.getChatMessageTimeString(talkMessage.messageTime);
+        const isMe = (memberId === me.id);
+        const isPuppet = (talkMessage.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE);
+
+        const newMessage = {
+          id : talkMessage.id,
+          username: username,
+          time: time,
+          texts: [{
+            id: talkMessage.id,
+            message: talkMessage.data.message,
+            reactions:[]
+          }],
+          isMe: isMe,
+          isPuppet: isPuppet,
+          isLocalOnly: false,
+        };
+        messages = this.addMessage(messages, newMessage);
+      } else if (talkMessage.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
+        console.log("wootx!");
+
+        const messageId = talkMessage.data.messageId;
+        const memberId = talkMessage.data.memberId;
+        const emoji = talkMessage.data.emoji;
+        const textObj = this.findMessageTextWithId(messages, messageId);
+        if (textObj) {
+          this.addReactionToGroup(textObj.reactions, {memberIds: [memberId], emoji: emoji}, false);
+        } else {
+          console.error("MessageId not found!");
+        }
+
+      }
+    }
+
+    this.setState({
+      hasLoadedMessages: true,
+      messages: messages
+    });
+    return messages;
+  }
+
   /**
    * Add the chat message to the message feed for display
    */
@@ -356,6 +421,28 @@ export default class MoovieChatLayout extends Component {
       return this.updateMessages(prevState.messages, newMessage);
 
     });
+  }
+
+  /**
+   * Updates messages to the list without copying the whole list
+   */
+  addMessage(messages, newMessage) {
+    if (messages.length > 0) {
+      const lastMessage = messages[messages.length - 1];
+      if (lastMessage.time === newMessage.time
+        && lastMessage.username === newMessage.username
+        && lastMessage.isPuppet === newMessage.isPuppet) {
+
+        lastMessage.texts.push(newMessage.texts[0]);
+        messages[messages.length - 1] = lastMessage;
+      } else {
+        messages.push(newMessage);
+      }
+    } else {
+      messages.push(newMessage);
+    }
+
+    return messages;
   }
 
   /**
@@ -416,7 +503,7 @@ export default class MoovieChatLayout extends Component {
     MoovieClient.getMoovieCircuit(moovieId, this, (arg) => {
       if (!arg.error) {
         const moovie = arg.data;
-        this.connectToRoom(moovie);
+        this.connectToRoomAndLoadMessages(moovie);
         this.setState({
           moovie: moovie
         });
@@ -465,12 +552,24 @@ export default class MoovieChatLayout extends Component {
    * Connect to the talk room so we get the chat message events
    * @param moovie
    */
-  connectToRoom(moovie) {
+  connectToRoomAndLoadMessages(moovie) {
     TalkToClient.joinExistingRoom(moovie.talkRoomId, this, (arg) => {
       if (!arg.error) {
         console.log("room joined");
+        this.loadMessagesFromRoom(moovie);
       } else {
         console.error("Unable to join room: " + arg.error);
+      }
+    });
+
+  }
+
+  loadMessagesFromRoom(moovie) {
+    TalkToClient.getAllTalkMessagesFromRoom(moovie.talkRoomId, moovie.talkRoomId, this, (arg) => {
+      if (!arg.error) {
+         this.handleLoadMessages(arg.data);
+      } else {
+        console.error("Unable to retrieve room messages: " + arg.error);
       }
     });
   }

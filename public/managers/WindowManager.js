@@ -230,9 +230,7 @@ class WindowManager {
    * @param arg to pass to the window
    */
   loadWindow(window, arg) {
-    log.info(
-      "[WindowManager] load window -> " + window.name
-    );
+    log.info("[WindowManager] load window -> " + window.name);
 
     //this needs to load a fresh url even if it's reloading the window
     let newUrl = this.getWindowViewURL(window.view, arg);
