@@ -223,9 +223,11 @@ module.exports = class MessageWindow {
       this.display.workArea.x + this.display.workAreaSize.width - this.slideOutWindowWidth,
       this.getYPosition()
     );
+    this.window.setResizable(true);
     this.window.setSize(this.slideOutWindowWidth,
       this.getHeight(),
     );
+    this.window.setResizable(false);
   }
 
   /**
@@ -238,8 +240,11 @@ module.exports = class MessageWindow {
       this.display.workArea.x + this.display.workAreaSize.width - this.collapsedWindowWidth,
       this.getCollapsedYPosition()
     );
+
+    this.window.setResizable(true);
     this.window.setSize(this.collapsedWindowWidth,
       this.collapsedWindowHeight,
     );
+    this.window.setResizable(false);
   }
 };

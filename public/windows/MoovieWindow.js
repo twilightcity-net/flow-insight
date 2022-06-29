@@ -191,9 +191,11 @@ module.exports = class MoovieWindow {
       this.display.workArea.x + this.display.workAreaSize.width - this.slideOutWindowWidth,
       this.display.workArea.y + this.topMargin
     );
+    this.window.setResizable(true);
     this.window.setSize(this.slideOutWindowWidth,
       this.display.workAreaSize.height - this.topMargin - this.bottomMargin,
     );
+    this.window.setResizable(false);
   }
 
   /**
@@ -206,8 +208,10 @@ module.exports = class MoovieWindow {
       this.display.workArea.x + this.display.workAreaSize.width - this.collapsedWindowWidth,
       this.display.workArea.y + this.topMargin + this.height - this.collapsedWindowHeight
     );
+    this.window.setResizable(true);
     this.window.setSize(this.collapsedWindowWidth,
       this.collapsedWindowHeight,
     );
+    this.window.setResizable(false);
   }
 };
