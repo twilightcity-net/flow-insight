@@ -224,6 +224,7 @@ module.exports = class MessageWindowManager {
 
     WindowManagerHelper.closeWindow(windowName);
 
+    this.removeFromOrderedWindows(windowName);
     this.dmWindowsByName.delete(windowName);
   }
 
@@ -236,6 +237,7 @@ module.exports = class MessageWindowManager {
         windowName
       );
     }
+    this.orderedWindows = [];
     this.dmWindowsByName.clear();
   }
 };
