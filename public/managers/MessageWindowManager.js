@@ -195,7 +195,9 @@ module.exports = class MessageWindowManager {
     for (let i = 0; i < this.orderedWindows.length; i++) {
       const windowName = this.orderedWindows[i];
       const window = this.dmWindowsByName.get(windowName);
-      window.resetDMIndex(i);
+      if (window) {
+        window.resetDMIndex(i);
+      }
     }
   }
 
