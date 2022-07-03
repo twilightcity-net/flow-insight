@@ -160,7 +160,6 @@ export default class GameSketch extends Component {
       fervieColor = this.props.me.fervieColor;
       fervieShoeColor = this.props.me.fervieSecondaryColor;
       fervieAccessoryColor = this.props.me.fervieTertiaryColor;
-      console.log(fervieAccessoryColor);
       fervieAccessory = this.props.me.fervieAccessory;
     }
 

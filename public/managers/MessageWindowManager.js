@@ -17,7 +17,7 @@ module.exports = class MessageWindowManager {
    * builds the DMWindowManager for the global app scope
    */
   constructor() {
-    this.name = "[DMWindowManager]";
+    this.name = "[MessageWindowManager]";
 
     this.openDMWindowEvent = EventFactory.createEvent(
       EventFactory.Types.WINDOW_OPEN_DM,

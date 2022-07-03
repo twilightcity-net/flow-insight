@@ -1,9 +1,6 @@
-import React, { Component } from "react";
-import { MemberClient } from "../../../../clients/MemberClient";
-import GameSketch from "./components/GameSketch";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
-import UtilRenderer from "../../../../UtilRenderer";
-import {BaseClient} from "../../../../clients/BaseClient";
+import React, {Component} from "react";
+import AdventureGame from "./AdventureGame";
+import GameLoadingScreen from "./components/GameLoadingScreen";
 
 /**
  * this component is the tab panel wrapper for the play game content
@@ -18,71 +15,73 @@ export default class PlayResource extends Component {
     super(props);
     this.name = "[PlayResource]";
     this.state = {
-      me: MemberClient.me,
-      visible: false,
-    };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        visible: true,
-      });
-    }, 333);
-
-    this.talkRoomMessageListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-        this,
-        this.onTalkRoomMessage
-      );
-  }
-
-  componentWillUnmount() {
-    this.talkRoomMessageListener.clear();
-  }
-
-
-  onTalkRoomMessage = (event, arg) => {
-    let mType = arg.messageType,
-      memberId = UtilRenderer.getMemberIdFromMetaProps(arg.metaProps);
-
-    if (mType === BaseClient.MessageTypes.TEAM_MEMBER
-      && this.state.me && memberId === this.state.me.id) {
-      this.updateMe(arg.data);
+      isIntroVideo: true
     }
   }
 
-  updateMe(me) {
-    this.setState({
-      me: me
-    });
+  componentDidMount() {
+   this.handleFadeOfIntroAndGame();
   }
 
-  onFinishedLoading = () => {
-    console.log("onFinishedLoading");
-    setTimeout(() => {
-      document.getElementById(
-        "playGameWrapper"
-      ).style.opacity = 1;
-    }, 333);
-  };
+  componentWillUnmount() {
+    if (this.introTimeout) {
+      clearTimeout(this.introTimeout);
+    }
+    if (this.introTimeout2) {
+      clearTimeout(this.introTimeout2);
+    }
+    if (this.introTimeout3) {
+      clearTimeout(this.introTimeout3);
+    }
+  }
+
+  /**
+   * The transitions on the wrapper elements handle fading opacity in and out,
+   * to do the transitions, we need to set a timeout on the intro to fade out,
+   * then flip to the game, and fade in
+   */
+  handleFadeOfIntroAndGame() {
+    this.introTimeout = setTimeout(() => {
+      this.introTimeout2 = setTimeout(() => {
+        document.getElementById("introVideoWrapper").style.opacity = 0;
+        this.introTimeout3 = setTimeout(() => {
+          this.setState({
+            isIntroVideo: false
+          });
+          setTimeout( () => {
+            document.getElementById("playGameWrapper").style.opacity = 1;
+          }, 333);
+        }, 333);
+      }, 0.6);
+
+    }, 9000);
+  }
 
   /**
    * renders the game sketch
    * @returns {*} - the rendered components JSX
    */
   render() {
-    let content = "";
-    if (this.state.visible) {
-      content = (
-        <GameSketch
-          me={this.state.me}
-          onFinishedLoading={this.onFinishedLoading}
-        />
-      );
+    if (this.state.isIntroVideo) {
+      return (
+        <div>
+          <div style={{display: "block"}}>
+            <GameLoadingScreen/>
+          </div>
+          <div style={{display: "none"}}>
+            <AdventureGame/>
+          </div>
+        </div>);
+    } else {
+      return (
+        <div>
+          <div style={{display: "none"}}>
+            <GameLoadingScreen/>
+          </div>
+          <div style={{display: "block"}}>
+            <AdventureGame/>
+          </div>
+        </div>);
     }
-
-    return <div id="playGameWrapper">{content}</div>;
   }
 }
