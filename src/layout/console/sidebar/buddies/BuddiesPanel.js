@@ -115,9 +115,10 @@ export default class BuddiesPanel extends Component {
   refreshBuddiesPanel() {
     let callCount = 0;
 
-    MemberClient.isOrgOwner(this, (arg) => {
+    MemberClient.getOrgOwnerDetails(this, (arg) => {
       callCount++;
       this.isOrgOwner = arg.data.isOrgOwner;
+      this.orgType = arg.data.orgType;
       this.handleDataLoadFinished(callCount, arg);
     });
     FervieClient.getBuddyMe(this, (arg) => {
@@ -169,7 +170,8 @@ export default class BuddiesPanel extends Component {
       buddyMe: this.buddyMe,
       buddies: this.buddies,
       pendingBuddies: this.pendingBuddies,
-      isOrgOwner: this.isOrgOwner
+      isOrgOwner: this.isOrgOwner,
+      orgType: this.orgType
     });
   }
 
@@ -297,11 +299,15 @@ export default class BuddiesPanel extends Component {
 
 
   getInviteBuddyButton() {
-    return <InviteMemberPopup
-      handleGlobalHudInputLock={this.handleGlobalHudInputLock}
-      handleGlobalHudInputUnlock={this.handleGlobalHudInputUnlock}
-      sendInviteRequest={this.sendInviteRequest}
-    />
+    if (this.state.isOrgOwner || this.state.orgType === "COMMUNITY") {
+      return <InviteMemberPopup
+        handleGlobalHudInputLock={this.handleGlobalHudInputLock}
+        handleGlobalHudInputUnlock={this.handleGlobalHudInputUnlock}
+        sendInviteRequest={this.sendInviteRequest}
+      />
+    } else {
+      return "";
+    }
   }
 
   /**

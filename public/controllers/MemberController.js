@@ -31,7 +31,7 @@ class MemberController extends BaseController {
       GET_ME: "get-me",
       GET_MEMBER: "get-member",
       GET_MEMBER_BY_ID: "get-member-by-id",
-      IS_ORG_OWNER: "is-org-owner"
+      GET_ORG_OWNER_DETAILS: "get-org-owner-details"
     };
   }
 
@@ -91,8 +91,8 @@ class MemberController extends BaseController {
         case MemberController.Events.GET_MEMBER_BY_ID:
           this.handleGetMemberByIdEvent(event, arg);
           break;
-        case MemberController.Events.IS_ORG_OWNER:
-          this.handleIsOrgOwnerEvent(event, arg);
+        case MemberController.Events.GET_ORG_OWNER_DETAILS:
+          this.handleGetOrgOwnerDetailsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -196,16 +196,18 @@ class MemberController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleIsOrgOwnerEvent(event, arg, callback) {
+  handleGetOrgOwnerDetailsEvent(event, arg, callback) {
 
     const status = global.App.connectionStatus;
     let isOrgOwner = false;
+    let orgType = "COMPANY";
 
     if (status) {
       isOrgOwner = !!status.orgOwner;
+      orgType = status.orgType;
     }
 
-    arg.data = {isOrgOwner: isOrgOwner};
+    arg.data = {isOrgOwner: isOrgOwner, orgType: orgType};
 
     this.delegateCallbackOrEventReplyTo(
       event,

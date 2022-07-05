@@ -55,7 +55,7 @@ export class MemberClient extends BaseClient {
       GET_MEMBER: "get-member",
       GET_MEMBER_BY_ID: "get-member-by-id",
       VIEW_CONSOLE_ME_UPDATE: "view-console-me-update",
-      IS_ORG_OWNER: "is-org-owner"
+      GET_ORG_OWNER_DETAILS: "get-org-owner-details"
     };
   }
 
@@ -161,9 +161,9 @@ export class MemberClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static isOrgOwner(scope, callback) {
+  static getOrgOwnerDetails(scope, callback) {
     let event = MemberClient.instance.createClientEvent(
-      MemberClient.Events.IS_ORG_OWNER,
+      MemberClient.Events.GET_ORG_OWNER_DETAILS,
       {},
       scope,
       callback
