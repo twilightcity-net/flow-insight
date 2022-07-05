@@ -5,6 +5,7 @@ module.exports = class AppFeatureToggle {
   static consoleHasWindowInDock = true;
 
   static appName = "FlowInsight";
+  static version = "0.5.23"
 
   static isFlowInsightApp() {
     return !AppFeatureToggle.isMoovieApp;

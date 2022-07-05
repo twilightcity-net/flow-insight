@@ -55,6 +55,7 @@ export class MemberClient extends BaseClient {
       GET_MEMBER: "get-member",
       GET_MEMBER_BY_ID: "get-member-by-id",
       VIEW_CONSOLE_ME_UPDATE: "view-console-me-update",
+      IS_ORG_OWNER: "is-org-owner"
     };
   }
 
@@ -80,6 +81,12 @@ export class MemberClient extends BaseClient {
     }
   }
 
+  /**
+   * Initialization routine to load up the me object into the local store
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static loadMe(scope, callback) {
     let event = MemberClient.instance.createClientEvent(
       MemberClient.Events.LOAD_ME,
@@ -91,6 +98,12 @@ export class MemberClient extends BaseClient {
     return event;
   }
 
+  /**
+   * Retrieve the me object from the local store
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getMe(scope, callback) {
     let event = MemberClient.instance.createClientEvent(
       MemberClient.Events.GET_ME,
@@ -102,6 +115,14 @@ export class MemberClient extends BaseClient {
     return event;
   }
 
+  /**
+   * Retrieve a user's member object from the local store,
+   * using the username
+   * @param username
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getMember(username, scope, callback) {
     let event = MemberClient.instance.createClientEvent(
       MemberClient.Events.GET_MEMBER,
@@ -113,6 +134,13 @@ export class MemberClient extends BaseClient {
     return event;
   }
 
+  /**
+   * Retrieve a user's member object from the local store, using the id
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getMemberById(memberId, scope, callback) {
     console.log("getMemberById "+memberId);
     let event = MemberClient.instance.createClientEvent(
@@ -124,6 +152,26 @@ export class MemberClient extends BaseClient {
     MemberClient.instance.notifyMember(event);
     return event;
   }
+
+  /**
+   * Returns an object indicating whether the logged in user
+   * is the owner of the org.  Will enable actions for owner-only
+   * features
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static isOrgOwner(scope, callback) {
+    let event = MemberClient.instance.createClientEvent(
+      MemberClient.Events.IS_ORG_OWNER,
+      {},
+      scope,
+      callback
+    );
+    MemberClient.instance.notifyMember(event);
+    return event;
+  }
+
 
   /**
    * the event callback used by the event manager. removes the event from

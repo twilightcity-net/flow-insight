@@ -85,6 +85,7 @@ export default class FerviePanel extends Component {
     let fervieSecondaryColor = me.fervieSecondaryColor;
     let fervieTertiaryColor = me.fervieTertiaryColor;
     let fervieAccessory = me.fervieAccessory;
+    let moovieCount = 0;
 
     if (fervieColor === null || fervieColor === undefined) {
       fervieColor = FervieColors.defaultFervieColor;
@@ -98,6 +99,10 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor = FervieColors.defaultSunglassColor;
     }
 
+    console.log("Initial moovie count = "+me.moovieCount);
+    if (me.moovieCount) {
+      moovieCount = me.moovieCount;
+    }
     return {
       activeItem: SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: false,
@@ -114,7 +119,7 @@ export default class FerviePanel extends Component {
       fullName: me.fullName,
       displayName: me.displayName,
       fervieName: this.getFervieName(me),
-      moovieWatchCount : me.moovieCount
+      moovieWatchCount : moovieCount
     };
 
   }
@@ -129,6 +134,7 @@ export default class FerviePanel extends Component {
     let fervieSecondaryColor = me.fervieSecondaryColor;
     let fervieTertiaryColor = me.fervieTertiaryColor;
     let fervieAccessory = me.fervieAccessory;
+    let moovieCount = 0;
 
     if (fervieColor === null || fervieColor === undefined) {
       fervieColor = FervieColors.defaultFervieColor;
@@ -142,6 +148,11 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor = FervieColors.defaultSunglassColor;
     }
 
+    console.log("Initial moovie count = "+me.moovieCount);
+    if (me.moovieCount) {
+      moovieCount = me.moovieCount;
+    }
+
     return {
       xpSummary: me.xpSummary,
       fervieColor: fervieColor,
@@ -152,7 +163,7 @@ export default class FerviePanel extends Component {
       username: me.username,
       fullName: me.fullName,
       displayName: me.displayName,
-      moovieWatchCount : me.moovieCount
+      moovieWatchCount : moovieCount
     };
 
   }

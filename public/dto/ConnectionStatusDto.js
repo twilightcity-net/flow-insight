@@ -13,8 +13,10 @@ module.exports = class ConnectionStatusDto {
       this.teamId = json.teamId;
       this.memberId = json.memberId;
 
+      this.orgOwner = json.orgOwner;
       this.orgName = json.orgName;
       this.orgDomainName = json.orgDomainName;
+      this.orgType = json.orgType;
 
       this.participatingOrgs = json.participatingOrgs;
     } catch (e) {

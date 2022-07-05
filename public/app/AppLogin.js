@@ -2,6 +2,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   { DtoClient } = require("../managers/DtoClientFactory"),
   ConnectionStatusDto = require("../dto/ConnectionStatusDto");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
  * Application class that manages our settings
@@ -14,8 +15,10 @@ module.exports = class AppLogin {
    */
   static doLogin(callback) {
     log.info("[AppLogin] do login -> setup DtoClient");
+    let params = "?appName="+AppFeatureToggle.appName+ "&version="+AppFeatureToggle.version;
+
     this.callback = callback;
-    this.urn = "/account/login";
+    this.urn = "/account/login"+params;
     this.requestType = "post";
     this.store = {
       context: "AppLogin",

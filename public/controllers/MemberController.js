@@ -31,6 +31,7 @@ class MemberController extends BaseController {
       GET_ME: "get-me",
       GET_MEMBER: "get-member",
       GET_MEMBER_BY_ID: "get-member-by-id",
+      IS_ORG_OWNER: "is-org-owner"
     };
   }
 
@@ -89,6 +90,9 @@ class MemberController extends BaseController {
           break;
         case MemberController.Events.GET_MEMBER_BY_ID:
           this.handleGetMemberByIdEvent(event, arg);
+          break;
+        case MemberController.Events.IS_ORG_OWNER:
+          this.handleIsOrgOwnerEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -184,6 +188,32 @@ class MemberController extends BaseController {
       callback
     );
   }
+
+  /**
+   * uses the status object from our login
+   * to determine if we are the owner of the logged in organization
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleIsOrgOwnerEvent(event, arg, callback) {
+
+    const status = global.App.connectionStatus;
+    let isOrgOwner = false;
+
+    if (status) {
+      isOrgOwner = !!status.orgOwner;
+    }
+
+    arg.data = {isOrgOwner: isOrgOwner};
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
   /**
    * get a member by username from the local DB, doesnt fallback to gridtime

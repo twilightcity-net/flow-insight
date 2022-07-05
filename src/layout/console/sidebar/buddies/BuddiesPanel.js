@@ -98,7 +98,6 @@ export default class BuddiesPanel extends Component {
    * called when we render the buddy panel into the gui
    */
   componentDidMount() {
-    console.log("Buddies panel mounted!");
     this.refreshBuddiesPanel();
   }
 
@@ -114,10 +113,13 @@ export default class BuddiesPanel extends Component {
    * called to refresh the buddy panel with new data
    */
   refreshBuddiesPanel() {
-    console.log("refresh!");
-
     let callCount = 0;
 
+    MemberClient.isOrgOwner(this, (arg) => {
+      callCount++;
+      this.isOrgOwner = arg.data.isOrgOwner;
+      this.handleDataLoadFinished(callCount, arg);
+    });
     FervieClient.getBuddyMe(this, (arg) => {
       callCount++;
       this.buddyMe = arg.data;
@@ -160,13 +162,14 @@ export default class BuddiesPanel extends Component {
       console.error("Error during buddy data load: "+arg.error);
     }
 
-    if (callCount !== 3) return;
+    if (callCount !== 4) return;
 
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.BUDDIES,
       buddyMe: this.buddyMe,
       buddies: this.buddies,
-      pendingBuddies: this.pendingBuddies
+      pendingBuddies: this.pendingBuddies,
+      isOrgOwner: this.isOrgOwner
     });
   }
 
@@ -231,8 +234,6 @@ export default class BuddiesPanel extends Component {
     let me = this.state.buddyMe;
     if (!me) return "";
 
-    console.log("BUDDIES!");
-    console.log(this.state.buddies);
     return (
       <List
         inverted
