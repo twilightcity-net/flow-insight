@@ -283,7 +283,7 @@ export class FervieClient extends BaseClient {
       FervieClient.Events.CONFIRM_BUDDY_LINK,
       {
         requestingMemberId: requestingMemberId,
-        requestId: requestId
+        buddyRequestId: requestId
       },
       scope,
       callback

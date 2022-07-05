@@ -111,8 +111,7 @@ export default class NotificationsPanel extends Component {
     switch (
       this.myController.activeNotificationsSubmenuSelection
     ) {
-      case SidePanelViewController.SubmenuSelection
-        .NOTIFICATIONS:
+      case SidePanelViewController.SubmenuSelection.NOTIFICATIONS:
         this.showNotificationsPanel();
         break;
       default:
@@ -129,8 +128,7 @@ export default class NotificationsPanel extends Component {
     console.log("show notifications!");
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection
-          .NOTIFICATIONS,
+        SidePanelViewController.SubmenuSelection.NOTIFICATIONS,
       notificationsVisible: true,
     });
 
@@ -198,6 +196,9 @@ export default class NotificationsPanel extends Component {
           >
             {this.state.notifications.map(
               (notification, i) => {
+
+                console.log(notification);
+
                 if (notification.type === "PAIRING_REQUEST") {
                   return (<PairingRequestListItem
                     key={i}

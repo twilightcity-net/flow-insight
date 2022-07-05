@@ -83,7 +83,9 @@ export default class BuddyRequestListItem extends Component {
     console.log("Confirm clicked!");
 
     const fromMemberId = this.props.model.data.fromMemberId;
-    const requestId = this.props.model.data.buddyRequestId;
+    const requestId = this.props.model.data.requestId;
+
+    console.log("requestId = "+requestId);
 
     FervieClient.confirmBuddyLink(
       fromMemberId,

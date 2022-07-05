@@ -508,7 +508,7 @@ module.exports = class FervieController extends (
   handleConfirmBuddyLinkEvent(event, arg, callback) {
 
     let requestingMemberId = arg.args.requestingMemberId,
-      requestId = arg.args.requestId,
+      buddyRequestId = arg.args.buddyRequestId,
       urn =
         FervieController.Paths.FERVIE +
         FervieController.Paths.SEPARATOR +
@@ -517,9 +517,11 @@ module.exports = class FervieController extends (
         FervieController.Paths.LINK +
         FervieController.Paths.CONFIRM;
 
+    console.log("buddy requestId = "+buddyRequestId);
+
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
-      {buddyRequestId: requestId},
+      {buddyRequestId: buddyRequestId},
       FervieController.Names.CONFIRM_BUDDY_LINK,
       FervieController.Types.POST,
       urn,
