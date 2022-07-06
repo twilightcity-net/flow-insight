@@ -43,6 +43,7 @@ module.exports = class FervieController extends (
       LOAD_BUDDY_LIST: "load-buddy-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
       INVITE_TO_TEAM: "invite-to-team",
+      USE_INVITATION_KEY: "use-invitation-key",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -108,6 +109,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.INVITE_TO_TEAM:
           this.handleInviteToTeamEvent(event, arg);
+          break;
+        case FervieController.Events.USE_INVITATION_KEY:
+          this.handleUseInvitationKeyEvent(event, arg);
           break;
         case FervieController.Events.CONFIRM_BUDDY_LINK:
           this.handleConfirmBuddyLinkEvent(event, arg);
@@ -620,6 +624,35 @@ module.exports = class FervieController extends (
       FervieController.Contexts.FERVIE_CLIENT,
       {email : email},
       FervieController.Names.INVITE_TO_TEAM_WITH_EMAIL,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+
+  /**
+   * client event handler for using an invitation key on this account.
+   * Usually an invite for an organization or team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUseInvitationKeyEvent(event, arg, callback) {
+    let keycode = arg.args.keycode,
+      urn = FervieController.Paths.INVITATION;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {invitationKey : keycode},
+      FervieController.Names.USE_INVITATION_KEY,
       FervieController.Types.POST,
       urn,
       (store) =>

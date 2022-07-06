@@ -6,6 +6,7 @@ import { BrowserController } from "./BrowserController";
 import { PopupController } from "./PopupController";
 import { ChartPopoutController } from "./ChartPopoutController";
 import {HotkeyViewController} from "./HotkeyViewController";
+import {InvitationViewController} from "./InvitationViewController";
 import {DMPopoutController} from "./DMPopoutController";
 
 /**
@@ -33,6 +34,7 @@ export class RendererControllerFactory {
       NOTIFICATION: "notification",
       CHART_POPOUT: "chart-popout",
       HOTKEY_CONFIG: "hotkey-config",
+      INVITATION_KEY: "invitation-key",
       DM_POPOUT: "dm-popout"
     };
   }
@@ -104,6 +106,8 @@ export class RendererControllerFactory {
         return new DMPopoutController(scope);
       case RendererControllerFactory.Views.HOTKEY_CONFIG:
         return new HotkeyViewController(scope);
+      case RendererControllerFactory.Views.INVITATION_KEY:
+        return new InvitationViewController(scope);
       default:
         throw new Error(
           "Unknown controller name '" + name + "'"

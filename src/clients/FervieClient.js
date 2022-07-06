@@ -45,6 +45,7 @@ export class FervieClient extends BaseClient {
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
       INVITE_TO_TEAM: "invite-to-team",
+      USE_INVITATION_KEY: "use-invitation-key",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -143,6 +144,33 @@ export class FervieClient extends BaseClient {
       FervieClient.Events.INVITE_TO_TEAM,
       {
         email: email
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Uses a keycode for this account, to be invited to an organization
+   * or a team.  Invite codes will usually come via email
+   * @param keycode
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static useInvitationKey(
+    keycode,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.USE_INVITATION_KEY,
+      {
+        keycode: keycode
       },
       scope,
       callback

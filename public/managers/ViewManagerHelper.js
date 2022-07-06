@@ -14,6 +14,7 @@ module.exports = class ViewManagerHelper {
       CONSOLE: "console",
       CHART: "chart",
       HOTKEY: "hotkey",
+      INVITATION: "invitation",
       MOOVIE: "moovie",
       MESSAGE: "message",
       GETSTARTED: "getstarted"

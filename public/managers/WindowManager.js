@@ -17,6 +17,7 @@ const HotkeyConfigWindow = require("../windows/HotkeyConfigWindow");
 const MoovieWindow = require("../windows/MoovieWindow");
 const MessageWindow = require("../windows/MessageWindow");
 const GettingStartedWindow = require("../windows/GettingStartedWindow");
+const InvitationKeyWindow = require("../windows/InvitationKeyWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -408,6 +409,8 @@ class WindowManager {
         return new ChartWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.HOTKEY:
         return new HotkeyConfigWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.INVITATION:
+        return new InvitationKeyWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.MOOVIE:
         return new MoovieWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.MESSAGE:

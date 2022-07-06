@@ -3394,6 +3394,79 @@
     color: rgba(100, 100, 100, 0.96)
   }
 
+  /**
+  Invitation Key Window
+   */
+
+
+  #component.invitationLayout .closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+
+  #component.invitationLayout .closeIcon i {
+    color: rgba(200, 200, 200, 0.96);
+    transition: background-color, color 0.333s ease-out;
+    border-radius: 3px;
+    margin: 0px;
+  }
+
+  #component.invitationLayout .closeIcon i:hover {
+    color: white;
+    cursor: pointer !important;
+  }
+
+  #component.invitationLayout .configBox {
+    background-color: rgba(27, 28, 29, 0.96);
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #component.invitationLayout .configBox .title {
+    -webkit-app-region: drag;
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    padding-top: 10px;
+    /*padding-left: 20px;*/
+    width: 90%;
+  }
+
+  #component.invitationLayout .invitationKeyInput input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96) !important;
+    border: 1px solid rgba(74, 74, 74, 0.96) !important;
+    color: rgba(241, 241, 241, 0.96) !important;
+    margin-top: 20px;
+  }
+
+  #component.invitationLayout .invitationKeyInput input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96) !important;
+  }
+
+  #component.invitationLayout .invitationKeyInput input::placeholder {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96)
+  }
+
+  #component.invitationLayout .errorMessage {
+    float: right;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #960000;
+  }
+
+  #component.invitationLayout .successMessage {
+    float: right;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: rgba(222, 222, 222, 0.96);
+  }
+
   /*
  * COMPONENT: POPUP CHART LAYOUT
  */

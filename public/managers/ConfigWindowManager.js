@@ -19,16 +19,30 @@ module.exports = class ConfigWindowManager {
       (event, arg) => this.onCloseHotkeyConfigCb(event, arg)
     );
 
+    this.hotkeyCloseWindowEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CLOSE_INVITATION_KEY,
+      this,
+      (event, arg) => this.onCloseInvitationKeyCb(event, arg)
+    );
+
   }
 
   /**
    * When an close config window is triggered, closes the window object on the backend
-   * and passes in the properties.
    * @param event
    * @param arg
    */
   onCloseHotkeyConfigCb(event, arg) {
     WindowManagerHelper.closeWindowHotkeyConfig();
+  }
+
+  /**
+   * When an close invitation key window is triggered, closes the window object on the backend
+   * @param event
+   * @param arg
+   */
+  onCloseInvitationKeyCb(event, arg) {
+    WindowManagerHelper.closeWindowInvitationKey();
   }
 
 

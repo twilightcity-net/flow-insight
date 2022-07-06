@@ -10,6 +10,7 @@ const is_mac = process.platform==='darwin';
  * @type {WindowManagerHelper}
  */
 module.exports = class WindowManagerHelper {
+  App;
   /**
    * Enum subclass to store view names in
    * @returns {enum}
@@ -22,6 +23,7 @@ module.exports = class WindowManagerHelper {
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
       CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
       HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY,
+      INVITATION: "tc-" + ViewManagerHelper.ViewNames.INVITATION,
       MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE,
       MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
       GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED
@@ -195,11 +197,32 @@ module.exports = class WindowManagerHelper {
   }
 
   /**
+   * creates new window for using an invitation key
+   * @returns {*}
+   */
+  static createWindowUseInvitationKey() {
+    let windowName = WindowManagerHelper.WindowNames.INVITATION;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
+  }
+
+  /**
    * closes hotkey config window
    * @returns {*}
    */
   static closeWindowHotkeyConfig() {
     let windowName = WindowManagerHelper.WindowNames.HOTKEY;
+    global.App.WindowManager.closeWindowByName(windowName);
+  }
+
+  /**
+   * closes the use invitation key window
+   * @returns {*}
+   */
+  static closeWindowInvitationKey() {
+    let windowName = WindowManagerHelper.WindowNames.INVITATION;
     global.App.WindowManager.closeWindowByName(windowName);
   }
 

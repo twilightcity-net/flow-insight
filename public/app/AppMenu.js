@@ -103,6 +103,10 @@ module.exports = class AppMenu extends Menu {
             label: "Configure Hotkeys",
             click: AppMenu.onClickConfigHotkeys
           },
+          {
+            label: "Use Invitation Key",
+            click: AppMenu.onClickUseInvitationKey
+          },
           {type: "separator"},
           {role: "hide"},
           {role: "hideothers"},
@@ -174,6 +178,12 @@ module.exports = class AppMenu extends Menu {
     console.log("XXX onClickConfigHotkeys");
 
     WindowManagerHelper.createWindowHotkeyConfig();
+  }
+
+  static onClickUseInvitationKey = () => {
+    console.log("XXX onClickUseInvitationKey");
+
+    WindowManagerHelper.createWindowUseInvitationKey();
   }
 
   /**
