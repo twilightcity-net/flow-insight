@@ -46,6 +46,10 @@ export class FervieClient extends BaseClient {
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
       INVITE_TO_TEAM: "invite-to-team",
       USE_INVITATION_KEY: "use-invitation-key",
+      GET_COMMUNITY_OPTIONS_LIST: "get-community-options-list",
+      GET_CURRENT_LOGGED_IN_COMMUNITY: "get-current-logged-in-community",
+      SET_PRIMARY_COMMUNITY: "set-primary-community",
+      RESTART_APP: "restart-app",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -181,6 +185,97 @@ export class FervieClient extends BaseClient {
   }
 
 
+  /**
+   * Retrieves the set of community login options
+   * that are returned at login
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getCommunityOptionsList(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.GET_COMMUNITY_OPTIONS_LIST,
+      {},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+
+  /**
+   * Retrieves the id of the currently logged in community
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getCurrentLoggedInCommunity(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.GET_CURRENT_LOGGED_IN_COMMUNITY,
+      {},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Sets the primary community as a specific orgId
+   * or sets to "" to clear, and let the server choose the default
+   * @param orgId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static setPrimaryCommunity(
+    orgId,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.SET_PRIMARY_COMMUNITY,
+      {orgId: orgId},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Restarts the application
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static restartApp(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.RESTART_APP,
+      {},
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
 
   /**
    * Updates the username associated with an account, will send a status update

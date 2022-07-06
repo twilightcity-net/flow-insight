@@ -38,7 +38,28 @@ module.exports = class AppMenu extends Menu {
   }
 
   static getTemplateForWindows() {
-    return [
+    return [{
+      label: AppFeatureToggle.appName,
+      submenu: [
+        {role: "about"},
+        {type: "separator"},
+        {
+          label: "Configure Hotkeys",
+          click: AppMenu.onClickConfigHotkeys
+        },
+        {type: "separator"},
+        {
+          label: "Switch Communities",
+          click: AppMenu.onClickSwitchCommunities
+        },
+        {
+          label: "Use Invitation Key",
+          click: AppMenu.onClickUseInvitationKey
+        },
+        {type: "separator"},
+        {role: "quit"},
+      ],
+    },
       {
         label: "Edit",
         submenu: [
@@ -102,6 +123,11 @@ module.exports = class AppMenu extends Menu {
           {
             label: "Configure Hotkeys",
             click: AppMenu.onClickConfigHotkeys
+          },
+          {type: "separator"},
+          {
+            label: "Switch Communities",
+            click: AppMenu.onClickSwitchCommunities
           },
           {
             label: "Use Invitation Key",
@@ -174,6 +200,10 @@ module.exports = class AppMenu extends Menu {
     ];
   }
 
+  static switchOrg = (orgId) => {
+    console.log("switchOrg!");
+  }
+
   static onClickConfigHotkeys = () => {
     console.log("XXX onClickConfigHotkeys");
 
@@ -185,6 +215,13 @@ module.exports = class AppMenu extends Menu {
 
     WindowManagerHelper.createWindowUseInvitationKey();
   }
+
+  static onClickSwitchCommunities = () => {
+    console.log("XXX onClickSwitchCommunities");
+
+    WindowManagerHelper.createWindowOrgSwitch();
+  }
+
 
   /**
    * gets the app menu for displays in the window section

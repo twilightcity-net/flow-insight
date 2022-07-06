@@ -44,6 +44,10 @@ module.exports = class FervieController extends (
       INVITE_TO_BUDDY_LIST: "invite-to-buddy-list",
       INVITE_TO_TEAM: "invite-to-team",
       USE_INVITATION_KEY: "use-invitation-key",
+      GET_COMMUNITY_OPTIONS_LIST: "get-community-options-list",
+      GET_CURRENT_LOGGED_IN_COMMUNITY: "get-current-logged-in-community",
+      SET_PRIMARY_COMMUNITY: "set-primary-community",
+      RESTART_APP: "restart-app",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -112,6 +116,18 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.USE_INVITATION_KEY:
           this.handleUseInvitationKeyEvent(event, arg);
+          break;
+        case FervieController.Events.GET_COMMUNITY_OPTIONS_LIST:
+          this.handleGetCommunityOptionsEvent(event, arg);
+          break;
+        case FervieController.Events.GET_CURRENT_LOGGED_IN_COMMUNITY:
+          this.handleGetCurrentLoggedInCommunityEvent(event, arg);
+          break;
+        case FervieController.Events.SET_PRIMARY_COMMUNITY:
+          this.handleSetPrimaryCommunityEvent(event, arg);
+          break;
+        case FervieController.Events.RESTART_APP:
+          this.handleRestartAppEvent(event, arg);
           break;
         case FervieController.Events.CONFIRM_BUDDY_LINK:
           this.handleConfirmBuddyLinkEvent(event, arg);
@@ -662,6 +678,87 @@ module.exports = class FervieController extends (
           arg,
           callback
         )
+    );
+  }
+
+  /**
+   * client event handler for getting all available community/org
+   * options for logging in, and switching to
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetCommunityOptionsEvent(event, arg, callback) {
+    const status = global.App.connectionStatus;
+    if (status) {
+      arg.data = status.participatingOrgs;
+    } else {
+      arg.error = "status not available"
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * client event handler for getting all available community/org
+   * options for logging in, and switching to
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetCurrentLoggedInCommunityEvent(event, arg, callback) {
+    const status = global.App.connectionStatus;
+    if (status) {
+      arg.data = {orgId: status.orgId};
+    } else {
+      arg.error = "status not available"
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * client event handler for setting the primary
+   * org to login.  Requires a restart to take effect
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleSetPrimaryCommunityEvent(event, arg, callback) {
+    const orgId = arg.args.orgId;
+    global.App.AppSettings.setPrimaryOrganizationId(orgId);
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * client event handler for setting the primary
+   * org to login.  Requires a restart to take effect
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleRestartAppEvent(event, arg, callback) {
+    global.App.restart();
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
     );
   }
 

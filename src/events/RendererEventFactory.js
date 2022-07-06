@@ -58,6 +58,7 @@ export class RendererEventFactory {
       WINDOW_CLOSE_DM: prefix + "window-close-dm",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_CLOSE_INVITATION_KEY: prefix + "window-close-invitation-key",
+      WINDOW_CLOSE_ORG_SWITCHER: prefix + "window-close-org-switcher",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
       WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
       TALK_CONNECTED: prefix + "talk-connected",

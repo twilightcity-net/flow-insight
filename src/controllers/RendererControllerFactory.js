@@ -7,6 +7,7 @@ import { PopupController } from "./PopupController";
 import { ChartPopoutController } from "./ChartPopoutController";
 import {HotkeyViewController} from "./HotkeyViewController";
 import {InvitationViewController} from "./InvitationViewController";
+import {OrgSwitcherViewController} from "./OrgSwitcherViewController";
 import {DMPopoutController} from "./DMPopoutController";
 
 /**
@@ -35,6 +36,7 @@ export class RendererControllerFactory {
       CHART_POPOUT: "chart-popout",
       HOTKEY_CONFIG: "hotkey-config",
       INVITATION_KEY: "invitation-key",
+      ORG_SWITCHER: "org-switcher",
       DM_POPOUT: "dm-popout"
     };
   }
@@ -108,6 +110,8 @@ export class RendererControllerFactory {
         return new HotkeyViewController(scope);
       case RendererControllerFactory.Views.INVITATION_KEY:
         return new InvitationViewController(scope);
+      case RendererControllerFactory.Views.ORG_SWITCHER:
+        return new OrgSwitcherViewController(scope);
       default:
         throw new Error(
           "Unknown controller name '" + name + "'"

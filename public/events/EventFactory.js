@@ -79,6 +79,7 @@ class EventFactory {
       WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
       WINDOW_CLOSE_HOTKEY_CONFIG: prefix + "window-close-hotkey-config",
       WINDOW_CLOSE_INVITATION_KEY: prefix + "window-close-invitation-key",
+      WINDOW_CLOSE_ORG_SWITCHER: prefix + "window-close-org-switcher",
       WINDOW_CHART_SHOWN: prefix + "window-chart-shown",
       WINDOW_CHART_CLOSED: prefix + "window-chart-closed",
       TALK_CONNECTED: prefix + "talk-connected",

@@ -17,8 +17,15 @@ module.exports = class AppLogin {
     log.info("[AppLogin] do login -> setup DtoClient");
     let params = "?appName="+AppFeatureToggle.appName+ "&version="+AppFeatureToggle.version;
 
-    this.callback = callback;
+    const primaryOrgId = global.App.AppSettings.getPrimaryOrganizationId();
+
     this.urn = "/account/login"+params;
+
+    if (primaryOrgId) {
+      this.urn = "/account/login/to/organization/"+primaryOrgId + params;
+    }
+
+    this.callback = callback;
     this.requestType = "post";
     this.store = {
       context: "AppLogin",

@@ -15,6 +15,7 @@ module.exports = class ViewManagerHelper {
       CHART: "chart",
       HOTKEY: "hotkey",
       INVITATION: "invitation",
+      ORGSWITCH: "orgswitch",
       MOOVIE: "moovie",
       MESSAGE: "message",
       GETSTARTED: "getstarted"

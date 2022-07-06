@@ -24,6 +24,7 @@ module.exports = class WindowManagerHelper {
       CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
       HOTKEY: "tc-" + ViewManagerHelper.ViewNames.HOTKEY,
       INVITATION: "tc-" + ViewManagerHelper.ViewNames.INVITATION,
+      ORGSWITCH: "tc-" + ViewManagerHelper.ViewNames.ORGSWITCH,
       MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE,
       MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
       GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED
@@ -207,6 +208,28 @@ module.exports = class WindowManagerHelper {
       windowName
     );
   }
+
+  /**
+   * creates new window for switching the logged in org
+   * @returns {*}
+   */
+  static createWindowOrgSwitch() {
+    let windowName = WindowManagerHelper.WindowNames.ORGSWITCH;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
+  }
+
+  /**
+   * closes org switcher window
+   * @returns {*}
+   */
+  static closeWindowOrgSwitch() {
+    let windowName = WindowManagerHelper.WindowNames.ORGSWITCH;
+    global.App.WindowManager.closeWindowByName(windowName);
+  }
+
 
   /**
    * closes hotkey config window

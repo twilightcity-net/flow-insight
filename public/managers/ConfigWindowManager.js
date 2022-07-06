@@ -24,7 +24,11 @@ module.exports = class ConfigWindowManager {
       this,
       (event, arg) => this.onCloseInvitationKeyCb(event, arg)
     );
-
+    this.orgSwitcherCloseWindowEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CLOSE_ORG_SWITCHER,
+      this,
+      (event, arg) => this.onCloseOrgSwitcherCb(event, arg)
+    );
   }
 
   /**
@@ -45,5 +49,15 @@ module.exports = class ConfigWindowManager {
     WindowManagerHelper.closeWindowInvitationKey();
   }
 
+
+  /**
+   * When a close org switcher window is triggered, close the window object on the backend,
+   * usually by clicking the X
+   * @param event
+   * @param arg
+   */
+  onCloseOrgSwitcherCb(event, arg) {
+    WindowManagerHelper.closeWindowOrgSwitch();
+  }
 
 };

@@ -18,6 +18,7 @@ const MoovieWindow = require("../windows/MoovieWindow");
 const MessageWindow = require("../windows/MessageWindow");
 const GettingStartedWindow = require("../windows/GettingStartedWindow");
 const InvitationKeyWindow = require("../windows/InvitationKeyWindow");
+const OrgSwitcherWindow = require("../windows/OrgSwitcherWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -411,6 +412,8 @@ class WindowManager {
         return new HotkeyConfigWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.INVITATION:
         return new InvitationKeyWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.ORGSWITCH:
+        return new OrgSwitcherWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.MOOVIE:
         return new MoovieWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.MESSAGE:

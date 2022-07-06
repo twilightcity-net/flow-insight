@@ -12,7 +12,8 @@ import HotkeyView from "./HotkeyView";
 import MoovieView from "./MoovieView";
 import MessageView from "./MessageView";
 import GettingStartedView from "./GettingStartedView";
-import InvitationView from "./InvitationView";
+import InvitationKeyView from "./InvitationKeyView";
+import OrgSwitchView from "./OrgSwitchView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
@@ -54,8 +55,10 @@ export default class ViewManager extends Component {
       return <ChartView routeProps={props} />;
     } else if (viewNameUpper === "HOTKEY") {
       return <HotkeyView routeProps={props}/>;
+    } else if (viewNameUpper === "ORGSWITCH") {
+      return <OrgSwitchView routeProps={props}/>;
     } else if (viewNameUpper === "INVITATION") {
-      return <InvitationView routeProps={props}/>;
+      return <InvitationKeyView routeProps={props}/>;
     } else if (viewNameUpper === "MOOVIE") {
         return <MoovieView routeProps={props} />;
     } else if (viewNameUpper === "MESSAGE") {

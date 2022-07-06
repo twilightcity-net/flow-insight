@@ -3467,6 +3467,110 @@
     color: rgba(222, 222, 222, 0.96);
   }
 
+
+  /**
+  Org switcher window
+   */
+
+
+  #component.orgSwitchLayout .closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+
+  #component.orgSwitchLayout .closeIcon i {
+    color: rgba(200, 200, 200, 0.96);
+    transition: background-color, color 0.333s ease-out;
+    border-radius: 3px;
+    margin: 0px;
+  }
+
+  #component.orgSwitchLayout .closeIcon i:hover {
+    color: white;
+    cursor: pointer !important;
+  }
+
+  #component.orgSwitchLayout .configBox {
+    background-color: rgba(27, 28, 29, 0.96);
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  #component.orgSwitchLayout .configBox .title {
+    -webkit-app-region: drag;
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    padding-top: 10px;
+    /*padding-left: 20px;*/
+    width: 90%;
+  }
+
+  #component.orgSwitchLayout .buttons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+  #component.orgSwitchLayout .ui.dropdown {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    margin-top: 20px;
+  }
+
+  #component.orgSwitchLayout .ui.dropdown .visible.menu.transition::-webkit-scrollbar {
+    display: none;
+  }
+
+  #component.orgSwitchLayout .ui.dropdown div.text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    color: rgba(222, 222, 222, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.dropdown .menu {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-color: rgba(72, 72, 72, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.dropdown:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.dropdown:focus .menu {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.selection.dropdown .menu>.item {
+    transition: background, color 0.420s ease-out;
+    border-top: 1px solid rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.selection.dropdown .menu>.item:last-child {
+    border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.selection.dropdown .menu>.item:hover {
+    background: #2b2b2b;
+    font-weight: 800;
+    color: rgba(200, 200, 200, 0.96);
+  }
+
+  #component.orgSwitchLayout .ui.selection.dropdown .menu>.selected.item {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(255, 255, 255, 0.96);
+  }
+
   /*
  * COMPONENT: POPUP CHART LAYOUT
  */

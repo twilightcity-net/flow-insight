@@ -139,9 +139,7 @@ module.exports = class AppSettings {
    * @returns {any}
    */
   getConsoleShortcut() {
-    let shortcut = settings.get(
-      AppSettings.Keys.CONSOLE_SHORTCUT
-    );
+    let shortcut = settings.get(AppSettings.Keys.CONSOLE_SHORTCUT);
     if (!shortcut) {
       shortcut =
         ShortcutManager.Accelerators.CONSOLE_SHORTCUT;
@@ -160,6 +158,7 @@ module.exports = class AppSettings {
       shortcut
     );
   }
+
 
   /**
    * gets the alternatate shortcut to display the console
@@ -186,6 +185,28 @@ module.exports = class AppSettings {
       AppSettings.Keys.CONSOLE_SHORTCUT_ALT,
       shortcut
     );
+  }
+
+  /**
+   * stores an optional primary orgId for logging in
+   * @param primaryOrgId
+   */
+  setPrimaryOrganizationId(primaryOrgId) {
+    settings.set(
+      AppSettings.OptionalKeys.PRIMARY_ORG_ID,
+      primaryOrgId
+    );
+  }
+
+  /**
+   * Retrieves an optional primary orgId for logging in
+   */
+  getPrimaryOrganizationId() {
+    let orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID);
+    if (!orgId) {
+      return null;
+    }
+    return orgId;
   }
 
   /**
@@ -222,22 +243,18 @@ module.exports = class AppSettings {
 
   /**
    * gets the default valuees for the shortcuts
-   * @returns {{CONSOLE_SHORTCUT_ALT: (string), DISPLAY_INDEX: number, CONSOLE_SHORTCUT: string}}
    * @constructor
    */
   static get DefaultValues() {
     return {
       DISPLAY_INDEX: 0,
-      CONSOLE_SHORTCUT:
-        ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
-      CONSOLE_SHORTCUT_ALT:
-        ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT,
+      CONSOLE_SHORTCUT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
+      CONSOLE_SHORTCUT_ALT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT,
     };
   }
 
   /**
    * enum map of possible settings key pairs
-   * @returns {{APP_API_KEY: string}}
    * @constructor
    */
   static get Keys() {
@@ -247,6 +264,12 @@ module.exports = class AppSettings {
       DISPLAY_INDEX: "displayIndex",
       CONSOLE_SHORTCUT: "shortcutConsole",
       CONSOLE_SHORTCUT_ALT: "shortcutConsoleAlt",
+    };
+  }
+
+  static get OptionalKeys() {
+    return {
+      PRIMARY_ORG_ID: "primaryOrgId",
     };
   }
 };

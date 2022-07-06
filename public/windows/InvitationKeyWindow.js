@@ -60,5 +60,7 @@ module.exports = class InvitationKeyWindow {
 
   onClosedCb() {
     log.info("[InvitationKeyWindow] closed window");
+
+    WindowManagerHelper.closeWindowInvitationKey();
   }
 };

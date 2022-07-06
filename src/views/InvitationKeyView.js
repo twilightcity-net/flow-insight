@@ -8,7 +8,7 @@ import {FervieClient} from "../clients/FervieClient";
 /**
  *  This view class is used to show a floating hotkey configuration window
  */
-export default class InvitationView extends Component {
+export default class InvitationKeyView extends Component {
   constructor(props) {
     super(props);
 

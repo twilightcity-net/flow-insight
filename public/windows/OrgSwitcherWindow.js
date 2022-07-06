@@ -6,14 +6,15 @@ const { BrowserWindow } = require("electron"),
   EventFactory = require("../events/EventFactory");
 
 /**
- * A small floating window for configuring hotkey mappings. Draggable around the screen, and detached from the console.
+ * A small floating window for switching between organizations attached to this account.
+ * Draggable around the screen, and detached from the console.
  * Can only open one windows of this type.
  */
-module.exports = class HotkeyConfigWindow {
+module.exports = class OrgSwitcherWindow {
   constructor(windowName, arg) {
     this.arg = arg;
     this.name = windowName;
-    this.view = ViewManagerHelper.ViewNames.HOTKEY;
+    this.view = ViewManagerHelper.ViewNames.ORGSWITCH;
     this.url = global.App.WindowManager.getWindowViewURL(
       this.view,
       arg
@@ -53,12 +54,12 @@ module.exports = class HotkeyConfigWindow {
   }
 
   onShowCb() {
-    log.info("[HotkeyConfigWindow] opened window");
+    log.info("[OrgSwitcherWindow] opened window");
   }
 
   onClosedCb() {
-    log.info("[HotkeyConfigWindow] closed window");
+    log.info("[OrgSwitcherWindow] closed window");
 
-    WindowManagerHelper.closeWindowHotkeyConfig();
+    WindowManagerHelper.closeWindowOrgSwitch();
   }
 };
