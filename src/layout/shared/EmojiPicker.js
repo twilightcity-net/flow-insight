@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import * as unicodeEmoji from 'unicode-emoji';
 import {Input, Label, Menu, Popup} from "semantic-ui-react";
+import {FervieClient} from "../../clients/FervieClient";
 
 /**
  * this component handles the popup emoji picker
@@ -158,6 +159,15 @@ export default class EmojiPicker extends Component {
   }
 
   handleEmojiClick = (emoji) => {
+    //track usage of this emoji, so we can update our frequently used list
+    FervieClient.trackEmoji(emoji, this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+      } else {
+        console.log("Emoji tracked!");
+      }
+    });
+
     this.props.onRefreshEmojiWindow();
     this.props.pasteEmojiInChat(emoji);
   }

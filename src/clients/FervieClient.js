@@ -43,6 +43,7 @@ export class FervieClient extends BaseClient {
       GET_BUDDY_LIST: "get-buddy-list",
       GET_BUDDY_ME: "get-buddy-me",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
+      TRACK_EMOJI: "track-emoji"
     };
   }
 
@@ -92,6 +93,34 @@ export class FervieClient extends BaseClient {
     FervieClient.instance.notifyFervie(event);
     return event;
   }
+
+
+  /**
+   * Manually track the usage of an emoji so we can figure out the most
+   * recently used ones
+   * @param emoji
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static trackEmoji(
+    emoji,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.TRACK_EMOJI,
+      {
+        emoji: emoji
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
 
 
   /**

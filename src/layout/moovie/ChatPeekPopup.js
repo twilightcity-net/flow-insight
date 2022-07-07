@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Feed, Segment} from "semantic-ui-react";
-import ChatFeedEvent from "./ChatFeedEvent";
-import CircuitMemberHelper from "./CircuitMemberHelper";
+import ChatFeedEvent from "../shared/ChatFeedEvent";
+import CircuitMemberHelper from "../shared/CircuitMemberHelper";
 
 /**
  * this component displays the transparent popup window

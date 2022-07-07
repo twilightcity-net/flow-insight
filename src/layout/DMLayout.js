@@ -1,9 +1,9 @@
 import React, {Component} from "react";
-import ChatInput from "./moovie/ChatInput";
+import ChatInput from "./shared/ChatInput";
 import {TalkToClient} from "../clients/TalkToClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {BaseClient} from "../clients/BaseClient";
-import ChatFeed from "./moovie/ChatFeed";
+import ChatFeed from "./shared/ChatFeed";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
 import FervieButton from "./dm/FervieButton";

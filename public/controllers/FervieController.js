@@ -40,7 +40,8 @@ module.exports = class FervieController extends (
       GET_BUDDY_ME: "get-buddy-me",
       GET_BUDDY_LIST: "get-buddy-list",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
-      LOAD_BUDDY_LIST: "load-buddy-list"
+      LOAD_BUDDY_LIST: "load-buddy-list",
+      TRACK_EMOJI: "track-emoji"
     };
   }
 
@@ -121,6 +122,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.HAS_OUTGOING_PAIR_REQUEST:
           this.handleHasOutgoingPairRequestEvent(event, arg);
+          break;
+        case FervieController.Events.TRACK_EMOJI:
+          this.handleTrackEmojiEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -657,6 +661,38 @@ module.exports = class FervieController extends (
         )
     );
   }
+
+
+  /**
+   * client event handler for tracking the usage of an emoji
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleTrackEmojiEvent(event, arg, callback) {
+    let emoji = arg.args.emoji,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.ME +
+        FervieController.Paths.TRACK +
+        FervieController.Paths.EMOJI;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {emoji : emoji},
+      FervieController.Names.TRACK_EMOJI,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
   /**
    * callback delegator which processes our return from the dto

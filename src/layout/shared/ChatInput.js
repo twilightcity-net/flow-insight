@@ -124,13 +124,11 @@ export default class ChatInput extends Component {
   }
 
   onRefreshEmojiWindow = () => {
-    console.log("onRefreshEmojiWindow");
     this.lastOpened = window.performance.now();
     document.getElementById(ChatInput.chatInputId).focus();
   }
 
   onClickEmojiSearch = () => {
-    console.log("onClickEmojiSearch");
     this.lastOpened = window.performance.now();
   }
 
@@ -150,7 +148,6 @@ export default class ChatInput extends Component {
 
   onClickEmojiButton = () => {
     console.log("onClickEmojiButton");
-
     if (!this.state.isEmojiPickerOpen) {
       this.lastOpened = window.performance.now();
     } else {

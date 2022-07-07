@@ -1,13 +1,13 @@
 import React, {Component} from "react";
-import ChatInput from "./moovie/ChatInput";
+import ChatInput from "./shared/ChatInput";
 import {MoovieClient} from "../clients/MoovieClient";
 import {TalkToClient} from "../clients/TalkToClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {BaseClient} from "../clients/BaseClient";
-import ChatFeed from "./moovie/ChatFeed";
+import ChatFeed from "./shared/ChatFeed";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
-import CircuitMemberHelper from "./moovie/CircuitMemberHelper";
+import CircuitMemberHelper from "./shared/CircuitMemberHelper";
 import MontyButton from "./moovie/MontyButton";
 import MoovieBanner from "./moovie/MoovieBanner";
 import MontyPuppet from "./moovie/MontyPuppet";
