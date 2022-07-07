@@ -7,6 +7,7 @@ let settings = require("electron-settings"),
   {
     ShortcutManager,
   } = require("../managers/ShortcutManager");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
  * Application class used to manage our settings stores in ~/.flow
@@ -192,20 +193,33 @@ module.exports = class AppSettings {
    * @param primaryOrgId
    */
   setPrimaryOrganizationId(primaryOrgId) {
-    settings.set(
-      AppSettings.OptionalKeys.PRIMARY_ORG_ID,
-      primaryOrgId
-    );
+    if (AppFeatureToggle.isMoovieApp) {
+      settings.set(
+        AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_WATCHMOOVIES,
+        primaryOrgId
+      );
+    } else {
+      settings.set(
+        AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_FLOWINSIGHT,
+        primaryOrgId
+      );
+    }
   }
 
   /**
    * Retrieves an optional primary orgId for logging in
    */
   getPrimaryOrganizationId() {
-    let orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID);
-    if (!orgId) {
-      return null;
+    let orgId;
+    if (AppFeatureToggle.isMoovieApp) {
+      orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_WATCHMOOVIES);
+    } else {
+      orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_FLOWINSIGHT);
     }
+    if (!orgId) {
+      orgId = null;
+    }
+
     return orgId;
   }
 
@@ -269,7 +283,8 @@ module.exports = class AppSettings {
 
   static get OptionalKeys() {
     return {
-      PRIMARY_ORG_ID: "primaryOrgId",
+      PRIMARY_ORG_ID_APP_FLOWINSIGHT: "primaryOrgIdFlowInsight",
+      PRIMARY_ORG_ID_APP_WATCHMOOVIES: "primaryOrgIdWatchMoovies",
     };
   }
 };

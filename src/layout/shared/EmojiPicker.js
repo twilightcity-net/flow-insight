@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import * as unicodeEmoji from 'unicode-emoji';
 import {Input, Label, Menu, Popup} from "semantic-ui-react";
-import {FervieClient} from "../../clients/FervieClient";
 
 /**
  * this component handles the popup emoji picker
@@ -284,7 +283,7 @@ export default class EmojiPicker extends Component {
 
   getRecentEmojisList() {
     return this.props.recentEmojis.map((emojiDescription, i) => {
-      if (i > 15) return;
+      if (i > 15) return "";
       return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.id)}>{emojiDescription.id}</span>);
     });
   }

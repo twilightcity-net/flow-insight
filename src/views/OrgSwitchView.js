@@ -1,9 +1,7 @@
 import React, {Component} from "react";
-import {Button, Dropdown, Grid, Icon, Input} from "semantic-ui-react";
+import {Button, Dropdown, Icon} from "semantic-ui-react";
 import {RendererControllerFactory} from "../controllers/RendererControllerFactory";
 import {DimensionController} from "../controllers/DimensionController";
-import {HotkeyClient} from "../clients/HotkeyClient";
-import {FervieClient} from "../clients/FervieClient";
 import FeatureToggle from "../layout/shared/FeatureToggle";
 import {AccountClient} from "../clients/AccountClient";
 
