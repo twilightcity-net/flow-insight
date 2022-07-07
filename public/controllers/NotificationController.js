@@ -219,32 +219,34 @@ module.exports = class NotificationController extends (
       DatabaseFactory.Names.DM
     );
 
-    for (let notification of arg.data) {
-      database.addNotification(
-        {
-          id: notification.id,
-          type: notification.notificationType,
-          timestamp: notification.createdDate,
-          fromMemberId: notification.fromMemberId,
-          fromUsername: notification.fromUsername,
-          read: notification.isRead,
-          canceled: false,
-          data: notification,
-        }
-      );
+    if (arg.data) {
+      for (let notification of arg.data) {
+        database.addNotification(
+          {
+            id: notification.id,
+            type: notification.notificationType,
+            timestamp: notification.createdDate,
+            fromMemberId: notification.fromMemberId,
+            fromUsername: notification.fromUsername,
+            read: notification.isRead,
+            canceled: false,
+            data: notification,
+          }
+        );
 
-      if (notification.notificationType === 'CHAT') {
-        dmdb.addMessage({
-          id: notification.id,
-          timestamp: notification.createdDate,
-          createdDate: Util.getTimeString(notification.createdDate),
-          withMemberId: notification.fromMemberId,
-          fromMemberId: notification.fromMemberId,
-          fromUsername: notification.fromUsername,
-          message: notification.details.message,
-          isOffline: true,
-          read: false
-        });
+        if (notification.notificationType === 'CHAT') {
+          dmdb.addMessage({
+            id: notification.id,
+            timestamp: notification.createdDate,
+            createdDate: Util.getTimeString(notification.createdDate),
+            withMemberId: notification.fromMemberId,
+            fromMemberId: notification.fromMemberId,
+            fromUsername: notification.fromUsername,
+            message: notification.details.message,
+            isOffline: true,
+            read: false
+          });
+        }
       }
     }
 
