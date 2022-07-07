@@ -60,6 +60,7 @@ const MoovieManager = require("../managers/MoovieManager");
 const MoovieWindowManager = require("../managers/MoovieWindowManager");
 const CircuitMemberManager = require("../managers/CircuitMemberManager");
 const MessageWindowManager = require("../managers/MessageWindowManager");
+const AccountManager = require("../managers/AccountManager");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -171,6 +172,7 @@ module.exports = class App {
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
+      global.App.AccountManager = new AccountManager();
       global.App.MoovieManager = new MoovieManager();
       global.App.CircuitMemberManager = new CircuitMemberManager();
       global.App.NotificationManager = new NotificationManager();

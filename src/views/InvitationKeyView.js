@@ -4,6 +4,7 @@ import {RendererControllerFactory} from "../controllers/RendererControllerFactor
 import {DimensionController} from "../controllers/DimensionController";
 import {HotkeyClient} from "../clients/HotkeyClient";
 import {FervieClient} from "../clients/FervieClient";
+import {AccountClient} from "../clients/AccountClient";
 
 /**
  *  This view class is used to show a floating hotkey configuration window
@@ -17,13 +18,12 @@ export default class InvitationKeyView extends Component {
       successFeedback: "Enter the invitation key you received in email, to join the group from your account",
       currentInvitationKey: ""
     }
-
   }
 
   componentDidMount() {
     FervieClient.init(this);
+    AccountClient.init(this);
   }
-
 
   onClickClose = () => {
     console.log("close window!");
@@ -43,7 +43,7 @@ export default class InvitationKeyView extends Component {
   handleKeyPressForInvitationCode = (e) => {
     if (e.charCode === 13) {
       if (this.isValidKeyCode(this.state.currentInvitationKey)) {
-        FervieClient.useInvitationKey(this.state.currentInvitationKey, this, (arg) => {
+        AccountClient.useInvitationKey(this.state.currentInvitationKey, this, (arg) => {
           if (arg.error) {
             this.setState({
               errorFeedback: arg.error,

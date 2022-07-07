@@ -77,6 +77,7 @@ export class RendererEventFactory {
       CIRCUIT_CLIENT: prefix + "circuit-client",
       FERVIE_CLIENT: prefix + "fervie-client",
       MOOVIE_CLIENT: prefix + "moovie-client",
+      ACCOUNT_CLIENT: prefix + "account-client",
       CIRCUIT_MEMBER_CLIENT: prefix + "circuit-member-client",
       NOTIFICATION_CLIENT: prefix + "notification-client",
       HOTKEY_CLIENT: prefix + "hotkey-client",

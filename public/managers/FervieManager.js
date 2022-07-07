@@ -1,6 +1,5 @@
 const FervieController = require("../controllers/FervieController"),
   log = require("electron-log");
-const TeamController = require("../controllers/TeamController");
 
 /**
  * managing class for the fervie client

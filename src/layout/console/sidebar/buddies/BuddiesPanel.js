@@ -11,6 +11,7 @@ import BuddiesPanelListItem from "./BuddiesPanelListItem";
 import {FervieClient} from "../../../../clients/FervieClient";
 import PendingBuddyListItem from "./PendingBuddyListItem";
 import InviteMemberPopup from "./InviteMemberPopup";
+import {AccountClient} from "../../../../clients/AccountClient";
 
 /**
  * this component is the buddies side panel content
@@ -284,7 +285,7 @@ export default class BuddiesPanel extends Component {
    */
   sendInviteRequest(email, callback) {
     console.log("Sending request!");
-    FervieClient.inviteToBuddyList(email, this, (arg) => {
+    AccountClient.inviteToBuddyList(email, this, (arg) => {
       callback(arg);
     });
   }

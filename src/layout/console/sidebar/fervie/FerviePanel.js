@@ -13,6 +13,7 @@ import FervieColors from "../../content/support/FervieColors";
 import FervieContent from "./FervieContent";
 import BadgesContent from "./BadgesContent";
 import AccountContent from "./AccountContent";
+import {AccountClient} from "../../../../clients/AccountClient";
 
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
@@ -421,7 +422,7 @@ export default class FerviePanel extends Component {
    */
   onUpdateUsername = (newUsername, callback) => {
     console.log("Update username!!");
-    FervieClient.updateAccountUsername(newUsername, this, (arg) => {
+    AccountClient.updateAccountUsername(newUsername, this, (arg) => {
       callback(arg);
       if (arg.data && arg.data.status === "SUCCESS") {
         this.setState({
@@ -439,7 +440,7 @@ export default class FerviePanel extends Component {
    */
   onUpdateFullName = (newFullName, callback) => {
     console.log("Update fullname!!");
-    FervieClient.updateAccountFullName(newFullName, this, (arg) => {
+    AccountClient.updateAccountFullName(newFullName, this, (arg) => {
       callback(arg);
       if (arg.data && arg.data.status === "SUCCESS") {
         this.setState({
@@ -457,7 +458,7 @@ export default class FerviePanel extends Component {
    */
   onUpdateDisplayName = (newDisplayName, callback) => {
     console.log("Update display!!");
-    FervieClient.updateAccountDisplayName(newDisplayName, this, (arg) => {
+    AccountClient.updateAccountDisplayName(newDisplayName, this, (arg) => {
       callback(arg);
       if (arg.data && arg.data.status === "SUCCESS") {
         this.setState({

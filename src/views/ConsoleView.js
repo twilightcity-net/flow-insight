@@ -17,6 +17,7 @@ import { ChartClient } from "../clients/ChartClient";
 import { NotificationClient } from "../clients/NotificationClient";
 import {HotkeyClient} from "../clients/HotkeyClient";
 import {MoovieClient} from "../clients/MoovieClient";
+import {AccountClient} from "../clients/AccountClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -131,6 +132,7 @@ export default class ConsoleView extends Component {
     DictionaryClient.init(this);
     DimensionController.init(this);
     FervieClient.init(this);
+    AccountClient.init(this);
     TerminalClient.init(this);
     ChartClient.init(this);
     NotificationClient.init(this);

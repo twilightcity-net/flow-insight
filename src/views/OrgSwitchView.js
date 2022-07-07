@@ -5,6 +5,7 @@ import {DimensionController} from "../controllers/DimensionController";
 import {HotkeyClient} from "../clients/HotkeyClient";
 import {FervieClient} from "../clients/FervieClient";
 import FeatureToggle from "../layout/shared/FeatureToggle";
+import {AccountClient} from "../clients/AccountClient";
 
 /**
  *  This view class is used to show a floating hotkey configuration window
@@ -28,13 +29,13 @@ export default class OrgSwitchView extends Component {
   }
 
   componentDidMount() {
-    FervieClient.init(this);
+    AccountClient.init(this);
 
-    FervieClient.getCurrentLoggedInCommunity(this, (arg) => {
+    AccountClient.getCurrentLoggedInCommunity(this, (arg) => {
       if (!arg.error) {
         const orgId = arg.data.orgId;
 
-        FervieClient.getCommunityOptionsList(this, (arg) => {
+        AccountClient.getCommunityOptionsList(this, (arg) => {
           if (arg.data) {
             this.initializeOrgOptions(orgId, arg.data);
 
@@ -83,10 +84,10 @@ export default class OrgSwitchView extends Component {
     console.log("click switch!");
 
     if (this.state.currentOrgOption && this.state.isOptionDirty) {
-      FervieClient.setPrimaryCommunity(this.state.currentOrgOption, this, (arg) => {
+      AccountClient.setPrimaryCommunity(this.state.currentOrgOption, this, (arg) => {
         console.log("primary community configured!");
         setTimeout(() => {
-          FervieClient.restartApp(this, (arg) => {
+          AccountClient.restartApp(this, (arg) => {
             console.log("App restart called");
           });
         }, 333);

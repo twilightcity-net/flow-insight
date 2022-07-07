@@ -391,6 +391,7 @@ module.exports = class BaseController {
       JOURNAL_CLIENT: "JournalClient",
       DICTIONARY_CLIENT: "DictionaryClient",
       FERVIE_CLIENT: "FervieClient",
+      ACCOUNT_CLIENT: "AccountClient",
       MOOVIE_CLIENT: "MoovieClient",
       CIRCUIT_MEMBER_CLIENT: "CircuitMemberClient",
       CHART_CLIENT: "ChartClient",

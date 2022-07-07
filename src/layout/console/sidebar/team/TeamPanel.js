@@ -11,8 +11,8 @@ import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import {BaseClient} from "../../../../clients/BaseClient";
 import {BrowserController} from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
-import {FervieClient} from "../../../../clients/FervieClient";
 import InviteMemberPopup from "../buddies/InviteMemberPopup";
+import {AccountClient} from "../../../../clients/AccountClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -482,12 +482,12 @@ export default class TeamPanel extends Component {
 
 
   /**
-   * Sends a buddy invite request and adds a pending request to the buddy list
+   * Sends a invite request and adds a pending request to the team list
    * @param email
    */
   sendInviteRequest(email, callback) {
     console.log("Sending request!");
-    FervieClient.inviteToBuddyList(email, this, (arg) => {
+    AccountClient.inviteToTeam(email, this, (arg) => {
       callback(arg);
     });
   }
