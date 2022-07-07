@@ -147,9 +147,6 @@ export default class EmojiPicker extends Component {
     });
   }
 
-  //{emoji: '🎃', description: 'jack-o-lantern', version: '0.6', keywords: Array(5), category: 'activities-events', …}
-
-
 
   handleMenuClick = (emoji) => {
     this.setState({
@@ -159,15 +156,6 @@ export default class EmojiPicker extends Component {
   }
 
   handleEmojiClick = (emoji) => {
-    //track usage of this emoji, so we can update our frequently used list
-    FervieClient.trackEmoji(emoji, this, (arg) => {
-      if (arg.error) {
-        console.error(arg.error);
-      } else {
-        console.log("Emoji tracked!");
-      }
-    });
-
     this.props.onRefreshEmojiWindow();
     this.props.pasteEmojiInChat(emoji);
   }
@@ -290,6 +278,17 @@ export default class EmojiPicker extends Component {
     </Popup>);
   }
 
+  isFirstGroupActive() {
+    return (EmojiPicker.groups[0].emoji === this.state.activeGroup);
+  }
+
+  getRecentEmojisList() {
+    return this.props.recentEmojis.map((emojiDescription, i) => {
+      if (i > 15) return;
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.id)}>{emojiDescription.id}</span>);
+    });
+  }
+
   /**
    * renders the layout of the view
    * @returns {*} - the JSX to render
@@ -298,6 +297,12 @@ export default class EmojiPicker extends Component {
 
     let emojiList = "";
     let emojiListExtra = "";
+    let recentEmojiList = "";
+    let recentEmojiDivider = "";
+    if (this.isFirstGroupActive()) {
+      recentEmojiList = this.getRecentEmojisList();
+      recentEmojiDivider = <hr className="divider"/>;
+    }
 
     if (this.state.filteredEmojis !== null) {
       emojiList = this.getEmojisForFilteredList(this.state.filteredEmojis);
@@ -329,6 +334,8 @@ export default class EmojiPicker extends Component {
           {this.getMenuItems()}
         </div>
         <div className="scrolling">
+          {recentEmojiList}
+          {recentEmojiDivider}
           {emojiList}
           {emojiListExtra}
         </div>

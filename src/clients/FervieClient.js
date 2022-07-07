@@ -43,7 +43,8 @@ export class FervieClient extends BaseClient {
       GET_BUDDY_LIST: "get-buddy-list",
       GET_BUDDY_ME: "get-buddy-me",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
-      TRACK_EMOJI: "track-emoji"
+      TRACK_EMOJI: "track-emoji",
+      GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks"
     };
   }
 
@@ -113,6 +114,28 @@ export class FervieClient extends BaseClient {
       {
         emoji: emoji
       },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Get the top used emojis in order for display in the recently used
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getTopEmojiTracks(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.GET_TOP_EMOJI_TRACKS,
+      {},
       scope,
       callback
     );

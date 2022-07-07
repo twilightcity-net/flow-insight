@@ -21,7 +21,6 @@ export default class ChatPeekPopup extends Component {
     this.name = "[ChatPeekPopup]";
   }
 
-
   /**
    * Called when the chat console is first loaded
    */

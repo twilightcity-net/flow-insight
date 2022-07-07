@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {Popup, TextArea} from "semantic-ui-react";
 import EmojiPicker from "./EmojiPicker";
+import {FervieClient} from "../../clients/FervieClient";
 
 /**
  * this component is the input box for the always-on-top chat overlay panel
@@ -30,6 +31,9 @@ export default class ChatInput extends Component {
    */
   componentDidMount = () => {
     this.isEnterKeyPressed = false;
+
+    this.refreshRecentEmojis();
+
   };
 
   /**
@@ -136,7 +140,27 @@ export default class ChatInput extends Component {
     this.handleBlur();
   }
 
+  refreshRecentEmojis() {
+    FervieClient.getTopEmojiTracks(this, (arg) => {
+      console.log("EMOJIS LOADED!");
+      console.log(arg.data);
+      this.setState({
+        recentEmojis: arg.data
+      });
+    });
+  }
+
   pasteEmojiInChat = (emoji) => {
+    //track usage of this emoji, so we can update our frequently used list
+    FervieClient.trackEmoji(emoji, this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+      } else {
+        console.log("Emoji tracked!");
+        this.refreshRecentEmojis();
+      }
+    });
+
     this.setState((prevState) => {
       return { chatValue: prevState.chatValue + emoji }
     });
@@ -173,7 +197,8 @@ export default class ChatInput extends Component {
       }
     >
       <Popup.Content>
-        <EmojiPicker onRefreshEmojiWindow={this.onRefreshEmojiWindow}
+        <EmojiPicker recentEmojis={this.state.recentEmojis}
+                     onRefreshEmojiWindow={this.onRefreshEmojiWindow}
                      onClickEmojiSearch={this.onClickEmojiSearch}
                      onBlurEmojiSearch={this.onBlurEmojiSearch}
                      pasteEmojiInChat={this.pasteEmojiInChat}

@@ -19,9 +19,14 @@ module.exports = class FervieManager {
    * @param callback
    */
   init(callback) {
-    //nothing to do for preloading
     this.loadCount = 0;
     FervieController.instance.handleLoadBuddyListEvent(
+      {},
+      { args: {} },
+      () => this.handleInitCallback(callback)
+    );
+
+    FervieController.instance.handleLoadRecentEmojisEvent(
       {},
       { args: {} },
       () => this.handleInitCallback(callback)
@@ -35,7 +40,7 @@ module.exports = class FervieManager {
    */
   handleInitCallback(callback) {
     this.loadCount++;
-    if (callback && this.loadCount === 1) {
+    if (callback && this.loadCount === 2) {
       callback();
     }
   }

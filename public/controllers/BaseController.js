@@ -254,6 +254,7 @@ module.exports = class BaseController {
       CONFIRM_BUDDY_LINK: "confirmBuddyLink",
       REMOVE_BUDDY_LINK: "removeBuddyLink",
       TRACK_EMOJI: "trackEmoji",
+      GET_TOP_EMOJI_TRACKS: "getTopEmojiTracks",
       INVITE_TO_BUDDY_LIST_WITH_EMAIL: "inviteToBuddyListWithEmail",
       INVITE_TO_TEAM_WITH_EMAIL: "inviteToTeamWithEmail",
       USE_INVITATION_KEY: "useInvitationKey",

@@ -41,7 +41,8 @@ module.exports = class FervieController extends (
       GET_BUDDY_LIST: "get-buddy-list",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       LOAD_BUDDY_LIST: "load-buddy-list",
-      TRACK_EMOJI: "track-emoji"
+      TRACK_EMOJI: "track-emoji",
+      GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks"
     };
   }
 
@@ -125,6 +126,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.TRACK_EMOJI:
           this.handleTrackEmojiEvent(event, arg);
+          break;
+        case FervieController.Events.GET_TOP_EMOJI_TRACKS:
+          this.handleGetTopEmojisTrackEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -263,6 +267,36 @@ module.exports = class FervieController extends (
 
 
   /**
+   * client event handler for loading all our recent emojis into the local DB
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadRecentEmojisEvent(event, arg, callback) {
+    let urn =
+      FervieController.Paths.FERVIE +
+      FervieController.Paths.ME +
+      FervieController.Paths.TRACK +
+      FervieController.Paths.EMOJI;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.GET_TOP_EMOJI_TRACKS,
+      FervieController.Types.GET,
+      urn,
+      (store) =>
+        this.loadEmojiTracksIntoDB(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
    * client event handler for loading all our buddies in the local DB
    * @param event
    * @param arg
@@ -342,6 +376,33 @@ module.exports = class FervieController extends (
       callback
     );
   }
+
+
+
+  /**
+   * Load all our queried emoji tracks into the database
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  loadEmojiTracksIntoDB(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+
+      const database = DatabaseFactory.getDatabase(DatabaseFactory.Names.EMOJI);
+      database.loadEmojiTracks(arg.data);
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
 
   /**
@@ -664,6 +725,25 @@ module.exports = class FervieController extends (
 
 
   /**
+   * client event handler for getting the top emoji tracks
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetTopEmojisTrackEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.EMOJI);
+
+    arg.data = database.getViewForEmoji().data();
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
    * client event handler for tracking the usage of an emoji
    * @param event
    * @param arg
@@ -676,6 +756,10 @@ module.exports = class FervieController extends (
         FervieController.Paths.ME +
         FervieController.Paths.TRACK +
         FervieController.Paths.EMOJI;
+
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.EMOJI);
+
+    database.trackEmoji(emoji);
 
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
