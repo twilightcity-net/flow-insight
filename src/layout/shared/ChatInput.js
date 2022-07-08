@@ -119,9 +119,9 @@ export default class ChatInput extends Component {
       }
 
       if (elapsed && elapsed > 200) {
-        this.setState({
-          isEmojiPickerOpen: false
-        });
+        // this.setState({
+        //   isEmojiPickerOpen: false
+        // });
       }
     }, 200);
 

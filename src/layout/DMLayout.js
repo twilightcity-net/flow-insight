@@ -688,7 +688,6 @@ export default class DMLayout extends Component {
    */
   addChatMessage = (text, callback) => {
     TalkToClient.publishChatToDM(this.props.memberId, text, this, (arg) => {
-      arg.error = "error!";
       if (!arg.error) {
         console.log("chat published");
         this.addMessageToFeed(arg.data);

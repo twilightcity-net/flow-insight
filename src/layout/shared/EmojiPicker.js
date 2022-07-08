@@ -196,6 +196,7 @@ export default class EmojiPicker extends Component {
           EmojiPicker.groups.map((group, i) => {
             return (
               <Menu.Item
+                className="emojiMenuItem"
                 key={i}
                 name={group.emoji}
                 active={this.state.activeGroup === group.emoji}
