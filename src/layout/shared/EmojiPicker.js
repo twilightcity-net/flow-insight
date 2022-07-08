@@ -193,7 +193,7 @@ export default class EmojiPicker extends Component {
 
     //workaround to deal with windows formatting emojis differently
     let menuItemClass = "emojiMenuItem";
-    if (this.state.appPlatform === "win32") {
+    if (this.state.appPlatform !== "darwin") {
       menuItemClass = "emojiMenuItemWin";
     }
 
