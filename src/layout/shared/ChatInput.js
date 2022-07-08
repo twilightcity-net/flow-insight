@@ -37,6 +37,7 @@ export default class ChatInput extends Component {
     this.refreshRecentEmojis();
 
     AccountClient.getPlatform(this, (arg) => {
+      console.log("platform is "+arg.data.appPlatform);
       this.setState({
         appPlatform : arg.data.appPlatform
       });

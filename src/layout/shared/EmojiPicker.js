@@ -193,7 +193,7 @@ export default class EmojiPicker extends Component {
 
     //workaround to deal with windows formatting emojis differently
     let menuItemClass = "emojiMenuItem";
-    if (this.state.appPlatform !== "darwin") {
+    if (this.props.appPlatform !== "darwin") {
       menuItemClass = "emojiMenuItemWin";
     }
 
@@ -306,7 +306,7 @@ export default class EmojiPicker extends Component {
     let emojiListExtra = "";
     let recentEmojiList = "";
     let recentEmojiDivider = "";
-    if (this.isFirstGroupActive()) {
+    if (this.isFirstGroupActive() && this.state.filteredEmojis === null) {
       recentEmojiList = this.getRecentEmojisList();
       recentEmojiDivider = <hr className="divider"/>;
     }
