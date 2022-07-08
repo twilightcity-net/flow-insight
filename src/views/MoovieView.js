@@ -7,6 +7,7 @@ import {RendererEventFactory} from "../events/RendererEventFactory";
 import {MemberClient} from "../clients/MemberClient";
 import {CircuitMemberClient} from "../clients/CircuitMemberClient";
 import {FervieClient} from "../clients/FervieClient";
+import {AccountClient} from "../clients/AccountClient";
 
 /**
  * This View will contain the invisible chat window that floats on top of the moovie,
@@ -52,6 +53,7 @@ export default class MoovieView extends Component {
     MemberClient.init(this);
     CircuitMemberClient.init(this);
     FervieClient.init(this);
+    AccountClient.init(this);
 
     this.isOpen = false;
     this.isOpening = false;

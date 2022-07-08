@@ -190,13 +190,20 @@ export default class EmojiPicker extends Component {
   }
 
   getMenuItems() {
+
+    //workaround to deal with windows formatting emojis differently
+    let menuItemClass = "emojiMenuItem";
+    if (this.state.appPlatform === "win32") {
+      menuItemClass = "emojiMenuItemWin";
+    }
+
     return (
       <Menu pointing secondary inverted>
         {
           EmojiPicker.groups.map((group, i) => {
             return (
               <Menu.Item
-                className="emojiMenuItem"
+                className={menuItemClass}
                 key={i}
                 name={group.emoji}
                 active={this.state.activeGroup === group.emoji}

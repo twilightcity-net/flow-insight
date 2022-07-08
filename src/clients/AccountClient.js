@@ -38,6 +38,7 @@ export class AccountClient extends BaseClient {
       GET_CURRENT_LOGGED_IN_COMMUNITY: "get-current-logged-in-community",
       SET_PRIMARY_COMMUNITY: "set-primary-community",
       RESTART_APP: "restart-app",
+      GET_PLATFORM: "get-platform",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -219,6 +220,29 @@ export class AccountClient extends BaseClient {
   ) {
     let event = AccountClient.instance.createClientEvent(
       AccountClient.Events.RESTART_APP,
+      {},
+      scope,
+      callback
+    );
+
+    AccountClient.instance.notifyAccount(event);
+    return event;
+  }
+
+
+
+  /**
+   * Get the platform architecture of the running client
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getPlatform(
+    scope,
+    callback
+  ) {
+    let event = AccountClient.instance.createClientEvent(
+      AccountClient.Events.GET_PLATFORM,
       {},
       scope,
       callback

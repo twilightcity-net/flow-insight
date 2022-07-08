@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Popup, TextArea} from "semantic-ui-react";
 import EmojiPicker from "./EmojiPicker";
 import {FervieClient} from "../../clients/FervieClient";
+import {AccountClient} from "../../clients/AccountClient";
 
 /**
  * this component is the input box for the always-on-top chat overlay panel
@@ -20,7 +21,8 @@ export default class ChatInput extends Component {
     this.state = {
       chatValue: "",
       isEmojiPickerOpen: false,
-      skinToneSelection: null
+      skinToneSelection: null,
+      appPlatform: "darwin"
     };
 
     this.lastOpened = null;
@@ -34,6 +36,11 @@ export default class ChatInput extends Component {
 
     this.refreshRecentEmojis();
 
+    AccountClient.getPlatform(this, (arg) => {
+      this.setState({
+        appPlatform : arg.data.appPlatform
+      });
+    });
   };
 
   /**
@@ -119,9 +126,9 @@ export default class ChatInput extends Component {
       }
 
       if (elapsed && elapsed > 200) {
-        // this.setState({
-        //   isEmojiPickerOpen: false
-        // });
+        this.setState({
+          isEmojiPickerOpen: false
+        });
       }
     }, 200);
 
@@ -201,6 +208,7 @@ export default class ChatInput extends Component {
     >
       <Popup.Content>
         <EmojiPicker recentEmojis={this.state.recentEmojis}
+                     appPlatform={this.state.appPlatform}
                      onRefreshEmojiWindow={this.onRefreshEmojiWindow}
                      onClickEmojiSearch={this.onClickEmojiSearch}
                      onBlurEmojiSearch={this.onBlurEmojiSearch}

@@ -35,6 +35,7 @@ module.exports = class AccountController extends (
       GET_CURRENT_LOGGED_IN_COMMUNITY: "get-current-logged-in-community",
       SET_PRIMARY_COMMUNITY: "set-primary-community",
       RESTART_APP: "restart-app",
+      GET_PLATFORM: "get-platform",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
       UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
@@ -109,6 +110,9 @@ module.exports = class AccountController extends (
           break;
         case AccountController.Events.RESTART_APP:
           this.handleRestartAppEvent(event, arg);
+          break;
+        case AccountController.Events.GET_PLATFORM:
+          this.handleGetPlatformEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -383,6 +387,24 @@ module.exports = class AccountController extends (
    */
   handleRestartAppEvent(event, arg, callback) {
     global.App.restart();
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * client event handler for getting the current architecture platform
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetPlatformEvent(event, arg, callback) {
+
+    arg.data = {appPlatform: process.platform};
 
     this.delegateCallbackOrEventReplyTo(
       event,

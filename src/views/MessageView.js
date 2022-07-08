@@ -8,6 +8,7 @@ import {CircuitMemberClient} from "../clients/CircuitMemberClient";
 import {FervieClient} from "../clients/FervieClient";
 import DMLayout from "../layout/DMLayout";
 import {NotificationClient} from "../clients/NotificationClient";
+import {AccountClient} from "../clients/AccountClient";
 
 /**
  * This View will contain the invisible chat window that floats on top for chatting with buddies,
@@ -55,6 +56,7 @@ export default class MessageView extends Component {
     CircuitMemberClient.init(this);
     FervieClient.init(this);
     NotificationClient.init(this);
+    AccountClient.init(this);
 
     this.isOpen = false;
     this.isOpening = false;
