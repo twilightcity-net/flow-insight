@@ -177,6 +177,7 @@ export default class ChatFeedEvent extends Component {
       basic
       inverted
       trigger={trigger}
+      flowing
       on='click'
       closeOnPortalMouseLeave={true}
     >

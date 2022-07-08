@@ -702,6 +702,7 @@ export default class MoovieChatLayout extends Component {
     FervieClient.requestBuddyLink(circuitMember.memberId, this, (arg) => {
       if (arg.error) {
         console.error("Unable to request buddy link: "+arg.error);
+        this.addErrorToChat("Buddy request send failed. Please wait and try again.");
       } else {
         console.log("Buddy request sent");
       }
@@ -733,6 +734,7 @@ export default class MoovieChatLayout extends Component {
      TalkToClient.reactToMessage(this.state.moovie.talkRoomId, messageId, emoji, this, (arg) => {
        if (arg.error) {
          console.error("Error adding reaction! "+arg.error)
+         this.addErrorToChat("Reaction send failed. Please wait and try again.");
        } else {
          console.log("reaction added");
        }
@@ -760,7 +762,8 @@ export default class MoovieChatLayout extends Component {
     } else {
       TalkToClient.clearReactionToMessage(this.state.moovie.talkRoomId, messageId, emoji, this, (arg) => {
         if (arg.error) {
-          console.error("Error removing reaction! " + arg.error)
+          console.error("Error removing reaction! " + arg.error);
+          this.addErrorToChat("Reaction update failed. Please wait and try again.");
         } else {
           console.log("reaction removed");
         }

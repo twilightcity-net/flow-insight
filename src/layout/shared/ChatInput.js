@@ -150,14 +150,16 @@ export default class ChatInput extends Component {
     });
   }
 
-  pasteEmojiInChat = (emoji) => {
+  pasteEmojiInChat = (emoji, isRecent) => {
     //track usage of this emoji, so we can update our frequently used list
     FervieClient.trackEmoji(emoji, this, (arg) => {
       if (arg.error) {
         console.error(arg.error);
       } else {
         console.log("Emoji tracked!");
-        this.refreshRecentEmojis();
+        if (!isRecent) {
+          this.refreshRecentEmojis();
+        }
       }
     });
 
@@ -174,6 +176,7 @@ export default class ChatInput extends Component {
     console.log("onClickEmojiButton");
     if (!this.state.isEmojiPickerOpen) {
       this.lastOpened = window.performance.now();
+      this.refreshRecentEmojis();
     } else {
       this.lastOpened = null;
     }

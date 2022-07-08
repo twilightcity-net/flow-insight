@@ -275,6 +275,7 @@ export default class LoadingView extends Component {
       </Container>
     );
 
+    let videoPosterSrc = "./assets/images/black.png";
     let videoSrc =  this.getVideoSrcLink(),
       videoType = "video/mp4";
     return (
@@ -284,6 +285,7 @@ export default class LoadingView extends Component {
             onEnded={this.onVideoEnded}
             muted
             autoPlay
+            poster={videoPosterSrc}
             className="fullscreen-bg__video"
           >
             <source src={videoSrc} type={videoType} />

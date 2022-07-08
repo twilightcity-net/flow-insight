@@ -154,9 +154,9 @@ export default class EmojiPicker extends Component {
     this.props.onRefreshEmojiWindow();
   }
 
-  handleEmojiClick = (emoji) => {
+  handleEmojiClick = (emoji, isRecent) => {
     this.props.onRefreshEmojiWindow();
-    this.props.pasteEmojiInChat(emoji);
+    this.props.pasteEmojiInChat(emoji, isRecent);
   }
 
   handleSearchClick = () => {
@@ -214,13 +214,13 @@ export default class EmojiPicker extends Component {
     let groupId = group.groupIds[index];
 
     return this.groupedEmojis[groupId].map((emojiDescription, i) => {
-      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{this.getEmojiVersion(emojiDescription)}</span>);
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji, false)}>{this.getEmojiVersion(emojiDescription)}</span>);
     });
   }
 
   getEmojisForFilteredList(emojiList) {
     return emojiList.map((emojiDescription, i) => {
-      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji)}>{this.getEmojiVersion(emojiDescription)}</span>);
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.emoji, false)}>{this.getEmojiVersion(emojiDescription)}</span>);
     });
   }
 
@@ -284,7 +284,7 @@ export default class EmojiPicker extends Component {
   getRecentEmojisList() {
     return this.props.recentEmojis.map((emojiDescription, i) => {
       if (i > 15) return "";
-      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.id)}>{emojiDescription.id}</span>);
+      return (<span key={i} className="emoji" onClick={() => this.handleEmojiClick(emojiDescription.id, true)}>{emojiDescription.id}</span>);
     });
   }
 

@@ -626,7 +626,8 @@ export default class DMLayout extends Component {
    } else {
      TalkToClient.reactToDirectMessage(this.props.memberId, messageId, emoji, this, (arg) => {
        if (arg.error) {
-         console.error("Error adding reaction! "+arg.error)
+         console.error("Error adding reaction! "+arg.error);
+         this.addErrorToChat("Reaction send failed. Please wait and try again.");
        } else {
          this.setState((prevState) => {
            const textObj = this.findMessageTextWithId(prevState.messages, messageId);
@@ -662,7 +663,8 @@ export default class DMLayout extends Component {
     } else {
       TalkToClient.clearReactionToDirectMessage(this.props.memberId, messageId, emoji, this, (arg) => {
         if (arg.error) {
-          console.error("Error removing reaction! " + arg.error)
+          console.error("Error removing reaction! " + arg.error);
+          this.addErrorToChat("Reaction update failed. Please wait and try again.");
         } else {
           this.setState((prevState) => {
             const foundText = this.findMessageTextWithId(prevState.messages, messageId);
@@ -686,6 +688,7 @@ export default class DMLayout extends Component {
    */
   addChatMessage = (text, callback) => {
     TalkToClient.publishChatToDM(this.props.memberId, text, this, (arg) => {
+      arg.error = "error!";
       if (!arg.error) {
         console.log("chat published");
         this.addMessageToFeed(arg.data);
