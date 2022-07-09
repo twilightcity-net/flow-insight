@@ -19,8 +19,6 @@ import AccessoryManager from "./accessories/AccessoryManager";
 import {Heartglasses} from "./accessories/Heartglasses";
 import GameState from "./hud/GameState";
 
-import "./globals.js";
-import "p5/lib/addons/p5.sound";
 import * as p5 from "p5";
 
 /**
