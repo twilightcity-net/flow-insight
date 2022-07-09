@@ -331,7 +331,6 @@ export default class RetroSidebar extends Component {
    */
   handleClickRow = (model) => {
     // TODO something
-    console.log("XXX", model);
   };
 
   /**

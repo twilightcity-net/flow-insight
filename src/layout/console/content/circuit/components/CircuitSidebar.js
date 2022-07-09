@@ -345,7 +345,6 @@ export default class CircuitSidebar extends Component {
    */
   handleClickRow = (model) => {
     // TODO something
-    console.log("XXX", model);
   };
 
   /**

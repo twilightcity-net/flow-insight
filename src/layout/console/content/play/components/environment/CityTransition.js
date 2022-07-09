@@ -5,12 +5,9 @@ import Environment from "./Environment";
 
 export default class CityTransition extends Environment {
   static GROUND_IMAGE = "./assets/animation/city_transition/city_transition_background.png";
-  static KEYWALL_IMAGE =
-    "./assets/animation/city_transition/city_transition_keywall.png";
-  static OVERLAY_IMAGE =
-    "./assets/animation/city_transition/city_transition_overlay.png";
-  static WALK_AREA_IMAGE =
-    "./assets/animation/city_transition/city_transition_walkarea.png";
+  static KEYWALL_IMAGE = "./assets/animation/city_transition/city_transition_keywall.png";
+  static OVERLAY_IMAGE = "./assets/animation/city_transition/city_transition_overlay.png";
+  static WALK_AREA_IMAGE = "./assets/animation/city_transition/city_transition_walkarea.png";
 
   /**
    * Preload all the environment images, so they are cached and ready to display
@@ -18,23 +15,10 @@ export default class CityTransition extends Environment {
    */
   preload(p5) {
     super.preload(p5);
-    this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.GROUND_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.KEYWALL_IMAGE
-    );
-    this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.OVERLAY_IMAGE
-    );
-
-    this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.WALK_AREA_IMAGE
-    );
+    this.animationLoader.getStaticImage(p5, CityTransition.GROUND_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityTransition.KEYWALL_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityTransition.OVERLAY_IMAGE);
+    this.animationLoader.getStaticImage(p5, CityTransition.WALK_AREA_IMAGE);
   }
 
   getDefaultSpawnProperties() {
@@ -60,10 +44,7 @@ export default class CityTransition extends Environment {
   }
 
   isValidPosition(p5, x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.WALK_AREA_IMAGE
-    );
+    let walkAreaImage = this.animationLoader.getStaticImage(p5, CityTransition.WALK_AREA_IMAGE);
 
     return super.isWithinTargetArea(walkAreaImage, x, y);
   }
@@ -73,11 +54,7 @@ export default class CityTransition extends Environment {
    * @param p5
    */
   drawBackground(p5, fervie) {
-    let backgroundImage =
-      this.animationLoader.getStaticImage(
-        p5,
-        CityTransition.GROUND_IMAGE
-      );
+    let backgroundImage = this.animationLoader.getStaticImage(p5, CityTransition.GROUND_IMAGE);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
@@ -88,14 +65,8 @@ export default class CityTransition extends Environment {
   }
 
   drawOverlay(p5, fervie) {
-    let keywallImage = this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.KEYWALL_IMAGE
-    );
-    let overlayImage = this.animationLoader.getStaticImage(
-      p5,
-      CityTransition.OVERLAY_IMAGE
-    );
+    let keywallImage = this.animationLoader.getStaticImage(p5, CityTransition.KEYWALL_IMAGE);
+    let overlayImage = this.animationLoader.getStaticImage(p5, CityTransition.OVERLAY_IMAGE);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);

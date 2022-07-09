@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {DimensionController} from "../../../../../controllers/DimensionController";
-import p5 from "p5";
 import FervieWalkUp from "./fervie/FervieWalkUp";
 import AnimationLoader from "./AnimationLoader";
 import FervieWalkRight from "./fervie/FervieWalkRight";
@@ -19,6 +18,10 @@ import {Sunglasses} from "./accessories/Sunglasses";
 import AccessoryManager from "./accessories/AccessoryManager";
 import {Heartglasses} from "./accessories/Heartglasses";
 import GameState from "./hud/GameState";
+
+import "./globals.js";
+import "p5/lib/addons/p5.sound";
+import * as p5 from "p5";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -47,6 +50,7 @@ export default class GameSketch extends Component {
    */
   componentDidMount() {
     const sketch = (p5) => {
+
       p5.setup = () => {
         p5.createCanvas(this.width, this.height);
         p5.frameRate(24);
@@ -118,15 +122,22 @@ export default class GameSketch extends Component {
         this.globalHud.mousePressed(p5, this.fervieSprite);
       };
 
+      p5.mouseReleased = () => {
+        this.environment.mouseReleased(p5, this.fervieSprite);
+      };
+
       p5.keyPressed = () => {
         this.globalHud.keyPressed(p5)
       }
     };
 
     this.sketchInstance = new p5(sketch, "mySketch");
+
   }
 
   componentWillUnmount() {
+    this.environment.unload(this.sketchInstance);
+
     if (this.sketchInstance) {
       this.sketchInstance.remove();
     }

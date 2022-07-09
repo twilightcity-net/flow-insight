@@ -28,8 +28,6 @@ export default class MoovieResource extends Component {
   componentDidMount() {
     FervieClient.getBuddyMe(this, (arg) => {
       if (!arg.error) {
-        console.log("XX BUDDY ME!!");
-        console.log(arg.data);
 
         this.setState({
           me: arg.data
@@ -94,7 +92,6 @@ export default class MoovieResource extends Component {
       if (this.state.me.moovieId) {
         initialEnvironment = EnvironmentMap.THEATER_ROOM;
         initialMoovieId = this.state.me.moovieId;
-        console.log("XXXXX initialMoovieId = "+initialMoovieId);
       }
 
       content = (

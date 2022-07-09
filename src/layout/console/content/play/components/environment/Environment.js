@@ -27,8 +27,12 @@ export default class Environment {
     //TODO unload the image cache so we're not running out of memory
   }
 
-  mousePressed(p5, fervie) {
-    console.log("placeholder");
+  mousePressed(p5, fervie, globalHud) {
+    console.log("mousePressed placeholder");
+  }
+
+  mouseReleased(p5, fervie, globalHud) {
+    console.log("mouseReleased placeholder");
   }
 
   //override these in subclasses, or leave as default if not used.

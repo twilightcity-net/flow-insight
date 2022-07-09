@@ -14,6 +14,7 @@ import FervieGarden from "./FervieGarden";
 import TheaterEntry from "./TheaterEntry";
 import TheaterRoom from "./TheaterRoom";
 import FeatureToggle from "../../../../../shared/FeatureToggle";
+import CityMusic from "./CityMusic";
 
 export default class EnvironmentMap {
   constructor(animationLoader, width, height, globalHud) {
@@ -43,6 +44,7 @@ export default class EnvironmentMap {
   static CITY_ENTRANCE = "CityEntrance";
   static CITY_TRANSITION = "CityTransition";
   static CITY_STREET = "CityStreet";
+  static CITY_MUSIC = "CityMusic";
   static THEATER_ENTRY = "TheaterEntry";
   static THEATER_ROOM = "TheaterRoom";
 
@@ -66,6 +68,7 @@ export default class EnvironmentMap {
     this.environmentMap[EnvironmentMap.CITY_ENTRANCE] = new CityEntrance(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.CITY_TRANSITION] = new CityTransition(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.CITY_STREET] = new CityStreet(this.animationLoader, this.width, this.height, this.globalHud);
+    this.environmentMap[EnvironmentMap.CITY_MUSIC] = new CityMusic(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.GARDEN] = new FervieGarden(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.THEATER_ENTRY] = new TheaterEntry(this.animationLoader, this.width, this.height, this.globalHud);
     this.environmentMap[EnvironmentMap.THEATER_ROOM] = new TheaterRoom(this.animationLoader, this.width, this.height, this.globalHud);
@@ -90,13 +93,15 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_KITCHEN + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
     this.travelMap[EnvironmentMap.HOUSE_INSIDE_BEDROOM + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.HOUSE_INSIDE_ENTRY;
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_ENTRANCE;
-    this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_ENTRANCE;
+    this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.CITY_MUSIC;
     this.travelMap[EnvironmentMap.CITY_STREET + EnvironmentMap.MAP_NORTH] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.CITY_ENTRANCE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.CITY_STREET;
     this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_NORTH] = EnvironmentMap.THEATER_ROOM;
     this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_LEFT] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.THEATER_ENTRY;
     this.travelMap[EnvironmentMap.THEATER_ROOM + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.THEATER_ENTRY;
+    this.travelMap[EnvironmentMap.CITY_MUSIC + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_ENTRANCE;
+    this.travelMap[EnvironmentMap.CITY_MUSIC + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_STREET;
 
     if (FeatureToggle.isFlowInsightApp()) {
       //dont sandbox to the theater for the main app
@@ -270,6 +275,15 @@ export default class EnvironmentMap {
    */
   mousePressed(p5, fervie, globalHud) {
     this.activeEnvironment.mousePressed(p5, fervie, globalHud);
+  }
+
+  /**
+   * Trigger the button mouse released in the active environment
+   * @param p5
+   * @param fervie
+   */
+  mouseReleased(p5, fervie, globalHud) {
+    this.activeEnvironment.mouseReleased(p5, fervie, globalHud);
   }
 
   /**

@@ -6,6 +6,7 @@ import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
 import GlowSprite from "../fervie/GlowSprite";
 import GameState from "../hud/GameState";
+import Drum from "../sound/Drum";
 
 export default class ShroomHouseInTheWoods extends Environment {
   static GROUND_IMAGE =
@@ -53,6 +54,7 @@ export default class ShroomHouseInTheWoods extends Environment {
     this.isDoorOpen = false;
 
     this.isGoingThroughDoor = false;
+
   }
 
   getDefaultSpawnProperties() {
