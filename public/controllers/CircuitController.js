@@ -1903,7 +1903,7 @@ module.exports = class CircuitController extends (
     if (circuit) {
       let model = collection.findOne({ id: circuit.id });
       if (model) {
-        model = circuit;
+        Object.assign(model, circuit);
         collection.update(model);
       } else {
         collection.insert(circuit);
@@ -1924,7 +1924,7 @@ module.exports = class CircuitController extends (
       circuits.forEach((circuit) => {
         let model = collection.findOne({ id: circuit.id });
         if (model) {
-          model = circuit;
+          Object.assign(model, circuit);
           collection.update(model);
         } else {
           collection.insert(circuit);
