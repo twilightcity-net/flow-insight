@@ -3,6 +3,7 @@ import { BaseClient } from "./clients/BaseClient";
 import moment from "moment";
 import { Icon, Message } from "semantic-ui-react";
 import React from "react";
+import {MemberClient} from "./clients/MemberClient";
 
 export default class UtilRenderer {
   /**
@@ -756,7 +757,12 @@ export default class UtilRenderer {
    * @returns {boolean}
    */
   static isMemberOnline(member) {
-    return member.onlineStatus === "Online";
+    let isMe = false;
+    if (MemberClient.me && MemberClient.me.id === member.id) {
+      isMe = true;
+    }
+    //this makes sure we're always considered online and don't ever show ourselves as being offline
+    return member.onlineStatus === "Online" || isMe;
   }
 
   static isEveryoneTeam(team) {

@@ -6,24 +6,16 @@ import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
 import GlowSprite from "../fervie/GlowSprite";
 import GameState from "../hud/GameState";
-import Drum from "../sound/Drum";
 
 export default class ShroomHouseInTheWoods extends Environment {
-  static GROUND_IMAGE =
-    "./assets/animation/shroomhouse/fervie_home_ground.png";
-  static OVERLAY_IMAGE =
-    "./assets/animation/shroomhouse/fervie_home_overlay.png";
-  static SKY_IMAGE =
-    "./assets/animation/shroomhouse/fervie_home_sky.png";
-  static WALK_AREA_IMAGE =
-    "./assets/animation/shroomhouse/fervie_home_walk_area.png";
-  static WALK_BEHIND_AREA_IMAGE =
-    "./assets/animation/shroomhouse/fervie_home_walk_area_behind.png";
+  static GROUND_IMAGE = "./assets/animation/shroomhouse/fervie_home_ground.png";
+  static OVERLAY_IMAGE = "./assets/animation/shroomhouse/fervie_home_overlay.png";
+  static SKY_IMAGE = "./assets/animation/shroomhouse/fervie_home_sky.png";
+  static WALK_AREA_IMAGE = "./assets/animation/shroomhouse/fervie_home_walk_area.png";
+  static WALK_BEHIND_AREA_IMAGE = "./assets/animation/shroomhouse/fervie_home_walk_area_behind.png";
 
-  static SHROOM_DOOR =
-    "./assets/animation/shroomhouse/shroom_door.png";
-  static SHROOM_DOOR_MASK =
-    "./assets/animation/shroomhouse/shroom_door_mask.png";
+  static SHROOM_DOOR = "./assets/animation/shroomhouse/shroom_door.png";
+  static SHROOM_DOOR_MASK = "./assets/animation/shroomhouse/shroom_door_mask.png";
 
   static MAX_DOOR_POSITION = -140;
 
