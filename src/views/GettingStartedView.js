@@ -55,6 +55,9 @@ export default class GettingStartedView extends Component {
   /// renders the view into our root element of our window
   render() {
     let appName = FeatureToggle.appName;
+    if (FeatureToggle.isFlowInsightApp()) {
+      appName = "the Flow Console";
+    }
 
     if (!this.state.hotkey) {
       return <div id="component" className="gettingStartedLayout" >
