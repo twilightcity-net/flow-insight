@@ -50,7 +50,7 @@ export default class FerviePeekAnimation extends Component {
       >
           <defs/>
 
-          <g id="shadow_behind">
+          <g id="shadow_behind" className="backShadow">
             <g>
               <g>
                 <g>
@@ -110,7 +110,7 @@ Q -50.2 33.65 -52.7 44.1 -46.8 38.95 -43.85 44.15 -47 47.4 -48.6 52.4"/>
               </g>
             </g>
 
-            <g id="hair_right" transform="matrix( 1, 0, 0, 1, 65.15,0.5) ">
+            <g id="hair_right" className="hairRight" transform="matrix( 1, 0, 0, 1, 65.15,0.5) ">
               <g>
                 <g>
                   <g>
@@ -129,7 +129,7 @@ Q 17.95 7.55 28.8 9.4 18.7712890625 -1.1775390625 7 6.725"/>
               </g>
             </g>
 
-            <g id="hair_left" transform="matrix( 1, 0, 0, 1, 65.15,0.5) ">
+            <g id="hair_left" className="hairLeft" transform="matrix( 1, 0, 0, 1, 65.15,0.5) ">
               <g>
                 <g>
                   <g>
@@ -168,7 +168,7 @@ Q 10.5 17.5 6.75 20.25 3.05 23.05 -1.6 22.35 -6.2 21.7 -8.95 18.05 -11.75 14.3 -
                   </g>
                 </g>
 
-                <g id="eye_pupil" transform="matrix( 1, 0, 0, 1, 11.65,2.5) ">
+                <g id="eye_pupil" className="pupilRight" transform="matrix( 1, 0, 0, 1, 11.65,2.5) ">
                   <g>
                     <g>
                       <g>
@@ -206,7 +206,7 @@ Q 9.5 15.9 6.2 18.45 2.7 21 -1.45 20.45 -5.65 19.8 -8.25 16.45 -10.8 13 -10.15 8
                   </g>
                 </g>
 
-                <g id="eye_pupil" transform="matrix( 1, 0, 0, 1, -12.6,0) ">
+                <g id="eye_pupil" className="pupilLeft" transform="matrix( 1, 0, 0, 1, -12.6,0) ">
                   <g transform="matrix( 0.69970703125, 0.100341796875, -0.100341796875, 0.69970703125, -92.7,-128.1) ">
                     <g>
                       <g>
@@ -229,7 +229,7 @@ Q -0.5808715820312358 10.327221679687511 -2.145983886718753 11.530969238281244 -
 
           <g id="white_cover"/>
 
-          <g id="shadow_top">
+          <g id="shadow_top" className="backShadow">
             <g>
               <g>
                 <g>
