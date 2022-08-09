@@ -3,7 +3,8 @@ import {HotkeyClient} from "../clients/HotkeyClient";
 import FeatureToggle from "../layout/shared/FeatureToggle";
 
 /**
- *  This view class is used to show a floating hotkey configuration window
+ *  This view class is used to show a spash window before the console is open,
+ *  that tells you how to open it.
  */
 export default class GettingStartedView extends Component {
   constructor(props) {

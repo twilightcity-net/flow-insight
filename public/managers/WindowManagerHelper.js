@@ -27,7 +27,8 @@ module.exports = class WindowManagerHelper {
       ORGSWITCH: "tc-" + ViewManagerHelper.ViewNames.ORGSWITCH,
       MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE,
       MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
-      GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED
+      GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED,
+      FERVIE: "tc-"+ ViewManagerHelper.ViewNames.FERVIE
     };
   }
 
@@ -57,6 +58,29 @@ module.exports = class WindowManagerHelper {
       windowClassName,
       windowClassName
     );
+  }
+
+  /**
+   * creates new fervie popup window
+   * @returns {*}
+   */
+  static createFervieWindow() {
+    let windowClassName = WindowManagerHelper.WindowNames.FERVIE;
+
+    return global.App.WindowManager.createWindow(
+      windowClassName,
+      windowClassName
+    );
+  }
+
+  /**
+   * Closes the fervie window
+   * @returns {*}
+   */
+  static closeFervieWindow() {
+    let windowClassName = WindowManagerHelper.WindowNames.FERVIE;
+
+    return WindowManagerHelper.closeWindow(windowClassName);
   }
 
   /**

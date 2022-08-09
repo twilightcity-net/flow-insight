@@ -17,6 +17,7 @@ const HotkeyConfigWindow = require("../windows/HotkeyConfigWindow");
 const MoovieWindow = require("../windows/MoovieWindow");
 const MessageWindow = require("../windows/MessageWindow");
 const GettingStartedWindow = require("../windows/GettingStartedWindow");
+const FervieWindow = require("../windows/FervieWindow");
 const InvitationKeyWindow = require("../windows/InvitationKeyWindow");
 const OrgSwitcherWindow = require("../windows/OrgSwitcherWindow");
 
@@ -420,6 +421,8 @@ class WindowManager {
         return new MessageWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.GETSTARTED:
         return new GettingStartedWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.FERVIE:
+        return new FervieWindow(windowName, arg);
       default:
         return null;
     }

@@ -242,6 +242,9 @@ module.exports = class AppLoader {
       );
       this.unwireEvents();
       this.showGettingStartedWindow();
+
+      //TODO open up this window with a hotkey toggle
+      //this.showFervieWindow();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
     }, this.eventTimerMs * factor);
@@ -255,6 +258,16 @@ module.exports = class AppLoader {
         AppError.handleError(error, true);
       }
     }, 333);
+  }
+
+  showFervieWindow() {
+    setTimeout( () => {
+      try {
+        WindowManagerHelper.createFervieWindow();
+      } catch (error) {
+        AppError.handleError(error, true);
+      }
+    }, 555);
   }
 
   /**

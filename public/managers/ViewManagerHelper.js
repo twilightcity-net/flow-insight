@@ -18,7 +18,8 @@ module.exports = class ViewManagerHelper {
       ORGSWITCH: "orgswitch",
       MOOVIE: "moovie",
       MESSAGE: "message",
-      GETSTARTED: "getstarted"
+      GETSTARTED: "getstarted",
+      FERVIE: "fervie"
     };
   }
 };

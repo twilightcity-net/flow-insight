@@ -14,6 +14,7 @@ import MessageView from "./MessageView";
 import GettingStartedView from "./GettingStartedView";
 import InvitationKeyView from "./InvitationKeyView";
 import OrgSwitchView from "./OrgSwitchView";
+import FervieView from "./FervieView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
@@ -65,6 +66,8 @@ export default class ViewManager extends Component {
       return <MessageView routeProps={props} />;
     } else if (viewNameUpper === "GETSTARTED") {
       return <GettingStartedView routeProps={props} />;
+    } else if (viewNameUpper === "FERVIE") {
+      return <FervieView routeProps={props} />;
     } else {
       throw new Error(
         "Unable to render unknown view type " +
