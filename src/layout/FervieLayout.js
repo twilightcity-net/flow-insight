@@ -18,7 +18,7 @@ import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
 /**
  * this component is the layout for the always-on-top fervie button
  */
-export default class FervieButtonLayout extends Component {
+export default class FervieLayout extends Component {
 
   /**
    * Initialize the component
@@ -26,7 +26,7 @@ export default class FervieButtonLayout extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[FervieButtonLayout]";
+    this.name = "[FervieLayout]";
     this.state = {
       me: MemberClient.me
     }

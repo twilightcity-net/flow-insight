@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {HotkeyClient} from "../clients/HotkeyClient";
 import FeatureToggle from "../layout/shared/FeatureToggle";
 import FervieProfile from "../layout/shared/FervieProfile";
-import FervieButtonLayout from "../layout/FervieButtonLayout";
+import FervieLayout from "../layout/FervieLayout";
 import {MemberClient} from "../clients/MemberClient";
 
 /**
@@ -22,7 +22,7 @@ export default class FervieView extends Component {
   /// renders the view into our root element of our window
   render() {
     return (
-      <FervieButtonLayout />
+      <FervieLayout />
     );
   }
 }

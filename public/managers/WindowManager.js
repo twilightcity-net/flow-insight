@@ -96,23 +96,15 @@ class WindowManager {
    * @param arg - the window event that dispatched the event
    */
   onShortcutsRecievedCb(event, arg) {
-    if (
-      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE ===
-        arg ||
-      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT ===
-        arg
-    ) {
+    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg ||
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT === arg) {
       this.handleHideConsoleEvent();
-    } else if (
-      ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg
-    ) {
+    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg) {
       log.info(
         "[WindowManager] open dev mode -> " +
           global.App.WindowManager.lastFocusWindowName
       );
-      let win = this.getWindow(
-        global.App.WindowManager.lastFocusWindowName
-      );
+      let win = this.getWindow(global.App.WindowManager.lastFocusWindowName);
       if (win) {
         win.window.webContents.openDevTools({
           mode: "undocked",

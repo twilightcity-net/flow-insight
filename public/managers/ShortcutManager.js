@@ -85,6 +85,8 @@ class ShortcutManager {
         prefix + "window-sidebar-wtf-item",
       WINDOW_SIDEBAR_WTF_ITEM_ALT:
         prefix + "window-sidebar-wtf-item-alt",
+      GLOBAL_SHOW_HIDE_FERVIE:
+        prefix + "global-show-hide-fervie"
     };
   }
 
@@ -104,6 +106,7 @@ class ShortcutManager {
       WINDOW_SIDEBAR_FOURTH_ITEM: "Control+4",
       WINDOW_SIDEBAR_WTF_ITEM: "Control+Esc",
       WINDOW_SIDEBAR_WTF_ITEM_ALT: "Command+Esc",
+      FERVIE_SHORTCUT: "Control+P"
     };
   }
 
@@ -179,6 +182,11 @@ class ShortcutManager {
       showHideConsoleAlt: new Shortcut(
         ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT,
         global.App.AppSettings.getConsoleShortcutAlt(),
+        this
+      ),
+      showHideFervie: new Shortcut(
+        ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE,
+        ShortcutManager.Accelerators.FERVIE_SHORTCUT,
         this
       ),
       consoleDevMode: new Shortcut(

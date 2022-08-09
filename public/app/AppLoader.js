@@ -244,7 +244,7 @@ module.exports = class AppLoader {
       this.showGettingStartedWindow();
 
       //TODO open up this window with a hotkey toggle
-      //this.showFervieWindow();
+      this.showFervieWindow();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
     }, this.eventTimerMs * factor);

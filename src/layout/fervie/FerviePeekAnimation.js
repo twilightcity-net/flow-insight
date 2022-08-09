@@ -68,7 +68,7 @@ Q 135.5 56.55 115.7 58.2 95.95 59.9 68 59.9 40.05 59.9 20.25 58.2 0.5 56.55 0.5 
             </g>
           </g>
 
-          <g id="fervie">
+          <g id="fervie" className="fervieBody">
             <g id="base" transform="matrix( 1, 0, 0, 1, 65.15,0.5) ">
               <g>
                 <g>
