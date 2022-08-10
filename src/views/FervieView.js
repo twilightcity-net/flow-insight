@@ -1,7 +1,4 @@
 import React, {Component} from "react";
-import {HotkeyClient} from "../clients/HotkeyClient";
-import FeatureToggle from "../layout/shared/FeatureToggle";
-import FervieProfile from "../layout/shared/FervieProfile";
 import FervieLayout from "../layout/FervieLayout";
 import {MemberClient} from "../clients/MemberClient";
 

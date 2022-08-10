@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Keyframes from "@keyframes/core";
+import {RendererEventFactory} from "../../events/RendererEventFactory";
 
 export default class FerviePeekAnimation extends Component {
   /**
@@ -23,6 +24,8 @@ export default class FerviePeekAnimation extends Component {
   static animationHairRightIn = "fervie-hair-right-in";
   static animationHairRightOut = "fervie-hair-right-out";
 
+  static animationTiming = "ease";
+  static animationTime = 0.7;
 
   static get Position() {
     return {
@@ -39,6 +42,80 @@ export default class FerviePeekAnimation extends Component {
     this.fervieBodyKeyframes = this.configureFervieBodyAnimation();
     this.hairLeftKeyframes = this.configureHairLeftAnimation();
     this.hairRightKeyframes = this.configureHairRightAnimation();
+
+    this.events = {
+      fervieShowing: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_FERVIE_SHOWING,
+        this,
+        this.onFervieShow
+      ),
+      fervieHiding: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_FERVIE_HIDING,
+        this,
+        this.onFervieHide
+      )
+    }
+  }
+
+  onFervieShow = (event, arg) => {
+    console.log("fervie showing = "+JSON.stringify(arg));
+
+    this.portalFrontKeyframes.play({
+      name: FerviePeekAnimation.animationPortalIn,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.portalBackKeyframes.play({
+      name: FerviePeekAnimation.animationPortalIn,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.fervieBodyKeyframes.play({
+      name: FerviePeekAnimation.animationFervieSlideIn,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.hairLeftKeyframes.play({
+      name: FerviePeekAnimation.animationHairLeftIn,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.hairRightKeyframes.play({
+      name: FerviePeekAnimation.animationHairRightIn,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+  }
+
+
+  onFervieHide = (event, arg) => {
+    console.log("fervie hiding = "+JSON.stringify(arg));
+
+    this.portalFrontKeyframes.play({
+      name: FerviePeekAnimation.animationPortalOut,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.portalBackKeyframes.play({
+      name: FerviePeekAnimation.animationPortalOut,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.fervieBodyKeyframes.play({
+      name: FerviePeekAnimation.animationFervieSlideOut,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.hairLeftKeyframes.play({
+      name: FerviePeekAnimation.animationHairLeftOut,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
+    this.hairRightKeyframes.play({
+      name: FerviePeekAnimation.animationHairRightOut,
+      duration: FerviePeekAnimation.animationTime + "s",
+      timingFunction: FerviePeekAnimation.animationTiming,
+    });
   }
 
   configureHairRightAnimation() {
@@ -47,27 +124,43 @@ export default class FerviePeekAnimation extends Component {
 
     Keyframes.define({
       name: FerviePeekAnimation.animationHairRightIn,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
+      '0%': {
+        transformOrigin: "bottom left",
+        transformBox: "fill-box",
+        transform: "translateX(65px) rotate(5deg)"
       },
-      to: {
-        transform: "translate(0px,0px)",
-        opacity: "1",
+      '85%': {
+        transformOrigin: "bottom left",
+        transformBox: "fill-box",
+        transform: "translateX(65px) rotate(-3deg)"
+      },
+      '100%': {
+        transformOrigin: "bottom left",
+        transformBox: "fill-box",
+        transform: "translateX(65px) rotate(5deg)"
       },
     });
 
     Keyframes.define({
       name: FerviePeekAnimation.animationHairRightOut,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
+      '0%': {
+        transformOrigin: "bottom left",
+        transformBox: "fill-box",
+        transform: "translateX(65px) rotate(5deg)"
       },
-      to: {
-        transform: "translate(0px,0px)",
-        opacity: "1",
+      '20%': {
+        transformOrigin: "bottom left",
+        transformBox: "fill-box",
+        transform: "translateX(65px) rotate(-3deg)"
+      },
+      '100%': {
+        transformOrigin: "bottom left",
+        transformBox: "fill-box",
+        transform: "translateX(65px) rotate(-5deg)"
       },
     });
+
+    return keyframes;
   }
 
   configureHairLeftAnimation() {
@@ -76,24 +169,38 @@ export default class FerviePeekAnimation extends Component {
 
     Keyframes.define({
       name: FerviePeekAnimation.animationHairLeftIn,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
+      '0%': {
+        transformOrigin: "bottom right",
+        transformBox: "fill-box",
+        transform: "translateX(62px) rotate(-5deg)"
       },
-      to: {
-        transform: "translate(0px,0px)",
-        opacity: "1",
+      '85%': { //overshoot position
+        transformOrigin: "bottom right",
+        transformBox: "fill-box",
+        transform: "translateX(62px) rotate(3deg)"
+      },
+      '100%': {
+        transformOrigin: "bottom right",
+        transformBox: "fill-box",
+        transform: "translateX(62px) rotate(-5deg)"
       },
     });
     Keyframes.define({
       name: FerviePeekAnimation.animationHairLeftOut,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
+      '0%': {
+        transformOrigin: "bottom right",
+        transformBox: "fill-box",
+        transform: "translateX(62px) rotate(-5deg)"
       },
-      to: {
-        transform: "translate(0px,0px)",
-        opacity: "1",
+      '20%': { //overshoot position
+        transformOrigin: "bottom right",
+        transformBox: "fill-box",
+        transform: "translateX(62px) rotate(0deg)"
+      },
+      '100%': {
+        transformOrigin: "bottom right",
+        transformBox: "fill-box",
+        transform: "translateX(62px) rotate(3deg)"
       },
     });
 
@@ -106,28 +213,61 @@ export default class FerviePeekAnimation extends Component {
 
     Keyframes.define({
       name: FerviePeekAnimation.animationFervieSlideIn,
-      from: {
+      '0%': {
         transformOrigin: "top right",
         transformBox: "fill-box",
         transform: "rotate(-15deg) translateY(25px) translateX(-10px)"
       },
-      to: {
+      '70%': { //overshoot
         transformOrigin: "top right",
         transformBox: "fill-box",
         transform: "rotate(0deg) translateY(0px) translateX(0px)"
+      },
+      '85%': { //bounce from overshoot
+        transformOrigin: "top right",
+        transformBox: "fill-box",
+        transform: "rotate(0deg) translateY(4px) translateX(0px)"
+      },
+      '100%': { //settle a little lower
+        transformOrigin: "top right",
+        transformBox: "fill-box",
+        transform: "rotate(0deg) translateY(2px) translateX(0px)"
       },
     });
     Keyframes.define({
       name: FerviePeekAnimation.animationFervieSlideOut,
-      from: {
+      '0%': {
         transformOrigin: "top right",
         transformBox: "fill-box",
-        transform: "rotate(0deg) translateY(0px) translateX(0px)"
+        transform: "rotate(0deg) translateY(2px) translateX(0px)",
+        opacity: 1
       },
-      to: {
+      '20%': {
         transformOrigin: "top right",
         transformBox: "fill-box",
-        transform: "rotate(-15deg) translateY(25px) translateX(-10px)"
+        transform: "rotate(0deg) translateY(0px) translateX(0px)",
+        opacity: 1
+      },
+      '30%': {
+        transformOrigin: "top right",
+        transformBox: "fill-box",
+        transform: "rotate(0deg) translateY(0px) translateX(0px)",
+        opacity: 1
+      },
+      '80%': {
+        transformOrigin: "top right",
+        transformBox: "fill-box",
+        transform: "rotate(-15deg) translateY(50px) translateX(-10px)",
+        opacity: 1
+      },
+      '82%': {
+        opacity: 0
+      },
+      '100%': {
+        transformOrigin: "top right",
+        transformBox: "fill-box",
+        transform: "rotate(-15deg) translateY(50px) translateX(-10px)",
+        opacity: 0
       },
     });
 
@@ -139,24 +279,32 @@ export default class FerviePeekAnimation extends Component {
     const keyframes = new Keyframes(portalBack);
     Keyframes.define({
       name: FerviePeekAnimation.animationPortalIn,
-      from: {
-        transform: "translate(400px, 0px)",
+      '0%': {
+        transform: "scaleX(0.7)",
         opacity: "0",
       },
-      to: {
-        transform: "translate(0px,0px)",
+      '50%': {
+        transform: "scaleX(1)",
+        opacity: "1",
+      },
+      '100%': {
+        transform: "scaleX(1)",
         opacity: "1",
       },
     });
     Keyframes.define({
       name: FerviePeekAnimation.animationPortalOut,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
-      },
-      to: {
-        transform: "translate(0px,0px)",
+      '0%': {
+        transform: "scaleX(1)",
         opacity: "1",
+      },
+      '50%': {
+        transform: "scaleX(1)",
+        opacity: "1",
+      },
+      '100%': {
+        transform: "scaleX(0)",
+        opacity: "0",
       },
     });
     return keyframes;
@@ -165,29 +313,8 @@ export default class FerviePeekAnimation extends Component {
   configurePortalFrontAnimation() {
     let portalFront = document.getElementById("shadow_top");
     const keyframes = new Keyframes(portalFront);
-    Keyframes.define({
-      name: FerviePeekAnimation.animationPortalIn,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
-      },
-      to: {
-        transform: "translate(0px,0px)",
-        opacity: "1",
-      },
-    });
-    Keyframes.define({
-      name: FerviePeekAnimation.animationPortalOut,
-      from: {
-        transform: "translate(400px, 0px)",
-        opacity: "0",
-      },
-      to: {
-        transform: "translate(0px,0px)",
-        opacity: "1",
-      },
-    });
 
+    //animations already created with portal back
     return keyframes;
   }
 

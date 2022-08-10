@@ -1,18 +1,8 @@
 import React, {Component} from "react";
-import ChatInput from "./shared/ChatInput";
-import {TalkToClient} from "../clients/TalkToClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {BaseClient} from "../clients/BaseClient";
-import ChatFeed from "./shared/ChatFeed";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
-import FervieButton from "./dm/FervieButton";
-import MessageBanner from "./dm/MessageBanner";
-import moment from "moment";
-import {NotificationClient} from "../clients/NotificationClient";
-import {FervieClient} from "../clients/FervieClient";
-import {MoovieClient} from "../clients/MoovieClient";
-import FervieProfile from "./shared/FervieProfile";
 import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
 
 /**

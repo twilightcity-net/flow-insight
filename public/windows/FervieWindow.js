@@ -27,6 +27,8 @@ module.exports = class FervieWindow {
     this.rightMargin = 20;
     this.bottomMargin = 20;
 
+    this.animateTimeMs = 1000;
+
     this.icon = Util.getAppIcon("icon.ico");
     this.display = global.App.WindowManager.getDisplay();
     this.window = new BrowserWindow({
@@ -65,12 +67,12 @@ module.exports = class FervieWindow {
         this,
         (event, arg) => this.onFervieShowHideCb(event, arg)
       ),
-      fervieShown: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_FERVIE_SHOWN,
+      fervieShowing: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_FERVIE_SHOWING,
         this
       ),
-      fervieHidden: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_FERVIE_HIDDEN,
+      fervieHiding: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_FERVIE_HIDING,
         this
       ),
     };
@@ -86,7 +88,6 @@ module.exports = class FervieWindow {
       CANCEL: 4,
     };
 
-    this.animateTimeMs = 400;
   }
 
   onFervieShowHideCb() {
@@ -114,13 +115,11 @@ module.exports = class FervieWindow {
     if (!this.isClosed) {
       this.window.show();
       this.window.focus();
+      this.events.fervieShowing.dispatch({});
     }
 
     setTimeout(() => {
       this.state = this.states.SHOWN;
-      if (!this.isClosed) {
-        this.events.fervieShown.dispatch({});
-      }
     }, this.animateTimeMs);
   }
 
@@ -130,11 +129,15 @@ module.exports = class FervieWindow {
   hideFervie() {
     console.log("hide fervie!");
     this.state = this.states.HIDING;
+
+    if (!this.isClosed) {
+      this.events.fervieHiding.dispatch({});
+    }
+
     setTimeout(() => {
       this.state = this.states.HIDDEN;
       if (!this.isClosed) {
         this.window.hide();
-        this.events.fervieHidden.dispatch({});
       }
     }, this.animateTimeMs);
   }
