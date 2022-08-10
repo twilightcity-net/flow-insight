@@ -217,6 +217,21 @@ class Util {
     );
   }
 
+  /**
+   * returns the file path to the plugins folder that can optionally include
+   * flow metrics plugins that augment the data in feeds
+   * @returns {string}
+   */
+  static getPluginFolderPath() {
+    console.log("getPluginFolderPath");
+    let pluginFolder = path.join(
+      Util.getFlowHomePath(),
+      "plugins"
+    );
+    return pluginFolder;
+  }
+
+
   static deleteSettings() {
     let settingsPath = this.getAppSettingsPath();
     fs.unlink(settingsPath, (err) => {

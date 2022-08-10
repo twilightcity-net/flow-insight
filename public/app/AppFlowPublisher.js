@@ -5,6 +5,7 @@ const log = require("electron-log"),
   HeartbeatDto = require("../dto/HeartbeatDto"),
   SimpleStatusDto = require("../dto/SimpleStatusDto"),
   TalkController = require("../controllers/TalkController");
+const PluginManager = require("../managers/PluginManager");
 
 /**
  * Application class that manages publishing our plugin flow data to the server
@@ -18,18 +19,20 @@ module.exports = class AppFlowPublisher {
   constructor() {
     this.name = "[AppFlowPublisher]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 60000 * 20;
+    this.intervalMs = 10000; //for now do a short timer
     this.timeout = {
       response: 30000,
       deadline: 30000,
     };
     this.url = global.App.api + "/flow/input/batch";
     this.events = {
-      heartbeat: EventFactory.createEvent(
+      publishEvent: EventFactory.createEvent(
         EventFactory.Types.APP_FLOW_PUBLISH,
         this
       ),
     };
+
+    this.pluginManager = new PluginManager();
   }
 
   /**
@@ -59,8 +62,7 @@ module.exports = class AppFlowPublisher {
    * fires a publisher pulse that sends plugin data to gridtime
    */
   pulse() {
-
-    this.validatePluginRegistrations();
+    console.log("Flow publisher pulse!");
 
     //pair request button.
 
@@ -92,7 +94,6 @@ module.exports = class AppFlowPublisher {
     // GET /account/plugin/registration to get the new list of plugin registrations.
 
     //sends the plugin key with the batch.
-
 
     try {
       console.log("do stuff");

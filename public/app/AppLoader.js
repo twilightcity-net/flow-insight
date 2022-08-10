@@ -242,10 +242,10 @@ module.exports = class AppLoader {
       );
       this.unwireEvents();
       this.showGettingStartedWindow();
-
-      //TODO open up this window with a hotkey toggle
       this.showFervieWindow();
+
       global.App.AppHeartbeat.start();
+      global.App.AppFlowPublisher.start();
       log.info("[AppLoader] finished loading -> okay");
     }, this.eventTimerMs * factor);
   }
