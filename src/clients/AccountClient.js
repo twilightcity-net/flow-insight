@@ -41,7 +41,8 @@ export class AccountClient extends BaseClient {
       GET_PLATFORM: "get-platform",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
-      UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
+      UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname",
+      GET_REGISTERED_PLUGIN_LIST: "get-registered-plugin-list"
     };
   }
 
@@ -251,6 +252,25 @@ export class AccountClient extends BaseClient {
     AccountClient.instance.notifyAccount(event);
     return event;
   }
+
+  /**
+   * Get a list of the currently registered plugins
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getRegisteredPluginList(scope, callback) {
+    let event = AccountClient.instance.createClientEvent(
+      AccountClient.Events.GET_REGISTERED_PLUGIN_LIST,
+      {},
+      scope,
+      callback
+    );
+
+    AccountClient.instance.notifyAccount(event);
+    return event;
+  }
+
 
   /**
    * Updates the username associated with an account, will send a status update

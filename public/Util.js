@@ -223,7 +223,6 @@ class Util {
    * @returns {string}
    */
   static getPluginFolderPath() {
-    console.log("getPluginFolderPath");
     let pluginFolder = path.join(
       Util.getFlowHomePath(),
       "plugins"

@@ -98,7 +98,9 @@ module.exports = class BaseController {
       USERNAME: "/username",
       FULLNAME: "/fullname",
       DISPLAYNAME: "/displayname",
-      ROOT: "/root"
+      ROOT: "/root",
+      PLUGIN: "/plugin",
+      REGISTRATION: "/registration"
     };
   }
 
@@ -261,6 +263,8 @@ module.exports = class BaseController {
       UPDATE_ACCOUNT_USERNAME: "updateAccountUsername",
       UPDATE_ACCOUNT_FULLNAME: "updateAccountFullName",
       UPDATE_ACCOUNT_DISPLAYNAME: "updateAccountDisplayName",
+      REGISTER_PLUGIN: "registerPlugin",
+      GET_REGISTERED_PLUGIN_LIST: "getRegisteredPluginList",
       CREATE_MOOVIE_CIRCUIT: "createMoovieCircuit",
       GET_MOOVIE_CIRCUITS: "getMoovieCircuits",
       GET_MOOVIE_CIRCUIT: "getMoovieCircuit",

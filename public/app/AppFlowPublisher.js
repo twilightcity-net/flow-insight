@@ -19,7 +19,7 @@ module.exports = class AppFlowPublisher {
   constructor() {
     this.name = "[AppFlowPublisher]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 10000; //for now do a short timer
+    this.intervalMs = 60000 * 3; //for now do a short timer
     this.timeout = {
       response: 30000,
       deadline: 30000,
@@ -63,6 +63,14 @@ module.exports = class AppFlowPublisher {
    */
   pulse() {
     console.log("Flow publisher pulse!");
+
+    this.pluginManager.validateRegistration();
+    //if there are any new plugins, register the plugin...
+    //so we need build out the controller apis (inside account?) to do these two plugin
+    //operations...
+
+    //we only need backend events, but we still need events.
+    //can put the login in the account controller class.
 
     //pair request button.
 
@@ -108,6 +116,8 @@ module.exports = class AppFlowPublisher {
       );
     }
   }
+
+
 
   validatePluginRegistrations() {
 

@@ -16,6 +16,7 @@ module.exports = class PluginManager {
     this.initPlugins();
 
     this.pluginsFound = [];
+    this.registeredPluginSet = new Set();
   }
 
   isInitialized() {
@@ -29,23 +30,49 @@ module.exports = class PluginManager {
     const pluginFolder = Util.getPluginFolderPath();
 
     this.createPluginFolderIfDoesntExist(pluginFolder, () => {
-      this.loadAllPlugins(pluginFolder);
+      this.loadAllPlugins(pluginFolder, (plugins) => {
+        this.pluginsFound = plugins;
+        this.initialized = true;
+      });
     });
   }
+
+  validateRegistration() {
+    if (!this.initialized) return;
+
+    const pluginFolder = Util.getPluginFolderPath();
+    this.loadAllPlugins(pluginFolder, (newPlugins) => {
+       if (newPlugins.length !== this.pluginsFound) {
+         this.registerMissingPlugins();
+       } else {
+         this.checkRegistrationListMatchesServer();
+       }
+    });
+  }
+
+  registerMissingPlugins() {
+
+  }
+
+  checkRegistrationListMatchesServer() {
+
+  }
+
 
   createPluginFolderIfDoesntExist(pluginFolder, callback) {
     fs.mkdir(pluginFolder, callback);
   }
 
-  loadAllPlugins(pluginFolder) {
+  loadAllPlugins(pluginFolder, callback) {
+    const pluginList = [];
     fs.readdir(pluginFolder, (err, files) => {
       files.forEach(folder => {
         if (fs.statSync(pluginFolder + "/" + folder).isDirectory()){
           console.log("plugin found: "+folder);
-          this.pluginsFound.push( { plugin: folder} );
+          pluginList.push( { plugin: folder} );
         }
       });
-      this.initialized = true;
+      callback(pluginList);
     });
   }
 

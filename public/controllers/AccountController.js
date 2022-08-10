@@ -38,7 +38,9 @@ module.exports = class AccountController extends (
       GET_PLATFORM: "get-platform",
       UPDATE_ACCOUNT_USERNAME: "update-account-username",
       UPDATE_ACCOUNT_FULLNAME: "update-account-fullname",
-      UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname"
+      UPDATE_ACCOUNT_DISPLAYNAME: "update-account-displayname",
+      GET_REGISTERED_PLUGIN_LIST: "get-registered-plugin-list",
+      REGISTER_PLUGIN: "register-plugin"
     };
   }
 
@@ -107,6 +109,12 @@ module.exports = class AccountController extends (
           break;
         case AccountController.Events.SET_PRIMARY_COMMUNITY:
           this.handleSetPrimaryCommunityEvent(event, arg);
+          break;
+        case AccountController.Events.GET_REGISTERED_PLUGIN_LIST:
+          this.handleGetRegisteredPluginListEvent(event, arg);
+          break;
+        case AccountController.Events.REGISTER_PLUGIN:
+          this.handleRegisterPluginEvent(event, arg);
           break;
         case AccountController.Events.RESTART_APP:
           this.handleRestartAppEvent(event, arg);
@@ -303,6 +311,65 @@ module.exports = class AccountController extends (
       {invitationKey : keycode},
       AccountController.Names.USE_INVITATION_KEY,
       AccountController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for registering a new plugin
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleRegisterPluginEvent(event, arg, callback) {
+    let pluginId = arg.args.pluginId,
+    urn =
+        AccountController.Paths.ACCOUNT +
+        AccountController.Paths.PLUGIN +
+        AccountController.Paths.REGISTRATION;
+
+    this.doClientRequest(
+      AccountController.Contexts.ACCOUNT_CLIENT,
+      {pluginId : pluginId},
+      AccountController.Names.REGISTER_PLUGIN,
+      AccountController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for getting a list of registered plugins
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetRegisteredPluginsListEvent(event, arg, callback) {
+    let urn =
+      AccountController.Paths.ACCOUNT +
+      AccountController.Paths.PLUGIN +
+      AccountController.Paths.REGISTRATION;
+
+    this.doClientRequest(
+      AccountController.Contexts.ACCOUNT_CLIENT,
+      {},
+      AccountController.Names.GET_REGISTERED_PLUGIN_LIST,
+      AccountController.Types.GET,
       urn,
       (store) =>
         this.defaultDelegateCallback(
