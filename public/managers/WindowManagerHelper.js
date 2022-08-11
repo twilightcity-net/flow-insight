@@ -28,7 +28,8 @@ module.exports = class WindowManagerHelper {
       MOOVIE: "tc-" + ViewManagerHelper.ViewNames.MOOVIE,
       MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
       GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED,
-      FERVIE: "tc-"+ ViewManagerHelper.ViewNames.FERVIE
+      FERVIE: "tc-"+ ViewManagerHelper.ViewNames.FERVIE,
+      PLUGIN: "tc-" + ViewManagerHelper.ViewNames.PLUGIN
     };
   }
 
@@ -246,6 +247,19 @@ module.exports = class WindowManagerHelper {
   }
 
   /**
+   * creates new window for plugin registration
+   * @returns {*}
+   */
+  static createPluginRegistrationWindow(arg) {
+    let windowName = WindowManagerHelper.WindowNames.PLUGIN;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName,
+      arg
+    );
+  }
+
+  /**
    * closes org switcher window
    * @returns {*}
    */
@@ -254,6 +268,14 @@ module.exports = class WindowManagerHelper {
     global.App.WindowManager.closeWindowByName(windowName);
   }
 
+  /**
+   * closes plugin registration window
+   * @returns {*}
+   */
+  static closePluginRegistrationWindow() {
+    let windowName = WindowManagerHelper.WindowNames.PLUGIN;
+    global.App.WindowManager.closeWindowByName(windowName);
+  }
 
   /**
    * closes hotkey config window

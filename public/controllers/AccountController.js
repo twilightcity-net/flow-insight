@@ -359,7 +359,7 @@ module.exports = class AccountController extends (
    * @param arg
    * @param callback
    */
-  handleGetRegisteredPluginsListEvent(event, arg, callback) {
+  handleGetRegisteredPluginListEvent(event, arg, callback) {
     let urn =
       AccountController.Paths.ACCOUNT +
       AccountController.Paths.PLUGIN +

@@ -19,7 +19,7 @@ module.exports = class AppFlowPublisher {
   constructor() {
     this.name = "[AppFlowPublisher]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 60000 * 3; //for now do a short timer
+    this.intervalMs = 20000; //for now do a short timer
     this.timeout = {
       response: 30000,
       deadline: 30000,
@@ -64,7 +64,13 @@ module.exports = class AppFlowPublisher {
   pulse() {
     console.log("Flow publisher pulse!");
 
-    this.pluginManager.validateRegistration();
+    this.pluginManager.validateAllPluginsRegistered(() => {
+      const plugins = this.pluginManager.getRegisteredPluginList();
+
+      //TODO load data for plugins
+
+      console.log("done!");
+    });
     //if there are any new plugins, register the plugin...
     //so we need build out the controller apis (inside account?) to do these two plugin
     //operations...

@@ -19,7 +19,8 @@ module.exports = class ViewManagerHelper {
       MOOVIE: "moovie",
       MESSAGE: "message",
       GETSTARTED: "getstarted",
-      FERVIE: "fervie"
+      FERVIE: "fervie",
+      PLUGIN: "plugin"
     };
   }
 };

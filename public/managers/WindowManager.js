@@ -20,6 +20,7 @@ const GettingStartedWindow = require("../windows/GettingStartedWindow");
 const FervieWindow = require("../windows/FervieWindow");
 const InvitationKeyWindow = require("../windows/InvitationKeyWindow");
 const OrgSwitcherWindow = require("../windows/OrgSwitcherWindow");
+const PluginRegistrationWindow = require("../windows/PluginRegistrationWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -227,7 +228,6 @@ class WindowManager {
   loadWindow(window, arg) {
     log.info("[WindowManager] load window -> " + window.name);
 
-    //this needs to load a fresh url even if it's reloading the window
     let newUrl = this.getWindowViewURL(window.view, arg);
     window.window.loadURL(newUrl);
 
@@ -239,6 +239,19 @@ class WindowManager {
        }, 500);
       }
     });
+  }
+
+  /**
+   * Loads a view into a window and creates its event handlers
+   * @param window
+   * @param arg to pass to the window
+   */
+  refreshWindowUrl(window, arg) {
+    log.info("[WindowManager] refresh window -> " + window.name);
+
+    //this needs to load a fresh url even if it's reloading the window
+    let newUrl = this.getWindowViewURL(window.view, arg);
+    window.window.loadURL(newUrl);
   }
 
   /**
@@ -368,11 +381,13 @@ class WindowManager {
         this.onBlurWindowCb(event);
       });
       this.windows.push(window);
+
+      this.loadWindow(window, arg);
     } else {
       //if window already exists creating the window should focus it
       window.window.focus();
+      this.refreshWindowUrl(window, arg);
     }
-    this.loadWindow(window, arg);
     return window;
   }
 
@@ -415,6 +430,8 @@ class WindowManager {
         return new GettingStartedWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.FERVIE:
         return new FervieWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.PLUGIN:
+        return new PluginRegistrationWindow(windowName, arg);
       default:
         return null;
     }
