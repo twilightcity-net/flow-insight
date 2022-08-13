@@ -5679,6 +5679,43 @@
   Fervie popout styles
    */
 
+  #component.fervieLayout .fervieSpeechTrigger {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+  }
+
+  #fervieTalkBubble {
+    margin-left: 0px;
+  }
+
+  #fervieTalkBubble:before {
+    left: 60% !important;
+  }
+
+  #fervieTalkBubble .fervieTalkContent {
+    padding: 10px;
+  }
+
+  #fervieTalkBubble .bubbleButton {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  #fervieTalkBubble .bubbleButton .content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 190px;
+  }
+
+  #component.fervieLayout svg {
+    position: fixed;
+    bottom: -51px;
+    right: 0px;
+  }
+
   #component.fervieLayout .fervieBody:hover {
     filter: brightness(120%);
     cursor: pointer;
@@ -5710,13 +5747,14 @@
 
   #component.fervieLayout .portal {
     transform-origin: center;
-    transform: scaleX(1);
+    transform: scaleX(0.7);
+    opacity: 0;
   }
 
   #component.fervieLayout .fervieBody {
     transform-origin: top right;
     transform-box: fill-box;
-    transform: translateY(0px) translateX(0px) rotate(0deg);
+    transform: rotate(-15deg) translateY(25px) translateX(-10px);
   }
 
   /*#component.fervieLayout .fervieBody {*/

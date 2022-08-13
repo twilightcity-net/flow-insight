@@ -22,6 +22,8 @@ module.exports = class FervieWindow {
       arg
     );
 
+    this.extraBubbleHeight = 300;
+    this.extraBubbleWidth = 150;
     this.fervieHeight = 58;
     this.fervieWidth = 136;
     this.rightMargin = 20;
@@ -33,12 +35,14 @@ module.exports = class FervieWindow {
     this.display = global.App.WindowManager.getDisplay();
     this.window = new BrowserWindow({
       name: this.name,
-      width: this.fervieWidth,
-      height:  this.fervieHeight,
-      minWidth: this.fervieWidth,
-      minHeight:  this.fervieHeight,
-      x: Math.floor(this.display.workArea.x + this.display.workAreaSize.width - this.fervieWidth - this.rightMargin),
-      y: Math.floor(this.display.workArea.y + this.display.workAreaSize.height - this.fervieHeight - this.bottomMargin),
+      width: this.fervieWidth + this.extraBubbleWidth,
+      height:  this.fervieHeight + this.extraBubbleHeight,
+      minWidth: this.fervieWidth + this.extraBubbleWidth,
+      minHeight:  this.fervieHeight + this.extraBubbleHeight,
+      x: Math.floor(this.display.workArea.x + this.display.workAreaSize.width
+        - this.fervieWidth - this.extraBubbleWidth - this.rightMargin),
+      y: Math.floor(this.display.workArea.y + this.display.workAreaSize.height
+        - this.fervieHeight - this.extraBubbleHeight - this.bottomMargin),
       resizable: false,
       hasShadow: false,
       transparent: true,

@@ -4,6 +4,8 @@ import {BaseClient} from "../clients/BaseClient";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
 import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
+import {Button, Popup} from "semantic-ui-react";
+import EmojiPicker from "./shared/EmojiPicker";
 
 /**
  * this component is the layout for the always-on-top fervie button
@@ -18,7 +20,8 @@ export default class FervieLayout extends Component {
     super(props);
     this.name = "[FervieLayout]";
     this.state = {
-      me: MemberClient.me
+      me: MemberClient.me,
+      isSpeechBubbleReady: false
     }
   }
 
@@ -39,6 +42,7 @@ export default class FervieLayout extends Component {
         this,
         this.onTalkRoomMessage
       );
+
   };
 
   onTalkRoomMessage = (event, arg) => {
@@ -69,6 +73,20 @@ export default class FervieLayout extends Component {
     });
   }
 
+  onFervieHide = () => {
+    this.setState({
+      isSpeechBubbleReady: false
+    });
+  }
+
+  onFervieShow = () => {
+    setTimeout(() => {
+      this.setState({
+        isSpeechBubbleReady: true
+      });
+    }, 1000);
+  }
+
   /**
    * When we click on the fervie app icon
    */
@@ -83,6 +101,46 @@ export default class FervieLayout extends Component {
     //this.props.onAppExit();
   }
 
+  getSpeechBubbleContent() {
+    return (<Popup id="fervieTalkBubble" className="fervieTalkBubble"
+      position='bottom center'
+      inverted
+      offset={[0, 50]}
+      open={this.state.isSpeechBubbleReady}
+      flowing
+      trigger={
+        (<span className="fervieSpeechTrigger">
+       &nbsp;
+        </span>)
+      }
+    >
+      <Popup.Content className="fervieTalkContent">
+      <div>
+        Would you like me to find you a pair?
+
+        </div>
+        <div>
+        <Button
+          className="bubbleButton"
+          size="medium"
+          color="grey"
+        >
+          <Button.Content>Area: Electron</Button.Content>
+        </Button>
+        </div>
+        <div>
+        <Button
+          className="bubbleButton"
+          size="medium"
+          color="grey"
+        >
+          <Button.Content>CircuitSidebar.js</Button.Content>
+        </Button>
+        </div>
+      </Popup.Content>
+    </Popup>);
+  }
+
   /**
    * renders the chat console layout
    * @returns {*} - the JSX to render
@@ -90,7 +148,13 @@ export default class FervieLayout extends Component {
   render() {
     return (
       <div id="component" className="fervieLayout" >
-        <FerviePeekAnimation position={FerviePeekAnimation.Position.PEEK} me={MemberClient.me}/>
+        {this.getSpeechBubbleContent()}
+        <FerviePeekAnimation
+          position={FerviePeekAnimation.Position.PEEK}
+          me={MemberClient.me}
+          onFervieHide={this.onFervieHide}
+          onFervieShow={this.onFervieShow}
+        />
       </div>
     );
   }

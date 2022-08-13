@@ -60,6 +60,8 @@ export default class FerviePeekAnimation extends Component {
   onFervieShow = (event, arg) => {
     console.log("fervie showing = "+JSON.stringify(arg));
 
+    this.props.onFervieShow();
+
     this.portalFrontKeyframes.play({
       name: FerviePeekAnimation.animationPortalIn,
       duration: FerviePeekAnimation.animationTime + "s",
@@ -90,6 +92,8 @@ export default class FerviePeekAnimation extends Component {
 
   onFervieHide = (event, arg) => {
     console.log("fervie hiding = "+JSON.stringify(arg));
+
+    this.props.onFervieHide();
 
     this.portalFrontKeyframes.play({
       name: FerviePeekAnimation.animationPortalOut,
