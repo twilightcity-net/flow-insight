@@ -21,7 +21,10 @@ export default class FervieLayout extends Component {
     this.name = "[FervieLayout]";
     this.state = {
       me: MemberClient.me,
-      isSpeechBubbleReady: false
+      isSpeechBubbleReady: false,
+      isRequestTypeChosen: false,
+      requestedAreaType: null,
+      requestedArea: null,
     }
   }
 
@@ -41,6 +44,12 @@ export default class FervieLayout extends Component {
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
         this,
         this.onTalkRoomMessage
+      );
+
+    this.fervieShowHideNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_FERVIE_SHOW_HIDE,
+        this
       );
 
   };
@@ -64,6 +73,7 @@ export default class FervieLayout extends Component {
   componentWillUnmount() {
     this.meUpdateListener.clear();
     this.talkRoomMessageListener.clear();
+    this.this.fervieShowHideNotifier.clear();
   }
 
   onMeRefresh = () => {
@@ -82,7 +92,8 @@ export default class FervieLayout extends Component {
   onFervieShow = () => {
     setTimeout(() => {
       this.setState({
-        isSpeechBubbleReady: true
+        isSpeechBubbleReady: true,
+        isRequestTypeChosen: false
       });
     }, 1000);
   }
@@ -101,7 +112,43 @@ export default class FervieLayout extends Component {
     //this.props.onAppExit();
   }
 
-  getSpeechBubbleContent() {
+  onClickAreaOfCode = (areaType, area) => {
+    console.log("button pressed for "+area);
+
+    setTimeout(() => {
+      this.fervieShowHideNotifier.dispatch({});
+    }, 700);
+
+    this.setState({
+      requestedAreaType: areaType,
+      requestedArea: area,
+      isRequestTypeChosen: true
+    });
+  }
+
+
+  getConfirmationBubbleContent() {
+    return (<Popup id="fervieTalkBubble" className="fervieTalkBubble"
+                   position='bottom center'
+                   inverted
+                   offset={[0, 50]}
+                   open={this.state.isSpeechBubbleReady}
+                   flowing
+                   trigger={
+                     (<span className="fervieSpeechTrigger">
+       &nbsp;
+        </span>)
+                   }
+    >
+      <Popup.Content className="fervieTalkContent">
+        <div className="happyBig">
+          Here we go!
+        </div>
+      </Popup.Content>
+    </Popup>);
+  }
+
+  getPairingBubbleContent() {
     return (<Popup id="fervieTalkBubble" className="fervieTalkBubble"
       position='bottom center'
       inverted
@@ -124,6 +171,7 @@ export default class FervieLayout extends Component {
           className="bubbleButton"
           size="medium"
           color="grey"
+          onClick= {() => { this.onClickAreaOfCode("box", "electron"); }}
         >
           <Button.Content>Area: Electron</Button.Content>
         </Button>
@@ -133,6 +181,7 @@ export default class FervieLayout extends Component {
           className="bubbleButton"
           size="medium"
           color="grey"
+          onClick= {() => { this.onClickAreaOfCode("file", "/path/to/CircuitSidebar.js"); }}
         >
           <Button.Content>CircuitSidebar.js</Button.Content>
         </Button>
@@ -146,9 +195,18 @@ export default class FervieLayout extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
+
+    let bubbleContent = "";
+
+    if (this.state.isRequestTypeChosen) {
+      bubbleContent = this.getConfirmationBubbleContent();
+    } else {
+      bubbleContent = this.getPairingBubbleContent();
+    }
+
     return (
       <div id="component" className="fervieLayout" >
-        {this.getSpeechBubbleContent()}
+        {bubbleContent}
         <FerviePeekAnimation
           position={FerviePeekAnimation.Position.PEEK}
           me={MemberClient.me}

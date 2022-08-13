@@ -61,6 +61,7 @@ export class RendererEventFactory {
       WINDOW_CLOSE_ORG_SWITCHER: prefix + "window-close-org-switcher",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
       WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
+      WINDOW_FERVIE_SHOW_HIDE: prefix + "window-fervie-show-hide",
       WINDOW_FERVIE_SHOWING: prefix + "window-fervie-showing",
       WINDOW_FERVIE_HIDING: prefix + "window-fervie-hiding",
       TALK_CONNECTED: prefix + "talk-connected",
