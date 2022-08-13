@@ -110,6 +110,10 @@ class ShortcutManager {
     };
   }
 
+  /**
+   * Gets a descriptor object of the console shortcut
+   * @returns {{accelerator: *, modifier: string, name, friendlyName: string, key: string, hasShift: boolean}}
+   */
   getConsoleShortcut() {
     let shortcut = this.findShortcutByName(ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE);
 
@@ -132,6 +136,54 @@ class ShortcutManager {
       key: key,
       hasShift: hasShift
     }
+  }
+
+  /**
+   * Gets a descriptor object of the fervie shortcut
+   * @returns {{accelerator: *, modifier: string, name, friendlyName: string, key: string, hasShift: boolean}}
+   */
+  getFervieShortcut() {
+    let shortcut = this.findShortcutByName(ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE);
+
+    let accelerator = shortcut.accelerator;
+    let parts = accelerator.split('+');
+
+    let modifier = parts[0];
+    let key = parts[parts.length - 1];
+    let hasShift = parts.length > 2;
+
+    if (!hasShift) {
+      key = key.toLowerCase();
+    }
+
+    return {
+      name: shortcut.name,
+      friendlyName: "Fervie",
+      accelerator: shortcut.accelerator,
+      modifier: modifier,
+      key: key,
+      hasShift: hasShift
+    }
+  }
+
+  /**
+   * Update accelerator key for the show/hide fervie
+   * @param newAccelerator
+   */
+  updateFervieShortcut(newAccelerator) {
+
+    let shortcut = this.findShortcutByName(ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE);
+
+    console.log("found shortcut = "+shortcut);
+    globalShortcut.unregister(shortcut.accelerator);
+
+    shortcut.accelerator = newAccelerator;
+
+    console.log("configureGlobalShortcutCallback");
+    this.configureGlobalShortcutCallback(shortcut);
+
+    console.log("setFervieShortcut");
+    global.App.AppSettings.setFervieShortcut(shortcut.accelerator);
   }
 
   /**

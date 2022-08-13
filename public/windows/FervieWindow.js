@@ -142,10 +142,15 @@ module.exports = class FervieWindow {
       this.state = this.states.HIDDEN;
       if (!this.isClosed) {
         this.window.hide();
+        this.restorePreviousWindowFocus();
       }
     }, this.animateTimeMs);
   }
 
+  restorePreviousWindowFocus() {
+    global.App.hide();
+    global.App.show();
+  }
 
   onShowCb() {
     log.info("[FervieWindow] show window");

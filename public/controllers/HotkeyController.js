@@ -139,8 +139,9 @@ module.exports = class HotkeyController extends (
   handleGetShortcutsEvent(event, arg, callback) {
 
     let consoleShortcut = global.App.ShortcutManager.getConsoleShortcut();
+    let fervieShortcut = global.App.ShortcutManager.getFervieShortcut();
 
-    arg.data = { shortcuts: [consoleShortcut]}
+    arg.data = { shortcuts: [consoleShortcut, fervieShortcut]}
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -168,27 +169,33 @@ module.exports = class HotkeyController extends (
    * @param callback
    */
   handleUpdateShortcutsEvent(event, arg, callback) {
-    console.log("XXX handleUpdateShortcutsEvent");
+    console.log("handleUpdateShortcutsEvent");
 
     let shortcuts = arg.args.shortcuts;
 
     let consoleShortcut = null;
+    let fervieShortcut = null;
     for (let shortcut of shortcuts) {
       if (shortcut.name === ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE) {
         consoleShortcut = shortcut;
-        break;
+      }
+      if (shortcut.name === ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE) {
+        fervieShortcut = shortcut;
       }
     }
 
-    console.log("after loop");
-
     if (consoleShortcut) {
       let newAccelerator = this.constructAccelerator(consoleShortcut);
-      console.log("XXX newAccelerator = "+newAccelerator);
+      console.log("new accelerator for console = "+newAccelerator);
 
       global.App.ShortcutManager.updateConsoleShortcut(newAccelerator);
     }
 
+    if (fervieShortcut) {
+      let newAccelerator = this.constructAccelerator(fervieShortcut);
+      console.log("new accelerator for fervie = "+newAccelerator);
+      global.App.ShortcutManager.updateFervieShortcut(newAccelerator);
+    }
 
     this.delegateCallbackOrEventReplyTo(
       event,

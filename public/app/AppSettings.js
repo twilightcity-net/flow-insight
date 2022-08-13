@@ -160,6 +160,30 @@ module.exports = class AppSettings {
     );
   }
 
+  /**
+   * stores the global shortcut for calling your fervie
+   * @param shortcut
+   */
+  setFervieShortcut(shortcut) {
+    settings.set(
+      AppSettings.OptionalKeys.FERVIE_SHORTCUT,
+      shortcut
+    );
+  }
+
+  /**
+   * gets the hotkey accelerator string that represents the fervie call
+   * global shortcut
+   * @returns {any}
+   */
+  getFervieShortcut() {
+    let shortcut = settings.get(AppSettings.Keys.FERVIE_SHORTCUT);
+    if (!shortcut) {
+      shortcut = ShortcutManager.Accelerators.FERVIE_SHORTCUT;
+      this.setFervieShortcut(shortcut);
+    }
+    return shortcut;
+  }
 
   /**
    * gets the alternatate shortcut to display the console
@@ -264,6 +288,7 @@ module.exports = class AppSettings {
       DISPLAY_INDEX: 0,
       CONSOLE_SHORTCUT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
       CONSOLE_SHORTCUT_ALT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT,
+      FERVIE_SHORTCUT: ShortcutManager.Accelerators.FERVIE_SHORTCUT,
     };
   }
 
@@ -285,6 +310,7 @@ module.exports = class AppSettings {
     return {
       PRIMARY_ORG_ID_APP_FLOWINSIGHT: "primaryOrgIdFlowInsight",
       PRIMARY_ORG_ID_APP_WATCHMOOVIES: "primaryOrgIdWatchMoovies",
+      FERVIE_SHORTCUT: "shortcutFervie",
     };
   }
 };
