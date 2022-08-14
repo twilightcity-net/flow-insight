@@ -191,21 +191,45 @@ module.exports = class WindowManagerHelper {
   }
 
   /**
-   * creates new console window
+   * forces all console and child windows to stay on top
    * @returns {*}
    */
   static forceConsoleWindowOnTop() {
-    const windowName = WindowManagerHelper.WindowNames.CONSOLE;
-    const window = global.App.WindowManager.getWindow(windowName);
-    window.forceOnTop();
+    //WindowManagerHelper.forceWindowOnTop(WindowManagerHelper.WindowNames.HOTKEY);
+    WindowManagerHelper.forceWindowOnTop(WindowManagerHelper.WindowNames.CONSOLE);
   }
+
+  /**
+   * relieves all console and child windows from having to stay on top
+   * @returns {*}
+   */
+  static relieveConsoleFromAlwaysOnTop() {
+    WindowManagerHelper.relieveWindowOnTop(WindowManagerHelper.WindowNames.CONSOLE);
+   // WindowManagerHelper.forceWindowOnTop(WindowManagerHelper.WindowNames.HOTKEY);
+  }
+
+  static forceWindowOnTop(windowName) {
+    const window = global.App.WindowManager.getWindow(windowName);
+    if (window) {
+      window.window.setAlwaysOnTop(true, "screen-saver");
+    }
+  }
+
+  static relieveWindowOnTop(windowName) {
+    const window = global.App.WindowManager.getWindow(windowName);
+    if (window) {
+      window.window.setAlwaysOnTop(false, "screen-saver");
+    }
+  }
+
+
 
   /**
    * creates new console window
    * @returns {*}
    */
-  static relieveConsoleFromAlwaysOnTop() {
-    const windowName = WindowManagerHelper.WindowNames.CONSOLE;
+  static relieveHotkeyFromAlwaysOnTop() {
+    const windowName = WindowManagerHelper.WindowNames.HOTKEY;
     const window = global.App.WindowManager.getWindow(windowName);
     window.relieveOnTop();
   }
@@ -295,6 +319,16 @@ module.exports = class WindowManagerHelper {
     global.App.WindowManager.closeWindowByName(windowName);
   }
 
+
+  static focusConsoleWindowIfVisible() {
+    const windowName = WindowManagerHelper.WindowNames.CONSOLE;
+    const window = global.App.WindowManager.getWindow(windowName);
+
+    if (window && window.isShown()) {
+      window.window.show();
+      window.window.focus();
+    }
+  }
 
   static unhideDock() {
     if (is_mac) {

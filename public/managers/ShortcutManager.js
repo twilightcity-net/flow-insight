@@ -130,7 +130,7 @@ class ShortcutManager {
 
     return {
       name: shortcut.name,
-      friendlyName: "Open Console",
+      friendlyName: "Flow Console",
       accelerator: shortcut.accelerator,
       modifier: modifier,
       key: key,

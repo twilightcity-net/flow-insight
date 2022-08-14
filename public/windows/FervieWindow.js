@@ -158,7 +158,8 @@ module.exports = class FervieWindow {
     global.App.show();
     setTimeout(() => {
       WindowManagerHelper.relieveConsoleFromAlwaysOnTop();
-    }, 333);
+      WindowManagerHelper.focusConsoleWindowIfVisible();
+    }, 111);
   }
 
   onShowCb() {

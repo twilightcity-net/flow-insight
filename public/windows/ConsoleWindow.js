@@ -265,6 +265,10 @@ module.exports = class ConsoleWindow {
     this.window.setAlwaysOnTop(false, "screen-saver");
   }
 
+  isShown() {
+    return this.state === this.states.SHOWN;
+  }
+
   /**
    * updates the console's size and position from the currently stored display
    */
