@@ -5,7 +5,7 @@ import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
 import { PopupController } from "./PopupController";
 import { ChartPopoutController } from "./ChartPopoutController";
-import {HotkeyViewController} from "./HotkeyViewController";
+import {DialogViewController} from "./DialogViewController";
 import {InvitationViewController} from "./InvitationViewController";
 import {OrgSwitcherViewController} from "./OrgSwitcherViewController";
 import {DMPopoutController} from "./DMPopoutController";
@@ -37,7 +37,8 @@ export class RendererControllerFactory {
       HOTKEY_CONFIG: "hotkey-config",
       INVITATION_KEY: "invitation-key",
       ORG_SWITCHER: "org-switcher",
-      DM_POPOUT: "dm-popout"
+      DM_POPOUT: "dm-popout",
+      PLUGIN_DIALOG: "plugin-dialog"
     };
   }
 
@@ -107,7 +108,8 @@ export class RendererControllerFactory {
       case RendererControllerFactory.Views.DM_POPOUT:
         return new DMPopoutController(scope);
       case RendererControllerFactory.Views.HOTKEY_CONFIG:
-        return new HotkeyViewController(scope);
+      case RendererControllerFactory.Views.PLUGIN_DIALOG:
+        return new DialogViewController(scope);
       case RendererControllerFactory.Views.INVITATION_KEY:
         return new InvitationViewController(scope);
       case RendererControllerFactory.Views.ORG_SWITCHER:

@@ -3255,6 +3255,68 @@
   }
 
   /*
+  COMPONENT: PLUGIN DIALOG LAYOUT
+   */
+
+  #component.pluginLayout .closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+
+  #component.pluginLayout .closeIcon i {
+    color: rgba(200, 200, 200, 0.96);
+    transition: background-color, color 0.333s ease-out;
+    border-radius: 3px;
+    margin: 0px;
+  }
+
+  #component.pluginLayout .closeIcon i:hover {
+    color: white;
+    cursor: pointer !important;
+  }
+
+  #component.pluginLayout .configBox {
+    background-color: rgba(27, 28, 29, 0.96);
+    height: 100%;
+  }
+
+  #component.pluginLayout .configBox .title {
+    -webkit-app-region: drag;
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    padding-top: 10px;
+    padding-left: 20px;
+    width: 90%;
+  }
+
+  #component.pluginLayout .configBox .registerText {
+    color: #cccccc;
+    font-size: 14px;
+    padding: 20px;
+  }
+
+  #component.pluginLayout .configBox .pluginId {
+    color: #a475f9;
+    filter: brightness(110%);
+    font-size: 15px;
+  }
+
+  #component.pluginLayout .configBox .pluginId:hover {
+    filter: brightness(130%);
+  }
+
+  #component.pluginLayout .buttons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+  /*
  * COMPONENT: HOTKEY CONFIG LAYOUT
  */
   #component.hotkeyLayout .closeIcon {

@@ -20,7 +20,6 @@ export class DimensionController {
 
   /**
    * the list of components we wish to manage dimensions for
-   * @returns {{HOTKEY_CONFIG:string, FLOW_PANEL: string, PLAY_PANEL: string, FERVIE_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get Components() {
@@ -34,6 +33,7 @@ export class DimensionController {
       SIDEBAR_PANEL: "[SidebarPanel]",
       CIRCUIT_SIDEBAR: "[CircuitSidebar]",
       HOTKEY_CONFIG: "[HotkeyConfig]",
+      PLUGIN_DIALOG: "[PluginDialog]"
     };
   }
 
@@ -89,6 +89,14 @@ export class DimensionController {
    * @returns {number}
    */
   static getHotkeyConfigHeight() {
+    return window.innerHeight;
+  }
+
+  /**
+   * Calculates the height for the plugin config window
+   * @returns {number}
+   */
+  static getPluginHeight() {
     return window.innerHeight;
   }
 
@@ -507,8 +515,7 @@ export class DimensionController {
    * @returns {number|*}
    */
   static getHeightFor(component) {
-    if (
-      component ===
+    if (component ===
       DimensionController.Components.FERVIE_PANEL
     ) {
       return DimensionController.getFerviePanelHeight();
@@ -543,9 +550,13 @@ export class DimensionController {
       component ===
       DimensionController.Components.HOTKEY_CONFIG
     ) {
+      return DimensionController.getPluginHeight();
+    } else if (
+      component ===
+      DimensionController.Components.PLUGIN_DIALOG
+    ) {
       return DimensionController.getHotkeyConfigHeight();
-    }
-    else if (
+    } else if (
       component ===
       DimensionController.Components.SIDEBAR_PANEL
     ) {

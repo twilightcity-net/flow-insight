@@ -311,6 +311,16 @@ module.exports = class WindowManagerHelper {
   }
 
   /**
+   * closes plugin registration dialog window
+   * @returns {*}
+   */
+  static closeWindowPluginDialog() {
+    let windowName = WindowManagerHelper.WindowNames.PLUGIN;
+    global.App.WindowManager.closeWindowByName(windowName);
+  }
+
+
+  /**
    * closes the use invitation key window
    * @returns {*}
    */

@@ -29,6 +29,12 @@ module.exports = class ConfigWindowManager {
       this,
       (event, arg) => this.onCloseOrgSwitcherCb(event, arg)
     );
+
+    this.pluginDialogCloseWindowEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CLOSE_PLUGIN_DIALOG,
+      this,
+      (event, arg) => this.onClosePluginDialogCb(event, arg)
+    );
   }
 
   /**
@@ -58,6 +64,16 @@ module.exports = class ConfigWindowManager {
    */
   onCloseOrgSwitcherCb(event, arg) {
     WindowManagerHelper.closeWindowOrgSwitch();
+  }
+
+  /**
+   * When a close event for the plugin dialog is triggered, close the window object on the backend
+   * usually by clicking the X, or the cancel button
+   * @param event
+   * @param arg
+   */
+  onClosePluginDialogCb(event, arg) {
+    WindowManagerHelper.closeWindowPluginDialog();
   }
 
 };

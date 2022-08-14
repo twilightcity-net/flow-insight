@@ -21,15 +21,16 @@ module.exports = class PluginRegistrationWindow {
     this.icon = Util.getAppIcon("icon.ico");
     this.display = global.App.WindowManager.getDisplay();
     this.autoShow = true;
-    this.width = Math.floor(this.display.workAreaSize.width * 0.25);
-    this.height = Math.floor((this.display.workAreaSize.height / 2) * 0.6);
+    this.width = Math.floor(this.display.workAreaSize.width * 0.40);
+    this.height = Math.floor((this.display.workAreaSize.height / 2) * 0.4);
+    this.topMargin = 100;
     this.window = new BrowserWindow({
       titleBarStyle: "customButtonsOnHover",
       name: this.name,
       width: this.width,
       height: this.height,
       x: Math.floor(this.display.workAreaSize.width /2 - this.width/2),
-      y: Math.floor(this.display.workAreaSize.height / 2 - this.height/2 - 100),
+      y: Math.floor( this.display.workAreaSize.height /4 - this.height/3),
       resizable: false,
       movable: true,
       frame: false,
