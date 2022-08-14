@@ -142,7 +142,7 @@ export default class FervieLayout extends Component {
     >
       <Popup.Content className="fervieTalkContent">
         <div className="happyBig">
-          Here we go!
+          Let's do it!
         </div>
       </Popup.Content>
     </Popup>);

@@ -1,4 +1,4 @@
-const { BrowserWindow } = require("electron"),
+const { BrowserWindow, app} = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   isDev = require("electron-is-dev"),
@@ -26,8 +26,8 @@ module.exports = class FervieWindow {
     this.extraBubbleWidth = 150;
     this.fervieHeight = 58;
     this.fervieWidth = 136;
-    this.rightMargin = 20;
-    this.bottomMargin = 20;
+    this.rightMargin = 40;
+    this.bottomMargin = 10;
 
     this.animateTimeMs = 1000;
 
@@ -92,6 +92,11 @@ module.exports = class FervieWindow {
       CANCEL: 4,
     };
 
+    WindowManagerHelper.hideDockWhileConsoleStaysOnTop();
+    setTimeout(() => {
+      WindowManagerHelper.unhideDock();
+    }, 1000);
+
   }
 
   onFervieShowHideCb() {
@@ -148,8 +153,12 @@ module.exports = class FervieWindow {
   }
 
   restorePreviousWindowFocus() {
+    WindowManagerHelper.forceConsoleWindowOnTop();
     global.App.hide();
     global.App.show();
+    setTimeout(() => {
+      WindowManagerHelper.relieveConsoleFromAlwaysOnTop();
+    }, 333);
   }
 
   onShowCb() {

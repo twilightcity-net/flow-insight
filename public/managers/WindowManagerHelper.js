@@ -296,6 +296,21 @@ module.exports = class WindowManagerHelper {
   }
 
 
+  static unhideDock() {
+    if (is_mac) {
+     //this works around the dock action de-focusing the console in the transition
+      WindowManagerHelper.forceConsoleWindowOnTop();
+      log.info("show dock..");
+      setTimeout(() => {
+        app.dock.show().then(() => {
+          setTimeout(() => {
+            WindowManagerHelper.relieveConsoleFromAlwaysOnTop();
+          }, 333);
+        });
+      }, 333);
+    }
+  }
+
   /**
    * Hide the window bar dock while keeping the console window on top.
    * Normally, focus shifts to the app behind the main app,
@@ -303,7 +318,7 @@ module.exports = class WindowManagerHelper {
    */
   static hideDockWhileConsoleStaysOnTop() {
     if (is_mac) {
-      //required to get the chat windows to work in full screen
+      //this works around the dock hiding de-focusing the console in the transition
       WindowManagerHelper.forceConsoleWindowOnTop();
       log.info("hide dock..");
       setTimeout(() => {
