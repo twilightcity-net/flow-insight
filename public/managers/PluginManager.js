@@ -101,7 +101,7 @@ module.exports = class PluginManager {
       }
     });
 
-    //WindowManagerHelper.createPluginRegistrationWindow({pluginIds: pluginConcatStr});
+    WindowManagerHelper.createPluginRegistrationWindow({pluginIds: pluginConcatStr});
   }
 
 

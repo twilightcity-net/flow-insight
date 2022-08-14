@@ -3,6 +3,7 @@ import {Button, Dropdown, Grid, Icon, Input} from "semantic-ui-react";
 import {RendererControllerFactory} from "../controllers/RendererControllerFactory";
 import {DimensionController} from "../controllers/DimensionController";
 import {HotkeyClient} from "../clients/HotkeyClient";
+import {AccountClient} from "../clients/AccountClient";
 
 /**
  *  This view class is used to show a small plugin registration window
@@ -30,11 +31,38 @@ export default class PluginRegistrationView extends Component {
   }
 
   componentDidMount() {
+    this.registerInProgress = false;
 
+    AccountClient.init(this);
   }
 
   onClickRegister = () => {
     console.log("register!");
+
+    if (this.registerInProgress) return;
+
+    this.registerInProgress = true;
+
+    AccountClient.registerPlugin(this.state.currentPluginId, this, (arg) => {
+      this.registerInProgress = false;
+      if (!arg.error) {
+        this.forwardToNextPlugin();
+      } else {
+        console.error("Unable to register plugin", arg.error);
+      }
+    });
+  }
+
+  forwardToNextPlugin() {
+    let currentPluginIndex = this.state.currentPluginIndex + 1;
+    if (currentPluginIndex < this.state.pluginIds.length) {
+      this.setState({
+        currentPluginIndex: currentPluginIndex,
+        currentPluginId: this.state.pluginIds[currentPluginIndex],
+      });
+    } else {
+      this.onClickClose();
+    }
   }
 
   onClickClose = () => {
@@ -67,7 +95,7 @@ export default class PluginRegistrationView extends Component {
              style={{
                height: height,
              }}>
-          <div className="title">Unregistered Plugin</div>
+          <div className="title">Unregistered Plugin ({this.state.currentPluginIndex + 1} of {this.state.pluginIds.length})</div>
 
           <div className="registerText">
             Found plugin <span className="pluginId">
