@@ -26,20 +26,11 @@ module.exports = class PluginManager {
   }
 
   /**
-   * Load up the plugin folders to see which are running
+   * Load and initialize all plugin folders, and request registration
+   * for any unregistered plugins
+   * @param callbackWhenDone
    */
-  loadPluginFolders(callback) {
-    const pluginFolder = Util.getPluginFolderPath();
-
-    this.createPluginFolderIfDoesntExist(pluginFolder, () => {
-      this.loadAllPlugins(pluginFolder, (plugins) => {
-        this.pluginFolders = plugins;
-        callback(plugins);
-      });
-    });
-  }
-
-  validateAllPluginsRegistered(callbackWhenDone) {
+  loadAndValidatePlugins(callbackWhenDone) {
     //so first, lets update our known folders, to see if there was a new folder added.
 
     this.loadPluginFolders((plugins) => {
@@ -64,6 +55,25 @@ module.exports = class PluginManager {
 
   }
 
+  /**
+   * Load up the plugin folders to see which are running
+   */
+  loadPluginFolders(callback) {
+    const pluginFolder = Util.getPluginFolderPath();
+
+    this.createPluginFolderIfDoesntExist(pluginFolder, () => {
+      this.loadAllPlugins(pluginFolder, (plugins) => {
+        this.pluginFolders = plugins;
+        callback(plugins);
+      });
+    });
+  }
+
+
+  /**
+   * Check plugin folders against registered plugins from server,
+   * and send registration request event for any unregistered ones
+   */
   checkForUnregisteredPluginsAndSendEvent() {
     const unregisteredPluginsList = [];
     const registeredPluginsList = [];
@@ -88,6 +98,10 @@ module.exports = class PluginManager {
     }
   }
 
+  /**
+   * Open plugin registration dialog for unregistered plugins
+   * @param unregisteredPluginIds
+   */
   onUnregisteredPlugins = (unregisteredPluginIds) => {
     console.log("Opening registration requests for unregistered plugins ");
 
@@ -105,6 +119,10 @@ module.exports = class PluginManager {
   }
 
 
+  /**
+   * Get the registered plugin list from the server
+   * @param callback
+   */
   doGetRegisteredPluginList(callback) {
     log.info("[PluginManager] do get registered plugin list");
 
@@ -125,10 +143,20 @@ module.exports = class PluginManager {
     client.doRequest();
   }
 
+  /**
+   * Create the plugins top left folder
+   * @param pluginFolder
+   * @param callback
+   */
   createPluginFolderIfDoesntExist(pluginFolder, callback) {
     fs.mkdir(pluginFolder, callback);
   }
 
+  /**
+   * Load the plugins from top level folder
+   * @param pluginFolder
+   * @param callback
+   */
   loadAllPlugins(pluginFolder, callback) {
     const pluginList = [];
     fs.readdir(pluginFolder, (err, files) => {

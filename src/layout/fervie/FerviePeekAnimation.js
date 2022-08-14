@@ -333,14 +333,10 @@ export default class FerviePeekAnimation extends Component {
 
   getFerviePeekSvg() {
     let fervieColor = "#B042FF";
-    let fervieAccessory;
-    let fervieTertiaryColor;
     if (this.props.me) {
       if (this.props.me.fervieColor) {
         fervieColor = this.props.me.fervieColor;
       }
-      fervieAccessory = this.props.me.fervieAccessory;
-      fervieTertiaryColor = this.props.me.fervieTertiaryColor;
     }
 
     return (

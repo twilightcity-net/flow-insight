@@ -1,10 +1,6 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
-  request = require("superagent"),
-  EventFactory = require("../events/EventFactory"),
-  HeartbeatDto = require("../dto/HeartbeatDto"),
-  SimpleStatusDto = require("../dto/SimpleStatusDto"),
-  TalkController = require("../controllers/TalkController");
+  EventFactory = require("../events/EventFactory");
 const PluginManager = require("../managers/PluginManager");
 
 /**
@@ -68,7 +64,7 @@ module.exports = class AppFlowPublisher {
   pulse() {
     console.log("Flow publisher pulse!");
 
-    this.pluginManager.validateAllPluginsRegistered(() => {
+    this.pluginManager.loadAndValidatePlugins(() => {
       const plugins = this.pluginManager.getRegisteredPluginList();
 
       //TODO load data for plugins

@@ -62,4 +62,5 @@ module.exports = class PluginRegistrationWindow {
 
     WindowManagerHelper.closePluginRegistrationWindow();
   }
+
 };

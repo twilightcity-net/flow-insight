@@ -5,7 +5,6 @@ import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
 import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
 import {Button, Popup} from "semantic-ui-react";
-import EmojiPicker from "./shared/EmojiPicker";
 
 /**
  * this component is the layout for the always-on-top fervie button

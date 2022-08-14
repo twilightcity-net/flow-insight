@@ -7,10 +7,6 @@ import {MemberClient} from "../clients/MemberClient";
  *  in the lower right-hand corner of your screen.
  */
 export default class FervieView extends Component {
-  constructor(props) {
-    super(props);
-
-  }
 
   componentDidMount() {
     MemberClient.init(this);
