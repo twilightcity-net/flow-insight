@@ -40,7 +40,7 @@ module.exports = class PluginManager {
         if (!store.error) {
           const plugins = store.data;
           plugins.forEach(plugin => {
-            console.log("registered "+plugin);
+            console.log("[PluginManager] Found registered plugin "+plugin.pluginId);
             this.registeredPluginSet.add(plugin.pluginId);
           });
           this.checkForUnregisteredPluginsAndSendEvent();
@@ -61,7 +61,7 @@ module.exports = class PluginManager {
   loadPluginFolders(callback) {
     const pluginFolder = Util.getPluginFolderPath();
 
-    this.createPluginFolderIfDoesntExist(pluginFolder, () => {
+    Util.createFolderIfDoesntExist(pluginFolder, () => {
       this.loadAllPlugins(pluginFolder, (plugins) => {
         this.pluginFolders = plugins;
         callback(plugins);
@@ -80,7 +80,7 @@ module.exports = class PluginManager {
 
     this.pluginFolders.forEach(pluginId => {
        if (!this.registeredPluginSet.has(pluginId)) {
-         console.log("Found unregistered plugin: "+pluginId);
+         console.log("[PluginManager] Found unregistered plugin: "+pluginId);
          unregisteredPluginsList.push(pluginId);
        } else {
          registeredPluginsList.push(pluginId);
@@ -90,7 +90,6 @@ module.exports = class PluginManager {
     this.registeredPluginFolders = registeredPluginsList;
 
     if (unregisteredPluginsList.length > 0) {
-      console.log("Unregistered plugins found!");
       this.hasUnregisteredPlugins = true;
       this.onUnregisteredPlugins(unregisteredPluginsList);
     } else {
@@ -103,7 +102,7 @@ module.exports = class PluginManager {
    * @param unregisteredPluginIds
    */
   onUnregisteredPlugins = (unregisteredPluginIds) => {
-    console.log("Opening registration requests for unregistered plugins ");
+    console.log("[PluginManager] Opening registration requests for unregistered plugins ");
 
     let pluginConcatStr = "";
     unregisteredPluginIds.forEach((pluginId) => {
@@ -143,14 +142,6 @@ module.exports = class PluginManager {
     client.doRequest();
   }
 
-  /**
-   * Create the plugins top left folder
-   * @param pluginFolder
-   * @param callback
-   */
-  createPluginFolderIfDoesntExist(pluginFolder, callback) {
-    fs.mkdir(pluginFolder, callback);
-  }
 
   /**
    * Load the plugins from top level folder
@@ -162,7 +153,6 @@ module.exports = class PluginManager {
     fs.readdir(pluginFolder, (err, files) => {
       files.forEach(folder => {
         if (fs.statSync(pluginFolder + "/" + folder).isDirectory()){
-          console.log("plugin found: "+folder);
           pluginList.push( folder );
         }
       });

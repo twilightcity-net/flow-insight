@@ -166,6 +166,16 @@ class Util {
   }
 
   /**
+   * Create a folder if it doesn't exist, and run callback when complete
+   * @param folder
+   * @param callback
+   */
+  static createFolderIfDoesntExist(folder, callback) {
+    fs.mkdir(folder, callback);
+  }
+
+
+  /**
    * sets the user data directory for dev mode
    */
   static setDevUserDataDir() {
