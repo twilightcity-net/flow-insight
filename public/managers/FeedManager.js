@@ -6,9 +6,7 @@ const log = require("electron-log"),
   path = require("path");
 
 const Util = require("../Util");
-const EventFactory = require("../events/EventFactory");
 const {DtoClient} = require("./DtoClientFactory");
-const WindowManagerHelper = require("./WindowManagerHelper");
 const NewEditorActivityDto = require("../dto/NewEditorActivityDto");
 const NewExternalActivityDto = require("../dto/NewExternalActivityDto");
 const NewExecutionActivityDto = require("../dto/NewExecutionActivityDto");
@@ -24,15 +22,20 @@ module.exports = class FeedManager {
     this.name = "[FeedManager]";
   }
 
+  static PREPROCESS_FOLDER = "preprocess";
   static PUBLISH_QUEUE_FOLDER = "publish_queue";
   static ERRORS_FOLDER = "publish_error";
   static FLOW_EXTENSION = ".flow";
+  static BATCH_PREFIX = "batch_";
+  static ACTIVE_FLOW_FILE = "active.flow";
 
   static EditorActivity = "EditorActivity";
   static ExecutionActivity = "ExecutionActivity";
   static ModificationActivity = "ModificationActivity";
   static ExternalActivity = "ExternalActivity";
   static Event = "Event";
+
+  static BATCH_SIZE_LIMIT = 500;
 
   /**
    * Read the lines from a batch file, and add elements to the batch
@@ -141,24 +144,155 @@ module.exports = class FeedManager {
 
 
   /**
-   * Move the active.flow file to the publishing feed
+   * Move the active.flow file to the preprocessing folder,
+   * then handle splitting it as necessary, then move to the publish_queue
    * @param pluginId
    * @param callback when done
    */
-  moveActiveFlowToPublishingQueue(pluginId, callback) {
+  commitActiveFlowFile(pluginId, callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    const queueFolder = path.join(pluginFolder, FeedManager.PUBLISH_QUEUE_FOLDER);
+    const preprocessFolder = path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
 
-    Util.createFolderIfDoesntExist(queueFolder, () => {
-      this.publishFile(pluginFolder, queueFolder, () => {
-        if (callback) {
-          callback();
-        }
+    Util.createFolderIfDoesntExist(preprocessFolder, () => {
+      this.preprocessFile(pluginFolder, preprocessFolder, (preprocessFilePath) => {
+        this.splitPreprocessFileAndMoveToPublishQueue(pluginId, preprocessFolder, preprocessFilePath, () => {
+          if (callback) {
+            callback();
+          }
+        });
       });
     });
   }
 
+  /**
+   * Sometimes active.flow files can be really big and need to be broken up into smaller
+   * batch files before being processed and sent to the server.
+   * This function splits up the active.flow file in the preprocess directory into a bunch of
+   * small batch files, then moves them all over to publish queue.
+   * @param pluginId
+   * @param preprocessFolder
+   * @param preprocessFilePath
+   * @param callback
+   */
+  splitPreprocessFileAndMoveToPublishQueue(pluginId, preprocessFolder, preprocessFilePath, callback) {
+    if (fs.existsSync(preprocessFilePath)) {
+      this.asyncSplitFile(preprocessFolder, preprocessFilePath).then(() => {
+        log.debug("[FeedManager] async split file complete!");
+        this.deletePreprocessInput(preprocessFolder, () => {
+          this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
+            if (callback) {
+              callback();
+            }
+          });
+        });
+      });
+    } else {
+      if (callback) {
+        callback();
+      }
+    }
+  }
+
+  /**
+   * Delete the preprocessInput file once the batch splitting is complete
+   * @param preprocessFolder
+   * @param callback
+   */
+  deletePreprocessInput(preprocessFolder, callback) {
+    const preprocessInputFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
+    this.deleteFile(preprocessInputFile, callback);
+  }
+
+  /**
+   * Once the preprocessor splits up the active.flow file into batches,
+   * move all these files over to the publishing queue,
+   * and then
+   * @param pluginId
+   * @param preprocessFolder,
+   * @param callback
+   */
+  moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, callback) {
+    log.debug("[FeedManager] moveAllSplitBatchesToPublishQueue");
+    this.findAllBatchFilesInPreprocessing(preprocessFolder, (batchFiles) => {
+      const queueFolder = this.getQueueFolder(pluginId);
+
+      batchFiles.forEach((fileName) => {
+        this.publishFile(preprocessFolder, queueFolder, fileName);
+      });
+      if (callback) {
+        callback();
+      }
+    });
+  }
+
+  /**
+   * Stream the input file line-by-line, and split the output into
+   * separate batch files.
+   * @param preprocessFolder
+   * @param preprocessFilePath
+   * @returns {Promise<boolean>}
+   */
+  async asyncSplitFile(preprocessFolder, preprocessFilePath) {
+    try {
+      const rl = readline.createInterface({
+        input: fs.createReadStream(preprocessFilePath),
+        crlfDelay: Infinity
+      });
+
+      let timeExtension = this.getTimeExtension();
+      let lineCount = 0;
+      let batchNumber = 1;
+      let activeBatchFile = this.getBatchFileName(preprocessFolder, timeExtension, batchNumber);
+      let batchFileLogger = fs.createWriteStream(activeBatchFile, {
+        flags: 'a' // 'a' means appending (old data will be preserved)
+      });
+
+      rl.on('line', (line) => {
+        try {
+          lineCount++;
+          this.writeLineToBatch(batchFileLogger, line);
+          if (lineCount > FeedManager.BATCH_SIZE_LIMIT) {
+            batchNumber++;
+            lineCount = 0;
+            activeBatchFile = this.getBatchFileName(preprocessFolder, timeExtension, batchNumber);
+            batchFileLogger = fs.createWriteStream(activeBatchFile, {
+              flags: 'a' // 'a' means appending (old data will be preserved)
+            });
+          }
+        } catch (err) {
+          console.error("Unable to process line, "+err);
+        }
+      });
+
+      await events.once(rl, 'close');
+    } catch (err) {
+      console.error("Unable to pre-process file: " + err);
+    }
+  }
+
+  /**
+   * Write the flow line to the specified batch file
+   * @param batchFileLogger
+   * @param line
+   */
+  writeLineToBatch(batchFileLogger, line) {
+    batchFileLogger.write(line + '\n');
+  }
+
+  /**
+   * Create the batch file name for each unique batch as we
+   * break the flow feed into chunks
+   * @param outputFolder
+   * @param timeExtension
+   * @param batchNumber
+   * @returns {string}
+   */
+  getBatchFileName(outputFolder, timeExtension, batchNumber) {
+    let filePath = path.join(outputFolder, FeedManager.BATCH_PREFIX +
+      timeExtension+"_"+batchNumber + FeedManager.FLOW_EXTENSION);
+    return filePath;
+  }
 
 
   /**
@@ -177,7 +311,7 @@ module.exports = class FeedManager {
     if (fs.existsSync(srcFilePath)) {
       fs.rename(srcFilePath, newPath, function (err) {
         if (err) throw err;
-        console.log('[FeedManager] Moved errored out flow file to '+newPath);
+        log.error('[FeedManager] Moved errored out flow file to '+newPath);
         if (callback) {
           callback();
         }
@@ -189,29 +323,67 @@ module.exports = class FeedManager {
     }
   }
 
+
   /**
-   * Publish an active file to the publishing queue
+   * Preprocesses the input file, by moving it into the pre-process directory
    * @param pluginFolder
-   * @param queueFolder
+   * @param preprocessFolder
    * @param callback
    */
-  publishFile(pluginFolder, queueFolder, callback) {
-    let oldPath = path.join(pluginFolder, "active.flow");
-    let newPath = path.join(queueFolder, "batch_"+this.getTimeExtension()+FeedManager.FLOW_EXTENSION)
+  preprocessFile(pluginFolder, preprocessFolder, callback) {
+    let oldPath = path.join(pluginFolder, FeedManager.ACTIVE_FLOW_FILE);
+    let newPath = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
 
     if (fs.existsSync(oldPath)) {
       fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
-        console.log('[FeedManager] Successfully committed file to '+newPath);
+        log.debug('[FeedManager] Successfully moved file to preprocess '+newPath);
         if (callback) {
-          callback();
+          callback(newPath);
         }
       });
     } else {
       if (callback) {
-        callback();
+        callback(newPath);
       }
     }
+  }
+
+
+  /**
+   * Publish an active file to the publishing queue
+   * @param preprocessFolder
+   * @param queueFolder
+   * @param fileName
+   * @param callback
+   */
+  publishFile(preprocessFolder, queueFolder, fileName, callback) {
+    let oldPath = path.join(preprocessFolder, fileName);
+    let newPath = path.join(queueFolder, fileName);
+
+    if (fs.existsSync(oldPath)) {
+      fs.rename(oldPath, newPath,  (err) => {
+        if (err) throw err;
+        log.debug('[FeedManager] Successfully moved file to publish queue '+newPath);
+        if (callback) {
+          callback(newPath);
+        }
+      });
+    } else {
+      log.warn("preprocess file does not exist: "+oldPath);
+      if (callback) {
+        callback(newPath);
+      }
+    }
+  }
+
+  /**
+   * Gets the file name from the path
+   * @param filePath
+   * @returns {string}
+   */
+  getFileName(filePath) {
+    return path.parse(filePath).base;
   }
 
   /**
@@ -223,6 +395,17 @@ module.exports = class FeedManager {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
     return path.join(pluginFolder, FeedManager.PUBLISH_QUEUE_FOLDER);
+  }
+
+  /**
+   * Get the preprocessing folder corresponding to a pluginId
+   * @param pluginId
+   * @returns {string}
+   */
+  getPreprocessFolder(pluginId) {
+    const allPluginsFolder = Util.getPluginFolderPath();
+    const pluginFolder = path.join(allPluginsFolder, pluginId);
+    return path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
   }
 
   /**
@@ -249,11 +432,10 @@ module.exports = class FeedManager {
       batchFileList.forEach((file) => {
         const filePath = path.join(queueFolder, file);
 
-        console.log("[FeedManager] Processing "+filePath);
+        log.info("[FeedManager] Publishing "+filePath);
         const flowBatchDto = this.createEmptyFlowBatch();
 
         this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
-          console.log("[FeedManager] done reading " + filePath);
           if (successfulParse) {
               this.publishBatch(pluginId, flowBatchDto, filePath);
             } else {
@@ -281,17 +463,33 @@ module.exports = class FeedManager {
     });
   }
 
-
+  /**
+   * Once the batch send is successful, delete the file
+   * @param pluginId
+   * @param filePath
+   */
   handleSuccessfulBatch(pluginId, filePath) {
-    console.log("[FeedManager] Sent 1 batch successfully for "+pluginId);
+    log.info("[FeedManager] Sent 1 batch successfully for "+pluginId);
     //
+    this.deleteFile(filePath);
+  }
+
+  /**
+   * Deletes the file asynchronously
+   * @param filePath
+   * @param callback
+   */
+  deleteFile(filePath, callback) {
     fs.unlink(filePath, (err) => {
       if (err) {
         console.error(err)
       }
-      //published file removed from queue
+      if (callback) {
+        callback();
+      }
     });
   }
+
 
   /**
    * Handle scenario when batch send fails
@@ -299,8 +497,8 @@ module.exports = class FeedManager {
    * @param file
    */
   handleFailedBatch(pluginId, file, error) {
-    console.error("[FeedManager] Call to server failed: "+error);
-    console.log("[FeedManager] Will retry on next loop");
+    log.error("[FeedManager] Call to server failed: "+error);
+    log.info("[FeedManager] Will retry on next loop");
   }
 
   /**
@@ -351,7 +549,28 @@ module.exports = class FeedManager {
     fs.readdir(queueFolder, (err, files) => {
       files.forEach(file => {
         if (fs.statSync(queueFolder + "/" + file).isFile() && file.endsWith(FeedManager.FLOW_EXTENSION)){
-          console.log("[FeedManager] batch file found: "+file);
+          log.debug("[FeedManager] found batch in publish queue: "+file);
+          batchFileList.push( file );
+        }
+      });
+      callback(batchFileList);
+    });
+  }
+
+  /**
+   * Get a list of all the batch files generated by the preprocessor
+   * @param preprocessFolder
+   * @param callback
+   */
+  findAllBatchFilesInPreprocessing(preprocessFolder, callback) {
+
+    const batchFileList = [];
+    fs.readdir(preprocessFolder, (err, files) => {
+      files.forEach(file => {
+        if (fs.statSync(preprocessFolder + "/" + file).isFile()
+          && file.endsWith(FeedManager.FLOW_EXTENSION)
+          && file.startsWith(FeedManager.BATCH_PREFIX)){
+          log.debug("[FeedManager] found batch in preprocessing: "+file);
           batchFileList.push( file );
         }
       });
@@ -379,8 +598,6 @@ module.exports = class FeedManager {
    *
    */
   doFlowBatchPublish(flowBatchDto, callback) {
-    log.info("[FeedManager] do flow input batch publish");
-
     this.urn = "/flow/input/batch";
 
     this.callback = callback;
@@ -393,7 +610,7 @@ module.exports = class FeedManager {
       timestamp: new Date().getTime(),
       urn: this.urn,
     };
-    log.debug("[FeedManager] put flow input batch -> do request");
+    log.debug("[FeedManager] flow input batch -> do request");
     let client = new DtoClient(this.store, this.callback);
     client.doRequest();
   }

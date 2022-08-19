@@ -17,7 +17,7 @@ module.exports = class AppFlowPublisher {
     this.name = "[AppFlowPublisher]";
     log.info(this.name + " create flow publisher -> okay");
     this.intervalMs = 60000 * 20;
-    this.initialDelayMs = 60000;
+    this.initialDelayMs = 20000;
     this.timeout = {
       response: 30000,
       deadline: 30000,
@@ -64,7 +64,7 @@ module.exports = class AppFlowPublisher {
    * fires a publisher pulse that sends plugin data to gridtime
    */
   pulse() {
-    console.log("[FlowPublisher] Flow publisher pulse starting...");
+    log.info("[FlowPublisher] Flow publisher pulse starting...");
 
     try {
       this.doLoopProcessing();
@@ -84,10 +84,10 @@ module.exports = class AppFlowPublisher {
     this.pluginManager.loadAndValidatePlugins(() => {
       const plugins = this.pluginManager.getRegisteredPluginList();
 
-      console.log("Plugins to process: "+plugins.length);
+      log.info("Plugins to process: "+plugins.length);
 
       plugins.forEach(pluginId => {
-        this.feedManager.moveActiveFlowToPublishingQueue(pluginId, () => {
+        this.feedManager.commitActiveFlowFile(pluginId, () => {
           this.feedManager.publishAllBatches(pluginId);
         });
       });
