@@ -16,7 +16,7 @@ module.exports = class AppFlowPublisher {
   constructor() {
     this.name = "[AppFlowPublisher]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 60000 * 20;
+    this.intervalMs = 60000;
     this.initialDelayMs = 20000;
     this.timeout = {
       response: 30000,
@@ -87,8 +87,10 @@ module.exports = class AppFlowPublisher {
       log.info("Plugins to process: "+plugins.length);
 
       plugins.forEach(pluginId => {
-        this.feedManager.commitActiveFlowFile(pluginId, () => {
-          this.feedManager.publishAllBatches(pluginId);
+        this.feedManager.cleanupOldPreprocessingState(pluginId, () => {
+          this.feedManager.commitActiveFlowFile(pluginId, () => {
+            this.feedManager.publishAllBatches(pluginId);
+          });
         });
       });
 

@@ -12,6 +12,7 @@ const NewExternalActivityDto = require("../dto/NewExternalActivityDto");
 const NewExecutionActivityDto = require("../dto/NewExecutionActivityDto");
 const NewModificationActivityDto = require("../dto/NewModificationActivityDto");
 const NewFlowBatchEventDto = require("../dto/NewFlowBatchEventDto");
+const {ca} = require("wait-on/exampleConfig");
 
 /**
  * This class is used to publish the active.flow feeds for the plugins
@@ -142,6 +143,72 @@ module.exports = class FeedManager {
     }
   }
 
+  /**
+   * If the app crashed and left a bunch of half-done preprocessing in the directory
+   * we need to clean it up before continuing.
+   * @param pluginId
+   * @param callback
+   */
+  cleanupOldPreprocessingState(pluginId, callback) {
+    const allPluginsFolder = Util.getPluginFolderPath();
+    const pluginFolder = path.join(allPluginsFolder, pluginId);
+    const preprocessFolder = path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
+
+    const preprocessedFlowFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
+    if (fs.existsSync(preprocessedFlowFile)) {
+      log.info("Reprocessing active.flow after last preprocess run crashed.");
+      this.reprocessPreprocessing(pluginId, preprocessFolder, preprocessedFlowFile, () => {
+        if (callback) {
+          callback();
+        }
+      });
+    } else if (this.folderIsNotEmpty(preprocessFolder)) {
+      log.info("Reprocessing old flow batches after last preprocess run crashed.");
+      this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
+        if (callback) {
+          callback();
+        }
+      });
+    } else {
+      if (callback) {
+        callback();
+      }
+    }
+  }
+
+  /**
+   * Test whether there is contents in the folder
+   * @param folder
+   * @returns {boolean}
+   */
+  folderIsNotEmpty(folder) {
+    let files = fs.readdirSync(folder);
+    return files.length > 0;
+  }
+
+  /**
+   * The preprocess folder didn't complete on the last run.  Clean up the old preprocess batch
+   * files and then regenerate them using the active flow file, then call the callback when done
+   * @param pluginId
+   * @param preprocessFolder
+   * @param preprocessFlowFile
+   * @param callback
+   */
+  reprocessPreprocessing(pluginId, preprocessFolder, preprocessFlowFile, callback) {
+    this.findAllBatchFilesInPreprocessing(preprocessFolder, (batchFiles) => {
+      batchFiles.forEach((fileName) => {
+        const batchFilePath = path.join(preprocessFolder, fileName);
+        this.deleteFile(batchFilePath);
+      });
+
+      this.splitPreprocessFileAndMoveToPublishQueue(pluginId, preprocessFolder, preprocessFlowFile, () => {
+        if (callback) {
+          callback();
+        }
+      });
+    });
+
+  }
 
   /**
    * Move the active.flow file to the preprocessing folder,
@@ -177,8 +244,8 @@ module.exports = class FeedManager {
    */
   splitPreprocessFileAndMoveToPublishQueue(pluginId, preprocessFolder, preprocessFilePath, callback) {
     if (fs.existsSync(preprocessFilePath)) {
+      log.debug("[FeedManager] Splitting up active.flow into batches");
       this.asyncSplitFile(preprocessFolder, preprocessFilePath).then(() => {
-        log.debug("[FeedManager] async split file complete!");
         this.deletePreprocessInput(preprocessFolder, () => {
           this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
             if (callback) {
@@ -200,6 +267,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   deletePreprocessInput(preprocessFolder, callback) {
+    log.debug("[FeedManager] Deleting preprocessed active.flow file");
     const preprocessInputFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
     this.deleteFile(preprocessInputFile, callback);
   }
@@ -213,7 +281,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, callback) {
-    log.debug("[FeedManager] moveAllSplitBatchesToPublishQueue");
+    log.debug("[FeedManager] Moving all preprocessed batches to publish queue");
     this.findAllBatchFilesInPreprocessing(preprocessFolder, (batchFiles) => {
       const queueFolder = this.getQueueFolder(pluginId);
 
@@ -364,13 +432,13 @@ module.exports = class FeedManager {
     if (fs.existsSync(oldPath)) {
       fs.rename(oldPath, newPath,  (err) => {
         if (err) throw err;
-        log.debug('[FeedManager] Successfully moved file to publish queue '+newPath);
+        log.debug('[FeedManager] Successfully moved batch to publish queue '+fileName);
         if (callback) {
           callback(newPath);
         }
       });
     } else {
-      log.warn("preprocess file does not exist: "+oldPath);
+      log.warn("[FeedManager] preprocess file does not exist: "+oldPath);
       if (callback) {
         callback(newPath);
       }
@@ -570,7 +638,6 @@ module.exports = class FeedManager {
         if (fs.statSync(preprocessFolder + "/" + file).isFile()
           && file.endsWith(FeedManager.FLOW_EXTENSION)
           && file.startsWith(FeedManager.BATCH_PREFIX)){
-          log.debug("[FeedManager] found batch in preprocessing: "+file);
           batchFileList.push( file );
         }
       });
@@ -588,14 +655,15 @@ module.exports = class FeedManager {
     today = today.replaceAll("-", "");
     today = today.replaceAll(":", "");
 
-    return today.substr(0, today.indexOf('.'));
+    let random = Math.floor(Math.random()*10000);
+
+    return today.substr(0, today.indexOf('.')) + "_"+random;
   }
 
   /**
    * Publish the flow batch to the server
    * @param flowBatchDto
    * @param callback
-   *
    */
   doFlowBatchPublish(flowBatchDto, callback) {
     this.urn = "/flow/input/batch";
