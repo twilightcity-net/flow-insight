@@ -16,7 +16,7 @@ module.exports = class AppFlowPublisher {
   constructor() {
     this.name = "[AppFlowPublisher]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 60000;
+    this.intervalMs = 60000 * 20;
     this.initialDelayMs = 20000;
     this.timeout = {
       response: 30000,
