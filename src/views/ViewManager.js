@@ -16,6 +16,7 @@ import InvitationKeyView from "./InvitationKeyView";
 import OrgSwitchView from "./OrgSwitchView";
 import FervieView from "./FervieView";
 import PluginRegistrationView from "./PluginRegistrationView";
+import LoadModuleConfigView from "./LoadModuleConfigView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
@@ -71,6 +72,8 @@ export default class ViewManager extends Component {
       return <FervieView routeProps={props} />;
     } else if (viewNameUpper === "PLUGIN") {
       return <PluginRegistrationView routeProps={props} />;
+    } else if (viewNameUpper === "MODULE") {
+      return <LoadModuleConfigView routeProps={props} />;
     } else {
       throw new Error(
         "Unable to render unknown view type " +

@@ -38,7 +38,8 @@ export class RendererControllerFactory {
       INVITATION_KEY: "invitation-key",
       ORG_SWITCHER: "org-switcher",
       DM_POPOUT: "dm-popout",
-      PLUGIN_DIALOG: "plugin-dialog"
+      PLUGIN_DIALOG: "plugin-dialog",
+      MODULE_DIALOG: "module-dialog"
     };
   }
 
@@ -109,6 +110,7 @@ export class RendererControllerFactory {
         return new DMPopoutController(scope);
       case RendererControllerFactory.Views.HOTKEY_CONFIG:
       case RendererControllerFactory.Views.PLUGIN_DIALOG:
+      case RendererControllerFactory.Views.MODULE_DIALOG:
         return new DialogViewController(scope);
       case RendererControllerFactory.Views.INVITATION_KEY:
         return new InvitationViewController(scope);

@@ -3,6 +3,7 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory");
 const PluginManager = require("../managers/PluginManager");
 const FeedManager = require("../managers/FeedManager");
+const CodeModuleConfigManager = require("../managers/CodeModuleConfigManager");
 
 /**
  * Application class that manages publishing our plugin flow data to the server
@@ -32,6 +33,7 @@ module.exports = class AppFlowPublisher {
 
     this.pluginManager = new PluginManager();
     this.feedManager = new FeedManager();
+    this.codeModuleConfigManager = new CodeModuleConfigManager();
   }
 
   /**
@@ -85,6 +87,17 @@ module.exports = class AppFlowPublisher {
       const plugins = this.pluginManager.getRegisteredPluginList();
 
       log.info("Plugins to process: "+plugins.length);
+
+      this.codeModuleConfigManager.consolidatePluginConfigurations(plugins, () => {
+        console.log("Plugin configs consolidated!");
+        this.codeModuleConfigManager.loadConfiguredModulesList(() => {
+          console.log("Done loading configured module list from the server!");
+          this.codeModuleConfigManager.tryToLoadConfigsWhenModuleNotConfigured(() => {
+            console.log("Done loading flowinsight-config.json files from projects!");
+          });
+
+        });
+      });
 
       plugins.forEach(pluginId => {
         this.feedManager.cleanupOldPreprocessingState(pluginId, () => {

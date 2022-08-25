@@ -33,7 +33,8 @@ export class DimensionController {
       SIDEBAR_PANEL: "[SidebarPanel]",
       CIRCUIT_SIDEBAR: "[CircuitSidebar]",
       HOTKEY_CONFIG: "[HotkeyConfig]",
-      PLUGIN_DIALOG: "[PluginDialog]"
+      PLUGIN_DIALOG: "[PluginDialog]",
+      MODULE_CONFIG_DIALOG: "[ModuleConfigDialog]"
     };
   }
 
@@ -557,6 +558,12 @@ export class DimensionController {
     ) {
       return DimensionController.getHotkeyConfigHeight();
     } else if (
+      component ===
+      DimensionController.Components.MODULE_CONFIG_DIALOG
+    ) {
+      return DimensionController.getHotkeyConfigHeight();
+    }
+    else if (
       component ===
       DimensionController.Components.SIDEBAR_PANEL
     ) {

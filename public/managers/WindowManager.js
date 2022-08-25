@@ -21,6 +21,7 @@ const FervieWindow = require("../windows/FervieWindow");
 const InvitationKeyWindow = require("../windows/InvitationKeyWindow");
 const OrgSwitcherWindow = require("../windows/OrgSwitcherWindow");
 const PluginRegistrationWindow = require("../windows/PluginRegistrationWindow");
+const LoadModuleConfigWindow = require("../windows/LoadModuleConfigWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -432,6 +433,8 @@ class WindowManager {
         return new FervieWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.PLUGIN:
         return new PluginRegistrationWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.MODULE:
+        return new LoadModuleConfigWindow(windowName, arg);
       default:
         return null;
     }

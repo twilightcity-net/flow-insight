@@ -1,6 +1,9 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
 const DatabaseFactory = require("../database/DatabaseFactory");
+const log = require("electron-log");
+const fs = require("fs");
+const Util = require("../Util");
 
 /**
  * This class is used to coordinate calls to gridtime for the Code service
@@ -130,7 +133,8 @@ module.exports = class CodeController extends (
       urn =
         CodeController.Paths.CODE +
         CodeController.Paths.SEPARATOR +
-        moduleName;
+        moduleName +
+        CodeController.Paths.CONFIG;
 
     this.doClientRequest(
       CodeController.Contexts.CODE_CLIENT,
@@ -157,26 +161,68 @@ module.exports = class CodeController extends (
    */
   handleUpdateCodeModuleConfigEvent(event, arg, callback) {
     let moduleName = arg.args.moduleName,
-      configurations = arg.args.configurations,
+      moduleConfigFile = arg.args.configFile,
       urn =
         CodeController.Paths.CODE +
         CodeController.Paths.SEPARATOR +
-        moduleName;
+        moduleName +
+        CodeController.Paths.CONFIG;
 
-    this.doClientRequest(
-      CodeController.Contexts.CODE_CLIENT,
-      configurations,
-      CodeController.Names.UPDATE_CODE_MODULE_CONFIG,
-      CodeController.Types.POST,
-      urn,
-      (store) =>
-        this.defaultDelegateCallback(
-          store,
-          event,
-          arg,
-          callback
-        )
-    );
+    this.parseConfigFile(moduleName, moduleConfigFile, (moduleConfigs) => {
+      const teamModuleConfigs = { boxMatcherConfigs: moduleConfigs };
+
+      this.doClientRequest(
+        CodeController.Contexts.CODE_CLIENT,
+        teamModuleConfigs,
+        CodeController.Names.UPDATE_CODE_MODULE_CONFIG,
+        CodeController.Types.POST,
+        urn,
+        (store) =>
+          this.defaultDelegateCallback(
+            store,
+            event,
+            arg,
+            callback
+          )
+      );
+    });
+  }
+
+
+  /**
+   * Parse a project module config file, and then callback with a nice
+   * easy to read data structure from the deserialized json.
+   * Note that in these loaded config files, the module is assumed from the context
+   * @param moduleName
+   * @param moduleConfigFile
+   * @param callback
+   */
+  parseConfigFile(moduleName, moduleConfigFile, callback) {
+    log.debug("[CodeController] Parse module config file: "+moduleConfigFile);
+
+    fs.readFile(moduleConfigFile, "utf8", (err, jsonString) => {
+      if (err) {
+        log.error("[CodeController] File read failed for "+moduleName+ ": " + err);
+        callback([]);
+      } else {
+        const moduleConfigs = this.extractModuleConfigInputs(moduleName, jsonString);
+        callback(moduleConfigs);
+      }
+    });
+  }
+
+  /**
+   * Translate the json into a list of module config objects
+   * @param moduleName
+   * @param jsonString
+   */
+  extractModuleConfigInputs(moduleName, jsonString) {
+    const rawConfigs = JSON.parse(jsonString);
+    rawConfigs.boxes.forEach((boxConfig) => {
+      boxConfig.module = moduleName;
+    });
+
+    return rawConfigs.boxes;
   }
 
 

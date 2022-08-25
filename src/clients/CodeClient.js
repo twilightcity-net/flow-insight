@@ -98,14 +98,14 @@ export class CodeClient extends BaseClient {
    * Update code module configuration details, usually from a config file
    * loaded in the project directory
    * @param moduleName,
-   * @param configurations
+   * @param configFile,
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static updateCodeModuleConfig(
     moduleName,
-    configurations,
+    configFile,
     scope,
     callback
   ) {
@@ -113,7 +113,7 @@ export class CodeClient extends BaseClient {
       CodeClient.Events.UPDATE_CODE_MODULE_CONFIG,
       {
         moduleName: moduleName,
-        configurations: configurations
+        configFile: configFile,
       },
       scope,
       callback

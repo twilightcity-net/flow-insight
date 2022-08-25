@@ -60,6 +60,7 @@ export class RendererEventFactory {
       WINDOW_CLOSE_INVITATION_KEY: prefix + "window-close-invitation-key",
       WINDOW_CLOSE_ORG_SWITCHER: prefix + "window-close-org-switcher",
       WINDOW_CLOSE_PLUGIN_DIALOG: prefix + "window-close-plugin-dialog",
+      WINDOW_CLOSE_MODULE_DIALOG: prefix + "window-close-module-dialog",
       WINDOW_OPEN_MOOVIE: prefix + "window-open-moovie",
       WINDOW_CLOSE_MOOVIE: prefix + "window-close-moovie",
       WINDOW_FERVIE_SHOW_HIDE: prefix + "window-fervie-show-hide",

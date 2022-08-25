@@ -17,6 +17,12 @@ export class DialogViewController extends ActiveViewController {
         RendererEventFactory.Events.WINDOW_CLOSE_PLUGIN_DIALOG,
         this
       );
+
+    this.closeModuleConfigDialogWindowDispatcher =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CLOSE_MODULE_DIALOG,
+        this
+      );
   }
 
   closeHotkeyWindow() {
@@ -25,6 +31,10 @@ export class DialogViewController extends ActiveViewController {
 
   closePluginWindow() {
     this.closePluginDialogWindowDispatcher.dispatch({});
+  }
+
+  closeModuleConfigWindow() {
+    this.closeModuleConfigDialogWindowDispatcher.dispatch({});
   }
 
 }

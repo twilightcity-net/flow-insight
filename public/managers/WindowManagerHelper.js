@@ -29,7 +29,8 @@ module.exports = class WindowManagerHelper {
       MESSAGE: "tc-" + ViewManagerHelper.ViewNames.MESSAGE,
       GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED,
       FERVIE: "tc-"+ ViewManagerHelper.ViewNames.FERVIE,
-      PLUGIN: "tc-" + ViewManagerHelper.ViewNames.PLUGIN
+      PLUGIN: "tc-" + ViewManagerHelper.ViewNames.PLUGIN,
+      MODULE: "tc-" + ViewManagerHelper.ViewNames.MODULE
     };
   }
 
@@ -281,6 +282,28 @@ module.exports = class WindowManagerHelper {
       windowName,
       arg
     );
+  }
+
+  /**
+   * creates new window for loading a module configuration
+   * @returns {*}
+   */
+  static createLoadModuleConfigWindow(arg) {
+    let windowName = WindowManagerHelper.WindowNames.MODULE;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName,
+      arg
+    );
+  }
+
+  /**
+   * closes module configuration window
+   * @returns {*}
+   */
+  static closeLoadModuleConfigWindow() {
+    let windowName = WindowManagerHelper.WindowNames.MODULE;
+    global.App.WindowManager.closeWindowByName(windowName);
   }
 
   /**

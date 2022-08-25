@@ -35,6 +35,12 @@ module.exports = class ConfigWindowManager {
       this,
       (event, arg) => this.onClosePluginDialogCb(event, arg)
     );
+
+    this.pluginDialogCloseWindowEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CLOSE_MODULE_DIALOG,
+      this,
+      (event, arg) => this.onCloseModuleDialogCb(event, arg)
+    );
   }
 
   /**
@@ -74,6 +80,16 @@ module.exports = class ConfigWindowManager {
    */
   onClosePluginDialogCb(event, arg) {
     WindowManagerHelper.closeWindowPluginDialog();
+  }
+
+  /**
+   * When a close event for the load module config dialog is triggered, close the window object on the backend
+   * usually by clicking the X, or the cancel button
+   * @param event
+   * @param arg
+   */
+  onCloseModuleDialogCb(event, arg) {
+    WindowManagerHelper.closeLoadModuleConfigWindow();
   }
 
 };

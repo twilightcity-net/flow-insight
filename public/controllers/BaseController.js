@@ -63,6 +63,7 @@ module.exports = class BaseController {
       FERVIE: "/fervie",
       MOOVIE: "/moovie",
       CODE: "/code",
+      CONFIG: "/config",
       DICTIONARY: "/dictionary",
       SCOPE: "/scope",
       CHART: "/chart",

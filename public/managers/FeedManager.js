@@ -12,7 +12,6 @@ const NewExternalActivityDto = require("../dto/NewExternalActivityDto");
 const NewExecutionActivityDto = require("../dto/NewExecutionActivityDto");
 const NewModificationActivityDto = require("../dto/NewModificationActivityDto");
 const NewFlowBatchEventDto = require("../dto/NewFlowBatchEventDto");
-const {ca} = require("wait-on/exampleConfig");
 
 /**
  * This class is used to publish the active.flow feeds for the plugins
