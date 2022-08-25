@@ -1,0 +1,57 @@
+{
+  "boxes": [
+    {
+      "box": "css",
+      "include": [
+        "/public/index.html",
+        "*index.html"
+      ]
+    },
+    {
+      "box": "electron",
+      "include": [
+        "/public/*",
+        "*Controller.js",
+        "*Window.js",
+        "*Manager.js",
+        "*Store.js",
+        "App*.js",
+        "*Database.js",
+        "EventManager.js",
+        "*Window*.js"
+      ],
+      "exclude": [
+        "/public/index.html",
+        "/src/*"
+      ]
+    },
+    {
+      "box": "renderer",
+      "include": [
+        "/src/*",
+        "*.js"
+      ],
+      "exclude": [
+        "*Controller.js",
+        "/public/*",
+        "*Window.js",
+        "*Store.js",
+        "*Database.js",
+        "EventManager.js",
+        "App*.js",
+        "*Manager.js",
+        "*Window*.js",
+        "uglify.js"
+      ]
+    },
+    {
+      "box": "build",
+      "include": [
+        "*package.json",
+        "*gulpfile.js",
+        "/gulp/*",
+        "uglify.js"
+      ]
+    }
+  ]
+}
