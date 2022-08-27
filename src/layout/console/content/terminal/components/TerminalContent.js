@@ -550,6 +550,10 @@ export default class TerminalContent extends Component {
       let manualPage = this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
 
       for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
+        console.log("deprecated = "+manualPage.commandDescriptors[i].deprecated);
+        if (manualPage.commandDescriptors[i].deprecated) {
+          continue;
+        }
         help +=
           manualPage.commandDescriptors[i].command
             .toLowerCase()
