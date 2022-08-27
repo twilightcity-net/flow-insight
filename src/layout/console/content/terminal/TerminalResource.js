@@ -214,6 +214,10 @@ export default class TerminalResource extends Component {
     });
   };
 
+  loadModuleConfig = () => {
+    console.log("load module config!");
+  };
+
   /**
    * renders the terminal layout of the console view
    * @returns {*} - the rendered components JSX
@@ -237,6 +241,7 @@ export default class TerminalResource extends Component {
             isBaseCircuit={this.state.isBaseCircuit}
             joinTty={this.joinTty}
             leaveTty={this.leaveTty}
+            loadModuleConfig={this.loadModuleConfig}
           />
         </div>
       </div>

@@ -6,6 +6,7 @@ import { RendererControllerFactory } from "../../../../../controllers/RendererCo
 import { TerminalClient } from "../../../../../clients/TerminalClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {CodeClient} from "../../../../../clients/CodeClient";
 
 /**
  * this component is the tab panel wrapper for the terminal content
@@ -41,6 +42,10 @@ export default class TerminalContent extends Component {
     };
     this.state.commands = {};
   }
+
+  static CODE_SUBSHELL = "code";
+  static RELOAD_CMD = "reload";
+  static BASE_PROMPT = "fervie>";
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
@@ -87,6 +92,7 @@ export default class TerminalContent extends Component {
       commands = {
         ...this.getDefaultSubShellCommands(subshell),
         ...this.getAllSubshellCommands(),
+        ...this.getCustomSubshellCommands(subshell)
       };
     } else {
       prompt = baseConnectPath + "fervie>";
@@ -128,6 +134,31 @@ export default class TerminalContent extends Component {
 
     this.terminal.current.pushToStdout(msg);
     this.terminal.current.scrollToBottom();
+  }
+
+
+  getCustomSubshellCommands(subshell) {
+    console.log("subshell = " + subshell);
+    if (subshell === TerminalContent.CODE_SUBSHELL) {
+      return {
+        reload: {
+          description: "Reload code module configurations from file",
+          usage: "Usage: "+TerminalContent.RELOAD_CMD+" {moduleName}",
+          options: "Option: "+("{moduleName}".padEnd(10))+" :: "+ "The code module containing the flowinsight-config.json file",
+          fn: (moduleName) => {
+            let output = "";
+            if (moduleName) {
+              output = this.props.loadModuleConfig(moduleName);
+            } else {
+              output = "Usage: reload {moduleName}";
+            }
+            return output;
+          },
+        }
+      }
+    } else {
+      return {};
+    }
   }
 
   getTtyCommands() {
@@ -331,8 +362,7 @@ export default class TerminalContent extends Component {
     let help =
       "Enter one of the activity types below, to create a subshell that helps you with related tasks.\n\n";
     if (this.props.commandManual) {
-      let activityContexts =
-        this.props.commandManual.activityContexts;
+      let activityContexts = this.props.commandManual.activityContexts;
       for (let i = 0; i < activityContexts.length; i++) {
         help +=
           activityContexts[i].context
@@ -357,27 +387,13 @@ export default class TerminalContent extends Component {
 
     let uniqueCommands = new Set();
 
-    for (
-      let j = 0;
-      j < this.props.commandManual.activityContexts.length;
-      j++
-    ) {
-      let activity =
-        this.props.commandManual.activityContexts[j]
-          .context;
-      let manualPage =
-        this.props.commandManual
-          .manualPagesByActivityContext[activity];
+    for (let j = 0; j < this.props.commandManual.activityContexts.length; j++) {
+      let activity = this.props.commandManual.activityContexts[j].context;
+      let manualPage = this.props.commandManual.manualPagesByActivityContext[activity];
 
-      for (
-        let i = 0;
-        i < manualPage.commandDescriptors.length;
-        i++
-      ) {
-        let commandDescriptor =
-          manualPage.commandDescriptors[i];
-        let command =
-          commandDescriptor.command.toLowerCase();
+      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
+        let commandDescriptor = manualPage.commandDescriptors[i];
+        let command = commandDescriptor.command.toLowerCase();
 
         uniqueCommands.add(command);
       }
@@ -435,21 +451,11 @@ export default class TerminalContent extends Component {
     let commands = {};
 
     if (this.props.commandManual) {
-      let manualPage =
-        this.props.commandManual
-          .manualPagesByActivityContext[
-          subshellName.toUpperCase()
-        ];
+      let manualPage = this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
 
-      for (
-        let i = 0;
-        i < manualPage.commandDescriptors.length;
-        i++
-      ) {
-        let commandDescriptor =
-          manualPage.commandDescriptors[i];
-        let command =
-          commandDescriptor.command.toLowerCase();
+      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
+        let commandDescriptor = manualPage.commandDescriptors[i];
+        let command = commandDescriptor.command.toLowerCase();
         commands[command] = {
           fn: (
             arg0,
@@ -537,17 +543,9 @@ export default class TerminalContent extends Component {
       "Type 'help <command>' to open manual page details for the below commands.\n\n";
 
     if (this.props.commandManual) {
-      let manualPage =
-        this.props.commandManual
-          .manualPagesByActivityContext[
-          subshellName.toUpperCase()
-        ];
+      let manualPage = this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
 
-      for (
-        let i = 0;
-        i < manualPage.commandDescriptors.length;
-        i++
-      ) {
+      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
         help +=
           manualPage.commandDescriptors[i].command
             .toLowerCase()
@@ -556,6 +554,14 @@ export default class TerminalContent extends Component {
           manualPage.commandDescriptors[i].description +
           "\n";
       }
+
+      if (subshellName === TerminalContent.CODE_SUBSHELL ) {
+        help += TerminalContent.RELOAD_CMD.toLowerCase().padEnd(10) +
+          " :: " +
+          this.getCustomSubshellCommands(TerminalContent.CODE_SUBSHELL).reload.description +
+        "\n";
+      }
+
     }
     return help;
   }
@@ -570,24 +576,13 @@ export default class TerminalContent extends Component {
 
     if (commandDescriptor) {
       help = "Command: " + commandDescriptor.command;
-      help +=
-        "\nDescription: " + commandDescriptor.description;
+      help += "\nDescription: " + commandDescriptor.description;
 
-      for (
-        let i = 0;
-        i < commandDescriptor.terminalRoutes.length;
-        i++
-      ) {
+      for (let i = 0; i < commandDescriptor.terminalRoutes.length; i++) {
         let route = commandDescriptor.terminalRoutes[i];
-        help +=
-          "\n\nUsage: " +
-          commandName.toLowerCase() +
-          " " +
-          route.argsTemplate;
+        help += "\n\nUsage: " + commandName.toLowerCase() + " " + route.argsTemplate;
 
-        for (const [option, description] of Object.entries(
-          route.optionsHelp
-        )) {
+        for (const [option, description] of Object.entries(route.optionsHelp)) {
           help +=
             "\nOption: " +
             ("{" + option + "}").padEnd(10) +
@@ -595,6 +590,16 @@ export default class TerminalContent extends Component {
             description;
         }
       }
+    } else if (subshellName === TerminalContent.CODE_SUBSHELL && commandName === TerminalContent.RELOAD_CMD) {
+      let descriptor = this.getCustomSubshellCommands(TerminalContent.CODE_SUBSHELL).reload;
+
+      help = "Command: " + (commandName.toUpperCase());
+      help += "\nDescription: "+descriptor.description;
+
+      help += "\n\n"+descriptor.usage;
+      help += "\n"+descriptor.options;
+
+
     } else {
       help = "Command '" + commandName + "' not found!";
     }
@@ -605,21 +610,11 @@ export default class TerminalContent extends Component {
   findCommandDescriptor(subshellName, commandName) {
     if (this.props.commandManual) {
       let manualPage =
-        this.props.commandManual
-          .manualPagesByActivityContext[
-          subshellName.toUpperCase()
-        ];
+        this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
 
-      for (
-        let i = 0;
-        i < manualPage.commandDescriptors.length;
-        i++
-      ) {
+      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
         if (
-          manualPage.commandDescriptors[
-            i
-          ].command.toUpperCase() ===
-          commandName.toUpperCase()
+          manualPage.commandDescriptors[i].command.toUpperCase() === commandName.toUpperCase()
         ) {
           return manualPage.commandDescriptors[i];
         }
