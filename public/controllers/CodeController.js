@@ -161,33 +161,55 @@ module.exports = class CodeController extends (
    */
   handleUpdateCodeModuleConfigEvent(event, arg, callback) {
     let moduleName = arg.args.moduleName,
-      moduleConfigFile = arg.args.configFile,
       urn =
         CodeController.Paths.CODE +
         CodeController.Paths.SEPARATOR +
         moduleName +
         CodeController.Paths.CONFIG;
 
-    this.parseConfigFile(moduleName, moduleConfigFile, (moduleConfigs) => {
-      const teamModuleConfigs = { boxMatcherConfigs: moduleConfigs };
+    const moduleConfigFile = this.getConfigFileForModule(moduleName);
 
-      this.doClientRequest(
-        CodeController.Contexts.CODE_CLIENT,
-        teamModuleConfigs,
-        CodeController.Names.UPDATE_CODE_MODULE_CONFIG,
-        CodeController.Types.POST,
-        urn,
-        (store) =>
-          this.defaultDelegateCallback(
-            store,
-            event,
-            arg,
-            callback
-          )
+    if (moduleConfigFile) {
+      this.parseConfigFile(moduleName, moduleConfigFile, (moduleConfigs) => {
+        const teamModuleConfigs = { boxMatcherConfigs: moduleConfigs };
+
+        this.doClientRequest(
+          CodeController.Contexts.CODE_CLIENT,
+          teamModuleConfigs,
+          CodeController.Names.UPDATE_CODE_MODULE_CONFIG,
+          CodeController.Types.POST,
+          urn,
+          (store) =>
+            this.defaultDelegateCallback(
+              store,
+              event,
+              arg,
+              callback
+            )
+        );
+      });
+    } else {
+      arg.error = "Module configuration not yet initialized.  Please wait for a minute, then try again.";
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
       );
-    });
+    }
+
   }
 
+  /**
+   * Get the config file location for the specified module.
+   *
+   * @param moduleName
+   */
+  getConfigFileForModule(moduleName) {
+    const configFile = global.App.CodeModuleConfigManager.getConfigFileForModule(moduleName);
+    log.info("[CodeController] Loading config file "+configFile);
+    return configFile;
+  }
 
   /**
    * Parse a project module config file, and then callback with a nice

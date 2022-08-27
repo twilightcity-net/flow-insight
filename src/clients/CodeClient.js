@@ -98,22 +98,19 @@ export class CodeClient extends BaseClient {
    * Update code module configuration details, usually from a config file
    * loaded in the project directory
    * @param moduleName,
-   * @param configFile,
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static updateCodeModuleConfig(
     moduleName,
-    configFile,
     scope,
     callback
   ) {
     let event = CodeClient.instance.createClientEvent(
       CodeClient.Events.UPDATE_CODE_MODULE_CONFIG,
       {
-        moduleName: moduleName,
-        configFile: configFile,
+        moduleName: moduleName
       },
       scope,
       callback

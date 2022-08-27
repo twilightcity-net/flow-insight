@@ -18,6 +18,7 @@ import { NotificationClient } from "../clients/NotificationClient";
 import {HotkeyClient} from "../clients/HotkeyClient";
 import {MoovieClient} from "../clients/MoovieClient";
 import {AccountClient} from "../clients/AccountClient";
+import {CodeClient} from "../clients/CodeClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -138,6 +139,7 @@ export default class ConsoleView extends Component {
     NotificationClient.init(this);
     HotkeyClient.init(this);
     MoovieClient.init(this);
+    CodeClient.init(this);
   };
 
   componentWillUnmount = () => {

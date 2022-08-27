@@ -33,7 +33,7 @@ module.exports = class AppFlowPublisher {
 
     this.pluginManager = new PluginManager();
     this.feedManager = new FeedManager();
-    this.codeModuleConfigManager = new CodeModuleConfigManager();
+    this.codeModuleConfigManager = global.App.CodeModuleConfigManager;
   }
 
   /**

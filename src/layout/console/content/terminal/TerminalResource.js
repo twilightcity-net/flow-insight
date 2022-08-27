@@ -6,6 +6,7 @@ import { RendererControllerFactory } from "../../../../controllers/RendererContr
 import { TalkToClient } from "../../../../clients/TalkToClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
+import {CodeClient} from "../../../../clients/CodeClient";
 
 /**
  * this component is the tab panel wrapper for the terminal resource
@@ -214,8 +215,23 @@ export default class TerminalResource extends Component {
     });
   };
 
-  loadModuleConfig = () => {
+  loadModuleConfig = (moduleName) => {
     console.log("load module config!");
+
+    CodeClient.updateCodeModuleConfig(moduleName, this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+        this.terminalHandle.current.pushErrorMessage(
+          arg.error
+        );
+      } else {
+        console.log("Response arg.data from updateModuleConfig is:");
+        console.log(arg.data);
+        this.terminalHandle.current.pushToStdout(
+          arg.data.message
+        );
+      }
+    });
   };
 
   /**

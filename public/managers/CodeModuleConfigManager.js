@@ -93,6 +93,22 @@ module.exports = class CodeModuleConfigManager {
     }
   }
 
+
+  /**
+   * Get the full path to a particular module configuration file, given the module name.
+   * This will be based off the module root paths.
+   * @param moduleName
+   */
+  getConfigFileForModule(moduleName) {
+     const config = this.moduleRoots.get(moduleName);
+     if (config) {
+       return path.join(config.rootDir, CodeModuleConfigManager.CONFIG_FILE);
+     } else {
+       return null;
+     }
+  }
+
+
   /**
    * Open up a window to request the user load the module configs
    * for the specified modules

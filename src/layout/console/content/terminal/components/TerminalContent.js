@@ -136,6 +136,10 @@ export default class TerminalContent extends Component {
     this.terminal.current.scrollToBottom();
   }
 
+  pushToStdout(msg) {
+    this.terminal.current.pushToStdout(msg);
+  }
+
 
   getCustomSubshellCommands(subshell) {
     console.log("subshell = " + subshell);
