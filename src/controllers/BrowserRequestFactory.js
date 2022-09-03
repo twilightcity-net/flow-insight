@@ -439,26 +439,26 @@ export class BrowserRequestFactory {
   }
 
   /**
-   * gets the request for showing the flow content of a team member
-   * @param teamMember
+   * gets the request for showing the default flow content
+   * @param displayOption
    * @returns {string}
    * @private
    */
-  static _getFlowRequest(teamMember) {
-    if (teamMember) {
-      return (
-        BrowserRequestFactory.Commands.OPEN +
-        BrowserRequestFactory.URI_SEPARATOR +
-        BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.FLOW +
-        BrowserRequestFactory.PATH_SEPARATOR +
-        teamMember
-      );
-    } else {
-      throw new Error(
-        "request: flow requires 1 argument, teamMember"
-      );
+  static _getFlowRequest(displayOption) {
+
+    let extendedPath = "";
+
+    if (displayOption) {
+      extendedPath =  BrowserRequestFactory.PATH_SEPARATOR + displayOption;
     }
+
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.FLOW +
+      extendedPath
+    );
   }
 
   /**
@@ -472,10 +472,6 @@ export class BrowserRequestFactory {
     let targetType = args[1];
     let target = args[2];
     let timeScope = args[3];
-
-    console.log("target type = " + targetType);
-    console.log("target = " + target);
-    console.log("timeScope = " + timeScope);
 
     if (dashboardType) {
       return (

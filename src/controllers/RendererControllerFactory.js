@@ -1,13 +1,11 @@
-import { SidePanelViewController } from "./SidePanelViewController";
-import { MainPanelViewController } from "./MainPanelViewController";
-import { ConsoleViewController } from "./ConsoleViewController";
-import { ResourceCircuitController } from "./ResourceCircuitController";
-import { BrowserController } from "./BrowserController";
-import { PopupController } from "./PopupController";
-import { ChartPopoutController } from "./ChartPopoutController";
+import {SidePanelViewController} from "./SidePanelViewController";
+import {MainPanelViewController} from "./MainPanelViewController";
+import {ConsoleViewController} from "./ConsoleViewController";
+import {ResourceCircuitController} from "./ResourceCircuitController";
+import {BrowserController} from "./BrowserController";
+import {PopupController} from "./PopupController";
+import {ChartPopoutController} from "./ChartPopoutController";
 import {DialogViewController} from "./DialogViewController";
-import {InvitationViewController} from "./InvitationViewController";
-import {OrgSwitcherViewController} from "./OrgSwitcherViewController";
 import {DMPopoutController} from "./DMPopoutController";
 
 /**
@@ -111,11 +109,9 @@ export class RendererControllerFactory {
       case RendererControllerFactory.Views.HOTKEY_CONFIG:
       case RendererControllerFactory.Views.PLUGIN_DIALOG:
       case RendererControllerFactory.Views.MODULE_DIALOG:
-        return new DialogViewController(scope);
-      case RendererControllerFactory.Views.INVITATION_KEY:
-        return new InvitationViewController(scope);
       case RendererControllerFactory.Views.ORG_SWITCHER:
-        return new OrgSwitcherViewController(scope);
+      case RendererControllerFactory.Views.INVITATION_KEY:
+        return new DialogViewController(scope);
       default:
         throw new Error(
           "Unknown controller name '" + name + "'"

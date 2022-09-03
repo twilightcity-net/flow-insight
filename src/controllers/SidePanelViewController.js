@@ -378,6 +378,27 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   /**
+   * Load the default flow panel
+   */
+  loadDefaultFlowPanel() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.FLOW
+    );
+    this.makeSidebarBrowserRequest(request);
+  }
+
+  /**
+   * Load the default journal panel
+   */
+  loadDefaultJournalPanel() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.JOURNAL,
+      "me"
+    );
+    this.makeSidebarBrowserRequest(request);
+  }
+
+  /**
    * loads your active WTF that is in the active session from gridtime
    */
   loadWTF() {

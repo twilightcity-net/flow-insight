@@ -4676,6 +4676,75 @@
   }
 
   /*
+ * COMPONENT: FLOW-DASHBOARD-LAYOUT
+ */
+
+  #component.flowDashboardContent {
+    color: white;
+    transition: opacity 0.333s ease-out;
+  }
+
+  #component.flowDashboardContent .flowContentWrapper {
+    background-color: rgba(27, 28, 29, 0.96);
+    border-radius: 5px;
+    margin-top: 2px;
+    height: 99.5%;
+  }
+
+  #component.flowDashboardContent #chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #component.flowDashboardContent #chart .title {
+    fill: white;
+    font-size: 23px;
+    font-weight: bolder;
+  }
+
+  #component.flowDashboardContent #chart .weekdayLabel {
+    fill: #777777;
+    font-size: 16px;
+  }
+
+  #component.flowDashboardContent #chart .dateLabel {
+    fill: #777777;
+    font-size: 16px;
+  }
+
+  #component.flowDashboardContent #chart .axisLabel {
+    fill: rgba(120, 120, 120, 0.96);
+    font: sans-serif;
+    font-size: 14px;
+  }
+
+  #component.flowDashboardContent #chart .axisHeader {
+    fill: #BBBBBB;
+    font-size: 16px;
+  }
+
+  #component.flowDashboardContent .closeIcon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    -webkit-app-region: no-drag;
+  }
+
+
+  #component.flowDashboardContent .closeIcon i {
+    color: rgba(200, 200, 200, 0.96);
+    transition: background-color, color 0.333s ease-out;
+    border-radius: 3px;
+    margin: 0px;
+  }
+
+  #component.flowDashboardContent .closeIcon i:hover {
+    color: white;
+    cursor: pointer !important;
+  }
+
+  /*
    * COMPONENT: FLOW-LAYOUT
    */
   #component.flowContent {

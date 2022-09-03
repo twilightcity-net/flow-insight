@@ -146,7 +146,7 @@ export default class FamiliarityChartContent extends Component {
           className="dashboardContent"
           style={{
             height: DimensionController.getHeightFor(
-              DimensionController.Components.FLOW_PANEL
+              DimensionController.Components.DASHBOARD_PANEL
             ),
           }}
         >
@@ -165,7 +165,7 @@ export default class FamiliarityChartContent extends Component {
           className="dashboardContent"
           style={{
             height: DimensionController.getHeightFor(
-              DimensionController.Components.FLOW_PANEL
+              DimensionController.Components.DASHBOARD_PANEL
             ),
           }}
         >
@@ -180,7 +180,7 @@ export default class FamiliarityChartContent extends Component {
         className="dashboardContent"
         style={{
           height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
+            DimensionController.Components.DASHBOARD_PANEL
           ),
         }}
       >

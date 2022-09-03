@@ -23,6 +23,19 @@ export class DialogViewController extends ActiveViewController {
         RendererEventFactory.Events.WINDOW_CLOSE_MODULE_DIALOG,
         this
       );
+
+    this.closeOrgSwitcherWindowDispatcher =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CLOSE_ORG_SWITCHER,
+        this
+      );
+
+    this.closeInvitationWindowDispatcher =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CLOSE_INVITATION_KEY,
+        this
+      );
+
   }
 
   closeHotkeyWindow() {
@@ -35,6 +48,14 @@ export class DialogViewController extends ActiveViewController {
 
   closeModuleConfigWindow() {
     this.closeModuleConfigDialogWindowDispatcher.dispatch({});
+  }
+
+  closeOrgSwitcherWindow() {
+    this.closeOrgSwitcherWindowDispatcher.dispatch({});
+  }
+
+  closeInvitationKeyWindow() {
+    this.closeInvitationWindowDispatcher.dispatch({});
   }
 
 }

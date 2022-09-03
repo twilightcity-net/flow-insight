@@ -6,6 +6,7 @@ module.exports = class NewExecutionActivityDto {
     try {
       if (typeof json === "string") json = JSON.parse(json);
 
+      this.processName = json.processName;
       this.durationInSeconds = json.durationInSeconds;
       this.endTime = json.endTime;
       this.comment = json.comment;

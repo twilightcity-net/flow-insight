@@ -27,6 +27,8 @@ export class DimensionController {
       FERVIE_PANEL: "[FerviePanel]",
       JOURNAL_ITEMS: "[JournalItems]",
       FLOW_PANEL: "[FlowPanel]",
+      DASHBOARD_PANEL: "[DashboardPanel]",
+      TERMINAL_PANEL: "[TerminalPanel]",
       PLAY_PANEL: "[PlayPanel]",
       CONSOLE_LAYOUT: "[ConsoleLayout]",
       TROUBLESHOOT: "[Troubleshoot]",
@@ -50,7 +52,8 @@ export class DimensionController {
   }
 
   /**
-   * calculates the flow panel height for the console view
+   * calculates the flow panel height for the console view, the browser bar
+   * is collapsed for this view
    * @returns {number}
    */
   static getFlowPanelHeight() {
@@ -62,13 +65,81 @@ export class DimensionController {
       content: 0,
       barHeight: 0,
     };
+      return window.innerHeight - heights.padding - (heights.border*2);
+  }
+
+  /**
+   * Get the flow panel width without depending on the browser bar being present
+   * @returns {number}
+   */
+  static getFlowPanelWidth() {
+
+    let consoleBar = document.querySelector(
+      "#wrapper.consoleSidebar"
+    );
+
+    let consoleSidebarPanel = document.querySelector(
+      "#component.consoleSidebarPanel"
+    );
+
+    if (consoleBar && consoleSidebarPanel) {
+      return (window.innerWidth - consoleBar.clientWidth - consoleSidebarPanel.clientWidth);
+    } else {
+      return window.innerWidth;
+    }
+  }
+
+
+  /**
+   * calculates the terminal panel height for the console view, the browser bar
+   * is collapsed for this view
+   * @returns {number}
+   */
+  static getTerminalPanelHeight() {
+    let heights = {
+      border: 2,
+      margin: 24,
+      padding: 8,
+      header: 51,
+      content: 0,
+      barHeight: 0,
+    };
     let addressBar = document.querySelector(
       "#component.browserHeader"
     );
-    if (addressBar) {
+    if (addressBar & addressBar.clientHeight > 0) {
       return (
         window.innerHeight -
         heights.border -
+        heights.padding -
+        addressBar.clientHeight
+      );
+    } else {
+      return window.innerHeight;
+    }
+  }
+
+  /**
+   * calculates the terminal panel height for the console view, the browser bar
+   * is collapsed for this view
+   * @returns {number}
+   */
+  static getDashboardPanelHeight() {
+    let heights = {
+      border: 2,
+      margin: 24,
+      padding: 8,
+      header: 51,
+      content: 0,
+      barHeight: 0,
+    };
+    let addressBar = document.querySelector(
+      "#component.browserHeader"
+    );
+    if (addressBar && addressBar.clientHeight > 0) {
+      return (
+        window.innerHeight -
+        (heights.border * 2) -
         heights.padding -
         addressBar.clientHeight
       );
@@ -474,7 +545,7 @@ export class DimensionController {
       "#component.browserHeader"
     );
 
-    if (browserHeader) {
+    if (browserHeader && browserHeader.clientWidth > 0) {
       fullWidth = browserHeader.clientWidth;
     }
 
@@ -487,7 +558,7 @@ export class DimensionController {
     let addressbar = document.querySelector(
       "#component.browserHeader"
     );
-    if (addressbar) {
+    if (addressbar && addressbar.clientHeight > 0) {
       barHeight = addressbar.clientHeight;
     }
     return barHeight;
@@ -502,7 +573,7 @@ export class DimensionController {
     let addressbar = document.querySelector(
       "#component.browserHeader"
     );
-    if (addressbar) {
+    if (addressbar && addressbar.clientHeight > 0) {
       barHeight = addressbar.clientHeight;
     }
     let padding = 8 * 2;
@@ -532,6 +603,16 @@ export class DimensionController {
       DimensionController.Components.FLOW_PANEL
     ) {
       return DimensionController.getFlowPanelHeight();
+    } else if (
+        component ===
+        DimensionController.Components.DASHBOARD_PANEL
+      ) {
+        return DimensionController.getDashboardPanelHeight();
+    } else if (
+      component ===
+      DimensionController.Components.TERMINAL_PANEL
+    ) {
+      return DimensionController.getTerminalPanelHeight();
     } else if (
       component ===
       DimensionController.Components.PLAY_PANEL

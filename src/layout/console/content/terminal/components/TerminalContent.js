@@ -784,7 +784,7 @@ export default class TerminalContent extends Component {
         id="component"
         className="terminalContent"
         style={{
-          height: DimensionController.getFlowPanelHeight(),
+          height: DimensionController.getHeightFor(DimensionController.Components.TERMINAL_PANEL),
         }}
       >
         {this.getTerminalContent()}

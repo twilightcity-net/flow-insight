@@ -8,6 +8,8 @@ import {BaseClient} from "../../../clients/BaseClient";
 import {MemberClient} from "../../../clients/MemberClient";
 import {NotificationClient} from "../../../clients/NotificationClient";
 import FeatureToggle from "../../shared/FeatureToggle";
+import {BrowserRequestFactory} from "../../../controllers/BrowserRequestFactory";
+import {BrowserController} from "../../../controllers/BrowserController";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -388,6 +390,11 @@ export default class ConsoleSidebar extends Component {
           SidePanelViewController.MenuSelection.NOTIFICATIONS
         );
         break;
+      case 5:
+        this.showPanel(
+          SidePanelViewController.MenuSelection.DASHBOARD
+        );
+        break;
       case 0:
         this.showPanel(
           SidePanelViewController.MenuSelection.WTF
@@ -443,7 +450,7 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   handleItemClick = (e, { name }) => {
-    if (this.state.activeItem === name) {
+    if (this.state.activeItem === name && !this.isDefaultPanel(name)) {
       this.myController.hidePanel();
     } else if (
       name === SidePanelViewController.MenuSelection.WTF &&
@@ -455,9 +462,33 @@ export default class ConsoleSidebar extends Component {
     ) {
       this.myController.startWTF();
     } else {
+      this.loadDefaultResourceContent(name);
       this.myController.showPanel(name);
     }
   };
+
+  isDefaultPanel(panelName) {
+    if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
+      && BrowserController.uri.includes("/flow")) {
+      return false;
+    } else if (panelName === SidePanelViewController.MenuSelection.TEAM
+      && BrowserController.uri.includes("/journal/me") || BrowserController.uri.includes("/journal/"+MemberClient.me.username)) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Open the default resource content for a particular menu item
+   * @param panelName
+   */
+  loadDefaultResourceContent(panelName) {
+    if (panelName === SidePanelViewController.MenuSelection.DASHBOARD) {
+      this.myController.loadDefaultFlowPanel();
+    } else if (panelName === SidePanelViewController.MenuSelection.TEAM) {
+      this.myController.loadDefaultJournalPanel();
+    }
+  }
 
   /**
    * renders our network connection popup tooltip on our shell

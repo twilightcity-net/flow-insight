@@ -8,6 +8,7 @@ import {
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../controllers/BrowserRequestFactory";
 import FeatureToggle from "../../shared/FeatureToggle";
+import FlowResource from "./flow/FlowResource";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -25,7 +26,7 @@ export default class LayoutBrowser extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[BrowserHeader]";
+    this.name = "[LayoutBrowser]";
     this.state = {
       disableControls: false,
       location: "",
@@ -120,8 +121,8 @@ export default class LayoutBrowser extends Component {
 
     if (FeatureToggle.isFlowInsightApp()) {
       defaultRequest = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.JOURNAL,
-        BrowserRequestFactory.Locations.ME
+        BrowserRequestFactory.Requests.FLOW,
+        FlowResource.INTRO_OPTION
       );
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(

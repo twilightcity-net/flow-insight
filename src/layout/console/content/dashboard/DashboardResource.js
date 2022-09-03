@@ -71,7 +71,7 @@ export default class DashboardResource extends Component {
    */
   render() {
     let height = DimensionController.getHeightFor(
-      DimensionController.Components.FLOW_PANEL
+      DimensionController.Components.DASHBOARD_PANEL
     );
 
     let contentPanel = "";
