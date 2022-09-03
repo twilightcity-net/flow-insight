@@ -68,6 +68,7 @@ module.exports = class BaseController {
       SCOPE: "/scope",
       CHART: "/chart",
       FRICTION: "/friction",
+      LATEST: "/latest",
       TERMINAL: "/terminal",
       RUN: "/run",
       MANUAL: "/manual",
@@ -326,6 +327,7 @@ module.exports = class BaseController {
       CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
         "chartTopBoxesForModuleForUser",
       CHART_FRICTION: "chartFriction",
+      CHART_LATEST_WEEK: "chartLatestWeek",
       CHART_FRICTION_FOR_USER: "chartFrictionForUser",
       CHART_FRICTION_FOR_TEAM: "chartFrictionForTeam",
       CREATE_TERMINAL_SESSION: "createTerminalSession",

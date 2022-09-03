@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {Button, Icon} from "semantic-ui-react";
 import {RendererControllerFactory} from "../controllers/RendererControllerFactory";
 import {DimensionController} from "../controllers/DimensionController";
-import {AccountClient} from "../clients/AccountClient";
 import {CodeClient} from "../clients/CodeClient";
 
 /**

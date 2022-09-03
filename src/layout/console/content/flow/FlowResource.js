@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FlowContent from "./components/FlowContent";
+import FlowContent from "./components/flowmap/FlowContent";
 import { ChartClient } from "../../../../clients/ChartClient";
 import { DimensionController } from "../../../../controllers/DimensionController";
 

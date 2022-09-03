@@ -1,12 +1,11 @@
-import React, { Component } from "react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
+import React, {Component} from "react";
+import {DimensionController} from "../../../../../controllers/DimensionController";
 import Terminal from "react-console-emulator";
-import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequestFactory";
-import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
-import { TerminalClient } from "../../../../../clients/TerminalClient";
-import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
+import {BrowserRequestFactory} from "../../../../../controllers/BrowserRequestFactory";
+import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
+import {TerminalClient} from "../../../../../clients/TerminalClient";
+import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
-import {CodeClient} from "../../../../../clients/CodeClient";
 
 /**
  * this component is the tab panel wrapper for the terminal content
@@ -148,7 +147,7 @@ export default class TerminalContent extends Component {
         reload: {
           description: "Reload code module configurations from file",
           usage: "Usage: "+TerminalContent.RELOAD_CMD+" {moduleName}",
-          options: "Option: "+("{moduleName}".padEnd(10))+" :: "+ "The code module containing the flowinsight-config.json file",
+          options: "Option: "+("{moduleName}".padEnd(10))+" :: The code module containing the flowinsight-config.json file",
           fn: (moduleName) => {
             let output = "";
             if (moduleName) {

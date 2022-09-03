@@ -5,9 +5,9 @@ import {
   Grid,
   Segment,
 } from "semantic-ui-react";
-import UtilRenderer from "../../../../../UtilRenderer";
+import UtilRenderer from "../../../../../../UtilRenderer";
 import FlowFeedEvent from "./FlowFeedEvent";
-import FeedCreator from "../../support/FeedCreator";
+import FeedCreator from "../../../support/FeedCreator";
 
 /**
  * this is the gui component that displays the wtf troubleshooting session feed

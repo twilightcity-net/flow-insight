@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
+import { DimensionController } from "../../../../../../controllers/DimensionController";
 import FlowIntentionsList from "./FlowIntentionsList";
 import FlowChart from "./FlowChart";
-import { CircuitClient } from "../../../../../clients/CircuitClient";
-import { TalkToClient } from "../../../../../clients/TalkToClient";
+import { CircuitClient } from "../../../../../../clients/CircuitClient";
+import { TalkToClient } from "../../../../../../clients/TalkToClient";
 import FlowTroubleshootingFeed from "./FlowTroubleshootingFeed";
-import { MemberClient } from "../../../../../clients/MemberClient";
+import { MemberClient } from "../../../../../../clients/MemberClient";
 
 /**
  * this component handles the main flow content for the /flow view

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ChartClient } from "../clients/ChartClient";
-import FlowContent from "../layout/console/content/flow/components/FlowContent";
+import FlowContent from "../layout/console/content/flow/components/flowmap/FlowContent";
 import { Icon } from "semantic-ui-react";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { CircuitClient } from "../clients/CircuitClient";

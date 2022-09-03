@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import IntentionRow from "./IntentionRow";
 import IntentionsHeader from "./IntentionsHeader";
-import UtilRenderer from "../../../../../UtilRenderer";
+import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
  * this is the gui component that displays the scrollable intentions that make up a task,

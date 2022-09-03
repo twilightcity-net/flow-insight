@@ -22,7 +22,6 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_TASK_FOR_USER:string, CHART_TOP_TASKS:string, CHART_TOP_TASKS_FOR_USER:string, CHART_TOP_TASKS_FOR_TEAM:string, CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string,CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -69,12 +68,12 @@ module.exports = class ChartController extends (
       CHART_FRICTION: "chart-friction",
       CHART_FRICTION_FOR_USER: "chart-friction-for-user",
       CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
+      CHART_LATEST_WEEK: "chart-latest-week"
     };
   }
 
   /**
    * TimeScope options that need to be translated into gt expressions
-   * @returns {{ALL: string, LATEST_TWO: string, LATEST_FOUR: string, LATEST_SIX: string}}
    * @constructor
    */
   static get TimeScope() {
@@ -143,82 +142,44 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_FILES_FOR_BOX:
           this.handleChartTopFilesForBoxEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_BOXES_FOR_TEAM:
+        case ChartController.Events.CHART_TOP_BOXES_FOR_TEAM:
           this.handleChartTopBoxesForTeamEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_BOXES_FOR_USER:
+        case ChartController.Events.CHART_TOP_BOXES_FOR_USER:
           this.handleChartTopBoxesForUserEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
-          this.handleChartTopFilesForBoxForTeamEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
+          this.handleChartTopFilesForBoxForTeamEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_FILES_FOR_BOX_FOR_USER:
-          this.handleChartTopFilesForBoxForUserEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_USER:
+          this.handleChartTopFilesForBoxForUserEvent(event, arg);
           break;
         case ChartController.Events.CHART_TOP_MODULES:
           this.handleChartTopModulesEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_MODULES_FOR_USER:
-          this.handleChartTopModulesForUserEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_MODULES_FOR_USER:
+          this.handleChartTopModulesForUserEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_MODULES_FOR_TEAM:
-          this.handleChartTopModulesForTeamEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_MODULES_FOR_TEAM:
+          this.handleChartTopModulesForTeamEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_BOXES_FOR_MODULE:
-          this.handleChartTopBoxesForModuleEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE:
+          this.handleChartTopBoxesForModuleEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
-          this.handleChartTopBoxesForModuleForUserEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
+          this.handleChartTopBoxesForModuleForUserEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
-          this.handleChartTopBoxesForModuleForTeamEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
+          this.handleChartTopBoxesForModuleForTeamEvent(event, arg);
           break;
         case ChartController.Events.CHART_FAMILIARITY:
           this.handleChartFamiliarityEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_FAMILIARITY_FOR_USER:
-          this.handleChartFamiliarityForUserEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_FAMILIARITY_FOR_USER:
+          this.handleChartFamiliarityForUserEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_FAMILIARITY_FOR_TEAM:
-          this.handleChartFamiliarityForTeamEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_FAMILIARITY_FOR_TEAM:
+          this.handleChartFamiliarityForTeamEvent(event, arg);
           break;
         case ChartController.Events.CHART_TOP_TAGS:
           this.handleChartTopTagsEvent(event, arg);
@@ -232,19 +193,11 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_WTFS_WITH_TAG:
           this.handleChartTopWtfsWithTagEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_WTFS_WITH_TAG_FOR_USER:
-          this.handleChartTopWtfsWithTagForUserEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_WTFS_WITH_TAG_FOR_USER:
+          this.handleChartTopWtfsWithTagForUserEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
-          this.handleChartTopWtfsWithTagForTeamEvent(
-            event,
-            arg
-          );
+        case ChartController.Events.CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
+          this.handleChartTopWtfsWithTagForTeamEvent(event, arg);
           break;
         case ChartController.Events.CHART_FRICTION:
           this.handleChartFrictionEvent(event, arg);
@@ -258,13 +211,14 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_TASKS:
           this.handleChartTopTasksEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_TASKS_FOR_USER:
+        case ChartController.Events.CHART_TOP_TASKS_FOR_USER:
           this.handleChartTopTasksForUserEvent(event, arg);
           break;
-        case ChartController.Events
-          .CHART_TOP_TASKS_FOR_TEAM:
+        case ChartController.Events.CHART_TOP_TASKS_FOR_TEAM:
           this.handleChartTopTasksForTeamEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_LATEST_WEEK:
+          this.handleChartLatestWeekEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -1318,6 +1272,35 @@ module.exports = class ChartController extends (
         )
     );
   }
+
+  /**
+   * client event handler for charting latest friction for the current week
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartLatestWeekEvent(event, arg, callback) {
+    let urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION +
+        ChartController.Paths.LATEST;
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_LATEST_WEEK,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
   /**
    * client event handler for charting friction for a period of time
