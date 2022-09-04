@@ -1,6 +1,7 @@
 const log = require("electron-log");
 const EventFactory = require("../events/EventFactory");
 const {ShortcutManager} = require("./ShortcutManager");
+const AppFeatureToggle = require("../app/AppFeatureToggle");
 
 const is_mac = process.platform==='darwin';
 
@@ -29,7 +30,8 @@ module.exports = class FervieWindowManager {
   }
 
   onShortcutReceivedCb(event, arg) {
-    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE === arg ) {
+    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE === arg
+      && AppFeatureToggle.isFerviePopupEnabled) {
       this.handleToggleFervieShowHide();
     }
   }

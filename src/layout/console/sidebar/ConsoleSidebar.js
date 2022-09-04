@@ -8,7 +8,6 @@ import {BaseClient} from "../../../clients/BaseClient";
 import {MemberClient} from "../../../clients/MemberClient";
 import {NotificationClient} from "../../../clients/NotificationClient";
 import FeatureToggle from "../../shared/FeatureToggle";
-import {BrowserRequestFactory} from "../../../controllers/BrowserRequestFactory";
 import {BrowserController} from "../../../controllers/BrowserController";
 
 /**
@@ -472,7 +471,8 @@ export default class ConsoleSidebar extends Component {
       && BrowserController.uri.includes("/flow")) {
       return false;
     } else if (panelName === SidePanelViewController.MenuSelection.TEAM
-      && BrowserController.uri.includes("/journal/me") || BrowserController.uri.includes("/journal/"+MemberClient.me.username)) {
+      && (BrowserController.uri.includes("/journal/me")
+        || BrowserController.uri.includes("/journal/"+MemberClient.me.username))) {
       return false;
     }
     return true;

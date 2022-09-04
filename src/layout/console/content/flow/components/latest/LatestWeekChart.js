@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { DimensionController } from "../../../../../../controllers/DimensionController";
+import React, {Component} from "react";
+import {DimensionController} from "../../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
 
@@ -171,7 +171,6 @@ export default class LatestWeekChart extends Component {
     let legendBoxWidth = 300;
     let legendBoxHeight = 100;
     let barsize = 100;
-    let margin = 10;
 
     this.drawLegendBoxAndLabels(chartGroup, legendBoxWidth, legendBoxHeight);
     this.setupMomentumGradientDef(svg);

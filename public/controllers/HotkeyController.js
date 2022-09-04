@@ -3,6 +3,7 @@ const BaseController = require("./BaseController"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   NotificationDatabase = require("../database/NotificationDatabase");
 const {ShortcutManager} = require("../managers/ShortcutManager");
+const AppFeatureToggle = require("../app/AppFeatureToggle");
 
 /**
  * This class is used to manage requests for hotkey related data
@@ -85,12 +86,10 @@ module.exports = class HotkeyController extends (
       );
     } else {
       switch (arg.type) {
-        case HotkeyController.Events
-          .GET_CURRENT_SHORTCUTS:
+        case HotkeyController.Events.GET_CURRENT_SHORTCUTS:
           this.handleGetShortcutsEvent(event, arg);
           break;
-        case HotkeyController.Events
-          .UPDATE_SHORTCUTS:
+        case HotkeyController.Events.UPDATE_SHORTCUTS:
           this.handleUpdateShortcutsEvent(event, arg);
           break;
         case HotkeyController.Events.GET_CONSOLE_SHORTCUT:
@@ -118,9 +117,7 @@ module.exports = class HotkeyController extends (
    */
   handleGetConsoleShortcutEvent(event, arg, callback) {
 
-    let consoleShortcut = global.App.ShortcutManager.getConsoleShortcut();
-
-    arg.data = consoleShortcut;
+    arg.data = global.App.ShortcutManager.getConsoleShortcut();
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -138,10 +135,18 @@ module.exports = class HotkeyController extends (
    */
   handleGetShortcutsEvent(event, arg, callback) {
 
-    let consoleShortcut = global.App.ShortcutManager.getConsoleShortcut();
-    let fervieShortcut = global.App.ShortcutManager.getFervieShortcut();
+    const consoleShortcut = global.App.ShortcutManager.getConsoleShortcut();
+    const fervieShortcut = global.App.ShortcutManager.getFervieShortcut();
 
-    arg.data = { shortcuts: [consoleShortcut, fervieShortcut]}
+    const shortcuts = [];
+
+    shortcuts.push(consoleShortcut);
+
+    if (AppFeatureToggle.isFerviePopupEnabled) {
+      shortcuts.push(fervieShortcut);
+    }
+
+    arg.data = { shortcuts: shortcuts}
 
     this.delegateCallbackOrEventReplyTo(
       event,

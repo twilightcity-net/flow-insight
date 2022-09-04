@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {DimensionController} from "../../../../../../controllers/DimensionController";
-import FlowChart from "../flowmap/FlowChart";
 import LatestWeekChart from "./LatestWeekChart";
 import {Icon} from "semantic-ui-react";
 
