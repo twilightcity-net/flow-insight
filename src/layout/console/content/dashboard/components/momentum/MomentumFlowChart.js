@@ -621,8 +621,7 @@ export default class MomentumFlowChart extends Component {
           new Date(d.data[1].trim())
         );
         let duration = parseInt(d.data[2].trim(), 10);
-        let friendlyDuration =
-          UtilRenderer.getTimerString(duration);
+        let friendlyDuration = UtilRenderer.getTimerString(duration);
 
         let dayEl = document.getElementById("tipboxDay");
         dayEl.textContent = day;

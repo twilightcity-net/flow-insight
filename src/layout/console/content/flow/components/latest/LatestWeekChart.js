@@ -44,17 +44,6 @@ export default class LatestWeekChart extends Component {
 
     this.cellSize = this.calculateCellSizeBasedOnScreen(this.width, this.height);
 
-
-    this.legendOffsetForCloseAction = 0;
-
-    //TODO our intro screen we're going to want to have this X button,
-    //only if we're opening as the splash open screen, otherwise we will view this
-    //when we click on the chart button.
-    if (this.props.hasRoomForClose) {
-      this.legendOffsetForCloseAction = 30;
-    }
-
-
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
 
@@ -78,10 +67,70 @@ export default class LatestWeekChart extends Component {
     this.drawBoxes(dailyRows, chartGroup);
     this.drawMomentumBoxes(dailyRows, chartGroup);
     this.drawConfusionBoxes(dailyRows, chartGroup);
+    this.drawOverlayStrokeBoxes(dailyRows, chartGroup);
     this.drawWeekdayLabels(dailyRows, chartGroup);
     this.drawDateLabels(dailyRows, chartGroup);
     this.drawLegend(svg, chartGroup);
+    this.drawTooltipBox(svg);
   }
+
+
+  /**
+   * Draw the tooltip box below the daily chart
+   * @param svg
+   */
+
+  drawTooltipBox(svg) {
+
+    let tipInset = 20;
+    let tipWidth = this.cellSize + this.cellMargin * 2;
+    let tipHeight = 100;
+
+    let tipBox = svg
+      .append("g")
+      .attr("id", "tipbox")
+      .style("visibility", "hidden");
+
+    tipBox
+      .append("rect")
+      .attr("id", "tipboxRect")
+      .attr("x", this.margin - this.cellMargin)
+      .attr("y", this.height - this.margin - tipHeight + 10)
+      .attr("width", tipWidth)
+      .attr("height", tipHeight)
+      .attr("rx", "10")
+      .attr("fill", "none")
+      .attr("stroke", "#333333")
+      .attr("stroke-width", 1);
+
+    tipBox
+      .append("text")
+      .attr("id", "tipboxDay")
+      .attr("class", "tipboxTitle")
+      .attr("x", this.margin + tipInset - this.cellMargin)
+      .attr("y", this.height - this.margin - tipHeight + 35)
+      .attr("text-anchor", "start")
+      .text("Feb 12");
+
+    tipBox
+      .append("text")
+      .attr("id", "tipboxHours")
+      .attr("class", "tipboxDetail")
+      .attr("x", this.margin + tipInset - this.cellMargin)
+      .attr("y", this.height - this.margin - tipHeight + 55)
+      .attr("text-anchor", "start")
+      .text("Hours: 00:00");
+
+    tipBox
+      .append("text")
+      .attr("id", "tipboxCoords")
+      .attr("class", "gtcoords")
+      .attr("x", this.margin + tipInset - this.cellMargin)
+      .attr("y", this.height - this.margin + 10 - tipInset)
+      .attr("text-anchor", "start")
+      .text("gt[2020,1,2,3]");
+  }
+
 
   /**
    * Draw the MTWThFSS Labels
@@ -168,7 +217,7 @@ export default class LatestWeekChart extends Component {
    */
   drawLegend(svg, chartGroup) {
 
-    let legendBoxWidth = 300;
+    let legendBoxWidth = this.cellSize * 2 + this.cellMargin * 3;
     let legendBoxHeight = 100;
     let barsize = 100;
 
@@ -179,7 +228,7 @@ export default class LatestWeekChart extends Component {
       .append("rect")
       .attr("fill", "#ffffff")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize - 10)
+      .attr("x", this.width - this.margin - barsize - this.cellMargin)
       .attr("y", this.height - legendBoxHeight + 15)
       .attr("width", barsize)
       .attr("height", 10);
@@ -188,7 +237,7 @@ export default class LatestWeekChart extends Component {
       .append("rect")
       .attr("fill", "url(#momentumGradient)")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize - 10)
+      .attr("x", this.width - this.margin - barsize - this.cellMargin)
       .attr("y", this.height - legendBoxHeight + 35)
       .attr("width", barsize)
       .attr("height", 10);
@@ -197,7 +246,7 @@ export default class LatestWeekChart extends Component {
       .append("rect")
       .attr("fill", "#FF2C36")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize - 10)
+      .attr("x", this.width - this.margin - barsize - this.cellMargin)
       .attr("y", this.height - legendBoxHeight + 55)
       .attr("width", barsize)
       .attr("height", 10);
@@ -353,7 +402,6 @@ export default class LatestWeekChart extends Component {
       .enter()
       .append("rect")
       .attr("id", (d) => d.coords)
-      .attr("class", "box")
       .attr(
         "x",
         (d) => this.getXOffsetForDayIndex(d.dayIndex)
@@ -386,27 +434,64 @@ export default class LatestWeekChart extends Component {
       .domain([0, 0.2, 0.4, 1])
       .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
 
+    let that = this;
+
     chartGroup
       .selectAll("box")
       .data(dailyRows)
       .enter()
       .append("rect")
-      .attr(
-        "x",
-        (d) => this.getXOffsetForDayIndex(d.dayIndex)
-      )
-      .attr(
-        "y",
-        (d) => this.topMargin + this.topChartMargin
-      )
+      .attr("class", "box")
+      .attr("x", (d) => this.getXOffsetForDayIndex(d.dayIndex))
+      .attr("y", (d) => this.topMargin + this.topChartMargin)
       .attr("width", (d) => d.duration > 0? this.cellSize : 0)
       .attr("height", this.cellSize)
       .attr("fill", (d) =>
         interp(mScale(d.momentum))
       )
       .attr("stroke", "#333333")
-      .attr("stroke-width", 1);
+      .attr("stroke-width", 1)
+      .on("mouseover", function (event, d) {
+        let box = document.getElementById(d.coords + "-box");
+        box.classList.add("boxHighlight");
+
+        let tipbox = document.getElementById("tipbox");
+        that.updateTipContents(d);
+        tipbox.style.visibility = "visible";
+      })
+      .on("mouseout", function (event, d) {
+        //TODO handle selected box
+        let box = document.getElementById(d.coords + "-box");
+        box.classList.remove("boxHighlight");
+
+        let tipbox = document.getElementById("tipbox");
+        tipbox.style.visibility = "hidden";
+      })
+      .on("click", function (event, d) {
+        that.onClickSummaryBox(d.coords);
+      });
   }
+
+  drawOverlayStrokeBoxes(dailyRows, chartGroup) {
+    chartGroup
+      .selectAll("overlayStroke")
+      .data(dailyRows)
+      .enter()
+      .append("rect")
+      .attr("class", "boxOverlay")
+      .attr("id", (d) => d.coords + "-box")
+      .attr("x", (d) => this.getXOffsetForDayIndex(d.dayIndex))
+      .attr("y", (d) => this.topMargin + this.topChartMargin)
+      .attr("width", this.cellSize)
+      .attr("height", this.cellSize)
+      .attr("fill", "none");
+  }
+
+  onClickSummaryBox(coords) {
+    console.log("clicked! = "+coords);
+    //TODO handle box select
+  }
+
 
   /**
    * Draw the boxes for the week days
@@ -414,11 +499,14 @@ export default class LatestWeekChart extends Component {
    * @param chartGroup
    */
   drawConfusionBoxes(dailyRows, chartGroup) {
+    let that = this;
+
     chartGroup
       .selectAll("box")
       .data(dailyRows)
       .enter()
       .append("rect")
+      .attr("class", "box")
       .attr(
         "x",
         (d) => this.getXOffsetForDayIndex(d.dayIndex)
@@ -432,8 +520,43 @@ export default class LatestWeekChart extends Component {
       .attr("height", (d) =>  Math.ceil(this.cellSize * d.confusionPercent))
       .attr("fill", "#FF2C36")
       .attr("stroke", "#333333")
-      .attr("stroke-width", 1);
+      .attr("stroke-width", 1)
+      .on("mouseover", function (event, d) {
+        let box = document.getElementById(d.coords + "-box");
+        box.classList.add("boxHighlight");
+
+        let tipbox = document.getElementById("tipbox");
+        that.updateTipContents(d);
+        tipbox.style.visibility = "visible";
+      })
+      .on("mouseout", function (event, d) {
+        //TODO handle selected box
+        let box = document.getElementById(d.coords + "-box");
+        box.classList.remove("boxHighlight");
+
+        let tipbox = document.getElementById("tipbox");
+        tipbox.style.visibility = "hidden";
+      });
   }
+
+  /**
+   * Update the content elements of the tip box
+   * @param row
+   */
+  updateTipContents(row) {
+    let day = UtilRenderer.getDateString(row.calDate);
+    let friendlyDuration = UtilRenderer.getTimerString(row.duration);
+
+    let dayEl = document.getElementById("tipboxDay");
+    dayEl.textContent = day;
+
+    let hoursEl = document.getElementById("tipboxHours");
+    hoursEl.textContent = "Hours: " + friendlyDuration;
+
+    let coordsEl = document.getElementById("tipboxCoords");
+    coordsEl.textContent = row.coords;
+  }
+
 
   /**
    * Get the x offset position based on the day of the week.
