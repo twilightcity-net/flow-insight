@@ -106,7 +106,7 @@ module.exports = class FeedManager {
 
   createEmptyFlowBatch() {
     const flowBatch = {};
-    flowBatch.timeSent = new Date();
+    flowBatch.timeSent = Util.getCurrentLocalTimeString();
     flowBatch.editorActivityList = [];
     flowBatch.externalActivityList = [];
     flowBatch.executionActivityList = [];
@@ -597,7 +597,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   publishBatchToServer(flowBatchDto, callback) {
-    flowBatchDto.timeSent = new Date(); //update the timestamp to right now
+    flowBatchDto.timeSent = Util.getCurrentLocalTimeString(); //update the timestamp to right now
 
     //console.debug(flowBatchDto); //useful but verbose
     this.doFlowBatchPublish(flowBatchDto, callback);

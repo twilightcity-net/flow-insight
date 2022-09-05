@@ -43,6 +43,10 @@ class Util {
     return t.utc().local().calendar();
   }
 
+  static getCurrentLocalTimeString() {
+    return moment().format("YYYY-MM-DDTHH:mm:ss");
+  }
+
   /**
    * shortcut helper link to a baked util.inspect
    * @param object
