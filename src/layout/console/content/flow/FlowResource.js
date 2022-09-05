@@ -45,8 +45,6 @@ export default class FlowResource extends Component {
     ChartClient.chartLatestWeek(
       this,
       (arg) => {
-        console.log("chart data returnedzzz!");
-
         if (!arg.error) {
           console.log(arg.data);
           this.setState({
@@ -67,6 +65,22 @@ export default class FlowResource extends Component {
     );
     this.myController.makeSidebarBrowserRequest(request);
   }
+
+  onClickDayBox = (weekCoords, dayCoords) => {
+    console.log("Closing dashboard and navigating to journal");
+
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.DASHBOARD,
+      "momentum",
+      "user",
+      "me",
+      weekCoords,
+      dayCoords
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
+
   /**
    * renders the flow chart layout of the console view
    * @returns {*} - the rendered components JSX
@@ -86,7 +100,8 @@ export default class FlowResource extends Component {
           <LatestWeekContent chartDto={this.state.chartDto}
                              visible={this.state.visible}
                              hasCloseOption={this.state.hasCloseOption}
-                             onClickClose={this.onClickClose}/>
+                             onClickClose={this.onClickClose}
+                             onClickDayBox={this.onClickDayBox}/>
         </div>
       </div>
     );

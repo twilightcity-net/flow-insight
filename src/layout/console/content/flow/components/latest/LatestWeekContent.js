@@ -25,6 +25,25 @@ export default class LatestWeekContent extends Component {
     this.props.onClickClose();
   }
 
+  onClickDayBox = (dayCoords) => {
+    const weekCoords = this.createWeekCoordsFromDayCoords(dayCoords);
+
+    this.props.onClickDayBox(weekCoords, dayCoords);
+  }
+
+  /**
+   * Convert the day coords to week coords, that is, if we pass in gt[2022,6,5,1]
+   * we ought to return gt[2022,6,5] chopping off the last coordinate
+   * @param dayCoords
+   */
+  createWeekCoordsFromDayCoords(dayCoords) {
+    const parts = dayCoords.split(',');
+    let weekCoords = parts[0] + ',' + parts[1] + ',' + parts[2] + ']';
+    console.log(weekCoords);
+
+    return weekCoords;
+  }
+
   /**
    * renders the main flow content body of this console panel
    * @returns {*} - the JSX to be rendered in the window
@@ -44,6 +63,7 @@ export default class LatestWeekContent extends Component {
         <div className="flowContentWrapper">
           <LatestWeekChart
             chartDto={this.props.chartDto}
+            onClickDayBox={this.onClickDayBox}
           />
         </div>
       );

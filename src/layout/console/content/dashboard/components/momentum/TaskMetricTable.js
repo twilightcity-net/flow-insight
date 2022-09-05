@@ -165,7 +165,6 @@ export default class TaskMetricTable extends Component {
 
               let momentumColor = interp(mScale(momentum));
 
-              console.log("color = " + momentumColor);
 
               if (duration <= 0) {
                 return "";

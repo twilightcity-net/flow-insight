@@ -189,9 +189,7 @@ export default class LatestWeekChart extends Component {
    */
   calculateCellSizeBasedOnScreen(width, height) {
     let chartArea = Math.round(width * 1);
-    console.log(chartArea);
     let size = Math.round((chartArea - this.weekendExtraMargin - this.margin*2)/ 7 - this.cellMargin);
-    console.log(size);
     return size;
   }
 
@@ -371,8 +369,6 @@ export default class LatestWeekChart extends Component {
       dailyRows.push(dailyRow);
     }
 
-    console.log(dailyRows);
-
     return dailyRows;
   }
 
@@ -468,7 +464,7 @@ export default class LatestWeekChart extends Component {
         tipbox.style.visibility = "hidden";
       })
       .on("click", function (event, d) {
-        that.onClickSummaryBox(d.coords);
+        that.onClickDayBox(d.coords);
       });
   }
 
@@ -487,9 +483,11 @@ export default class LatestWeekChart extends Component {
       .attr("fill", "none");
   }
 
-  onClickSummaryBox(coords) {
+  onClickDayBox(coords) {
     console.log("clicked! = "+coords);
     //TODO handle box select
+
+    this.props.onClickDayBox(coords);
   }
 
 
@@ -536,6 +534,9 @@ export default class LatestWeekChart extends Component {
 
         let tipbox = document.getElementById("tipbox");
         tipbox.style.visibility = "hidden";
+      })
+      .on("click", function (event, d) {
+        that.onClickDayBox(d.coords);
       });
   }
 

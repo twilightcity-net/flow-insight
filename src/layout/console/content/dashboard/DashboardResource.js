@@ -4,6 +4,8 @@ import { DimensionController } from "../../../../controllers/DimensionController
 import FamiliarityChartContent from "./components/FamiliarityChartContent";
 import TopTagsChartContent from "./components/TopTagsChartContent";
 import MomentumChartContent from "./components/MomentumChartContent";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for dashboard content
@@ -41,30 +43,53 @@ export default class DashboardResource extends Component {
 
   componentDidMount() {
     let arr = this.props.resource.uriArr;
+    let selection = null;
+    if (arr.length > 4) {
+      selection = arr[5];
+    }
     this.setState({
       dashboardType: arr[1],
       targetType: arr[2],
       target: arr[3],
       timeScope: arr[4],
+      selection: selection
     });
-    console.log(arr);
+
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.RESOURCES
+    );
+
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     let arr = this.props.resource.uriArr;
 
-    if (
-      this.props.resource.uri !== prevProps.resource.uri
-    ) {
+    if (this.props.resource.uri !== prevProps.resource.uri) {
+
+      let selection = null;
+      if (arr.length > 4) {
+        selection = arr[5];
+      }
+
       this.setState({
         dashboardType: arr[1],
         targetType: arr[2],
         target: arr[3],
         timeScope: arr[4],
+        selection: selection
       });
     }
   }
 
+  returnToPreviousResource = () => {
+    //TODO this is a bit of a hack, since we're assuming coming from previous resource
+    // means our this week's flow resource
+
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.FLOW
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
   /**
    * renders the journal layout of the console view
    * @returns {*} - the rendered components JSX
@@ -106,6 +131,8 @@ export default class DashboardResource extends Component {
           targetType={this.state.targetType}
           target={this.state.target}
           timeScope={this.state.timeScope}
+          selection={this.state.selection}
+          returnToPreviousResource={this.returnToPreviousResource}
         />
       );
     } else if (

@@ -26,18 +26,19 @@ export default class MomentumFlowChart extends Component {
    */
   componentDidMount() {
     if (this.props.chartDto) {
-      if (
-        this.props.bucketSize === MomentumFlowChart.DAYS
-      ) {
+      if (this.props.bucketSize === MomentumFlowChart.DAYS) {
         this.displayDailyChart(this.props.chartDto);
-      } else if (
-        this.props.bucketSize === MomentumFlowChart.WEEKS
-      ) {
+      } else if (this.props.bucketSize === MomentumFlowChart.WEEKS) {
         this.displayWeeklyChart(this.props.chartDto);
+      }
+
+      if (this.props.selectedRowId) {
+        this.updateBoxHighlight(this.props.chartDto, null, this.props.selectedRowId);
       }
     }
     this.isLoading = false;
   }
+
 
   /**
    * If we clicked on another chart to display, reload the chart
@@ -46,25 +47,16 @@ export default class MomentumFlowChart extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      this.props.chartDto &&
-      prevProps.chartDto !== this.props.chartDto
-    ) {
-      if (
-        this.props.bucketSize === MomentumFlowChart.DAYS
-      ) {
+    if (this.props.chartDto && prevProps.chartDto !== this.props.chartDto) {
+      if (this.props.bucketSize === MomentumFlowChart.DAYS) {
         this.displayDailyChart(this.props.chartDto);
         this.isLoading = false;
-      } else if (
-        this.props.bucketSize === MomentumFlowChart.WEEKS
-      ) {
+      } else if (this.props.bucketSize === MomentumFlowChart.WEEKS) {
         this.displayWeeklyChart(this.props.chartDto);
       }
     }
 
-    if (
-      this.props.selectedRowId !== prevProps.selectedRowId
-    ) {
+    if (this.props.selectedRowId !== prevProps.selectedRowId) {
       this.updateBoxHighlight(
         this.props.chartDto,
         prevProps.selectedRowId,
@@ -95,11 +87,8 @@ export default class MomentumFlowChart extends Component {
     this.marginBetweenBoxesX = 10;
     this.maxCellsPerColumn = 7;
 
-    this.height =
-      DimensionController.getFullRightPanelHeight() -
-      titleMargin;
-    this.width =
-      DimensionController.getFullRightPanelWidth();
+    this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
+    this.width = DimensionController.getFullRightPanelWidth();
 
     let calRows = this.mapToBlockCalendar(data);
     let maxYearBreaks = this.getMaxYearBreaks(calRows);
@@ -230,10 +219,6 @@ export default class MomentumFlowChart extends Component {
 
     this.centeringMargin = 12; //(this.width - this.margin * 2 - totalUsedWidth)/2;
 
-    console.log(
-      "centering margin = " + this.centeringMargin
-    );
-
     this.width = totalUsedWidth + this.margin * 2;
 
     let svg = d3
@@ -253,7 +238,7 @@ export default class MomentumFlowChart extends Component {
     let groupRefs = this.createRowReferences(calRows);
 
     this.drawWeekRowLabels(svg, groupRefs);
-    this.drawTipBox(svg);
+    this.drawTipBox(svg, chart);
   }
 
   /**
@@ -306,8 +291,7 @@ export default class MomentumFlowChart extends Component {
           new Date(rows[i][1].trim())
         );
         let duration = parseInt(rows[i][2].trim(), 10);
-        let friendlyDuration =
-          UtilRenderer.getTimerString(duration);
+        let friendlyDuration = UtilRenderer.getTimerString(duration);
 
         return {
           day: day,
@@ -320,11 +304,28 @@ export default class MomentumFlowChart extends Component {
   }
 
   /**
+   * Get the default row for the tooltip details if we've got an
+   * initial selection
+   * @param calRows
+   * @param selectedRowId
+   */
+  getDefaultTipRow(calRows, selectedRowId) {
+    for (let row of calRows) {
+      if (row.data[0].trim() === selectedRowId) {
+        return row.data;
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Draw the tooltip box below the daily chart
    * @param svg
+   * @param chart
    */
 
-  drawTipBox(svg) {
+  drawTipBox(svg, chart) {
     let tipInset = 40;
     let tipHeight = 50;
     let tipMargin = 8;
@@ -335,10 +336,25 @@ export default class MomentumFlowChart extends Component {
       7 * (this.cellSize + this.cellMargin) +
       this.extraWeekendMargin;
 
+    let tipVisibility = "hidden";
+    let hours = "";
+    let coords = "";
+    let day = "";
+
+    if (this.props.selectedRowId) {
+      tipVisibility = "visible";
+      const details = this.findBoxWithMatchingCoords(chart, this.props.selectedRowId);
+      if (details) {
+        hours = "Hours: "+details.hours;
+        coords = details.coords;
+        day = details.day;
+      }
+    }
+
     let tipBox = svg
       .append("g")
       .attr("id", "tipbox")
-      .style("visibility", "hidden");
+      .style("visibility", tipVisibility);
 
     tipBox
       .append("rect")
@@ -374,7 +390,7 @@ export default class MomentumFlowChart extends Component {
       )
       .attr("y", this.height - tipHeight + tipMargin)
       .attr("text-anchor", "end")
-      .text("Feb 12");
+      .text(day);
 
     tipBox
       .append("text")
@@ -393,7 +409,7 @@ export default class MomentumFlowChart extends Component {
         this.height - tipHeight + tipMargin + textHeight
       )
       .attr("text-anchor", "end")
-      .text("Hours: 00:00");
+      .text(hours);
 
     tipBox
       .append("text")
@@ -409,7 +425,7 @@ export default class MomentumFlowChart extends Component {
       )
       .attr("y", this.height - tipHeight + tipMargin)
       .attr("text-anchor", "start")
-      .text("gt[*]");
+      .text(coords);
   }
 
   onClickSummaryBox = (coords) => {
@@ -771,7 +787,6 @@ export default class MomentumFlowChart extends Component {
    * @param groupRefs
    */
   drawYearBreakLabels(svg, groupRefs) {
-    console.log(groupRefs);
 
     let yearBreakLabels = svg
       .append("g")
@@ -1210,7 +1225,6 @@ export default class MomentumFlowChart extends Component {
         data: d,
       });
     }
-    console.log(calendarRows);
     return calendarRows;
   }
 

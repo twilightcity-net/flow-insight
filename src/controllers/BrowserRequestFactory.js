@@ -472,6 +472,10 @@ export class BrowserRequestFactory {
     let targetType = args[1];
     let target = args[2];
     let timeScope = args[3];
+    let selection = "default";
+    if (args.length > 4) {
+      selection = args[4];
+    }
 
     if (dashboardType) {
       return (
@@ -486,7 +490,9 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.PATH_SEPARATOR +
         target +
         BrowserRequestFactory.PATH_SEPARATOR +
-        timeScope
+        timeScope +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        selection
       );
     } else {
       throw new Error(

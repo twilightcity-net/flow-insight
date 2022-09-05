@@ -27,6 +27,8 @@ export default class MomentumChartContent extends Component {
     };
   }
 
+  static DEFAULT_SELECTION = "default";
+
   /**
    * Query bucket size options
    * @returns {{WEEKS:string, DAYS: string}}
@@ -40,10 +42,13 @@ export default class MomentumChartContent extends Component {
   }
 
   componentDidMount() {
+    const initialSelection = this.translateInitialSelection(this.props.selection);
+
     this.loadTopLevelMomentumData(
       this.props.targetType,
       this.props.target,
-      this.props.timeScope
+      this.props.timeScope,
+      initialSelection
     );
   }
 
@@ -51,14 +56,32 @@ export default class MomentumChartContent extends Component {
     if (
       prevProps.targetType !== this.props.targetType ||
       prevProps.target !== this.props.target ||
-      prevProps.timeScope !== this.props.timeScope
+      prevProps.timeScope !== this.props.timeScope ||
+      prevProps.selection !== this.props.selection
     ) {
+
+      const initialSelection = this.translateInitialSelection(this.props.selection);
+
       this.loadTopLevelMomentumData(
         this.props.targetType,
         this.props.target,
-        this.props.timeScope
+        this.props.timeScope,
+        initialSelection
       );
     }
+  }
+
+  /**
+   * Translate the selection from props into a null
+   * if set to default
+   * @param selection
+   */
+  translateInitialSelection(selection) {
+    let initialSelection = null;
+    if (this.props.selection !== MomentumChartContent.DEFAULT_SELECTION) {
+      initialSelection = selection;
+    }
+    return initialSelection;
   }
 
   /**
@@ -66,12 +89,14 @@ export default class MomentumChartContent extends Component {
    * @param targetType
    * @param target
    * @param timeScope
+   * @param selection
    */
-  loadTopLevelMomentumData(targetType, target, timeScope) {
+  loadTopLevelMomentumData(targetType, target, timeScope, selection) {
     this.loadMomentumData(
       targetType,
       target,
       timeScope,
+      selection,
       this.handleMomentumDataResponse
     );
   }
@@ -87,6 +112,7 @@ export default class MomentumChartContent extends Component {
       targetType,
       target,
       timeScope,
+      null,
       this.handleDrilldownMomentumDataResponse
     );
   }
@@ -96,12 +122,14 @@ export default class MomentumChartContent extends Component {
    * @param targetType
    * @param target
    * @param timeScope
+   * @param initialSelection
    * @param callback
    */
   loadMomentumData(
     targetType,
     target,
     timeScope,
+    initialSelection,
     callback
   ) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
@@ -121,6 +149,13 @@ export default class MomentumChartContent extends Component {
       );
     } else {
       this.loadMomentumDataForMe(timeScope, callback);
+    }
+    if (initialSelection) {
+      console.log("Loading initial selection! = "+initialSelection);
+      this.setState({
+        drillDownWeek: initialSelection
+      });
+      this.onClickBox(initialSelection);
     }
   }
 
@@ -295,6 +330,11 @@ export default class MomentumChartContent extends Component {
     return false;
   }
 
+  /**
+   * Get title from the bucket size or from the selection if it's set
+   * @param bucketSize
+   * @returns {string}
+   */
   getTitleFromBucketSize(bucketSize) {
     if (bucketSize === "DAYS") {
       return "Daily Momentum";
@@ -348,8 +388,6 @@ export default class MomentumChartContent extends Component {
           response.data.bucketSize
         ),
         chartDto: response.data,
-        selectedRowId: null,
-        taskTableDto: null,
         error: null,
         errorContext: null,
       });
@@ -456,18 +494,25 @@ export default class MomentumChartContent extends Component {
   zoomOutToSummaryView = () => {
     console.log("zoooom out!");
 
-    this.setState((prevState) => {
-      return {
-        chartDto: prevState.summaryChartDto,
-        bucketSize: prevState.summaryChartDto.bucketSize,
-        chartTitle: this.getTitleFromBucketSize(
-          prevState.summaryChartDto.bucketSize
-        ),
-        drillDownWeek: null,
-        drillDownDay: null,
-        taskTableDto: null,
-      };
-    });
+    if (!this.translateInitialSelection(this.props.selection)) {
+      this.setState((prevState) => {
+        return {
+          chartDto: prevState.summaryChartDto,
+          bucketSize: prevState.summaryChartDto.bucketSize,
+          chartTitle: this.getTitleFromBucketSize(
+            prevState.summaryChartDto.bucketSize
+          ),
+          drillDownWeek: null,
+          drillDownDay: null,
+          taskTableDto: null,
+        };
+      });
+    } else {
+      //TODO this is a bit hackish since we're assuming that an
+      // initial selection means we came from another resource
+
+      this.props.returnToPreviousResource();
+    }
   };
 
   /**

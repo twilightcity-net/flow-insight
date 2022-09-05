@@ -205,7 +205,6 @@ export class DimensionController {
    * @returns {number}
    */
   static getMoovieChatHeight() {
-    console.log("window.innerHeight = "+window.innerHeight);
     return (
       window.innerHeight
     );
