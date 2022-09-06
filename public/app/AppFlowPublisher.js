@@ -1,9 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   EventFactory = require("../events/EventFactory");
-const PluginManager = require("../managers/PluginManager");
 const FeedManager = require("../managers/FeedManager");
-const CodeModuleConfigManager = require("../managers/CodeModuleConfigManager");
 
 /**
  * Application class that manages publishing our plugin flow data to the server
@@ -31,9 +29,9 @@ module.exports = class AppFlowPublisher {
       ),
     };
 
-    this.pluginManager = new PluginManager();
-    this.feedManager = new FeedManager();
+    this.pluginManager = global.App.PluginManager;
     this.codeModuleConfigManager = global.App.CodeModuleConfigManager;
+    this.feedManager = new FeedManager();
   }
 
   /**

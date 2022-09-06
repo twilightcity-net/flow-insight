@@ -5,6 +5,7 @@ import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
 import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
 import {Button, Popup} from "semantic-ui-react";
+import {CodeClient} from "../clients/CodeClient";
 
 /**
  * this component is the layout for the always-on-top fervie button
@@ -76,25 +77,51 @@ export default class FervieLayout extends Component {
   }
 
   onMeRefresh = () => {
-    console.log("on me refresh?");
     this.setState({
       me: MemberClient.me
     });
   }
 
   onFervieHide = () => {
+    console.log("onFervieHide");
     this.setState({
       isSpeechBubbleReady: false
     });
   }
 
   onFervieShow = () => {
-    setTimeout(() => {
-      this.setState({
-        isSpeechBubbleReady: true,
-        isRequestTypeChosen: false
-      });
-    }, 1000);
+    console.log("onFervieShow");
+    CodeClient.getLastCodeLocation(this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+        this.setState({
+          error: "Please wait a few moments for me to initialize...",
+          isSpeechBubbleReady: true,
+          isRequestTypeChosen: false
+        });
+      } else {
+        console.log(arg.data);
+        setTimeout(() => {
+          this.setState({
+            isSpeechBubbleReady: true,
+            isRequestTypeChosen: false,
+            error: null,
+            location: this.getFileNameFromPath(arg.data.location),
+            locationPath: arg.data.location,
+            box: this.capitalizeFirstLetter(arg.data.box),
+            boxPath: arg.data.box
+          });
+        }, 1000);
+      }
+    });
+  }
+
+  capitalizeFirstLetter(name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+  }
+
+  getFileNameFromPath(filePath) {
+    return filePath.replace(/^.*[\\\/]/, '');
   }
 
   /**
@@ -148,6 +175,51 @@ export default class FervieLayout extends Component {
   }
 
   getPairingBubbleContent() {
+    let popupContent = "";
+
+    if (this.state.error) {
+      popupContent =
+        (
+          <Popup.Content className="fervieTalkContent">
+            <div>
+              {this.state.error}
+            </div>
+          </Popup.Content>
+        );
+    } else {
+      popupContent = (
+        <Popup.Content className="fervieTalkContent">
+          <div>
+            Would you like me to find you a pair?
+          </div>
+          <div>
+            <Button
+              className="bubbleButton"
+              size="medium"
+              color="grey"
+              onClick={() => {
+                this.onClickAreaOfCode("box", this.state.boxPath);
+              }}
+            >
+              <Button.Content>Area: {this.state.box}</Button.Content>
+            </Button>
+          </div>
+          <div>
+            <Button
+              className="bubbleButton"
+              size="medium"
+              color="grey"
+              onClick={() => {
+                this.onClickAreaOfCode("file", this.state.locationPath);
+              }}
+            >
+              <Button.Content>{this.state.location}</Button.Content>
+            </Button>
+          </div>
+        </Popup.Content>
+      );
+    }
+
     return (<Popup id="fervieTalkBubble" className="fervieTalkBubble"
       position='bottom center'
       inverted
@@ -160,32 +232,7 @@ export default class FervieLayout extends Component {
         </span>)
       }
     >
-      <Popup.Content className="fervieTalkContent">
-      <div>
-        Would you like me to find you a pair?
-
-        </div>
-        <div>
-        <Button
-          className="bubbleButton"
-          size="medium"
-          color="grey"
-          onClick= {() => { this.onClickAreaOfCode("box", "electron"); }}
-        >
-          <Button.Content>Area: Electron</Button.Content>
-        </Button>
-        </div>
-        <div>
-        <Button
-          className="bubbleButton"
-          size="medium"
-          color="grey"
-          onClick= {() => { this.onClickAreaOfCode("file", "/path/to/CircuitSidebar.js"); }}
-        >
-          <Button.Content>CircuitSidebar.js</Button.Content>
-        </Button>
-        </div>
-      </Popup.Content>
+      {popupContent}
     </Popup>);
   }
 

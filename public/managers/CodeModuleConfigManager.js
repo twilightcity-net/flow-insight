@@ -19,7 +19,95 @@ module.exports = class CodeModuleConfigManager {
     this.configuredModuleNames = new Set();
   }
 
-  static CONFIG_FILE = "flowinsight-config.json";
+  static MODULE_CONFIG_FILE = "flowinsight-config.json";
+  static LAST_LOCATION_FILE = "last-location.json";
+
+  /**
+   * Retrieve the last location saved across the different available plugins
+   * We need to find the one with the most recent timestamp
+   * @param callback
+   */
+  getLastLocationAcrossPlugins(callback) {
+    this.findLastLocationFile((filePath) => {
+       if (filePath) {
+         this.parseLastLocationFile(filePath, (contents) => {
+           console.log(contents);
+           callback(contents);
+         });
+       } else {
+         callback(null); //if there's no last-location file available
+       }
+    });
+  }
+
+  /**
+   * Parse the contents of the selected last location file and callback with
+   * the json contents
+   * @param filePath
+   * @param callback
+   */
+  parseLastLocationFile(filePath, callback) {
+    fs.readFile(filePath, "utf8", (err, jsonString) => {
+      if (err) {
+        log.error("[CodeModuleConfigManager] File read failed for "+filePath+ ": " + err);
+        callback(null);
+      } else {
+        const rawConfig = JSON.parse(jsonString);
+        callback(rawConfig);
+      }
+    });
+  }
+
+  /**
+   * Find the path of the last location file we're going to use
+   * across all available registered plugins, using the most recently modified file
+   * if there are multiple across plugins
+   * @param callback
+   */
+  findLastLocationFile(callback) {
+    const allPluginsFolder = Util.getPluginFolderPath();
+    let plugins = global.App.PluginManager.getRegisteredPluginList();
+
+    const lastLocationFilesFound = [];
+
+    plugins.forEach((pluginId) => {
+      const pluginFolder = path.join(allPluginsFolder, pluginId);
+      const lastLocationFile = path.join(pluginFolder, CodeModuleConfigManager.LAST_LOCATION_FILE);
+      if (fs.existsSync(lastLocationFile)) {
+        lastLocationFilesFound.push(lastLocationFile);
+      }
+    });
+
+    this.findMostRecentModifiedFile(lastLocationFilesFound, callback);
+  }
+
+  /**
+   * Find the most recent modified file from a set of files,
+   * and callback with the filePath
+   * @param files
+   * @param callback
+   */
+  findMostRecentModifiedFile(files, callback) {
+    if (files.length === 0) {
+      callback(null);
+    } else if (files.length === 1) {
+      callback(files[0]);
+    } else {
+      let mostRecentModifyTimeMs = null;
+      let mostRecentFile = null;
+      files.forEach((filePath) => {
+        let stats = fs.statSync(filePath);
+        if (mostRecentModifyTimeMs == null) {
+          mostRecentModifyTimeMs = stats.mtimeMs;
+          mostRecentFile = filePath;
+        } else if (stats.mtimeMs > mostRecentModifyTimeMs) {
+          mostRecentModifyTimeMs = stats.mtimeMs;
+          mostRecentFile = filePath
+        }
+      });
+      callback(mostRecentFile);
+    }
+  }
 
   /**
    * Consolidate the module configurations from the various plugins into
@@ -35,7 +123,7 @@ module.exports = class CodeModuleConfigManager {
     plugins.forEach((pluginId) => {
       //do stuff
       const pluginFolder = path.join(allPluginsFolder, pluginId);
-      const configFile = path.join(pluginFolder, CodeModuleConfigManager.CONFIG_FILE);
+      const configFile = path.join(pluginFolder, CodeModuleConfigManager.MODULE_CONFIG_FILE);
 
       this.readModuleRootsFromConfigFile(configFile, (moduleRoots) => {
         log.debug("[CodeModuleConfigManager] Found "+moduleRoots.length + " roots in "+pluginId);
@@ -78,7 +166,7 @@ module.exports = class CodeModuleConfigManager {
 
     this.moduleRoots.forEach((config, moduleNameKey) => {
       const moduleRootDir = config.rootDir;
-      const moduleConfigFile = path.join(moduleRootDir, CodeModuleConfigManager.CONFIG_FILE);
+      const moduleConfigFile = path.join(moduleRootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
 
       if (fs.existsSync(moduleConfigFile)) {
         if (!this.configuredModuleNames.has(moduleNameKey)) {
@@ -99,10 +187,10 @@ module.exports = class CodeModuleConfigManager {
    * This will be based off the module root paths.
    * @param moduleName
    */
-  getConfigFileForModule(moduleName) {
+  getModuleConfigFileForModule(moduleName) {
      const config = this.moduleRoots.get(moduleName);
      if (config) {
-       return path.join(config.rootDir, CodeModuleConfigManager.CONFIG_FILE);
+       return path.join(config.rootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
      } else {
        return null;
      }
@@ -131,10 +219,10 @@ module.exports = class CodeModuleConfigManager {
       const config = this.moduleRoots.get(moduleName);
       if (config && config.rootDir) {
         if (configFileConcatStr.length === 0) {
-          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigManager.CONFIG_FILE);
+          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
         } else {
           configFileConcatStr += "|";
-          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigManager.CONFIG_FILE);
+          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
         }
       }
     });
@@ -151,7 +239,7 @@ module.exports = class CodeModuleConfigManager {
    * @param moduleConfigFile
    * @param callback
    */
-  parseConfigFile(moduleName, moduleConfigFile, callback) {
+  parseModuleConfigFile(moduleName, moduleConfigFile, callback) {
     log.debug("[CodeModuleConfigManager] Parse module config file: "+moduleConfigFile);
 
     fs.readFile(moduleConfigFile, "utf8", (err, jsonString) => {
@@ -218,7 +306,7 @@ module.exports = class CodeModuleConfigManager {
    */
   writeOutTopLevelConfigFile(callback) {
     const flowHomePath = Util.getFlowHomePath();
-    const configFile = path.join(flowHomePath, CodeModuleConfigManager.CONFIG_FILE);
+    const configFile = path.join(flowHomePath, CodeModuleConfigManager.MODULE_CONFIG_FILE);
 
     const config = {};
     config.modules = [];

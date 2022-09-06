@@ -33,7 +33,8 @@ module.exports = class CodeController extends (
     return {
       GET_CODE_MODULE_CONFIG: "get-code-module-config",
       UPDATE_CODE_MODULE_CONFIG: "update-code-module-config",
-      GET_ALL_CODE_MODULE_CONFIGS: "get-all-code-module-configs"
+      GET_ALL_CODE_MODULE_CONFIGS: "get-all-code-module-configs",
+      GET_LAST_CODE_LOCATION: "get-last-code-location"
     };
   }
 
@@ -85,7 +86,9 @@ module.exports = class CodeController extends (
         case CodeController.Events.GET_ALL_CODE_MODULE_CONFIGS:
           this.handleGetAllCodeModuleConfigsEvent(event, arg);
           break;
-
+        case CodeController.Events.GET_LAST_CODE_LOCATION:
+          this.handleGetLastLocationEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown code client event type '" +
@@ -152,6 +155,39 @@ module.exports = class CodeController extends (
     );
   }
 
+  /**
+   * client event handler for retrieval of code module details
+   * @param moduleName
+   * @param location
+   * @param callback
+   */
+  doIdentifyBoxForLocation(moduleName, location, callback) {
+    let urn =
+        CodeController.Paths.CODE +
+        CodeController.Paths.SEPARATOR +
+        moduleName +
+        CodeController.Paths.FILE;
+
+    this.doClientRequest(
+      CodeController.Contexts.CODE_CLIENT,
+      {filePath: location},
+      CodeController.Names.IDENTIFY_BOX,
+      CodeController.Types.POST,
+      urn,
+      (store) => {
+        const arg = {};
+        if (store.error) {
+          arg.error = store.error;
+        } else {
+          arg.data = store.data;
+        }
+        if (callback) {
+          callback(arg);
+        }
+      }
+    );
+  }
+
 
   /**
    * client event handler for updating our code module details
@@ -201,12 +237,50 @@ module.exports = class CodeController extends (
   }
 
   /**
+   * client event handler for getting the last location
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetLastLocationEvent(event, arg, callback) {
+    global.App.CodeModuleConfigManager.getLastLocationAcrossPlugins((locationContents) => {
+      if (locationContents) {
+        this.doIdentifyBoxForLocation(locationContents.module, locationContents.lastLocation,
+          (results) => {
+            if (results.error) {
+              arg.error = results.error;
+            } else {
+              arg.data = {
+                module: locationContents.module,
+                location: locationContents.lastLocation,
+                box: results.data.boxName
+              }
+            }
+            this.delegateCallbackOrEventReplyTo(
+              event,
+              arg,
+              callback
+            );
+          });
+      } else {
+        arg.error = "Last location config file not available from registered plugins";
+        this.delegateCallbackOrEventReplyTo(
+          event,
+          arg,
+          callback
+        );
+      }
+    });
+  }
+
+
+  /**
    * Get the config file location for the specified module.
    *
    * @param moduleName
    */
   getConfigFileForModule(moduleName) {
-    const configFile = global.App.CodeModuleConfigManager.getConfigFileForModule(moduleName);
+    const configFile = global.App.CodeModuleConfigManager.getModuleConfigFileForModule(moduleName);
     log.info("[CodeController] Loading config file "+configFile);
     return configFile;
   }

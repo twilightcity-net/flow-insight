@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import FervieLayout from "../layout/FervieLayout";
 import {MemberClient} from "../clients/MemberClient";
+import {CodeClient} from "../clients/CodeClient";
 
 /**
  *  This view class is used to show a little fervie button,
@@ -8,8 +9,14 @@ import {MemberClient} from "../clients/MemberClient";
  */
 export default class FervieView extends Component {
 
-  componentDidMount() {
+  constructor() {
+    super();
     MemberClient.init(this);
+    CodeClient.init(this);
+  }
+
+  componentDidMount = () => {
+
   }
 
   /// renders the view into our root element of our window

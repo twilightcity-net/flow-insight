@@ -252,6 +252,7 @@ module.exports = class BaseController {
       GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
       GET_CODE_MODULE_CONFIG: "getCodeModuleConfig",
+      IDENTIFY_BOX: "identifyBox",
       GET_ALL_CODE_MODULE_CONFIGS: "getAllCodeModuleConfigs",
       UPDATE_CODE_MODULE_CONFIG: "updateCodeModuleConfig",
       GET_NOTIFICATIONS: "getNotifications",

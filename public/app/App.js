@@ -65,6 +65,7 @@ const FervieWindowManager = require("../managers/FervieWindowManager");
 const AccountManager = require("../managers/AccountManager");
 const AppFlowPublisher = require("./AppFlowPublisher");
 const CodeModuleConfigManager = require("../managers/CodeModuleConfigManager");
+const PluginManager = require("../managers/PluginManager");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -178,6 +179,7 @@ module.exports = class App {
       global.App.FervieManager = new FervieManager();
       global.App.CodeManager = new CodeManager();
       global.App.CodeModuleConfigManager = new CodeModuleConfigManager();
+      global.App.PluginManager = new PluginManager();
       global.App.AccountManager = new AccountManager();
       global.App.MoovieManager = new MoovieManager();
       global.App.CircuitMemberManager = new CircuitMemberManager();

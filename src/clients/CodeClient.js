@@ -33,7 +33,8 @@ export class CodeClient extends BaseClient {
     return {
       GET_CODE_MODULE_CONFIG: "get-code-module-config",
       UPDATE_CODE_MODULE_CONFIG: "update-code-module-config",
-      GET_ALL_CODE_MODULE_CONFIGS: "get-all-code-module-configs"
+      GET_ALL_CODE_MODULE_CONFIGS: "get-all-code-module-configs",
+      GET_LAST_CODE_LOCATION: "get-last-code-location"
     };
   }
 
@@ -46,6 +47,30 @@ export class CodeClient extends BaseClient {
       CodeClient.instance = new CodeClient(scope);
     }
   }
+
+
+  /**
+   * Retrieve the last code location from our IDE, along with the module
+   * and box information already resolved
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getLastCodeLocation(
+    scope,
+    callback
+  ) {
+    let event = CodeClient.instance.createClientEvent(
+      CodeClient.Events.GET_LAST_CODE_LOCATION,
+      {},
+      scope,
+      callback
+    );
+
+    CodeClient.instance.notifyCode(event);
+    return event;
+  }
+
 
   /**
    * Retrieve code module configuration details
