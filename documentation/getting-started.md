@@ -42,7 +42,7 @@ Many of the features of the Flow Console will work without configuration, howeve
 
 To configure a code module, you'll need to add a flowinsight-config.json file to the root of your code module directory.  Below is a sample of what your config file might look like:
 
-`
+
     {
       "boxes": [
         {
@@ -70,7 +70,7 @@ To configure a code module, you'll need to add a flowinsight-config.json file to
           ]
         }]
     }
-`
+
 
 The flowinsight-config.json file describes one or more "box configurations" that will group files together into a "box", i.e. code area, based on a match of their included file paths.  These boxes are used in several reports, such as calculating friction/flow per box and familiarity metrics per box.  
 
