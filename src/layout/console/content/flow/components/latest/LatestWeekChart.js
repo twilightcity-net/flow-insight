@@ -216,10 +216,11 @@ export default class LatestWeekChart extends Component {
   drawLegend(svg, chartGroup) {
 
     let legendBoxWidth = this.cellSize * 2 + this.cellMargin * 3;
-    let legendBoxHeight = 100;
+    let legendBoxHeight = 80;
     let barsize = 100;
+    let topMargin = 12;
 
-    this.drawLegendBoxAndLabels(chartGroup, legendBoxWidth, legendBoxHeight);
+    this.drawLegendBoxAndLabels(chartGroup, legendBoxWidth, legendBoxHeight, topMargin);
     this.setupMomentumGradientDef(svg);
 
     chartGroup
@@ -227,7 +228,7 @@ export default class LatestWeekChart extends Component {
       .attr("fill", "#ffffff")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
       .attr("x", this.width - this.margin - barsize - this.cellMargin)
-      .attr("y", this.height - legendBoxHeight + 15)
+      .attr("y", this.height - this.margin - legendBoxHeight + 15 + topMargin)
       .attr("width", barsize)
       .attr("height", 10);
 
@@ -236,7 +237,7 @@ export default class LatestWeekChart extends Component {
       .attr("fill", "url(#momentumGradient)")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
       .attr("x", this.width - this.margin - barsize - this.cellMargin)
-      .attr("y", this.height - legendBoxHeight + 35)
+      .attr("y", this.height - this.margin - legendBoxHeight + 35 + topMargin)
       .attr("width", barsize)
       .attr("height", 10);
 
@@ -245,7 +246,7 @@ export default class LatestWeekChart extends Component {
       .attr("fill", "#FF2C36")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
       .attr("x", this.width - this.margin - barsize - this.cellMargin)
-      .attr("y", this.height - legendBoxHeight + 55)
+      .attr("y", this.height - this.margin - legendBoxHeight + 55 + topMargin)
       .attr("width", barsize)
       .attr("height", 10);
 
@@ -297,8 +298,9 @@ export default class LatestWeekChart extends Component {
    * @param chartGroup
    * @param legendBoxWidth
    * @param legendBoxHeight
+   * @param topMargin
    */
-  drawLegendBoxAndLabels(chartGroup, legendBoxWidth, legendBoxHeight) {
+  drawLegendBoxAndLabels(chartGroup, legendBoxWidth, legendBoxHeight, topMargin) {
     //legend box
     chartGroup
       .append("rect")
@@ -311,37 +313,37 @@ export default class LatestWeekChart extends Component {
       .attr("rx", 10);
 
     //legend title
-    chartGroup
-      .append("text")
-      .attr("x", this.width - this.margin - legendBoxWidth/2)
-      .attr("y", this.height - legendBoxHeight)
-      .attr("text-anchor", "middle")
-      .attr("class", "axisHeader")
-      .text("Flow States");
+    // chartGroup
+    //   .append("text")
+    //   .attr("x", this.width - this.margin - legendBoxWidth/2)
+    //   .attr("y", this.height - legendBoxHeight)
+    //   .attr("text-anchor", "middle")
+    //   .attr("class", "axisHeader")
+    //   .text("Flow States");
 
     //input state
     chartGroup
       .append("text")
       .attr("x", this.width - this.margin - legendBoxWidth + 10)
-      .attr("y", this.height - legendBoxHeight + 20)
+      .attr("y", this.height - this.margin - legendBoxHeight + 23 + topMargin)
       .attr("text-anchor", "start")
       .attr("class", "axisLabel")
-      .text("Input:");
+      .text("Learning:");
 
     //output state
     chartGroup
       .append("text")
       .attr("x", this.width - this.margin - legendBoxWidth + 10)
-      .attr("y", this.height - legendBoxHeight + 40)
+      .attr("y", this.height - this.margin - legendBoxHeight + 43 + topMargin)
       .attr("text-anchor", "start")
       .attr("class", "axisLabel")
-      .text("Output/Momentum:");
+      .text("Output Momentum:");
 
     //confusion state
     chartGroup
       .append("text")
       .attr("x", this.width - this.margin - legendBoxWidth + 10)
-      .attr("y", this.height - legendBoxHeight + 60)
+      .attr("y", this.height - this.margin - legendBoxHeight + 63 + topMargin)
       .attr("text-anchor", "start")
       .attr("class", "axisLabel")
       .text("Confusion:");
