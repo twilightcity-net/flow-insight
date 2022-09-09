@@ -38,7 +38,7 @@ export default class LatestWeekChart extends Component {
     this.topChartMargin = 70;
     this.tooltipPositionPercent = 0.7;
     this.height = DimensionController.getFlowPanelHeight();
-    this.width = DimensionController.getFlowPanelWidth();
+    this.width = DimensionController.getFlowPanelWidth() * 0.7;
     this.cellMargin = 10;
     this.weekendExtraMargin = 20;
 
@@ -84,7 +84,7 @@ export default class LatestWeekChart extends Component {
 
     let tipInset = 20;
     let tipWidth = this.cellSize + this.cellMargin * 2;
-    let tipHeight = 100;
+    let tipHeight = 60;
 
     let tipBox = svg
       .append("g")
@@ -120,15 +120,6 @@ export default class LatestWeekChart extends Component {
       .attr("y", this.height - this.margin - tipHeight + 55)
       .attr("text-anchor", "start")
       .text("Hours: 00:00");
-
-    tipBox
-      .append("text")
-      .attr("id", "tipboxCoords")
-      .attr("class", "gtcoords")
-      .attr("x", this.margin + tipInset - this.cellMargin)
-      .attr("y", this.height - this.margin + 10 - tipInset)
-      .attr("text-anchor", "start")
-      .text("gt[2020,1,2,3]");
   }
 
 
@@ -215,7 +206,7 @@ export default class LatestWeekChart extends Component {
    */
   drawLegend(svg, chartGroup) {
 
-    let legendBoxWidth = this.cellSize * 2 + this.cellMargin * 3;
+    let legendBoxWidth = 220;
     let legendBoxHeight = 80;
     let barsize = 100;
     let topMargin = 12;
@@ -337,7 +328,7 @@ export default class LatestWeekChart extends Component {
       .attr("y", this.height - this.margin - legendBoxHeight + 43 + topMargin)
       .attr("text-anchor", "start")
       .attr("class", "axisLabel")
-      .text("Output Momentum:");
+      .text("Momentum:");
 
     //confusion state
     chartGroup
@@ -555,9 +546,6 @@ export default class LatestWeekChart extends Component {
 
     let hoursEl = document.getElementById("tipboxHours");
     hoursEl.textContent = "Hours: " + friendlyDuration;
-
-    let coordsEl = document.getElementById("tipboxCoords");
-    coordsEl.textContent = row.coords;
   }
 
 

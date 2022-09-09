@@ -121,8 +121,8 @@ export default class LayoutBrowser extends Component {
 
     if (FeatureToggle.isFlowInsightApp()) {
       defaultRequest = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.FLOW,
-        FlowResource.INTRO_OPTION
+        BrowserRequestFactory.Requests.JOURNAL,
+        "me"
       );
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
