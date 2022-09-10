@@ -326,8 +326,8 @@ export default class MomentumFlowChart extends Component {
    */
 
   drawTipBox(svg, chart) {
-    let tipInset = 40;
     let tipHeight = 50;
+    let tipWidth = 140;
     let tipMargin = 8;
     let tipPadding = 12;
     let textHeight = 20;
@@ -361,13 +361,10 @@ export default class MomentumFlowChart extends Component {
       .attr("id", "tipbox")
       .attr(
         "x",
-        this.centeringMargin +
-          this.margin +
-          this.leftTextMargin +
-          tipInset
+        this.width - tipWidth - tipMargin
       )
       .attr("y", this.height - tipHeight - tipPadding)
-      .attr("width", overallCellWidth - tipInset)
+      .attr("width", tipWidth)
       .attr("height", tipHeight)
       .attr("rx", "3")
       .attr("ry", "3")
@@ -411,21 +408,6 @@ export default class MomentumFlowChart extends Component {
       .attr("text-anchor", "end")
       .text(hours);
 
-    tipBox
-      .append("text")
-      .attr("id", "tipboxCoords")
-      .attr("class", "gtcoords")
-      .attr(
-        "x",
-        this.centeringMargin +
-          this.margin +
-          this.leftTextMargin +
-          tipMargin +
-          tipInset
-      )
-      .attr("y", this.height - tipHeight + tipMargin)
-      .attr("text-anchor", "start")
-      .text(coords);
   }
 
   onClickSummaryBox = (coords) => {
@@ -646,9 +628,6 @@ export default class MomentumFlowChart extends Component {
           document.getElementById("tipboxHours");
         hoursEl.textContent = "Hours: " + friendlyDuration;
 
-        let coordsEl =
-          document.getElementById("tipboxCoords");
-        coordsEl.textContent = coords;
       })
       .on("click", function (event, d) {
         that.props.onClickBox(d.data[0].trim());
@@ -673,9 +652,6 @@ export default class MomentumFlowChart extends Component {
           hoursEl.textContent =
             "Hours: " + that.boxDetail.hours;
 
-          let coordsEl =
-            document.getElementById("tipboxCoords");
-          coordsEl.textContent = that.boxDetail.coords;
         } else {
           let tipbox = document.getElementById("tipbox");
           tipbox.style.visibility = "hidden";
