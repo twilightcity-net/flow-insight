@@ -40,7 +40,7 @@ module.exports = class PluginManager {
         if (!store.error) {
           const plugins = store.data;
           plugins.forEach(plugin => {
-            console.log("[PluginManager] Found registered plugin "+plugin.pluginId);
+            log.debug("[PluginManager] Found registered plugin "+plugin.pluginId);
             this.registeredPluginSet.add(plugin.pluginId);
           });
           this.checkForUnregisteredPluginsAndSendEvent();
@@ -80,7 +80,7 @@ module.exports = class PluginManager {
 
     this.pluginFolders.forEach(pluginId => {
        if (!this.registeredPluginSet.has(pluginId)) {
-         console.log("[PluginManager] Found unregistered plugin: "+pluginId);
+         log.debug("[PluginManager] Found unregistered plugin: "+pluginId);
          unregisteredPluginsList.push(pluginId);
        } else {
          registeredPluginsList.push(pluginId);
@@ -102,7 +102,7 @@ module.exports = class PluginManager {
    * @param unregisteredPluginIds
    */
   onUnregisteredPlugins = (unregisteredPluginIds) => {
-    console.log("[PluginManager] Opening registration requests for unregistered plugins ");
+    log.info("[PluginManager] Opening registration requests for unregistered plugins ");
 
     let pluginConcatStr = "";
     unregisteredPluginIds.forEach((pluginId) => {

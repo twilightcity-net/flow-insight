@@ -1,14 +1,8 @@
-import React, { Component } from "react";
-import {
-  Button,
-  Icon,
-  Input,
-  Segment,
-} from "semantic-ui-react";
-import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
-import { BrowserRequestFactory } from "../../../controllers/BrowserRequestFactory";
+import React, {Component} from "react";
+import {Button, Icon, Input, Segment,} from "semantic-ui-react";
+import {RendererControllerFactory} from "../../../controllers/RendererControllerFactory";
+import {BrowserRequestFactory} from "../../../controllers/BrowserRequestFactory";
 import FeatureToggle from "../../shared/FeatureToggle";
-import FlowResource from "./flow/FlowResource";
 
 /**
  * this component is the tab panel wrapper for the console content

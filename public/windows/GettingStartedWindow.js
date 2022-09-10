@@ -67,6 +67,12 @@ module.exports = class GettingStartedWindow {
 
   onShowCb() {
     log.info("[GettingStartedWindow] show window");
+    let consoleWindow = global.App.WindowManager.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
+    if (consoleWindow) {
+      if (consoleWindow.hasOpened()) {
+        this.onHideConsole();
+      }
+    }
   }
 
   onClosedCb() {

@@ -190,6 +190,7 @@ module.exports = class ConsoleWindow {
       ),
     };
     this.state = 0;
+    this.hasOpenedOnce = false;
     this.states = {
       HIDDEN: 0,
       SHOWN: 1,
@@ -250,6 +251,7 @@ module.exports = class ConsoleWindow {
       return;
     }
     if (this.state === this.states.HIDDEN) {
+      this.hasOpenedOnce = true;
       this.updateConsoleToOpenPosition();
       this.showConsole();
     } else if (this.state === this.states.SHOWN) {
@@ -267,6 +269,10 @@ module.exports = class ConsoleWindow {
 
   isShown() {
     return this.state === this.states.SHOWN;
+  }
+
+  hasOpened() {
+    return this.hasOpenedOnce;
   }
 
   /**

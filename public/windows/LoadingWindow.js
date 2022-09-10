@@ -63,9 +63,5 @@ module.exports = class LoadingWindow {
   }
 
   onClosedCb() {
-    log.info(
-      "[LoadingWindow] closed window -> enable global shortcuts"
-    );
-    global.App.ShortcutManager.enabled = true;
   }
 };

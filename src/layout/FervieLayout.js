@@ -121,7 +121,7 @@ export default class FervieLayout extends Component {
   }
 
   getFileNameFromPath(filePath) {
-    return filePath.replace(/^.*[\\\/]/, '');
+    return filePath.replace(/^.*[\\/]/, '');
   }
 
   /**

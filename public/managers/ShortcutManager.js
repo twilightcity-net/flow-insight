@@ -110,6 +110,11 @@ class ShortcutManager {
     };
   }
 
+  enableGlobalShortcuts() {
+    log.info("[ShortcutManager] Enabling global shortcuts");
+    this.enabled = true;
+  }
+
   /**
    * Gets a descriptor object of the console shortcut
    * @returns {{accelerator: *, modifier: string, name, friendlyName: string, key: string, hasShift: boolean}}
@@ -291,6 +296,8 @@ class ShortcutManager {
         if (shortcut.callback) {
           shortcut.callback();
         }
+      } else {
+        log.warn("Shortcut manager disabled, ignoring shortcut");
       }
     });
   }

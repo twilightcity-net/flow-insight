@@ -64,7 +64,7 @@ module.exports = class AppFlowPublisher {
    * fires a publisher pulse that sends plugin data to gridtime
    */
   pulse() {
-    log.info("[FlowPublisher] Flow publisher pulse starting...");
+    log.info("[AppFlowPublisher] Flow publisher pulse starting...");
 
     try {
       this.doLoopProcessing();
@@ -84,14 +84,14 @@ module.exports = class AppFlowPublisher {
     this.pluginManager.loadAndValidatePlugins(() => {
       const plugins = this.pluginManager.getRegisteredPluginList();
 
-      log.info("Plugins to process: "+plugins.length);
+      log.info("[AppFlowPublisher] Plugins to process: "+plugins.length);
 
       this.codeModuleConfigManager.consolidatePluginConfigurations(plugins, () => {
-        console.log("Plugin configs consolidated!");
+        log.debug("[AppFlowPublisher] Plugin configs consolidated!");
         this.codeModuleConfigManager.loadConfiguredModulesList(() => {
-          console.log("Done loading configured module list from the server!");
+          log.debug("[AppFlowPublisher] Done loading configured module list from the server!");
           this.codeModuleConfigManager.tryToLoadConfigsWhenModuleNotConfigured(() => {
-            console.log("Done loading flowinsight-config.json files from projects!");
+            log.debug("[AppFlowPublisher] Done loading flowinsight-config.json files from projects!");
           });
 
         });
