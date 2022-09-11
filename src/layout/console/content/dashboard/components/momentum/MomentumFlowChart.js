@@ -338,7 +338,6 @@ export default class MomentumFlowChart extends Component {
 
     let tipVisibility = "hidden";
     let hours = "";
-    let coords = "";
     let day = "";
 
     if (this.props.selectedRowId) {
@@ -346,7 +345,6 @@ export default class MomentumFlowChart extends Component {
       const details = this.findBoxWithMatchingCoords(chart, this.props.selectedRowId);
       if (details) {
         hours = "Hours: "+details.hours;
-        coords = details.coords;
         day = details.day;
       }
     }
