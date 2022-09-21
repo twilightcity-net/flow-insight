@@ -1,6 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
-  fs = require("fs");
+  fs = require("fs"),
+path = require("path");
 
 const Util = require("../Util");
 const EventFactory = require("../events/EventFactory");
@@ -152,7 +153,8 @@ module.exports = class PluginManager {
     const pluginList = [];
     fs.readdir(pluginFolder, (err, files) => {
       files.forEach(folder => {
-        if (fs.statSync(pluginFolder + "/" + folder).isDirectory()){
+        let subFolder = path.join(pluginFolder, folder);
+        if (fs.statSync(subFolder).isDirectory()){
           pluginList.push( folder );
         }
       });

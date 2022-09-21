@@ -153,26 +153,28 @@ module.exports = class FeedManager {
     const pluginFolder = path.join(allPluginsFolder, pluginId);
     const preprocessFolder = path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
 
-    const preprocessedFlowFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
-    if (fs.existsSync(preprocessedFlowFile)) {
-      log.info("Reprocessing active.flow after last preprocess run crashed.");
-      this.reprocessPreprocessing(pluginId, preprocessFolder, preprocessedFlowFile, () => {
+    Util.createFolderIfDoesntExist(preprocessFolder, () => {
+      const preprocessedFlowFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
+      if (fs.existsSync(preprocessedFlowFile)) {
+        log.info("Reprocessing active.flow after last preprocess run crashed.");
+        this.reprocessPreprocessing(pluginId, preprocessFolder, preprocessedFlowFile, () => {
+          if (callback) {
+            callback();
+          }
+        });
+      } else if (this.folderIsNotEmpty(preprocessFolder)) {
+        log.info("Reprocessing old flow batches after last preprocess run crashed.");
+        this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
+          if (callback) {
+            callback();
+          }
+        });
+      } else {
         if (callback) {
           callback();
         }
-      });
-    } else if (this.folderIsNotEmpty(preprocessFolder)) {
-      log.info("Reprocessing old flow batches after last preprocess run crashed.");
-      this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
-        if (callback) {
-          callback();
-        }
-      });
-    } else {
-      if (callback) {
-        callback();
       }
-    }
+    });
   }
 
   /**
@@ -615,7 +617,8 @@ module.exports = class FeedManager {
     const batchFileList = [];
     fs.readdir(queueFolder, (err, files) => {
       files.forEach(file => {
-        if (fs.statSync(queueFolder + "/" + file).isFile() && file.endsWith(FeedManager.FLOW_EXTENSION)){
+        let filePath = path.join(queueFolder, file);
+        if (fs.statSync(filePath).isFile() && file.endsWith(FeedManager.FLOW_EXTENSION)){
           log.debug("[FeedManager] found batch in publish queue: "+file);
           batchFileList.push( file );
         }
