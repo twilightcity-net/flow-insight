@@ -286,12 +286,14 @@ module.exports = class FeedManager {
     this.findAllBatchFilesInPreprocessing(preprocessFolder, (batchFiles) => {
       const queueFolder = this.getQueueFolder(pluginId);
 
-      batchFiles.forEach((fileName) => {
-        this.publishFile(preprocessFolder, queueFolder, fileName);
+      Util.createFolderIfDoesntExist(queueFolder, () => {
+        batchFiles.forEach((fileName) => {
+          this.publishFile(preprocessFolder, queueFolder, fileName);
+        });
+        if (callback) {
+          callback();
+        }
       });
-      if (callback) {
-        callback();
-      }
     });
   }
 
@@ -497,21 +499,23 @@ module.exports = class FeedManager {
   publishAllBatches(pluginId, callback) {
     const queueFolder = this.getQueueFolder(pluginId);
 
-    this.findAllFilesInPublishQueue(pluginId, (batchFileList) => {
-      batchFileList.forEach((file) => {
-        const filePath = path.join(queueFolder, file);
+    Util.createFolderIfDoesntExist(queueFolder, () => {
+      this.findAllFilesInPublishQueue(pluginId, (batchFileList) => {
+        batchFileList.forEach((file) => {
+          const filePath = path.join(queueFolder, file);
 
-        log.info("[FeedManager] Publishing "+filePath);
-        const flowBatchDto = this.createEmptyFlowBatch();
+          log.info("[FeedManager] Publishing "+filePath);
+          const flowBatchDto = this.createEmptyFlowBatch();
 
-        this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
-          if (successfulParse) {
-              this.publishBatch(pluginId, flowBatchDto, filePath);
-            } else {
-              this.handleParseFailure(pluginId, filePath, file);
+          this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
+              if (successfulParse) {
+                this.publishBatch(pluginId, flowBatchDto, filePath);
+              } else {
+                this.handleParseFailure(pluginId, filePath, file);
+              }
             }
-          }
-        );
+          );
+        });
       });
     });
   }
@@ -614,16 +618,18 @@ module.exports = class FeedManager {
   findAllFilesInPublishQueue(pluginId, callback) {
     const queueFolder = this.getQueueFolder(pluginId);
 
-    const batchFileList = [];
-    fs.readdir(queueFolder, (err, files) => {
-      files.forEach(file => {
-        let filePath = path.join(queueFolder, file);
-        if (fs.statSync(filePath).isFile() && file.endsWith(FeedManager.FLOW_EXTENSION)){
-          log.debug("[FeedManager] found batch in publish queue: "+file);
-          batchFileList.push( file );
-        }
+    Util.createFolderIfDoesntExist(queueFolder, () => {
+      const batchFileList = [];
+      fs.readdir(queueFolder, (err, files) => {
+        files.forEach(file => {
+          let filePath = path.join(queueFolder, file);
+          if (fs.statSync(filePath).isFile() && file.endsWith(FeedManager.FLOW_EXTENSION)){
+            log.debug("[FeedManager] found batch in publish queue: "+file);
+            batchFileList.push( file );
+          }
+        });
+        callback(batchFileList);
       });
-      callback(batchFileList);
     });
   }
 
