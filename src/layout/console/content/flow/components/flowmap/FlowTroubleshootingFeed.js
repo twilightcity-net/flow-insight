@@ -230,12 +230,17 @@ export default class FlowTroubleshootingFeed extends Component {
             columns={16}
           >
             <Grid.Row className="sessionHeaderRow">
-              <Grid.Column width={16}>
+              <Grid.Column width={13}>
                 <div className="troubleHeader">
                   Troubleshoot:{" "}
                   {UtilRenderer.getCapitalizedName(
                     this.props.circuit.circuitName
                   )}
+                </div>
+              </Grid.Column>
+              <Grid.Column width={3}>
+                <div className="troubleTimer">
+                  {UtilRenderer.getWtfTimerFromCircuit(this.props.circuit)}
                 </div>
               </Grid.Column>
             </Grid.Row>

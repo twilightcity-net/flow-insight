@@ -39,6 +39,7 @@ export class ChartClient extends BaseClient {
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
+      CHART_DAY: "chart-day",
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_USER: "chart-task-for-user",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
@@ -118,6 +119,32 @@ export class ChartClient extends BaseClient {
         projectName: projectName,
         taskName: taskName,
         bucket: bucket,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart friction for a single day
+   * @param gtDayCoords
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFrictionForDay(
+    gtDayCoords,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_DAY,
+      {
+        gtCoords: gtDayCoords
       },
       scope,
       callback

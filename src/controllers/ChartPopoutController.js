@@ -6,6 +6,7 @@ export class ChartPopoutController extends ActiveViewController {
     return {
       TASK_FOR_WTF: "task-for-wtf",
       TASK_BY_NAME: "task-by-name",
+      DAY_CHART: "day-chart"
     };
   }
 
@@ -32,24 +33,38 @@ export class ChartPopoutController extends ActiveViewController {
    * @param circuitName
    */
   openChartWindowForCircuitTask(circuitName) {
-    console.log("circuitName on client: " + circuitName);
+    console.log("open circuit chart for " + circuitName);
     this.openChartDispatcher.dispatch({
-      chartType:
-        ChartPopoutController.ChartType.TASK_FOR_WTF,
+      chartType: ChartPopoutController.ChartType.TASK_FOR_WTF,
       circuitName: circuitName,
     });
   }
 
   /**
+   * Open a chart popup for a specific day
+   * @param username
+   * @param gtCoords
+   */
+  openChartWindowForDay(username, gtCoords) {
+    console.log("open day chart for: " + gtCoords);
+    this.openChartDispatcher.dispatch({
+      chartType: ChartPopoutController.ChartType.DAY_CHART,
+      username: username,
+      gtCoords: gtCoords,
+    });
+  }
+
+
+  /**
    * Open a chart popup for a specific project/task
    * @param projectName
    * @param taskName
+   * @param username
    */
   openChartWindowForTask(projectName, taskName, username) {
-    console.log("taskname on client: " + taskName);
+    console.log("open task chart for: " + taskName);
     this.openChartDispatcher.dispatch({
-      chartType:
-        ChartPopoutController.ChartType.TASK_BY_NAME,
+      chartType: ChartPopoutController.ChartType.TASK_BY_NAME,
       projectName: projectName,
       taskName: taskName,
       username: username,
@@ -61,11 +76,24 @@ export class ChartPopoutController extends ActiveViewController {
    * @param circuitName
    */
   closeChartWindowForCircuitTask(circuitName) {
-    console.log("circuitName on client: " + circuitName);
+    console.log("close circuit chart for: " + circuitName);
     this.closeChartDispatcher.dispatch({
-      chartType:
-        ChartPopoutController.ChartType.TASK_FOR_WTF,
+      chartType: ChartPopoutController.ChartType.TASK_FOR_WTF,
       circuitName: circuitName,
+    });
+  }
+
+  /**
+   * Close a chart popup window for a specific day chart
+   * @param username
+   * @param gtCoords
+   */
+  closeChartWindowForDay(username, gtCoords) {
+    console.log("close day chart for: " + gtCoords);
+    this.closeChartDispatcher.dispatch({
+      chartType: ChartPopoutController.ChartType.DAY_CHART,
+      username: username,
+      gtCoords: gtCoords,
     });
   }
 
@@ -73,12 +101,12 @@ export class ChartPopoutController extends ActiveViewController {
    * Close a chart popup window for a specific project/task
    * @param projectName
    * @param taskName
+   * @param username
    */
   closeChartWindowForTask(projectName, taskName, username) {
-    console.log("taskname on client: " + taskName);
+    console.log("close task chart for: " + taskName);
     this.closeChartDispatcher.dispatch({
-      chartType:
-        ChartPopoutController.ChartType.TASK_BY_NAME,
+      chartType: ChartPopoutController.ChartType.TASK_BY_NAME,
       projectName: projectName,
       taskName: taskName,
       username: username,

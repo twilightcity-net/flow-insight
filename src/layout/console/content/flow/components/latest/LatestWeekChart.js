@@ -195,7 +195,7 @@ export default class LatestWeekChart extends Component {
       .attr("x", this.margin)
       .attr("y", this.topMargin)
       .attr("text-anchor", "start")
-      .text("Flow Dashboard");
+      .text("This Week's Flow");
   }
 
 

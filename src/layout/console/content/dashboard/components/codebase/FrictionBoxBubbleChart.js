@@ -238,7 +238,6 @@ export default class FrictionBoxBubbleChart extends Component {
       .padding(padding);
 
     let packed = pack(this.root);
-    console.log(packed);
 
     let svg = d3
       .select("#chart")
@@ -378,6 +377,7 @@ export default class FrictionBoxBubbleChart extends Component {
     if (this.props.drilldownBox) {
       this.props.onClickCircle(name, group, label);
     } else {
+      console.log("animate");
       //otherwise animate transition
 
       this.isLoading = true;
@@ -389,19 +389,21 @@ export default class FrictionBoxBubbleChart extends Component {
       let newX = Math.round(this.root.x - x);
       let newY = Math.round(this.root.y - y);
 
-      this.circleGroup
-        .append("use")
-        .attr("href", "#" + name);
-
-      el.style.transition = "transform 0.7s ease-in-out";
-      el.style.transform = `translate(${newX}px,${newY}px) scale(${rRatio})`;
-      el.style.stroke = "none";
-      el.style.transformOrigin = "center";
-      el.style.opacity = "1";
-      el.style.transformBox = "fill-box";
+      el.style.opacity = "0";
+      el.style.transition = "transform 0.7s ease-in-out, opacity 0.7s ease-in-out";
 
       svg.style("transition", "opacity 0.7s ease-in-out");
-      svg.style("opacity", "0.1");
+
+      setTimeout(() => {
+        svg.style("opacity", "0.1");
+
+        el.style.transform = `translate(${newX}px,${newY}px) scale(${rRatio})`;
+        el.style.stroke = "none";
+        el.style.transformOrigin = "center";
+        el.style.opacity = "0.2";
+        el.style.transformBox = "fill-box";
+      }, 100);
+
 
       setTimeout(() => {
         this.circleGroup.append("text")
@@ -412,7 +414,7 @@ export default class FrictionBoxBubbleChart extends Component {
           .attr("class", "circleLabel")
           .text("Loading...");
         this.props.onClickCircle(name, group, label);
-      }, 700);
+      }, 800);
     }
   };
 

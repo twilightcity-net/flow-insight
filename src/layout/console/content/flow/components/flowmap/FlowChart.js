@@ -126,11 +126,9 @@ export default class FlowChart extends Component {
   displayChart(chart, selectedCircuitName) {
     this.margin = 30;
     this.tooltipPositionPercent = 0.7;
-    let svgHeight =
-      DimensionController.getFullRightPanelHeight() - 200;
+    let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
     this.chartHeight = svgHeight - 2 * this.margin;
-    this.browserBarHeightAdjust =
-      DimensionController.getBrowserBarHeight();
+    this.browserBarHeightAdjust = DimensionController.getBrowserBarHeight();
 
     this.legendOffsetForCloseAction = 0;
 
@@ -138,8 +136,7 @@ export default class FlowChart extends Component {
       this.legendOffsetForCloseAction = 30;
     }
 
-    this.width =
-      DimensionController.getFullRightPanelWidth();
+    this.width = DimensionController.getFullRightPanelWidth();
 
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
@@ -179,17 +176,16 @@ export default class FlowChart extends Component {
       .domain([0, 0.2, 0.4, 1])
       .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
 
-    let barWidthByCoordsMap =
-      this.createBarWidthByCoordsMap(data, this.xScale);
+    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
     let offsetMap = this.createOffsetMap(data, this.xScale);
-    let tileLocationMap =
-      this.createTileLocationDataMap(chart);
+    let tileLocationMap = this.createTileLocationDataMap(chart);
     let tileWtfMap = this.createTileWtfDataMap(chart);
     let tileExecMap = this.createTileExecDetailsMap(
       data,
       chart
     );
     let taskSwitchMap = this.createTaskSwitchMap(chart);
+
 
     const chartGroup = svg.append("g").attr("class", "ifm");
 
@@ -355,15 +351,13 @@ export default class FlowChart extends Component {
   }
 
   createTitle(chart, chartGroup) {
-    let taskName = chart.featureName;
-
     chartGroup
       .append("text")
       .attr("class", "title")
       .attr("x", this.margin)
       .attr("y", this.margin - 10)
       .attr("text-anchor", "start")
-      .text("Task: " + taskName);
+      .text(this.props.title);
   }
 
   /**
@@ -512,12 +506,14 @@ export default class FlowChart extends Component {
       if (!wtfs && !files) {
         html +=
           "<span class='noactivity'>No file activity</span>";
-      } else {
-        html +=
-          "<hr class='rule'/><div class='gtcoords'>" +
-          coords +
-          "</div>";
       }
+
+      // else {
+      //   html +=
+      //     "<hr class='rule'/><div class='gtcoords'>" +
+      //     coords +
+      //     "</div>";
+      // }
 
       let tooltipEl = document.querySelector("#tooltip");
       tooltipEl.innerHTML = html;
@@ -911,11 +907,13 @@ export default class FlowChart extends Component {
     barWidthByCoordsMap,
     tileExecMap
   ) {
-    let execSummaryData =
-      chart.featureSeriesByType["@exec/count"]
-        .rowsOfPaddedCells;
+    let execSummaryData = [];
     let execYMargin = 10;
     let execRadius = 3;
+
+    if (chart.featureSeriesByType["@exec/count"]) {
+      execSummaryData = chart.featureSeriesByType["@exec/count"].rowsOfPaddedCells;
+    }
 
     let dotGrp = chartGroup.append("g");
 
@@ -1028,7 +1026,7 @@ export default class FlowChart extends Component {
 
             html +=
               "<div class='exectip'><span class='process'>" +
-              row.exec +
+              that.truncateIfTooLong(row.exec) +
               "</span>" +
               "<span class='duration'>" +
               row.tExecTime +
@@ -1157,6 +1155,15 @@ export default class FlowChart extends Component {
     );
   }
 
+  truncateIfTooLong(name) {
+    const tipLimit = 50;
+    if (name.length < tipLimit) {
+      return name;
+    } else {
+      return name.substr(0, tipLimit) + "...";
+    }
+  }
+
   /**
    * Create an invisible bounding box around the chart so that when we leave the chart
    * area, the mouse tooltip is turned off.  This creates significantly smoother mouse movement
@@ -1222,6 +1229,14 @@ export default class FlowChart extends Component {
     boundingBox.on("click", function (event, d) {
       that.props.onClickOffCircuit();
     });
+
+    let el = document.getElementById("draggableBanner");
+    if (el) {
+      el.addEventListener("mouseover", (event) => {
+        d3.select("#tooltip").style("left", "-1000px");
+      });
+    }
+
   }
 
   /**
@@ -1290,9 +1305,11 @@ export default class FlowChart extends Component {
 
   createTaskSwitchMap(chart) {
     let taskSwitchMap = [];
-    let taskSwitchData =
-      chart.eventSeriesByType["@work/task"]
-        .rowsOfPaddedCells;
+    let taskSwitchData = [];
+
+    if (chart.eventSeriesByType["@work/task"]) {
+      taskSwitchMap = chart.eventSeriesByType["@work/task"].rowsOfPaddedCells;
+    }
 
     for (let i = 0; i < taskSwitchData.length; i++) {
       let row = taskSwitchData[i];
@@ -1317,12 +1334,16 @@ export default class FlowChart extends Component {
    * @returns {*}
    */
   createTileExecDetailsMap(data, chart) {
-    let execData =
-      chart.featureSeriesByType["@exec/runtime"]
-        .rowsOfPaddedCells;
-    let haystackData =
-      chart.eventSeriesByType["@exec/haystak"]
-        .rowsOfPaddedCells;
+    let execData = [];
+    let haystackData = [];
+
+    //optional data sets
+    if (chart.featureSeriesByType["@exec/runtime"]) {
+      execData = chart.featureSeriesByType["@exec/runtime"].rowsOfPaddedCells;
+    }
+    if (chart.eventSeriesByType["@exec/haystak"]) {
+      haystackData = chart.eventSeriesByType["@exec/haystak"].rowsOfPaddedCells;
+    }
 
     let execDetailMap = [];
 
@@ -1386,9 +1407,12 @@ export default class FlowChart extends Component {
    */
   createTileWtfDataMap(chart) {
     let chartSeries = chart.chartSeries.rowsOfPaddedCells;
-    let wtfData =
-      chart.eventSeriesByType["@flow/wtf"]
-        .rowsOfPaddedCells;
+    let wtfData = [];
+
+    //optional dataset
+    if (chart.eventSeriesByType["@flow/wtf"]) {
+      wtfData = chart.eventSeriesByType["@flow/wtf"].rowsOfPaddedCells;
+    }
 
     let tileWtfMap = [];
 
@@ -1444,9 +1468,11 @@ export default class FlowChart extends Component {
    * @returns {*}
    */
   createTileLocationDataMap(chart) {
-    let locationData =
-      chart.featureSeriesByType["@place/location"]
-        .rowsOfPaddedCells;
+    let locationData = [];
+
+    if (chart.featureSeriesByType["@place/location"]) {
+      locationData = chart.featureSeriesByType["@place/location"].rowsOfPaddedCells;
+    }
 
     let tileLocationMap = [];
     //so each row, has coords, file, duration, and modified

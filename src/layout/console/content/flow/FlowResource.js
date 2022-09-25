@@ -4,6 +4,7 @@ import {DimensionController} from "../../../../controllers/DimensionController";
 import LatestWeekContent from "./components/latest/LatestWeekContent";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import {MemberClient} from "../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the flow content
@@ -69,15 +70,17 @@ export default class FlowResource extends Component {
   onClickDayBox = (weekCoords, dayCoords) => {
     console.log("Closing dashboard and navigating to journal");
 
-    let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.DASHBOARD,
-      "momentum",
-      "user",
-      "me",
-      weekCoords,
+    let chartPopoutController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CHART_POPOUT,
+        this
+      );
+
+    chartPopoutController.openChartWindowForDay(
+      MemberClient.me.username,
       dayCoords
     );
-    this.myController.makeSidebarBrowserRequest(request);
+
   }
 
 

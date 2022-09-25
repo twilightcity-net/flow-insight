@@ -39,6 +39,7 @@ module.exports = class ChartWindowManager {
     return {
       TASK_FOR_WTF: "task-for-wtf",
       TASK_BY_NAME: "task-by-name",
+      DAY_CHART: "day-chart"
     };
   }
 
@@ -65,21 +66,17 @@ module.exports = class ChartWindowManager {
       circuitName = arg.circuitName,
       projectName = arg.projectName,
       username = arg.username,
-      taskName = arg.taskName;
+      taskName = arg.taskName,
+      gtCoords = arg.gtCoords;
 
     let windowName = ChartWindowManager.windowNamePrefix;
 
-    if (
-      chartType ===
-      ChartWindowManager.ChartType.TASK_FOR_WTF
-    ) {
+    if (chartType === ChartWindowManager.ChartType.TASK_FOR_WTF) {
       windowName += circuitName;
-    } else if (
-      chartType ===
-      ChartWindowManager.ChartType.TASK_BY_NAME
-    ) {
-      windowName +=
-        username + "." + projectName + "." + taskName;
+    } else if (chartType === ChartWindowManager.ChartType.TASK_BY_NAME) {
+      windowName += username + "." + projectName + "." + taskName;
+    } else if (chartType === ChartWindowManager.ChartType.DAY_CHART) {
+      windowName += username + "." + gtCoords;
     } else {
       throw new Error(
         "Unable to open unknown chart type: " + chartType
@@ -133,9 +130,7 @@ module.exports = class ChartWindowManager {
    */
   closeAllChartWindows() {
     for (let windowName of this.chartWindowsByName.keys()) {
-      global.App.WindowManager.closeWindowByName(
-        windowName
-      );
+      global.App.WindowManager.closeWindowByName(windowName);
     }
     this.chartWindowsByName.clear();
   }

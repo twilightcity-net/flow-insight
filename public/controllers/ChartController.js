@@ -27,6 +27,7 @@ module.exports = class ChartController extends (
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
+      CHART_DAY: "chart-day",
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_USER: "chart-task-for-user",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
@@ -126,6 +127,9 @@ module.exports = class ChartController extends (
       switch (arg.type) {
         case ChartController.Events.CHART_WTF:
           this.handleChartWTFEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_DAY:
+          this.handleChartDayEvent(event, arg);
           break;
         case ChartController.Events.CHART_TASK:
           this.handleChartTaskEvent(event, arg);
@@ -1400,6 +1404,38 @@ module.exports = class ChartController extends (
       ChartController.Contexts.CHART_CLIENT,
       {},
       ChartController.Names.CHART_FRICTION,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting a single day
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartDayEvent(event, arg, callback) {
+    let gtCoords = arg.args.gtCoords,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION +
+        ChartController.Paths.DAY;
+
+    urn += "?gt_exp=" + gtCoords;
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_DAY,
       ChartController.Types.GET,
       urn,
       (store) =>

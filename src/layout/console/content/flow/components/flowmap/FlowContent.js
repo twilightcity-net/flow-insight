@@ -6,6 +6,8 @@ import { CircuitClient } from "../../../../../../clients/CircuitClient";
 import { TalkToClient } from "../../../../../../clients/TalkToClient";
 import FlowTroubleshootingFeed from "./FlowTroubleshootingFeed";
 import { MemberClient } from "../../../../../../clients/MemberClient";
+import ChartView from "../../../../../../views/ChartView";
+import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
  * this component handles the main flow content for the /flow view
@@ -148,16 +150,24 @@ export default class FlowContent extends Component {
     }
 
     if (this.props.chartDto) {
-      let selectedCircuitName =
-        this.props.selectedCircuitName;
+      let selectedCircuitName = this.props.selectedCircuitName;
       if (this.state.circuit) {
-        selectedCircuitName =
-          this.state.circuit.circuitName;
+        selectedCircuitName = this.state.circuit.circuitName;
+      }
+
+      let title = "";
+      if (this.props.chartType === ChartView.ChartType.DAY_CHART) {
+        const day = UtilRenderer.getDateString(this.props.chartDto.position);
+
+        title = day + " - Flow Map";
+      } else {
+        title = "Task: "+this.props.chartDto.featureName;
       }
 
       flowContent = (
         <div className="flowContentWrapper">
           <FlowChart
+            title={title}
             selectedCircuitName={selectedCircuitName}
             chartDto={this.props.chartDto}
             cursorOffset={this.state.cursorOffset}

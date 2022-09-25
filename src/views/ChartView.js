@@ -19,31 +19,37 @@ export default class ChartView extends Component {
     };
   }
 
+  static get ChartType() {
+    return {
+      TASK_FOR_WTF: "task-for-wtf",
+      TASK_BY_NAME: "task-by-name",
+      DAY_CHART: "day-chart"
+    };
+  }
+
   componentDidMount() {
     TalkToClient.init(this);
     MemberClient.init(this);
     CircuitClient.init(this);
     ChartClient.init(this);
 
-    if (this.props.routeProps.circuitName) {
-      document.title =
-        "Task Flow for " +
-        this.props.routeProps.circuitName;
-    } else if (this.props.routeProps.taskName) {
-      document.title =
-        "Task Flow for " + this.props.routeProps.taskName;
-    }
+    const chartType = this.props.routeProps.chartType;
 
-    if (this.props.routeProps.circuitName) {
-      this.loadChartFromCircuit(
-        this.props.routeProps.circuitName
-      );
-    } else if (this.props.routeProps.taskName) {
+    if (chartType === ChartView.ChartType.TASK_FOR_WTF) {
+      document.title = "Task Flow for " + this.props.routeProps.circuitName;
+      this.loadChartFromCircuit(this.props.routeProps.circuitName);
+
+    } else if (chartType === ChartView.ChartType.TASK_BY_NAME) {
+      document.title = "Task Flow for " + this.props.routeProps.taskName;
       this.loadChartFromProjectTask(
         this.props.routeProps.projectName,
         this.props.routeProps.taskName,
         this.props.routeProps.username
       );
+
+    } else if (chartType === ChartView.ChartType.DAY_CHART) {
+      document.title = "Day Flow for " + this.props.routeProps.gtCoords;
+      this.loadChartForDay(this.props.routeProps.gtCoords);
     }
   }
 
@@ -51,6 +57,30 @@ export default class ChartView extends Component {
     ChartClient.chartFrictionForWTFTask(
       circuitName,
       "TWENTIES",
+      this,
+      (arg) => {
+        console.log("chart data returnedx!");
+
+        if (!arg.error) {
+          console.log(arg.data);
+          this.setState({
+            chartDto: arg.data,
+          });
+        } else {
+          console.error(arg.error);
+        }
+      }
+    );
+  }
+
+
+  /**
+   * Load chart data for a specific day.  Assumes gtCoords are day coords
+   * @param gtCoords
+   */
+  loadChartForDay(gtCoords) {
+    ChartClient.chartFrictionForDay(
+      gtCoords,
       this,
       (arg) => {
         console.log("chart data returnedx!");
@@ -94,17 +124,24 @@ export default class ChartView extends Component {
   }
 
   onClickClose = () => {
+
+    const chartType = this.props.routeProps.chartType;
+
     let chartPopoutController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CHART_POPOUT,
         this
       );
 
-    if (this.props.routeProps.circuitName) {
+    if (chartType === ChartView.ChartType.DAY_CHART) {
+      chartPopoutController.closeChartWindowForDay(
+        MemberClient.me.username,
+        this.props.routeProps.gtCoords);
+    } else if (chartType === ChartView.ChartType.TASK_FOR_WTF) {
       chartPopoutController.closeChartWindowForCircuitTask(
         this.props.routeProps.circuitName
       );
-    } else if (this.props.routeProps.taskName) {
+    } else if (chartType === ChartView.ChartType.TASK_BY_NAME) {
       chartPopoutController.closeChartWindowForTask(
         this.props.routeProps.projectName,
         this.props.routeProps.taskName,
@@ -130,6 +167,7 @@ export default class ChartView extends Component {
               selectedCircuitName={
                 this.props.routeProps.circuitName
               }
+              chartType={this.props.routeProps.chartType}
               chartDto={this.state.chartDto}
               hasRoomForClose={true}
             />
