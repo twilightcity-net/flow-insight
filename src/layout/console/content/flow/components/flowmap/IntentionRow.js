@@ -120,6 +120,28 @@ export default class IntentionRow extends Component {
       extraActiveClass = " active";
     }
 
+    let taskColumn = "";
+    let intentionColumn = "";
+
+    if (this.props.task) {
+      taskColumn = (<Grid.Column width={3}>
+        <div className="chunkText">
+          {this.props.task}
+        </div>
+      </Grid.Column>);
+      intentionColumn = (<Grid.Column width={10}>
+        <div className="chunkText">
+          {this.props.description}
+        </div>
+      </Grid.Column>);
+    } else {
+      intentionColumn = (<Grid.Column width={13}>
+        <div className="chunkText">
+          {this.props.description}
+        </div>
+      </Grid.Column>);
+    }
+
     return (
       <Grid.Row
         id={1}
@@ -131,14 +153,11 @@ export default class IntentionRow extends Component {
           this.props.onHover(this.props.offset)
         }
       >
-        <Grid.Column width={3}>
+        <Grid.Column width={2}>
           <div className="chunkText">{this.props.time}</div>
         </Grid.Column>
-        <Grid.Column width={12}>
-          <div className="chunkText">
-            {this.props.description}
-          </div>
-        </Grid.Column>
+        {taskColumn}
+        {intentionColumn}
         <Grid.Column width={1}>
           <div className="chunkText">
             {this.getFlameBlockContent(

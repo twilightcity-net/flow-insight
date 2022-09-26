@@ -20,14 +20,35 @@ export default class IntentionsHeader extends Component {
    * @returns {*}
    */
   render() {
-    return (
-      <Grid.Row className="intentionHeaderRow">
+
+    let taskColumn = "";
+    let intentionColumn = "";
+    if (this.props.hasTaskColumn) {
+      taskColumn = (
         <Grid.Column width={3}>
-          <div className="chunkTitle">Time (hh:mm)</div>
-        </Grid.Column>
-        <Grid.Column width={13}>
+        <div className="chunkTitle">Task</div>
+      </Grid.Column>);
+      intentionColumn = (
+        <Grid.Column width={11}>
           <div className="chunkTitle">Intention</div>
         </Grid.Column>
+      );
+    } else {
+      intentionColumn = (
+        <Grid.Column width={14}>
+          <div className="chunkTitle">Intention</div>
+        </Grid.Column>
+      );
+    }
+
+
+    return (
+      <Grid.Row className="intentionHeaderRow">
+        <Grid.Column width={2}>
+          <div className="chunkTitle">Time (hh:mm)</div>
+        </Grid.Column>
+        {taskColumn}
+        {intentionColumn}
       </Grid.Row>
     );
   }

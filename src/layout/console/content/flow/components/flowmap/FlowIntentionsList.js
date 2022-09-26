@@ -46,6 +46,26 @@ export default class FlowIntentionsList extends Component {
       return "";
     }
 
+    const intentionMap = this.props.chartDto.eventSeriesByType["@work/intent"].rowsOfPaddedCells;
+    const intentionHeaders = this.props.chartDto.eventSeriesByType["@work/intent"].headers;
+
+    console.log("headers = ");
+    console.log(intentionHeaders);
+
+    let hasTaskAt4 = false;
+    if (intentionHeaders[4].trim() === "Task") {
+      hasTaskAt4 = true;
+    }
+
+    //let hasTask = (intentionHeaders[])
+    // "Coords              "
+    // 1: "Time                "
+    // 2: "Offset "
+    // 3: "Intention                                                                                                                                                                                                                                                                                                                             "
+    // 4: "Task      "
+    // 5: "FlameRating "
+    // 6: "Event "
+
     return (
       <div>
         <div id="component" className="intentionsList">
@@ -54,7 +74,7 @@ export default class FlowIntentionsList extends Component {
             inverted
             columns={16}
           >
-            <IntentionsHeader />
+            <IntentionsHeader hasTaskColumn={hasTaskAt4}/>
           </Grid>
           <div className="scrolling">
             <Grid
@@ -66,23 +86,29 @@ export default class FlowIntentionsList extends Component {
                 this.props.onExitHoverIntention()
               }
             >
-              {this.props.chartDto.eventSeriesByType[
-                "@work/intent"
-              ].rowsOfPaddedCells.map((d, i) => {
+              {intentionMap.map((d, i) => {
                 let timer =
                   UtilRenderer.getRelativeTimerAsHoursMinutes(
                     parseInt(d[2], 10)
                   );
                 let description = d[3];
                 let offset = parseInt(d[2], 10);
-                let flameRating = d[4].trim();
-                let isActiveRow =
-                  this.state.selectedRowOffset === offset;
+
+                let task = "";
+                let flameRating = "";
+                if (hasTaskAt4) {
+                  task = d[4].trim();
+                  flameRating = d[5].trim();
+                } else {
+                  flameRating = d[4].trim();
+                }
+                let isActiveRow = this.state.selectedRowOffset === offset;
 
                 return (
                   <IntentionRow
                     key={i}
                     time={timer}
+                    task={task}
                     description={description}
                     flameRating={flameRating}
                     offset={offset}
