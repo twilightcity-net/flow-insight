@@ -1,7 +1,4 @@
 import React, {Component} from "react";
-import {DimensionController} from "../../../../../../controllers/DimensionController";
-import * as d3 from "d3";
-import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
  * this is the gui component that displays the metrics side panel on the flow dashboard

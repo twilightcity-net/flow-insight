@@ -184,8 +184,8 @@ export default class FlowChart extends Component {
       data,
       chart
     );
-    let taskSwitchMap = this.createTaskSwitchMap(chart);
 
+    let taskSwitchMap = this.createTaskSwitchMap(chart);
 
     const chartGroup = svg.append("g").attr("class", "ifm");
 
@@ -590,17 +590,20 @@ export default class FlowChart extends Component {
    * Add the black lines that show where there's data breaks in the chart
    * @param chart
    * @param chartGroup
+   * @param taskSwitchMap
    * @returns {*}
    */
   addDataBreakLines(chart, chartGroup, taskSwitchMap) {
-    let dataBreaks =
-      chart.featureSeriesByType["@nav/break"]
-        .rowsOfPaddedCells;
+    let dataBreaks = chart.featureSeriesByType["@nav/break"].rowsOfPaddedCells;
+
+    const breaksMap = this.combineDataBreakAndTaskSwitchEvents(dataBreaks, taskSwitchMap);
+
+    //coords, offset, clocktime, duration
 
     let dataBreakLines = chartGroup
       .append("g")
       .selectAll(".break")
-      .data(dataBreaks)
+      .data(breaksMap.values())
       .enter()
       .append("line")
       .attr("x1", (d) => this.xScale(d[1]))
@@ -610,7 +613,7 @@ export default class FlowChart extends Component {
       .attr("stroke", "black")
       .attr("stroke-width", 2)
       .attr("stroke-dasharray", (d) => {
-        let taskSwitch = taskSwitchMap[d[0].trim()];
+        let taskSwitch = taskSwitchMap.get(d[0].trim());
         if (taskSwitch) {
           return "8,1";
         } else {
@@ -619,20 +622,24 @@ export default class FlowChart extends Component {
       })
       .attr("class", "break");
 
+
     let that = this;
 
     dataBreakLines.on("mouseover", function (event, d) {
       let offset = that.xScale(d[1]);
-      let friendlyDuration =
-        UtilRenderer.convertSecondsToFriendlyDuration(
-          parseInt(d[3], 10)
-        );
+      let friendlyDuration = "";
+      let seconds = parseInt(d[3], 10);
+
+      if (seconds > 0) {
+        friendlyDuration = UtilRenderer.convertSecondsToFriendlyDuration(seconds);
+      }
+
       let html =
         "<div class='databreak'>Break " +
         friendlyDuration +
         "</div>";
 
-      let taskSwitch = taskSwitchMap[d[0].trim()];
+      let taskSwitch = taskSwitchMap.get(d[0].trim());
       if (taskSwitch) {
         html =
           "<div class='databreak'><b>Task switch to " +
@@ -718,6 +725,32 @@ export default class FlowChart extends Component {
     );
 
     return dataBreakLines;
+  }
+
+  /**
+   * Combine the data breaks and task switch data, to make sure we've got task
+   * switch lines even when there's no actual data break
+   * @param dataBreaks
+   * @param taskSwitchMap
+   */
+  combineDataBreakAndTaskSwitchEvents(dataBreaks, taskSwitchMap) {
+    const breaksMap = new Map();
+
+    for (let i = 0; i < dataBreaks.length; i++) {
+      const row = dataBreaks[i];
+      breaksMap.set(row[0].trim(), row);
+    }
+
+    //coords, offset, clocktime, duration
+
+    for (let key of taskSwitchMap.keys()) {
+      if (!breaksMap.get(key)) {
+        const taskSwitch = taskSwitchMap.get(key);
+        breaksMap.set(key, [key, taskSwitch.offset, "", "0"])
+      }
+    }
+
+    return breaksMap;
   }
 
   /**
@@ -1304,26 +1337,29 @@ export default class FlowChart extends Component {
   }
 
   createTaskSwitchMap(chart) {
-    let taskSwitchMap = [];
+    let taskSwitchMap = new Map();
     let taskSwitchData = [];
 
     if (chart.eventSeriesByType["@work/task"]) {
-      taskSwitchMap = chart.eventSeriesByType["@work/task"].rowsOfPaddedCells;
+      taskSwitchData = chart.eventSeriesByType["@work/task"].rowsOfPaddedCells;
     }
 
     for (let i = 0; i < taskSwitchData.length; i++) {
       let row = taskSwitchData[i];
 
       let coords = row[0].trim();
+      let offset = row[2].trim();
       let taskName = row[4].trim();
       let taskDescription = row[5].trim();
 
       let switchEvent = {
         taskName: taskName,
         taskDescription: taskDescription,
+        offset: offset
       };
-      taskSwitchMap[coords] = switchEvent;
+      taskSwitchMap.set(coords, switchEvent);
     }
+
     return taskSwitchMap;
   }
 

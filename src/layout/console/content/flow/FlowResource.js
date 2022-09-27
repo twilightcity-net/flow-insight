@@ -18,8 +18,6 @@ export default class FlowResource extends Component {
     super(props);
     this.name = "[FlowResource]";
 
-    let arr = this.props.resource.uriArr;
-
     this.state = {
       resource: props.resource,
     };
