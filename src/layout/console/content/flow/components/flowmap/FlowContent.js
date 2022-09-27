@@ -182,7 +182,7 @@ export default class FlowContent extends Component {
     }
 
     let height = DimensionController.getHeightFor(
-      DimensionController.Components.FLOW_PANEL
+      DimensionController.Components.CHART_POPUP
     );
     return (
       <div

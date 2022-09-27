@@ -36,7 +36,8 @@ export class DimensionController {
       CIRCUIT_SIDEBAR: "[CircuitSidebar]",
       HOTKEY_CONFIG: "[HotkeyConfig]",
       PLUGIN_DIALOG: "[PluginDialog]",
-      MODULE_CONFIG_DIALOG: "[ModuleConfigDialog]"
+      MODULE_CONFIG_DIALOG: "[ModuleConfigDialog]",
+      CHART_POPUP: "[ChartPopup]"
     };
   }
 
@@ -66,6 +67,14 @@ export class DimensionController {
       barHeight: 0,
     };
       return window.innerHeight - heights.padding - (heights.border*2);
+  }
+
+  /**
+   * calculates the chart popup height when we have a dedicated window
+   * @returns {number}
+   */
+  static getChartPopupHeight() {
+    return window.innerHeight;
   }
 
   /**
@@ -602,6 +611,11 @@ export class DimensionController {
       DimensionController.Components.FLOW_PANEL
     ) {
       return DimensionController.getFlowPanelHeight();
+    } else if (
+      component ===
+      DimensionController.Components.CHART_POPUP
+    ) {
+      return DimensionController.getChartPopupHeight();
     } else if (
         component ===
         DimensionController.Components.DASHBOARD_PANEL

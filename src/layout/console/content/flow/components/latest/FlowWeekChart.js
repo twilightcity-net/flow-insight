@@ -4,9 +4,9 @@ import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
- * this is the gui component that displays the IFM chart
+ * this is the gui component that displays the flow boxes for the week
  */
-export default class LatestWeekChart extends Component {
+export default class FlowWeekChart extends Component {
   /**
    * builds the IFM chart
    * @param props
@@ -37,8 +37,8 @@ export default class LatestWeekChart extends Component {
     this.topMargin = 40;
     this.topChartMargin = 70;
     this.tooltipPositionPercent = 0.7;
-    this.height = DimensionController.getFlowPanelHeight();
-    this.width = DimensionController.getFlowPanelWidth() * 0.7;
+    this.height = Math.round(DimensionController.getFlowPanelHeight());
+    this.width = Math.round(DimensionController.getFlowPanelWidth() * 0.7);
     this.cellMargin = 10;
     this.weekendExtraMargin = 20;
 
@@ -195,7 +195,7 @@ export default class LatestWeekChart extends Component {
       .attr("x", this.margin)
       .attr("y", this.topMargin)
       .attr("text-anchor", "start")
-      .text("This Week's Flow");
+      .text("This Week's Coding Flow");
   }
 
 
@@ -571,9 +571,7 @@ export default class LatestWeekChart extends Component {
    */
   render() {
     return (
-      <div>
-        <div id="chart" />
-      </div>
+      <div id="chart" />
     );
   }
 }

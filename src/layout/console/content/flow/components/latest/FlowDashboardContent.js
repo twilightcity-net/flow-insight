@@ -1,19 +1,20 @@
 import React, {Component} from "react";
 import {DimensionController} from "../../../../../../controllers/DimensionController";
-import LatestWeekChart from "./LatestWeekChart";
+import FlowWeekChart from "./FlowWeekChart";
 import {Icon} from "semantic-ui-react";
+import FlowMetrics from "./FlowMetrics";
 
 /**
  * this component handles the main latest week flow intro dashboard
  */
-export default class LatestWeekContent extends Component {
+export default class FlowDashboardContent extends Component {
   /**
    * the constructor function which builds the LatestWeekContent component
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[" + LatestWeekContent.name + "]";
+    this.name = "[" + FlowDashboardContent.name + "]";
     this.state = {
     };
   }
@@ -56,28 +57,23 @@ export default class LatestWeekContent extends Component {
       </div>
     );
 
-    let closeContent = "";
+    let chartWidth = Math.round(DimensionController.getFlowPanelWidth() * 0.7);
+    let remainingWidth = DimensionController.getFlowPanelWidth() - chartWidth;
 
     if (this.props.chartDto) {
       flowContent = (
         <div className="flowContentWrapper">
-          <LatestWeekChart
-            chartDto={this.props.chartDto}
-            onClickDayBox={this.onClickDayBox}
-          />
-        </div>
-      );
-      if (this.props.hasCloseOption) {
-        closeContent = (
-          <div className="closeIcon">
-            <Icon
-              name="close"
-              size="large"
-              onClick={this.onClickClose}
+          <div className="chartWrapper" style={{width: chartWidth + "px"}}>
+            <FlowWeekChart
+              chartDto={this.props.chartDto}
+              onClickDayBox={this.onClickDayBox}
             />
           </div>
-        );
-      }
+          <div className="metricsWrapper" style={{width: remainingWidth + "px"}}>
+            <FlowMetrics/>
+          </div>
+        </div>
+      );
     }
 
     if (this.props.visible) {
@@ -97,7 +93,6 @@ export default class LatestWeekContent extends Component {
           opacity: opacity
         }}
       >
-        {closeContent}
         {flowContent}
       </div>
     );

@@ -49,22 +49,10 @@ export default class FlowIntentionsList extends Component {
     const intentionMap = this.props.chartDto.eventSeriesByType["@work/intent"].rowsOfPaddedCells;
     const intentionHeaders = this.props.chartDto.eventSeriesByType["@work/intent"].headers;
 
-    console.log("headers = ");
-    console.log(intentionHeaders);
-
     let hasTaskAt4 = false;
     if (intentionHeaders[4].trim() === "Task") {
       hasTaskAt4 = true;
     }
-
-    //let hasTask = (intentionHeaders[])
-    // "Coords              "
-    // 1: "Time                "
-    // 2: "Offset "
-    // 3: "Intention                                                                                                                                                                                                                                                                                                                             "
-    // 4: "Task      "
-    // 5: "FlameRating "
-    // 6: "Event "
 
     return (
       <div>
