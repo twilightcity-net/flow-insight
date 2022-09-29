@@ -451,15 +451,8 @@ export default class ConsoleSidebar extends Component {
   handleItemClick = (e, { name }) => {
     if (this.state.activeItem === name && !this.isDefaultPanel(name)) {
       this.myController.hidePanel();
-    } else if (
-      name === SidePanelViewController.MenuSelection.WTF &&
-      this.state.isAlarm
-    ) {
-      this.myController.loadWTF();
-    } else if (
-      name === SidePanelViewController.MenuSelection.WTF
-    ) {
-      this.myController.startWTF();
+    } else if (name === SidePanelViewController.MenuSelection.WTF) {
+      this.loadDefaultWtfPanel();
     } else {
       this.loadDefaultResourceContent(name);
       this.myController.showPanel(name);
@@ -486,7 +479,22 @@ export default class ConsoleSidebar extends Component {
     if (panelName === SidePanelViewController.MenuSelection.DASHBOARD) {
       this.myController.loadDefaultFlowPanel();
     } else if (panelName === SidePanelViewController.MenuSelection.TEAM) {
-      this.myController.loadDefaultJournalPanel();
+      if (FeatureToggle.isJournalEnabled) {
+        this.myController.loadDefaultJournalPanel();
+      } else {
+        this.loadDefaultWtfPanel();
+      }
+    }
+  }
+
+  /**
+   * Loads either the active circuit or starts a new one, depending on if there's an existing alarm
+   */
+  loadDefaultWtfPanel() {
+    if (this.state.isAlarm) {
+      this.myController.loadWTF();
+    } else {
+      this.myController.startWTF();
     }
   }
 

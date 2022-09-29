@@ -395,24 +395,21 @@ export default class CircuitSidebar extends Component {
           <Menu.Item
             name={CircuitSidebar.Views.OVERVIEW}
             active={
-              this.state.activeMenuView ===
-              CircuitSidebar.Views.OVERVIEW
+              this.state.activeMenuView === CircuitSidebar.Views.OVERVIEW
             }
             onClick={this.handleMenuClick}
           />
           <Menu.Item
             name={CircuitSidebar.Views.SCRAPBOOK}
             active={
-              this.state.activeMenuView ===
-              CircuitSidebar.Views.SCRAPBOOK
+              this.state.activeMenuView === CircuitSidebar.Views.SCRAPBOOK
             }
             onClick={this.handleMenuScrapbookClick}
           />
           <Menu.Item
             name={CircuitSidebar.Views.PARTY}
             active={
-              this.state.activeMenuView ===
-              CircuitSidebar.Views.PARTY
+              this.state.activeMenuView === CircuitSidebar.Views.PARTY
             }
             onClick={this.handleMenuClick}
           >

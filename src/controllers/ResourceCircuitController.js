@@ -6,6 +6,7 @@ import { RendererControllerFactory } from "./RendererControllerFactory";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import UtilRenderer from "../UtilRenderer";
 import { TalkToClient } from "../clients/TalkToClient";
+import FeatureToggle from "../layout/shared/FeatureToggle";
 
 export class ResourceCircuitController extends ActiveViewController {
   /**
@@ -257,17 +258,33 @@ export class ResourceCircuitController extends ActiveViewController {
           arg.error
         );
       } else {
-        let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          BrowserRequestFactory.Locations.ME
-        );
-        this.browserController.makeRequest(request);
+        this.returnToDefaultPage();
         this.fireCircuitSolveNotifyEvent();
       }
       if (callback) {
         callback(arg);
       }
     });
+  }
+
+  /**
+   * Return to the default page after we resolve (solve or cancel) the circuit
+   */
+  returnToDefaultPage() {
+    let request;
+    if (FeatureToggle.isJournalEnabled) {
+      request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        BrowserRequestFactory.Locations.ME
+      );
+    } else {
+      request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.COMMAND,
+        BrowserRequestFactory.Commands.WTF
+      );
+    }
+
+    this.browserController.makeRequest(request);
   }
 
   /**
@@ -366,11 +383,7 @@ export class ResourceCircuitController extends ActiveViewController {
           arg.error
         );
       } else {
-        let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          BrowserRequestFactory.Locations.ME
-        );
-        this.browserController.makeRequest(request);
+        this.returnToDefaultPage();
         this.fireCircuitStopNotifyEvent();
       }
       if (callback) {

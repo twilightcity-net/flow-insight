@@ -13,6 +13,7 @@ import {BrowserController} from "../../../../controllers/BrowserController";
 import UtilRenderer from "../../../../UtilRenderer";
 import InviteMemberPopup from "../buddies/InviteMemberPopup";
 import {AccountClient} from "../../../../clients/AccountClient";
+import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -336,18 +337,28 @@ export default class TeamPanel extends Component {
         uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR + BrowserRequestFactory.Requests.JOURNAL)) {
         this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
       } else {
-        this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
+        this.loadJournalIfFeatureEnabled(name);
       }
     } else {
       if (activeCircuit) {
         this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
       } else {
-        this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
+        this.loadJournalIfFeatureEnabled(name);
       }
     }
 
     this.lastClickedUser = name;
   };
+
+  /**
+   * Load the journal of the user, but only if the journal feature is enabled
+   * @param name
+   */
+  loadJournalIfFeatureEnabled(name) {
+    if (FeatureToggle.isJournalEnabled) {
+      this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
+    }
+  }
 
   /**
    * creates a new request and dispatch this to the browser request listener

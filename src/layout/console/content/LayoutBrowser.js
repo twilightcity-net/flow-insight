@@ -114,10 +114,19 @@ export default class LayoutBrowser extends Component {
     let defaultRequest;
 
     if (FeatureToggle.isFlowInsightApp()) {
-      defaultRequest = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.JOURNAL,
-        "me"
-      );
+      if (FeatureToggle.isJournalEnabled) {
+        defaultRequest = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          "me"
+        );
+      } else {
+        defaultRequest = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.COMMAND,
+          BrowserRequestFactory.Commands.WTF
+        );
+      }
+
+
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.MOOVIE

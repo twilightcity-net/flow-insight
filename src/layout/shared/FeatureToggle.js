@@ -4,6 +4,8 @@ export default class FeatureToggle  {
 
   static isMoovieApp = false;
 
+  static isJournalEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.5.27"
 

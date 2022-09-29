@@ -16,6 +16,7 @@ import { MemberClient } from "../../../../../clients/MemberClient";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import fitty from "fitty";
+import FeatureToggle from "../../../../shared/FeatureToggle";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -42,12 +43,18 @@ export default class RetroSidebar extends Component {
   static idFieldStr = "id";
 
   /**
+   * Identifier for when there is no task context
+   * @type {string}
+   */
+  static NO_TASK = "No Task";
+
+  /**
    * the possible view we can display in the circuit sidebar panel
-   * @returns {{PARTY: string, METRICS: string, TASK: string}}
    * @constructor
    */
   static get Views() {
     return {
+      OVERVIEW: "overview",
       TASK: "task",
       FILES: "files",
       EXEC: "exec",
@@ -69,12 +76,24 @@ export default class RetroSidebar extends Component {
       );
 
     this.state = {
-      activeMenuView: RetroSidebar.Views.TASK,
+      activeMenuView: this.getDefaultMenuSelection(),
       tagEditEnabled: false,
       currentTags: [],
       tagOptions: [],
     };
     this.props.set(this);
+  }
+
+  getDefaultMenuSelection() {
+    if (FeatureToggle.isJournalEnabled) {
+      if (this.props.taskSummary && this.props.taskSummary.taskName === RetroSidebar.NO_TASK) {
+        return RetroSidebar.Views.OVERVIEW;
+      } else {
+        return RetroSidebar.Views.TASK;
+      }
+    } else {
+      return RetroSidebar.Views.OVERVIEW;
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -93,7 +112,7 @@ export default class RetroSidebar extends Component {
       //different model
 
       this.setState({
-        activeMenuView: RetroSidebar.Views.TASK,
+        activeMenuView: this.getDefaultMenuSelection(),
       });
       this.props.toggleTroubleshootPanel();
 
@@ -292,6 +311,7 @@ export default class RetroSidebar extends Component {
   handleMenuClick = (e, { name }) => {
     this.setState({
       activeMenuView: name,
+      tagEditEnabled: false
     });
   };
 
@@ -321,6 +341,16 @@ export default class RetroSidebar extends Component {
    * @param arg
    */
   handleMenuTaskClick = (e, arg) => {
+    this.handleMenuClick(e, arg);
+    this.props.toggleTroubleshootPanel();
+  };
+
+  /**
+   * custom event handler for when a user clicks on the overview menu item
+   * @param e
+   * @param arg
+   */
+  handleMenuOverviewClick = (e, arg) => {
     this.handleMenuClick(e, arg);
     this.props.toggleTroubleshootPanel();
   };
@@ -357,6 +387,27 @@ export default class RetroSidebar extends Component {
         12;
     }
 
+    let taskOrOverviewTab = "";
+    if (FeatureToggle.isJournalEnabled) {
+       taskOrOverviewTab = (
+         <Menu.Item
+           name={RetroSidebar.Views.TASK}
+           active={
+             this.state.activeMenuView === RetroSidebar.Views.TASK
+           }
+           onClick={this.handleMenuTaskClick}
+         />
+       ) ;
+    } else {
+      taskOrOverviewTab = (<Menu.Item
+        name={RetroSidebar.Views.OVERVIEW}
+        active={
+          this.state.activeMenuView === RetroSidebar.Views.OVERVIEW
+        }
+        onClick={this.handleMenuOverviewClick}
+      />);
+    }
+
     return (
       <Segment
         className="content"
@@ -366,14 +417,7 @@ export default class RetroSidebar extends Component {
         }}
       >
         <Menu size="mini" inverted pointing secondary>
-          <Menu.Item
-            name={RetroSidebar.Views.TASK}
-            active={
-              this.state.activeMenuView ===
-              RetroSidebar.Views.TASK
-            }
-            onClick={this.handleMenuTaskClick}
-          />
+          {taskOrOverviewTab}
           <Menu.Item
             name={RetroSidebar.Views.FILES}
             active={
@@ -410,6 +454,8 @@ export default class RetroSidebar extends Component {
    */
   getCircuitSidebarMenuContent() {
     switch (this.state.activeMenuView) {
+      case RetroSidebar.Views.OVERVIEW:
+        return this.getCircuitSidebarOverviewContent();
       case RetroSidebar.Views.TASK:
         return this.getCircuitSidebarTaskContent();
       case RetroSidebar.Views.TAGS:
@@ -455,10 +501,7 @@ export default class RetroSidebar extends Component {
   }
 
   /**
-   * renders the circuit sidebar menu content for the task section.
-   * This section contains a timer that counts up from start time, a title
-   * for the room, as well a a description along with an array of hashtag
-   * labels
+   * renders the circuit sidebar menu content for the task section
    * @returns {*}
    */
   getCircuitSidebarTaskContent() {
@@ -485,6 +528,38 @@ export default class RetroSidebar extends Component {
         {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
         {this.getFlowMapContent(this.props.taskSummary)}
+      </div>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar menu content for the overview section.
+   * @returns {*}
+   */
+  getCircuitSidebarOverviewContent() {
+    let title = "loading...",
+      description = "...";
+
+    if (this.props.model) {
+
+      title = this.props.model.circuitName;
+      description = this.props.model.description;
+    }
+
+    let height = "100%";
+
+    if (this.state.tagEditEnabled) {
+      height =
+        DimensionController.getCircuitSidebarHeight() +
+        DimensionController.getCircuitSidebarTimerHeight() +
+        DimensionController.getCircuitSidebarActionsHeight() -
+        100;
+    }
+
+    return (
+      <div className="task" style={{ height: height }}>
+        {this.getTitleContent(title)}
+        {this.getDescriptionContent(description)}
       </div>
     );
   }

@@ -35,6 +35,12 @@ export default class TeamPanelListItem extends Component {
   }
 
   /**
+   * When no task is available
+   * @type {string}
+   */
+  static NO_TASK = "No Task";
+
+  /**
    * this function gets called when we received a property or a state update. We need
    * to make we first check for the model that is stored in the prop. If this model
    * changes then we also need to update the isOnline status that is stored in the
@@ -166,26 +172,25 @@ export default class TeamPanelListItem extends Component {
     activeTaskSummary,
     workingOn
   ) {
-    return (
-      activeTaskName && (
-        <div className="task">
-          <Divider />
-          <div>
-            <b>
-              <div className="taskhighlight">
-                {activeTaskName}
-              </div>
-            </b>
+    if (!activeTaskName || activeTaskName === TeamPanelListItem.NO_TASK) {
+      return "";
+    } else {
+      return (
+        activeTaskName && (
+          <div className="task">
+            <Divider />
+            <div>
+              <b>
+                <div className="taskhighlight">
+                  {activeTaskName}
+                </div>
+              </b>
+            </div>
+            <div className="workingOn">{workingOn}</div>
           </div>
-          <div>
-            <i>({activeTaskSummary})</i>
-            <br />
-            <br />
-          </div>
-          <div className="workingOn">{workingOn}</div>
-        </div>
-      )
-    );
+        )
+      );
+    }
   }
 
   /**
