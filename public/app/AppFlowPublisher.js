@@ -2,6 +2,7 @@ const log = require("electron-log"),
   chalk = require("chalk"),
   EventFactory = require("../events/EventFactory");
 const FeedManager = require("../managers/FeedManager");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
  * Application class that manages publishing our plugin flow data to the server
@@ -38,6 +39,10 @@ module.exports = class AppFlowPublisher {
    * starts our flow publisher mechanism
    */
   start() {
+    if (AppFeatureToggle.isMoovieApp) {
+      return;
+    }
+
     log.info(
       this.name +
         " start flow publisher -> interval : " +
