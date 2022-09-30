@@ -65,6 +65,21 @@ module.exports = class AppSettings {
   }
 
   /**
+   * Toggle the feature on or off, depending on it's existing state in settings
+   * @param featureName
+   */
+  toggleFeature(featureName) {
+
+  }
+
+  /**
+   * Get all the current feature toggles saved in settings
+   */
+  getFeatureToggles() {
+
+  }
+
+  /**
    * sets and encrypts the api key that is set by the activator
    * @param apiUrl
    * @param apiKey

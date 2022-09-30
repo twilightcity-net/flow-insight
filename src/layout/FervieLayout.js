@@ -204,18 +204,6 @@ export default class FervieLayout extends Component {
               <Button.Content>Area: {this.state.box}</Button.Content>
             </Button>
           </div>
-          <div>
-            <Button
-              className="bubbleButton"
-              size="medium"
-              color="grey"
-              onClick={() => {
-                this.onClickAreaOfCode("file", this.state.locationPath);
-              }}
-            >
-              <Button.Content>{this.state.location}</Button.Content>
-            </Button>
-          </div>
         </Popup.Content>
       );
     }

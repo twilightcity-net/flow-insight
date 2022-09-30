@@ -44,6 +44,17 @@ module.exports = class AppMenu extends Menu {
         {role: "about"},
         {type: "separator"},
         {
+          label: "EnableFeatures",
+          submenu: [
+            {label: "Intentions Journal",
+              click: AppMenu.onClickConfigHotkeys
+            },
+            {label: "Fervie Pairing",
+              click: AppMenu.onClickConfigHotkeys
+            },
+          ],
+        },
+        {
           label: "Configure Hotkeys",
           click: AppMenu.onClickConfigHotkeys
         },
@@ -120,6 +131,27 @@ module.exports = class AppMenu extends Menu {
         submenu: [
           {role: "about"},
           {type: "separator"},
+          {
+            label: "EnableFeatures",
+            submenu: [
+              {
+                label: "Intentions Journal",
+                click: () => {
+                  AppMenu.onClickFeature("journal");
+                },
+                type: "checkbox",
+                checked: true
+              },
+              {
+                label: "Fervie Pairing",
+                click: () => {
+                  AppMenu.onClickFeature("fervie");
+                },
+                type: "checkbox",
+                checked: false
+              },
+            ],
+          },
           {
             label: "Configure Hotkeys",
             click: AppMenu.onClickConfigHotkeys
@@ -202,6 +234,10 @@ module.exports = class AppMenu extends Menu {
 
   static switchOrg = (orgId) => {
     console.log("switchOrg!");
+  }
+
+  static onClickFeature = (featureName) => {
+    global.App.AppSettings.toggleFeature(featureName);
   }
 
   static onClickConfigHotkeys = () => {
