@@ -10,7 +10,7 @@ const { app, BrowserWindow } = require("electron"),
   } = require("../managers/ShortcutManager");
 const AppFeatureToggle = require("../app/AppFeatureToggle");
 
-const is_mac = process.platform==='darwin';
+const is_mac = process.platform === "darwin";
 
 /**
  * the main application window for UX. Suspose to slide in and out of
@@ -60,7 +60,15 @@ module.exports = class ConsoleWindow {
     this.window.setMenu(null);
 
     if (!AppFeatureToggle.consoleHasWindowInDock) {
-      if(is_mac) {
+      if (is_mac) {
+        app.dock.hide();
+      }
+    }
+
+    if (AppFeatureToggle.isMoovieApp) {
+      this.window.setAlwaysOnTop(true, "screen-saver");
+      this.window.setVisibleOnAllWorkspaces(true);
+      if (is_mac) {
         app.dock.hide();
       }
     }
@@ -247,7 +255,10 @@ module.exports = class ConsoleWindow {
    * event dispatched from global shortcut callback. in charge of showing or hiding the console window.
    */
   onConsoleShowHideCb(event, arg) {
-    if (this.state === this.states.SHOWING || this.state === this.states.HIDING) {
+    if (
+      this.state === this.states.SHOWING ||
+      this.state === this.states.HIDING
+    ) {
       return;
     }
     if (this.state === this.states.HIDDEN) {
