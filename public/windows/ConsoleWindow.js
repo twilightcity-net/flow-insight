@@ -68,9 +68,6 @@ module.exports = class ConsoleWindow {
     if (AppFeatureToggle.isMoovieApp) {
       this.window.setAlwaysOnTop(true, "screen-saver");
       this.window.setVisibleOnAllWorkspaces(true);
-      if (is_mac) {
-        app.dock.hide();
-      }
     }
 
     //this.window.setAlwaysOnTop(true, "screen-saver");
