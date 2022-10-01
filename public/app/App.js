@@ -66,6 +66,7 @@ const AccountManager = require("../managers/AccountManager");
 const AppFlowPublisher = require("./AppFlowPublisher");
 const CodeModuleConfigManager = require("../managers/CodeModuleConfigManager");
 const PluginManager = require("../managers/PluginManager");
+const FeatureToggleManager = require("../managers/FeatureToggleManager");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -165,6 +166,7 @@ module.exports = class App {
     try {
       global.App.EventManager = new EventManager();
       global.App.AppSettings = new AppSettings();
+      global.App.FeatureToggleManager = new FeatureToggleManager();
       global.App.WindowManager = new WindowManager();
       global.App.VolumeManager = new VolumeManager();
       global.App.TalkManager = new TalkManager();
@@ -360,8 +362,7 @@ module.exports = class App {
   load() {
     log.info("[App] checking for settings...");
     if (global.App.AppSettings.check()) {
-      global.App.ApiKey =
-        global.App.AppSettings.getApiKey();
+      global.App.ApiKey = global.App.AppSettings.getApiKey();
       global.App.AppLoader.load();
     } else {
       global.App.AppActivator.start();

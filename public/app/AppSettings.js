@@ -69,14 +69,63 @@ module.exports = class AppSettings {
    * @param featureName
    */
   toggleFeature(featureName) {
+    let toggles = this.getFeatureToggles();
+    for (let i = 0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (featureName === toggle) {
+        toggles.splice(i, 1);
+        return this.saveFeatureToggles(toggles);
+      }
+    }
+    toggles.push(featureName);
+    return this.saveFeatureToggles(toggles);
+  }
 
+  /**
+   * Saves the specified feature toggle list to our updated toggles list
+   * @param toggleList
+   */
+  saveFeatureToggles(toggleList) {
+    let commaList = this.arrayToCommaList(toggleList);
+    settings.set(AppSettings.OptionalKeys.FEATURE_TOGGLE_LIST, commaList);
+
+    return toggleList;
   }
 
   /**
    * Get all the current feature toggles saved in settings
    */
   getFeatureToggles() {
+    let commaSeparatedToggles = settings.get(AppSettings.OptionalKeys.FEATURE_TOGGLE_LIST);
+    if (commaSeparatedToggles) {
+      return this.commaListToArray(commaSeparatedToggles);
+    } else {
+      return [];
+    }
 
+  }
+
+  /**
+   * Converts a comma separated value list to an array
+   * @param commaList
+   */
+  commaListToArray(commaList) {
+    const trimArray = [];
+    const arr = commaList.split(",");
+    for (let item of arr) {
+      trimArray.push(item.trim());
+    }
+    return trimArray;
+  }
+
+  /**
+   * Converts an array to a comma separated value list
+   * @param array
+   */
+  arrayToCommaList(array) {
+    let commaList = array.join(",");
+    console.log(commaList);
+    return commaList;
   }
 
   /**
@@ -326,6 +375,7 @@ module.exports = class AppSettings {
       PRIMARY_ORG_ID_APP_FLOWINSIGHT: "primaryOrgIdFlowInsight",
       PRIMARY_ORG_ID_APP_WATCHMOOVIES: "primaryOrgIdWatchMoovies",
       FERVIE_SHORTCUT: "shortcutFervie",
+      FEATURE_TOGGLE_LIST: "featureToggleList",
     };
   }
 };

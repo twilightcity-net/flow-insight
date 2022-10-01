@@ -46,11 +46,21 @@ module.exports = class AppMenu extends Menu {
         {
           label: "EnableFeatures",
           submenu: [
-            {label: "Intentions Journal",
-              click: AppMenu.onClickConfigHotkeys
+            {
+              label: "Journal",
+              click: () => {
+                AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
+              },
+              type: "checkbox",
+              checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
             },
-            {label: "Fervie Pairing",
-              click: AppMenu.onClickConfigHotkeys
+            {
+              label: "Fervie Pairing",
+              click: () => {
+                AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
+              },
+              type: "checkbox",
+              checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
             },
           ],
         },
@@ -135,20 +145,20 @@ module.exports = class AppMenu extends Menu {
             label: "EnableFeatures",
             submenu: [
               {
-                label: "Intentions Journal",
+                label: "Journal",
                 click: () => {
-                  AppMenu.onClickFeature("journal");
+                  AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
                 },
                 type: "checkbox",
-                checked: true
+                checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
               },
               {
                 label: "Fervie Pairing",
                 click: () => {
-                  AppMenu.onClickFeature("fervie");
+                  AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
                 },
                 type: "checkbox",
-                checked: false
+                checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
               },
             ],
           },
@@ -237,7 +247,11 @@ module.exports = class AppMenu extends Menu {
   }
 
   static onClickFeature = (featureName) => {
-    global.App.AppSettings.toggleFeature(featureName);
+    global.App.FeatureToggleManager.toggleFeature(featureName);
+  }
+
+  static isFeatureToggledOn = (featureName) => {
+    return global.App.FeatureToggleManager.isFeatureToggledOn(featureName);
   }
 
   static onClickConfigHotkeys = () => {

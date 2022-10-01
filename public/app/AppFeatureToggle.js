@@ -13,4 +13,27 @@ module.exports = class AppFeatureToggle {
     return !AppFeatureToggle.isMoovieApp;
   }
 
+  static get Toggle() {
+    return {
+      JOURNAL: "journal",
+      FERVIE: "fervie",
+      MOOVIES: "moovies"
+    };
+  }
+
+  static init(featureToggleList) {
+    AppFeatureToggle.isFerviePopupEnabled = false;
+    AppFeatureToggle.isMoovieApp = false;
+
+    for (let toggle of featureToggleList) {
+      if (toggle === AppFeatureToggle.Toggle.FERVIE) {
+        AppFeatureToggle.isFerviePopupEnabled = true;
+      }
+      if (toggle === AppFeatureToggle.Toggle.MOOVIES) {
+        AppFeatureToggle.isMoovieApp = true;
+        AppFeatureToggle.appName = "WatchMoovies";
+      }
+    }
+  }
+
 }
