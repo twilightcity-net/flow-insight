@@ -1,5 +1,6 @@
 const HotkeyController = require("../controllers/HotkeyController");
 const AppFeatureToggle = require("../app/AppFeatureToggle");
+const FeatureToggleController = require("../controllers/FeatureToggleController");
 
 /**
  * managing class for the feature toggle updates
@@ -10,32 +11,27 @@ module.exports = class FeatureToggleManager {
    */
   constructor() {
     this.name = "[FeatureToggleManager]";
-    //we will need to be able to propagate events to tell the front end to update as well
-    // maybe we make an api that allows us to get the toggles
-    //then we can define the events...
 
-    //Each window will need to get the settings...?  Or just the console really.
+    this.myController = new FeatureToggleController(this);
+    this.myController.configureEvents();
 
-    // this.myController = new HotkeyController(this);
-    // this.myController.configureEvents();
-
-    this.featureToggles = global.App.AppSettings.getFeatureToggles();
-    AppFeatureToggle.init(this.featureToggles);
+    this.myController.init();
   }
 
+  /**
+   * Direct access from the backend process to toggle a feature
+   * @param featureName
+   */
   toggleFeature(featureName) {
-    this.featureToggles = global.App.AppSettings.toggleFeature(featureName);
-    AppFeatureToggle.init(this.featureToggles);
-    //TODO propagate event to front end update too
+    return this.myController.toggleFeature(featureName);
   }
 
+  /**
+   * Direct access from the backend process to find out if a feature is toggled on
+   * @param featureName
+   */
   isFeatureToggledOn(featureName) {
-    for (let toggle of this.featureToggles) {
-      if (toggle === featureName) {
-        return true;
-      }
-    }
-    return false;
+    return this.myController.isFeatureToggledOn(featureName);
   }
 
 };

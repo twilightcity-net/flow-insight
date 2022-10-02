@@ -19,6 +19,7 @@ import {HotkeyClient} from "../clients/HotkeyClient";
 import {MoovieClient} from "../clients/MoovieClient";
 import {AccountClient} from "../clients/AccountClient";
 import {CodeClient} from "../clients/CodeClient";
+import {FeatureToggleClient} from "../clients/FeatureToggleClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -123,6 +124,7 @@ export default class ConsoleView extends Component {
       this,
       this.onLoadCb
     );
+    FeatureToggleClient.init(this);
     TalkClient.init(this);
     TalkToClient.init(this);
     TeamClient.init(this);
@@ -140,6 +142,7 @@ export default class ConsoleView extends Component {
     HotkeyClient.init(this);
     MoovieClient.init(this);
     CodeClient.init(this);
+
   };
 
   componentWillUnmount = () => {

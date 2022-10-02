@@ -87,6 +87,7 @@ export class RendererEventFactory {
       CIRCUIT_MEMBER_CLIENT: prefix + "circuit-member-client",
       NOTIFICATION_CLIENT: prefix + "notification-client",
       HOTKEY_CLIENT: prefix + "hotkey-client",
+      FEATURE_TOGGLE_CLIENT: prefix + "feature-toggle-client",
       CHART_CLIENT: prefix + "chart-client",
       DICTIONARY_CLIENT: prefix + "dictionary-client",
       VIEW_CONSOLE_SIDEBAR_PANEL:

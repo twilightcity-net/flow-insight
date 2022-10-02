@@ -54,6 +54,7 @@ class EventFactory {
       TERMINAL_CLIENT: prefix + "terminal-client",
       CHART_CLIENT: prefix + "chart-client",
       HOTKEY_CLIENT: prefix + "hotkey-client",
+      FEATURE_TOGGLE_CLIENT: prefix + "feature-toggle-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
