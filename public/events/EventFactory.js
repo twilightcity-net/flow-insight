@@ -114,6 +114,7 @@ class EventFactory {
       JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
       DICTIONARY_DATA_REFRESH: prefix + "dictionary-data-refresh",
       NOTIFICATION_DATA_REFRESH: prefix + "notification-data-refresh",
+      FEATURE_TOGGLE_DATA_REFRESH: prefix + "feature-toggle-data-refresh",
       DM_DATA_REFRESH: prefix + "dm-data-refresh",
       BUDDIES_DATA_REFRESH: prefix + "buddies-data-refresh",
       PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",

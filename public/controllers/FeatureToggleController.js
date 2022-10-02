@@ -62,6 +62,12 @@ module.exports = class FeatureToggleController extends (
         this.onFeatureToggleClientEvent,
         null
       );
+
+    this.toggleRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.FEATURE_TOGGLE_DATA_REFRESH,
+        this
+      );
   }
 
   /**
@@ -104,7 +110,8 @@ module.exports = class FeatureToggleController extends (
   toggleFeature(featureName) {
     this.featureToggles = global.App.AppSettings.toggleFeature(featureName);
     AppFeatureToggle.init(this.featureToggles);
-    //TODO propagate event to front end update too
+
+    this.toggleRefreshNotifier.dispatch({});
   }
 
   /**

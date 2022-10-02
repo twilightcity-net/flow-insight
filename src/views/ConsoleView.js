@@ -20,6 +20,7 @@ import {MoovieClient} from "../clients/MoovieClient";
 import {AccountClient} from "../clients/AccountClient";
 import {CodeClient} from "../clients/CodeClient";
 import {FeatureToggleClient} from "../clients/FeatureToggleClient";
+import {RendererEventFactory} from "../events/RendererEventFactory";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -143,6 +144,12 @@ export default class ConsoleView extends Component {
     MoovieClient.init(this);
     CodeClient.init(this);
 
+    this.featureToggleRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.FEATURE_TOGGLE_DATA_REFRESH,
+        this,
+        this.onFeatureToggleRefresh
+      );
   };
 
   componentWillUnmount = () => {
@@ -151,6 +158,10 @@ export default class ConsoleView extends Component {
       null
     );
   };
+
+  onFeatureToggleRefresh() {
+    FeatureToggleClient.refreshToggles();
+  }
 
   /**
    * called when this view is initially loaded. when arg = 1 the console is sliding in

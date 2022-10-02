@@ -45,14 +45,17 @@ export class FeatureToggleClient extends BaseClient {
       FeatureToggleClient.instance = new FeatureToggleClient(
         scope
       );
-
-      FeatureToggleClient.getFeatureToggles(this, (arg) => {
-        if (arg.data) {
-          console.log("Initializing feature toggles!");
-          FeatureToggle.init(arg.data);
-        }
-      });
+      FeatureToggleClient.refreshToggles();
     }
+  }
+
+  static refreshToggles() {
+    FeatureToggleClient.getFeatureToggles(this, (arg) => {
+      if (arg.data) {
+        console.log("Initializing feature toggles!");
+        FeatureToggle.init(arg.data);
+      }
+    });
   }
 
   /**
