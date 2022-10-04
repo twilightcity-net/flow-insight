@@ -45,24 +45,7 @@ module.exports = class AppMenu extends Menu {
         {type: "separator"},
         {
           label: "EnableFeatures",
-          submenu: [
-            {
-              label: "Journal",
-              click: () => {
-                AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
-              },
-              type: "checkbox",
-              checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
-            },
-            {
-              label: "Fervie Pairing",
-              click: () => {
-                AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
-              },
-              type: "checkbox",
-              checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
-            },
-          ],
+          submenu: AppMenu.getFeatureSubmenu(),
         },
         {
           label: "Configure Hotkeys",
@@ -134,6 +117,35 @@ module.exports = class AppMenu extends Menu {
     }
   }
 
+  static getFeatureSubmenu() {
+    return [
+      {
+        label: "Journal",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
+      },
+      {
+        label: "Fervie Pairing",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
+      },
+      {
+        label: "Neo Mode",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.NEO)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
+      },
+    ];
+  }
+
   static getTemplateForMacOS() {
     return [
       {
@@ -143,24 +155,7 @@ module.exports = class AppMenu extends Menu {
           {type: "separator"},
           {
             label: "EnableFeatures",
-            submenu: [
-              {
-                label: "Journal",
-                click: () => {
-                  AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
-                },
-                type: "checkbox",
-                checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
-              },
-              {
-                label: "Fervie Pairing",
-                click: () => {
-                  AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
-                },
-                type: "checkbox",
-                checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
-              },
-            ],
+            submenu: AppMenu.getFeatureSubmenu(),
           },
           {
             label: "Configure Hotkeys",

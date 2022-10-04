@@ -6,6 +6,8 @@ import { RendererControllerFactory } from "../controllers/RendererControllerFact
 import { CircuitClient } from "../clients/CircuitClient";
 import { TalkToClient } from "../clients/TalkToClient";
 import { MemberClient } from "../clients/MemberClient";
+import {FeatureToggleClient} from "../clients/FeatureToggleClient";
+import {RendererEventFactory} from "../events/RendererEventFactory";
 
 /**
  *  This view class is used to show a floating draggable IFM chart
@@ -32,6 +34,15 @@ export default class ChartView extends Component {
     MemberClient.init(this);
     CircuitClient.init(this);
     ChartClient.init(this);
+    FeatureToggleClient.init(this);
+
+    this.featureToggleRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.FEATURE_TOGGLE_DATA_REFRESH,
+        this,
+        this.onFeatureToggleRefresh
+      );
+
 
     const chartType = this.props.routeProps.chartType;
 
@@ -51,6 +62,10 @@ export default class ChartView extends Component {
       document.title = "Day Flow for " + this.props.routeProps.gtCoords;
       this.loadChartForDay(this.props.routeProps.gtCoords);
     }
+  }
+
+  onFeatureToggleRefresh() {
+    FeatureToggleClient.refreshToggles();
   }
 
   loadChartFromCircuit(circuitName) {

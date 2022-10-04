@@ -17,7 +17,8 @@ module.exports = class AppFeatureToggle {
     return {
       JOURNAL: "journal",
       FERVIE: "fervie",
-      MOOVIES: "moovies"
+      MOOVIES: "moovies",
+      NEO: "neo"
     };
   }
 

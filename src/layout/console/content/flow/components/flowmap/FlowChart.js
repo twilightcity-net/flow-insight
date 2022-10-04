@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DimensionController } from "../../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
+import FeatureToggle from "../../../../../shared/FeatureToggle";
 
 /**
  * this is the gui component that displays the IFM chart
@@ -504,16 +505,14 @@ export default class FlowChart extends Component {
       }
 
       if (!wtfs && !files) {
-        html +=
-          "<span class='noactivity'>No file activity</span>";
+        html += "<span class='noactivity'>No file activity</span>";
       }
-
-      // else {
-      //   html +=
-      //     "<hr class='rule'/><div class='gtcoords'>" +
-      //     coords +
-      //     "</div>";
-      // }
+      if (FeatureToggle.isNeoMode) {
+        html +=
+          "<hr class='rule'/><div class='gtcoords'>" +
+          coords +
+          "</div>";
+      }
 
       let tooltipEl = document.querySelector("#tooltip");
       tooltipEl.innerHTML = html;

@@ -3,6 +3,7 @@ import { DimensionController } from "../../../../../../controllers/DimensionCont
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
 import { Icon } from "semantic-ui-react";
+import FeatureToggle from "../../../../../shared/FeatureToggle";
 
 /**
  * this component shows a summary of momentum flow/friction organized according to a calendar
@@ -332,6 +333,10 @@ export default class MomentumFlowChart extends Component {
     let tipPadding = 12;
     let textHeight = 20;
 
+    if (FeatureToggle.isNeoMode) {
+      tipWidth = 220;
+    }
+
     let overallCellWidth =
       7 * (this.cellSize + this.cellMargin) +
       this.extraWeekendMargin;
@@ -339,13 +344,16 @@ export default class MomentumFlowChart extends Component {
     let tipVisibility = "hidden";
     let hours = "";
     let day = "";
+    let coords = "";
 
     if (this.props.selectedRowId) {
       tipVisibility = "visible";
       const details = this.findBoxWithMatchingCoords(chart, this.props.selectedRowId);
       if (details) {
+        console.log("hello!!");
         hours = "Hours: "+details.hours;
         day = details.day;
+        coords = details.coords;
       }
     }
 
@@ -394,10 +402,10 @@ export default class MomentumFlowChart extends Component {
       .attr(
         "x",
         this.centeringMargin +
-          this.margin +
-          this.leftTextMargin +
-          overallCellWidth -
-          tipMargin
+        this.margin +
+        this.leftTextMargin +
+        overallCellWidth -
+        tipMargin
       )
       .attr(
         "y",
@@ -406,6 +414,23 @@ export default class MomentumFlowChart extends Component {
       .attr("text-anchor", "end")
       .text(hours);
 
+    if (FeatureToggle.isNeoMode) {
+      tipBox
+        .append("text")
+        .attr("id", "tipboxCoords")
+        .attr("class", "gtcoords")
+        .attr(
+          "x",
+          this.centeringMargin +
+          this.margin*2 +
+          this.leftTextMargin +
+          overallCellWidth -
+          tipWidth
+        )
+        .attr("y", this.height - tipHeight + tipMargin)
+        .attr("text-anchor", "start")
+        .text(coords);
+    }
   }
 
   onClickSummaryBox = (coords) => {
@@ -622,10 +647,13 @@ export default class MomentumFlowChart extends Component {
         let dayEl = document.getElementById("tipboxDay");
         dayEl.textContent = day;
 
-        let hoursEl =
-          document.getElementById("tipboxHours");
+        let hoursEl = document.getElementById("tipboxHours");
         hoursEl.textContent = "Hours: " + friendlyDuration;
 
+        let coordsEl = document.getElementById("tipboxCoords");
+        if (coordsEl) {
+          coordsEl.textContent = coords;
+        }
       })
       .on("click", function (event, d) {
         that.props.onClickBox(d.data[0].trim());
@@ -649,6 +677,10 @@ export default class MomentumFlowChart extends Component {
             document.getElementById("tipboxHours");
           hoursEl.textContent =
             "Hours: " + that.boxDetail.hours;
+
+          let coordsEl =
+            document.getElementById("tipboxCoords");
+          coordsEl.textContent = that.boxDetail.coords;
 
         } else {
           let tipbox = document.getElementById("tipbox");
