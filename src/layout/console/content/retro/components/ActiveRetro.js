@@ -18,6 +18,7 @@ import PastTroubleshootFeed from "./PastTroubleshootFeed";
 import FilesDetail from "./FilesDetail";
 import ExecDetail from "./ExecDetail";
 import FeedCreator from "../../support/FeedCreator";
+import FeatureToggle from "../../../../shared/FeatureToggle";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -257,6 +258,14 @@ export default class ActiveRetro extends Component {
       }
     );
 
+    this.loadMetricsData(circuit);
+  }
+
+  /**
+   * Loads the metrics data for this service (gets file, exec summaries)
+   * @param circuit
+   */
+  loadMetricsData(circuit) {
     ChartClient.chartFrictionForWTF(
       circuit,
       this,
@@ -760,14 +769,14 @@ export default class ActiveRetro extends Component {
   getInRetroCircuitContentPanel() {
     let sidePanelContent = "";
 
-    if (this.state.isFilesVisible) {
+    if (this.state.isFilesVisible && FeatureToggle.isMetricsEnabled) {
       sidePanelContent = (
         <FilesDetail
           chartDto={this.state.chartDto}
           hideSlidePanel={this.hideSlidePanel}
         />
       );
-    } else if (this.state.isExecVisible) {
+    } else if (this.state.isExecVisible && FeatureToggle.isMetricsEnabled) {
       sidePanelContent = (
         <ExecDetail
           chartDto={this.state.chartDto}

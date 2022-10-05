@@ -654,7 +654,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getDashboardMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp) return "";
+    if (FeatureToggle.isMoovieApp || !FeatureToggle.isMetricsEnabled) return "";
     return (
       <Menu.Item
         name={SidePanelViewController.MenuSelection.DASHBOARD}

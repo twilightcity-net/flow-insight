@@ -128,6 +128,14 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
       },
       {
+        label: "Metrics",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.METRICS)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.METRICS)
+      },
+      {
         label: "Fervie Pairing",
         click: () => {
           AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)

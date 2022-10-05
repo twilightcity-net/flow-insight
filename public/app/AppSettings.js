@@ -100,9 +100,12 @@ module.exports = class AppSettings {
     if (commaSeparatedToggles) {
       return this.commaListToArray(commaSeparatedToggles);
     } else {
-      return [];
+      return this.getDefaultFeatureToggles();
     }
+  }
 
+  getDefaultFeatureToggles() {
+    return [AppFeatureToggle.Toggle.METRICS];
   }
 
   /**

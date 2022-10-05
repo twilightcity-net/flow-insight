@@ -85,7 +85,7 @@ export default class RetroSidebar extends Component {
   }
 
   getDefaultMenuSelection() {
-    if (FeatureToggle.isJournalEnabled) {
+    if (FeatureToggle.isJournalEnabled && FeatureToggle.isMetricsEnabled) {
       if (this.props.taskSummary && this.props.taskSummary.taskName === RetroSidebar.NO_TASK) {
         return RetroSidebar.Views.OVERVIEW;
       } else {
@@ -378,8 +378,7 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarContent() {
-    let panelHeight =
-      DimensionController.getCircuitSidebarHeight();
+    let panelHeight = DimensionController.getCircuitSidebarHeight();
     if (this.state.tagEditEnabled) {
       panelHeight +=
         DimensionController.getCircuitSidebarTimerHeight() +
@@ -387,26 +386,7 @@ export default class RetroSidebar extends Component {
         12;
     }
 
-    let taskOrOverviewTab = "";
-    if (FeatureToggle.isJournalEnabled) {
-       taskOrOverviewTab = (
-         <Menu.Item
-           name={RetroSidebar.Views.TASK}
-           active={
-             this.state.activeMenuView === RetroSidebar.Views.TASK
-           }
-           onClick={this.handleMenuTaskClick}
-         />
-       ) ;
-    } else {
-      taskOrOverviewTab = (<Menu.Item
-        name={RetroSidebar.Views.OVERVIEW}
-        active={
-          this.state.activeMenuView === RetroSidebar.Views.OVERVIEW
-        }
-        onClick={this.handleMenuOverviewClick}
-      />);
-    }
+    let taskOrOverviewTab = this.getTaskOrOverviewTabBasedOnFeatureToggles();
 
     return (
       <Segment
@@ -420,32 +400,47 @@ export default class RetroSidebar extends Component {
           {taskOrOverviewTab}
           <Menu.Item
             name={RetroSidebar.Views.FILES}
-            active={
-              this.state.activeMenuView ===
-              RetroSidebar.Views.FILES
-            }
+            active={this.state.activeMenuView === RetroSidebar.Views.FILES}
             onClick={this.handleMenuFilesClick}
           />
           <Menu.Item
             name={RetroSidebar.Views.EXEC}
-            active={
-              this.state.activeMenuView ===
-              RetroSidebar.Views.EXEC
-            }
+            active={this.state.activeMenuView === RetroSidebar.Views.EXEC}
             onClick={this.handleMenuExecClick}
           />
           <Menu.Item
             name={RetroSidebar.Views.TAGS}
-            active={
-              this.state.activeMenuView ===
-              RetroSidebar.Views.TAGS
-            }
+            active={this.state.activeMenuView === RetroSidebar.Views.TAGS}
             onClick={this.handleMenuClick}
           />
         </Menu>
         {this.getCircuitSidebarMenuContent()}
       </Segment>
     );
+  }
+
+  /**
+   * Both journal and metrics features need to be enabled to show the task metrics tab
+   * @returns {JSX.Element}
+   */
+  getTaskOrOverviewTabBasedOnFeatureToggles() {
+    if (FeatureToggle.isJournalEnabled && FeatureToggle.isMetricsEnabled) {
+      return (
+        <Menu.Item
+          name={RetroSidebar.Views.TASK}
+          active={this.state.activeMenuView === RetroSidebar.Views.TASK}
+          onClick={this.handleMenuTaskClick}
+        />
+      ) ;
+    } else {
+      return (
+        <Menu.Item
+          name={RetroSidebar.Views.OVERVIEW}
+          active={this.state.activeMenuView === RetroSidebar.Views.OVERVIEW}
+          onClick={this.handleMenuOverviewClick}
+        />
+      );
+    }
   }
 
   /**
@@ -905,8 +900,12 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarFilesContent() {
-    if (!this.props.chartDto) {
-      return <div></div>;
+    if (!this.props.chartDto || !FeatureToggle.isMetricsEnabled) {
+      return (<Segment className="metricSummary" inverted>
+        <i>
+          No data available
+        </i>
+      </Segment>);
     }
 
     let fileData =
@@ -941,8 +940,12 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarExecContent() {
-    if (!this.props.chartDto) {
-      return <div></div>;
+    if (!this.props.chartDto || !FeatureToggle.isMetricsEnabled) {
+      return (<Segment className="metricSummary" inverted>
+        <i>
+          No data available
+        </i>
+      </Segment>);
     }
 
     let execData =

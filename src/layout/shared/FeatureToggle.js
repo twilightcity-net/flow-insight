@@ -8,6 +8,8 @@ export default class FeatureToggle  {
 
   static isNeoMode = false;
 
+  static isMetricsEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.5.27"
 
@@ -20,7 +22,8 @@ export default class FeatureToggle  {
       JOURNAL: "journal",
       FERVIE: "fervie",
       MOOVIES: "moovies",
-      NEO: "neo"
+      NEO: "neo",
+      METRICS: "metrics"
     };
   }
 
@@ -29,6 +32,7 @@ export default class FeatureToggle  {
     FeatureToggle.isFerviePopupEnabled = false;
     FeatureToggle.isMoovieApp = false;
     FeatureToggle.isNeoMode = false;
+    FeatureToggle.isMetricsEnabled = false;
 
     for (let toggle of featureToggleList) {
       if (toggle === FeatureToggle.Toggle.JOURNAL) {
@@ -39,6 +43,9 @@ export default class FeatureToggle  {
       }
       if (toggle === FeatureToggle.Toggle.NEO) {
         FeatureToggle.isNeoMode = true;
+      }
+      if (toggle === FeatureToggle.Toggle.METRICS) {
+        FeatureToggle.isMetricsEnabled = true;
       }
       if (toggle === FeatureToggle.Toggle.MOOVIES) {
         FeatureToggle.isMoovieApp = true;
