@@ -103,11 +103,14 @@ module.exports = class AppFlowPublisher {
       });
 
       plugins.forEach(pluginId => {
-        this.feedManager.cleanupOldPreprocessingState(pluginId, () => {
-          this.feedManager.commitActiveFlowFile(pluginId, () => {
-            this.feedManager.publishAllBatches(pluginId);
+        this.feedManager.deleteOldArchiveFiles(pluginId, () => {
+          this.feedManager.cleanupOldPreprocessingState(pluginId, () => {
+            this.feedManager.commitActiveFlowFile(pluginId, () => {
+              this.feedManager.publishAllBatches(pluginId);
+            });
           });
         });
+
       });
 
     });

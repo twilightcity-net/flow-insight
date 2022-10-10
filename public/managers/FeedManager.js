@@ -23,6 +23,7 @@ module.exports = class FeedManager {
   }
 
   static PREPROCESS_FOLDER = "preprocess";
+  static ARCHIVE_FOLDER = "archive";
   static PUBLISH_QUEUE_FOLDER = "publish_queue";
   static ERRORS_FOLDER = "publish_error";
   static FLOW_EXTENSION = ".flow";
@@ -480,6 +481,17 @@ module.exports = class FeedManager {
   }
 
   /**
+   * Get the archive folder corresponding to a pluginId
+   * @param pluginId
+   * @returns {string}
+   */
+  getArchiveFolder(pluginId) {
+    const allPluginsFolder = Util.getPluginFolderPath();
+    const pluginFolder = path.join(allPluginsFolder, pluginId);
+    return path.join(pluginFolder, FeedManager.ARCHIVE_FOLDER);
+  }
+
+  /**
    * Get the errors folder corresponding to a pluginId
    * @param pluginId
    * @returns {string}
@@ -494,9 +506,8 @@ module.exports = class FeedManager {
   /**
    * Publish all the batches in the batch folder to the server
    * @param pluginId
-   * @param callback
    */
-  publishAllBatches(pluginId, callback) {
+  publishAllBatches(pluginId) {
     const queueFolder = this.getQueueFolder(pluginId);
 
     Util.createFolderIfDoesntExist(queueFolder, () => {
@@ -509,7 +520,7 @@ module.exports = class FeedManager {
 
           this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
               if (successfulParse) {
-                this.publishBatch(pluginId, flowBatchDto, filePath);
+                this.publishBatch(pluginId, flowBatchDto, filePath, file);
               } else {
                 this.handleParseFailure(pluginId, filePath, file);
               }
@@ -525,13 +536,14 @@ module.exports = class FeedManager {
    * @param pluginId
    * @param flowBatchDto
    * @param filePath
+   * @param fileName
    */
-  publishBatch(pluginId, flowBatchDto, filePath) {
+  publishBatch(pluginId, flowBatchDto, filePath, fileName) {
     this.publishBatchToServer(flowBatchDto, (store) => {
       if (store.error) {
         this.handleFailedBatch(pluginId, filePath, store.error);
       } else {
-        this.handleSuccessfulBatch(pluginId, filePath);
+        this.handleSuccessfulBatch(pluginId, filePath, fileName);
       }
     });
   }
@@ -540,11 +552,52 @@ module.exports = class FeedManager {
    * Once the batch send is successful, delete the file
    * @param pluginId
    * @param filePath
+   * @param fileName
    */
-  handleSuccessfulBatch(pluginId, filePath) {
+  handleSuccessfulBatch(pluginId, filePath, fileName) {
     log.info("[FeedManager] Sent 1 batch successfully for "+pluginId);
-    //
-    this.deleteFile(filePath);
+
+    this.archiveFile(pluginId, filePath, fileName);
+    //this.deleteFile(filePath);
+  }
+
+  /**
+   * Archive a file into an archive folder
+   * @param pluginId
+   * @param srcFilePath
+   * @param srcFileName
+   * @param callback
+   */
+  archiveFile(pluginId, srcFilePath, srcFileName, callback) {
+    let archiveFolder = this.getArchiveFolder(pluginId);
+    let newPath = path.join(archiveFolder, srcFileName);
+
+    Util.createFolderIfDoesntExist(archiveFolder, () => {
+      this.moveFileToArchive(srcFilePath, srcFileName, newPath, callback);
+    });
+  }
+
+  /**
+   * Move the file to the archive directory
+   * @param srcFilePath
+   * @param srcFileName
+   * @param newPath
+   * @param callback
+   */
+  moveFileToArchive(srcFilePath, srcFileName, newPath, callback) {
+    if (fs.existsSync(srcFilePath)) {
+      fs.rename(srcFilePath, newPath, (err) => {
+        if (err) throw err;
+        log.info('[FeedManager] Archived flow file ' + srcFileName);
+        if (callback) {
+          callback();
+        }
+      });
+    } else {
+      if (callback) {
+        callback();
+      }
+    }
   }
 
   /**
@@ -553,6 +606,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   deleteFile(filePath, callback) {
+    log.debug("[FeedManager] Deleting old file: "+filePath);
     fs.unlink(filePath, (err) => {
       if (err) {
         console.error(err)
@@ -631,6 +685,50 @@ module.exports = class FeedManager {
         callback(batchFileList);
       });
     });
+  }
+
+  /**
+   * Delete all old archive files that are older than 2 months
+   * @param pluginId
+   * @param callback
+   */
+  deleteOldArchiveFiles(pluginId, callback) {
+    log.info("[FeedManager] Cleaning up old archive files...");
+    let archiveFolder = this.getArchiveFolder(pluginId);
+    Util.createFolderIfDoesntExist(archiveFolder, () => {
+      const twoMonthsAgoDate = this.getTwoMonthsAgoDate();
+      fs.readdir(archiveFolder, (err, files) => {
+        files.forEach(file => {
+          let filePath = path.join(archiveFolder, file);
+          let stats = fs.statSync(filePath);
+          if (stats.isFile()
+            && file.endsWith(FeedManager.FLOW_EXTENSION)
+            && file.startsWith(FeedManager.BATCH_PREFIX)
+            && this.isOlderThanDate(twoMonthsAgoDate, stats.birthtime) ){
+            this.deleteFile(filePath);
+          }
+        });
+        callback();
+      });
+    });
+  }
+
+  /**
+   * Get the date of two months before the current data
+   */
+  getTwoMonthsAgoDate() {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 2);
+    return date;
+  }
+
+  /**
+   * Check if the date to check is older than the threshold date
+   * @param thresholdDate
+   * @param dateToCheck
+   */
+  isOlderThanDate(thresholdDate, dateToCheck) {
+    return dateToCheck < thresholdDate;
   }
 
   /**
