@@ -7,7 +7,7 @@ module.exports = class AppFeatureToggle {
   static isFerviePopupEnabled = true;
 
   static appName = "FlowInsight";
-  static version = "0.5.27"
+  static version = "0.5.28"
 
   static isFlowInsightApp() {
     return !AppFeatureToggle.isMoovieApp;
