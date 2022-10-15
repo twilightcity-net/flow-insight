@@ -120,20 +120,20 @@ module.exports = class AppMenu extends Menu {
   static getFeatureSubmenu() {
     return [
       {
+        label: "Flow Metrics",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.METRICS)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.METRICS)
+      },
+      {
         label: "Journal",
         click: () => {
           AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
         },
         type: "checkbox",
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
-      },
-      {
-        label: "Metrics",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.METRICS)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.METRICS)
       },
       {
         label: "Fervie Pairing",
