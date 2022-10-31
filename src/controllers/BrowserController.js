@@ -33,6 +33,12 @@ export class BrowserController extends ActiveViewController {
           .WINDOW_CONSOLE_SHOW_HIDE,
         this
       );
+    this.featureToggleListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .FEATURE_TOGGLE_SCREEN_REFRESH,
+        this
+      );
   }
 
   /**
@@ -57,6 +63,18 @@ export class BrowserController extends ActiveViewController {
 
   configureConsoleBrowserLoadListener(scope, callback) {
     this.consoleBrowserLoadNotifier.updateCallback(
+      scope,
+      callback
+    );
+  }
+
+  /**
+   * Register for events when feature toggles are update
+   * @param scope
+   * @param callback
+   */
+  configureFeatureToggleListener(scope, callback) {
+    this.featureToggleListener.updateCallback(
       scope,
       callback
     );

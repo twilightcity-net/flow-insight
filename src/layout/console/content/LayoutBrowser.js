@@ -48,6 +48,10 @@ export default class LayoutBrowser extends Component {
       this,
       this.onShowConsoleWindowEvent
     );
+    this.myController.configureFeatureToggleListener(
+      this,
+      this.onFeatureToggleEvent
+    )
   };
 
   /**
@@ -66,6 +70,10 @@ export default class LayoutBrowser extends Component {
       this,
       null
     );
+    this.myController.configureFeatureToggleListener(
+      this,
+      null
+    )
   };
 
   /**
@@ -87,6 +95,10 @@ export default class LayoutBrowser extends Component {
       location: resource.uri,
     });
   };
+
+  onFeatureToggleEvent = (event, arg) => {
+    this.requestBrowserToLoadDefaultContent();
+  }
 
   /**
    * used to set the default browser location. This hook is used to update the state when we go to

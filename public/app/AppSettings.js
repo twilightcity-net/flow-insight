@@ -48,6 +48,8 @@ module.exports = class AppSettings {
     log.info("[AppSettings] load settings -> " + this.path);
   }
 
+  static EMPTY_SETTING = "[empty]";
+
   /**
    * Verifies the path of the settings
    * @returns {boolean}
@@ -87,6 +89,9 @@ module.exports = class AppSettings {
    */
   saveFeatureToggles(toggleList) {
     let commaList = this.arrayToCommaList(toggleList);
+    if (commaList === "") {
+      commaList = AppSettings.EMPTY_SETTING;
+    }
     settings.set(AppSettings.OptionalKeys.FEATURE_TOGGLE_LIST, commaList);
 
     return toggleList;
@@ -118,7 +123,11 @@ module.exports = class AppSettings {
     for (let item of arr) {
       trimArray.push(item.trim());
     }
-    return trimArray;
+    if (trimArray.length === 1 && trimArray[0] === AppSettings.EMPTY_SETTING) {
+      return [];
+    } else {
+      return trimArray;
+    }
   }
 
   /**

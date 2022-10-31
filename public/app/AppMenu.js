@@ -44,7 +44,7 @@ module.exports = class AppMenu extends Menu {
         {role: "about"},
         {type: "separator"},
         {
-          label: "EnableFeatures",
+          label: "Enable Features",
           submenu: AppMenu.getFeatureSubmenu(),
         },
         {

@@ -24,6 +24,12 @@ export class FeatureToggleClient extends BaseClient {
       null,
       this.onFeatureToggleEventReply
     );
+    this.featureToggleScreenRefreshDispatch =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .FEATURE_TOGGLE_SCREEN_REFRESH,
+        this
+      );
   }
 
   /**
@@ -52,8 +58,8 @@ export class FeatureToggleClient extends BaseClient {
   static refreshToggles() {
     FeatureToggleClient.getFeatureToggles(this, (arg) => {
       if (arg.data) {
-        console.log("Initializing feature toggles!");
         FeatureToggle.init(arg.data);
+        FeatureToggleClient.instance.featureToggleScreenRefreshDispatch.dispatch({});
       }
     });
   }

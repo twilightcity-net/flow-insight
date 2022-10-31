@@ -67,6 +67,14 @@ export default class ConsoleSidebar extends Component {
         this.onMeRefresh
       );
 
+    this.featureToggleListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .FEATURE_TOGGLE_SCREEN_REFRESH,
+        this,
+        this.onFeatureToggleRefresh
+      );
+
     this.notificationReadUpdate =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -162,6 +170,7 @@ export default class ConsoleSidebar extends Component {
     this.circuitStartStopListener.clear();
     this.circuitPauseResumeListener.clear();
     this.talkRoomMessageListener.clear();
+    this.featureToggleListener.clear();
   }
 
   /**
@@ -227,6 +236,13 @@ export default class ConsoleSidebar extends Component {
     }
   };
 
+
+  /**
+   * For refresh of feature toggles, make sure we refresh the buttons
+   */
+  onFeatureToggleRefresh() {
+    this.setState({});
+  }
 
   /**
    * For refresh me status data, this happens after disconnect/refresh
@@ -365,8 +381,8 @@ export default class ConsoleSidebar extends Component {
   onSidebarShow(event, arg) {
     console.log(
       this.name +
-        " shortcut received -> sidebar show : " +
-        arg
+      " shortcut received -> sidebar show : " +
+      arg
     );
     switch (arg) {
       case 1:
@@ -448,7 +464,7 @@ export default class ConsoleSidebar extends Component {
    * @param e
    * @param name
    */
-  handleItemClick = (e, { name }) => {
+  handleItemClick = (e, {name}) => {
     if (this.state.activeItem === name && !this.isDefaultPanel(name)) {
       this.myController.hidePanel();
     } else if (name === SidePanelViewController.MenuSelection.WTF) {
@@ -465,7 +481,7 @@ export default class ConsoleSidebar extends Component {
       return false;
     } else if (panelName === SidePanelViewController.MenuSelection.TEAM
       && (BrowserController.uri.includes("/journal/me")
-        || BrowserController.uri.includes("/journal/"+MemberClient.me.username))) {
+        || BrowserController.uri.includes("/journal/" + MemberClient.me.username))) {
       return false;
     }
     return true;
@@ -531,7 +547,7 @@ export default class ConsoleSidebar extends Component {
             </i>
           </b>
         </div>
-        <Divider />
+        <Divider/>
         <div>
           <i>{talkUrl}</i>
         </div>
@@ -547,7 +563,7 @@ export default class ConsoleSidebar extends Component {
         </div>
         {!isOnline && (
           <div className="errorMsg">
-            <i style={{ color: "red" }}>
+            <i style={{color: "red"}}>
               <b>{errorMsg}</b>
             </i>
           </div>
@@ -591,7 +607,7 @@ export default class ConsoleSidebar extends Component {
         active={activeItem === SidePanelViewController.MenuSelection.CIRCUITS}
         onClick={this.handleItemClick}
       >
-        <Icon name={this.state.iconCircuit} />
+        <Icon name={this.state.iconCircuit}/>
       </Menu.Item>
     );
   }
@@ -627,7 +643,7 @@ export default class ConsoleSidebar extends Component {
     if (this.state.unreadNotificationCount > 0) {
       notificationIcon = (
         <Icon.Group>
-          <Icon name={this.state.iconNotifications} />
+          <Icon name={this.state.iconNotifications}/>
           <Icon
             inverted
             corner="bottom right"
@@ -638,7 +654,7 @@ export default class ConsoleSidebar extends Component {
       );
     } else {
       notificationIcon = (
-        <Icon name={this.state.iconNotifications} />
+        <Icon name={this.state.iconNotifications}/>
       );
     }
 
@@ -654,16 +670,20 @@ export default class ConsoleSidebar extends Component {
   }
 
   getDashboardMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp || !FeatureToggle.isMetricsEnabled) return "";
-    return (
-      <Menu.Item
-        name={SidePanelViewController.MenuSelection.DASHBOARD}
-        active={activeItem === SidePanelViewController.MenuSelection.DASHBOARD}
-        onClick={this.handleItemClick}
-      >
-        <Icon name={this.state.iconDashboard} />
-      </Menu.Item>
-    );
+    if (FeatureToggle.isMetricsEnabled) {
+      return (
+        <Menu.Item
+          name={SidePanelViewController.MenuSelection.DASHBOARD}
+          active={activeItem === SidePanelViewController.MenuSelection.DASHBOARD}
+          onClick={this.handleItemClick}
+        >
+          <Icon name={this.state.iconDashboard}/>
+        </Menu.Item>
+      );
+    } else {
+      return "";
+    }
+
   }
 
   getWtfMenuItem(activeItem) {
@@ -679,7 +699,7 @@ export default class ConsoleSidebar extends Component {
             : "wtf"
         }
       >
-        <Icon name={this.state.iconWTF} />
+        <Icon name={this.state.iconWTF}/>
       </Menu.Item>
     );
   }
@@ -711,7 +731,7 @@ export default class ConsoleSidebar extends Component {
 
     const networkConnectMenuItem = (
       <Menu.Item header className={menuClassName}>
-        <Icon name={iconClassName} color={iconColor} />
+        <Icon name={iconClassName} color={iconColor}/>
       </Menu.Item>
     );
     const popupContent = this.getPopupContent(

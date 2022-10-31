@@ -34,6 +34,9 @@ export default class FeatureToggle  {
     FeatureToggle.isNeoMode = false;
     FeatureToggle.isMetricsEnabled = false;
 
+    console.log("UPDATING TOGGLES!");
+    console.log(featureToggleList);
+
     for (let toggle of featureToggleList) {
       if (toggle === FeatureToggle.Toggle.JOURNAL) {
         FeatureToggle.isJournalEnabled = true;
