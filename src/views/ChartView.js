@@ -38,11 +38,10 @@ export default class ChartView extends Component {
 
     this.featureToggleRefreshListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.FEATURE_TOGGLE_DATA_REFRESH,
+        RendererEventFactory.Events.FEATURE_TOGGLE_SCREEN_REFRESH,
         this,
         this.onFeatureToggleRefresh
       );
-
 
     const chartType = this.props.routeProps.chartType;
 

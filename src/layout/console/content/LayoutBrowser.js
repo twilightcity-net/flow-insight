@@ -97,6 +97,7 @@ export default class LayoutBrowser extends Component {
   };
 
   onFeatureToggleEvent = (event, arg) => {
+    console.log("onFeatureToggleEvent");
     this.requestBrowserToLoadDefaultContent();
   }
 
