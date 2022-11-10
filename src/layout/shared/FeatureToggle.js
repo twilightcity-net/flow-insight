@@ -11,7 +11,7 @@ export default class FeatureToggle  {
   static isMetricsEnabled = false;
 
   static appName = "FlowInsight";
-  static version = "0.5.28"
+  static version = "0.5.29"
 
   static isFlowInsightApp() {
     return !FeatureToggle.isMoovieApp;
