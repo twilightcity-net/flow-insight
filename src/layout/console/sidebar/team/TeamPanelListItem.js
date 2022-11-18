@@ -186,7 +186,7 @@ export default class TeamPanelListItem extends Component {
                 </div>
               </b>
             </div>
-            <div className="workingOn">{workingOn}</div>
+            <div className="workingOn">{activeTaskSummary}</div>
           </div>
         )
       );

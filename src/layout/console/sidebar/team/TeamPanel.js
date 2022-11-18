@@ -355,9 +355,13 @@ export default class TeamPanel extends Component {
    * @param name
    */
   loadJournalIfFeatureEnabled(name) {
-    if (FeatureToggle.isJournalEnabled) {
+    if (FeatureToggle.isJournalEnabled && this.isMe(name)) {
       this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
     }
+  }
+
+  isMe(name) {
+    return (name === "me" || MemberClient.me.username === name);
   }
 
   /**
