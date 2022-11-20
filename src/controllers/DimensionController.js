@@ -32,6 +32,7 @@ export class DimensionController {
       PLAY_PANEL: "[PlayPanel]",
       CONSOLE_LAYOUT: "[ConsoleLayout]",
       TROUBLESHOOT: "[Troubleshoot]",
+      WELCOME: "[Welcome]",
       SIDEBAR_PANEL: "[SidebarPanel]",
       CIRCUIT_SIDEBAR: "[CircuitSidebar]",
       HOTKEY_CONFIG: "[HotkeyConfig]",
@@ -377,6 +378,28 @@ export class DimensionController {
   }
 
   /**
+   * gets the welcome content height
+   * @returns {number}
+   */
+  static getWelcomeContentHeight() {
+    let oneRem = window.innerHeight / 100;
+    let heights = {
+      window: window.innerHeight,
+      border: Math.ceil(1.68 * oneRem),
+      margin: Math.ceil(1.68 * oneRem),
+      header: 52,
+    };
+    return (
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.header
+    );
+  }
+
+
+
+  /**
    * calculates the dynamic relative size based on screen size. This is called
    * by the onchange vertical panel resizer for splitter-layout
    * @param size
@@ -642,6 +665,12 @@ export class DimensionController {
     ) {
       return DimensionController.getActiveCircuitContentHeight();
     } else if (
+      component ===
+      DimensionController.Components.WELCOME
+    ) {
+      return DimensionController.getWelcomeContentHeight();
+    }
+    else if (
       component ===
       DimensionController.Components.HOTKEY_CONFIG
     ) {

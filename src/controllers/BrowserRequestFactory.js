@@ -21,6 +21,7 @@ export class BrowserRequestFactory {
       PLAY: "play",
       DASHBOARD: "dashboard",
       MOOVIE: "moovie",
+      WELCOME: "welcome",
     };
   }
 
@@ -84,6 +85,7 @@ export class BrowserRequestFactory {
       FLOW: "flow",
       PLAY: "play",
       MOOVIE: "moovie",
+      WELCOME: "welcome",
       WTF: "wtf",
       RETRO: "retro",
       ROOM: "room",
@@ -167,6 +169,8 @@ export class BrowserRequestFactory {
           return BrowserRequestFactory._getPlayRequest();
         case BrowserRequestFactory.Requests.MOOVIE:
           return BrowserRequestFactory._getMoovieRequest();
+        case BrowserRequestFactory.Requests.WELCOME:
+          return BrowserRequestFactory._getWelcomeRequest();
         case BrowserRequestFactory.Requests.ERROR:
           return BrowserRequestFactory._getErrorRequest(
             args[0]
@@ -409,6 +413,21 @@ export class BrowserRequestFactory {
       );
     }
   }
+
+  /**
+   * gets the request for the welcome intro screen
+   * @returns {string}
+   * @private
+   */
+  static _getWelcomeRequest() {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.WELCOME
+    );
+  }
+
 
   /**
    * gets the request for playing the fervie mini game

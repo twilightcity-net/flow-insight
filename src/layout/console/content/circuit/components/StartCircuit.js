@@ -14,7 +14,7 @@ export default class StartCircuit extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[StartCircuit]";
+    this.name = "[ToolsPanel]";
     this.state = {
       resource: props.resource,
       isLoading: false,

@@ -21,6 +21,7 @@ export default class LayoutBrowser extends Component {
   constructor(props) {
     super(props);
     this.name = "[LayoutBrowser]";
+    this.isFirstRun = true;
     this.state = {
       disableControls: false,
       location: "",
@@ -108,16 +109,34 @@ export default class LayoutBrowser extends Component {
    * @param arg
    */
   onShowConsoleWindowEvent = (event, arg) => {
-    console.log(
-      this.name +
-        " first time console show -> load default content"
-    );
+    console.log(this.name + " first time console show -> load default content");
+    //TODO this should use default page load until we've got a better welcome
     this.requestBrowserToLoadDefaultContent();
     this.myController.configureShowConsoleWindowListener(
       this,
       null
     );
   };
+
+
+  /**
+   * Load the welcome screen content on first load
+   */
+  loadWelcomeContent() {
+    let defaultRequest;
+
+    if (FeatureToggle.isFlowInsightApp()) {
+      defaultRequest = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.WELCOME
+      );
+    } else {
+      defaultRequest = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.MOOVIE
+      );
+    }
+
+    this.myController.makeRequest(defaultRequest);
+  }
 
   /**
    * loads default content into the browser which is our /journal/me
