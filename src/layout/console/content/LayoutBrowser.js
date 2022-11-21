@@ -111,7 +111,7 @@ export default class LayoutBrowser extends Component {
   onShowConsoleWindowEvent = (event, arg) => {
     console.log(this.name + " first time console show -> load default content");
     //TODO this should use default page load until we've got a better welcome
-    this.requestBrowserToLoadDefaultContent();
+    this.loadWelcomeContent();
     this.myController.configureShowConsoleWindowListener(
       this,
       null
@@ -127,7 +127,7 @@ export default class LayoutBrowser extends Component {
 
     if (FeatureToggle.isFlowInsightApp()) {
       defaultRequest = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.WELCOME
+        BrowserRequestFactory.Requests.TOOLS
       );
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(

@@ -47,7 +47,7 @@ export default class ToolsPanel extends Component {
             <br/> <br/>
           </div>
 
-          <div className="toolsLink"><a onClick={this.installAToolClick}>Install a tool...</a></div>
+          {/*<div className="toolsLink"><a onClick={this.installAToolClick}>Install a tool...</a></div>*/}
         </Segment>
       </div>
     );

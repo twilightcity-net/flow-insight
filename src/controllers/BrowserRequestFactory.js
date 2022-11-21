@@ -21,7 +21,7 @@ export class BrowserRequestFactory {
       PLAY: "play",
       DASHBOARD: "dashboard",
       MOOVIE: "moovie",
-      WELCOME: "welcome",
+      TOOLS: "tools",
     };
   }
 
@@ -32,7 +32,8 @@ export class BrowserRequestFactory {
       JOURNAL: "journal",
       TERMINAL: "terminal",
       PLAY: "play",
-      MOOVIE: "moovie"
+      MOOVIE: "moovie",
+      TOOLS: "tools",
     };
   }
 
@@ -85,7 +86,7 @@ export class BrowserRequestFactory {
       FLOW: "flow",
       PLAY: "play",
       MOOVIE: "moovie",
-      WELCOME: "welcome",
+      TOOLS: "tools",
       WTF: "wtf",
       RETRO: "retro",
       ROOM: "room",
@@ -169,8 +170,8 @@ export class BrowserRequestFactory {
           return BrowserRequestFactory._getPlayRequest();
         case BrowserRequestFactory.Requests.MOOVIE:
           return BrowserRequestFactory._getMoovieRequest();
-        case BrowserRequestFactory.Requests.WELCOME:
-          return BrowserRequestFactory._getWelcomeRequest();
+        case BrowserRequestFactory.Requests.TOOLS:
+          return BrowserRequestFactory._getToolsRequest();
         case BrowserRequestFactory.Requests.ERROR:
           return BrowserRequestFactory._getErrorRequest(
             args[0]
@@ -415,16 +416,16 @@ export class BrowserRequestFactory {
   }
 
   /**
-   * gets the request for the welcome intro screen
+   * gets the request for the tools intro screen
    * @returns {string}
    * @private
    */
-  static _getWelcomeRequest() {
+  static _getToolsRequest() {
     return (
       BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +
       BrowserRequestFactory.ROOT_SEPARATOR +
-      BrowserRequestFactory.Locations.WELCOME
+      BrowserRequestFactory.Locations.TOOLS
     );
   }
 

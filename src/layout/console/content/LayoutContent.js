@@ -15,7 +15,7 @@ import RetroResource from "./retro/RetroResource";
 import PlayResource from "./play/PlayResource";
 import DashboardResource from "./dashboard/DashboardResource";
 import MoovieResource from "./moovie/MoovieResource";
-import WelcomeResource from "./welcome/WelcomeResource";
+import ToolsResource from "./welcome/ToolsResource";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -116,9 +116,9 @@ export default class LayoutContent extends Component {
         component = (<MoovieResource resource={this.state.resource} />);
         className = MainPanelViewController.Resources.MOOVIE + className;
         break;
-      case MainPanelViewController.Resources.WELCOME:
-        component = (<WelcomeResource resource={this.state.resource} />);
-        className = MainPanelViewController.Resources.WELCOME + className;
+      case MainPanelViewController.Resources.TOOLS:
+        component = (<ToolsResource resource={this.state.resource} />);
+        className = MainPanelViewController.Resources.TOOLS + className;
         break;
       case MainPanelViewController.Resources.NONE:
         component = "";

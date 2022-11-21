@@ -3,16 +3,16 @@ import ToolsPanel from "./components/ToolsPanel";
 import UtilRenderer from "../../../../UtilRenderer";
 
 /**
- * this component is the tab panel for the intro welcome screen
+ * this component is the tab panel for the intro tools screen
  */
-export default class WelcomeResource extends Component {
+export default class ToolsResource extends Component {
   /**
    * builds our resource with the given properties
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[WelcomeResource]";
+    this.name = "[ToolsResource]";
     this.state = {
       error: null,
     };

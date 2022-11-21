@@ -36,7 +36,7 @@ export class MainPanelViewController extends ActiveViewController {
       FLOW: "flow",
       PLAY: "play",
       MOOVIE: "moovie",
-      WELCOME: "welcome",
+      TOOLS: "tools",
       DASHBOARD: "dashboard",
     };
   }
