@@ -136,7 +136,7 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
       },
       {
-        label: "Fervie Pairing",
+        label: "Fervie",
         click: () => {
           AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
         },
