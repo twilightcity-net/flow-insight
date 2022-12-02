@@ -128,7 +128,10 @@ module.exports = class CodeModuleConfigManager {
       this.readModuleRootsFromConfigFile(configFile, (moduleRoots) => {
         log.debug("[CodeModuleConfigManager] Found "+moduleRoots.length + " roots in "+pluginId);
         moduleRoots.forEach((moduleRoot) => {
-          this.moduleRoots.set(moduleRoot.moduleName, moduleRoot);
+          //make sure we don't save any blank entries
+          if (moduleRoot.moduleName && moduleRoot.rootDir) {
+            this.moduleRoots.set(moduleRoot.moduleName, moduleRoot);
+          }
         });
 
         pluginsLoaded++;
