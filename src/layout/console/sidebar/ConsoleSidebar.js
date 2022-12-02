@@ -465,7 +465,7 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   handleItemClick = (e, {name}) => {
-    if (this.state.activeItem === name && !this.isDefaultPanel(name)) {
+    if (this.state.activeItem === name && this.isDefaultPanel(name)) {
       this.myController.hidePanel();
     } else if (name === SidePanelViewController.MenuSelection.WTF) {
       this.loadDefaultWtfPanel();
@@ -475,17 +475,38 @@ export default class ConsoleSidebar extends Component {
     }
   };
 
+  /**
+   * Determine whether the active panel is the default or something else.  One click resets to default
+   * Next click will collapse/show the side panel
+   * @param panelName
+   * @returns {boolean}
+   */
   isDefaultPanel(panelName) {
-    if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
-      && BrowserController.uri.includes("/flow")) {
+    let hasDefaultPanel = panelName === SidePanelViewController.MenuSelection.DASHBOARD
+      || panelName === SidePanelViewController.MenuSelection.TEAM;
+
+    if (hasDefaultPanel) {
+      if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
+        && BrowserController.uri.includes("/flow")) {
+        return true;
+      } else if (panelName === SidePanelViewController.MenuSelection.TEAM
+        && (FeatureToggle.isJournalEnabled
+          && BrowserController.uri.includes("/journal/me")
+          || BrowserController.uri.includes("/journal/" + MemberClient.me.username))) {
+        return true;
+      } else if (panelName === SidePanelViewController.MenuSelection.TEAM
+        && (!FeatureToggle.isJournalEnabled
+          && BrowserController.uri.includes("/wtf"))) {
+        return true;
+      }
       return false;
-    } else if (panelName === SidePanelViewController.MenuSelection.TEAM
-      && (BrowserController.uri.includes("/journal/me")
-        || BrowserController.uri.includes("/journal/" + MemberClient.me.username))) {
-      return false;
+    } else {
+      //default to true when there's no default panel
+      return true;
     }
-    return true;
   }
+
+
 
   /**
    * Open the default resource content for a particular menu item
