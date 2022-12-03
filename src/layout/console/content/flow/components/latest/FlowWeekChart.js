@@ -195,7 +195,7 @@ export default class FlowWeekChart extends Component {
       .attr("x", this.margin)
       .attr("y", this.topMargin)
       .attr("text-anchor", "start")
-      .text("This Week's Coding Flow");
+      .text("This Week's Programming Flow");
   }
 
 
