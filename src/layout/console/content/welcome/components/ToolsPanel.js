@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import {Button, Segment} from "semantic-ui-react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
-import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import React, {Component} from "react";
+import {Segment} from "semantic-ui-react";
+import {DimensionController} from "../../../../../controllers/DimensionController";
 
 /**
  * this component is the tools panel on the welcome screen

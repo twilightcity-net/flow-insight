@@ -6,6 +6,8 @@ module.exports = class AppFeatureToggle {
 
   static isFerviePopupEnabled = true;
 
+  static isToolsExtensionEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.5.31"
 
@@ -19,13 +21,15 @@ module.exports = class AppFeatureToggle {
       FERVIE: "fervie",
       MOOVIES: "moovies",
       NEO: "neo",
-      METRICS: "metrics"
+      METRICS: "metrics",
+      TOOLS: "tools"
     };
   }
 
   static init(featureToggleList) {
     AppFeatureToggle.isFerviePopupEnabled = false;
     AppFeatureToggle.isMoovieApp = false;
+    AppFeatureToggle.isToolsExtensionEnabled = false;
 
     for (let toggle of featureToggleList) {
       if (toggle === AppFeatureToggle.Toggle.FERVIE) {
@@ -34,6 +38,9 @@ module.exports = class AppFeatureToggle {
       if (toggle === AppFeatureToggle.Toggle.MOOVIES) {
         AppFeatureToggle.isMoovieApp = true;
         AppFeatureToggle.appName = "WatchMoovies";
+      }
+      if (toggle === AppFeatureToggle.Toggle.TOOLS) {
+        AppFeatureToggle.isToolsExtensionEnabled = true;
       }
     }
   }

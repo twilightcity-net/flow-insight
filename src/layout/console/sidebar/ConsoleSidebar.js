@@ -491,8 +491,8 @@ export default class ConsoleSidebar extends Component {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.TEAM
         && (FeatureToggle.isJournalEnabled
-          && BrowserController.uri.includes("/journal/me")
-          || BrowserController.uri.includes("/journal/" + MemberClient.me.username))) {
+          && (BrowserController.uri.includes("/journal/me")
+          || BrowserController.uri.includes("/journal/" + MemberClient.me.username)))) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.TEAM
         && (!FeatureToggle.isJournalEnabled

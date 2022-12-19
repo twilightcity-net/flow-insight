@@ -126,9 +126,13 @@ export default class LayoutBrowser extends Component {
     let defaultRequest;
 
     if (FeatureToggle.isFlowInsightApp()) {
-      defaultRequest = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.TOOLS
-      );
+      if (FeatureToggle.isToolsExtensionEnabled) {
+        defaultRequest = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.TOOLS
+        );
+      } else {
+        defaultRequest = this.getDefaultFlowInsightPageRequest();
+      }
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.MOOVIE
@@ -139,6 +143,23 @@ export default class LayoutBrowser extends Component {
   }
 
   /**
+   * Get the default page request for the FlowInsight app
+   */
+  getDefaultFlowInsightPageRequest() {
+    if (FeatureToggle.isJournalEnabled) {
+      return BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        "me"
+      );
+    } else {
+      return BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.COMMAND,
+        BrowserRequestFactory.Commands.WTF
+      );
+    }
+  }
+
+  /**
    * loads default content into the browser which is our /journal/me
    * #IMPORTANT #ENTRY-POINT default resource loaded page
    */
@@ -146,19 +167,7 @@ export default class LayoutBrowser extends Component {
     let defaultRequest;
 
     if (FeatureToggle.isFlowInsightApp()) {
-      if (FeatureToggle.isJournalEnabled) {
-        defaultRequest = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          "me"
-        );
-      } else {
-        defaultRequest = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.COMMAND,
-          BrowserRequestFactory.Commands.WTF
-        );
-      }
-
-
+      defaultRequest = this.getDefaultFlowInsightPageRequest();
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.MOOVIE

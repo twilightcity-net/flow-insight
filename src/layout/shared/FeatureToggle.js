@@ -10,6 +10,8 @@ export default class FeatureToggle  {
 
   static isMetricsEnabled = false;
 
+  static isToolsExtensionEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.5.31"
 
@@ -23,7 +25,8 @@ export default class FeatureToggle  {
       FERVIE: "fervie",
       MOOVIES: "moovies",
       NEO: "neo",
-      METRICS: "metrics"
+      METRICS: "metrics",
+      TOOLS: "tools"
     };
   }
 
@@ -33,6 +36,7 @@ export default class FeatureToggle  {
     FeatureToggle.isMoovieApp = false;
     FeatureToggle.isNeoMode = false;
     FeatureToggle.isMetricsEnabled = false;
+    FeatureToggle.isToolsExtensionEnabled = false;
 
     console.log("UPDATING TOGGLES!");
     console.log(featureToggleList);
@@ -53,6 +57,9 @@ export default class FeatureToggle  {
       if (toggle === FeatureToggle.Toggle.MOOVIES) {
         FeatureToggle.isMoovieApp = true;
         FeatureToggle.appName = "WatchMoovies";
+      }
+      if (toggle === FeatureToggle.Toggle.TOOLS) {
+        FeatureToggle.isToolsExtensionEnabled = true;
       }
     }
   }

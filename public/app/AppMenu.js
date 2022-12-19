@@ -151,6 +151,14 @@ module.exports = class AppMenu extends Menu {
         type: "checkbox",
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
       },
+      {
+        label: "Tools Plugins",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.TOOLS)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
+      },
     ];
   }
 
