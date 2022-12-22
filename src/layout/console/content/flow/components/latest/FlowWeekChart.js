@@ -71,55 +71,6 @@ export default class FlowWeekChart extends Component {
     this.drawWeekdayLabels(dailyRows, chartGroup);
     this.drawDateLabels(dailyRows, chartGroup);
     this.drawLegend(svg, chartGroup);
-    this.drawTooltipBox(svg);
-  }
-
-
-  /**
-   * Draw the tooltip box below the daily chart
-   * @param svg
-   */
-
-  drawTooltipBox(svg) {
-
-    let tipInset = 20;
-    let tipWidth = this.cellSize + this.cellMargin * 2;
-    let tipHeight = 60;
-
-    let tipBox = svg
-      .append("g")
-      .attr("id", "tipbox")
-      .style("visibility", "hidden");
-
-    tipBox
-      .append("rect")
-      .attr("id", "tipboxRect")
-      .attr("x", this.margin - this.cellMargin)
-      .attr("y", this.height - this.margin - tipHeight + 10)
-      .attr("width", tipWidth)
-      .attr("height", tipHeight)
-      .attr("rx", "10")
-      .attr("fill", "none")
-      .attr("stroke", "#333333")
-      .attr("stroke-width", 1);
-
-    tipBox
-      .append("text")
-      .attr("id", "tipboxDay")
-      .attr("class", "tipboxTitle")
-      .attr("x", this.margin + tipInset - this.cellMargin)
-      .attr("y", this.height - this.margin - tipHeight + 35)
-      .attr("text-anchor", "start")
-      .text("Feb 12");
-
-    tipBox
-      .append("text")
-      .attr("id", "tipboxHours")
-      .attr("class", "tipboxDetail")
-      .attr("x", this.margin + tipInset - this.cellMargin)
-      .attr("y", this.height - this.margin - tipHeight + 55)
-      .attr("text-anchor", "start")
-      .text("Hours: 00:00");
   }
 
 
@@ -303,15 +254,6 @@ export default class FlowWeekChart extends Component {
       .attr("height", legendBoxHeight)
       .attr("rx", 10);
 
-    //legend title
-    // chartGroup
-    //   .append("text")
-    //   .attr("x", this.width - this.margin - legendBoxWidth/2)
-    //   .attr("y", this.height - legendBoxHeight)
-    //   .attr("text-anchor", "middle")
-    //   .attr("class", "axisHeader")
-    //   .text("Flow States");
-
     //input state
     chartGroup
       .append("text")
@@ -444,17 +386,15 @@ export default class FlowWeekChart extends Component {
         let box = document.getElementById(d.coords + "-box");
         box.classList.add("boxHighlight");
 
-        let tipbox = document.getElementById("tipbox");
-        that.updateTipContents(d);
-        tipbox.style.visibility = "visible";
+        that.onHoverDayBox(d.coords);
+
       })
       .on("mouseout", function (event, d) {
         //TODO handle selected box
         let box = document.getElementById(d.coords + "-box");
         box.classList.remove("boxHighlight");
-
-        let tipbox = document.getElementById("tipbox");
-        tipbox.style.visibility = "hidden";
+        
+        that.onHoverOffDayBox(d.coords);
       })
       .on("click", function (event, d) {
         that.onClickDayBox(d.coords);
@@ -478,9 +418,15 @@ export default class FlowWeekChart extends Component {
 
   onClickDayBox(coords) {
     console.log("clicked! = "+coords);
-    //TODO handle box select
-
     this.props.onClickDayBox(coords);
+  }
+
+  onHoverDayBox(coords) {
+    this.props.onHoverDayBox(coords);
+  }
+
+  onHoverOffDayBox(coords) {
+    this.props.onHoverOffDayBox(coords);
   }
 
 
@@ -516,17 +462,12 @@ export default class FlowWeekChart extends Component {
         let box = document.getElementById(d.coords + "-box");
         box.classList.add("boxHighlight");
 
-        let tipbox = document.getElementById("tipbox");
-        that.updateTipContents(d);
-        tipbox.style.visibility = "visible";
       })
       .on("mouseout", function (event, d) {
         //TODO handle selected box
         let box = document.getElementById(d.coords + "-box");
         box.classList.remove("boxHighlight");
 
-        let tipbox = document.getElementById("tipbox");
-        tipbox.style.visibility = "hidden";
       })
       .on("click", function (event, d) {
         that.onClickDayBox(d.coords);

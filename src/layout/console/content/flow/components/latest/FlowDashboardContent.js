@@ -15,6 +15,7 @@ export default class FlowDashboardContent extends Component {
     super(props);
     this.name = "[" + FlowDashboardContent.name + "]";
     this.state = {
+      dayCoords: null
     };
   }
 
@@ -25,10 +26,34 @@ export default class FlowDashboardContent extends Component {
     this.props.onClickClose();
   }
 
+  /**
+   * Handler method for when clicking on a day of the week
+   * @param dayCoords
+   */
   onClickDayBox = (dayCoords) => {
     const weekCoords = this.createWeekCoordsFromDayCoords(dayCoords);
 
     this.props.onClickDayBox(weekCoords, dayCoords);
+  }
+
+  /**
+   * Handler method for when hovering over a day of the week
+   * @param dayCoords
+   */
+  onHoverDayBox = (dayCoords) => {
+    this.setState(({
+      dayCoords: dayCoords
+    }));
+  }
+
+  /**
+   * Handler method for when moving off hover for a day of the week
+   * @param dayCoords
+   */
+  onHoverOffDayBox = (dayCoords) => {
+    this.setState(({
+      dayCoords: null
+    }));
   }
 
   /**
@@ -65,12 +90,15 @@ export default class FlowDashboardContent extends Component {
           <div className="chartWrapper" style={{width: chartWidth + "px"}}>
             <FlowWeekChart
               chartDto={this.props.chartDto}
+              onHoverDayBox={this.onHoverDayBox}
+              onHoverOffDayBox={this.onHoverOffDayBox}
               onClickDayBox={this.onClickDayBox}
             />
           </div>
           <div className="metricsWrapper" style={{width: remainingWidth + "px"}}>
             <FlowMetrics
               chartDto={this.props.chartDto}
+              dayCoords={this.state.dayCoords}
               />
           </div>
         </div>
