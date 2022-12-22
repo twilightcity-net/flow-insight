@@ -69,7 +69,9 @@ export default class FlowDashboardContent extends Component {
             />
           </div>
           <div className="metricsWrapper" style={{width: remainingWidth + "px"}}>
-            <FlowMetrics/>
+            <FlowMetrics
+              chartDto={this.props.chartDto}
+              />
           </div>
         </div>
       );
