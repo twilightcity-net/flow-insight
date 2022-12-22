@@ -66,8 +66,7 @@ export default class LayoutContent extends Component {
     if (
       resource.uriArr[0] === MainPanelViewController.Resources.TERMINAL ||
       resource.uriArr[0] === MainPanelViewController.Resources.PLAY ||
-      resource.uriArr[0] === MainPanelViewController.Resources.MOOVIE ||
-      resource.uriArr[0] === MainPanelViewController.Resources.FLOW
+      resource.uriArr[0] === MainPanelViewController.Resources.MOOVIE
     ) {
       state.browserVisible = false;
     }

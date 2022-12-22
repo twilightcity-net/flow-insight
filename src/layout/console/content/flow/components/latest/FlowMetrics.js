@@ -26,14 +26,21 @@ export default class FlowMetrics extends Component {
    * @returns {*}
    */
   render() {
+    let tip = "Time it takes to get momentum going first thing in the morning";
+
     return (
       <div className="metricsPanel">
-        <div className="metricsHeader">Metrics Summary</div>
         <div className="summaryMetrics">
-          &nbsp;
+          <div className="metricsHeader">Time to Momentum (TTM)</div>
+          <div className="metric">24 min</div>
+          <div className="metricDescription">Average time it takes to get momentum going first thing in the morning</div>
         </div>
-        <div className="detailMetrics">
-          &nbsp;
+        <div className="space">&nbsp;</div>
+
+        <div className="summaryMetrics">
+          <div className="metricsHeader">Longest Flow Streak (LFS)</div>
+          <div className="metric">123 min</div>
+          <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>
         </div>
       </div>
     );

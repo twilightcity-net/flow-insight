@@ -4717,9 +4717,9 @@
 
   #component.flowDashboardContent .flowContentWrapper .metricsWrapper {
     display: inline-flex;
+    margin-bottom: 18px;
     border-left: 2px solid #333333;
     margin-top: 20px;
-    margin-bottom: 18px;
   }
 
   #component.flowDashboardContent .flowContentWrapper .metricsPanel {
@@ -4731,8 +4731,19 @@
     height: 100%;
   }
 
+  #component.flowDashboardContent .flowContentWrapper .metricsPanel .summaryMetrics {
+    border: 1px solid #333333;
+    border-radius: 8px;
+    height: 50%;
+    padding: 10px;
+    flex: 0 1 auto;
+  }
 
-  #component.flowDashboardContent .flowContentWrapper .metricsPanel .metricsHeader {
+  #component.flowDashboardContent .flowContentWrapper .metricsPanel .space {
+    padding-top: 3px;
+  }
+
+  #component.flowDashboardContent .flowContentWrapper .metricsPanel .summaryMetrics .metricsHeader {
     color: #dddddd;
     font-size: 18px;
     font-weight: bolder;
@@ -4740,21 +4751,23 @@
     padding-top: 3px;
   }
 
-  #component.flowDashboardContent .flowContentWrapper .metricsPanel .summaryMetrics {
-    border: 1px solid #333333;
-    border-radius: 8px;
-    height: 120px;
-    margin-top: 20px;
-    padding: 10px;
-    flex: 0 1 auto;
+
+  #component.flowDashboardContent .flowContentWrapper .metricsPanel .summaryMetrics .metric {
+    font-size: 43px;
+    text-align: center;
+    margin-top: 30px;
+    color: #9C6EFA;
   }
 
-  #component.flowDashboardContent .flowContentWrapper .metricsPanel .detailMetrics {
-    border: 1px solid #333333;
-    border-radius: 8px;
-    margin-top: 20px;
-    padding: 10px;
-    flex: 1 1 auto;
+  #component.flowDashboardContent .flowContentWrapper .metricsPanel .summaryMetrics .metricDescription {
+    font-weight: lighter;
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    margin-top: 23px;
+    padding-left: 30px;
+    padding-right: 30px;
+    color: #cccccc;
   }
 
   /*#component.flowDashboardContent #chart {*/

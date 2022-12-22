@@ -67,7 +67,19 @@ export class DimensionController {
       content: 0,
       barHeight: 0,
     };
-      return window.innerHeight - heights.padding - (heights.border*2);
+    let addressBar = document.querySelector(
+      "#component.browserHeader"
+    );
+    if (addressBar && addressBar.clientHeight > 0) {
+      return (
+        window.innerHeight -
+        heights.border -
+        heights.padding -
+        addressBar.clientHeight
+      );
+    } else {
+      return window.innerHeight;
+    }
   }
 
   /**
@@ -117,7 +129,7 @@ export class DimensionController {
     let addressBar = document.querySelector(
       "#component.browserHeader"
     );
-    if (addressBar & addressBar.clientHeight > 0) {
+    if (addressBar && addressBar.clientHeight > 0) {
       return (
         window.innerHeight -
         heights.border -
