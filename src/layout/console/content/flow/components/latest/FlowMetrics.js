@@ -78,7 +78,8 @@ export default class FlowMetrics extends Component {
   calculateTtmModel(chartData) {
     let ttmSeries = chartData.eventSeriesByType["@ttm/event"].rowsOfPaddedCells;
 
-    let sumTtm = 0;
+    let ttmSum = 0;
+    let ttmCount = 0;
     let maxTtmSustain = null;
     let dailyTtmTable = [];
 
@@ -87,19 +88,24 @@ export default class FlowMetrics extends Component {
         const dayCoords = ttmRow[0].trim();
         const ttmActivate = parseInt(ttmRow[5].trim());
         const ttmSustain = parseInt(ttmRow[6].trim());
-        sumTtm += ttmActivate;
+        const existingDayRow = dailyTtmTable[dayCoords];
+
+        if (existingDayRow) {
+          //this is the first ttm for this day, include these in the calculation
+          ttmSum += ttmActivate;
+          ttmCount++;
+        }
+        dailyTtmTable[dayCoords] = this.updateTtmTableEntry(existingDayRow, ttmActivate, ttmSustain);
 
         if (ttmSustain && (!maxTtmSustain || ttmSustain > maxTtmSustain)) {
           maxTtmSustain = ttmSustain;
         }
-
-        dailyTtmTable[dayCoords] = this.updateTtmTableEntry(dailyTtmTable[dayCoords], ttmActivate, ttmSustain);
       }
     }
 
     let ttmModel = {};
 
-    ttmModel.weeklyTtms = { ttmSum: sumTtm, ttmCount: ttmSeries.length, lfs: maxTtmSustain};
+    ttmModel.weeklyTtms = { ttmSum: ttmSum, ttmCount: ttmCount, lfs: maxTtmSustain};
     ttmModel.dailyTtms = dailyTtmTable;
 
     return ttmModel;
@@ -115,9 +121,8 @@ export default class FlowMetrics extends Component {
     if (!oldEntry) {
       return {ttmSum: ttmActivate, ttmCount: 1, lfs: ttmSustain};
     } else {
-      oldEntry.ttmSum += ttmActivate;
-      oldEntry.ttmCount += 1;
-
+      //for daily ttms use the first in the morning instead of the average
+      //for weekly ttms use the average of the dailies
       if (ttmSustain > oldEntry.lfs) {
         oldEntry.lfs = ttmSustain;
       }
