@@ -90,7 +90,7 @@ export default class FlowMetrics extends Component {
         const ttmSustain = parseInt(ttmRow[6].trim());
         const existingDayRow = dailyTtmTable[dayCoords];
 
-        if (existingDayRow) {
+        if (!existingDayRow) {
           //this is the first ttm for this day, include these in the calculation
           ttmSum += ttmActivate;
           ttmCount++;
