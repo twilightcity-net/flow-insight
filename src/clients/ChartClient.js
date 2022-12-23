@@ -131,12 +131,14 @@ export class ChartClient extends BaseClient {
 
   /**
    * Chart friction for a single day
+   * @param timezoneOffset
    * @param gtDayCoords
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static chartFrictionForDay(
+    timezoneOffset,
     gtDayCoords,
     scope,
     callback
@@ -144,6 +146,7 @@ export class ChartClient extends BaseClient {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_DAY,
       {
+        timezoneOffset: timezoneOffset,
         gtCoords: gtDayCoords
       },
       scope,
@@ -216,14 +219,15 @@ export class ChartClient extends BaseClient {
   /**
    * Chart daily friction for the current latest week.  Will aggregate the 20s
    * so you get rolling updates throughout the day
+   * @param timezoneOffset
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartLatestWeek(scope, callback) {
+  static chartLatestWeek(timezoneOffset, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_LATEST_WEEK,
-      {},
+      {timezoneOffset: timezoneOffset},
       scope,
       callback
     );

@@ -8,6 +8,7 @@ import { TalkToClient } from "../clients/TalkToClient";
 import { MemberClient } from "../clients/MemberClient";
 import {FeatureToggleClient} from "../clients/FeatureToggleClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
+import UtilRenderer from "../UtilRenderer";
 
 /**
  *  This view class is used to show a floating draggable IFM chart
@@ -93,7 +94,10 @@ export default class ChartView extends Component {
    * @param gtCoords
    */
   loadChartForDay(gtCoords) {
+    let timezoneOffset = UtilRenderer.getTimezoneOffset();
+
     ChartClient.chartFrictionForDay(
+      timezoneOffset,
       gtCoords,
       this,
       (arg) => {

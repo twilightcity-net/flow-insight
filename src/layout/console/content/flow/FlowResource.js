@@ -4,6 +4,7 @@ import {DimensionController} from "../../../../controllers/DimensionController";
 import FlowDashboardContent from "./components/latest/FlowDashboardContent";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {MemberClient} from "../../../../clients/MemberClient";
+import UtilRenderer from "../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the flow content
@@ -31,7 +32,10 @@ export default class FlowResource extends Component {
       RendererControllerFactory.Views.RESOURCES
     );
 
-    ChartClient.chartLatestWeek(
+    let timezoneOffset = UtilRenderer.getTimezoneOffset();
+    console.log("Timezone offset = "+timezoneOffset);
+
+    ChartClient.chartLatestWeek(timezoneOffset,
       this,
       (arg) => {
         if (!arg.error) {
@@ -44,6 +48,7 @@ export default class FlowResource extends Component {
       }
     );
   }
+
 
 
   onClickDayBox = (weekCoords, dayCoords) => {

@@ -524,6 +524,15 @@ export default class UtilRenderer {
   }
 
   /**
+   * Returns the integer offset corresponding to the local timezone adjustment
+   * from UTC in number of hours
+   */
+  static getTimezoneOffset() {
+    const date = new Date();
+    return Math.round(date.getTimezoneOffset() / 60);
+  }
+
+  /**
    * gets the browser resource from a given request
    * @param request
    * @returns {{action: string, uriArr: string[], uri: string}}
