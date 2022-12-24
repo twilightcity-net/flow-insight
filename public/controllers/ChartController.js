@@ -1290,9 +1290,11 @@ module.exports = class ChartController extends (
         ChartController.Paths.FRICTION +
         ChartController.Paths.LATEST;
 
+    urn += "?timezone_offset=" +timezoneOffset;
+
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
-      {timezoneOffset: timezoneOffset},
+      {},
       ChartController.Names.CHART_LATEST_WEEK,
       ChartController.Types.GET,
       urn,
@@ -1434,9 +1436,11 @@ module.exports = class ChartController extends (
 
     urn += "?gt_exp=" + gtCoords;
 
+    urn += "&timezone_offset=" +timezoneOffset;
+
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
-      {timezoneOffset: timezoneOffset},
+      {},
       ChartController.Names.CHART_DAY,
       ChartController.Types.GET,
       urn,
