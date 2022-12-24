@@ -512,7 +512,7 @@ export default class FlowMap extends Component {
 
       if (FeatureToggle.isNeoMode) {
         html +=
-          "<hr class='rule'/><div class='gtcoords'>" +
+          "<br/><div class='gtcoords'>" +
           coords +
           "</div>";
       }
@@ -637,7 +637,7 @@ export default class FlowMap extends Component {
         friendlyDuration = UtilRenderer.convertSecondsToFriendlyDuration(seconds);
         html = "<div class='databreak'>Break " + friendlyDuration + "</div>";
       }
-      
+
       let taskSwitch = taskSwitchMap.get(d[0].trim());
       if (taskSwitch) {
         html +=
