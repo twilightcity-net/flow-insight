@@ -15,7 +15,8 @@ export default class FlowDashboardContent extends Component {
     super(props);
     this.name = "[" + FlowDashboardContent.name + "]";
     this.state = {
-      dayCoords: null
+      dayCoords: null,
+      selectedDay: null
     };
   }
 
@@ -32,6 +33,12 @@ export default class FlowDashboardContent extends Component {
    */
   onClickDayBox = (dayCoords) => {
     const weekCoords = this.createWeekCoordsFromDayCoords(dayCoords);
+
+    this.lastDayClick = window.performance.now();
+
+    this.setState({
+      selectedDay: dayCoords
+    });
 
     this.props.onClickDayBox(weekCoords, dayCoords);
   }
@@ -64,9 +71,17 @@ export default class FlowDashboardContent extends Component {
   createWeekCoordsFromDayCoords(dayCoords) {
     const parts = dayCoords.split(',');
     let weekCoords = parts[0] + ',' + parts[1] + ',' + parts[2] + ']';
-    console.log(weekCoords);
-
     return weekCoords;
+  }
+
+  onClickPage = () => {
+    const now = window.performance.now();
+    if (this.lastDayClick != null && Math.abs(this.lastDayClick - now) > 1000) {
+      this.lastDayClick = null;
+      this.setState({
+        selectedDay: null
+      });
+    }
   }
 
   /**
@@ -86,19 +101,21 @@ export default class FlowDashboardContent extends Component {
 
     if (this.props.chartDto) {
       flowContent = (
-        <div className="flowContentWrapper">
+        <div className="flowContentWrapper" onClick={this.onClickPage}>
           <div className="chartWrapper" style={{width: chartWidth + "px"}}>
             <FlowWeekChart
               chartDto={this.props.chartDto}
               onHoverDayBox={this.onHoverDayBox}
               onHoverOffDayBox={this.onHoverOffDayBox}
               onClickDayBox={this.onClickDayBox}
+              selectedDay={this.state.selectedDay}
             />
           </div>
           <div className="metricsWrapper" style={{width: remainingWidth + "px"}}>
             <FlowMetrics
               chartDto={this.props.chartDto}
               dayCoords={this.state.dayCoords}
+              selectedDay={this.state.selectedDay}
               />
           </div>
         </div>

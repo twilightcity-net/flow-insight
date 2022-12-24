@@ -28,6 +28,18 @@ export default class FlowWeekChart extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.selectedDay && (!this.props.selectedDay || prevProps.selectedDay !== this.props.selectedDay)) {
+      let box = document.getElementById(prevProps.selectedDay + "-box");
+      box.classList.remove("boxHighlight");
+    }
+
+    if (this.props.selectedDay) {
+      let box = document.getElementById(this.props.selectedDay + "-box");
+      box.classList.add("boxHighlight");
+    }
+  }
+
   /**
    * Display the latest week chart on the screen
    * @param chart
@@ -393,12 +405,13 @@ export default class FlowWeekChart extends Component {
         //TODO handle selected box
         let box = document.getElementById(d.coords + "-box");
         box.classList.remove("boxHighlight");
-        
+
         that.onHoverOffDayBox(d.coords);
       })
       .on("click", function (event, d) {
         that.onClickDayBox(d.coords);
       });
+
   }
 
   drawOverlayStrokeBoxes(dailyRows, chartGroup) {
@@ -461,13 +474,11 @@ export default class FlowWeekChart extends Component {
       .on("mouseover", function (event, d) {
         let box = document.getElementById(d.coords + "-box");
         box.classList.add("boxHighlight");
-
       })
       .on("mouseout", function (event, d) {
         //TODO handle selected box
         let box = document.getElementById(d.coords + "-box");
         box.classList.remove("boxHighlight");
-
       })
       .on("click", function (event, d) {
         that.onClickDayBox(d.coords);
@@ -511,6 +522,7 @@ export default class FlowWeekChart extends Component {
    * @returns {*}
    */
   render() {
+
     return (
       <div id="chart" />
     );

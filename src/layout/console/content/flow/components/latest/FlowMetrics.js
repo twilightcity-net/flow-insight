@@ -23,8 +23,6 @@ export default class FlowMetrics extends Component {
 
     if (this.props.chartDto) {
       let ttmModel = this.calculateTtmModel(this.props.chartDto);
-      console.log("Weekly Ttm Calcs: ");
-      console.log(ttmModel);
 
       if (ttmModel) {
         this.setState({
@@ -37,25 +35,40 @@ export default class FlowMetrics extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if ((!prevProps.dayCoords && this.props.dayCoords)
+    if ((!prevProps.selectedDay && this.props.selectedDay) ||
+      (prevProps.selectedDay && this.props.selectedDay
+      && prevProps.selectedDay !== this.props.selectedDay)) {
+      this.setActiveTtmsToDayCoords(this.props.selectedDay);
+    } else if ((!prevProps.dayCoords && this.props.dayCoords)
       || (this.props.dayCoords && prevProps.dayCoords && prevProps.dayCoords !== this.props.dayCoords)) {
 
-      this.setState((prevState) => {
-        let dayTtms = prevState.ttmModel.dailyTtms[this.props.dayCoords];
-        return {
-          activeTtms: dayTtms
-        }
-      });
-    } else if (prevProps.dayCoords && !this.props.dayCoords) {
-      this.setState((prevState) => {
-        return {
-          activeTtms: prevState.ttmModel.weeklyTtms
-        }
-      });
+      this.setActiveTtmsToDayCoords(this.props.dayCoords)
+
+    } else if ((!this.props.selectedDay && prevProps.dayCoords && !this.props.dayCoords)
+      || (prevProps.selectedDay && !this.props.selectedDay)) {
+      this.setActiveTtmsWeeklyCoords();
+    } else if (this.props.selectedDay && prevProps.dayCoords && !this.props.dayCoords) {
+      this.setActiveTtmsToDayCoords(this.props.selectedDay);
     }
 
   }
 
+  setActiveTtmsToDayCoords(dayCoords) {
+    this.setState((prevState) => {
+      let dayTtms = prevState.ttmModel.dailyTtms[dayCoords];
+      return {
+        activeTtms: dayTtms
+      }
+    });
+  }
+
+  setActiveTtmsWeeklyCoords() {
+    this.setState((prevState) => {
+      return {
+        activeTtms: prevState.ttmModel.weeklyTtms
+      }
+    });
+  }
 
   /**
    * Calculate the ttm values for a specific day
