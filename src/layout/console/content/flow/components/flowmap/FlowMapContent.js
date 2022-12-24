@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DimensionController } from "../../../../../../controllers/DimensionController";
 import FlowIntentionsList from "./FlowIntentionsList";
-import FlowChart from "./FlowChart";
+import FlowMap from "./FlowMap";
 import { CircuitClient } from "../../../../../../clients/CircuitClient";
 import { TalkToClient } from "../../../../../../clients/TalkToClient";
 import FlowTroubleshootingFeed from "./FlowTroubleshootingFeed";
@@ -10,16 +10,16 @@ import ChartView from "../../../../../../views/ChartView";
 import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
- * this component handles the main flow content for the /flow view
+ * this component handles the main flow content for the flow map popup view
  */
-export default class FlowContent extends Component {
+export default class FlowMapContent extends Component {
   /**
    * the constructor function which builds the FlowContent component
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[" + FlowContent.name + "]";
+    this.name = "[" + FlowMapContent.name + "]";
     this.state = {
       cursorOffset: null,
       selectedOffset: null,
@@ -166,13 +166,12 @@ export default class FlowContent extends Component {
 
       flowContent = (
         <div className="flowContentWrapper">
-          <FlowChart
+          <FlowMap
             title={title}
             selectedCircuitName={selectedCircuitName}
             chartDto={this.props.chartDto}
             cursorOffset={this.state.cursorOffset}
             selectedOffset={this.state.selectedOffset}
-            hasRoomForClose={this.props.hasRoomForClose}
             onCircuitClick={this.onCircuitClick}
             onClickOffCircuit={this.onClickOffCircuit}
           />

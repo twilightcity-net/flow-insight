@@ -7,14 +7,14 @@ import FeatureToggle from "../../../../../shared/FeatureToggle";
 /**
  * this is the gui component that displays the IFM chart
  */
-export default class FlowChart extends Component {
+export default class FlowMap extends Component {
   /**
    * builds the IFM chart
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FlowChart]";
+    this.name = "[FlowMap]";
   }
 
   static CONFUSION = "confusion";
@@ -132,10 +132,6 @@ export default class FlowChart extends Component {
     this.browserBarHeightAdjust = DimensionController.getBrowserBarHeight();
 
     this.legendOffsetForCloseAction = 0;
-
-    if (this.props.hasRoomForClose) {
-      this.legendOffsetForCloseAction = 30;
-    }
 
     this.width = DimensionController.getFullRightPanelWidth();
 
@@ -371,7 +367,7 @@ export default class FlowChart extends Component {
   createBars(chartGroup, data, interp) {
     var colorScale = d3
       .scaleOrdinal()
-      .domain([FlowChart.CONFUSION, FlowChart.MOMENTUM])
+      .domain([FlowMap.CONFUSION, FlowMap.MOMENTUM])
       .range(["#FF2C36", "#7846FB"]);
 
     let mScale = d3
@@ -381,11 +377,11 @@ export default class FlowChart extends Component {
 
     let stackGen = d3
       .stack()
-      .keys([FlowChart.CONFUSION, FlowChart.MOMENTUM])
+      .keys([FlowMap.CONFUSION, FlowMap.MOMENTUM])
       .value(function (d, key) {
-        if (key === FlowChart.CONFUSION) {
+        if (key === FlowMap.CONFUSION) {
           return parseInt(d[4], 10);
-        } else if (key === FlowChart.MOMENTUM) {
+        } else if (key === FlowMap.MOMENTUM) {
           return 100 - parseInt(d[4], 10);
         }
         return 0;
@@ -431,7 +427,7 @@ export default class FlowChart extends Component {
     chartGroup
       .selectAll(".confusion rect")
       .attr("fill", (d) => {
-        return colorScale(FlowChart.CONFUSION);
+        return colorScale(FlowMap.CONFUSION);
       });
 
     return bars;
@@ -458,6 +454,7 @@ export default class FlowChart extends Component {
       let html = "";
 
       let coords = d.data[0].trim();
+      let date = UtilRenderer.getSimpleDateTimeFromUtc(d.data[1].trim());
       let offset =
         that.xScale(parseInt(d.data[3], 10)) +
         that.lookupBarWidth(
@@ -507,6 +504,12 @@ export default class FlowChart extends Component {
       if (!wtfs && !files) {
         html += "<span class='noactivity'>No file activity</span>";
       }
+
+      html +=
+        "<hr class='rule'/><div class='gtcoords'>" +
+        date +
+        "</div>";
+
       if (FeatureToggle.isNeoMode) {
         html +=
           "<hr class='rule'/><div class='gtcoords'>" +
@@ -629,22 +632,17 @@ export default class FlowChart extends Component {
       let friendlyDuration = "";
       let seconds = parseInt(d[3], 10);
 
+      let html = "";
       if (seconds > 0) {
         friendlyDuration = UtilRenderer.convertSecondsToFriendlyDuration(seconds);
+        html = "<div class='databreak'>Break " + friendlyDuration + "</div>";
       }
-
-      let html =
-        "<div class='databreak'>Break " +
-        friendlyDuration +
-        "</div>";
-
+      
       let taskSwitch = taskSwitchMap.get(d[0].trim());
       if (taskSwitch) {
-        html =
+        html +=
           "<div class='databreak'><b>Task switch to " +
           taskSwitch.taskName +
-          " " +
-          friendlyDuration +
           "</b></div>";
         html +=
           "<div class='databreak'>" +
@@ -1546,9 +1544,9 @@ export default class FlowChart extends Component {
     let red = parseInt(d[3], 10);
 
     if (red > 0) {
-      return FlowChart.RED_TEST_COLOR;
+      return FlowMap.RED_TEST_COLOR;
     } else {
-      return FlowChart.GREEN_TEST_COLOR;
+      return FlowMap.GREEN_TEST_COLOR;
     }
   }
 
@@ -1566,9 +1564,9 @@ export default class FlowChart extends Component {
       green > red ||
       (green > 0 && !this.hasThirdDot(d))
     ) {
-      return FlowChart.GREEN_TEST_COLOR;
+      return FlowMap.GREEN_TEST_COLOR;
     } else {
-      return FlowChart.RED_TEST_COLOR;
+      return FlowMap.RED_TEST_COLOR;
     }
   }
 
@@ -1582,9 +1580,9 @@ export default class FlowChart extends Component {
     let green = parseInt(d[4], 10);
 
     if (green > 0) {
-      return FlowChart.GREEN_TEST_COLOR;
+      return FlowMap.GREEN_TEST_COLOR;
     } else {
-      return FlowChart.RED_TEST_COLOR;
+      return FlowMap.RED_TEST_COLOR;
     }
   }
 

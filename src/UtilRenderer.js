@@ -61,6 +61,16 @@ export default class UtilRenderer {
   }
 
   /**
+   * With a UTC dateStr convert to local time and then format
+   * @param dateStr
+   * @returns {string}
+   */
+  static getSimpleDateTimeFromUtc(dateStr) {
+    let localTime  = moment.utc(dateStr).toDate();
+    return moment(localTime).format('MMM D HH:mm A');
+  }
+
+  /**
    * checks if an object is empty but not null
    * @param obj
    * @returns {boolean|boolean}

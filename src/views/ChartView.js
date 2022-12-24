@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ChartClient } from "../clients/ChartClient";
-import FlowContent from "../layout/console/content/flow/components/flowmap/FlowContent";
+import FlowMapContent from "../layout/console/content/flow/components/flowmap/FlowMapContent";
 import { Icon } from "semantic-ui-react";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { CircuitClient } from "../clients/CircuitClient";
@@ -181,7 +181,7 @@ export default class ChartView extends Component {
         </div>
         <div id="component" className="flowLayout">
           <div id="wrapper" className="flowContent">
-            <FlowContent
+            <FlowMapContent
               selectedCircuitName={
                 this.props.routeProps.circuitName
               }
