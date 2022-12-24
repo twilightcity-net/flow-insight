@@ -65,7 +65,8 @@ export default class ChartView extends Component {
   }
 
   onFeatureToggleRefresh() {
-    FeatureToggleClient.refreshToggles();
+    //TODO can we get the state without a refresh?  This goes into an infinite loop
+    //FeatureToggleClient.refreshToggles();
   }
 
   loadChartFromCircuit(circuitName) {
