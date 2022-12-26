@@ -104,6 +104,9 @@ export default class ChatInput extends Component {
     this.setState({
       chatValue: event.target.value,
     });
+    //whenever the text changes, trigger the onTyping handler which will reset the timeout
+    //for collapsing the window
+    this.props.onTyping();
   };
 
   /**

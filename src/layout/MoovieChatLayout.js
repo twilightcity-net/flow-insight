@@ -904,7 +904,7 @@ export default class MoovieChatLayout extends Component {
                        onRestartMoovie={this.onRestartMoovie}
                        onMontyExit={this.onMontyExit}/>
           <ChatInput isConsoleOpen={this.props.isConsoleOpen} onEnterKey={this.onEnterKey}
-                     onOpenEmojiPicker={this.onOpenEmojiPicker}/>
+                     onOpenEmojiPicker={this.onOpenEmojiPicker} onTyping={this.props.onTyping}/>
         </div>
       </div>
     );

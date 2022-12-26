@@ -213,6 +213,10 @@ export default class MoovieView extends Component {
     });
   }
 
+  onTyping = () => {
+    this.resetTimeoutForClosingPeekWindow();
+  }
+
   onMessageSlideWindow = () => {
     console.log("onMessage peek window!");
 
@@ -315,6 +319,7 @@ export default class MoovieView extends Component {
           onClickMonty={this.onClickMonty}
           onMontyExit={this.onMontyExit}
           showPeekView={this.state.showPeekView}
+          onTyping={this.onTyping}
           onMessageSlideWindow={this.onMessageSlideWindow}
           onActivateFullChatWindow={this.onActivateFullChatWindow}/>
       </div>
