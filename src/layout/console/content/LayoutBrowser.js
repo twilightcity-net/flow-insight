@@ -153,8 +153,7 @@ export default class LayoutBrowser extends Component {
       );
     } else {
       return BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.COMMAND,
-        BrowserRequestFactory.Commands.WTF
+        BrowserRequestFactory.Requests.FLOW,
       );
     }
   }
