@@ -157,7 +157,11 @@ export default class FlowMetrics extends Component {
      const avgTtm = Math.round(this.state.activeTtms.ttmSum / this.state.activeTtms.ttmCount);
 
      ttmMins = avgTtm + " min";
-     lfsMins = this.state.activeTtms.lfs + " min";
+
+     if (this.state.activeTtms.lfs) {  //lfs can be null if the streak is in progress
+       lfsMins = this.state.activeTtms.lfs + " min";
+     }
+
    }
 
     return (
