@@ -146,9 +146,26 @@ export default class LayoutBrowser extends Component {
    * Get the default page request for the FlowInsight app
    */
   getDefaultFlowInsightPageRequest() {
-    return BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.FLOW,
-    );
+    if (FeatureToggle.isMetricsEnabled) {
+      return BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.FLOW,
+      );
+    } else {
+      if (FeatureToggle.isJournalEnabled) {
+        return BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          "me"
+        );
+      } else {
+        return BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.COMMAND,
+          BrowserRequestFactory.Commands.WTF
+        );
+      }
+    }
+
+
+
   }
 
   /**
