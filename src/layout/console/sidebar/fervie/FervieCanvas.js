@@ -71,7 +71,7 @@ export default class FervieCanvas extends Component {
     return (
       <svg
         id="FervieCanvas"
-        preserveAspectRatio="none"
+        preserveAspectRatio="xMinYMin meet"
         x="0px"
         y="0px"
         width="430px"
