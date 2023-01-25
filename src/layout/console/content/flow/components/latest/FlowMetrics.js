@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
  * this is the gui component that displays the metrics side panel on the flow dashboard
@@ -15,7 +16,6 @@ export default class FlowMetrics extends Component {
     };
   }
 
-
   /**
    * Initially when we get the first set of props, display our metrics
    */
@@ -25,13 +25,32 @@ export default class FlowMetrics extends Component {
       let ttmModel = this.calculateTtmModel(this.props.chartDto);
 
       if (ttmModel) {
+        let today = this.findTodayCoords(this.props.chartDto);
         this.setState({
           activeTtms: ttmModel.weeklyTtms,
-          ttmModel: ttmModel
+          ttmModel: ttmModel,
+          todayCoords: today
         });
       }
     }
+  }
 
+  findTodayCoords(chartDto) {
+    let todayDate = UtilRenderer.getTodayDate();
+
+    if (chartDto) {
+      let rows = chartDto.chartSeries.rowsOfPaddedCells;
+
+      for (let row of rows) {
+        let columnDateStr = row[1].trim();
+        let columnDate = UtilRenderer.getSimpleDateFromLocalTimeStr(columnDateStr);
+        if (columnDate === todayDate) {
+          return row[0].trim();
+        }
+      }
+    }
+
+    return null;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -56,8 +75,14 @@ export default class FlowMetrics extends Component {
   setActiveTtmsToDayCoords(dayCoords) {
     this.setState((prevState) => {
       let dayTtms = prevState.ttmModel.dailyTtms[dayCoords];
-      return {
-        activeTtms: dayTtms
+      if (prevState.todayCoords && dayCoords !== prevState.todayCoords) {
+        return {
+          activeTtms: dayTtms
+        }
+      } else {
+        return {
+          activeTtms: null
+        }
       }
     });
   }

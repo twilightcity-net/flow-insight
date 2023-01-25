@@ -71,6 +71,23 @@ export default class UtilRenderer {
   }
 
   /**
+   * With a localtime dateStr format has month day
+   * @param dateStr
+   * @returns {string}
+   */
+  static getSimpleDateFromLocalTimeStr(dateStr) {
+    return moment(dateStr).format('MMM D');
+  }
+
+  /**
+   * Get todays date as month day
+   * @returns {string}
+   */
+  static getTodayDate() {
+     return moment().format("MMM D");
+  }
+
+  /**
    * checks if an object is empty but not null
    * @param obj
    * @returns {boolean|boolean}

@@ -126,13 +126,7 @@ export default class LayoutBrowser extends Component {
     let defaultRequest;
 
     if (FeatureToggle.isFlowInsightApp()) {
-      if (FeatureToggle.isToolsExtensionEnabled) {
-        defaultRequest = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.TOOLS
-        );
-      } else {
-        defaultRequest = this.getDefaultFlowInsightPageRequest();
-      }
+      defaultRequest = this.getDefaultFlowInsightPageRequest();
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.MOOVIE
@@ -146,26 +140,17 @@ export default class LayoutBrowser extends Component {
    * Get the default page request for the FlowInsight app
    */
   getDefaultFlowInsightPageRequest() {
-    if (FeatureToggle.isMetricsEnabled) {
+    if (FeatureToggle.isJournalEnabled) {
       return BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.FLOW,
+        BrowserRequestFactory.Requests.JOURNAL,
+        "me"
       );
     } else {
-      if (FeatureToggle.isJournalEnabled) {
-        return BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          "me"
-        );
-      } else {
-        return BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.COMMAND,
-          BrowserRequestFactory.Commands.WTF
-        );
-      }
+      return BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.COMMAND,
+        BrowserRequestFactory.Commands.WTF
+      );
     }
-
-
-
   }
 
   /**

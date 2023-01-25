@@ -344,7 +344,9 @@ export default class FlowWeekChart extends Component {
       .data(dailyRows)
       .enter()
       .append("rect")
-      .attr("id", (d) => d.coords)
+      .attr("id", (d) => {
+        return d.coords;
+      })
       .attr(
         "x",
         (d) => this.getXOffsetForDayIndex(d.dayIndex)
