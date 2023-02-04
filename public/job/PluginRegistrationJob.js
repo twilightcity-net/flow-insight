@@ -4,18 +4,17 @@ const log = require("electron-log"),
 path = require("path");
 
 const Util = require("../Util");
-const EventFactory = require("../events/EventFactory");
-const {DtoClient} = require("./DtoClientFactory");
-const WindowManagerHelper = require("./WindowManagerHelper");
+const {DtoClient} = require("../managers/DtoClientFactory");
+const WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /**
  * This class is used to manage the plugins in the ~/.flow/plugins
  * directory, register the plugins, and manage sending data to the server via the flow publisher
- * @type {PluginManager}
+ * @type {PluginRegistrationJob}
  */
-module.exports = class PluginManager {
+module.exports = class PluginRegistrationJob {
   constructor() {
-    this.name = "[PluginManager]";
+    this.name = "[PluginRegistrationJob]";
     this.pluginFolders = [];
     this.registeredPluginFolders = [];
 
@@ -41,7 +40,7 @@ module.exports = class PluginManager {
         if (!store.error) {
           const plugins = store.data;
           plugins.forEach(plugin => {
-            log.debug("[PluginManager] Found registered plugin "+plugin.pluginId);
+            log.debug(this.name + " Found registered plugin "+plugin.pluginId);
             this.registeredPluginSet.add(plugin.pluginId);
           });
           this.checkForUnregisteredPluginsAndSendEvent();
@@ -49,7 +48,7 @@ module.exports = class PluginManager {
             callbackWhenDone();
           }
         } else {
-          log.error("Error occurred getting registered plugin list: "+store.error);
+          log.error(this.name + " Error occurred getting registered plugin list: "+store.error);
         }
       });
     });
@@ -81,7 +80,7 @@ module.exports = class PluginManager {
 
     this.pluginFolders.forEach(pluginId => {
        if (!this.registeredPluginSet.has(pluginId)) {
-         log.debug("[PluginManager] Found unregistered plugin: "+pluginId);
+         log.debug(this.name+" Found unregistered plugin: "+pluginId);
          unregisteredPluginsList.push(pluginId);
        } else {
          registeredPluginsList.push(pluginId);
@@ -103,7 +102,7 @@ module.exports = class PluginManager {
    * @param unregisteredPluginIds
    */
   onUnregisteredPlugins = (unregisteredPluginIds) => {
-    log.info("[PluginManager] Opening registration requests for unregistered plugins ");
+    log.info(this.name +" Opening registration requests for unregistered plugins ");
 
     let pluginConcatStr = "";
     unregisteredPluginIds.forEach((pluginId) => {
@@ -124,13 +123,13 @@ module.exports = class PluginManager {
    * @param callback
    */
   doGetRegisteredPluginList(callback) {
-    log.info("[PluginManager] do get registered plugin list");
+    log.info(this.name + " do get registered plugin list");
 
     this.urn = "/account/plugin/registration";
 
     this.callback = callback;
     this.store = {
-      context: "PluginManager",
+      context: "PluginRegistrationJob",
       dto: {},
       guid: Util.getGuid(),
       name: "PluginStore",
@@ -138,7 +137,7 @@ module.exports = class PluginManager {
       timestamp: new Date().getTime(),
       urn: this.urn,
     };
-    log.debug("[PluginManager] get registered plugins -> do request");
+    log.debug(this.name+" get registered plugins -> do request");
     let client = new DtoClient(this.store, this.callback);
     client.doRequest();
   }

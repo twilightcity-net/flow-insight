@@ -1,20 +1,19 @@
-const CodeController = require("../controllers/CodeController"),
-  log = require("electron-log");
+const log = require("electron-log");
 const Util = require("../Util");
 const path = require("path");
 const fs = require("fs");
-const {DtoClient} = require("./DtoClientFactory");
-const WindowManagerHelper = require("./WindowManagerHelper");
+const {DtoClient} = require("../managers/DtoClientFactory");
+const WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /**
  * managing class for the code client
  */
-module.exports = class CodeModuleConfigManager {
+module.exports = class CodeModuleConfigJob {
   /**
    * builds the code manager for the global app scope
    */
   constructor() {
-    this.name = "[CodeModuleConfigManager]";
+    this.name = "[CodeModuleConfigJob]";
     this.moduleRoots = new Map();
     this.configuredModuleNames = new Set();
   }
@@ -49,7 +48,7 @@ module.exports = class CodeModuleConfigManager {
   parseLastLocationFile(filePath, callback) {
     fs.readFile(filePath, "utf8", (err, jsonString) => {
       if (err) {
-        log.error("[CodeModuleConfigManager] File read failed for "+filePath+ ": " + err);
+        log.error("[CodeModuleConfigJob] File read failed for "+filePath+ ": " + err);
         callback(null);
       } else {
         const rawConfig = JSON.parse(jsonString);
@@ -66,13 +65,13 @@ module.exports = class CodeModuleConfigManager {
    */
   findLastLocationFile(callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
-    let plugins = global.App.PluginManager.getRegisteredPluginList();
+    let plugins = global.App.PluginRegistrationJob.getRegisteredPluginList();
 
     const lastLocationFilesFound = [];
 
     plugins.forEach((pluginId) => {
       const pluginFolder = path.join(allPluginsFolder, pluginId);
-      const lastLocationFile = path.join(pluginFolder, CodeModuleConfigManager.LAST_LOCATION_FILE);
+      const lastLocationFile = path.join(pluginFolder, CodeModuleConfigJob.LAST_LOCATION_FILE);
       if (fs.existsSync(lastLocationFile)) {
         lastLocationFilesFound.push(lastLocationFile);
       }
@@ -123,10 +122,10 @@ module.exports = class CodeModuleConfigManager {
     plugins.forEach((pluginId) => {
       //do stuff
       const pluginFolder = path.join(allPluginsFolder, pluginId);
-      const configFile = path.join(pluginFolder, CodeModuleConfigManager.MODULE_CONFIG_FILE);
+      const configFile = path.join(pluginFolder, CodeModuleConfigJob.MODULE_CONFIG_FILE);
 
       this.readModuleRootsFromConfigFile(configFile, (moduleRoots) => {
-        log.debug("[CodeModuleConfigManager] Found "+moduleRoots.length + " roots in "+pluginId);
+        log.debug("[CodeModuleConfigJob] Found "+moduleRoots.length + " roots in "+pluginId);
         moduleRoots.forEach((moduleRoot) => {
           //make sure we don't save any blank entries
           if (moduleRoot.moduleName && moduleRoot.rootDir) {
@@ -169,11 +168,11 @@ module.exports = class CodeModuleConfigManager {
 
     this.moduleRoots.forEach((config, moduleNameKey) => {
       const moduleRootDir = config.rootDir;
-      const moduleConfigFile = path.join(moduleRootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
+      const moduleConfigFile = path.join(moduleRootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
 
       if (fs.existsSync(moduleConfigFile)) {
         if (!this.configuredModuleNames.has(moduleNameKey)) {
-          console.log("Found module config not loaded to server, requesting load: "+moduleNameKey);
+          log.debug(this.name +" Found module config not loaded to server, requesting load: "+moduleNameKey);
           listOfModulesToConfigure.push(moduleNameKey);
         }
       }
@@ -193,7 +192,7 @@ module.exports = class CodeModuleConfigManager {
   getModuleConfigFileForModule(moduleName) {
      const config = this.moduleRoots.get(moduleName);
      if (config) {
-       return path.join(config.rootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
+       return path.join(config.rootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
      } else {
        return null;
      }
@@ -222,10 +221,10 @@ module.exports = class CodeModuleConfigManager {
       const config = this.moduleRoots.get(moduleName);
       if (config && config.rootDir) {
         if (configFileConcatStr.length === 0) {
-          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
+          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
         } else {
           configFileConcatStr += "|";
-          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigManager.MODULE_CONFIG_FILE);
+          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
         }
       }
     });
@@ -243,11 +242,11 @@ module.exports = class CodeModuleConfigManager {
    * @param callback
    */
   parseModuleConfigFile(moduleName, moduleConfigFile, callback) {
-    log.debug("[CodeModuleConfigManager] Parse module config file: "+moduleConfigFile);
+    log.debug(this.name + " Parse module config file: "+moduleConfigFile);
 
     fs.readFile(moduleConfigFile, "utf8", (err, jsonString) => {
       if (err) {
-        log.error("[CodeModuleConfigManager] File read failed for "+moduleName+ ": " + err);
+        log.error( "[CodeModuleConfigJob] File read failed for "+moduleName+ ": " + err);
         callback([]);
       } else {
         const moduleConfigs = this.extractModuleConfigInputs(moduleName, jsonString);
@@ -262,8 +261,6 @@ module.exports = class CodeModuleConfigManager {
    * @param jsonString
    */
   extractModuleConfigInputs(moduleName, jsonString) {
-    console.log("extractModuleConfigInputs");
-
     const rawConfigs = JSON.parse(jsonString);
     rawConfigs.boxes.forEach((boxConfig) => {
       boxConfig.module = moduleName;
@@ -283,7 +280,7 @@ module.exports = class CodeModuleConfigManager {
       moduleConfigs.rowsOfPaddedCells.forEach((row) => {
         this.configuredModuleNames.add(row[0].trim());
       });
-      log.debug("List of configured modules:");
+      log.debug(this.name +" List of configured modules:");
       log.debug(this.configuredModuleNames);
     } else {
       //no module configs from server
@@ -309,7 +306,7 @@ module.exports = class CodeModuleConfigManager {
    */
   writeOutTopLevelConfigFile(callback) {
     const flowHomePath = Util.getFlowHomePath();
-    const configFile = path.join(flowHomePath, CodeModuleConfigManager.MODULE_CONFIG_FILE);
+    const configFile = path.join(flowHomePath, CodeModuleConfigJob.MODULE_CONFIG_FILE);
 
     const config = {};
     config.modules = [];
@@ -322,9 +319,9 @@ module.exports = class CodeModuleConfigManager {
 
     fs.writeFile(configFile, jsonString, err => {
       if (err) {
-        log.error("[CodeModuleConfigManager] Error writing flowinsight-config file: "+err);
+        log.error("[CodeModuleConfigJob] Error writing flowinsight-config file: "+err);
       } else {
-        log.debug('[CodeModuleConfigManager] Successfully wrote flowinsight-config file');
+        log.debug('[CodeModuleConfigJob] Successfully wrote flowinsight-config file');
       }
       callback();
     });
@@ -340,11 +337,11 @@ module.exports = class CodeModuleConfigManager {
   readModuleRootsFromConfigFile(configFile, callback) {
     if (fs.existsSync(configFile)) {
 
-      log.debug("[CodeModuleConfigManager] Config file found: "+configFile);
+      log.debug(this.name +" Config file found: "+configFile);
 
       fs.readFile(configFile, "utf8", (err, jsonString) => {
         if (err) {
-          log.error("[CodeModuleConfigManager] File read failed: " + err);
+          log.error("[CodeModuleConfigJob] File read failed: " + err);
           callback([]);
         } else {
           const moduleRoots = this.extractModuleRoots(jsonString);
@@ -377,7 +374,7 @@ module.exports = class CodeModuleConfigManager {
   getAllModuleConfigsFromServer(callback) {
     this.doGetAllModuleConfigs((store) => {
       if (store.error) {
-        console.error("[CodeModuleConfigManager] Unable to retrieve module configs: "+store.error);
+        console.error(this.name + " Unable to retrieve module configs: "+store.error);
         callback(null);
       } else {
         callback(store.data);
@@ -394,7 +391,7 @@ module.exports = class CodeModuleConfigManager {
 
     this.callback = callback;
     this.store = {
-      context: "CodeModuleConfigManager",
+      context: "CodeModuleConfigJob",
       dto: {},
       guid: Util.getGuid(),
       name: "CodeModuleConfigStore",
@@ -402,7 +399,7 @@ module.exports = class CodeModuleConfigManager {
       timestamp: new Date().getTime(),
       urn: this.urn,
     };
-    log.debug("[CodeModuleConfigManager] get all code modules -> do request");
+    log.debug(this.name + " get all code modules -> do request");
     let client = new DtoClient(this.store, this.callback);
     client.doRequest();
   }

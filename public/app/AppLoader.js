@@ -245,7 +245,7 @@ module.exports = class AppLoader {
       this.showFervieWindow();
 
       global.App.AppHeartbeat.start();
-      global.App.AppFlowPublisher.start();
+      global.App.AppFlowPublisherJob.start();
       global.App.ShortcutManager.enableGlobalShortcuts();
 
       log.info("[AppLoader] finished loading -> okay");

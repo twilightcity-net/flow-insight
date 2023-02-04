@@ -6,7 +6,7 @@ const log = require("electron-log"),
   path = require("path");
 
 const Util = require("../Util");
-const {DtoClient} = require("./DtoClientFactory");
+const {DtoClient} = require("../managers/DtoClientFactory");
 const NewEditorActivityDto = require("../dto/NewEditorActivityDto");
 const NewExternalActivityDto = require("../dto/NewExternalActivityDto");
 const NewExecutionActivityDto = require("../dto/NewExecutionActivityDto");
@@ -15,11 +15,11 @@ const NewFlowBatchEventDto = require("../dto/NewFlowBatchEventDto");
 
 /**
  * This class is used to publish the active.flow feeds for the plugins
- * @type {FeedManager}
+ * @type {FlowFeedProcessorJob}
  */
-module.exports = class FeedManager {
+module.exports = class FlowFeedProcessorJob {
   constructor() {
-    this.name = "[FeedManager]";
+    this.name = "[FlowFeedProcessorJob]";
   }
 
   static PREPROCESS_FOLDER = "preprocess";
@@ -56,7 +56,7 @@ module.exports = class FeedManager {
         try {
           this.handleParseLine(flowBatchObj, line);
         } catch (err) {
-          console.error("Unable to process line, "+err);
+          log.error("[FlowFeedProcessorJob] Unable to process line, "+err);
           lineError = err;
         }
 
@@ -64,7 +64,7 @@ module.exports = class FeedManager {
 
       await events.once(rl, 'close');
     } catch (err) {
-      console.error("Unable to process file: " + err);
+      log.error("[FlowFeedProcessorJob] Unable to process file: " + err);
     }
 
     if (lineError) {
@@ -85,19 +85,19 @@ module.exports = class FeedManager {
     let json = this.parseJsonObjectFromLine(line);
 
     switch (lineType) {
-      case FeedManager.EditorActivity:
+      case FlowFeedProcessorJob.EditorActivity:
         flowBatchObj.editorActivityList.push(json);
         break;
-      case FeedManager.ExternalActivity:
+      case FlowFeedProcessorJob.ExternalActivity:
         flowBatchObj.externalActivityList.push(json);
         break;
-      case FeedManager.ExecutionActivity:
+      case FlowFeedProcessorJob.ExecutionActivity:
         flowBatchObj.executionActivityList.push(json);
         break;
-      case FeedManager.ModificationActivity:
+      case FlowFeedProcessorJob.ModificationActivity:
         flowBatchObj.modificationActivityList.push(json);
         break;
-      case FeedManager.Event:
+      case FlowFeedProcessorJob.Event:
         flowBatchObj.eventList.push(json);
         break;
       default:
@@ -128,15 +128,15 @@ module.exports = class FeedManager {
     const jsonStr = line.substr(line.indexOf("=") + 1);
 
     switch (lineType) {
-      case FeedManager.EditorActivity:
+      case FlowFeedProcessorJob.EditorActivity:
         return new NewEditorActivityDto(jsonStr);
-      case FeedManager.ExternalActivity:
+      case FlowFeedProcessorJob.ExternalActivity:
         return new NewExternalActivityDto(jsonStr);
-      case FeedManager.ExecutionActivity:
+      case FlowFeedProcessorJob.ExecutionActivity:
         return new NewExecutionActivityDto(jsonStr);
-      case FeedManager.ModificationActivity:
+      case FlowFeedProcessorJob.ModificationActivity:
         return new NewModificationActivityDto(jsonStr);
-      case FeedManager.Event:
+      case FlowFeedProcessorJob.Event:
         return new NewFlowBatchEventDto(jsonStr);
       default:
         throw new Error("Unable to parse unknown event type = "+lineType);
@@ -152,19 +152,19 @@ module.exports = class FeedManager {
   cleanupOldPreprocessingState(pluginId, callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    const preprocessFolder = path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
+    const preprocessFolder = path.join(pluginFolder, FlowFeedProcessorJob.PREPROCESS_FOLDER);
 
     Util.createFolderIfDoesntExist(preprocessFolder, () => {
-      const preprocessedFlowFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
+      const preprocessedFlowFile = path.join(preprocessFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
       if (fs.existsSync(preprocessedFlowFile)) {
-        log.info("Reprocessing active.flow after last preprocess run crashed.");
+        log.info("[FlowFeedProcessorJob] Reprocessing active.flow after last preprocess run crashed.");
         this.reprocessPreprocessing(pluginId, preprocessFolder, preprocessedFlowFile, () => {
           if (callback) {
             callback();
           }
         });
       } else if (this.folderIsNotEmpty(preprocessFolder)) {
-        log.info("Reprocessing old flow batches after last preprocess run crashed.");
+        log.info("[FlowFeedProcessorJob] Reprocessing old flow batches after last preprocess run crashed.");
         this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
           if (callback) {
             callback();
@@ -221,7 +221,7 @@ module.exports = class FeedManager {
   commitActiveFlowFile(pluginId, callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    const preprocessFolder = path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
+    const preprocessFolder = path.join(pluginFolder, FlowFeedProcessorJob.PREPROCESS_FOLDER);
 
     Util.createFolderIfDoesntExist(preprocessFolder, () => {
       this.preprocessFile(pluginFolder, preprocessFolder, (preprocessFilePath) => {
@@ -246,7 +246,7 @@ module.exports = class FeedManager {
    */
   splitPreprocessFileAndMoveToPublishQueue(pluginId, preprocessFolder, preprocessFilePath, callback) {
     if (fs.existsSync(preprocessFilePath)) {
-      log.debug("[FeedManager] Splitting up active.flow into batches");
+      log.debug(this.name + " Splitting up active.flow into batches");
       this.asyncSplitFile(preprocessFolder, preprocessFilePath).then(() => {
         this.deletePreprocessInput(preprocessFolder, () => {
           this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
@@ -269,8 +269,8 @@ module.exports = class FeedManager {
    * @param callback
    */
   deletePreprocessInput(preprocessFolder, callback) {
-    log.debug("[FeedManager] Deleting preprocessed active.flow file");
-    const preprocessInputFile = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
+    log.debug(this.name + " Deleting preprocessed active.flow file");
+    const preprocessInputFile = path.join(preprocessFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
     this.deleteFile(preprocessInputFile, callback);
   }
 
@@ -283,7 +283,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, callback) {
-    log.debug("[FeedManager] Moving all preprocessed batches to publish queue");
+    log.debug(this.name + " Moving all preprocessed batches to publish queue");
     this.findAllBatchFilesInPreprocessing(preprocessFolder, (batchFiles) => {
       const queueFolder = this.getQueueFolder(pluginId);
 
@@ -324,7 +324,7 @@ module.exports = class FeedManager {
         try {
           lineCount++;
           this.writeLineToBatch(batchFileLogger, line);
-          if (lineCount > FeedManager.BATCH_SIZE_LIMIT) {
+          if (lineCount > FlowFeedProcessorJob.BATCH_SIZE_LIMIT) {
             batchNumber++;
             lineCount = 0;
             activeBatchFile = this.getBatchFileName(preprocessFolder, timeExtension, batchNumber);
@@ -333,13 +333,13 @@ module.exports = class FeedManager {
             });
           }
         } catch (err) {
-          console.error("Unable to process line, "+err);
+          console.error(this.name + " Unable to process line, "+err);
         }
       });
 
       await events.once(rl, 'close');
     } catch (err) {
-      console.error("Unable to pre-process file: " + err);
+      console.error(this.name + " Unable to pre-process file: " + err);
     }
   }
 
@@ -361,8 +361,8 @@ module.exports = class FeedManager {
    * @returns {string}
    */
   getBatchFileName(outputFolder, timeExtension, batchNumber) {
-    let filePath = path.join(outputFolder, FeedManager.BATCH_PREFIX +
-      timeExtension+"_"+batchNumber + FeedManager.FLOW_EXTENSION);
+    let filePath = path.join(outputFolder, FlowFeedProcessorJob.BATCH_PREFIX +
+      timeExtension+"_"+batchNumber + FlowFeedProcessorJob.FLOW_EXTENSION);
     return filePath;
   }
 
@@ -383,7 +383,7 @@ module.exports = class FeedManager {
     if (fs.existsSync(srcFilePath)) {
       fs.rename(srcFilePath, newPath, function (err) {
         if (err) throw err;
-        log.error('[FeedManager] Moved errored out flow file to '+newPath);
+        log.error('[FlowFeedProcessorJob] Moved errored out flow file to '+newPath);
         if (callback) {
           callback();
         }
@@ -403,13 +403,13 @@ module.exports = class FeedManager {
    * @param callback
    */
   preprocessFile(pluginFolder, preprocessFolder, callback) {
-    let oldPath = path.join(pluginFolder, FeedManager.ACTIVE_FLOW_FILE);
-    let newPath = path.join(preprocessFolder, FeedManager.ACTIVE_FLOW_FILE);
+    let oldPath = path.join(pluginFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
+    let newPath = path.join(preprocessFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
 
     if (fs.existsSync(oldPath)) {
       fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
-        log.debug('[FeedManager] Successfully moved file to preprocess '+newPath);
+        log.debug( '[FlowFeedProcessorJob] Successfully moved file to preprocess '+newPath);
         if (callback) {
           callback(newPath);
         }
@@ -436,13 +436,13 @@ module.exports = class FeedManager {
     if (fs.existsSync(oldPath)) {
       fs.rename(oldPath, newPath,  (err) => {
         if (err) throw err;
-        log.debug('[FeedManager] Successfully moved batch to publish queue '+fileName);
+        log.debug('[FlowFeedProcessorJob] Successfully moved batch to publish queue '+fileName);
         if (callback) {
           callback(newPath);
         }
       });
     } else {
-      log.warn("[FeedManager] preprocess file does not exist: "+oldPath);
+      log.warn(this.name + " preprocess file does not exist: "+oldPath);
       if (callback) {
         callback(newPath);
       }
@@ -466,7 +466,7 @@ module.exports = class FeedManager {
   getQueueFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FeedManager.PUBLISH_QUEUE_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessorJob.PUBLISH_QUEUE_FOLDER);
   }
 
   /**
@@ -477,7 +477,7 @@ module.exports = class FeedManager {
   getPreprocessFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FeedManager.PREPROCESS_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessorJob.PREPROCESS_FOLDER);
   }
 
   /**
@@ -488,7 +488,7 @@ module.exports = class FeedManager {
   getArchiveFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FeedManager.ARCHIVE_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessorJob.ARCHIVE_FOLDER);
   }
 
   /**
@@ -499,7 +499,7 @@ module.exports = class FeedManager {
   getErrorsFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FeedManager.ERRORS_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessorJob.ERRORS_FOLDER);
   }
 
 
@@ -515,7 +515,7 @@ module.exports = class FeedManager {
         batchFileList.forEach((file) => {
           const filePath = path.join(queueFolder, file);
 
-          log.info("[FeedManager] Publishing "+filePath);
+          log.info("[FlowFeedProcessorJob] Publishing "+filePath);
           const flowBatchDto = this.createEmptyFlowBatch();
 
           this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
@@ -555,7 +555,7 @@ module.exports = class FeedManager {
    * @param fileName
    */
   handleSuccessfulBatch(pluginId, filePath, fileName) {
-    log.info("[FeedManager] Sent 1 batch successfully for "+pluginId);
+    log.info(this.name +" Sent 1 batch successfully for "+pluginId);
 
     this.archiveFile(pluginId, filePath, fileName);
     //this.deleteFile(filePath);
@@ -588,7 +588,7 @@ module.exports = class FeedManager {
     if (fs.existsSync(srcFilePath)) {
       fs.rename(srcFilePath, newPath, (err) => {
         if (err) throw err;
-        log.info('[FeedManager] Archived flow file ' + srcFileName);
+        log.info('[FlowFeedProcessorJob] Archived flow file ' + srcFileName);
         if (callback) {
           callback();
         }
@@ -606,10 +606,10 @@ module.exports = class FeedManager {
    * @param callback
    */
   deleteFile(filePath, callback) {
-    log.debug("[FeedManager] Deleting old file: "+filePath);
+    log.debug(this.name + " Deleting old file: "+filePath);
     fs.unlink(filePath, (err) => {
       if (err) {
-        console.error(err)
+        log.error("[FlowFeedProcessorJob] " + err)
       }
       if (callback) {
         callback();
@@ -624,8 +624,8 @@ module.exports = class FeedManager {
    * @param file
    */
   handleFailedBatch(pluginId, file, error) {
-    log.error("[FeedManager] Call to server failed: "+error);
-    log.info("[FeedManager] Will retry on next loop");
+    log.error(this.name +" Call to server failed: "+error);
+    log.info(this.name +" Will retry on next loop");
   }
 
   /**
@@ -638,7 +638,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   handleParseFailure(pluginId, filePath, file, callback) {
-    console.error("[FeedManager] Failed to parse flow batch: "+filePath);
+    log.error(this.name +" Failed to parse flow batch: "+filePath);
 
     let errorsFolder = this.getErrorsFolder(pluginId);
 
@@ -677,8 +677,8 @@ module.exports = class FeedManager {
       fs.readdir(queueFolder, (err, files) => {
         files.forEach(file => {
           let filePath = path.join(queueFolder, file);
-          if (fs.statSync(filePath).isFile() && file.endsWith(FeedManager.FLOW_EXTENSION)){
-            log.debug("[FeedManager] found batch in publish queue: "+file);
+          if (fs.statSync(filePath).isFile() && file.endsWith(FlowFeedProcessorJob.FLOW_EXTENSION)){
+            log.debug("[FlowFeedProcessorJob] found batch in publish queue: "+file);
             batchFileList.push( file );
           }
         });
@@ -693,7 +693,7 @@ module.exports = class FeedManager {
    * @param callback
    */
   deleteOldArchiveFiles(pluginId, callback) {
-    log.info("[FeedManager] Cleaning up old archive files...");
+    log.debug(this.name + " Cleaning up old archive files for "+pluginId);
     let archiveFolder = this.getArchiveFolder(pluginId);
     Util.createFolderIfDoesntExist(archiveFolder, () => {
       const twoMonthsAgoDate = this.getTwoMonthsAgoDate();
@@ -702,8 +702,8 @@ module.exports = class FeedManager {
           let filePath = path.join(archiveFolder, file);
           let stats = fs.statSync(filePath);
           if (stats.isFile()
-            && file.endsWith(FeedManager.FLOW_EXTENSION)
-            && file.startsWith(FeedManager.BATCH_PREFIX)
+            && file.endsWith(FlowFeedProcessorJob.FLOW_EXTENSION)
+            && file.startsWith(FlowFeedProcessorJob.BATCH_PREFIX)
             && this.isOlderThanDate(twoMonthsAgoDate, stats.birthtime) ){
             this.deleteFile(filePath);
           }
@@ -742,8 +742,8 @@ module.exports = class FeedManager {
     fs.readdir(preprocessFolder, (err, files) => {
       files.forEach(file => {
         if (fs.statSync(preprocessFolder + "/" + file).isFile()
-          && file.endsWith(FeedManager.FLOW_EXTENSION)
-          && file.startsWith(FeedManager.BATCH_PREFIX)){
+          && file.endsWith(FlowFeedProcessorJob.FLOW_EXTENSION)
+          && file.startsWith(FlowFeedProcessorJob.BATCH_PREFIX)){
           batchFileList.push( file );
         }
       });
@@ -776,7 +776,7 @@ module.exports = class FeedManager {
 
     this.callback = callback;
     this.store = {
-      context: "FeedManager",
+      context: "FlowFeedProcessorJob",
       dto: flowBatchDto,
       guid: Util.getGuid(),
       name: "FeedStore",
@@ -784,7 +784,7 @@ module.exports = class FeedManager {
       timestamp: new Date().getTime(),
       urn: this.urn,
     };
-    log.debug("[FeedManager] flow input batch -> do request");
+    log.debug(this.name + " flow input batch -> do request");
     let client = new DtoClient(this.store, this.callback);
     client.doRequest();
   }

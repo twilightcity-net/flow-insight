@@ -63,10 +63,11 @@ const CircuitMemberManager = require("../managers/CircuitMemberManager");
 const MessageWindowManager = require("../managers/MessageWindowManager");
 const FervieWindowManager = require("../managers/FervieWindowManager");
 const AccountManager = require("../managers/AccountManager");
-const AppFlowPublisher = require("./AppFlowPublisher");
-const CodeModuleConfigManager = require("../managers/CodeModuleConfigManager");
-const PluginManager = require("../managers/PluginManager");
 const FeatureToggleManager = require("../managers/FeatureToggleManager");
+
+const AppFlowPublisherJob = require("./AppFlowPublisherJob");
+const PluginRegistrationJob = require("../job/PluginRegistrationJob");
+const CodeModuleConfigJob = require("../job/CodeModuleConfigJob");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -180,8 +181,8 @@ module.exports = class App {
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
       global.App.CodeManager = new CodeManager();
-      global.App.CodeModuleConfigManager = new CodeModuleConfigManager();
-      global.App.PluginManager = new PluginManager();
+      global.App.CodeModuleConfigJob = new CodeModuleConfigJob();
+      global.App.PluginRegistrationJob = new PluginRegistrationJob();
       global.App.AccountManager = new AccountManager();
       global.App.MoovieManager = new MoovieManager();
       global.App.CircuitMemberManager = new CircuitMemberManager();
@@ -195,7 +196,7 @@ module.exports = class App {
       global.App.MoovieWindowManager = new MoovieWindowManager();
       global.App.ConfigWindowManager = new ConfigWindowManager();
       global.App.DataStoreManager = new DataStoreManager();
-      global.App.AppFlowPublisher = new AppFlowPublisher();
+      global.App.AppFlowPublisherJob = new AppFlowPublisherJob();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
       global.App.AppHeartbeat = new AppHeartbeat();
