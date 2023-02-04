@@ -100,10 +100,7 @@ export default class DashboardResource extends Component {
     );
 
     let contentPanel = "";
-    if (
-      this.state.dashboardType ===
-      DashboardResource.DashboardType.CODEBASE
-    ) {
+    if (this.state.dashboardType === DashboardResource.DashboardType.CODEBASE) {
       contentPanel = (
         <CodebaseChartContent
           targetType={this.state.targetType}
@@ -111,10 +108,7 @@ export default class DashboardResource extends Component {
           timeScope={this.state.timeScope}
         />
       );
-    } else if (
-      this.state.dashboardType ===
-      DashboardResource.DashboardType.FAMILIARITY
-    ) {
+    } else if (this.state.dashboardType === DashboardResource.DashboardType.FAMILIARITY) {
       contentPanel = (
         <FamiliarityChartContent
           targetType={this.state.targetType}
@@ -122,10 +116,7 @@ export default class DashboardResource extends Component {
           timeScope={this.state.timeScope}
         />
       );
-    } else if (
-      this.state.dashboardType ===
-      DashboardResource.DashboardType.MOMENTUM
-    ) {
+    } else if (this.state.dashboardType === DashboardResource.DashboardType.MOMENTUM) {
       contentPanel = (
         <MomentumChartContent
           targetType={this.state.targetType}
@@ -135,10 +126,7 @@ export default class DashboardResource extends Component {
           returnToPreviousResource={this.returnToPreviousResource}
         />
       );
-    } else if (
-      this.state.dashboardType ===
-      DashboardResource.DashboardType.TAGS
-    ) {
+    } else if (this.state.dashboardType === DashboardResource.DashboardType.TAGS) {
       contentPanel = (
         <TopTagsChartContent
           targetType={this.state.targetType}

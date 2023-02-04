@@ -482,12 +482,14 @@ export default class ConsoleSidebar extends Component {
    * @returns {boolean}
    */
   isDefaultPanel(panelName) {
-    let hasDefaultPanel = panelName === SidePanelViewController.MenuSelection.DASHBOARD
+    let hasDefaultPanel =
+      (panelName === SidePanelViewController.MenuSelection.DASHBOARD
+        && FeatureToggle.isPersonalDashboardEnabled)
       || panelName === SidePanelViewController.MenuSelection.TEAM;
 
     if (hasDefaultPanel) {
       if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
-        && BrowserController.uri.includes("/flow")) {
+        && FeatureToggle.isPersonalDashboardEnabled && BrowserController.uri.includes("/flow") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.TEAM
         && (FeatureToggle.isJournalEnabled
@@ -514,7 +516,9 @@ export default class ConsoleSidebar extends Component {
    */
   loadDefaultResourceContent(panelName) {
     if (panelName === SidePanelViewController.MenuSelection.DASHBOARD) {
-      this.myController.loadDefaultFlowPanel();
+      if (FeatureToggle.isPersonalDashboardEnabled) {
+        this.myController.loadDefaultFlowPanel();
+      }
     } else if (panelName === SidePanelViewController.MenuSelection.TEAM) {
       if (FeatureToggle.isJournalEnabled) {
         this.myController.loadDefaultJournalPanel();

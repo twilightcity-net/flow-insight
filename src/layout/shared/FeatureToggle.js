@@ -12,6 +12,8 @@ export default class FeatureToggle  {
 
   static isToolsExtensionEnabled = false;
 
+  static isPersonalDashboardEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.5.34"
 
@@ -26,6 +28,7 @@ export default class FeatureToggle  {
       MOOVIES: "moovies",
       NEO: "neo",
       METRICS: "metrics",
+      DASHBOARD: "dashboard",
       TOOLS: "tools"
     };
   }
@@ -37,6 +40,7 @@ export default class FeatureToggle  {
     FeatureToggle.isNeoMode = false;
     FeatureToggle.isMetricsEnabled = false;
     FeatureToggle.isToolsExtensionEnabled = false;
+    FeatureToggle.isPersonalDashboardEnabled = false;
 
     console.log("UPDATING TOGGLES!");
     console.log(featureToggleList);
@@ -53,6 +57,9 @@ export default class FeatureToggle  {
       }
       if (toggle === FeatureToggle.Toggle.METRICS) {
         FeatureToggle.isMetricsEnabled = true;
+      }
+      if (toggle === FeatureToggle.Toggle.DASHBOARD) {
+        FeatureToggle.isPersonalDashboardEnabled = true;
       }
       if (toggle === FeatureToggle.Toggle.MOOVIES) {
         FeatureToggle.isMoovieApp = true;

@@ -144,20 +144,28 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
       },
       {
+        label: "Personal Dashboard",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.DASHBOARD)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
+      },
+      {
+        label: "Plugin Extensions",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.TOOLS)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
+      },
+      {
         label: "Neo Mode",
         click: () => {
           AppMenu.onClickFeature(AppFeatureToggle.Toggle.NEO)
         },
         type: "checkbox",
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
-      },
-      {
-        label: "Tools Plugins",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.TOOLS)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
       },
     ];
   }

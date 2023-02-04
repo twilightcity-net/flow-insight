@@ -22,6 +22,7 @@ module.exports = class AppFeatureToggle {
       MOOVIES: "moovies",
       NEO: "neo",
       METRICS: "metrics",
+      DASHBOARD: "dashboard",
       TOOLS: "tools"
     };
   }
