@@ -243,7 +243,7 @@ module.exports = class CodeController extends (
    * @param callback
    */
   handleGetLastLocationEvent(event, arg, callback) {
-    global.App.CodeModuleConfigJob.getLastLocationAcrossPlugins((locationContents) => {
+    global.App.CodeModuleConfigHandler.getLastLocationAcrossPlugins((locationContents) => {
       if (locationContents) {
         this.doIdentifyBoxForLocation(locationContents.module, locationContents.lastLocation,
           (results) => {
@@ -280,7 +280,7 @@ module.exports = class CodeController extends (
    * @param moduleName
    */
   getConfigFileForModule(moduleName) {
-    const configFile = global.App.CodeModuleConfigJob.getModuleConfigFileForModule(moduleName);
+    const configFile = global.App.CodeModuleConfigHandler.getModuleConfigFileForModule(moduleName);
     log.info("[CodeController] Loading config file "+configFile);
     return configFile;
   }

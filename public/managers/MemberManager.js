@@ -59,6 +59,13 @@ class MemberManager {
   updateMe(me) {
     this.myController.updateMeInClient(me);
   }
+
+  /**
+   * Retrieves the me object through the controller
+   */
+  getMe() {
+    return this.myController.getMemberMe();
+  }
 }
 
 module.exports = MemberManager;

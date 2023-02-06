@@ -6,14 +6,14 @@ const {DtoClient} = require("../managers/DtoClientFactory");
 const WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /**
- * managing class for the code client
+ * keeps track of the code module configurations across the plugins
  */
-module.exports = class CodeModuleConfigJob {
+module.exports = class CodeModuleConfigHandler {
   /**
-   * builds the code manager for the global app scope
+   * builds the code module config job for the global app scope
    */
   constructor() {
-    this.name = "[CodeModuleConfigJob]";
+    this.name = "[CodeModuleConfigHandler]";
     this.moduleRoots = new Map();
     this.configuredModuleNames = new Set();
   }
@@ -48,7 +48,7 @@ module.exports = class CodeModuleConfigJob {
   parseLastLocationFile(filePath, callback) {
     fs.readFile(filePath, "utf8", (err, jsonString) => {
       if (err) {
-        log.error("[CodeModuleConfigJob] File read failed for "+filePath+ ": " + err);
+        log.error("[CodeModuleConfigHandler] File read failed for "+filePath+ ": " + err);
         callback(null);
       } else {
         const rawConfig = JSON.parse(jsonString);
@@ -65,13 +65,13 @@ module.exports = class CodeModuleConfigJob {
    */
   findLastLocationFile(callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
-    let plugins = global.App.PluginRegistrationJob.getRegisteredPluginList();
+    let plugins = global.App.PluginRegistrationHandler.getRegisteredPluginList();
 
     const lastLocationFilesFound = [];
 
     plugins.forEach((pluginId) => {
       const pluginFolder = path.join(allPluginsFolder, pluginId);
-      const lastLocationFile = path.join(pluginFolder, CodeModuleConfigJob.LAST_LOCATION_FILE);
+      const lastLocationFile = path.join(pluginFolder, CodeModuleConfigHandler.LAST_LOCATION_FILE);
       if (fs.existsSync(lastLocationFile)) {
         lastLocationFilesFound.push(lastLocationFile);
       }
@@ -122,10 +122,10 @@ module.exports = class CodeModuleConfigJob {
     plugins.forEach((pluginId) => {
       //do stuff
       const pluginFolder = path.join(allPluginsFolder, pluginId);
-      const configFile = path.join(pluginFolder, CodeModuleConfigJob.MODULE_CONFIG_FILE);
+      const configFile = path.join(pluginFolder, CodeModuleConfigHandler.MODULE_CONFIG_FILE);
 
       this.readModuleRootsFromConfigFile(configFile, (moduleRoots) => {
-        log.debug("[CodeModuleConfigJob] Found "+moduleRoots.length + " roots in "+pluginId);
+        log.debug(this.name +" Found "+moduleRoots.length + " roots in "+pluginId);
         moduleRoots.forEach((moduleRoot) => {
           //make sure we don't save any blank entries
           if (moduleRoot.moduleName && moduleRoot.rootDir) {
@@ -168,7 +168,7 @@ module.exports = class CodeModuleConfigJob {
 
     this.moduleRoots.forEach((config, moduleNameKey) => {
       const moduleRootDir = config.rootDir;
-      const moduleConfigFile = path.join(moduleRootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
+      const moduleConfigFile = path.join(moduleRootDir, CodeModuleConfigHandler.MODULE_CONFIG_FILE);
 
       if (fs.existsSync(moduleConfigFile)) {
         if (!this.configuredModuleNames.has(moduleNameKey)) {
@@ -192,7 +192,7 @@ module.exports = class CodeModuleConfigJob {
   getModuleConfigFileForModule(moduleName) {
      const config = this.moduleRoots.get(moduleName);
      if (config) {
-       return path.join(config.rootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
+       return path.join(config.rootDir, CodeModuleConfigHandler.MODULE_CONFIG_FILE);
      } else {
        return null;
      }
@@ -221,10 +221,10 @@ module.exports = class CodeModuleConfigJob {
       const config = this.moduleRoots.get(moduleName);
       if (config && config.rootDir) {
         if (configFileConcatStr.length === 0) {
-          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
+          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigHandler.MODULE_CONFIG_FILE);
         } else {
           configFileConcatStr += "|";
-          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigJob.MODULE_CONFIG_FILE);
+          configFileConcatStr += path.join(config.rootDir, CodeModuleConfigHandler.MODULE_CONFIG_FILE);
         }
       }
     });
@@ -246,7 +246,7 @@ module.exports = class CodeModuleConfigJob {
 
     fs.readFile(moduleConfigFile, "utf8", (err, jsonString) => {
       if (err) {
-        log.error( "[CodeModuleConfigJob] File read failed for "+moduleName+ ": " + err);
+        log.error( "[CodeModuleConfigHandler] File read failed for "+moduleName+ ": " + err);
         callback([]);
       } else {
         const moduleConfigs = this.extractModuleConfigInputs(moduleName, jsonString);
@@ -306,7 +306,7 @@ module.exports = class CodeModuleConfigJob {
    */
   writeOutTopLevelConfigFile(callback) {
     const flowHomePath = Util.getFlowHomePath();
-    const configFile = path.join(flowHomePath, CodeModuleConfigJob.MODULE_CONFIG_FILE);
+    const configFile = path.join(flowHomePath, CodeModuleConfigHandler.MODULE_CONFIG_FILE);
 
     const config = {};
     config.modules = [];
@@ -319,9 +319,9 @@ module.exports = class CodeModuleConfigJob {
 
     fs.writeFile(configFile, jsonString, err => {
       if (err) {
-        log.error("[CodeModuleConfigJob] Error writing flowinsight-config file: "+err);
+        log.error("[CodeModuleConfigHandler] Error writing flowinsight-config file: "+err);
       } else {
-        log.debug('[CodeModuleConfigJob] Successfully wrote flowinsight-config file');
+        log.debug('[CodeModuleConfigHandler] Successfully wrote flowinsight-config file');
       }
       callback();
     });
@@ -341,7 +341,7 @@ module.exports = class CodeModuleConfigJob {
 
       fs.readFile(configFile, "utf8", (err, jsonString) => {
         if (err) {
-          log.error("[CodeModuleConfigJob] File read failed: " + err);
+          log.error("[CodeModuleConfigHandler] File read failed: " + err);
           callback([]);
         } else {
           const moduleRoots = this.extractModuleRoots(jsonString);
@@ -391,7 +391,7 @@ module.exports = class CodeModuleConfigJob {
 
     this.callback = callback;
     this.store = {
-      context: "CodeModuleConfigJob",
+      context: "CodeModuleConfigHandler",
       dto: {},
       guid: Util.getGuid(),
       name: "CodeModuleConfigStore",

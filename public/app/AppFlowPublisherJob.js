@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   EventFactory = require("../events/EventFactory");
-const FlowFeedProcessorJob = require("../job/FlowFeedProcessorJob");
+const FlowFeedProcessor = require("../job/FlowFeedProcessor");
 const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
@@ -30,9 +30,9 @@ module.exports = class AppFlowPublisherJob {
       ),
     };
 
-    this.pluginRegistrationJob = global.App.PluginRegistrationJob;
-    this.codeModuleConfigJob = global.App.CodeModuleConfigJob;
-    this.flowFeedProcessorJob = new FlowFeedProcessorJob();
+    this.pluginRegistrationHandler = global.App.PluginRegistrationHandler;
+    this.codeModuleConfigHandler = global.App.CodeModuleConfigHandler;
+    this.flowFeedProcessor = new FlowFeedProcessor();
   }
 
   /**
@@ -86,16 +86,16 @@ module.exports = class AppFlowPublisherJob {
   }
 
   doLoopProcessing() {
-    this.pluginRegistrationJob.loadAndValidatePlugins(() => {
-      const plugins = this.pluginRegistrationJob.getRegisteredPluginList();
+    this.pluginRegistrationHandler.loadAndValidatePlugins(() => {
+      const plugins = this.pluginRegistrationHandler.getRegisteredPluginList();
 
       log.info(this.name + " Plugins to process: "+plugins.length);
 
-      this.codeModuleConfigJob.consolidatePluginConfigurations(plugins, () => {
+      this.codeModuleConfigHandler.consolidatePluginConfigurations(plugins, () => {
         log.debug(this.name + " Plugin configs consolidated!");
-        this.codeModuleConfigJob.loadConfiguredModulesList(() => {
+        this.codeModuleConfigHandler.loadConfiguredModulesList(() => {
           log.debug(this.name + " Done loading configured module list from the server!");
-          this.codeModuleConfigJob.tryToLoadConfigsWhenModuleNotConfigured(() => {
+          this.codeModuleConfigHandler.tryToLoadConfigsWhenModuleNotConfigured(() => {
             log.debug(this.name + " Done loading flowinsight-config.json files from projects!");
           });
 
@@ -103,10 +103,10 @@ module.exports = class AppFlowPublisherJob {
       });
 
       plugins.forEach(pluginId => {
-        this.flowFeedProcessorJob.deleteOldArchiveFiles(pluginId, () => {
-          this.flowFeedProcessorJob.cleanupOldPreprocessingState(pluginId, () => {
-            this.flowFeedProcessorJob.commitActiveFlowFile(pluginId, () => {
-              this.flowFeedProcessorJob.publishAllBatches(pluginId);
+        this.flowFeedProcessor.deleteOldArchiveFiles(pluginId, () => {
+          this.flowFeedProcessor.cleanupOldPreprocessingState(pluginId, () => {
+            this.flowFeedProcessor.commitActiveFlowFile(pluginId, () => {
+              this.flowFeedProcessor.publishAllBatches(pluginId);
             });
           });
         });

@@ -65,9 +65,10 @@ const FervieWindowManager = require("../managers/FervieWindowManager");
 const AccountManager = require("../managers/AccountManager");
 const FeatureToggleManager = require("../managers/FeatureToggleManager");
 
+const PluginRegistrationHandler = require("../job/PluginRegistrationHandler");
+const CodeModuleConfigHandler = require("../job/CodeModuleConfigHandler");
 const AppFlowPublisherJob = require("./AppFlowPublisherJob");
-const PluginRegistrationJob = require("../job/PluginRegistrationJob");
-const CodeModuleConfigJob = require("../job/CodeModuleConfigJob");
+const AppFervieHelpJob = require("./AppFervieHelpJob");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -181,8 +182,8 @@ module.exports = class App {
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
       global.App.CodeManager = new CodeManager();
-      global.App.CodeModuleConfigJob = new CodeModuleConfigJob();
-      global.App.PluginRegistrationJob = new PluginRegistrationJob();
+      global.App.CodeModuleConfigHandler = new CodeModuleConfigHandler();
+      global.App.PluginRegistrationHandler = new PluginRegistrationHandler();
       global.App.AccountManager = new AccountManager();
       global.App.MoovieManager = new MoovieManager();
       global.App.CircuitMemberManager = new CircuitMemberManager();
@@ -197,6 +198,7 @@ module.exports = class App {
       global.App.ConfigWindowManager = new ConfigWindowManager();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppFlowPublisherJob = new AppFlowPublisherJob();
+      global.App.AppFervieHelpJob = new AppFervieHelpJob();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
       global.App.AppHeartbeat = new AppHeartbeat();

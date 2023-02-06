@@ -15,11 +15,11 @@ const NewFlowBatchEventDto = require("../dto/NewFlowBatchEventDto");
 
 /**
  * This class is used to publish the active.flow feeds for the plugins
- * @type {FlowFeedProcessorJob}
+ * @type {FlowFeedProcessor}
  */
-module.exports = class FlowFeedProcessorJob {
+module.exports = class FlowFeedProcessor {
   constructor() {
-    this.name = "[FlowFeedProcessorJob]";
+    this.name = "[FlowFeedProcessor]";
   }
 
   static PREPROCESS_FOLDER = "preprocess";
@@ -56,7 +56,7 @@ module.exports = class FlowFeedProcessorJob {
         try {
           this.handleParseLine(flowBatchObj, line);
         } catch (err) {
-          log.error("[FlowFeedProcessorJob] Unable to process line, "+err);
+          log.error("[FlowFeedProcessor] Unable to process line, "+err);
           lineError = err;
         }
 
@@ -64,7 +64,7 @@ module.exports = class FlowFeedProcessorJob {
 
       await events.once(rl, 'close');
     } catch (err) {
-      log.error("[FlowFeedProcessorJob] Unable to process file: " + err);
+      log.error("[FlowFeedProcessor] Unable to process file: " + err);
     }
 
     if (lineError) {
@@ -85,19 +85,19 @@ module.exports = class FlowFeedProcessorJob {
     let json = this.parseJsonObjectFromLine(line);
 
     switch (lineType) {
-      case FlowFeedProcessorJob.EditorActivity:
+      case FlowFeedProcessor.EditorActivity:
         flowBatchObj.editorActivityList.push(json);
         break;
-      case FlowFeedProcessorJob.ExternalActivity:
+      case FlowFeedProcessor.ExternalActivity:
         flowBatchObj.externalActivityList.push(json);
         break;
-      case FlowFeedProcessorJob.ExecutionActivity:
+      case FlowFeedProcessor.ExecutionActivity:
         flowBatchObj.executionActivityList.push(json);
         break;
-      case FlowFeedProcessorJob.ModificationActivity:
+      case FlowFeedProcessor.ModificationActivity:
         flowBatchObj.modificationActivityList.push(json);
         break;
-      case FlowFeedProcessorJob.Event:
+      case FlowFeedProcessor.Event:
         flowBatchObj.eventList.push(json);
         break;
       default:
@@ -128,15 +128,15 @@ module.exports = class FlowFeedProcessorJob {
     const jsonStr = line.substr(line.indexOf("=") + 1);
 
     switch (lineType) {
-      case FlowFeedProcessorJob.EditorActivity:
+      case FlowFeedProcessor.EditorActivity:
         return new NewEditorActivityDto(jsonStr);
-      case FlowFeedProcessorJob.ExternalActivity:
+      case FlowFeedProcessor.ExternalActivity:
         return new NewExternalActivityDto(jsonStr);
-      case FlowFeedProcessorJob.ExecutionActivity:
+      case FlowFeedProcessor.ExecutionActivity:
         return new NewExecutionActivityDto(jsonStr);
-      case FlowFeedProcessorJob.ModificationActivity:
+      case FlowFeedProcessor.ModificationActivity:
         return new NewModificationActivityDto(jsonStr);
-      case FlowFeedProcessorJob.Event:
+      case FlowFeedProcessor.Event:
         return new NewFlowBatchEventDto(jsonStr);
       default:
         throw new Error("Unable to parse unknown event type = "+lineType);
@@ -152,19 +152,19 @@ module.exports = class FlowFeedProcessorJob {
   cleanupOldPreprocessingState(pluginId, callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    const preprocessFolder = path.join(pluginFolder, FlowFeedProcessorJob.PREPROCESS_FOLDER);
+    const preprocessFolder = path.join(pluginFolder, FlowFeedProcessor.PREPROCESS_FOLDER);
 
     Util.createFolderIfDoesntExist(preprocessFolder, () => {
-      const preprocessedFlowFile = path.join(preprocessFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
+      const preprocessedFlowFile = path.join(preprocessFolder, FlowFeedProcessor.ACTIVE_FLOW_FILE);
       if (fs.existsSync(preprocessedFlowFile)) {
-        log.info("[FlowFeedProcessorJob] Reprocessing active.flow after last preprocess run crashed.");
+        log.info(this.name + " Reprocessing active.flow after last preprocess run crashed.");
         this.reprocessPreprocessing(pluginId, preprocessFolder, preprocessedFlowFile, () => {
           if (callback) {
             callback();
           }
         });
       } else if (this.folderIsNotEmpty(preprocessFolder)) {
-        log.info("[FlowFeedProcessorJob] Reprocessing old flow batches after last preprocess run crashed.");
+        log.info(this.name +" Reprocessing old flow batches after last preprocess run crashed.");
         this.moveAllSplitBatchesToPublishQueue(pluginId, preprocessFolder, () => {
           if (callback) {
             callback();
@@ -221,7 +221,7 @@ module.exports = class FlowFeedProcessorJob {
   commitActiveFlowFile(pluginId, callback) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    const preprocessFolder = path.join(pluginFolder, FlowFeedProcessorJob.PREPROCESS_FOLDER);
+    const preprocessFolder = path.join(pluginFolder, FlowFeedProcessor.PREPROCESS_FOLDER);
 
     Util.createFolderIfDoesntExist(preprocessFolder, () => {
       this.preprocessFile(pluginFolder, preprocessFolder, (preprocessFilePath) => {
@@ -270,7 +270,7 @@ module.exports = class FlowFeedProcessorJob {
    */
   deletePreprocessInput(preprocessFolder, callback) {
     log.debug(this.name + " Deleting preprocessed active.flow file");
-    const preprocessInputFile = path.join(preprocessFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
+    const preprocessInputFile = path.join(preprocessFolder, FlowFeedProcessor.ACTIVE_FLOW_FILE);
     this.deleteFile(preprocessInputFile, callback);
   }
 
@@ -324,7 +324,7 @@ module.exports = class FlowFeedProcessorJob {
         try {
           lineCount++;
           this.writeLineToBatch(batchFileLogger, line);
-          if (lineCount > FlowFeedProcessorJob.BATCH_SIZE_LIMIT) {
+          if (lineCount > FlowFeedProcessor.BATCH_SIZE_LIMIT) {
             batchNumber++;
             lineCount = 0;
             activeBatchFile = this.getBatchFileName(preprocessFolder, timeExtension, batchNumber);
@@ -361,8 +361,8 @@ module.exports = class FlowFeedProcessorJob {
    * @returns {string}
    */
   getBatchFileName(outputFolder, timeExtension, batchNumber) {
-    let filePath = path.join(outputFolder, FlowFeedProcessorJob.BATCH_PREFIX +
-      timeExtension+"_"+batchNumber + FlowFeedProcessorJob.FLOW_EXTENSION);
+    let filePath = path.join(outputFolder, FlowFeedProcessor.BATCH_PREFIX +
+      timeExtension+"_"+batchNumber + FlowFeedProcessor.FLOW_EXTENSION);
     return filePath;
   }
 
@@ -383,7 +383,7 @@ module.exports = class FlowFeedProcessorJob {
     if (fs.existsSync(srcFilePath)) {
       fs.rename(srcFilePath, newPath, function (err) {
         if (err) throw err;
-        log.error('[FlowFeedProcessorJob] Moved errored out flow file to '+newPath);
+        log.error('[FlowFeedProcessor] Moved errored out flow file to '+newPath);
         if (callback) {
           callback();
         }
@@ -403,13 +403,13 @@ module.exports = class FlowFeedProcessorJob {
    * @param callback
    */
   preprocessFile(pluginFolder, preprocessFolder, callback) {
-    let oldPath = path.join(pluginFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
-    let newPath = path.join(preprocessFolder, FlowFeedProcessorJob.ACTIVE_FLOW_FILE);
+    let oldPath = path.join(pluginFolder, FlowFeedProcessor.ACTIVE_FLOW_FILE);
+    let newPath = path.join(preprocessFolder, FlowFeedProcessor.ACTIVE_FLOW_FILE);
 
     if (fs.existsSync(oldPath)) {
       fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
-        log.debug( '[FlowFeedProcessorJob] Successfully moved file to preprocess '+newPath);
+        log.debug( '[FlowFeedProcessor] Successfully moved file to preprocess '+newPath);
         if (callback) {
           callback(newPath);
         }
@@ -436,7 +436,7 @@ module.exports = class FlowFeedProcessorJob {
     if (fs.existsSync(oldPath)) {
       fs.rename(oldPath, newPath,  (err) => {
         if (err) throw err;
-        log.debug('[FlowFeedProcessorJob] Successfully moved batch to publish queue '+fileName);
+        log.debug('[FlowFeedProcessor] Successfully moved batch to publish queue '+fileName);
         if (callback) {
           callback(newPath);
         }
@@ -466,7 +466,7 @@ module.exports = class FlowFeedProcessorJob {
   getQueueFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FlowFeedProcessorJob.PUBLISH_QUEUE_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessor.PUBLISH_QUEUE_FOLDER);
   }
 
   /**
@@ -477,7 +477,7 @@ module.exports = class FlowFeedProcessorJob {
   getPreprocessFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FlowFeedProcessorJob.PREPROCESS_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessor.PREPROCESS_FOLDER);
   }
 
   /**
@@ -488,7 +488,7 @@ module.exports = class FlowFeedProcessorJob {
   getArchiveFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FlowFeedProcessorJob.ARCHIVE_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessor.ARCHIVE_FOLDER);
   }
 
   /**
@@ -499,7 +499,7 @@ module.exports = class FlowFeedProcessorJob {
   getErrorsFolder(pluginId) {
     const allPluginsFolder = Util.getPluginFolderPath();
     const pluginFolder = path.join(allPluginsFolder, pluginId);
-    return path.join(pluginFolder, FlowFeedProcessorJob.ERRORS_FOLDER);
+    return path.join(pluginFolder, FlowFeedProcessor.ERRORS_FOLDER);
   }
 
 
@@ -515,7 +515,7 @@ module.exports = class FlowFeedProcessorJob {
         batchFileList.forEach((file) => {
           const filePath = path.join(queueFolder, file);
 
-          log.info("[FlowFeedProcessorJob] Publishing "+filePath);
+          log.info(this.name + " Publishing "+filePath);
           const flowBatchDto = this.createEmptyFlowBatch();
 
           this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
@@ -588,7 +588,7 @@ module.exports = class FlowFeedProcessorJob {
     if (fs.existsSync(srcFilePath)) {
       fs.rename(srcFilePath, newPath, (err) => {
         if (err) throw err;
-        log.info('[FlowFeedProcessorJob] Archived flow file ' + srcFileName);
+        log.info('[FlowFeedProcessor] Archived flow file ' + srcFileName);
         if (callback) {
           callback();
         }
@@ -609,7 +609,7 @@ module.exports = class FlowFeedProcessorJob {
     log.debug(this.name + " Deleting old file: "+filePath);
     fs.unlink(filePath, (err) => {
       if (err) {
-        log.error("[FlowFeedProcessorJob] " + err)
+        log.error("[FlowFeedProcessor] " + err)
       }
       if (callback) {
         callback();
@@ -677,8 +677,8 @@ module.exports = class FlowFeedProcessorJob {
       fs.readdir(queueFolder, (err, files) => {
         files.forEach(file => {
           let filePath = path.join(queueFolder, file);
-          if (fs.statSync(filePath).isFile() && file.endsWith(FlowFeedProcessorJob.FLOW_EXTENSION)){
-            log.debug("[FlowFeedProcessorJob] found batch in publish queue: "+file);
+          if (fs.statSync(filePath).isFile() && file.endsWith(FlowFeedProcessor.FLOW_EXTENSION)){
+            log.debug("[FlowFeedProcessor] found batch in publish queue: "+file);
             batchFileList.push( file );
           }
         });
@@ -702,8 +702,8 @@ module.exports = class FlowFeedProcessorJob {
           let filePath = path.join(archiveFolder, file);
           let stats = fs.statSync(filePath);
           if (stats.isFile()
-            && file.endsWith(FlowFeedProcessorJob.FLOW_EXTENSION)
-            && file.startsWith(FlowFeedProcessorJob.BATCH_PREFIX)
+            && file.endsWith(FlowFeedProcessor.FLOW_EXTENSION)
+            && file.startsWith(FlowFeedProcessor.BATCH_PREFIX)
             && this.isOlderThanDate(twoMonthsAgoDate, stats.birthtime) ){
             this.deleteFile(filePath);
           }
@@ -742,8 +742,8 @@ module.exports = class FlowFeedProcessorJob {
     fs.readdir(preprocessFolder, (err, files) => {
       files.forEach(file => {
         if (fs.statSync(preprocessFolder + "/" + file).isFile()
-          && file.endsWith(FlowFeedProcessorJob.FLOW_EXTENSION)
-          && file.startsWith(FlowFeedProcessorJob.BATCH_PREFIX)){
+          && file.endsWith(FlowFeedProcessor.FLOW_EXTENSION)
+          && file.startsWith(FlowFeedProcessor.BATCH_PREFIX)){
           batchFileList.push( file );
         }
       });
@@ -776,7 +776,7 @@ module.exports = class FlowFeedProcessorJob {
 
     this.callback = callback;
     this.store = {
-      context: "FlowFeedProcessorJob",
+      context: "FlowFeedProcessor",
       dto: flowBatchDto,
       guid: Util.getGuid(),
       name: "FeedStore",

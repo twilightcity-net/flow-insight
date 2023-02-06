@@ -10,11 +10,11 @@ const WindowManagerHelper = require("../managers/WindowManagerHelper");
 /**
  * This class is used to manage the plugins in the ~/.flow/plugins
  * directory, register the plugins, and manage sending data to the server via the flow publisher
- * @type {PluginRegistrationJob}
+ * @type {PluginRegistrationHandler}
  */
-module.exports = class PluginRegistrationJob {
+module.exports = class PluginRegistrationHandler {
   constructor() {
-    this.name = "[PluginRegistrationJob]";
+    this.name = "[PluginRegistrationHandler]";
     this.pluginFolders = [];
     this.registeredPluginFolders = [];
 
@@ -129,7 +129,7 @@ module.exports = class PluginRegistrationJob {
 
     this.callback = callback;
     this.store = {
-      context: "PluginRegistrationJob",
+      context: "PluginRegistrationHandler",
       dto: {},
       guid: Util.getGuid(),
       name: "PluginStore",
