@@ -203,12 +203,12 @@ export default class FervieLayout extends Component {
   onClickCircuitLink = (circuitLink) => {
     console.log("button pressed for "+circuitLink);
 
-    this.consoleLinkNotifier.dispatch({link: circuitLink});
     this.setState({
       isSelectionClicked: true
     });
 
     setTimeout(() => {
+      this.consoleLinkNotifier.dispatch({link: circuitLink});
       this.fervieShowHideNotifier.dispatch({});
     }, 700);
   }
