@@ -160,6 +160,12 @@ module.exports = class TalkController extends (
         EventFactory.Types.BUDDIES_DATA_REFRESH,
         this
       );
+
+    this.fervieEventNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.WINDOW_FERVIE_SHOW_HIDE,
+        this
+      );
   }
 
   /**
@@ -491,11 +497,14 @@ module.exports = class TalkController extends (
         break;
       case TalkController.MessageTypes.CHAT_MESSAGE_DETAILS:
         this.handleChatMessage(message);
-
         break;
       case TalkController.MessageTypes.CHAT_REACTION:
         this.handleChatReactionMessage(message);
         break;
+      case TalkController.MessageTypes.FERVIE_HELP_REQUEST:
+        this.handleFervieHelpRequestEvent(message);
+        break;
+
       default:
         console.warn(
           chalk.bgRed(
@@ -564,6 +573,11 @@ module.exports = class TalkController extends (
     });
 
   }
+
+  handleFervieHelpRequestEvent(message) {
+    this.fervieEventNotifier.dispatch({request: "help", message: message.data});
+  }
+
 
   handlePendingBuddyRequest(message) {
     let buddyDatabase = DatabaseFactory.getDatabase(

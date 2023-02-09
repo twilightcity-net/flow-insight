@@ -31,7 +31,19 @@ module.exports = class FervieStateDetector {
       //get latest code
       this.fetchListOfTroubleFiles((fileList) => {
         console.log(fileList);
-        //send the list off to the server
+
+        let activityContextInputDto = {
+           circuitId: me.activeCircuit.id,
+           fileActivityList: fileList
+        };
+
+        this.doPostFervieHelp(activityContextInputDto, ( store ) => {
+          if (store.error) {
+            log.error(this.name + " Failed to send help request!!" + store.error);
+          } else {
+            log.debug(this.name + " Fervie help request sent, status: "+store.data.status );
+          }
+        });
 
       });
     }
@@ -58,8 +70,8 @@ module.exports = class FervieStateDetector {
   createSingleFileList(lastLocationObj) {
     let element = {};
     element.module = lastLocationObj.module;
-    element.file = lastLocationObj.lastLocation;
-    element.duration = 1;
+    element.filePath = lastLocationObj.lastLocation;
+    element.durationInSeconds = 1;
 
     return[element];
   }
@@ -89,15 +101,16 @@ module.exports = class FervieStateDetector {
 
   /**
    * Retrieve all the module configs, across all modules
+   * @param activityContextInputDto
    * @param callback
    */
-  doPostFervieHelp(callback) {
-    this.urn = "/fervie";
+  doPostFervieHelp(activityContextInputDto, callback) {
+    this.urn = "/fervie/me/help/troubleshoot";
 
     this.callback = callback;
     this.store = {
       context: "FervieStateDetector",
-      dto: {},
+      dto: activityContextInputDto,
       guid: Util.getGuid(),
       name: "FervieStateDetectorStore",
       requestType: "post",

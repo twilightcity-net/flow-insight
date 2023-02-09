@@ -38,7 +38,7 @@ module.exports = class FervieWindowManager {
 
   handleToggleFervieShowHide() {
     console.log("toggle fervie show hide!");
-    this.fervieToggleEvent.dispatch({});
+    this.fervieToggleEvent.dispatch({request: "hotkey"});
   }
 
 };

@@ -99,20 +99,29 @@ module.exports = class FervieWindow {
 
   }
 
-  onFervieShowHideCb() {
+  onFervieShowHideCb(event, arg) {
     //ignore requests when there is already an animation going on
     if (this.state === this.states.SHOWING ||
       this.state === this.states.HIDING) {
       return;
     }
 
+    if (!arg.request || arg.request === "hotkey") {
+      this.toggleFervieShowState();
+    } else {
+      if (this.state === this.states.HIDDEN) {
+        this.showFervie();
+      }
+    }
+  }
+
+  toggleFervieShowState() {
     if (this.state === this.states.HIDDEN) {
       this.showFervie();
     } else if (this.state === this.states.SHOWN) {
       this.hideFervie();
     }
   }
-
 
   /**
    * After the showing of the fervie, updates the state to shown and dispatches event

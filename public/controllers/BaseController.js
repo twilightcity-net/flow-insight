@@ -165,7 +165,8 @@ module.exports = class BaseController {
       CHAT_REACTION: "ChatReactionDto",
       PENDING_BUDDY_REQUEST: "PendingBuddyRequestDto",
       BUDDY_CONFIRMATION_REQUEST: "BuddyConfirmationRequestDto",
-      BUDDY_STATUS_EVENT: "BuddyEventDto"
+      BUDDY_STATUS_EVENT: "BuddyEventDto",
+      FERVIE_HELP_REQUEST: "FervieHelpRequestDto"
     };
   }
 
