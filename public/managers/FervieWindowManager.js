@@ -27,7 +27,7 @@ module.exports = class FervieWindowManager {
       EventFactory.Types.WINDOW_FERVIE_SHOW_HIDE,
       this
     );
-    
+
   }
 
   onShortcutReceivedCb(event, arg) {
