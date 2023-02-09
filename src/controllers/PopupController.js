@@ -46,6 +46,12 @@ export class PopupController {
         this
       );
 
+    this.consoleLinkListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.CONSOLE_LINK_EVENT,
+      this,
+      this.onConsoleLinkEvent
+    );
+
   }
 
   static getPopupHeader() {
@@ -75,6 +81,25 @@ export class PopupController {
       }
     }
   };
+
+  /**
+   * On console link event, open the console and navigate to the provided link
+   * @param event
+   * @param arg
+   */
+  onConsoleLinkEvent = (event, arg) => {
+    console.log("onConsoleLinkEvent: "+JSON.stringify(arg));
+
+    let request = BrowserRequestFactory.createRequestFromUri(arg.link);
+    this.browserController.makeRequest(request);
+
+    if (this.consoleIsCollapsed) {
+      this.consoleViewListener.dispatch({
+        showHideFlag: 0,
+      });
+    }
+
+  }
 
   /**
    * When another team member requests to pair with us (or pair with our current pairing team)

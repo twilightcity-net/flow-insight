@@ -27,6 +27,7 @@ module.exports = class FervieWindowManager {
       EventFactory.Types.WINDOW_FERVIE_SHOW_HIDE,
       this
     );
+    
   }
 
   onShortcutReceivedCb(event, arg) {
@@ -40,5 +41,6 @@ module.exports = class FervieWindowManager {
     console.log("toggle fervie show hide!");
     this.fervieToggleEvent.dispatch({request: "hotkey"});
   }
+
 
 };

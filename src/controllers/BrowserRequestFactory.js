@@ -187,6 +187,17 @@ export class BrowserRequestFactory {
   }
 
   /**
+   * Create a request from a raw uri path string
+   * @param uri
+   * @returns {string}
+   */
+  static createRequestFromUri(uri) {
+    return BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      uri;
+  }
+
+  /**
    * returns a request for unknown commands
    * @returns {string}
    * @private

@@ -31,27 +31,21 @@ export class RendererEventFactory {
       APP_LOADED: prefix + "app-loaded",
       APP_QUIT: prefix + "app-quit",
       APP_INTRO_DONE: prefix + "app-intro-done",
-      WINDOW_LOADING_LOGIN_FAILED:
-        prefix + "window-loading-login-failed",
+      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
       WINDOW_CONSOLE_HIDDEN: prefix + "window-console-shown",
-      WINDOW_CONSOLE_SHOW_HIDE:
-        prefix + "window-console-show-hide",
+      WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_CHAT_CONSOLE_SHOW_HIDE: prefix + "window-chat-console-show-hide",
       WINDOW_CHAT_CONSOLE_SHOWN: prefix + "window-chat-console-shown",
       WINDOW_CHAT_CONSOLE_HIDDEN: prefix + "window-chat-console-hidden",
       WINDOW_CHAT_CONSOLE_BLUR: prefix + "window-chat-console-blur",
-
       WINDOW_MOOVIE_CONSOLE_SHOW_HIDE: prefix + "window-moovie-console-show-hide",
       WINDOW_MOOVIE_CONSOLE_SHOWN: prefix + "window-moovie-console-shown",
       WINDOW_MOOVIE_CONSOLE_HIDDEN: prefix + "window-moovie-console-hidden",
       WINDOW_MOOVIE_CONSOLE_BLUR: prefix + "window-moovie-console-blur",
-      WINDOW_ACTIVATOR_CLOSE:
-        prefix + "window-activator-close",
-      WINDOW_CONSOLE_BROWSER_REQUEST:
-        prefix + "window-console-browser-request",
-      WINDOW_CONSOLE_BROWSER_LOAD:
-        prefix + "window-console-browser-load",
+      WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
+      WINDOW_CONSOLE_BROWSER_REQUEST: prefix + "window-console-browser-request",
+      WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",
       WINDOW_OPEN_DM: prefix + "window-open-dm",
@@ -90,44 +84,25 @@ export class RendererEventFactory {
       FEATURE_TOGGLE_CLIENT: prefix + "feature-toggle-client",
       CHART_CLIENT: prefix + "chart-client",
       DICTIONARY_CLIENT: prefix + "dictionary-client",
-      VIEW_CONSOLE_SIDEBAR_PANEL:
-        prefix + "view-console-sidebar-panel",
-      VIEW_CONSOLE_TEAM_PANEL:
-        prefix + "view-console-team-panel",
-      VIEW_CONSOLE_FERVIE_PANEL:
-        prefix + "view-console-fervie-panel",
-      VIEW_CONSOLE_CIRCUITS_PANEL:
-        prefix + "view-console-circuits-panel",
-      VIEW_CONSOLE_NOTIFICATIONS_PANEL:
-        prefix + "view-console-notifications-panel",
-      VIEW_CONSOLE_DASHBOARD_PANEL:
-        prefix + "view-console-dashboard-panel",
-      VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE:
-        "view-console-circuit-join-leave",
-      VIEW_CONSOLE_CIRCUIT_JOIN_FAIL:
-        "view-console-circuit-join-fail",
-      VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL:
-        "view-console-circuit-state-change-fail",
-      VIEW_CONSOLE_CIRCUIT_START_STOP:
-        "view-console-circuit-start-stop",
-      VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME:
-        "view-console-circuit-pause-resume",
-      VIEW_CONSOLE_CIRCUIT_SOLVE:
-        "view-console-circuit-solve",
-      VIEW_CONSOLE_JOIN_EXISTING_ROOM:
-        "view-console-join-existing-room",
-      VIEW_CONSOLE_LEAVE_EXISTING_ROOM:
-        "view-console-leave-existing-room",
-      VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL:
-        "view-console-join-existing-room-fail",
-      VIEW_CONSOLE_ME_UPDATE: "view-console-me-update",
-      VIEW_CONSOLE_NOTIFICATION_READ_UPDATE:
-        "view-console-notification-read-update",
-
-      APPACTIVATOR_SAVE_ACTIVATION:
-        prefix + "appactivator-save-activation",
-      APPACTIVATOR_ACTIVATION_SAVED:
-        prefix + "appactivator-activation-saved",
+      VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
+      VIEW_CONSOLE_TEAM_PANEL: prefix + "view-console-team-panel",
+      VIEW_CONSOLE_FERVIE_PANEL: prefix + "view-console-fervie-panel",
+      VIEW_CONSOLE_CIRCUITS_PANEL: prefix + "view-console-circuits-panel",
+      VIEW_CONSOLE_NOTIFICATIONS_PANEL: prefix + "view-console-notifications-panel",
+      VIEW_CONSOLE_DASHBOARD_PANEL: prefix + "view-console-dashboard-panel",
+      VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE:  prefix + "view-console-circuit-join-leave",
+      VIEW_CONSOLE_CIRCUIT_JOIN_FAIL: prefix + "view-console-circuit-join-fail",
+      VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL: prefix + "view-console-circuit-state-change-fail",
+      VIEW_CONSOLE_CIRCUIT_START_STOP: prefix + "view-console-circuit-start-stop",
+      VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME: prefix + "view-console-circuit-pause-resume",
+      VIEW_CONSOLE_CIRCUIT_SOLVE: prefix + "view-console-circuit-solve",
+      VIEW_CONSOLE_JOIN_EXISTING_ROOM: prefix + "view-console-join-existing-room",
+      VIEW_CONSOLE_LEAVE_EXISTING_ROOM: prefix + "view-console-leave-existing-room",
+      VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL: prefix + "view-console-join-existing-room-fail",
+      VIEW_CONSOLE_ME_UPDATE:  prefix + "view-console-me-update",
+      VIEW_CONSOLE_NOTIFICATION_READ_UPDATE: prefix + "view-console-notification-read-update",
+      APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
+      APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",
       ME_DATA_REFRESH: prefix + "me-data-refresh",
@@ -138,24 +113,19 @@ export class RendererEventFactory {
       FEATURE_TOGGLE_DATA_REFRESH: prefix + "feature-toggle-data-refresh",
       FEATURE_TOGGLE_SCREEN_REFRESH: prefix + "feature-toggle-screen-refresh",
       DM_DATA_REFRESH: prefix + "dm-data-refresh",
-      DICTIONARY_DATA_REFRESH:
-        prefix + "dictionary-data-refresh",
-      NOTIFICATION_DATA_REFRESH:
-        prefix + "notification-data-refresh",
-      PREPARE_FOR_SCREENSHOT:
-        prefix + "prepare-for-screenshot",
+      DICTIONARY_DATA_REFRESH: prefix + "dictionary-data-refresh",
+      NOTIFICATION_DATA_REFRESH: prefix + "notification-data-refresh",
+      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
       SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
-      SCREENSHOT_READY_FOR_DISPLAY:
-        prefix + "screenshot-ready-for-display",
-      SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
-        prefix + "shortcuts-window-console-sidebar-show",
-      GLOBAL_HUD_INPUT_LOCK:
-        prefix + "global-hud-input-lock",
+      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display",
+      SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: prefix + "shortcuts-window-console-sidebar-show",
+      GLOBAL_HUD_INPUT_LOCK: prefix + "global-hud-input-lock",
       MOOVIE_START: prefix + "moovie-start",
       MOOVIE_STOP: prefix + "moovie-stop",
-      GET_REGISTERED_PLUGIN_LIST: "get-registered-plugin-list",
-      REGISTER_PLUGIN: "register-plugin",
+      GET_REGISTERED_PLUGIN_LIST: prefix + "get-registered-plugin-list",
+      REGISTER_PLUGIN: prefix + "register-plugin",
+      CONSOLE_LINK_EVENT: prefix + "console-link-event"
     };
   }
 }

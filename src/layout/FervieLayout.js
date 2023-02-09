@@ -58,6 +58,12 @@ export default class FervieLayout extends Component {
         this,
         this.onFervieShowHideEvent
       );
+
+    this.consoleLinkNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.CONSOLE_LINK_EVENT,
+        this
+      );
   };
 
   onTalkRoomMessage = (event, arg) => {
@@ -101,7 +107,8 @@ export default class FervieLayout extends Component {
   componentWillUnmount() {
     this.meUpdateListener.clear();
     this.talkRoomMessageListener.clear();
-    this.this.fervieShowHideNotifier.clear();
+    this.fervieShowHideNotifier.clear();
+    this.consoleLinkNotifier.clear();
   }
 
   onMeRefresh = () => {
@@ -196,15 +203,14 @@ export default class FervieLayout extends Component {
   onClickCircuitLink = (circuitLink) => {
     console.log("button pressed for "+circuitLink);
 
-    setTimeout(() => {
-      this.fervieShowHideNotifier.dispatch({});
-    }, 700);
-
-    //TODO make this navigate to circuit, need to send an event here that can echo back to our console
-
+    this.consoleLinkNotifier.dispatch({link: circuitLink});
     this.setState({
       isSelectionClicked: true
     });
+
+    setTimeout(() => {
+      this.fervieShowHideNotifier.dispatch({});
+    }, 700);
   }
 
 
