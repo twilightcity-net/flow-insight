@@ -332,9 +332,39 @@ export default class TeamPanel extends Component {
       uri = BrowserController.uri + "";
 
     if (this.lastClickedUser && this.lastClickedUser === name) {
-      if (
-        activeCircuit &&
-        uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR + BrowserRequestFactory.Requests.JOURNAL)) {
+      this.toggleBetweenJournalAndCircuit(name, activeCircuit, uri);
+    } else {
+      this.goToDefaultPageForUser(name, activeCircuit);
+    }
+
+    this.lastClickedUser = name;
+  };
+
+  /**
+   * When clicking on a user from some other context (not repeated clicks on the same user)
+   * go to the default page for the user type depending on features enabled
+   * @param name
+   * @param activeCircuit
+   */
+  goToDefaultPageForUser(name, activeCircuit) {
+    if (activeCircuit) {
+      this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
+    } else if (FeatureToggle.isJournalEnabled) {
+      this.loadJournalIfFeatureEnabled(name);
+    } else if (this.isMe(name)) {
+      this.requestBrowserToLoadStartCircuit();
+    }
+  }
+
+  /**
+   * Toggle between the journal page and active circuit if clicking on the person multiple times
+   * @param name
+   * @param activeCircuit
+   * @param uri
+   */
+  toggleBetweenJournalAndCircuit(name, activeCircuit, uri) {
+    if (FeatureToggle.isJournalEnabled) {
+      if (activeCircuit && this.isOnJournalPage(uri)) {
         this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
       } else {
         this.loadJournalIfFeatureEnabled(name);
@@ -342,13 +372,20 @@ export default class TeamPanel extends Component {
     } else {
       if (activeCircuit) {
         this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
-      } else {
-        this.loadJournalIfFeatureEnabled(name);
+      } else if (this.isMe(name)) {
+        this.requestBrowserToLoadStartCircuit();
       }
     }
+  }
 
-    this.lastClickedUser = name;
-  };
+  /**
+   * Am I currently on a journal page?
+   * @param uri
+   * @returns {boolean}
+   */
+  isOnJournalPage(uri) {
+    return uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR + BrowserRequestFactory.Requests.JOURNAL);
+  }
 
   /**
    * Load the journal of the user, but only if the journal feature is enabled
@@ -362,6 +399,14 @@ export default class TeamPanel extends Component {
 
   isMe(name) {
     return (name === "me" || MemberClient.me.username === name);
+  }
+
+  requestBrowserToLoadStartCircuit() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.COMMAND,
+      BrowserRequestFactory.Commands.WTF
+    );
+    this.myController.makeSidebarBrowserRequest(request);
   }
 
   /**
