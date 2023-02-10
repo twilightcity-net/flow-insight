@@ -87,7 +87,7 @@ module.exports = class FervieStateDetector {
     console.log("Me: "+currentMe);
     console.log(currentMe);
 
-    if (currentMe && currentMe.activeCircuit
+    if (currentMe && currentMe.activeCircuit && currentMe.activeJoinType === "OWNER"
       && currentMe.activeCircuit.circuitState === FervieStateDetector.STATE_TROUBLESHOOT) {
        const secondsOpen = this.getWtfTimerSeconds(currentMe.activeCircuit);
 
