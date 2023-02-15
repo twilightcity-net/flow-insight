@@ -15,10 +15,12 @@ module.exports = class FervieStateDetector {
    */
   constructor() {
     this.name = "[FervieStateDetector]";
+    this.lastTriggerCircuitId = null;
+    this.circuitTriggerCount = 0;
   }
 
   static STATE_TROUBLESHOOT = "TROUBLESHOOT";
-
+  static OWNER_JOIN_TYPE = "OWNER";
 
   /**
    * If we are troubleshooting longer than threshold, send a fervie request to find us some help
@@ -27,8 +29,10 @@ module.exports = class FervieStateDetector {
   triggerFervieOnTroubleThreshold(thresholdInSeconds) {
     let me = global.App.MemberManager.getMe();
 
+    this.resetTriggerCountOnCircuitChange(me);
+
     if (this.isOverTroubleThreshold(me, thresholdInSeconds)) {
-      //get latest code
+
       this.fetchListOfTroubleFiles((fileList) => {
         console.log(fileList);
 
@@ -41,6 +45,8 @@ module.exports = class FervieStateDetector {
           if (store.error) {
             log.error(this.name + " Failed to send help request!!" + store.error);
           } else {
+            this.lastTriggerCircuitId = me.activeCircuit.id;
+            this.circuitTriggerCount++;
             log.debug(this.name + " Fervie help request sent, status: "+store.data.status );
           }
         });
@@ -87,16 +93,42 @@ module.exports = class FervieStateDetector {
     console.log("Me: "+currentMe);
     console.log(currentMe);
 
-    if (currentMe && currentMe.activeCircuit && currentMe.activeJoinType === "OWNER"
-      && currentMe.activeCircuit.circuitState === FervieStateDetector.STATE_TROUBLESHOOT) {
+    if (this.hasActiveCircuit(currentMe)) {
+
        const secondsOpen = this.getWtfTimerSeconds(currentMe.activeCircuit);
 
        console.log("seconds open = "+secondsOpen);
-
-       return secondsOpen > thresholdInSeconds;
+       return secondsOpen > thresholdInSeconds * (this.circuitTriggerCount+1);
     }
 
     return false;
+  }
+
+  /**
+   * If I've got an active troubleshoot circuit that I own not one I joined
+   * @param currentMe
+   * @returns {LearningCircuitDto|null|*|boolean}
+   */
+  hasActiveCircuit(currentMe) {
+    return (currentMe && currentMe.activeCircuit && currentMe.activeJoinType === FervieStateDetector.OWNER_JOIN_TYPE
+      && currentMe.activeCircuit.circuitState === FervieStateDetector.STATE_TROUBLESHOOT);
+  }
+
+  /**
+   * Reset the counter for how many help requests we've triggered everytime
+   * we end up with a new circuitId so that we can wait additional time before making more help requests
+   * but start over with each new circuit
+   * @param currentMe
+   */
+  resetTriggerCountOnCircuitChange(currentMe) {
+    if (this.hasActiveCircuit(currentMe)) {
+
+      let currentCircuitId = currentMe.activeCircuit.id;
+      if (currentCircuitId !== this.lastTriggerCircuitId) {
+        this.circuitTriggerCount = 0;
+        this.lastTriggerCircuitId = currentCircuitId;
+      }
+    }
   }
 
   /**

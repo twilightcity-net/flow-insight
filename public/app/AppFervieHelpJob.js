@@ -28,7 +28,7 @@ module.exports = class AppFervieHelpJob {
     this.fervieStateDetector = new FervieStateDetector();
   }
 
-  static HELP_THRESHOLD_IN_SECONDS = 60;
+  static HELP_THRESHOLD_IN_SECONDS = 60 * 20;
 
   /**
    * starts our fervie help mechanism
