@@ -8,6 +8,8 @@ module.exports = class AppFeatureToggle {
 
   static isToolsExtensionEnabled = false;
 
+  static isARDeviceEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.5.35"
 
@@ -23,7 +25,8 @@ module.exports = class AppFeatureToggle {
       NEO: "neo",
       METRICS: "metrics",
       DASHBOARD: "dashboard",
-      TOOLS: "tools"
+      TOOLS: "tools",
+      ARDEVICE: "ardevice"
     };
   }
 
@@ -31,6 +34,7 @@ module.exports = class AppFeatureToggle {
     AppFeatureToggle.isFerviePopupEnabled = false;
     AppFeatureToggle.isMoovieApp = false;
     AppFeatureToggle.isToolsExtensionEnabled = false;
+    AppFeatureToggle.isARDeviceEnabled = false;
 
     for (let toggle of featureToggleList) {
       if (toggle === AppFeatureToggle.Toggle.FERVIE) {
@@ -42,6 +46,10 @@ module.exports = class AppFeatureToggle {
       }
       if (toggle === AppFeatureToggle.Toggle.TOOLS) {
         AppFeatureToggle.isToolsExtensionEnabled = true;
+      }
+
+      if (toggle === AppFeatureToggle.Toggle.ARDEVICE) {
+        AppFeatureToggle.isARDeviceEnabled = true;
       }
     }
   }

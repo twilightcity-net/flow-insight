@@ -120,6 +120,14 @@ module.exports = class AppMenu extends Menu {
   static getFeatureSubmenu() {
     return [
       {
+        label: "Journal",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
+      },
+      {
         label: "Flow Metrics",
         click: () => {
           AppMenu.onClickFeature(AppFeatureToggle.Toggle.METRICS)
@@ -128,12 +136,12 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.METRICS)
       },
       {
-        label: "Journal",
+        label: "Flow Dashboard",
         click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.DASHBOARD)
         },
         type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
       },
       {
         label: "Fervie",
@@ -144,13 +152,14 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
       },
       {
-        label: "Personal Dashboard",
+        label: "Neo Mode",
         click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.DASHBOARD)
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.NEO)
         },
         type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
       },
+      {type: "separator"},
       {
         label: "Plugin Extensions",
         click: () => {
@@ -160,12 +169,12 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
       },
       {
-        label: "Neo Mode",
+        label: "AR Device Support",
         click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.NEO)
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.ARDEVICE)
         },
         type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.ARDEVICE)
       },
     ];
   }
