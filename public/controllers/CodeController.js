@@ -1,9 +1,7 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
-const DatabaseFactory = require("../database/DatabaseFactory");
 const log = require("electron-log");
 const fs = require("fs");
-const Util = require("../Util");
 
 /**
  * This class is used to coordinate calls to gridtime for the Code service
@@ -52,7 +50,7 @@ module.exports = class CodeController extends (
    */
   configureEvents() {
     BaseController.configEvents(CodeController.instance);
-    this.fervieClientEventListener =
+    this.codeClientEventListener =
       EventFactory.createEvent(
         EventFactory.Types.CODE_CLIENT,
         this,

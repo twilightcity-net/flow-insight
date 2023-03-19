@@ -22,13 +22,6 @@ module.exports = class AppFlowPublisherJob {
       response: 30000,
       deadline: 30000,
     };
-    this.url = global.App.api + "/flow/input/batch";
-    this.events = {
-      publishEvent: EventFactory.createEvent(
-        EventFactory.Types.APP_FLOW_PUBLISH,
-        this
-      ),
-    };
 
     this.pluginRegistrationHandler = global.App.PluginRegistrationHandler;
     this.codeModuleConfigHandler = global.App.CodeModuleConfigHandler;
