@@ -17,6 +17,7 @@ import OrgSwitchView from "./OrgSwitchView";
 import FervieView from "./FervieView";
 import PluginRegistrationView from "./PluginRegistrationView";
 import LoadModuleConfigView from "./LoadModuleConfigView";
+import ActiveStatusView from "./ActiveStatusView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
@@ -74,6 +75,8 @@ export default class ViewManager extends Component {
       return <PluginRegistrationView routeProps={props} />;
     } else if (viewNameUpper === "MODULE") {
       return <LoadModuleConfigView routeProps={props} />;
+    } else if (viewNameUpper === "STATUS") {
+      return <ActiveStatusView routeProps={props} />;
     } else {
       throw new Error(
         "Unable to render unknown view type " +

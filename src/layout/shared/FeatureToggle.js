@@ -14,6 +14,8 @@ export default class FeatureToggle  {
 
   static isPersonalDashboardEnabled = false;
 
+  static isStatusBarEnabled = false;
+
   static isARDeviceEnabled = false;
 
   static appName = "FlowInsight";
@@ -32,7 +34,8 @@ export default class FeatureToggle  {
       METRICS: "metrics",
       DASHBOARD: "dashboard",
       TOOLS: "tools",
-      ARDEVICE: "ardevice"
+      ARDEVICE: "ardevice",
+      STATUS: "status"
     };
   }
 
@@ -45,6 +48,7 @@ export default class FeatureToggle  {
     FeatureToggle.isToolsExtensionEnabled = false;
     FeatureToggle.isPersonalDashboardEnabled = false;
     FeatureToggle.isARDeviceEnabled = false;
+    FeatureToggle.isStatusBarEnabled = false;
 
     console.log("UPDATING TOGGLES!");
     console.log(featureToggleList);
@@ -74,6 +78,9 @@ export default class FeatureToggle  {
       }
       if (toggle === FeatureToggle.Toggle.ARDEVICE) {
         FeatureToggle.isARDeviceEnabled = true;
+      }
+      if (toggle === FeatureToggle.Toggle.STATUS) {
+        FeatureToggle.isStatusBarEnabled = true;
       }
     }
   }

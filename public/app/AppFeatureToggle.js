@@ -8,6 +8,8 @@ module.exports = class AppFeatureToggle {
 
   static isToolsExtensionEnabled = false;
 
+  static isStatusBarEnabled = false;
+
   static isARDeviceEnabled = false;
 
   static appName = "FlowInsight";
@@ -26,7 +28,8 @@ module.exports = class AppFeatureToggle {
       METRICS: "metrics",
       DASHBOARD: "dashboard",
       TOOLS: "tools",
-      ARDEVICE: "ardevice"
+      ARDEVICE: "ardevice",
+      STATUS: "status"
     };
   }
 
@@ -35,6 +38,7 @@ module.exports = class AppFeatureToggle {
     AppFeatureToggle.isMoovieApp = false;
     AppFeatureToggle.isToolsExtensionEnabled = false;
     AppFeatureToggle.isARDeviceEnabled = false;
+    AppFeatureToggle.isStatusBarEnabled = false;
 
     for (let toggle of featureToggleList) {
       if (toggle === AppFeatureToggle.Toggle.FERVIE) {
@@ -47,9 +51,11 @@ module.exports = class AppFeatureToggle {
       if (toggle === AppFeatureToggle.Toggle.TOOLS) {
         AppFeatureToggle.isToolsExtensionEnabled = true;
       }
-
       if (toggle === AppFeatureToggle.Toggle.ARDEVICE) {
         AppFeatureToggle.isARDeviceEnabled = true;
+      }
+      if (toggle === AppFeatureToggle.Toggle.STATUS) {
+        AppFeatureToggle.isStatusBarEnabled = true;
       }
     }
   }

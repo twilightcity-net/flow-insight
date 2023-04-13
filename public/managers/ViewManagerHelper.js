@@ -21,7 +21,8 @@ module.exports = class ViewManagerHelper {
       GETSTARTED: "getstarted",
       FERVIE: "fervie",
       PLUGIN: "plugin",
-      MODULE: "module"
+      MODULE: "module",
+      STATUS: "status",
     };
   }
 };

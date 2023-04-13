@@ -22,7 +22,7 @@ const InvitationKeyWindow = require("../windows/InvitationKeyWindow");
 const OrgSwitcherWindow = require("../windows/OrgSwitcherWindow");
 const PluginRegistrationWindow = require("../windows/PluginRegistrationWindow");
 const LoadModuleConfigWindow = require("../windows/LoadModuleConfigWindow");
-
+const ActiveStatusWindow = require("../windows/ActiveStatusWindow");
 /**
  * This class is used to manage the view, state, and display of each
  * of our windows in our application. windows are stored in an array
@@ -435,6 +435,8 @@ class WindowManager {
         return new PluginRegistrationWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.MODULE:
         return new LoadModuleConfigWindow(windowName, arg);
+      case WindowManagerHelper.WindowNames.STATUS:
+        return new ActiveStatusWindow(windowName, arg);
       default:
         return null;
     }

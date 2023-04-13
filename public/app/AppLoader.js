@@ -12,6 +12,7 @@ const log = require("electron-log"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray"),
   AppLogin = require("./AppLogin");
+const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
  * TODO this needs to have some type of controller class manage the events in a circuit
@@ -243,6 +244,7 @@ module.exports = class AppLoader {
       this.unwireEvents();
       this.showGettingStartedWindow();
       this.showFervieWindow();
+      this.showActiveStatusWindow();
 
       global.App.AppHeartbeat.start();
       global.App.AppFlowPublisherJob.start();
@@ -272,6 +274,18 @@ module.exports = class AppLoader {
         AppError.handleError(error, true);
       }
     }, 555);
+  }
+
+  showActiveStatusWindow() {
+    if (AppFeatureToggle.isStatusBarEnabled) {
+      setTimeout( () => {
+        try {
+          WindowManagerHelper.createActiveStatusWindow();
+        } catch (error) {
+          AppError.handleError(error, true);
+        }
+      }, 777);
+    }
   }
 
   /**

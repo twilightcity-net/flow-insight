@@ -30,7 +30,8 @@ module.exports = class WindowManagerHelper {
       GETSTARTED: "tc-"+ ViewManagerHelper.ViewNames.GETSTARTED,
       FERVIE: "tc-"+ ViewManagerHelper.ViewNames.FERVIE,
       PLUGIN: "tc-" + ViewManagerHelper.ViewNames.PLUGIN,
-      MODULE: "tc-" + ViewManagerHelper.ViewNames.MODULE
+      MODULE: "tc-" + ViewManagerHelper.ViewNames.MODULE,
+      STATUS: "tc-" + ViewManagerHelper.ViewNames.STATUS
     };
   }
 
@@ -269,6 +270,27 @@ module.exports = class WindowManagerHelper {
       windowName,
       windowName
     );
+  }
+
+  /**
+   * creates new active status window window
+   * @returns {*}
+   */
+  static createActiveStatusWindow() {
+    let windowName = WindowManagerHelper.WindowNames.STATUS;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
+  }
+
+  /**
+   * closes the active status window
+   * @returns {*}
+   */
+  static closeActiveStatusWindow() {
+    let windowName = WindowManagerHelper.WindowNames.STATUS;
+    global.App.WindowManager.closeWindowByName(windowName);
   }
 
   /**

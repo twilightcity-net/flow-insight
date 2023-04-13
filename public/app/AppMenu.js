@@ -144,6 +144,14 @@ module.exports = class AppMenu extends Menu {
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
       },
       {
+        label: "Status Bar",
+        click: () => {
+          AppMenu.onClickFeature(AppFeatureToggle.Toggle.STATUS)
+        },
+        type: "checkbox",
+        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.STATUS)
+      },
+      {
         label: "Fervie",
         click: () => {
           AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
