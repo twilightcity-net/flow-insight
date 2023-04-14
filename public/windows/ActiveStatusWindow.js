@@ -21,14 +21,15 @@ module.exports = class ActiveStatusWindow {
     this.autoShow = false;
     this.width = 500;
     this.height = 33;
-    this.rightMargin = 20;
+    this.rightMargin = 30;
     this.bottomMargin = 43;
+    this.topMargin = 2;
     this.window = new BrowserWindow({
       name: this.name,
       width: this.width,
       height: this.height,
       x: this.display.workArea.x + this.display.workArea.width - this.width - this.rightMargin,
-      y: this.display.workArea.y + this.display.workArea.height - this.height - this.bottomMargin,
+      y: this.display.workArea.y + this.topMargin,
       show: false,
       frame: false,
       movable: true,

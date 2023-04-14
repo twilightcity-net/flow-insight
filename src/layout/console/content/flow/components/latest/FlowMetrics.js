@@ -75,14 +75,8 @@ export default class FlowMetrics extends Component {
   setActiveTtmsToDayCoords(dayCoords) {
     this.setState((prevState) => {
       let dayTtms = prevState.ttmModel.dailyTtms[dayCoords];
-      if (prevState.todayCoords && dayCoords !== prevState.todayCoords) {
-        return {
-          activeTtms: dayTtms
-        }
-      } else {
-        return {
-          activeTtms: null
-        }
+      return {
+        activeTtms: dayTtms
       }
     });
   }
