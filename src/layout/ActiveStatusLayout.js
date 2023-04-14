@@ -24,6 +24,8 @@ export default class ActiveStatusLayout extends Component {
     }
   }
 
+  static FOCUS_TYPE = "focus";
+  static TROUBLESHOOT_TYPE = "troubleshoot";
   /**
    * Called when the fervie button is first loaded
    */
@@ -72,9 +74,16 @@ export default class ActiveStatusLayout extends Component {
   }
 
   getBubbleContent() {
-    let content = "Eh?";
+    let content = "";
     if (this.state.me) {
-      if (this.state.me.workingOn) {
+      if (this.state.me.activeCircuit) {
+        let description = this.state.me.activeCircuit.description;
+        if (!description) {
+          description = "/wtf/"+this.state.me.activeCircuit.circuitName;
+        }
+        content = description;
+
+      } else if (this.state.me.workingOn) {
         content = this.state.me.workingOn;
       }
     }
@@ -85,6 +94,28 @@ export default class ActiveStatusLayout extends Component {
     return content;
   }
 
+  getBubbleType() {
+    let type = "none";
+    if (this.state.me) {
+      if (this.state.me.activeCircuit) {
+        type = ActiveStatusLayout.TROUBLESHOOT_TYPE;
+      } else if (this.state.me.workingOn) {
+        type = ActiveStatusLayout.FOCUS_TYPE;
+      }
+    }
+    return type;
+  }
+
+  getBubbleHeaderBasedOnType(bubbleType) {
+    let header = "";
+    if (bubbleType === ActiveStatusLayout.TROUBLESHOOT_TYPE) {
+      header = "Troubleshoot:";
+    } else if (bubbleType === ActiveStatusLayout.FOCUS_TYPE) {
+      header = "Focus:";
+    }
+    return header;
+  }
+
   /**
    * renders the status bar layout
    * @returns {*} - the JSX to render
@@ -92,11 +123,17 @@ export default class ActiveStatusLayout extends Component {
   render() {
 
     let bubbleContent = this.getBubbleContent();
+    let bubbleType = this.getBubbleType();
+    let bubbleHeader = this.getBubbleHeaderBasedOnType(bubbleType);
+
+    if (!bubbleContent) {
+      return <div></div>;
+    }
 
     return (
       <div id="component" className="activeStatusLayout" >
-        <div className="statusBar">
-          <span className="statusHeader">Focus:</span>
+        <div className={"statusBar "+ bubbleType}>
+          <span className={"statusHeader "+bubbleType}>{bubbleHeader}</span>
           <span className="status">
             {bubbleContent}
           </span>

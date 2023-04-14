@@ -3300,15 +3300,21 @@
   }
 
   #component.activeStatusLayout .statusBar {
-    float: right;
     background-color: rgba(27, 28, 29, 0.96);
-    border: #7846FB 1px solid;
+    float: right;
     border-radius: 9px;
     height: 99vh;
   }
 
+  #component.activeStatusLayout .statusBar.focus {
+    border: #7846FB 1px solid;
+  }
+
+  #component.activeStatusLayout .statusBar.troubleshoot {
+    border: rgba(240, 18, 19, 0.7) 1px solid;
+  }
+
   #component.activeStatusLayout .statusHeader {
-    background-color: #7846FB;
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
     color: white;
@@ -3321,6 +3327,14 @@
     display: inline-block;
     -webkit-app-region: drag;
     user-select: none;
+  }
+
+  #component.activeStatusLayout .statusHeader.troubleshoot {
+    background-color: rgba(240, 18, 19, 0.7);
+  }
+
+  #component.activeStatusLayout .statusHeader.focus {
+    background-color: #7846FB;
   }
 
   #component.activeStatusLayout .status {
