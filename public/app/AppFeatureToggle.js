@@ -13,7 +13,7 @@ module.exports = class AppFeatureToggle {
   static isARDeviceEnabled = false;
 
   static appName = "FlowInsight";
-  static version = "0.5.35"
+  static version = "0.5.36"
 
   static isFlowInsightApp() {
     return !AppFeatureToggle.isMoovieApp;
