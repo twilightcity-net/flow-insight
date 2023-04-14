@@ -48,6 +48,8 @@ module.exports = class GettingStartedWindow {
       },
     });
     this.window.name = this.name;
+    this.isOpen = true;
+
     this.window.setMenu(null);
     this.window.setAlwaysOnTop(true, "screen-saver");
 
@@ -61,8 +63,6 @@ module.exports = class GettingStartedWindow {
       this,
       (event, arg) => this.onHideConsole(event, arg)
     );
-
-    this.isOpen = true;
   }
 
   onShowCb() {
@@ -70,9 +70,16 @@ module.exports = class GettingStartedWindow {
     let consoleWindow = global.App.WindowManager.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
     if (consoleWindow) {
       if (consoleWindow.hasOpened()) {
-        this.onHideConsole();
+        this.window.hide();
+        this.closeWindowOnTimeout();
       }
     }
+  }
+
+  closeWindowOnTimeout() {
+    setTimeout(() => {
+      WindowManagerHelper.closeGettingStartedWindow();
+    }, 333);
   }
 
   onClosedCb() {

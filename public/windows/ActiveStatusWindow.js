@@ -67,7 +67,6 @@ module.exports = class ActiveStatusWindow {
 
   onClosedCb() {
     log.info("[ActiveStatusWindow] closed window");
-    this.isClosed = true;
     WindowManagerHelper.closeActiveStatusWindow();
   }
 

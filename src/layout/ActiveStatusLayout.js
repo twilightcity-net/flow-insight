@@ -3,9 +3,6 @@ import {RendererEventFactory} from "../events/RendererEventFactory";
 import {BaseClient} from "../clients/BaseClient";
 import UtilRenderer from "../UtilRenderer";
 import {MemberClient} from "../clients/MemberClient";
-import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
-import {Button, Icon, Popup} from "semantic-ui-react";
-import {CodeClient} from "../clients/CodeClient";
 
 /**
  * this component is the layout for the always-on-top active status bar
