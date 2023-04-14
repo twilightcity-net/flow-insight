@@ -277,15 +277,13 @@ module.exports = class AppLoader {
   }
 
   showActiveStatusWindow() {
-    if (AppFeatureToggle.isStatusBarEnabled) {
-      setTimeout( () => {
-        try {
-          WindowManagerHelper.createActiveStatusWindow();
-        } catch (error) {
-          AppError.handleError(error, true);
-        }
-      }, 777);
-    }
+    setTimeout( () => {
+      try {
+        WindowManagerHelper.createActiveStatusWindow();
+      } catch (error) {
+        AppError.handleError(error, true);
+      }
+    }, 777);
   }
 
   /**
