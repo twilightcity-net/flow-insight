@@ -3299,7 +3299,46 @@
   #component.activeStatusLayout {
   }
 
+  #component.activeStatusLayout .statusBar {
+    float: right;
+    background-color: rgba(27, 28, 29, 0.96);
+    border: #7846FB 1px solid;
+    border-radius: 9px;
+    height: 99vh;
+  }
+
+  #component.activeStatusLayout .statusHeader {
+    background-color: #7846FB;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    color: white;
+    font-size: 15px;
+    font-weight: bolder;
+    padding-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 6px;
+    padding-right: 10px;
+    display: inline-block;
+    -webkit-app-region: drag;
+    user-select: none;
+  }
+
   #component.activeStatusLayout .status {
+    color: white;
+    height: 99vh;
+    font-size: 14px;
+    padding-left: 10px;
+    padding-right: 15px;
+    padding-top: 5px;
+    -webkit-app-region: drag;
+    user-select: none;
+
+    /*text-overflow: ellipsis;*/
+    /*overflow: hidden;*/
+  }
+
+
+  #component.activeStatusLayout .alarm {
     background-color: rgba(100, 28, 29, 0.7);
     color: white;
     height: 99vh;

@@ -71,19 +71,36 @@ export default class ActiveStatusLayout extends Component {
     });
   }
 
+  getBubbleContent() {
+    let content = "Eh?";
+    if (this.state.me) {
+      if (this.state.me.workingOn) {
+        content = this.state.me.workingOn;
+      }
+    }
+    if (content.length > 69) {
+      content = content.substring(0, 67) + "..";
+    }
+
+    return content;
+  }
+
   /**
    * renders the status bar layout
    * @returns {*} - the JSX to render
    */
   render() {
 
-    let bubbleContent = "Are you troubleshooting?";
+    let bubbleContent = this.getBubbleContent();
 
     return (
       <div id="component" className="activeStatusLayout" >
-        <span className="status">
-        {bubbleContent}
-        </span>
+        <div className="statusBar">
+          <span className="statusHeader">Focus:</span>
+          <span className="status">
+            {bubbleContent}
+          </span>
+        </div>
       </div>
     );
   }
