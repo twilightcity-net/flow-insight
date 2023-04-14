@@ -90,14 +90,9 @@ module.exports = class FervieStateDetector {
    */
   isOverTroubleThreshold(currentMe, thresholdInSeconds) {
 
-    console.log("Me: "+currentMe);
-    console.log(currentMe);
-
     if (this.hasActiveCircuit(currentMe)) {
 
        const secondsOpen = this.getWtfTimerSeconds(currentMe.activeCircuit);
-
-       console.log("seconds open = "+secondsOpen);
        return secondsOpen > thresholdInSeconds * (this.circuitTriggerCount+1);
     }
 

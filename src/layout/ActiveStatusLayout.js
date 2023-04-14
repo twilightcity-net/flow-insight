@@ -76,7 +76,7 @@ export default class ActiveStatusLayout extends Component {
       if (this.state.me.activeCircuit) {
         let description = this.state.me.activeCircuit.description;
         if (!description) {
-          description = "/wtf/"+this.state.me.activeCircuit.circuitName;
+          description = "What's the problem?";
         }
         content = description;
 
