@@ -96,8 +96,8 @@ export default class ActiveStatusLayout extends Component {
         content = me.workingOn;
       }
     }
-    if (content.length > 67) {
-      content = content.substring(0, 65) + "..";
+    if (content.length > 56) {
+      content = content.substring(0, 54) + "..";
     }
 
     return content;
