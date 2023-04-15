@@ -41,6 +41,11 @@ export default class ActiveStatusLayout extends Component {
         this.onTalkRoomMessage
       );
 
+    this.showHideStatusEvent =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_STATUS_SHOW_HIDE,
+        this
+      );
   };
 
   onTalkRoomMessage = (event, arg) => {
@@ -54,6 +59,15 @@ export default class ActiveStatusLayout extends Component {
   }
 
   updateMe(me) {
+    let updatedContent = this.getBubbleContent(me);
+    if (updatedContent) {
+      console.log("dispatch show");
+      this.showHideStatusEvent.dispatch({show: 1});
+    } else {
+      console.log("dispatch hide");
+      this.showHideStatusEvent.dispatch({show: 0});
+    }
+
     this.setState({
       me: me
     });
@@ -65,38 +79,36 @@ export default class ActiveStatusLayout extends Component {
   }
 
   onMeRefresh = () => {
-    this.setState({
-      me: MemberClient.me
-    });
+    this.updateMe(MemberClient.me);
   }
 
-  getBubbleContent() {
+  getBubbleContent(me) {
     let content = "";
-    if (this.state.me) {
-      if (this.state.me.activeCircuit) {
-        let description = this.state.me.activeCircuit.description;
+    if (me) {
+      if (me.activeCircuit) {
+        let description = me.activeCircuit.description;
         if (!description) {
           description = "What's the problem?";
         }
         content = description;
 
-      } else if (this.state.me.workingOn) {
-        content = this.state.me.workingOn;
+      } else if (me.workingOn) {
+        content = me.workingOn;
       }
     }
-    if (content.length > 69) {
-      content = content.substring(0, 67) + "..";
+    if (content.length > 67) {
+      content = content.substring(0, 65) + "..";
     }
 
     return content;
   }
 
-  getBubbleType() {
+  getBubbleType(me) {
     let type = "none";
-    if (this.state.me) {
-      if (this.state.me.activeCircuit) {
+    if (me) {
+      if (me.activeCircuit) {
         type = ActiveStatusLayout.TROUBLESHOOT_TYPE;
-      } else if (this.state.me.workingOn) {
+      } else if (me.workingOn) {
         type = ActiveStatusLayout.FOCUS_TYPE;
       }
     }
@@ -119,8 +131,8 @@ export default class ActiveStatusLayout extends Component {
    */
   render() {
 
-    let bubbleContent = this.getBubbleContent();
-    let bubbleType = this.getBubbleType();
+    let bubbleContent = this.getBubbleContent(this.state.me);
+    let bubbleType = this.getBubbleType(this.state.me);
     let bubbleHeader = this.getBubbleHeaderBasedOnType(bubbleType);
 
     if (!bubbleContent) {

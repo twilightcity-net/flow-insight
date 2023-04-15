@@ -21,9 +21,9 @@ module.exports = class ActiveStatusWindow {
     this.autoShow = false;
     this.width = 500;
     this.height = 33;
-    this.rightMargin = 30;
+    this.rightMargin = 80; //30
     this.bottomMargin = 43;
-    this.topMargin = 2;
+    this.topMargin = 5;
     this.window = new BrowserWindow({
       name: this.name,
       width: this.width,
@@ -59,7 +59,14 @@ module.exports = class ActiveStatusWindow {
       this,
       (event, arg) => this.onShowHideConsole(event, arg)
     );
+    this.statusShowHideEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_STATUS_SHOW_HIDE,
+      this,
+      (event, arg) => this.onStatusShowHideCb(event, arg)
+    ),
+
     this.isConsoleOpen = false;
+    this.forceHide = false;
   }
 
   onShowCb() {
@@ -68,8 +75,28 @@ module.exports = class ActiveStatusWindow {
 
   onClosedCb() {
     log.info("[ActiveStatusWindow] closed window");
+    this.showHideConsoleEvent.remove();
+    this.statusShowHideEvent.remove();
     WindowManagerHelper.closeActiveStatusWindow();
   }
+
+  /**
+   * Called with view requests the status window be shown or hidden
+   * @param event
+   * @param arg
+   */
+  onStatusShowHideCb(event, arg) {
+    console.log("EVENT! onStatusShowHideCb");
+
+    if (arg.show === 1) {
+      console.log("force show");
+      this.forceHide = false;
+    } else if (arg.show === 0) {
+      console.log("force hide");
+      this.forceHide = true;
+    }
+  }
+
 
   /**
    * When main console window is closed, we want to show the active status
@@ -83,7 +110,9 @@ module.exports = class ActiveStatusWindow {
         this.window.hide();
       } else {
         this.isConsoleOpen = false;
-        this.window.show();
+        if (!this.forceHide) {
+          this.window.show();
+        }
       }
     } else {
       this.window.hide();

@@ -60,6 +60,7 @@ export class RendererEventFactory {
       WINDOW_FERVIE_SHOW_HIDE: prefix + "window-fervie-show-hide",
       WINDOW_FERVIE_SHOWING: prefix + "window-fervie-showing",
       WINDOW_FERVIE_HIDING: prefix + "window-fervie-hiding",
+      WINDOW_STATUS_SHOW_HIDE: prefix + "window-status-show-hide",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       TALK_MESSAGE_CLIENT: prefix + "talk-message-client",
