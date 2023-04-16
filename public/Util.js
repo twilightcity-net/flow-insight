@@ -336,6 +336,16 @@ class Util {
     return moment(utcStr).valueOf();
   }
 
+
+  /**
+   * Get a local date object back from a formatted utc string
+   * @param utcStr
+   */
+  static getDateFromUTCStr(utcStr) {
+    let t = moment.utc(utcStr, "YYYY-MM-DDTHH:mm:ss");
+    return t.local().toDate();
+  }
+
   /**
    * gets the uri guid of our talk room from the first item in our array index.
    * We use this value to store into a room collection that allows us to

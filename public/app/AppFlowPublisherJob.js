@@ -2,6 +2,7 @@ const log = require("electron-log"),
   chalk = require("chalk"),
   EventFactory = require("../events/EventFactory");
 const FlowFeedProcessor = require("../job/FlowFeedProcessor");
+const FlowStateTracker = require("../job/FlowStateTracker");
 const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
@@ -16,7 +17,7 @@ module.exports = class AppFlowPublisherJob {
   constructor() {
     this.name = "[AppFlowPublisherJob]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 60000 * 20;
+    this.intervalMs = 60000 * 5;
     this.initialDelayMs = 20000;
     this.timeout = {
       response: 30000,
@@ -25,7 +26,9 @@ module.exports = class AppFlowPublisherJob {
 
     this.pluginRegistrationHandler = global.App.PluginRegistrationHandler;
     this.codeModuleConfigHandler = global.App.CodeModuleConfigHandler;
-    this.flowFeedProcessor = new FlowFeedProcessor();
+
+    this.flowStateTracker = new FlowStateTracker();
+    this.flowFeedProcessor = new FlowFeedProcessor(this.flowStateTracker);
   }
 
   /**
@@ -79,6 +82,9 @@ module.exports = class AppFlowPublisherJob {
   }
 
   doLoopProcessing() {
+
+    this.flowStateTracker.refresh();
+
     this.pluginRegistrationHandler.loadAndValidatePlugins(() => {
       const plugins = this.pluginRegistrationHandler.getRegisteredPluginList();
 

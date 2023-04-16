@@ -18,8 +18,10 @@ const NewFlowBatchEventDto = require("../dto/NewFlowBatchEventDto");
  * @type {FlowFeedProcessor}
  */
 module.exports = class FlowFeedProcessor {
-  constructor() {
+  constructor(flowStateTracker) {
     this.name = "[FlowFeedProcessor]";
+
+    this.flowStateTracker = flowStateTracker;
   }
 
   static PREPROCESS_FOLDER = "preprocess";

@@ -86,13 +86,9 @@ module.exports = class ActiveStatusWindow {
    * @param arg
    */
   onStatusShowHideCb(event, arg) {
-    console.log("EVENT! onStatusShowHideCb");
-
     if (arg.show === 1) {
-      console.log("force show");
       this.forceHide = false;
     } else if (arg.show === 0) {
-      console.log("force hide");
       this.forceHide = true;
     }
   }
