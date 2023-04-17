@@ -34,6 +34,7 @@ class Util {
    * @param formattedTime
    * @returns {string}
    */
+
   static getTimeString(formattedTime) {
     let t = moment.utc(
       formattedTime,
@@ -45,6 +46,26 @@ class Util {
 
   static getCurrentLocalTimeString() {
     return moment().format("YYYY-MM-DDTHH:mm:ss");
+  }
+
+  static getCurrentTime() {
+    return moment().local().toDate();
+  }
+
+  /**
+   * Clamp an integer value between a min and max value
+   * @param intValue
+   * @param min
+   * @param max
+   */
+  static clamp(intValue, min, max) {
+    if (intValue < min) {
+      return min;
+    }
+    if (intValue > max) {
+      return max;
+    }
+    return intValue;
   }
 
   /**

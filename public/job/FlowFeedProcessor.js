@@ -545,7 +545,7 @@ module.exports = class FlowFeedProcessor {
       if (store.error) {
         this.handleFailedBatch(pluginId, filePath, store.error);
       } else {
-        this.handleSuccessfulBatch(pluginId, filePath, fileName);
+        this.handleSuccessfulBatch(pluginId, flowBatchDto, filePath, fileName);
       }
     });
   }
@@ -553,11 +553,14 @@ module.exports = class FlowFeedProcessor {
   /**
    * Once the batch send is successful, delete the file
    * @param pluginId
+   * @param flowBatchDto
    * @param filePath
    * @param fileName
    */
-  handleSuccessfulBatch(pluginId, filePath, fileName) {
+  handleSuccessfulBatch(pluginId, flowBatchDto, filePath, fileName) {
     log.info(this.name +" Sent 1 batch successfully for "+pluginId);
+
+    this.flowStateTracker.processBatch(pluginId, flowBatchDto);
 
     this.archiveFile(pluginId, filePath, fileName);
     //this.deleteFile(filePath);

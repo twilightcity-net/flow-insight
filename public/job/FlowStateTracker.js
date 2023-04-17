@@ -11,19 +11,21 @@ const {DtoClient} = require("../managers/DtoClientFactory");
 module.exports = class FlowStateTracker {
   constructor() {
     this.name = "[FlowStateTracker]";
+    this.buckets = new Map();
+    this.bucketKeys = [];
+    this.snapshot = null;
+    this.momentum = 0;
   }
 
   static KEY_TIME = "as.of.time";
   static KEY_MOMENTUM = "current.momentum";
   static KEY_MODCOUNT = "mod.keycounts";
+  static ACTIVITY_THRESHOLD = 150;
+  static MAX_MOMENTUM = 200;
 
-  /**
-   * Take in a new batch of flow activity and update our flow state
-   * @param batch
-   */
-  processBatch(batch) {
-
-  }
+  static HOURS_BACK = 2;
+  static BUCKETS_PER_HOUR = 12;
+  static TOTAL_BUCKETS = FlowStateTracker.HOURS_BACK * FlowStateTracker.BUCKETS_PER_HOUR;
 
   /**
    * Refresh latest flow state from the server, and update current status after
@@ -32,7 +34,7 @@ module.exports = class FlowStateTracker {
   refresh() {
     this.doFetchLatestFlowState((arg) => {
       if (arg.error) {
-        this.handleFailedRefresh(arg.error);
+        this.handleFailedSnapshotRefresh(arg.error);
       } else {
         this.updateSnapshotFlowState(arg.data);
       }
@@ -40,29 +42,238 @@ module.exports = class FlowStateTracker {
   }
 
   /**
+   * Take in a new batch of flow activity and update our flow state
+   * Expected format: {"durationInSeconds":30,"endTime":"2023-04-17T08:57:20","modificationCount":61}
+   * @param pluginId
+   * @param flowBatchDto
+   */
+  processBatch(pluginId, flowBatchDto) {
+    log.info("Updating flow state for batch from plugin: "+pluginId+"!");
+    this.loadModificationsIntoBuckets(flowBatchDto);
+
+    this.recalculateMomentum();
+  }
+
+  /**
+   * Recalculate momentum based on the snapshot time, taking all the recent modifications
+   * into account, to bring the momentum value up to date
+   */
+  recalculateMomentum() {
+    let slotCounts = this.createInitialSlotCounts();
+    let momentum = this.createInitialMomentum();
+
+    let consecutiveIdleCount = 0;
+
+    let orderedKeys = this.extractOrderedKeys(this.buckets);
+
+    for(let key of orderedKeys) {
+      let bucket = this.buckets.get(key);
+      let total = this.sumWindow(bucket.count, slotCounts);
+
+      slotCounts = this.shiftLeft(slotCounts, bucket.count);
+
+      if (total > FlowStateTracker.ACTIVITY_THRESHOLD) {
+        momentum += 5;
+        consecutiveIdleCount = 0;
+      } else if (total < FlowStateTracker.ACTIVITY_THRESHOLD) {
+        momentum -= 2.5;
+        consecutiveIdleCount++;
+      }
+      momentum = Util.clamp(momentum, 0, FlowStateTracker.MAX_MOMENTUM);
+
+      if (consecutiveIdleCount > 12) {
+        momentum = 0;
+      }
+    }
+
+    console.log("Updating momentum = "+momentum);
+    this.momentum = momentum;
+  }
+
+  /**
+   * Get a list of the keys of the map in sorted order
+   * @param map
+   */
+  extractOrderedKeys(map) {
+    let keys =[ ...map.keys() ];
+    keys.reverse();
+    return keys;
+  }
+
+  /**
+   * Create initial momentum value for calculation based on our snapshot as long
+   * as the snapshot is not too old
+   */
+  createInitialMomentum() {
+    let twoHoursAgo = new Date();
+    twoHoursAgo.setHours(twoHoursAgo.getHours() - 2);
+
+    if (this.snapshot) {
+      if (this.snapshot.time > twoHoursAgo) {
+        return this.snapshot.momentum;
+      } else {
+        return 0;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * Create the initial slot counts, either from our snapshot, or default to all zeros
+   */
+  createInitialSlotCounts() {
+    let slotCounts = [];
+    if (this.snapshot) {
+      slotCounts.push(this.snapshot.rollover.bucketHistory[3]); //oldest at the front
+      slotCounts.push(this.snapshot.rollover.bucketHistory[2]);
+      slotCounts.push(this.snapshot.rollover.bucketHistory[1]);
+      slotCounts.push(this.snapshot.rollover.bucketHistory[0]); //newest at the end
+    } else {
+      slotCounts = [0,0,0,0];
+    }
+    return slotCounts;
+  }
+
+  /**
+   * Put newest element on the end of the array and drop the first
+   * to shift the window one position
+   * @param array
+   * @param newElement
+   * @returns {*}
+   */
+  shiftLeft(array, newElement) {
+     array.splice(0, 1);
+     array.push(newElement);
+     return array;
+  }
+
+  /**
+   * Sum all the numbers within the window
+   */
+  sumWindow(count, slotCounts) {
+    return count + slotCounts[0] + slotCounts[1] + slotCounts[2] + slotCounts[3];
+  }
+
+  /**
+   * Load the modification counts from the most recent batch into our
+   * 5min buckets, the counts within the same bucket will be totaled
+   */
+  loadModificationsIntoBuckets(flowBatchDto) {
+    for (let modificationActivity of flowBatchDto.modificationActivityList) {
+      let modTime = this.truncateTimeFiveMinutes(modificationActivity.endTime);
+      let modCount = modificationActivity.modificationCount;
+
+      let bucket = this.buckets.get(modTime.getTime());
+      if (bucket) {
+        bucket.count += modCount;
+      } else {
+        log.debug("Ignoring mods, no bucket found for "+modTime);
+      }
+    }
+  }
+  
+  /**
    * Update the referenced snapshot of the flowstate from the server,
    * and start keeping track of data after this state
    * @param tableResult
    */
   updateSnapshotFlowState(tableResult) {
-    log.info("updateSnapshotFlowState returned!");
+    log.debug("updateSnapshotFlowState!");
 
     let rows = tableResult.rowsOfPaddedCells;
     let keyMap = this.toKeyMap(rows);
 
-    let timestamp = this.toTimestamp(keyMap.get(FlowStateTracker.KEY_TIME));
+    let snapshotTime = this.toTimestamp(keyMap.get(FlowStateTracker.KEY_TIME));
     let currentMomentum = this.toInt(keyMap.get(FlowStateTracker.KEY_MOMENTUM));
     let modkeysRollover = this.toRolloverCounts(keyMap.get(FlowStateTracker.KEY_MODCOUNT));
 
-    log.info("timestamp = "+timestamp);
-    log.info("momentum = "+currentMomentum);
-    log.info("modkeys = "+JSON.stringify(modkeysRollover));
+    log.debug("snapshot momentum = "+currentMomentum);``
+
+    this.snapshot = {
+      time: snapshotTime,
+      momentum: currentMomentum,
+      rollover: modkeysRollover
+    }
+
+    let newBuckets = this.createBucketSet(snapshotTime);
+    this.copyDataIntoNewBuckets(newBuckets, this.buckets);
+
+    this.buckets = newBuckets;
   }
 
+  /**
+   * Copy existing snapshot data into the new fresh buckets
+   * based our refreshed snapshot
+   * @param newBuckets
+   * @param oldBuckets
+   */
+  copyDataIntoNewBuckets(newBuckets, oldBuckets) {
+    for (let [key, value] of oldBuckets) {
+      let newBucketFound = newBuckets.get(key);
+
+      if (newBucketFound) {
+        newBucketFound.count = value.count;
+      } else {
+        log.debug("Discarding old bucket "+key);
+      }
+    }
+  }
+
+  /**
+   * Create a fresh set of 5min buckets that go from our snapshot time
+   * to the current time for counting up our activity across time
+   * @param snapshotTime
+   */
+  createBucketSet(snapshotTime) {
+    let firstBucket = this.truncateTimeFiveMinutes(Util.getCurrentTime());
+    let snapshotBucket = this.truncateTimeFiveMinutes(snapshotTime);
+
+    let buckets = new Map();
+
+    let currentBucket = firstBucket;
+    while( buckets.size < FlowStateTracker.TOTAL_BUCKETS && currentBucket >= snapshotBucket) {
+      let bucketCounter = {
+        bucket: currentBucket,
+        count: 0
+      }
+      buckets.set(currentBucket.getTime(), bucketCounter);
+      currentBucket = this.subtractFiveMinutes(currentBucket);
+    }
+
+    return buckets;
+  }
+
+  /**
+   * Subtract 5 minutes from the current time and return it as a new Date object
+   * @param time
+   * @returns {Date}
+   */
+  subtractFiveMinutes(time) {
+    var timeToReturn = new Date(time);
+    timeToReturn.setMinutes(time.getMinutes() - 5);
+
+    return timeToReturn;
+  }
+
+  /**
+   * Truncate input time to the nearest 5 minute threshold bucket
+   * @param time
+   * @returns {Date}
+   */
+  truncateTimeFiveMinutes(time) {
+    var timeToReturn = new Date(time);
+
+    timeToReturn.setMilliseconds(0);
+    timeToReturn.setSeconds(0);
+    timeToReturn.setMinutes(Math.trunc(timeToReturn.getMinutes() / 5) * 5);
+    return timeToReturn;
+  }
 
   /**
    * Convert to a rollover data count object if not null
    * Example src format: 158.0 [128.0, 0.0, 0.0, 30.0, 0.0]
+   * Within window, newest, older, older, oldest
    * @param rolloverCounts
    */
   toRolloverCounts(rolloverCounts) {
@@ -70,19 +281,17 @@ module.exports = class FlowStateTracker {
     if (rolloverCounts) {
       let parts = rolloverCounts.replace('[','').replace(']','').replace(',','').split(" ");
       rollover.total = parseFloat(parts[0]);
-      rollover.parts = [];
-      rollover.parts.push(parseFloat(parts[1]));
-      rollover.parts.push(parseFloat(parts[2]));
-      rollover.parts.push(parseFloat(parts[3]));
-      rollover.parts.push(parseFloat(parts[4]));
-      rollover.parts.push(parseFloat(parts[5]));
+      rollover.bucketHistory = [];
+      rollover.bucketHistory.push(parseFloat(parts[1]));
+      rollover.bucketHistory.push(parseFloat(parts[2]));
+      rollover.bucketHistory.push(parseFloat(parts[3]));
+      rollover.bucketHistory.push(parseFloat(parts[4]));
+      rollover.bucketHistory.push(parseFloat(parts[5]));
       return rollover;
     } else {
       return null;
     }
   }
-
-
 
   /**
    * Convert to an integer if not null
@@ -109,6 +318,7 @@ module.exports = class FlowStateTracker {
       return null;
     }
   }
+
   /**
    * Convert property rows to a keymap structure
    * @param rows
@@ -121,17 +331,13 @@ module.exports = class FlowStateTracker {
     }
     return keyMap;
   }
-  //
-  // [1]   title: 'Latest Flow State',
-  // [1]   headers: [ 'Key              ', 'Description                      ' ],
-  // [1]   rowsOfPaddedCells: [
-  //   [1]     [ 'current.momentum ', '0                                ' ],
-  // [1]     [ 'mod.keycounts    ', '85.0 [0.0, 25.0, 0.0, 5.0, 55.0] ' ],
-  // [1]     [ 'as.of.time       ', '2023-04-16T18:40:00              ' ]
-  // [1]   ]
-  // [1] }
 
-  handleFailedRefresh(error) {
+  /**
+   * If snapshot refresh fails, log the error, snapshot will be calculated using the most recent snapshot
+   * acquired or null if no snapshot available
+   * @param error
+   */
+  handleFailedSnapshotRefresh(error) {
     log.error("Failed to refresh flow state: "+error);
   }
 
