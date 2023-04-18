@@ -70,6 +70,7 @@ module.exports = class FlowStateTracker {
       let bucket = this.buckets.get(key);
       let total = this.sumWindow(bucket.count, slotCounts);
 
+      console.log("window "+key + " = "+JSON.stringify(slotCounts) + "+"+bucket.count);
       slotCounts = this.shiftLeft(slotCounts, bucket.count);
 
       if (total > FlowStateTracker.ACTIVITY_THRESHOLD) {
@@ -82,12 +83,15 @@ module.exports = class FlowStateTracker {
       momentum = Util.clamp(momentum, 0, FlowStateTracker.MAX_MOMENTUM);
 
       if (consecutiveIdleCount > 12) {
+        console.log("Consecutive idle momentum reset");
         momentum = 0;
       }
     }
 
     console.log("Updating momentum = "+momentum);
     this.momentum = momentum;
+
+    global.App.FlowManager.updateMyFlow({momentum: this.momentum});
   }
 
   /**
@@ -189,6 +193,7 @@ module.exports = class FlowStateTracker {
     let modkeysRollover = this.toRolloverCounts(keyMap.get(FlowStateTracker.KEY_MODCOUNT));
 
     log.debug("snapshot momentum = "+currentMomentum);``
+    log.debug("Snapshot time = "+snapshotTime);
 
     this.snapshot = {
       time: snapshotTime,

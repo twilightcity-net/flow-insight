@@ -21,6 +21,7 @@ import {AccountClient} from "../clients/AccountClient";
 import {CodeClient} from "../clients/CodeClient";
 import {FeatureToggleClient} from "../clients/FeatureToggleClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
+import {FlowClient} from "../clients/FlowClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -143,6 +144,7 @@ export default class ConsoleView extends Component {
     HotkeyClient.init(this);
     MoovieClient.init(this);
     CodeClient.init(this);
+    FlowClient.init(this);
 
     this.featureToggleRefreshListener =
       RendererEventFactory.createEvent(

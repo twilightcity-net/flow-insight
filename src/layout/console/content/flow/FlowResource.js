@@ -5,6 +5,8 @@ import FlowDashboardContent from "./components/latest/FlowDashboardContent";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {MemberClient} from "../../../../clients/MemberClient";
 import UtilRenderer from "../../../../UtilRenderer";
+import {FlowClient} from "../../../../clients/FlowClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for the flow content
@@ -44,11 +46,56 @@ export default class FlowResource extends Component {
             chartDto: arg.data,
             visible: true
           });
+        } else {
+          console.error(arg.error);
         }
       }
     );
+
+    FlowClient.getMyFlowData(this, (arg) => {
+      if (!arg.error) {
+        console.log(arg.data);
+        this.setState({
+          flowState: arg.data
+        });
+      } else {
+        console.error(arg.error);
+      }
+    });
+
+    this.flowStateRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.FLOWSTATE_DATA_REFRESH,
+        this,
+        this.onFlowStateDataRefresh
+      );
   }
 
+
+  componentWillUnmount() {
+    this.flowStateRefreshListener.clear();
+  }
+
+  /**
+   * When we get a flow state refresh, refresh our current state from the DB
+   */
+  onFlowStateDataRefresh() {
+    console.log("On flow state data refresh");
+
+    FlowClient.getMyFlowData(this, (arg) => {
+      if (!arg.error) {
+        console.log(arg.data);
+        if (!this.state.flowState || (this.state.flowState && arg.data.momentum !== this.state.flowState.momentum)) {
+          console.log("Updating flow state momentum to "+arg.data.momentum);
+          this.setState({
+            flowState: arg.data
+          });
+        }
+      } else {
+        console.error(arg.error);
+      }
+    });
+  }
 
 
   onClickDayBox = (weekCoords, dayCoords) => {
@@ -85,6 +132,7 @@ export default class FlowResource extends Component {
       >
         <div id="wrapper" className="flowDashboardContent">
           <FlowDashboardContent chartDto={this.state.chartDto}
+                                flowState={this.state.flowState}
                                 visible={this.state.visible}
                                 onClickDayBox={this.onClickDayBox}/>
         </div>

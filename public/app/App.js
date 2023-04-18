@@ -58,6 +58,7 @@ const {
 const ConfigWindowManager = require("../managers/ConfigWindowManager");
 const HotkeyManager = require("../managers/HotkeyManager");
 const MoovieManager = require("../managers/MoovieManager");
+const FlowManager = require("../managers/FlowManager");
 const MoovieWindowManager = require("../managers/MoovieWindowManager");
 const CircuitMemberManager = require("../managers/CircuitMemberManager");
 const MessageWindowManager = require("../managers/MessageWindowManager");
@@ -187,6 +188,7 @@ module.exports = class App {
       global.App.PluginRegistrationHandler = new PluginRegistrationHandler();
       global.App.AccountManager = new AccountManager();
       global.App.MoovieManager = new MoovieManager();
+      global.App.FlowManager = new FlowManager();
       global.App.CircuitMemberManager = new CircuitMemberManager();
       global.App.NotificationManager = new NotificationManager();
       global.App.TerminalManager = new TerminalManager();

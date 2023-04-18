@@ -65,6 +65,9 @@ class VolumeManager {
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.EMOJI
     );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.FLOW
+    );
 
     VolumeManager.loadDefaultJournalDatabase();
     VolumeManager.loadDefaultCircuitDatabase();

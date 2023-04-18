@@ -105,6 +105,7 @@ export default class FlowDashboardContent extends Component {
           <div className="chartWrapper" style={{width: chartWidth + "px"}}>
             <FlowWeekChart
               chartDto={this.props.chartDto}
+              flowState={this.props.flowState}
               onHoverDayBox={this.onHoverDayBox}
               onHoverOffDayBox={this.onHoverOffDayBox}
               onClickDayBox={this.onClickDayBox}

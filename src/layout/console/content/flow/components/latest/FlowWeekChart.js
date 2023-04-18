@@ -38,6 +38,11 @@ export default class FlowWeekChart extends Component {
       let box = document.getElementById(this.props.selectedDay + "-box");
       box.classList.add("boxHighlight");
     }
+
+    if ((!prevProps.flowState && this.props.flowState) || (prevProps.flowState
+      && this.props.flowState && prevProps.flowState.momentum !== this.props.flowState.momentum)) {
+      this.displayChart(this.props.chartDto);
+    }
   }
 
   /**
@@ -76,6 +81,7 @@ export default class FlowWeekChart extends Component {
     const chartGroup = svg.append("g").attr("class", "ifm");
 
     this.drawTitle(chartGroup);
+    this.drawFlowLight(chartGroup);
     this.drawBoxes(dailyRows, chartGroup);
     this.drawMomentumBoxes(dailyRows, chartGroup);
     this.drawConfusionBoxes(dailyRows, chartGroup);
@@ -161,6 +167,53 @@ export default class FlowWeekChart extends Component {
       .text("This Week's Programming Flow");
   }
 
+  /**
+   * Draw the flow light in the upper right corner
+   * @param chartGroup
+   */
+  drawFlowLight(chartGroup) {
+    let lightWidth = 20;
+    let lightHeight = 20;
+    let extraMargin = 5;
+
+    chartGroup
+      .append("text")
+      .attr("class", "flowlight")
+      .attr("x", this.width - this.margin - lightWidth*1.5 - extraMargin)
+      .attr("y", this.topMargin)
+      .attr("text-anchor", "end")
+      .text("Current Flow State:");
+
+    chartGroup
+      .append("circle")
+      .attr("fill", this.getCurrentMomentumColor())
+      .attr("stroke", "rgba(74, 74, 74, 0.96)")
+      .attr("cx", this.width - this.margin - lightWidth/2 - extraMargin)
+      .attr("cy", this.topMargin - lightHeight/4)
+      .attr("r", 7);
+
+  }
+
+  getCurrentMomentumColor() {
+    let color = "#ffffff";
+    if (this.props.flowState) {
+      let momentum = this.props.flowState.momentum;
+
+      var interp = d3
+        .scaleLinear()
+        .domain([0, 0.2, 0.4, 1])
+        .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
+
+      let mScale = d3
+        .scaleLinear()
+        .domain([0, 200])
+        .range([0, 1]);
+
+      color = interp(mScale(momentum));
+    }
+
+    return color;
+  }
 
   /**
    * Draw the flow states legend at the bottom of the screen

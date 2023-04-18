@@ -1,5 +1,3 @@
-const HotkeyController = require("../controllers/HotkeyController");
-const AppFeatureToggle = require("../app/AppFeatureToggle");
 const FeatureToggleController = require("../controllers/FeatureToggleController");
 
 /**
