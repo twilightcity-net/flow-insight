@@ -181,7 +181,7 @@ module.exports = class MemberDatabase extends LokiJS {
       collection.removeBatch(batch);
       collection.insert(doc);
 
-      global.App.MemberManager.updateMe(member);
+      global.App.MemberManager.pushMeUpdateToClient(member);
     }
   }
 

@@ -56,11 +56,6 @@ class MemberController extends BaseController {
         this,
         this.onMemberClientEvent
       );
-    this.memberClientEventNotifier =
-      EventFactory.createEvent(
-        EventFactory.Types.MEMBER_CONTROLLER,
-        this
-      );
   }
 
   /**
@@ -130,6 +125,32 @@ class MemberController extends BaseController {
           callback
         )
     );
+  }
+
+  /**
+   * gets our user object of ourselves logged in.
+   * @returns {Array}
+   */
+  getMemberMe() {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.MEMBER
+      ),
+      view = database.getViewForMe();
+
+    return view.data()[0];
+  }
+
+  /**
+   * gets our local user name that represents ourselves
+   * @returns {String}
+   */
+  getMeUsername() {
+    let me = this.getMemberMe();
+    if (me) {
+      return me.username;
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -313,19 +334,6 @@ class MemberController extends BaseController {
     );
   }
 
-  /**
-   * this is a helper function which uses our client event bus to
-   * give the client a reference of our new member me dto that is us.
-   * @param me
-   */
-  updateMeInClient(me) {
-    this.memberClientEventNotifier.dispatch(
-      new ControllerEvent(
-        MemberController.Events.UPDATE_ME,
-        me
-      )
-    );
-  }
 }
 
 module.exports = MemberController;

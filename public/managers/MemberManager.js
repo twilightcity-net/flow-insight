@@ -1,5 +1,6 @@
 const MemberController = require("../controllers/MemberController");
 const EventFactory = require("../events/EventFactory");
+const ControllerEvent = require("../events/ControllerEvent");
 
 /**
  * managing class for the team client for the global app scope
@@ -15,6 +16,12 @@ class MemberManager {
       EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
       this
     );
+
+    this.memberClientEventNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.MEMBER_CONTROLLER,
+        this
+      );
   }
 
   /**
@@ -56,8 +63,13 @@ class MemberManager {
    * object that represents us.
    * @param me
    */
-  updateMe(me) {
-    this.myController.updateMeInClient(me);
+  pushMeUpdateToClient(me) {
+    this.memberClientEventNotifier.dispatch(
+      new ControllerEvent(
+        MemberController.Events.UPDATE_ME,
+        me
+      )
+    );
   }
 
   /**
@@ -65,6 +77,13 @@ class MemberManager {
    */
   getMe() {
     return this.myController.getMemberMe();
+  }
+
+  /**
+   * Retrieves the me username through the controller
+   */
+  getMeUsername() {
+    return this.myController.getMeUsername();
   }
 }
 

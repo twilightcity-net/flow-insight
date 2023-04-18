@@ -172,7 +172,7 @@ module.exports = class FlowStateTracker {
       }
     }
   }
-  
+
   /**
    * Update the referenced snapshot of the flowstate from the server,
    * and start keeping track of data after this state

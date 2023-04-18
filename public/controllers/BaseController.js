@@ -1,9 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   Util = require("../Util"),
-  { DtoClient } = require("../managers/DtoClientFactory"),
-  TalkDatabase = require("../database/TalkDatabase"),
-  DatabaseFactory = require("../database/DatabaseFactory");
+  { DtoClient } = require("../managers/DtoClientFactory");
 
 /**
  * This class is used to coordinate controllers across the app classes.
@@ -625,59 +623,4 @@ module.exports = class BaseController {
     collection.insert(model);
   }
 
-  /**
-   * checks our database to see if we have a room for the night.
-   * @param roomName
-   * @returns {Object}
-   */
-  hasRoomByRoomName(roomName) {
-    let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.TALK
-      ),
-      rooms = database.getCollection(
-        TalkDatabase.Collections.ROOMS
-      );
-
-    return rooms.findOne({ roomName: roomName });
-  }
-
-  /**
-   * resets the isHomeTeam flag on any document collection
-   * @param doc
-   * @param collection
-   * @deprecated
-   */
-  resetHomeTeamFlag(doc, collection) {
-    let results = collection.find({ isHomeTeam: true });
-    results.forEach((t) => {
-      t.isHomeTeam = false;
-      collection.update(t);
-    });
-  }
-
-  /**
-   * gets our user object of ourselves logged in.
-   * @returns {Array}
-   */
-  getMemberMe() {
-    let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.MEMBER
-      ),
-      view = database.getViewForMe();
-
-    return view.data()[0];
-  }
-
-  /**
-   * gets our local user name that represents ourselves
-   * @returns {String}
-   */
-  getMeUsername() {
-    let me = this.getMemberMe();
-    if (me) {
-      return me.username;
-    } else {
-      return null;
-    }
-  }
 };

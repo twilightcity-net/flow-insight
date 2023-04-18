@@ -2,6 +2,7 @@ const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   Util = require("../Util");
+const TalkDatabase = require("../database/TalkDatabase");
 
 /**
  * This class is used to coordinate controllers across the talknet service
@@ -352,6 +353,21 @@ module.exports = class TalkToController extends (
     );
   }
 
+  /**
+   * checks our database to see if we have a room for the night.
+   * @param roomName
+   * @returns {Object}
+   */
+  hasRoomByRoomName(roomName) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      rooms = database.getCollection(
+        TalkDatabase.Collections.ROOMS
+      );
+
+    return rooms.findOne({ roomName: roomName });
+  }
 
   /**
    * Publish a puppet type message to the talk room,

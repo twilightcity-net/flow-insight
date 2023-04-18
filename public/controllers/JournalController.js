@@ -617,6 +617,10 @@ module.exports = class JournalController extends (
     );
   }
 
+  getMeUsername() {
+    return global.App.MemberManager.getMeUsername();
+  }
+
   /**
    * gets our recent tasks for a user with a fallback query to the server
    * @param event

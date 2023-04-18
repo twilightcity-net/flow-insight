@@ -712,7 +712,7 @@ module.exports = class TalkController extends (
         ),
       fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr],
       fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr],
-      me = this.getMemberMe(),
+      me = global.App.MemberManager.getMe(),
       model = {};
 
     this.trackMessage(uri, nanoTime, message);

@@ -171,6 +171,20 @@ module.exports = class TeamController extends (
   }
 
   /**
+   * resets the isHomeTeam flag on any document collection
+   * @param doc
+   * @param collection
+   * @deprecated
+   */
+  resetHomeTeamFlag(doc, collection) {
+    let results = collection.find({ isHomeTeam: true });
+    results.forEach((t) => {
+      t.isHomeTeam = false;
+      collection.update(t);
+    });
+  }
+
+  /**
    * gets all of our participating teams we have loaded from  the db. If the collections are
    * empty, we will try looking for new content on grid.
    * @param event
