@@ -16,6 +16,7 @@ export default class FlowWeekChart extends Component {
     this.name = "[LatestWeekChart]";
   }
 
+  static MAX_TOTAL_MOMENTUM = 1400;
 
   /**
    * Initially when we get the first set of props, display our chart data.
@@ -365,6 +366,7 @@ export default class FlowWeekChart extends Component {
       dailyRow.duration = parseInt(row[2].trim(), 10);
       dailyRow.confusionPercent = parseInt(row[4].trim(), 10) / 100;
       dailyRow.momentum = parseInt(row[8].trim(), 10);
+      dailyRow.totalMomentum = parseInt(row[9].trim(), 10);
 
       dailyRows.push(dailyRow);
     }
@@ -424,7 +426,7 @@ export default class FlowWeekChart extends Component {
   drawMomentumBoxes(dailyRows, chartGroup) {
     let mScale = d3
       .scaleLinear()
-      .domain([0, 200])
+      .domain([0, FlowWeekChart.MAX_TOTAL_MOMENTUM])
       .range([0, 1]);
 
     var interp = d3
@@ -445,7 +447,7 @@ export default class FlowWeekChart extends Component {
       .attr("width", (d) => d.duration > 0? this.cellSize : 0)
       .attr("height", this.cellSize)
       .attr("fill", (d) =>
-        interp(mScale(d.momentum))
+        interp(mScale(this.clampToMaxTotalMomentum(d.totalMomentum)))
       )
       .attr("stroke", "#333333")
       .attr("stroke-width", 1)
@@ -467,6 +469,14 @@ export default class FlowWeekChart extends Component {
         that.onClickDayBox(d.coords);
       });
 
+  }
+
+  clampToMaxTotalMomentum(totalMomentum) {
+    if (totalMomentum > FlowWeekChart.MAX_TOTAL_MOMENTUM) {
+      return FlowWeekChart.MAX_TOTAL_MOMENTUM;
+    } else {
+      return totalMomentum;
+    }
   }
 
   drawOverlayStrokeBoxes(dailyRows, chartGroup) {

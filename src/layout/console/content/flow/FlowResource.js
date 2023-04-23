@@ -54,7 +54,6 @@ export default class FlowResource extends Component {
 
     FlowClient.getMyFlowData(this, (arg) => {
       if (!arg.error) {
-        console.log(arg.data);
         this.setState({
           flowState: arg.data
         });

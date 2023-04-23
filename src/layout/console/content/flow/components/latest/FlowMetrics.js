@@ -74,7 +74,7 @@ export default class FlowMetrics extends Component {
 
   setActiveTtmsToDayCoords(dayCoords) {
     this.setState((prevState) => {
-      let dayTtms = prevState.ttmModel.dailyTtms[dayCoords];
+      let dayTtms = prevState.ttmModel.dailyTtms.get(dayCoords);
       return {
         activeTtms: dayTtms
       }
@@ -109,25 +109,39 @@ export default class FlowMetrics extends Component {
    */
   calculateTtmModel(chartData) {
     let ttmSeries = chartData.eventSeriesByType["@ttm/event"].rowsOfPaddedCells;
+    let dailySeries = chartData.chartSeries.rowsOfPaddedCells;
 
+    let ttmModel = this.createTtmModelFromTtmEvents(ttmSeries, dailySeries);
+    ttmModel = this.updateTtmModelFromDailySeries(ttmModel, dailySeries);
+
+    return ttmModel;
+  }
+
+
+  /**
+   * Create an initial ttm metrics model from ttm event series
+   * @param ttmSeries
+   * @param dailySeries
+   */
+  createTtmModelFromTtmEvents(ttmSeries, dailySeries) {
     let ttmSum = 0;
     let ttmCount = 0;
     let maxTtmSustain = null;
-    let dailyTtmTable = [];
+    let dailyTtmTable = new Map();
 
     if (ttmSeries && ttmSeries.length > 0) {
       for (let ttmRow of ttmSeries) {
         const dayCoords = ttmRow[0].trim();
         const ttmActivate = parseInt(ttmRow[5].trim());
         const ttmSustain = parseInt(ttmRow[6].trim());
-        const existingDayRow = dailyTtmTable[dayCoords];
+        const existingDayRow = dailyTtmTable.get(dayCoords);
 
         if (!existingDayRow) {
           //this is the first ttm for this day, include these in the calculation
           ttmSum += ttmActivate;
           ttmCount++;
         }
-        dailyTtmTable[dayCoords] = this.updateTtmTableEntry(existingDayRow, ttmActivate, ttmSustain);
+        dailyTtmTable.set(dayCoords, this.updateTtmTableEntry(existingDayRow, ttmActivate, ttmSustain));
 
         if (ttmSustain && (!maxTtmSustain || ttmSustain > maxTtmSustain)) {
           maxTtmSustain = ttmSustain;
@@ -142,6 +156,42 @@ export default class FlowMetrics extends Component {
 
     return ttmModel;
   }
+
+  updateTtmModelFromDailySeries(ttmModel, dailySeries) {
+
+    let totalDayCount = 0;
+    let sumMomentum = 0;
+
+    if (dailySeries && dailySeries.length > 0) {
+      for (let dailyRow of dailySeries) {
+        const dayCoords = dailyRow[0].trim();
+        const totalMomentum = parseInt(dailyRow[9].trim());
+        const totalTime = parseInt(dailyRow[2].trim());
+        const existingDayRow = ttmModel.dailyTtms.get(dayCoords);
+
+        if (totalTime === 0) {
+          continue;
+        }
+
+        totalDayCount++;
+        sumMomentum += totalMomentum;
+
+        if (existingDayRow) {
+          existingDayRow.momentumPerDay = totalMomentum;
+        } else {
+          ttmModel.dailyTtms.set(dayCoords, {ttmSum: 0, ttmCount: 0, lfs: 0, momentumPerDay: totalMomentum});
+        }
+      }
+      if (totalDayCount > 0) {
+        ttmModel.weeklyTtms.momentumPerDay = Math.round((sumMomentum / totalDayCount));
+      } else {
+        ttmModel.weeklyTtms.momentumPerDay = 0;
+      }
+    }
+
+    return ttmModel;
+  }
+
 
   /**
    * Update the existing table entry based on the new max/average values
@@ -169,19 +219,18 @@ export default class FlowMetrics extends Component {
   render() {
 
     let ttmMins = "--";
-    let lfsMins = "--";
+    let mpd = "--";
 
    if (this.state.activeTtms && this.state.activeTtms.ttmSum) {
 
      const avgTtm = Math.round(this.state.activeTtms.ttmSum / this.state.activeTtms.ttmCount);
 
      ttmMins = avgTtm + " min";
-
-     if (this.state.activeTtms.lfs) {  //lfs can be null if the streak is in progress
-       lfsMins = this.state.activeTtms.lfs + " min";
-     }
-
    }
+
+    if (this.state.activeTtms && this.state.activeTtms.momentumPerDay) {  //lfs can be null if the streak is in progress
+      mpd = this.state.activeTtms.momentumPerDay;
+    }
 
     return (
       <div className="metricsPanel">
@@ -193,9 +242,9 @@ export default class FlowMetrics extends Component {
         <div className="space">&nbsp;</div>
 
         <div className="summaryMetrics">
-          <div className="metricsHeader">Longest Flow Streak (LFS)</div>
-          <div className="metric">{lfsMins}</div>
-          <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>
+          <div className="metricsHeader">Momentum Per Day (MPD)</div>
+          <div className="metric">{mpd}</div>
+          <div className="metricDescription">Average momentum cumulated per day as an estimate of overall productivity</div>
         </div>
       </div>
     );
