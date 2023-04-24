@@ -49,6 +49,7 @@ export default class FlowResource extends Component {
         this,
         this.onFlowStateDataRefresh
       );
+
   }
 
 
@@ -83,7 +84,8 @@ export default class FlowResource extends Component {
           this.setState({
             chartDto: arg.data,
             visible: true,
-            weekOffset: inputWeekOffset
+            weekOffset: inputWeekOffset,
+            me: MemberClient.me
           });
         } else {
           console.error(arg.error);
@@ -117,7 +119,6 @@ export default class FlowResource extends Component {
     console.log("On flow state data refresh");
     this.reloadFlowStateData();
   }
-
 
   onClickDayBox = (weekCoords, dayCoords) => {
     console.log("Closing dashboard and navigating to journal");
@@ -163,6 +164,7 @@ export default class FlowResource extends Component {
                                 flowState={this.state.flowState}
                                 visible={this.state.visible}
                                 weekOffset={this.state.weekOffset}
+                                me={this.state.me}
                                 onClickDayBox={this.onClickDayBox}
                                 onClickNavWeek={this.onClickNavWeek}/>
         </div>

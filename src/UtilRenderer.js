@@ -67,7 +67,7 @@ export default class UtilRenderer {
    */
   static getSimpleDateTimeFromUtc(dateStr) {
     let localTime  = moment.utc(dateStr).toDate();
-    return moment(localTime).format('MMM D HH:mm A');
+    return moment(localTime).format('MMM D h:mm A');
   }
 
   /**

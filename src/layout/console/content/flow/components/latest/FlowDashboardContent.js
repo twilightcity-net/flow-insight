@@ -111,6 +111,7 @@ export default class FlowDashboardContent extends Component {
               chartDto={this.props.chartDto}
               flowState={this.props.flowState}
               weekOffset={this.props.weekOffset}
+              me={this.props.me}
               onHoverDayBox={this.onHoverDayBox}
               onHoverOffDayBox={this.onHoverOffDayBox}
               onClickDayBox={this.onClickDayBox}

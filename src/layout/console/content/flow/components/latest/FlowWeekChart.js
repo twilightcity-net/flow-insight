@@ -45,6 +45,9 @@ export default class FlowWeekChart extends Component {
       this.displayChart(this.props.chartDto);
     } else if (prevProps.weekOffset !== this.props.weekOffset) {
       this.displayChart(this.props.chartDto);
+    } else if  ((!prevProps.me && this.props.me) || (prevProps.me
+      && this.props.me && prevProps.me.activeCircuit !== this.props.me.activeCircuit)) {
+      this.displayChart(this.props.chartDto);
     }
   }
 
@@ -213,7 +216,7 @@ export default class FlowWeekChart extends Component {
 
     chartGroup
       .append("circle")
-      .attr("fill", this.getCurrentMomentumColor())
+      .attr("fill", this.getFlowLightColor())
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
       .attr("cx", this.width - this.margin - lightWidth/2 - extraMargin)
       .attr("cy", this.topMargin - lightHeight/4)
@@ -221,9 +224,15 @@ export default class FlowWeekChart extends Component {
 
   }
 
-  getCurrentMomentumColor() {
+  /**
+   * Get the color of the flow state based on momentum and whether we're in a troubleshooting session
+   * @returns {string}
+   */
+  getFlowLightColor() {
     let color = "#ffffff";
-    if (this.props.flowState) {
+    if (this.props.me && this.props.me.activeCircuit) {
+      color = "#FF2C36";
+    } else if (this.props.flowState) {
       let momentum = this.props.flowState.momentum;
 
       var interp = d3
