@@ -220,14 +220,18 @@ export class ChartClient extends BaseClient {
    * Chart daily friction for the current latest week.  Will aggregate the 20s
    * so you get rolling updates throughout the day
    * @param timezoneOffset
+   * @param weekOffset
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartLatestWeek(timezoneOffset, scope, callback) {
+  static chartLatestWeek(timezoneOffset, weekOffset, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_LATEST_WEEK,
-      {timezoneOffset: timezoneOffset},
+      {
+        timezoneOffset: timezoneOffset,
+        weekOffset: weekOffset
+      },
       scope,
       callback
     );

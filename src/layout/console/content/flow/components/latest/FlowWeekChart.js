@@ -43,14 +43,16 @@ export default class FlowWeekChart extends Component {
     if ((!prevProps.flowState && this.props.flowState) || (prevProps.flowState
       && this.props.flowState && prevProps.flowState.momentum !== this.props.flowState.momentum)) {
       this.displayChart(this.props.chartDto);
+    } else if (prevProps.weekOffset !== this.props.weekOffset) {
+      this.displayChart(this.props.chartDto);
     }
   }
 
   /**
    * Display the latest week chart on the screen
-   * @param chart
+   * @param chartDto
    */
-  displayChart(chart) {
+  displayChart(chartDto) {
     this.margin = 30;
     this.topMargin = 40;
     this.topChartMargin = 70;
@@ -65,13 +67,13 @@ export default class FlowWeekChart extends Component {
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
 
-    let data = chart.chartSeries.rowsOfPaddedCells;
-    if (data.length === 0) {
+    let rows = chartDto.chartSeries.rowsOfPaddedCells;
+    if (rows.length === 0) {
       //empty chart
       return;
     }
 
-    let dailyRows = this.mapToDailyRows(data);
+    let dailyRows = this.mapToDailyRows(rows);
 
     let svg = d3
       .select("#chart")
@@ -81,7 +83,7 @@ export default class FlowWeekChart extends Component {
 
     const chartGroup = svg.append("g").attr("class", "ifm");
 
-    this.drawTitle(chartGroup);
+    this.drawTitle(chartGroup, dailyRows);
     this.drawFlowLight(chartGroup);
     this.drawBoxes(dailyRows, chartGroup);
     this.drawMomentumBoxes(dailyRows, chartGroup);
@@ -90,6 +92,7 @@ export default class FlowWeekChart extends Component {
     this.drawWeekdayLabels(dailyRows, chartGroup);
     this.drawDateLabels(dailyRows, chartGroup);
     this.drawLegend(svg, chartGroup);
+    this.drawNavLinks(svg, chartGroup);
   }
 
 
@@ -157,15 +160,38 @@ export default class FlowWeekChart extends Component {
   /**
    * Draw the dashboard title
    * @param chartGroup
+   * @param dailyRows
    */
-  drawTitle(chartGroup) {
+  drawTitle(chartGroup, dailyRows) {
     chartGroup
       .append("text")
       .attr("class", "title")
       .attr("x", this.margin)
       .attr("y", this.topMargin)
       .attr("text-anchor", "start")
-      .text("This Week's Programming Flow");
+      .text(this.getTitleBasedOnWeekOffset(dailyRows));
+  }
+
+  /**
+   * Get the title for the chart based on whether it's the current week, last week,
+   * or a specific date if older than that
+   * @param dailyRows
+   */
+  getTitleBasedOnWeekOffset(dailyRows) {
+    let offset = this.props.weekOffset;
+
+    if (offset === 0) {
+      return "This Week's Programming Flow";
+    } else if (offset === -1) {
+      return "Last Week's Programming Flow";
+    } else if (offset < -1) {
+      if (dailyRows.length > 0) {
+        let day = UtilRenderer.getDateString(dailyRows[0].calDate);
+        return "Week of "+day + " Programming Flow";
+      } else {
+        return "Week's Programming Flow";
+      }
+    }
   }
 
   /**
@@ -258,6 +284,58 @@ export default class FlowWeekChart extends Component {
       .attr("width", barsize)
       .attr("height", 10);
 
+  }
+
+  /**
+   * Draw the navigation links in the bottom left hand corner
+   * @param svg
+   * @param chartGroup
+   */
+  drawNavLinks(svg, chartGroup) {
+    let textWidth = 80;
+
+    let that = this;
+    chartGroup
+      .append("text")
+      .attr("class", "navlink")
+      .attr("x", this.margin )
+      .attr("y", this.height - this.topMargin/4*3)
+      .attr("text-anchor", "start")
+      .text(this.getPreviousLinkName())
+      .on("click", function (event) {
+        that.onClickPrevWeek();
+      });
+
+    if (this.props.weekOffset < 0) {
+      chartGroup
+        .append("text")
+        .attr("class", "navlink")
+        .attr("x", this.margin + textWidth)
+        .attr("y", this.height - this.topMargin/4*3)
+        .attr("text-anchor", "start")
+        .text("Next >")
+        .on("click", function (event) {
+          that.onClickNextWeek();
+        });
+    }
+  }
+
+  getPreviousLinkName() {
+    if (this.props.weekOffset === 0) {
+      return "< Previous Week";
+    } else {
+      return "< Previous";
+    }
+  }
+
+  onClickPrevWeek() {
+    console.log("Clicking previous week button!");
+    this.props.onClickNavWeek(-1);
+  }
+
+  onClickNextWeek() {
+    console.log("Clicking next week button!");
+    this.props.onClickNavWeek(1);
   }
 
   /**

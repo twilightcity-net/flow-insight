@@ -20,19 +20,8 @@ export default class FlowMetrics extends Component {
    * Initially when we get the first set of props, display our metrics
    */
   componentDidMount() {
+    this.recalculateTtmDataModel(this.props.chartDto);
 
-    if (this.props.chartDto) {
-      let ttmModel = this.calculateTtmModel(this.props.chartDto);
-
-      if (ttmModel) {
-        let today = this.findTodayCoords(this.props.chartDto);
-        this.setState({
-          activeTtms: ttmModel.weeklyTtms,
-          ttmModel: ttmModel,
-          todayCoords: today
-        });
-      }
-    }
   }
 
   findTodayCoords(chartDto) {
@@ -53,7 +42,27 @@ export default class FlowMetrics extends Component {
     return null;
   }
 
+  recalculateTtmDataModel(chartDto) {
+    if (chartDto) {
+      let ttmModel = this.calculateTtmModel(chartDto);
+
+      if (ttmModel) {
+        let today = this.findTodayCoords(chartDto);
+        this.setState({
+          activeTtms: ttmModel.weeklyTtms,
+          ttmModel: ttmModel,
+          todayCoords: today
+        });
+      }
+    }
+  }
+
+
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.chartDto && this.props.chartDto && prevProps.chartDto !== this.props.chartDto) {
+      this.recalculateTtmDataModel(this.props.chartDto);
+    }
+
     if ((!prevProps.selectedDay && this.props.selectedDay) ||
       (prevProps.selectedDay && this.props.selectedDay
       && prevProps.selectedDay !== this.props.selectedDay)) {

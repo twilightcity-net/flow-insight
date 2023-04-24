@@ -23,7 +23,13 @@ export default class FlowResource extends Component {
 
     this.state = {
       resource: props.resource,
+      chartDto: null,
+      flowState: null,
+      visible: false,
+      weekOffset: 0
     };
+
+    this.inputWeekOffset = 0;
   }
 
   /**
@@ -34,33 +40,8 @@ export default class FlowResource extends Component {
       RendererControllerFactory.Views.RESOURCES
     );
 
-    let timezoneOffset = UtilRenderer.getTimezoneOffset();
-    console.log("Timezone offset = "+timezoneOffset);
-
-    ChartClient.chartLatestWeek(timezoneOffset,
-      this,
-      (arg) => {
-        if (!arg.error) {
-          console.log(arg.data);
-          this.setState({
-            chartDto: arg.data,
-            visible: true
-          });
-        } else {
-          console.error(arg.error);
-        }
-      }
-    );
-
-    FlowClient.getMyFlowData(this, (arg) => {
-      if (!arg.error) {
-        this.setState({
-          flowState: arg.data
-        });
-      } else {
-        console.error(arg.error);
-      }
-    });
+    this.reloadChartData();
+    this.reloadFlowStateData();
 
     this.flowStateRefreshListener =
       RendererEventFactory.createEvent(
@@ -75,12 +56,46 @@ export default class FlowResource extends Component {
     this.flowStateRefreshListener.clear();
   }
 
-  /**
-   * When we get a flow state refresh, refresh our current state from the DB
-   */
-  onFlowStateDataRefresh() {
-    console.log("On flow state data refresh");
 
+  /**
+   * Reload the chart data from gridtime, and update the state
+   * with the response data
+   */
+  reloadChartData() {
+    if (this.loadChartInProgress) {
+      console.warn("Load chart already in progress, ignoring request!");
+      return;
+    }
+
+    this.loadChartInProgress = true;
+    let timezoneOffset = UtilRenderer.getTimezoneOffset();
+    console.log("Timezone offset = "+timezoneOffset);
+
+    let inputWeekOffset = this.inputWeekOffset;
+    console.log("Week offset = "+inputWeekOffset);
+
+    ChartClient.chartLatestWeek(timezoneOffset, inputWeekOffset,
+      this,
+      (arg) => {
+        this.loadChartInProgress = false;
+        if (!arg.error) {
+          console.log(arg.data);
+          this.setState({
+            chartDto: arg.data,
+            visible: true,
+            weekOffset: inputWeekOffset
+          });
+        } else {
+          console.error(arg.error);
+        }
+      }
+    );
+  }
+
+  /**
+   * Reload the flow state momentum data that results in the color of the circle to update
+   */
+  reloadFlowStateData() {
     FlowClient.getMyFlowData(this, (arg) => {
       if (!arg.error) {
         console.log(arg.data);
@@ -94,6 +109,13 @@ export default class FlowResource extends Component {
         console.error(arg.error);
       }
     });
+  }
+  /**
+   * When we get a flow state refresh, refresh our current state from the DB
+   */
+  onFlowStateDataRefresh() {
+    console.log("On flow state data refresh");
+    this.reloadFlowStateData();
   }
 
 
@@ -111,6 +133,13 @@ export default class FlowResource extends Component {
       dayCoords
     );
 
+  }
+
+  onClickNavWeek = (navDirection) => {
+    console.log("On click nav week direction = "+navDirection);
+
+    this.inputWeekOffset = this.state.weekOffset + navDirection;
+    this.reloadChartData();
   }
 
 
@@ -133,7 +162,9 @@ export default class FlowResource extends Component {
           <FlowDashboardContent chartDto={this.state.chartDto}
                                 flowState={this.state.flowState}
                                 visible={this.state.visible}
-                                onClickDayBox={this.onClickDayBox}/>
+                                weekOffset={this.state.weekOffset}
+                                onClickDayBox={this.onClickDayBox}
+                                onClickNavWeek={this.onClickNavWeek}/>
         </div>
       </div>
     );

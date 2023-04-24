@@ -43,6 +43,10 @@ export default class FlowDashboardContent extends Component {
     this.props.onClickDayBox(weekCoords, dayCoords);
   }
 
+  onClickNavWeek = (navDirection) => {
+    this.props.onClickNavWeek(navDirection);
+  }
+
   /**
    * Handler method for when hovering over a day of the week
    * @param dayCoords
@@ -106,9 +110,11 @@ export default class FlowDashboardContent extends Component {
             <FlowWeekChart
               chartDto={this.props.chartDto}
               flowState={this.props.flowState}
+              weekOffset={this.props.weekOffset}
               onHoverDayBox={this.onHoverDayBox}
               onHoverOffDayBox={this.onHoverOffDayBox}
               onClickDayBox={this.onClickDayBox}
+              onClickNavWeek={this.onClickNavWeek}
               selectedDay={this.state.selectedDay}
             />
           </div>

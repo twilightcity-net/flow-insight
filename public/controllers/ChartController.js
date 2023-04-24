@@ -1285,12 +1285,14 @@ module.exports = class ChartController extends (
    */
   handleChartLatestWeekEvent(event, arg, callback) {
     let timezoneOffset = arg.args.timezoneOffset,
+      weekOffset = arg.args.weekOffset,
         urn =
         ChartController.Paths.CHART +
         ChartController.Paths.FRICTION +
         ChartController.Paths.LATEST;
 
     urn += "?timezone_offset=" +timezoneOffset;
+    urn += "&week_offset=" + weekOffset;
 
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
