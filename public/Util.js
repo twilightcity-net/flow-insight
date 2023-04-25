@@ -217,8 +217,16 @@ class Util {
    */
   static getUserHomePath() {
     return process.env[
-      process.platform == "win32" ? "USERPROFILE" : "HOME"
+      process.platform === "win32" ? "USERPROFILE" : "HOME"
     ];
+  }
+
+  /**
+   * Touch a file, create an empty file if it doesn't exist
+   * @param filePath
+   */
+  static touchFile(filePath) {
+    fs.closeSync(fs.openSync(filePath, 'w'));
   }
 
   /**

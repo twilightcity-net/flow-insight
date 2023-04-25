@@ -11,10 +11,10 @@ const {DtoClient} = require("../managers/DtoClientFactory");
 module.exports = class FlowStateTracker {
   constructor() {
     this.name = "[FlowStateTracker]";
-    this.buckets = new Map();
-    this.bucketKeys = [];
+    this.buckets = this.createInitialBuckets();
     this.snapshot = null;
     this.momentum = 0;
+    this.pluginsInitialized = new Map();
   }
 
   static KEY_TIME = "as.of.time";
@@ -42,16 +42,58 @@ module.exports = class FlowStateTracker {
   }
 
   /**
-   * Take in a new batch of flow activity and update our flow state
+   * Process a single modification activity
+   * @param modificationActivity
+   */
+  processModificationActivity(modificationActivity) {
+    let modTime = this.truncateTimeFiveMinutes(modificationActivity.endTime);
+    let modCount = modificationActivity.modificationCount;
+
+    let bucket = this.buckets.get(modTime.getTime());
+    if (bucket) {
+      bucket.count += modCount;
+    } else {
+
+      log.debug("[FlowStateTracker] Creating new bucket for "+modTime);
+
+      let bucketCounter = {
+        bucket: modTime,
+        count: 0
+      }
+      this.buckets.set(modTime.getTime(), bucketCounter);
+    }
+
+    this.recalculateMomentum();
+  }
+
+  /**
+   * Take in a new batch of flow activity and update our flow state.
+   * We only process batch data when we haven't initialized with anything yet
    * Expected format: {"durationInSeconds":30,"endTime":"2023-04-17T08:57:20","modificationCount":61}
    * @param pluginId
    * @param flowBatchDto
    */
   processBatch(pluginId, flowBatchDto) {
-    log.info("Updating flow state for batch from plugin: "+pluginId+"!");
+    if (this.checkIfAlreadyInitializedAndSetFlag(pluginId)) return;
+
+    log.info("[FlowStateTracker] Updating flow state for batch from plugin: "+pluginId+"!");
     this.loadModificationsIntoBuckets(flowBatchDto);
 
     this.recalculateMomentum();
+  }
+
+  /**
+   * Sets initialization flag and checks if already set
+   * @param pluginId
+   * @returns {boolean}
+   */
+  checkIfAlreadyInitializedAndSetFlag(pluginId) {
+    if (this.pluginsInitialized.get(pluginId)) {
+      return true;
+    } else {
+      this.pluginsInitialized.set(pluginId, true);
+      return false;
+    }
   }
 
   /**
@@ -70,7 +112,6 @@ module.exports = class FlowStateTracker {
       let bucket = this.buckets.get(key);
       let total = this.sumWindow(bucket.count, slotCounts);
 
-      console.log("window "+key + " = "+JSON.stringify(slotCounts) + "+"+bucket.count);
       slotCounts = this.shiftLeft(slotCounts, bucket.count);
 
       if (total > FlowStateTracker.ACTIVITY_THRESHOLD) {
@@ -83,15 +124,26 @@ module.exports = class FlowStateTracker {
       momentum = Util.clamp(momentum, 0, FlowStateTracker.MAX_MOMENTUM);
 
       if (consecutiveIdleCount > 12) {
-        console.log("Consecutive idle momentum reset");
+        console.log("[FlowStateTracker] Consecutive idle momentum reset");
         momentum = 0;
       }
     }
 
-    console.log("Updating momentum = "+momentum);
-    this.momentum = momentum;
+    this.updateMomentumAndBroadcastOnChange(momentum);
+  }
 
-    global.App.FlowManager.updateMyFlow({momentum: this.momentum});
+  /**
+   * Update our momentum state and only send updates to the UI
+   * if there's a change in the values
+   * @param momentum
+   */
+  updateMomentumAndBroadcastOnChange(momentum) {
+    console.log("[FlowStateTracker] Updating momentum = "+momentum);
+
+    if (this.momentum !== momentum) {
+      this.momentum = momentum;
+      global.App.FlowManager.updateMyFlow({momentum: this.momentum});
+    }
   }
 
   /**
@@ -224,6 +276,20 @@ module.exports = class FlowStateTracker {
       }
     }
   }
+
+  createInitialBuckets() {
+    let firstBucket = this.truncateTimeFiveMinutes(Util.getCurrentTime());
+
+    let buckets = new Map();
+    let bucketCounter = {
+      bucket: firstBucket,
+      count: 0
+    }
+    buckets.set(firstBucket.getTime(), bucketCounter);
+
+    return buckets;
+  }
+
 
   /**
    * Create a fresh set of 5min buckets that go from our snapshot time

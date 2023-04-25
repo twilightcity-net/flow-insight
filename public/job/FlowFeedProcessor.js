@@ -7,11 +7,7 @@ const log = require("electron-log"),
 
 const Util = require("../Util");
 const {DtoClient} = require("../managers/DtoClientFactory");
-const NewEditorActivityDto = require("../dto/NewEditorActivityDto");
-const NewExternalActivityDto = require("../dto/NewExternalActivityDto");
-const NewExecutionActivityDto = require("../dto/NewExecutionActivityDto");
-const NewModificationActivityDto = require("../dto/NewModificationActivityDto");
-const NewFlowBatchEventDto = require("../dto/NewFlowBatchEventDto");
+const FlowFileReader = require("./FlowFileReader");
 
 /**
  * This class is used to publish the active.flow feeds for the plugins
@@ -22,6 +18,7 @@ module.exports = class FlowFeedProcessor {
     this.name = "[FlowFeedProcessor]";
 
     this.flowStateTracker = flowStateTracker;
+    this.flowFileReader = new FlowFileReader();
   }
 
   static PREPROCESS_FOLDER = "preprocess";
@@ -32,80 +29,16 @@ module.exports = class FlowFeedProcessor {
   static BATCH_PREFIX = "batch_";
   static ACTIVE_FLOW_FILE = "active.flow";
 
+  static Event = "Event";
+
+  static BATCH_SIZE_LIMIT = 500;
+
   static EditorActivity = "EditorActivity";
   static ExecutionActivity = "ExecutionActivity";
   static ModificationActivity = "ModificationActivity";
   static ExternalActivity = "ExternalActivity";
   static Event = "Event";
 
-  static BATCH_SIZE_LIMIT = 500;
-
-  /**
-   * Read the lines from a batch file, and add elements to the batch
-   * @param flowBatchObj
-   * @param filePath
-   * @returns {Promise<boolean>}
-   */
-  async asyncProcessLineByLine(flowBatchObj, filePath) {
-    let lineError;
-    try {
-      const rl = readline.createInterface({
-        input: fs.createReadStream(filePath),
-        crlfDelay: Infinity
-      });
-
-      rl.on('line', (line) => {
-        try {
-          this.handleParseLine(flowBatchObj, line);
-        } catch (err) {
-          log.error("[FlowFeedProcessor] Unable to process line, "+err);
-          lineError = err;
-        }
-
-      });
-
-      await events.once(rl, 'close');
-    } catch (err) {
-      log.error("[FlowFeedProcessor] Unable to process file: " + err);
-    }
-
-    if (lineError) {
-      return false;
-    }
-    return true;
-  }
-
-  /**
-   * Handle parsing the lines from the flow batch files, and instantiating json objects
-   * in the batch
-   * @param flowBatchObj
-   * @param line
-   */
-  handleParseLine(flowBatchObj, line) {
-
-    let lineType = this.parseTypeFromLine(line);
-    let json = this.parseJsonObjectFromLine(line);
-
-    switch (lineType) {
-      case FlowFeedProcessor.EditorActivity:
-        flowBatchObj.editorActivityList.push(json);
-        break;
-      case FlowFeedProcessor.ExternalActivity:
-        flowBatchObj.externalActivityList.push(json);
-        break;
-      case FlowFeedProcessor.ExecutionActivity:
-        flowBatchObj.executionActivityList.push(json);
-        break;
-      case FlowFeedProcessor.ModificationActivity:
-        flowBatchObj.modificationActivityList.push(json);
-        break;
-      case FlowFeedProcessor.Event:
-        flowBatchObj.eventList.push(json);
-        break;
-      default:
-        break;
-    }
-  }
 
   createEmptyFlowBatch() {
     const flowBatch = {};
@@ -119,31 +52,6 @@ module.exports = class FlowFeedProcessor {
     return flowBatch;
   }
 
-
-  parseTypeFromLine(line) {
-    const type = line.substr(0, line.indexOf("="));
-    return type;
-  }
-
-  parseJsonObjectFromLine(line) {
-    const lineType = line.substr(0, line.indexOf("="));
-    const jsonStr = line.substr(line.indexOf("=") + 1);
-
-    switch (lineType) {
-      case FlowFeedProcessor.EditorActivity:
-        return new NewEditorActivityDto(jsonStr);
-      case FlowFeedProcessor.ExternalActivity:
-        return new NewExternalActivityDto(jsonStr);
-      case FlowFeedProcessor.ExecutionActivity:
-        return new NewExecutionActivityDto(jsonStr);
-      case FlowFeedProcessor.ModificationActivity:
-        return new NewModificationActivityDto(jsonStr);
-      case FlowFeedProcessor.Event:
-        return new NewFlowBatchEventDto(jsonStr);
-      default:
-        throw new Error("Unable to parse unknown event type = "+lineType);
-    }
-  }
 
   /**
    * If the app crashed and left a bunch of half-done preprocessing in the directory
@@ -412,6 +320,8 @@ module.exports = class FlowFeedProcessor {
       fs.rename(oldPath, newPath, function (err) {
         if (err) throw err;
         log.debug( '[FlowFeedProcessor] Successfully moved file to preprocess '+newPath);
+
+        Util.touchFile(oldPath);
         if (callback) {
           callback(newPath);
         }
@@ -422,7 +332,6 @@ module.exports = class FlowFeedProcessor {
       }
     }
   }
-
 
   /**
    * Publish an active file to the publishing queue
@@ -520,7 +429,9 @@ module.exports = class FlowFeedProcessor {
           log.info(this.name + " Publishing "+filePath);
           const flowBatchDto = this.createEmptyFlowBatch();
 
-          this.asyncProcessLineByLine(flowBatchDto, filePath).then((successfulParse) => {
+          this.flowFileReader.asyncProcessFile(filePath, {}, (data, lineType, json) => {
+            this.addToFlowBatch(flowBatchDto, lineType, json);
+          }).then((successfulParse) => {
               if (successfulParse) {
                 this.publishBatch(pluginId, flowBatchDto, filePath, file);
               } else {
@@ -531,6 +442,29 @@ module.exports = class FlowFeedProcessor {
         });
       });
     });
+  }
+
+
+  addToFlowBatch = (flowBatchObj, lineType, json) => {
+    switch (lineType) {
+      case FlowFeedProcessor.EditorActivity:
+        flowBatchObj.editorActivityList.push(json);
+        break;
+      case FlowFeedProcessor.ExternalActivity:
+        flowBatchObj.externalActivityList.push(json);
+        break;
+      case FlowFeedProcessor.ExecutionActivity:
+        flowBatchObj.executionActivityList.push(json);
+        break;
+      case FlowFeedProcessor.ModificationActivity:
+        flowBatchObj.modificationActivityList.push(json);
+        break;
+      case FlowFeedProcessor.Event:
+        flowBatchObj.eventList.push(json);
+        break;
+      default:
+        break;
+    }
   }
 
   /**

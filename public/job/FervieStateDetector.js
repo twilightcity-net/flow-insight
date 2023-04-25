@@ -50,7 +50,6 @@ module.exports = class FervieStateDetector {
             log.debug(this.name + " Fervie help request sent, status: "+store.data.status );
           }
         });
-
       });
     }
   }

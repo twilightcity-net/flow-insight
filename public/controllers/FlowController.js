@@ -98,7 +98,6 @@ module.exports = class FlowController extends (
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.FLOW
     );
-    console.log("Updating flow in DB and dispatching flow state refresh");
     database.updateMyFlow(flowData);
 
     this.flowStateRefreshNotifier.dispatch({});

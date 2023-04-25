@@ -3,6 +3,7 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory");
 const FlowFeedProcessor = require("../job/FlowFeedProcessor");
 const FlowStateTracker = require("../job/FlowStateTracker");
+const ActiveFlowWatcher = require("../job/ActiveFlowWatcher");
 const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
@@ -17,7 +18,7 @@ module.exports = class AppFlowPublisherJob {
   constructor() {
     this.name = "[AppFlowPublisherJob]";
     log.info(this.name + " create flow publisher -> okay");
-    this.intervalMs = 60000 * 5;
+    this.intervalMs = 60000 * 10;
     this.initialDelayMs = 20000;
     this.timeout = {
       response: 30000,
@@ -28,7 +29,9 @@ module.exports = class AppFlowPublisherJob {
     this.codeModuleConfigHandler = global.App.CodeModuleConfigHandler;
 
     this.flowStateTracker = new FlowStateTracker();
+    this.activeFlowWatcher = new ActiveFlowWatcher(this.flowStateTracker);
     this.flowFeedProcessor = new FlowFeedProcessor(this.flowStateTracker);
+
   }
 
   /**
@@ -85,6 +88,13 @@ module.exports = class AppFlowPublisherJob {
 
     this.flowStateTracker.refresh();
 
+    //gives a chance for the initial flow state context to finish
+    setTimeout(() => {
+      this.loadDataForPlugins();
+    }, 1000);
+  }
+
+  loadDataForPlugins() {
     this.pluginRegistrationHandler.loadAndValidatePlugins(() => {
       const plugins = this.pluginRegistrationHandler.getRegisteredPluginList();
 
@@ -109,6 +119,11 @@ module.exports = class AppFlowPublisherJob {
             });
           });
         });
+
+        //start watchers after the first batch processes
+        setTimeout(() => {
+          this.activeFlowWatcher.watchActiveFlow(pluginId);
+        }, 1000);
 
       });
 
