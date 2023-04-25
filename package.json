@@ -2,7 +2,7 @@
   "name": "flow-insight",
   "productName": "FlowInsight",
   "description": "FlowInsight - © 2023 Twilight City, Inc. All rights reserved.",
-  "version": "0.5.36",
+  "version": "0.5.37",
   "engines": {
     "node": "16.13.0"
   },
