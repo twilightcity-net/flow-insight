@@ -17,6 +17,10 @@ module.exports = class FlowManager {
     //nothing to do for preloading
   }
 
+  getMyFlow() {
+    return this.myController.getMyFlow();
+  }
+
   updateMyFlow(flowData) {
     this.myController.updateMyFlow(flowData);
   }

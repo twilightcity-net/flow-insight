@@ -64,8 +64,13 @@ module.exports = class AppHeartbeat {
   createHeartbeatDto() {
     this.dto.deltaTime =
       new Date().getTime() - this.previousDeltaTime;
-    this.dto.messageCounters =
-      global.App.TalkManager.getMessageCounters();
+    this.dto.messageCounters = global.App.TalkManager.getMessageCounters();
+
+    const flowData = global.App.FlowManager.getMyFlow();
+
+    if (flowData) {
+      this.dto.currentMomentum = flowData.momentum;
+    }
 
     log.info(this.name + ": " + JSON.stringify(this.dto));
 

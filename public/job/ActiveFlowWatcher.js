@@ -35,8 +35,9 @@ module.exports = class ActiveFlowWatcher {
    * @param pluginId
    */
   watchActiveFlow(pluginId) {
-    log.debug("Watch active flow...");
+
     if (!this.watchers.get(pluginId)) {
+      log.debug("[ActiveFlowWatcher] Creating active.flow watcher for "+pluginId);
       let watcher = this.createWatcher(pluginId);
       this.watchers.set(pluginId, watcher);
 

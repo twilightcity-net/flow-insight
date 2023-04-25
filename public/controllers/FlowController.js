@@ -91,6 +91,17 @@ module.exports = class FlowController extends (
   }
 
   /**
+   * Retrieve the latest flow data from the DB
+   */
+  getMyFlow() {
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.FLOW
+    );
+
+    return database.getMyFlow();
+  }
+
+  /**
    * Update flow data in the DB
    * @param flowData
    */
@@ -110,11 +121,7 @@ module.exports = class FlowController extends (
    * @param callback
    */
   handleGetMyFlowEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(
-      DatabaseFactory.Names.FLOW
-    );
-
-    arg.data = database.getMyFlow();
+    arg.data = this.getMyFlow();
 
     this.delegateCallbackOrEventReplyTo(
       event,

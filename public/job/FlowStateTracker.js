@@ -124,7 +124,6 @@ module.exports = class FlowStateTracker {
       momentum = Util.clamp(momentum, 0, FlowStateTracker.MAX_MOMENTUM);
 
       if (consecutiveIdleCount > 12) {
-        console.log("[FlowStateTracker] Consecutive idle momentum reset");
         momentum = 0;
       }
     }
@@ -138,7 +137,7 @@ module.exports = class FlowStateTracker {
    * @param momentum
    */
   updateMomentumAndBroadcastOnChange(momentum) {
-    console.log("[FlowStateTracker] Updating momentum = "+momentum);
+    log.debug("[FlowStateTracker] Updating momentum = "+momentum);
 
     if (this.momentum !== momentum) {
       this.momentum = momentum;

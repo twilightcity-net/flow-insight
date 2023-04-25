@@ -67,7 +67,6 @@ module.exports = class FlowDatabase extends LokiJS {
 
   /**
    * Retrieve personal flow data in DB
-   * @param myFlowData
    */
   getMyFlow() {
     let collection = this.getCollection(
