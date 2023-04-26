@@ -7,14 +7,14 @@ import FeatureToggle from "../../../../../shared/FeatureToggle";
 /**
  * this is the gui component that displays the IFM chart
  */
-export default class FlowMap extends Component {
+export default class TaskFlowMap extends Component {
   /**
    * builds the IFM chart
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FlowMap]";
+    this.name = "[TaskFlowMap]";
   }
 
   static CONFUSION = "confusion";
@@ -53,7 +53,7 @@ export default class FlowMap extends Component {
       (prevProps.chartDto &&
         this.props.chartDto &&
         prevProps.chartDto.featureName !==
-          this.props.chartDto.featureName)
+        this.props.chartDto.featureName)
     ) {
       this.displayChart(
         this.props.chartDto,
@@ -130,33 +130,26 @@ export default class FlowMap extends Component {
     let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
     this.chartHeight = svgHeight - 2 * this.margin;
     this.browserBarHeightAdjust = DimensionController.getBrowserBarHeight();
-
-    this.legendOffsetForCloseAction = 0;
-
     this.width = DimensionController.getFullRightPanelWidth();
 
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
+    this.legendOffsetForCloseAction = 0;
 
-    let data = chart.chartSeries.rowsOfPaddedCells;
-    if (data.length === 0) {
+    if (chart && chart.chartSeries.rowsOfPaddedCells.length === 0) {
       //empty chart
       return;
     }
+
+    let rawData = chart.chartSeries.rowsOfPaddedCells;
+    let chartRows = this.transformIntoChartRows(rawData);
+    let xMinMax = this.createMinMaxDataRange(chartRows);
 
     let svg = d3
       .select("#chart")
       .append("svg")
       .attr("width", this.width + "px")
       .attr("height", svgHeight + "px");
-
-    let xMinMax = d3.extent(data, function (d) {
-      return parseInt(d[3], 10);
-    });
-
-    //the max will be highest offset + duration
-    xMinMax[1] =
-      xMinMax[1] + parseInt(data[data.length - 1][2], 10);
 
     this.xScale = d3
       .scaleLinear()
@@ -168,25 +161,19 @@ export default class FlowMap extends Component {
       .domain([100, 0])
       .range([this.margin, this.chartHeight]);
 
-    var interp = d3
-      .scaleLinear()
-      .domain([0, 0.2, 0.4, 1])
-      .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
 
-    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
-    let offsetMap = this.createOffsetMap(data, this.xScale);
+    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(chartRows, this.xScale);
+    let offsetMap = this.createOffsetMap(chartRows, this.xScale);
     let tileLocationMap = this.createTileLocationDataMap(chart);
     let tileWtfMap = this.createTileWtfDataMap(chart);
-    let tileExecMap = this.createTileExecDetailsMap(
-      data,
-      chart
-    );
-
+    let tileExecMap = this.createTileExecDetailsMap(chart);
     let taskSwitchMap = this.createTaskSwitchMap(chart);
+    let dataBreakMap = this.createDataBreakMap(chart);
 
     const chartGroup = svg.append("g").attr("class", "ifm");
 
-    let bars = this.createBars(chartGroup, data, interp);
+    var momentumColorScale = this.createMomentumColorScale();
+    let bars = this.createBars(chartGroup, chartRows, momentumColorScale);
     this.addBarActivityTooltip(
       bars,
       this,
@@ -198,7 +185,8 @@ export default class FlowMap extends Component {
     this.addDataBreakLines(
       chart,
       chartGroup,
-      taskSwitchMap
+      taskSwitchMap,
+      dataBreakMap
     );
 
     this.createInvisibleBoundingBox(chartGroup);
@@ -220,9 +208,61 @@ export default class FlowMap extends Component {
     );
     this.addIntentionCursor(chartGroup, xMinMax);
 
-    this.createTimeAxis(chartGroup, xMinMax);
-    this.createLegend(svg, chartGroup, interp);
+    this.createTimeAxis(chartGroup, xMinMax, chartRows);
+    this.createLegend(svg, chartGroup, momentumColorScale);
     this.createTitle(chart, chartGroup);
+  }
+
+  createMinMaxDataRange(chartRows) {
+    let xMinMax = d3.extent(chartRows, function (d) {
+      return d.offset;
+    });
+    //the max will be highest offset + duration
+    xMinMax[1] = xMinMax[1] + chartRows[chartRows.length - 1].duration;
+
+    return xMinMax;
+  }
+
+  createMomentumColorScale() {
+    return d3
+      .scaleLinear()
+      .domain([0, 0.2, 0.4, 1])
+      .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
+  }
+
+  createXScale() {
+
+  }
+
+  createYScale() {
+
+  }
+
+  /**
+   * Transform the raw data into property chart rows
+   * @param rawData
+   */
+  transformIntoChartRows(rawData) {
+    console.log(rawData);
+
+    let chartRows = [];
+
+    for( let rawRow of rawData) {
+      const chartRow = {};
+      chartRow.coords = rawRow[0].trim();
+      chartRow.time = rawRow[1].trim();
+      chartRow.duration = parseInt(rawRow[2].trim(), 10);
+      chartRow.offset = parseInt(rawRow[3].trim(), 10);
+      chartRow.percentConfusion = parseInt(rawRow[4].trim(), 10);
+      chartRow.momentum = parseInt(rawRow[8].trim(), 10);
+
+      chartRows.push(chartRow);
+    }
+
+    console.log(chartRows);
+
+    return chartRows;
+
   }
 
   /**
@@ -360,14 +400,14 @@ export default class FlowMap extends Component {
   /**
    * Create the bars on the chart
    * @param chartGroup
-   * @param data
-   * @param interp
+   * @param chartRows
+   * @param momentumColorScale
    * @returns {*}
    */
-  createBars(chartGroup, data, interp) {
+  createBars(chartGroup, chartRows, momentumColorScale) {
     var colorScale = d3
       .scaleOrdinal()
-      .domain([FlowMap.CONFUSION, FlowMap.MOMENTUM])
+      .domain([TaskFlowMap.CONFUSION, TaskFlowMap.MOMENTUM])
       .range(["#FF2C36", "#7846FB"]);
 
     let mScale = d3
@@ -377,17 +417,17 @@ export default class FlowMap extends Component {
 
     let stackGen = d3
       .stack()
-      .keys([FlowMap.CONFUSION, FlowMap.MOMENTUM])
+      .keys([TaskFlowMap.CONFUSION, TaskFlowMap.MOMENTUM])
       .value(function (d, key) {
-        if (key === FlowMap.CONFUSION) {
-          return parseInt(d[4], 10);
-        } else if (key === FlowMap.MOMENTUM) {
-          return 100 - parseInt(d[4], 10);
+        if (key === TaskFlowMap.CONFUSION) {
+          return d.percentConfusion;
+        } else if (key === TaskFlowMap.MOMENTUM) {
+          return 100 - d.percentConfusion;
         }
         return 0;
       });
 
-    let stackedSeries = stackGen(data);
+    let stackedSeries = stackGen(chartRows);
 
     let bars = chartGroup
       .selectAll("g")
@@ -404,7 +444,7 @@ export default class FlowMap extends Component {
       })
       .enter()
       .append("rect")
-      .attr("x", (d) => this.xScale(d.data[3]))
+      .attr("x", (d) => this.xScale(d.data.offset))
       .attr("y", (d) => this.yScale(d[1]))
       .attr(
         "height",
@@ -412,22 +452,17 @@ export default class FlowMap extends Component {
       )
       .attr(
         "width",
-        (d) =>
-          this.xScale(
-            parseInt(d.data[3], 10) +
-              parseInt(d.data[2], 10)
-          ) -
-          this.xScale(parseInt(d.data[3], 10)) -
-          0.2
+        (d) => this.xScale(d.data.offset + d.data.duration) - this.xScale(d.data.offset) - 0.2
       )
       .attr("fill", (d) => {
-        return interp(mScale(parseInt(d.data[8], 10)));
+        return momentumColorScale(mScale(d.data.momentum));
       });
+
 
     chartGroup
       .selectAll(".confusion rect")
       .attr("fill", (d) => {
-        return colorScale(FlowMap.CONFUSION);
+        return colorScale(TaskFlowMap.CONFUSION);
       });
 
     return bars;
@@ -453,15 +488,15 @@ export default class FlowMap extends Component {
     bars.on("mouseover", function (event, d) {
       let html = "";
 
-      let coords = d.data[0].trim();
-      let date = UtilRenderer.getSimpleDateTimeFromUtc(d.data[1].trim());
+      let coords = d.data.coords;
+      let date = UtilRenderer.getSimpleDateTimeFromUtc(d.data.time);
       let offset =
-        that.xScale(parseInt(d.data[3], 10)) +
+        that.xScale(d.data.offset) +
         that.lookupBarWidth(
           barWidthByCoordsMap,
-          d.data[0]
+          d.data.coords
         ) /
-          2;
+        2;
       let files = tileLocationMap[coords];
       let wtfs = tileWtfMap[coords];
 
@@ -506,7 +541,7 @@ export default class FlowMap extends Component {
       }
 
       html +=
-        "<hr class='rule'/><div class='gtcoords'>" +
+        "<hr class='rule'/><div class='gtDate'>" +
         date +
         "</div>";
 
@@ -533,10 +568,10 @@ export default class FlowMap extends Component {
           .style(
             "top",
             that.margin +
-              that.chartHeight *
-                that.tooltipPositionPercent +
-              that.browserBarHeightAdjust +
-              "px"
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
           )
           .style("opacity", 0.95);
       } else if (offset > that.width - that.margin - 100) {
@@ -552,10 +587,10 @@ export default class FlowMap extends Component {
           .style(
             "top",
             that.margin +
-              that.chartHeight *
-                that.tooltipPositionPercent +
-              that.browserBarHeightAdjust +
-              "px"
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
           )
           .style("opacity", 0.95);
       } else {
@@ -571,10 +606,10 @@ export default class FlowMap extends Component {
           .style(
             "top",
             that.margin +
-              that.chartHeight *
-                that.tooltipPositionPercent +
-              that.browserBarHeightAdjust +
-              "px"
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
           )
           .style("opacity", 0.95);
       }
@@ -593,29 +628,28 @@ export default class FlowMap extends Component {
    * @param chart
    * @param chartGroup
    * @param taskSwitchMap
+   * @param dataBreakMap
    * @returns {*}
    */
-  addDataBreakLines(chart, chartGroup, taskSwitchMap) {
-    let dataBreaks = chart.featureSeriesByType["@nav/break"].rowsOfPaddedCells;
-
-    const breaksMap = this.combineDataBreakAndTaskSwitchEvents(dataBreaks, taskSwitchMap);
+  addDataBreakLines(chart, chartGroup, taskSwitchMap, dataBreakMap) {
+    const combinedMap = this.combineDataBreakAndTaskSwitchEvents(taskSwitchMap, dataBreakMap);
 
     //coords, offset, clocktime, duration
 
     let dataBreakLines = chartGroup
       .append("g")
       .selectAll(".break")
-      .data(breaksMap.values())
+      .data(combinedMap.values())
       .enter()
       .append("line")
-      .attr("x1", (d) => this.xScale(d[1]))
-      .attr("x2", (d) => this.xScale(d[1]))
+      .attr("x1", (d) => this.xScale(d.offset))
+      .attr("x2", (d) => this.xScale(d.offset))
       .attr("y1", this.margin)
       .attr("y2", this.chartHeight)
       .attr("stroke", "black")
       .attr("stroke-width", 2)
       .attr("stroke-dasharray", (d) => {
-        let taskSwitch = taskSwitchMap.get(d[0].trim());
+        let taskSwitch = taskSwitchMap.get(d.coords);
         if (taskSwitch) {
           return "8,1";
         } else {
@@ -628,9 +662,9 @@ export default class FlowMap extends Component {
     let that = this;
 
     dataBreakLines.on("mouseover", function (event, d) {
-      let offset = that.xScale(d[1]);
+      let offset = that.xScale(d.offset);
       let friendlyDuration = "";
-      let seconds = parseInt(d[3], 10);
+      let seconds = d.duration;
 
       let html = "";
       if (seconds > 0) {
@@ -638,7 +672,7 @@ export default class FlowMap extends Component {
         html = "<div class='databreak'>Break " + friendlyDuration + "</div>";
       }
 
-      let taskSwitch = taskSwitchMap.get(d[0].trim());
+      let taskSwitch = taskSwitchMap.get(d.coords);
       if (taskSwitch) {
         html +=
           "<div class='databreak'><b>Task switch to " +
@@ -667,10 +701,10 @@ export default class FlowMap extends Component {
           .style(
             "top",
             that.margin +
-              that.chartHeight *
-                that.tooltipPositionPercent +
-              that.browserBarHeightAdjust +
-              "px"
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
           )
           .style("opacity", 0.95);
       } else if (offset > that.width - that.margin - 100) {
@@ -686,10 +720,10 @@ export default class FlowMap extends Component {
           .style(
             "top",
             that.margin +
-              that.chartHeight *
-                that.tooltipPositionPercent +
-              that.browserBarHeightAdjust +
-              "px"
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
           )
           .style("opacity", 0.95);
       } else {
@@ -705,10 +739,10 @@ export default class FlowMap extends Component {
           .style(
             "top",
             that.margin +
-              that.chartHeight *
-                that.tooltipPositionPercent +
-              that.browserBarHeightAdjust +
-              "px"
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
           )
           .style("opacity", 0.95);
       }
@@ -727,39 +761,37 @@ export default class FlowMap extends Component {
   /**
    * Combine the data breaks and task switch data, to make sure we've got task
    * switch lines even when there's no actual data break
-   * @param dataBreaks
    * @param taskSwitchMap
+   * @param dataBreakMap
    */
-  combineDataBreakAndTaskSwitchEvents(dataBreaks, taskSwitchMap) {
-    const breaksMap = new Map();
-
-    for (let i = 0; i < dataBreaks.length; i++) {
-      const row = dataBreaks[i];
-      breaksMap.set(row[0].trim(), row);
-    }
+  combineDataBreakAndTaskSwitchEvents(taskSwitchMap, dataBreakMap) {
+    const combinedMap = new Map();
 
     //coords, offset, clocktime, duration
 
+    dataBreakMap.forEach ((value, key) => {
+      combinedMap.set(key, value);
+    });
+
     for (let key of taskSwitchMap.keys()) {
-      if (!breaksMap.get(key)) {
+      if (!dataBreakMap.get(key)) {
         const taskSwitch = taskSwitchMap.get(key);
-        breaksMap.set(key, [key, taskSwitch.offset, "", "0"])
+        combinedMap.set(key, {coords: key, offset: taskSwitch.offset, duration: 0, time: ""})
       }
     }
 
-    return breaksMap;
+    return combinedMap;
   }
 
   /**
    * Create the time axis lines that show the beginning and end of the chart times
    * @param chartGroup
    * @param xMinMax
+   * @param chartRows
    */
-  createTimeAxis(chartGroup, xMinMax) {
-    let endTimer =
-      UtilRenderer.getRelativeTimerAsHoursMinutes(
-        parseInt(xMinMax[1], 10)
-      );
+  createTimeAxis(chartGroup, xMinMax, chartRows) {
+    let startTime = "00:00";
+    let endTime = UtilRenderer.getRelativeTimerAsHoursMinutes(xMinMax[1]);
 
     let grp = chartGroup.append("g").attr("class", "axis");
 
@@ -778,7 +810,7 @@ export default class FlowMap extends Component {
       .attr("y", this.chartHeight + 42)
       .attr("text-anchor", "middle")
       .attr("class", "axisLabel")
-      .text("00:00");
+      .text(startTime);
 
     grp
       .append("line")
@@ -795,16 +827,16 @@ export default class FlowMap extends Component {
       .attr("y", this.chartHeight + 42)
       .attr("text-anchor", "middle")
       .attr("class", "axisLabel")
-      .text(endTimer);
+      .text(endTime);
   }
 
   /**
    * Create the legend that shows the confusion and momentum meanings
    * @param svg
    * @param chartGroup
-   * @param interp
+   * @param momentumColorScale
    */
-  createLegend(svg, chartGroup, interp) {
+  createLegend(svg, chartGroup, momentumColorScale) {
     let barsize = 100;
     let margin = 10;
     let defs = svg.append("defs");
@@ -820,22 +852,22 @@ export default class FlowMap extends Component {
     gradient
       .append("stop")
       .attr("offset", "0%")
-      .attr("stop-color", interp(0));
+      .attr("stop-color", momentumColorScale(0));
 
     gradient
       .append("stop")
       .attr("offset", "20%")
-      .attr("stop-color", interp(0.2));
+      .attr("stop-color", momentumColorScale(0.2));
 
     gradient
       .append("stop")
       .attr("offset", "40%")
-      .attr("stop-color", interp(0.4));
+      .attr("stop-color", momentumColorScale(0.4));
 
     gradient
       .append("stop")
       .attr("offset", "100%")
-      .attr("stop-color", interp(1));
+      .attr("stop-color", momentumColorScale(1));
 
     chartGroup
       .append("rect")
@@ -844,9 +876,9 @@ export default class FlowMap extends Component {
       .attr(
         "x",
         this.width -
-          this.margin -
-          barsize -
-          this.legendOffsetForCloseAction
+        this.margin -
+        barsize -
+        this.legendOffsetForCloseAction
       )
       .attr("y", 10)
       .attr("width", barsize)
@@ -857,10 +889,10 @@ export default class FlowMap extends Component {
       .attr(
         "x",
         this.width -
-          this.margin -
-          barsize -
-          margin -
-          this.legendOffsetForCloseAction
+        this.margin -
+        barsize -
+        margin -
+        this.legendOffsetForCloseAction
       )
       .attr("y", 19)
       .attr("text-anchor", "end")
@@ -874,11 +906,11 @@ export default class FlowMap extends Component {
       .attr(
         "x",
         this.width -
-          this.margin -
-          barsize -
-          margin -
-          90 -
-          this.legendOffsetForCloseAction
+        this.margin -
+        barsize -
+        margin -
+        90 -
+        this.legendOffsetForCloseAction
       )
       .attr("y", 10)
       .attr("width", 10)
@@ -889,11 +921,11 @@ export default class FlowMap extends Component {
       .attr(
         "x",
         this.width -
-          this.margin -
-          barsize -
-          margin * 2 -
-          90 -
-          this.legendOffsetForCloseAction
+        this.margin -
+        barsize -
+        margin * 2 -
+        90 -
+        this.legendOffsetForCloseAction
       )
       .attr("y", 19)
       .attr("text-anchor", "end")
@@ -1077,8 +1109,8 @@ export default class FlowMap extends Component {
         } else {
           console.warn(
             "No exec details found when expected for gt " +
-              d[0] +
-              "! "
+            d[0] +
+            "! "
           );
         }
 
@@ -1096,23 +1128,23 @@ export default class FlowMap extends Component {
             .style(
               "left",
               offset -
-                tipWidth * 0.08 +
-                5 +
-                that.lookupBarWidth(
-                  barWidthByCoordsMap,
-                  d[0]
-                ) /
-                  2 +
-                "px"
+              tipWidth * 0.08 +
+              5 +
+              that.lookupBarWidth(
+                barWidthByCoordsMap,
+                d[0]
+              ) /
+              2 +
+              "px"
             )
             .style(
               "top",
               that.margin +
-                that.chartHeight *
-                  that.tooltipPositionPercent +
-                that.browserBarHeightAdjust +
-                execYMargin * 5 +
-                "px"
+              that.chartHeight *
+              that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              execYMargin * 5 +
+              "px"
             )
             .style("opacity", 0.95);
         } else if (
@@ -1127,23 +1159,23 @@ export default class FlowMap extends Component {
             .style(
               "left",
               offset -
-                tipWidth * 0.92 +
-                5 +
-                that.lookupBarWidth(
-                  barWidthByCoordsMap,
-                  d[0]
-                ) /
-                  2 +
-                "px"
+              tipWidth * 0.92 +
+              5 +
+              that.lookupBarWidth(
+                barWidthByCoordsMap,
+                d[0]
+              ) /
+              2 +
+              "px"
             )
             .style(
               "top",
               that.margin +
-                that.chartHeight *
-                  that.tooltipPositionPercent +
-                that.browserBarHeightAdjust +
-                execYMargin * 5 +
-                "px"
+              that.chartHeight *
+              that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              execYMargin * 5 +
+              "px"
             )
             .style("opacity", 0.95);
         } else {
@@ -1155,23 +1187,23 @@ export default class FlowMap extends Component {
             .style(
               "left",
               offset -
-                tipWidth / 2 +
-                5 +
-                that.lookupBarWidth(
-                  barWidthByCoordsMap,
-                  d[0]
-                ) /
-                  2 +
-                "px"
+              tipWidth / 2 +
+              5 +
+              that.lookupBarWidth(
+                barWidthByCoordsMap,
+                d[0]
+              ) /
+              2 +
+              "px"
             )
             .style(
               "top",
               that.margin +
-                that.chartHeight *
-                  that.tooltipPositionPercent +
-                that.browserBarHeightAdjust +
-                execYMargin * 5 +
-                "px"
+              that.chartHeight *
+              that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              execYMargin * 5 +
+              "px"
             )
             .style("opacity", 0.95);
         }
@@ -1300,35 +1332,32 @@ export default class FlowMap extends Component {
 
   /**
    * Create a map of all the offset positions for each bar by coords
-   * @param data
+   * @param chartRows
    * @param xScale
    * @returns {*}
    */
-  createOffsetMap(data, xScale) {
+  createOffsetMap(chartRows, xScale) {
     let map = [];
 
-    for (let i = 0; i < data.length; i++) {
-      let d = data[i];
-      map[d[0].trim()] = xScale(d[3]);
+    for (let i = 0; i < chartRows.length; i++) {
+      let d = chartRows[i];
+      map[d.coords] = xScale(d.offset);
     }
     return map;
   }
 
   /**
    * Create a mapping of bar widths by coordinate
-   * @param data
+   * @param chartRows
    * @param xScale
    * @returns {*}
    */
-  createBarWidthByCoordsMap(data, xScale) {
+  createBarWidthByCoordsMap(chartRows, xScale) {
     let map = [];
 
-    for (let i = 0; i < data.length; i++) {
-      let d = data[i];
-      map[d[0].trim()] =
-        xScale(parseInt(d[3], 10) + parseInt(d[2], 10)) -
-        xScale(parseInt(d[3], 10)) -
-        0.2;
+    for (let i = 0; i < chartRows.length; i++) {
+      let d = chartRows[i];
+      map[d.coords] = xScale(d.offset + d.duration) - xScale(d.offset) - 0.2;
     }
     return map;
   }
@@ -1345,11 +1374,12 @@ export default class FlowMap extends Component {
       let row = taskSwitchData[i];
 
       let coords = row[0].trim();
-      let offset = row[2].trim();
+      let offset = parseInt(row[2].trim(), 10);
       let taskName = row[4].trim();
       let taskDescription = row[5].trim();
 
       let switchEvent = {
+        coords: coords,
         taskName: taskName,
         taskDescription: taskDescription,
         offset: offset
@@ -1357,16 +1387,50 @@ export default class FlowMap extends Component {
       taskSwitchMap.set(coords, switchEvent);
     }
 
+    console.log("Task switch map");
+    console.log(taskSwitchMap);
+
     return taskSwitchMap;
+  }
+
+
+  createDataBreakMap(chart) {
+
+    let dataBreaksData = chart.featureSeriesByType["@nav/break"].rowsOfPaddedCells;
+
+    //['Coords              ', 'Offset ', 'ClockTime        ', 'Duration ']
+
+    let dataBreaksMap = new Map();
+
+    for (let i = 0; i < dataBreaksData.length; i++) {
+      let row = dataBreaksData[i];
+
+      let coords = row[0].trim();
+      let offset = parseInt(row[1].trim(), 10);
+      let time = row[2].trim();
+      let duration = parseInt(row[3].trim(), 10);
+
+      let dataBreakEvent = {
+        coords: coords,
+        time: time,
+        duration: duration,
+        offset: offset
+      };
+      dataBreaksMap.set(coords, dataBreakEvent);
+    }
+
+    console.log("Data breaks map");
+    console.log(dataBreaksMap);
+
+    return dataBreaksMap;
   }
 
   /**
    * Create a mapping of execution and haystack details by coords
-   * @param data
    * @param chart
    * @returns {*}
    */
-  createTileExecDetailsMap(data, chart) {
+  createTileExecDetailsMap(chart) {
     let execData = [];
     let haystackData = [];
 
@@ -1544,9 +1608,9 @@ export default class FlowMap extends Component {
     let red = parseInt(d[3], 10);
 
     if (red > 0) {
-      return FlowMap.RED_TEST_COLOR;
+      return TaskFlowMap.RED_TEST_COLOR;
     } else {
-      return FlowMap.GREEN_TEST_COLOR;
+      return TaskFlowMap.GREEN_TEST_COLOR;
     }
   }
 
@@ -1564,9 +1628,9 @@ export default class FlowMap extends Component {
       green > red ||
       (green > 0 && !this.hasThirdDot(d))
     ) {
-      return FlowMap.GREEN_TEST_COLOR;
+      return TaskFlowMap.GREEN_TEST_COLOR;
     } else {
-      return FlowMap.RED_TEST_COLOR;
+      return TaskFlowMap.RED_TEST_COLOR;
     }
   }
 
@@ -1580,9 +1644,9 @@ export default class FlowMap extends Component {
     let green = parseInt(d[4], 10);
 
     if (green > 0) {
-      return FlowMap.GREEN_TEST_COLOR;
+      return TaskFlowMap.GREEN_TEST_COLOR;
     } else {
-      return FlowMap.RED_TEST_COLOR;
+      return TaskFlowMap.RED_TEST_COLOR;
     }
   }
 

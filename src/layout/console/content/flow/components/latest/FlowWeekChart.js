@@ -591,7 +591,7 @@ export default class FlowWeekChart extends Component {
 
     this.props.onHoverDayBox(coords);
 
-    let tipWidth = 135;
+    let tipWidth = 133;
     let tipHeight = 90;
 
     let tooltipEl = document.querySelector("#tooltip");
@@ -600,18 +600,6 @@ export default class FlowWeekChart extends Component {
     tooltipEl.style.top = (boxY + this.cellSize + tipHeight) + "px";
     tooltipEl.style.opacity = 0.85;
 
-    //
-    // d3.select("#tooltip")
-    //   .html("<span>Hello</span>")
-    //   .style(
-    //     "left",
-    //     100 + "px"
-    //   )
-    //   .style(
-    //     "top",
-    //     100 + "px"
-    //   )
-    //   .style("opacity", 0.85);
 
   }
 

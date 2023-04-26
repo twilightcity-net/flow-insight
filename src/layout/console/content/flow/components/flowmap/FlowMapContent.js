@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { DimensionController } from "../../../../../../controllers/DimensionController";
 import FlowIntentionsList from "./FlowIntentionsList";
-import FlowMap from "./FlowMap";
+import TaskFlowMap from "./TaskFlowMap";
 import { CircuitClient } from "../../../../../../clients/CircuitClient";
 import { TalkToClient } from "../../../../../../clients/TalkToClient";
 import FlowTroubleshootingFeed from "./FlowTroubleshootingFeed";
 import { MemberClient } from "../../../../../../clients/MemberClient";
 import ChartView from "../../../../../../views/ChartView";
 import UtilRenderer from "../../../../../../UtilRenderer";
+import DailyFlowMap from "./DailyFlowMap";
 
 /**
  * this component handles the main flow content for the flow map popup view
@@ -111,17 +112,46 @@ export default class FlowMapContent extends Component {
     });
   };
 
-  /**
-   * renders the main flow content body of this console panel
-   * @returns {*} - the JSX to be rendered in the window
-   */
-  render() {
-    let flowContent = (
-      <div id="component" className="loadingChart">
-        Loading...
-      </div>
-    );
+  getTitleBasedOnChartType() {
+    let title = "";
+    if (this.props.chartType === ChartView.ChartType.DAY_CHART) {
+      const day = UtilRenderer.getDateString(this.props.chartDto.position);
+      title = day + " - Flow Map";
+    } else {
+      title = "Task: "+this.props.chartDto.featureName;
+    }
 
+    return title;
+  }
+
+  getFlowMapBasedOnChartType(title, selectedCircuitName) {
+    let flowMap = "";
+    if (this.props.chartType === ChartView.ChartType.DAY_CHART) {
+      flowMap = (<DailyFlowMap
+        title={title}
+        selectedCircuitName={selectedCircuitName}
+        chartDto={this.props.chartDto}
+        cursorOffset={this.state.cursorOffset}
+        selectedOffset={this.state.selectedOffset}
+        onCircuitClick={this.onCircuitClick}
+        onClickOffCircuit={this.onClickOffCircuit}
+      />);
+    } else {
+      flowMap = (<TaskFlowMap
+        title={title}
+        selectedCircuitName={selectedCircuitName}
+        chartDto={this.props.chartDto}
+        cursorOffset={this.state.cursorOffset}
+        selectedOffset={this.state.selectedOffset}
+        onCircuitClick={this.onCircuitClick}
+        onClickOffCircuit={this.onClickOffCircuit}
+      />);
+    }
+
+    return flowMap;
+  }
+
+  getTroubleshootOrIntentionsBasedOnActiveCircuit() {
     let innerDetails;
 
     if (
@@ -149,32 +179,38 @@ export default class FlowMapContent extends Component {
       );
     }
 
+    return innerDetails;
+  }
+
+  getSelectedCircuitName() {
+    let selectedCircuitName = this.props.selectedCircuitName;
+    if (this.state.circuit) {
+      selectedCircuitName = this.state.circuit.circuitName;
+    }
+    return selectedCircuitName;
+  }
+
+  /**
+   * renders the main flow content body of this console panel
+   * @returns {*} - the JSX to be rendered in the window
+   */
+  render() {
+    let flowContent = (
+      <div id="component" className="loadingChart">
+        Loading...
+      </div>
+    );
+
     if (this.props.chartDto) {
-      let selectedCircuitName = this.props.selectedCircuitName;
-      if (this.state.circuit) {
-        selectedCircuitName = this.state.circuit.circuitName;
-      }
 
-      let title = "";
-      if (this.props.chartType === ChartView.ChartType.DAY_CHART) {
-        const day = UtilRenderer.getDateString(this.props.chartDto.position);
-
-        title = day + " - Flow Map";
-      } else {
-        title = "Task: "+this.props.chartDto.featureName;
-      }
+      let title = this.getTitleBasedOnChartType();
+      let selectedCircuitName = this.getSelectedCircuitName();
+      let flowMap = this.getFlowMapBasedOnChartType(title, selectedCircuitName);
+      let innerDetails = this.getTroubleshootOrIntentionsBasedOnActiveCircuit();
 
       flowContent = (
         <div className="flowContentWrapper">
-          <FlowMap
-            title={title}
-            selectedCircuitName={selectedCircuitName}
-            chartDto={this.props.chartDto}
-            cursorOffset={this.state.cursorOffset}
-            selectedOffset={this.state.selectedOffset}
-            onCircuitClick={this.onCircuitClick}
-            onClickOffCircuit={this.onClickOffCircuit}
-          />
+          {flowMap}
           {innerDetails}
         </div>
       );

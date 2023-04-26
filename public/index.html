@@ -7,8 +7,8 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
-  <meta http-equiv="Content-Security-Policy"
-        content="script-src 'self'; base-uri 'self';form-action 'self'">
+  <!--<meta http-equiv="Content-Security-Policy"
+        content="script-src 'self'; base-uri 'self';form-action 'self'">-->
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
   <title>FlowInsight</title>
@@ -4940,6 +4940,7 @@
     font-size: 0.8rem;
   }
 
+
   #component.flowDashboardContent .tipboxDetail {
     fill: rgba(160, 160, 160, 0.96);
   }
@@ -5027,7 +5028,7 @@
   }
 
   #component.flowContent #chart .axisLabel {
-    fill: rgba(120, 120, 120, 0.96);
+    fill: rgba(130, 130, 130, 0.96);
     font: sans-serif;
     font-size: 12px;
   }
@@ -5106,7 +5107,7 @@
   }
 
   #component.flowContent .noactivity {
-    color: rgba(100, 100, 100, 0.96);
+    color: rgba(130, 130, 130, 0.96);
     font-style: italic;
   }
 
@@ -5146,7 +5147,14 @@
   }
 
   #component.flowContent .gtcoords {
-    color: rgba(90, 90, 90, 0.96);
+    color: rgba(130, 130, 130, 0.96);
+    font-style: italic;
+    font-size: 0.8rem;
+    float: right;
+  }
+
+  #component.flowContent .gtDate {
+    color: rgba(130, 130, 130, 0.96);
     font-style: italic;
     font-size: 0.8rem;
     float: right;

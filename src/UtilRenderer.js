@@ -71,6 +71,16 @@ export default class UtilRenderer {
   }
 
   /**
+   * With a UTC dateStr convert to local time and then format just the time portion
+   * @param dateStr
+   * @returns {string}
+   */
+  static getSimpleTimeFromUtc(dateStr) {
+    let localTime  = moment.utc(dateStr).toDate();
+    return moment(localTime).format('h:mm A');
+  }
+
+  /**
    * With a localtime dateStr format has month day
    * @param dateStr
    * @returns {string}
