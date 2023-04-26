@@ -542,7 +542,7 @@ export default class FlowWeekChart extends Component {
         let box = document.getElementById(d.coords + "-box");
         box.classList.add("boxHighlight");
 
-        that.onHoverDayBox(d.coords);
+        that.onHoverDayBox(d.coords, that.getXOffsetForDayIndex(d.dayIndex), that.topMargin + that.topChartMargin);
 
       })
       .on("mouseout", function (event, d) {
@@ -586,12 +586,40 @@ export default class FlowWeekChart extends Component {
     this.props.onClickDayBox(coords);
   }
 
-  onHoverDayBox(coords) {
+  onHoverDayBox(coords, boxX, boxY) {
+    console.log("hover!");
+
     this.props.onHoverDayBox(coords);
+
+    let tipWidth = 135;
+    let tipHeight = 90;
+
+    let tooltipEl = document.querySelector("#tooltip");
+    tooltipEl.innerHTML = "<div>Click to open FlowMap</div>";
+    tooltipEl.style.left = (boxX + this.cellSize/2 - tipWidth/2)  + "px";
+    tooltipEl.style.top = (boxY + this.cellSize + tipHeight) + "px";
+    tooltipEl.style.opacity = 0.85;
+
+    //
+    // d3.select("#tooltip")
+    //   .html("<span>Hello</span>")
+    //   .style(
+    //     "left",
+    //     100 + "px"
+    //   )
+    //   .style(
+    //     "top",
+    //     100 + "px"
+    //   )
+    //   .style("opacity", 0.85);
+
   }
 
   onHoverOffDayBox(coords) {
     this.props.onHoverOffDayBox(coords);
+
+    let tooltipEl = document.querySelector("#tooltip");
+    tooltipEl.style.opacity = 0;
   }
 
 
@@ -637,21 +665,6 @@ export default class FlowWeekChart extends Component {
       });
   }
 
-  /**
-   * Update the content elements of the tip box
-   * @param row
-   */
-  updateTipContents(row) {
-    let day = UtilRenderer.getDateString(row.calDate);
-    let friendlyDuration = UtilRenderer.getTimerString(row.duration);
-
-    let dayEl = document.getElementById("tipboxDay");
-    dayEl.textContent = day;
-
-    let hoursEl = document.getElementById("tipboxHours");
-    hoursEl.textContent = "Hours: " + friendlyDuration;
-  }
-
 
   /**
    * Get the x offset position based on the day of the week.
@@ -676,7 +689,13 @@ export default class FlowWeekChart extends Component {
   render() {
 
     return (
-      <div id="chart" />
+      <div>
+        <div id="chart" />
+        <div
+          id="tooltip"
+          className="chartpopup"
+        />
+      </div>
     );
   }
 }
