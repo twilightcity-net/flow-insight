@@ -127,6 +127,7 @@ export default class DailyFlowMap extends Component {
   displayChart(chart, selectedCircuitName) {
     this.margin = 30;
     this.tooltipPositionPercent = 0.7;
+    this.legendOffsetForCloseAction = 0;
     let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
     this.chartHeight = svgHeight - 2 * this.margin;
     this.browserBarHeightAdjust = DimensionController.getBrowserBarHeight();
@@ -134,9 +135,8 @@ export default class DailyFlowMap extends Component {
 
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
-    this.legendOffsetForCloseAction = 0;
 
-    if (chart && chart.chartSeries.rowsOfPaddedCells.length === 0) {
+    if (this.isChartEmpty(chart)) {
       //empty chart
       return;
     }
@@ -189,6 +189,8 @@ export default class DailyFlowMap extends Component {
       dataBreakMap
     );
 
+    //this.addDataBreakBars(chart, chartGroup, dataBreakMap);
+
     this.createInvisibleBoundingBox(chartGroup);
 
     this.createWtfArrow(
@@ -230,12 +232,8 @@ export default class DailyFlowMap extends Component {
       .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
   }
 
-  createXScale() {
-
-  }
-
-  createYScale() {
-
+  isChartEmpty(chart) {
+    return (!chart || chart.chartSeries.rowsOfPaddedCells.length === 0);
   }
 
   /**
@@ -624,6 +622,117 @@ export default class DailyFlowMap extends Component {
   }
 
   /**
+   * Add bars for each of the data breaks
+   * @param chart
+   * @param chartGroup
+   * @param dataBreakMap
+   */
+  addDataBreakBars(chart, chartGroup, dataBreakMap) {
+      //coords, offset, time, duration
+
+    let dataBreakBars = chartGroup
+      .append("g")
+      .selectAll(".breakBars")
+      .data(dataBreakMap.values())
+      .enter()
+      .append("rect")
+      .attr("x", (d) => this.xScale(d.offset))
+      .attr("y", (d) => this.yScale(100))
+      .attr("height", (d) => this.yScale(0) - this.yScale(100))
+      .attr("width",
+        (d) => this.xScale(d.offset + d.duration) - this.xScale(d.offset) - 0.2
+      )
+      .attr("fill", "#000000");
+
+    let that = this;
+
+    dataBreakBars.on("mouseover", function (event, d) {
+      let offset = that.xScale(d.offset + d.duration/2);
+
+      console.log("duration in seconds = "+ d.duration);
+      let startTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
+
+      let endDateObj = UtilRenderer.getDateObjFromUtc(d.time);
+      endDateObj = new Date(endDateObj.getTime() + d.duration*1000);
+      let endTime = UtilRenderer.getTimeString(endDateObj);
+
+      let html = "<div class='databreak'>Break from " + startTime + " to "+ endTime + "</div>";
+
+      d3.select("#tooltip").html(html);
+
+      let tooltipEl = document.querySelector("#tooltip");
+
+      if (offset < that.margin + 100) {
+        tooltipEl.classList.remove("chartpopup");
+        tooltipEl.classList.remove("popupright");
+        tooltipEl.classList.add("popupleft");
+
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth * 0.08 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
+          )
+          .style("opacity", 0.95);
+      } else if (offset > that.width - that.margin - 100) {
+        tooltipEl.classList.remove("chartpopup");
+        tooltipEl.classList.remove("popupleft");
+        tooltipEl.classList.add("popupright");
+
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth * 0.92 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
+          )
+          .style("opacity", 0.95);
+      } else {
+        tooltipEl.classList.remove("popupleft");
+        tooltipEl.classList.remove("popupright");
+        tooltipEl.classList.add("chartpopup");
+
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth / 2 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+            that.chartHeight *
+            that.tooltipPositionPercent +
+            that.browserBarHeightAdjust +
+            "px"
+          )
+          .style("opacity", 0.95);
+      }
+    });
+
+    d3.select("#tooltip").on(
+      "mouseleave",
+      function (event, d) {
+        d3.select("#tooltip").style("left", "-1000px");
+      }
+    );
+
+  }
+
+
+  /**
    * Add the black lines that show where there's data breaks in the chart
    * @param chart
    * @param chartGroup
@@ -663,13 +772,17 @@ export default class DailyFlowMap extends Component {
 
     dataBreakLines.on("mouseover", function (event, d) {
       let offset = that.xScale(d.offset);
-      let friendlyDuration = "";
-      let seconds = d.duration;
 
       let html = "";
-      if (seconds > 0) {
-        friendlyDuration = UtilRenderer.convertSecondsToFriendlyDuration(seconds);
-        html = "<div class='databreak'>Break " + friendlyDuration + "</div>";
+
+      if (d.time && d.duration > 0) {
+        let startTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
+
+        let endDateObj = UtilRenderer.getDateObjFromUtc(d.time);
+        endDateObj = new Date(endDateObj.getTime() + d.duration*1000);
+        let endTime = UtilRenderer.getTimeString(endDateObj);
+
+        html = "<div class='databreak'>Break from " + startTime + " to "+ endTime + "</div>";
       }
 
       let taskSwitch = taskSwitchMap.get(d.coords);

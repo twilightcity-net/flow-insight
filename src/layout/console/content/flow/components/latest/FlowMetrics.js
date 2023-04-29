@@ -228,6 +228,7 @@ export default class FlowMetrics extends Component {
   render() {
 
     let ttmMins = "--";
+    let lfsMins = "--";
     let mpd = "--";
     let mpdUnits = "";
 
@@ -236,6 +237,10 @@ export default class FlowMetrics extends Component {
      const avgTtm = Math.round(this.state.activeTtms.ttmSum / this.state.activeTtms.ttmCount);
 
      ttmMins = avgTtm + " min";
+
+     if (this.state.activeTtms.lfs) {  //lfs can be null if the streak is in progress
+       lfsMins = this.state.activeTtms.lfs + " min";
+     }
    }
 
     if (this.state.activeTtms && this.state.activeTtms.momentumPerDay) {  //lfs can be null if the streak is in progress
@@ -253,9 +258,9 @@ export default class FlowMetrics extends Component {
         <div className="space">&nbsp;</div>
 
         <div className="summaryMetrics">
-          <div className="metricsHeader">Momentum Per Day (MPD)</div>
-          <div className="metric">{mpd}{mpdUnits}</div>
-          <div className="metricDescription">Depth of momentum cumulated per day as a heuristic for overall productivity</div>
+          <div className="metricsHeader">Longest Flow Streak (LFS)</div>
+          <div className="metric">{lfsMins}</div>
+          <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>
         </div>
       </div>
     );

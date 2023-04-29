@@ -61,6 +61,14 @@ export default class UtilRenderer {
   }
 
   /**
+   * Get simple formatted time string
+   * @param date
+   */
+  static getTimeString(date) {
+    return moment(date).format("h:mm A");
+  }
+
+  /**
    * With a UTC dateStr convert to local time and then format
    * @param dateStr
    * @returns {string}
@@ -68,6 +76,14 @@ export default class UtilRenderer {
   static getSimpleDateTimeFromUtc(dateStr) {
     let localTime  = moment.utc(dateStr).toDate();
     return moment(localTime).format('MMM D h:mm A');
+  }
+
+  /**
+   * Get a javascript Date object from a standard utc string
+   * @param dateStr
+   */
+  static getDateObjFromUtc(dateStr) {
+    return moment.utc(dateStr).toDate();
   }
 
   /**
