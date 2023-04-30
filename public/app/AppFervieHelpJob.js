@@ -2,7 +2,7 @@ const log = require("electron-log"),
   chalk = require("chalk"),
   EventFactory = require("../events/EventFactory");
 const AppFeatureToggle = require("./AppFeatureToggle");
-const FervieStateDetector = require("../job/FervieStateDetector");
+const FervieHelpRequestor = require("../job/FervieHelpRequestor");
 /**
  * Application class that detects when we need help and triggers fervie support
  * @type {AppFervieHelpJob}
@@ -25,10 +25,8 @@ module.exports = class AppFervieHelpJob {
     this.events = {
     };
 
-    this.fervieStateDetector = new FervieStateDetector();
+    this.fervieHelpRequestor = new FervieHelpRequestor();
   }
-
-  static HELP_THRESHOLD_IN_SECONDS = 60 * 20;
 
   /**
    * starts our fervie help mechanism
@@ -81,7 +79,7 @@ module.exports = class AppFervieHelpJob {
   }
 
   doLoopProcessing() {
-    this.fervieStateDetector.triggerFervieOnTroubleThreshold(AppFervieHelpJob.HELP_THRESHOLD_IN_SECONDS);
+    this.fervieHelpRequestor.triggerFervieOnTroubleThreshold();
   }
 
 };

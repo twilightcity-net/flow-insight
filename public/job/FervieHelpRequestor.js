@@ -5,33 +5,43 @@ const fs = require("fs");
 const {DtoClient} = require("../managers/DtoClientFactory");
 const WindowManagerHelper = require("../managers/WindowManagerHelper");
 const moment = require("moment");
+const EventFactory = require("../events/EventFactory");
 
 /**
- * Detects when the current flow state requires a fervie action and triggers events
+ * Detects when a fervie help request is needed and makes request
  */
-module.exports = class FervieStateDetector {
+module.exports = class FervieHelpRequestor {
   /**
    * builds the flow state detection and fervie triggers
    */
   constructor() {
-    this.name = "[FervieStateDetector]";
+    this.name = "[FervieHelpRequestor]";
     this.lastTriggerCircuitId = null;
     this.circuitTriggerCount = 0;
+
+    this.troubleThresholdEventNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.TROUBLE_THRESHOLD_EVENT,
+        this
+      );
   }
 
   static STATE_TROUBLESHOOT = "TROUBLESHOOT";
   static OWNER_JOIN_TYPE = "OWNER";
 
+  static HELP_THRESHOLD_IN_SECONDS = 60 * 20;
+
   /**
    * If we are troubleshooting longer than threshold, send a fervie request to find us some help
-   * @param thresholdInSeconds
    */
-  triggerFervieOnTroubleThreshold(thresholdInSeconds) {
+  triggerFervieOnTroubleThreshold() {
     let me = global.App.MemberManager.getMe();
 
     this.resetTriggerCountOnCircuitChange(me);
 
-    if (this.isOverTroubleThreshold(me, thresholdInSeconds)) {
+    if (this.isOverTroubleThreshold(me, FervieHelpRequestor.HELP_THRESHOLD_IN_SECONDS)) {
+
+      this.troubleThresholdEventNotifier.dispatch({});
 
       this.fetchListOfTroubleFiles((fileList) => {
         console.log(fileList);
@@ -104,8 +114,8 @@ module.exports = class FervieStateDetector {
    * @returns {LearningCircuitDto|null|*|boolean}
    */
   hasActiveCircuit(currentMe) {
-    return (currentMe && currentMe.activeCircuit && currentMe.activeJoinType === FervieStateDetector.OWNER_JOIN_TYPE
-      && currentMe.activeCircuit.circuitState === FervieStateDetector.STATE_TROUBLESHOOT);
+    return (currentMe && currentMe.activeCircuit && currentMe.activeJoinType === FervieHelpRequestor.OWNER_JOIN_TYPE
+      && currentMe.activeCircuit.circuitState === FervieHelpRequestor.STATE_TROUBLESHOOT);
   }
 
   /**
@@ -135,10 +145,10 @@ module.exports = class FervieStateDetector {
 
     this.callback = callback;
     this.store = {
-      context: "FervieStateDetector",
+      context: "FervieHelpRequestor",
       dto: activityContextInputDto,
       guid: Util.getGuid(),
-      name: "FervieStateDetectorStore",
+      name: "FervieHelpRequestorStore",
       requestType: "post",
       timestamp: new Date().getTime(),
       urn: this.urn,

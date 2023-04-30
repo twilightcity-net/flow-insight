@@ -2,6 +2,7 @@ const log = require("electron-log"),
   chalk = require("chalk");
 const Util = require("../Util");
 const {DtoClient} = require("../managers/DtoClientFactory");
+const EventFactory = require("../events/EventFactory");
 
 
 /**
@@ -14,6 +15,8 @@ module.exports = class FlowStateTracker {
     this.buckets = this.createInitialBuckets();
     this.snapshot = null;
     this.momentum = 0;
+    this.isInitialized = false;
+    this.me = null;
     this.pluginsInitialized = new Map();
   }
 
@@ -22,6 +25,7 @@ module.exports = class FlowStateTracker {
   static KEY_MODCOUNT = "mod.keycounts";
   static ACTIVITY_THRESHOLD = 150;
   static MAX_MOMENTUM = 200;
+  static EVENT_ME_UPDATE = "update-me";
 
   static HOURS_BACK = 2;
   static BUCKETS_PER_HOUR = 12;
@@ -32,6 +36,7 @@ module.exports = class FlowStateTracker {
    * adjusting to the latest server status + any recent activity processing
    */
   refresh() {
+    this.initializeIfNeeded();
     this.doFetchLatestFlowState((arg) => {
       if (arg.error) {
         this.handleFailedSnapshotRefresh(arg.error);
@@ -41,29 +46,118 @@ module.exports = class FlowStateTracker {
     });
   }
 
+  initializeIfNeeded() {
+    if (!this.isInitialized) {
+      this.me = global.App.MemberManager.getMe();
+      if (this.me) {
+        this.lastTaskId = this.me.activeTaskId;
+      }
+
+      this.memberEventListener =
+        EventFactory.createEvent(
+          EventFactory.Types.MEMBER_CONTROLLER,
+          this,
+          this.onMemberControllerEvent
+        );
+
+      this.troubleThresholdEventListener =
+        EventFactory.createEvent(
+          EventFactory.Types.TROUBLE_THRESHOLD_EVENT,
+          this,
+          this.onTroubleThresholdEvent
+        );
+    }
+  }
+
+  onMemberControllerEvent(event, arg) {
+    if (arg.type === FlowStateTracker.EVENT_ME_UPDATE) {
+      let newMe = arg.data;
+      log.debug("[FlowStateTracker] processing me update event...");
+
+      if (this.isTaskSwitch(newMe)) {
+        log.debug(this.name + "Task switch event!  Momentum Reset");
+        this.resetMomentum();
+      }
+
+      //don't overwrite our last task with a temporary null
+      if (newMe.activeTaskId) {
+        this.lastTaskId = newMe.activeTaskId;
+      } else {
+        log.debug("ignoring taskId of blank waiting for next task update");
+      }
+      this.me = newMe;
+    }
+  }
+
+  /**
+   * Reset our momentum when troubleshooting threshold is reached
+   * @param event
+   * @param arg
+   */
+  onTroubleThresholdEvent(event, arg) {
+    log.debug(this.name + "Troubleshoot Threshold event!  Momentum Reset");
+    this.resetMomentum();
+  }
+
+  /**
+   * Determine if there is a task switch, taking into account, if an intention is finished
+   * our active task can temporarily go blank and shouldn't invoke a switch
+   * @param newMe
+   */
+  isTaskSwitch(newMe) {
+    if (this.me && newMe && this.lastTaskId && newMe.activeTaskId) {
+      if (this.lastTaskId !== newMe.activeTaskId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Reset the current momentum to 0, persists the event in the bucket for this time period,
+   * so the reset will be processed during recalculations, then broadcast the update
+   */
+  resetMomentum() {
+    let currentTime = Util.getCurrentTime();
+    let bucket = this.findOrCreateBucket(currentTime);
+
+    bucket.resetEvent = true;
+
+    this.updateMomentumAndBroadcastOnChange(0);
+  }
+
   /**
    * Process a single modification activity
    * @param modificationActivity
    */
   processModificationActivity(modificationActivity) {
-    let modTime = this.truncateTimeFiveMinutes(modificationActivity.endTime);
     let modCount = modificationActivity.modificationCount;
+
+    let bucket = this.findOrCreateBucket(modificationActivity.endTime);
+    bucket.count += modCount;
+
+    this.recalculateMomentum();
+  }
+
+  /**
+   * Find or create a new bucket for holding data for a specific time
+   * @param dateTime
+   */
+  findOrCreateBucket(dateTime) {
+    let modTime = this.truncateTimeFiveMinutes(dateTime);
 
     let bucket = this.buckets.get(modTime.getTime());
     if (bucket) {
-      bucket.count += modCount;
+      return bucket;
     } else {
-
       log.debug("[FlowStateTracker] Creating new bucket for "+modTime);
-
       let bucketCounter = {
         bucket: modTime,
         count: 0
       }
       this.buckets.set(modTime.getTime(), bucketCounter);
+      return bucketCounter;
     }
-
-    this.recalculateMomentum();
   }
 
   /**
@@ -123,7 +217,7 @@ module.exports = class FlowStateTracker {
       }
       momentum = Util.clamp(momentum, 0, FlowStateTracker.MAX_MOMENTUM);
 
-      if (consecutiveIdleCount > 12) {
+      if (consecutiveIdleCount > 12 || bucket.resetEvent === true) {
         momentum = 0;
       }
     }

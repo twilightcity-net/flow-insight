@@ -126,7 +126,8 @@ class EventFactory {
       SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display",
       MOOVIE_START: prefix + "moovie-start",
       MOOVIE_STOP: prefix + "moovie-stop",
-      CONSOLE_LINK_EVENT: prefix + "console-link-event"
+      CONSOLE_LINK_EVENT: prefix + "console-link-event",
+      TROUBLE_THRESHOLD_EVENT: prefix + "trouble-threshold-event"
     };
   }
 }
