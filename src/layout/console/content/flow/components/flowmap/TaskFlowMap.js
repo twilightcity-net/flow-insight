@@ -274,10 +274,10 @@ export default class TaskFlowMap extends Component {
   redrawArrow(chart, selectedCircuitName) {
     let chartGroup = d3.select(".ifm");
 
-    let data = chart.chartSeries.rowsOfPaddedCells;
-    let barWidthByCoordsMap =
-      this.createBarWidthByCoordsMap(data, this.xScale);
-    let offsetMap = this.createOffsetMap(data, this.xScale);
+    let rawData = chart.chartSeries.rowsOfPaddedCells;
+    let chartRows = this.transformIntoChartRows(rawData);
+    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(chartRows, this.xScale);
+    let offsetMap = this.createOffsetMap(chartRows, this.xScale);
 
     this.createWtfArrow(
       chart,

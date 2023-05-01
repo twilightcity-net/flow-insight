@@ -272,10 +272,10 @@ export default class DailyFlowMap extends Component {
   redrawArrow(chart, selectedCircuitName) {
     let chartGroup = d3.select(".ifm");
 
-    let data = chart.chartSeries.rowsOfPaddedCells;
-    let barWidthByCoordsMap =
-      this.createBarWidthByCoordsMap(data, this.xScale);
-    let offsetMap = this.createOffsetMap(data, this.xScale);
+    let rawData = chart.chartSeries.rowsOfPaddedCells;
+    let chartRows = this.transformIntoChartRows(rawData);
+    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(chartRows, this.xScale);
+    let offsetMap = this.createOffsetMap(chartRows, this.xScale);
 
     this.createWtfArrow(
       chart,
@@ -318,9 +318,9 @@ export default class DailyFlowMap extends Component {
       selectedCircuitName
     );
     let coords = selectedCircuitRow[0].trim();
-
     let offset = offsetMap[coords];
     let barWidth = barWidthByCoordsMap[coords];
+
     let midpoint = offset + barWidth / 2;
 
     let arrowHeight = 10;
@@ -329,19 +329,9 @@ export default class DailyFlowMap extends Component {
     let arrowBarHeight = 22;
     let topMargin = 3;
 
-    let points =
-      midpoint -
-      arrowWidth / 2 +
-      "," +
-      (this.chartHeight + topMargin + arrowHeight) +
-      " " +
-      midpoint +
-      "," +
-      (this.chartHeight + topMargin) +
-      " " +
-      (midpoint + arrowWidth / 2) +
-      "," +
-      (this.chartHeight + topMargin + arrowHeight);
+    let points = midpoint - arrowWidth / 2 + "," + (this.chartHeight + topMargin + arrowHeight) +
+      " " + midpoint + "," + (this.chartHeight + topMargin) +
+      " " + (midpoint + arrowWidth / 2) + "," + (this.chartHeight + topMargin + arrowHeight);
 
     let arrowGrpEl = document.getElementById("wtfarrow");
     let arrowGrp;
