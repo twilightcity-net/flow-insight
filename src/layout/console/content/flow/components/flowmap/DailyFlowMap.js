@@ -189,7 +189,7 @@ export default class DailyFlowMap extends Component {
       dataBreakMap
     );
 
-    this.addDataBreakBars(chart, chartGroup, dataBreakMap);
+    //this.addDataBreakBars(chart, chartGroup, dataBreakMap);
 
     this.createInvisibleBoundingBox(chartGroup);
 
@@ -765,15 +765,15 @@ export default class DailyFlowMap extends Component {
 
       let html = "";
 
-      // if (d.time && d.duration > 0) {
-      //   let startTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
-      //
-      //   let endDateObj = UtilRenderer.getDateObjFromUtc(d.time);
-      //   endDateObj = new Date(endDateObj.getTime() + d.duration*1000);
-      //   let endTime = UtilRenderer.getTimeString(endDateObj);
-      //
-      //   html = "<div class='databreak'>Break from " + startTime + " to "+ endTime + "</div>";
-      // }
+      if (d.time && d.duration > 0) {
+        let startTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
+
+        let endDateObj = UtilRenderer.getDateObjFromUtc(d.time);
+        endDateObj = new Date(endDateObj.getTime() + d.duration*1000);
+        let endTime = UtilRenderer.getTimeString(endDateObj);
+
+        html = "<div class='databreak'>Break from " + startTime + " to "+ endTime + "</div>";
+      }
 
       let taskSwitch = taskSwitchMap.get(d.coords);
       if (taskSwitch) {
