@@ -47,7 +47,8 @@ export default class FlowIntentionsList extends Component {
     }
 
     const firstRow = this.props.chartDto.chartSeries.rowsOfPaddedCells[0];
-    let startEventDate = UtilRenderer.getSimpleTimeFromUtc(firstRow[1].trim());
+    let startDateObj = UtilRenderer.getDateObjFromUtc(firstRow[1].trim());
+    let startEventDate = UtilRenderer.getTimeString(startDateObj);
 
     const intentionMap = this.props.chartDto.eventSeriesByType["@work/intent"].rowsOfPaddedCells;
     const intentionHeaders = this.props.chartDto.eventSeriesByType["@work/intent"].headers;
@@ -79,11 +80,12 @@ export default class FlowIntentionsList extends Component {
             >
               {intentionMap.map((d, i) => {
                 let timer = UtilRenderer.getRelativeTimerAsHoursMinutes(parseInt(d[2], 10));
-                let eventDate = UtilRenderer.getSimpleTimeFromUtc(d[1].trim());
+                let eventDateObj = UtilRenderer.getDateObjFromUtc(d[1].trim())
+                let eventDate = UtilRenderer.getTimeString(eventDateObj);
                 let description = d[3];
                 let offset = parseInt(d[2], 10);
 
-                if (i === 0) {
+                if (eventDateObj.getTime() < startDateObj.getTime()) {
                   eventDate = startEventDate;
                   offset = 0;
                 }
