@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Divider, Grid, Image } from "semantic-ui-react";
+import ChartView from "../../../../../../views/ChartView";
 
 /**
  * this component is the individual flow intention item for the FlowMap
@@ -120,6 +121,12 @@ export default class IntentionRow extends Component {
       extraActiveClass = " active";
     }
 
+    let time = this.props.time;
+
+    if (this.props.chartType === ChartView.ChartType.DAY_CHART) {
+      time = this.props.eventDate;
+    }
+
     let taskColumn = "";
     let intentionColumn = "";
 
@@ -154,7 +161,7 @@ export default class IntentionRow extends Component {
         }
       >
         <Grid.Column width={2}>
-          <div className="chunkText">{this.props.time}</div>
+          <div className="chunkText">{time}</div>
         </Grid.Column>
         {taskColumn}
         {intentionColumn}

@@ -172,6 +172,7 @@ export default class FlowMapContent extends Component {
       innerDetails = (
         <FlowIntentionsList
           chartDto={this.props.chartDto}
+          chartType={this.props.chartType}
           onHoverIntention={this.onHoverIntention}
           onClickIntention={this.onClickIntention}
           onExitHoverIntention={this.onExitHoverIntention}

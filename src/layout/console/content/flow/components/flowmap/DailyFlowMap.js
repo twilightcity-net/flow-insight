@@ -894,7 +894,10 @@ export default class DailyFlowMap extends Component {
    */
   createTimeAxis(chartGroup, xMinMax, chartRows) {
     let startTime = UtilRenderer.getSimpleTimeFromUtc(chartRows[0].time);
-    let endTime = UtilRenderer.getSimpleTimeFromUtc(chartRows[chartRows.length - 1].time);
+
+    let endDateObj = UtilRenderer.getDateObjFromUtc(chartRows[chartRows.length - 1].time);
+    endDateObj.setMinutes(endDateObj.getMinutes() + 20); //endTime of the last tile
+    let endTime = UtilRenderer.getTimeString(endDateObj);
 
     let grp = chartGroup.append("g").attr("class", "axis");
 

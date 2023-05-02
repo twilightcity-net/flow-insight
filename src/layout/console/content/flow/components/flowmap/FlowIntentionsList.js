@@ -46,6 +46,9 @@ export default class FlowIntentionsList extends Component {
       return "";
     }
 
+    const firstRow = this.props.chartDto.chartSeries.rowsOfPaddedCells[0];
+    let startEventDate = UtilRenderer.getSimpleTimeFromUtc(firstRow[1].trim());
+
     const intentionMap = this.props.chartDto.eventSeriesByType["@work/intent"].rowsOfPaddedCells;
     const intentionHeaders = this.props.chartDto.eventSeriesByType["@work/intent"].headers;
 
@@ -75,12 +78,15 @@ export default class FlowIntentionsList extends Component {
               }
             >
               {intentionMap.map((d, i) => {
-                let timer =
-                  UtilRenderer.getRelativeTimerAsHoursMinutes(
-                    parseInt(d[2], 10)
-                  );
+                let timer = UtilRenderer.getRelativeTimerAsHoursMinutes(parseInt(d[2], 10));
+                let eventDate = UtilRenderer.getSimpleTimeFromUtc(d[1].trim());
                 let description = d[3];
                 let offset = parseInt(d[2], 10);
+
+                if (i === 0) {
+                  eventDate = startEventDate;
+                  offset = 0;
+                }
 
                 let task = "";
                 let flameRating = "";
@@ -96,9 +102,11 @@ export default class FlowIntentionsList extends Component {
                   <IntentionRow
                     key={i}
                     time={timer}
+                    eventDate={eventDate}
                     task={task}
                     description={description}
                     flameRating={flameRating}
+                    chartType={this.props.chartType}
                     offset={offset}
                     onHover={this.props.onHoverIntention}
                     isActiveRow={isActiveRow}
