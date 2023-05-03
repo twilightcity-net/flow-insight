@@ -70,7 +70,6 @@ const PluginRegistrationHandler = require("../job/PluginRegistrationHandler");
 const CodeModuleConfigHandler = require("../job/CodeModuleConfigHandler");
 const AppFlowPublisherJob = require("./AppFlowPublisherJob");
 const AppFervieHelpJob = require("./AppFervieHelpJob");
-const AppDeviceRelayJob = require("./AppDeviceRelayJob");
 const is_mac = process.platform==='darwin';
 
 module.exports = class App {
@@ -202,7 +201,6 @@ module.exports = class App {
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppFlowPublisherJob = new AppFlowPublisherJob();
       global.App.AppFervieHelpJob = new AppFervieHelpJob();
-      global.App.AppDeviceRelayJob = new AppDeviceRelayJob();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
       global.App.AppHeartbeat = new AppHeartbeat();

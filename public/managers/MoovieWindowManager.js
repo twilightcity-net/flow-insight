@@ -10,7 +10,10 @@ module.exports = class MoovieWindowManager {
   static NETFLIX_PREFIX = "https://www.netflix.com/";
   static AMAZON_PREFIX = "https://www.amazon.com/";
   static HBOMAX_PREFIX = "https://play.hbomax.com/";
-
+  static DISNEY_PREFIX = "https://www.disneyplus.com/";
+  static PRIME_PREFIX = "https://www.primevideo.com/";
+  static AMAZON_CA_PREFIX = "https://www.amazon.ca/";
+  static PROJECTFREE_PREFIX = "https://projectfreetv.one/";
   /**
    * builds the ChartWindowManager for the global app scope
    */
@@ -62,7 +65,11 @@ module.exports = class MoovieWindowManager {
   isValidUrl(url) {
     return url.startsWith(MoovieWindowManager.AMAZON_PREFIX)
       || url.startsWith(MoovieWindowManager.NETFLIX_PREFIX)
-      || url.startsWith(MoovieWindowManager.HBOMAX_PREFIX);
+      || url.startsWith(MoovieWindowManager.HBOMAX_PREFIX)
+      || url.startsWith(MoovieWindowManager.AMAZON_CA_PREFIX)
+      || url.startsWith(MoovieWindowManager.PRIME_PREFIX)
+      || url.startsWith(MoovieWindowManager.PROJECTFREE_PREFIX)
+      || url.startsWith(MoovieWindowManager.DISNEY_PREFIX);
   }
 
   closeMoovieWindow() {
