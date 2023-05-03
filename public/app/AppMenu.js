@@ -176,14 +176,6 @@ module.exports = class AppMenu extends Menu {
         type: "checkbox",
         checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
       },
-      {
-        label: "AR Device Support",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.ARDEVICE)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.ARDEVICE)
-      },
     ];
   }
 
