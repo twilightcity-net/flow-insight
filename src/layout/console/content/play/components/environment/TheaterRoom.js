@@ -106,16 +106,17 @@ export default class TheaterRoom extends Environment {
 
       if (seatingMap) {
         this.initializeSeatingMap(seatingMap);
-      } else {
-        MoovieClient.getSeatMappings(this.moovieId, this, (arg) => {
-          if (arg.error) {
-            console.error("Error getting seat mappings: "+arg.error);
-          } else {
-            this.globalHud.setGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP, arg.data);
-            this.initializeSeatingMap(arg.data);
-          }
-        });
       }
+
+      //reload the seating map, even if we had one set already, since it could be stale
+      MoovieClient.getSeatMappings(this.moovieId, this, (arg) => {
+        if (arg.error) {
+          console.error("Error getting seat mappings: "+arg.error);
+        } else {
+          this.globalHud.setGameStateProperty(GameState.Property.MOOVIE_SEATING_MAP, arg.data);
+          this.initializeSeatingMap(arg.data);
+        }
+      });
 
       MoovieClient.getMoovieCircuit(this.moovieId, this, (arg) => {
         if (!arg.error) {

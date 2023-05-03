@@ -15,7 +15,8 @@ export default class MoovieRoomDialog extends Component {
       moovies: [],
       currentTitleValue: "",
       currentYearValue: "",
-      currentLinkValue: ""
+      currentLinkValue: "",
+      error: ""
     }
   }
 
@@ -122,6 +123,9 @@ export default class MoovieRoomDialog extends Component {
         } else {
           //TODO handle the error on the dialog page
           console.error("Error:" +arg.error);
+          this.setState({
+            error: arg.error
+          });
         }
       });
   }
@@ -160,18 +164,21 @@ export default class MoovieRoomDialog extends Component {
   handleChangeForTitle = (e, { value }) => {
     this.setState({
       currentTitleValue: value,
+      error: null
     });
   }
 
   handleChangeForYear = (e, { value }) => {
     this.setState({
       currentYearValue: value,
+      error: null
     });
   }
 
   handleChangeForLink = (e, { value }) => {
     this.setState({
       currentLinkValue: value,
+      error: null
     });
   }
 
@@ -212,6 +219,7 @@ export default class MoovieRoomDialog extends Component {
         </div>
       </div>
       <div>
+        <div className="errorMessage">{this.state.error}</div>
         <Button color="grey" className={"cancelButton"} onClick={this.closeNewMoovieRoomForm}>
           Cancel
         </Button>
