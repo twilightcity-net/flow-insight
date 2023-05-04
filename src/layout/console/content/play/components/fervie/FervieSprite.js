@@ -262,7 +262,7 @@ export default class FervieSprite {
       return;
     }
 
-    if (p5.keyIsDown(p5.LEFT_ARROW)) {
+    if (p5.keyIsDown(p5.LEFT_ARROW) || p5.keyIsDown(65)) {
       this.changeDirection(
         p5,
         environment,
@@ -271,7 +271,7 @@ export default class FervieSprite {
         0,
         0
       );
-    } else if (p5.keyIsDown(p5.RIGHT_ARROW)) {
+    } else if (p5.keyIsDown(p5.RIGHT_ARROW) || p5.keyIsDown(68)) {
       this.changeDirection(
         p5,
         environment,
@@ -280,7 +280,7 @@ export default class FervieSprite {
         0,
         0
       );
-    } else if (p5.keyIsDown(p5.UP_ARROW)) {
+    } else if (p5.keyIsDown(p5.UP_ARROW) || p5.keyIsDown(87)) {
       this.changeDirection(
         p5,
         environment,
@@ -289,7 +289,7 @@ export default class FervieSprite {
         -1 * this.getMaxVelocityY(),
         -1 * this.scaleStep
       );
-    } else if (p5.keyIsDown(p5.DOWN_ARROW)) {
+    } else if (p5.keyIsDown(p5.DOWN_ARROW) || p5.keyIsDown(83)) {
       this.changeDirection(
         p5,
         environment,
