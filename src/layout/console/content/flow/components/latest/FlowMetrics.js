@@ -231,6 +231,7 @@ export default class FlowMetrics extends Component {
     let lfsMins = "--";
     let mpd = "--";
     let mpdUnits = "";
+    let mpdDescription = "";
 
    if (this.state.activeTtms && this.state.activeTtms.ttmSum) {
 
@@ -246,6 +247,7 @@ export default class FlowMetrics extends Component {
     if (this.state.activeTtms && this.state.activeTtms.momentumPerDay) {  //lfs can be null if the streak is in progress
       mpd = this.state.activeTtms.momentumPerDay;
       mpdUnits = <span className="depthUnit">depth <span className="depthUnitSmall">minutes</span></span>;
+      mpdDescription = "Depth of momentum cumulated per day as a heuristic for overall productivity";
     }
 
     return (
