@@ -3,6 +3,7 @@ const {Menu} = require("electron"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
 const AppFeatureToggle = require("./AppFeatureToggle");
+const MenuHandler = require("./MenuHandler");
 
 
 class AppMenuException extends Error {
@@ -45,20 +46,20 @@ module.exports = class AppMenu extends Menu {
         {type: "separator"},
         {
           label: "Enable Features",
-          submenu: AppMenu.getFeatureSubmenu(),
+          submenu: MenuHandler.getFeatureSubmenu(),
         },
         {
           label: "Configure Hotkeys",
-          click: AppMenu.onClickConfigHotkeys
+          click: MenuHandler.onClickConfigHotkeys
         },
         {type: "separator"},
         {
           label: "Switch Communities",
-          click: AppMenu.onClickSwitchCommunities
+          click: MenuHandler.onClickSwitchCommunities
         },
         {
           label: "Use Invitation Key",
-          click: AppMenu.onClickUseInvitationKey
+          click: MenuHandler.onClickUseInvitationKey
         },
         {type: "separator"},
         {role: "quit"},
@@ -84,100 +85,11 @@ module.exports = class AppMenu extends Menu {
       },
       {
         role: "help",
-        submenu: AppMenu.getHelpSubmenu(),
+        submenu: MenuHandler.getHelpSubmenu(),
       },
     ];
   }
 
-  static getHelpSubmenu() {
-    if (AppFeatureToggle.isMoovieApp) {
-      return [
-        {
-          label: "WatchMoovies - Learn More",
-          click() {
-            log.info(
-              "[AppMenu] open browser-> http://watchmoovies.com/"
-            );
-            Util.openExternalBrowser("http://watchmoovies.com/");
-          },
-        },
-      ];
-    } else {
-      return [
-        {
-          label: "FlowInsight - Learn More",
-          click() {
-            log.info(
-              "[AppMenu] open browser-> http://flowinsight.com/"
-            );
-            Util.openExternalBrowser("http://flowinsight.com/");
-          },
-        },
-      ];
-    }
-  }
-
-  static getFeatureSubmenu() {
-    return [
-      {
-        label: "Journal",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
-      },
-      {
-        label: "Flow Metrics",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.METRICS)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.METRICS)
-      },
-      {
-        label: "Flow Dashboard",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.DASHBOARD)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
-      },
-      {
-        label: "Status Bar",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.STATUS)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.STATUS)
-      },
-      {
-        label: "Fervie",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
-      },
-      {
-        label: "Neo Mode",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.NEO)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
-      },
-      {type: "separator"},
-      {
-        label: "Plugin Extensions",
-        click: () => {
-          AppMenu.onClickFeature(AppFeatureToggle.Toggle.TOOLS)
-        },
-        type: "checkbox",
-        checked: AppMenu.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
-      },
-    ];
-  }
 
   static getTemplateForMacOS() {
     return [
@@ -188,20 +100,20 @@ module.exports = class AppMenu extends Menu {
           {type: "separator"},
           {
             label: "EnableFeatures",
-            submenu: AppMenu.getFeatureSubmenu(),
+            submenu: MenuHandler.getFeatureSubmenu(),
           },
           {
             label: "Configure Hotkeys",
-            click: AppMenu.onClickConfigHotkeys
+            click: MenuHandler.onClickConfigHotkeys
           },
           {type: "separator"},
           {
             label: "Switch Communities",
-            click: AppMenu.onClickSwitchCommunities
+            click: MenuHandler.onClickSwitchCommunities
           },
           {
             label: "Use Invitation Key",
-            click: AppMenu.onClickUseInvitationKey
+            click: MenuHandler.onClickUseInvitationKey
           },
           {type: "separator"},
           {role: "hide"},
@@ -253,7 +165,7 @@ module.exports = class AppMenu extends Menu {
           {
             role: "displays",
             label: "Displays",
-            submenu: this.getDisplaysSubmenu(),
+            submenu: MenuHandler.getDisplaysSubmenu(),
           },
           {type: "separator"},
           {role: "close"},
@@ -264,80 +176,11 @@ module.exports = class AppMenu extends Menu {
         ],
       },
       {
-        role: "help",
-        submenu: AppMenu.getHelpSubmenu(),
+        label: "Help",
+        submenu: MenuHandler.getHelpSubmenu(),
       },
     ];
   }
 
-  static switchOrg = (orgId) => {
-    console.log("switchOrg!");
-  }
 
-  static onClickFeature = (featureName) => {
-    global.App.FeatureToggleManager.toggleFeature(featureName);
-  }
-
-  static isFeatureToggledOn = (featureName) => {
-    return global.App.FeatureToggleManager.isFeatureToggledOn(featureName);
-  }
-
-  static onClickConfigHotkeys = () => {
-    console.log("XXX onClickConfigHotkeys");
-
-    WindowManagerHelper.createWindowHotkeyConfig();
-  }
-
-  static onClickUseInvitationKey = () => {
-    console.log("XXX onClickUseInvitationKey");
-
-    WindowManagerHelper.createWindowUseInvitationKey();
-  }
-
-  static onClickSwitchCommunities = () => {
-    console.log("XXX onClickSwitchCommunities");
-
-    WindowManagerHelper.createWindowOrgSwitch();
-  }
-
-
-  /**
-   * gets the app menu for displays in the window section
-   * @returns {*}
-   */
-  static getDisplaysSubmenu() {
-    let displays = global.App.WindowManager.getDisplays(),
-      defaultDisplay =
-        global.App.AppSettings.getDisplayIndex(),
-      arrLen = displays.length,
-      menuItems = [],
-      arrPos = 1,
-      label = "";
-
-    displays.forEach((display) => {
-      label +=
-        "Display " +
-        arrPos +
-        " - " +
-        display.size.width +
-        " x " +
-        display.size.height;
-      if (arrPos - 1 === defaultDisplay) {
-        label += " •";
-      }
-      menuItems.push({
-        label: label,
-        index: arrPos - 1,
-        click: (event) => {
-          console.log(event);
-          global.App.AppSettings.setDisplayIndex(
-            event.index
-          );
-        },
-      });
-      arrPos += 1;
-      label = "";
-    });
-    return menuItems;
-  }
 };

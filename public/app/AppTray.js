@@ -3,6 +3,7 @@ const { Menu, Tray } = require("electron"),
   Util = require("../Util");
 const WindowManagerHelper = require("../managers/WindowManagerHelper");
 const AppFeatureToggle = require("./AppFeatureToggle");
+const MenuHandler = require("./MenuHandler");
 
 /*
  * This class is used to init the Application tray
@@ -37,7 +38,29 @@ module.exports = class AppTray extends Tray {
         label: "Configure Hotkeys",
         click: this.onClickConfigHotkeys
       },
+      {
+        label: "Enable Features",
+        submenu: MenuHandler.getFeatureSubmenu(),
+      },
+      {
+        role: "displays",
+        label: "Choose Primary Display",
+        submenu: MenuHandler.getDisplaysSubmenu(),
+      },
+      {type: "separator"},
+      {
+        label: "Switch Communities",
+        click: MenuHandler.onClickSwitchCommunities
+      },
+      {
+        label: "Use Invitation Key",
+        click: MenuHandler.onClickUseInvitationKey
+      },
       { type: "separator" },
+      {
+        role: "help",
+        submenu: MenuHandler.getHelpSubmenu(),
+      },
       {
         label: "Quit",
         role: "quit",
@@ -61,4 +84,6 @@ module.exports = class AppTray extends Tray {
 
     WindowManagerHelper.createWindowHotkeyConfig();
   }
+
+
 };
