@@ -169,6 +169,18 @@ module.exports = class ConsoleWindow {
         },
         this
       ),
+      sidebarFifthItem: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_FIFTH_ITEM,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_FIFTH_ITEM,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_FIFTH_ITEM"
+          );
+          this.events.sidebarShowNotifier.dispatch(5);
+        },
+        this
+      ),
       sidebarWTFItem: new Shortcut(
         ShortcutManager.Names.WINDOW_SIDEBAR_WTF_ITEM,
         ShortcutManager.Accelerators.WINDOW_SIDEBAR_WTF_ITEM,

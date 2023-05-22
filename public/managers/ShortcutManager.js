@@ -104,8 +104,9 @@ class ShortcutManager {
       WINDOW_SIDEBAR_SECOND_ITEM: "Control+2",
       WINDOW_SIDEBAR_THIRD_ITEM: "Control+3",
       WINDOW_SIDEBAR_FOURTH_ITEM: "Control+4",
-      WINDOW_SIDEBAR_WTF_ITEM: "Control+Esc",
-      WINDOW_SIDEBAR_WTF_ITEM_ALT: "Command+Esc",
+      WINDOW_SIDEBAR_FIFTH_ITEM: "Control+5",
+      WINDOW_SIDEBAR_WTF_ITEM: "Control+0",
+      WINDOW_SIDEBAR_WTF_ITEM_ALT: "Command+0",
       FERVIE_SHORTCUT: "Control+P"
     };
   }

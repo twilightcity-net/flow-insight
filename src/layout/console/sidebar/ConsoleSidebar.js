@@ -386,32 +386,32 @@ export default class ConsoleSidebar extends Component {
     );
     switch (arg) {
       case 1:
-        this.showPanel(
+        this.loadPanelByName(
           SidePanelViewController.MenuSelection.TEAM
         );
         break;
       case 2:
-        this.showPanel(
-          SidePanelViewController.MenuSelection.CIRCUITS
-        );
-        break;
-      case 3:
-        this.showPanel(
+        this.loadPanelByName(
           SidePanelViewController.MenuSelection.FERVIE
         );
         break;
-      case 4:
-        this.showPanel(
+      case 3:
+        this.loadPanelByName(
           SidePanelViewController.MenuSelection.NOTIFICATIONS
         );
         break;
+      case 4:
+        this.loadPanelByName(
+          SidePanelViewController.MenuSelection.CIRCUITS
+        );
+        break;
       case 5:
-        this.showPanel(
+        this.loadPanelByName(
           SidePanelViewController.MenuSelection.DASHBOARD
         );
         break;
       case 0:
-        this.showPanel(
+        this.loadPanelByName(
           SidePanelViewController.MenuSelection.WTF
         );
         break;
@@ -465,6 +465,14 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   handleItemClick = (e, {name}) => {
+    this.loadPanelByName(name);
+  };
+
+  /**
+   * Load the panel corresponding to the tab
+   * @param name
+   */
+  loadPanelByName(name) {
     if (this.state.activeItem === name && this.isDefaultPanel(name)) {
       this.myController.hidePanel();
     } else if (name === SidePanelViewController.MenuSelection.WTF) {
@@ -473,7 +481,7 @@ export default class ConsoleSidebar extends Component {
       this.loadDefaultResourceContent(name);
       this.myController.showPanel(name);
     }
-  };
+  }
 
   /**
    * Determine whether the active panel is the default or something else.  One click resets to default
@@ -799,9 +807,9 @@ export default class ConsoleSidebar extends Component {
         >
           {this.getTeamMenuItem(activeItem)}
           {this.getBuddiesMenuItem(activeItem)}
-          {this.getCircuitsMenuItem(activeItem)}
           {this.getFervieMenuItem(activeItem)}
           {this.getNotificationsMenuItem(activeItem)}
+          {this.getCircuitsMenuItem(activeItem)}
           {this.getDashboardMenuItem(activeItem)}
           {this.getWtfMenuItem(activeItem)}
           {this.getNetworkPopup()}

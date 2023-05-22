@@ -61,7 +61,7 @@ module.exports = class FlowDatabase extends LokiJS {
       FlowDatabase.Collections.FLOW
     );
 
-    let doc = {id: FlowDatabase.myId, momentum: myFlowData.momentum};
+    let doc = {id: FlowDatabase.myId, momentum: myFlowData.momentum, isDefault: false};
     DatabaseUtil.findRemoveInsert(doc, collection);
   }
 
@@ -73,7 +73,16 @@ module.exports = class FlowDatabase extends LokiJS {
       FlowDatabase.Collections.FLOW
     );
 
-    return collection.findOne({id: FlowDatabase.myId});
+    let result = collection.findOne({id: FlowDatabase.myId});
+    if (result) {
+      return result;
+    } else {
+      return this.getDefaultFlow();
+    }
+  }
+
+  getDefaultFlow() {
+    return {id: FlowDatabase.myId, momentum: 0, isDefault: true}
   }
 
 };

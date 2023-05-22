@@ -34,7 +34,7 @@ export class SidePanelViewController extends ActiveViewController {
     this.show = true;
     this.activeMenuSelection = SidePanelViewController.getDefaultMenuSelection();
     this.activeFervieSubmenuSelection = SidePanelViewController.SubmenuSelection.FERVIE;
-    this.activeCircuitsSubmenuSelection = SidePanelViewController.SubmenuSelection.ACTIVE;
+    this.activeCircuitsSubmenuSelection = SidePanelViewController.SubmenuSelection.RETRO;
     this.activeNotificationsSubmenuSelection = SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
     this.activeDashboardSubmenuSelection = SidePanelViewController.SubmenuSelection.DASHBOARD;
     this.circuitStartStopListener =

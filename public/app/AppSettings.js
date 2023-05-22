@@ -110,7 +110,11 @@ module.exports = class AppSettings {
   }
 
   getDefaultFeatureToggles() {
-    return [AppFeatureToggle.Toggle.METRICS];
+    return [
+      AppFeatureToggle.Toggle.METRICS,
+      AppFeatureToggle.Toggle.STATUS,
+      AppFeatureToggle.Toggle.DASHBOARD
+    ];
   }
 
   /**
