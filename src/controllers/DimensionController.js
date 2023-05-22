@@ -27,6 +27,7 @@ export class DimensionController {
       FERVIE_PANEL: "[FerviePanel]",
       JOURNAL_ITEMS: "[JournalItems]",
       FLOW_PANEL: "[FlowPanel]",
+      CONTROL_PANEL: "[ControlPanel]",
       DASHBOARD_PANEL: "[DashboardPanel]",
       TERMINAL_PANEL: "[TerminalPanel]",
       PLAY_PANEL: "[PlayPanel]",
@@ -50,6 +51,34 @@ export class DimensionController {
     if (!DimensionController.instance) {
       DimensionController.instance =
         new DimensionController(scope);
+    }
+  }
+
+  /**
+   * calculates the control panel height for the console view
+   * @returns {number}
+   */
+  static getControlPanelHeight() {
+    let heights = {
+      border: 2,
+      margin: 24,
+      padding: 8,
+      header: 51,
+      content: 0,
+      barHeight: 0,
+    };
+    let addressBar = document.querySelector(
+      "#component.browserHeader"
+    );
+    if (addressBar && addressBar.clientHeight > 0) {
+      return (
+        window.innerHeight -
+        heights.border -
+        heights.padding -
+        addressBar.clientHeight
+      );
+    } else {
+      return window.innerHeight;
     }
   }
 
@@ -630,82 +659,40 @@ export class DimensionController {
    * @returns {number|*}
    */
   static getHeightFor(component) {
-    if (component ===
-      DimensionController.Components.FERVIE_PANEL
+    if (component === DimensionController.Components.FERVIE_PANEL
     ) {
       return DimensionController.getFerviePanelHeight();
-    } else if (
-      component ===
-      DimensionController.Components.JOURNAL_ITEMS
+    } else if (component === DimensionController.Components.JOURNAL_ITEMS
     ) {
-      return DimensionController.getJournalItemsPanelHeight(
-        false
-      );
-    } else if (
-      component ===
-      DimensionController.Components.FLOW_PANEL
-    ) {
+      return DimensionController.getJournalItemsPanelHeight(false);
+    } else if (component === DimensionController.Components.FLOW_PANEL) {
       return DimensionController.getFlowPanelHeight();
-    } else if (
-      component ===
-      DimensionController.Components.CHART_POPUP
-    ) {
+    } else if (component === DimensionController.Components.CONTROL_PANEL) {
+      return DimensionController.getControlPanelHeight();
+    } else if (component === DimensionController.Components.CHART_POPUP) {
       return DimensionController.getChartPopupHeight();
-    } else if (
-        component ===
-        DimensionController.Components.DASHBOARD_PANEL
-      ) {
+    } else if (component === DimensionController.Components.DASHBOARD_PANEL) {
         return DimensionController.getDashboardPanelHeight();
-    } else if (
-      component ===
-      DimensionController.Components.TERMINAL_PANEL
-    ) {
+    } else if (component === DimensionController.Components.TERMINAL_PANEL) {
       return DimensionController.getTerminalPanelHeight();
-    } else if (
-      component ===
-      DimensionController.Components.PLAY_PANEL
-    ) {
+    } else if (component === DimensionController.Components.PLAY_PANEL) {
       return DimensionController.getPlayPanelHeight();
-    } else if (
-      component ===
-      DimensionController.Components.CONSOLE_LAYOUT
-    ) {
+    } else if (component === DimensionController.Components.CONSOLE_LAYOUT) {
       return DimensionController.getConsoleLayoutHeight();
-    } else if (
-      component ===
-      DimensionController.Components.TROUBLESHOOT
-    ) {
+    } else if (component === DimensionController.Components.TROUBLESHOOT) {
       return DimensionController.getActiveCircuitContentHeight();
-    } else if (
-      component ===
-      DimensionController.Components.WELCOME
-    ) {
+    } else if (component === DimensionController.Components.WELCOME) {
       return DimensionController.getWelcomeContentHeight();
-    }
-    else if (
-      component ===
-      DimensionController.Components.HOTKEY_CONFIG
-    ) {
+    } else if (component === DimensionController.Components.HOTKEY_CONFIG) {
       return DimensionController.getPluginHeight();
-    } else if (
-      component ===
-      DimensionController.Components.PLUGIN_DIALOG
+    } else if (component === DimensionController.Components.PLUGIN_DIALOG) {
+      return DimensionController.getHotkeyConfigHeight();
+    } else if (component === DimensionController.Components.MODULE_CONFIG_DIALOG
     ) {
       return DimensionController.getHotkeyConfigHeight();
-    } else if (
-      component ===
-      DimensionController.Components.MODULE_CONFIG_DIALOG
-    ) {
-      return DimensionController.getHotkeyConfigHeight();
-    }
-    else if (
-      component ===
-      DimensionController.Components.SIDEBAR_PANEL
-    ) {
+    } else if (component === DimensionController.Components.SIDEBAR_PANEL) {
       return DimensionController.getSidebarPanelHeight();
-    } else if (
-      component ===
-      DimensionController.Components.CIRCUIT_SIDEBAR
+    } else if (component === DimensionController.Components.CIRCUIT_SIDEBAR
     ) {
       return DimensionController.getCircuitSidebarHeight();
     } else {

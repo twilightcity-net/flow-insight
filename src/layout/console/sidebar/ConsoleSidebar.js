@@ -527,6 +527,10 @@ export default class ConsoleSidebar extends Component {
       if (FeatureToggle.isPersonalDashboardEnabled) {
         this.myController.loadDefaultFlowPanel();
       }
+    } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS) {
+      if (FeatureToggle.isControlChartEnabled) {
+        this.myController.loadDefaultControlPanel();
+      }
     } else if (panelName === SidePanelViewController.MenuSelection.TEAM) {
       if (FeatureToggle.isJournalEnabled) {
         this.myController.loadDefaultJournalPanel();

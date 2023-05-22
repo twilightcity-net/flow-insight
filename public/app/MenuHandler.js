@@ -37,12 +37,20 @@ module.exports = class MenuHandler {
         checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
       },
       {
-        label: "Status Bar",
+        label: "Focus Bar",
         click: () => {
           MenuHandler.onClickFeature(AppFeatureToggle.Toggle.STATUS)
         },
         type: "checkbox",
         checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.STATUS)
+      },
+      {
+        label: "Trouble Control",
+        click: () => {
+          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.CONTROL)
+        },
+        type: "checkbox",
+        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.CONTROL)
       },
       {
         label: "Fervie",

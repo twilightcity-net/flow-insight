@@ -22,6 +22,7 @@ export class BrowserRequestFactory {
       DASHBOARD: "dashboard",
       MOOVIE: "moovie",
       TOOLS: "tools",
+      CONTROL: "control"
     };
   }
 
@@ -86,6 +87,7 @@ export class BrowserRequestFactory {
       FLOW: "flow",
       PLAY: "play",
       MOOVIE: "moovie",
+      CONTROL: "control",
       TOOLS: "tools",
       WTF: "wtf",
       RETRO: "retro",
@@ -162,6 +164,8 @@ export class BrowserRequestFactory {
           return BrowserRequestFactory._getFlowRequest(
             args[0]
           );
+        case BrowserRequestFactory.Requests.CONTROL:
+          return BrowserRequestFactory._getControlRequest();
         case BrowserRequestFactory.Requests.DASHBOARD:
           return BrowserRequestFactory._getDashboardRequest(
             args
@@ -440,6 +444,20 @@ export class BrowserRequestFactory {
     );
   }
 
+
+  /**
+   * gets the request for displaying the wtfs control chart
+   * @returns {string}
+   * @private
+   */
+  static _getControlRequest() {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.CONTROL
+    );
+  }
 
   /**
    * gets the request for playing the fervie mini game

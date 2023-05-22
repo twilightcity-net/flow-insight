@@ -38,6 +38,7 @@ export class MainPanelViewController extends ActiveViewController {
       MOOVIE: "moovie",
       TOOLS: "tools",
       DASHBOARD: "dashboard",
+      CONTROL: "control"
     };
   }
 

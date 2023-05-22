@@ -388,6 +388,16 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   /**
+   * Load the default control panel
+   */
+  loadDefaultControlPanel() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.CONTROL
+    );
+    this.makeSidebarBrowserRequest(request);
+  }
+
+  /**
    * Load the default journal panel
    */
   loadDefaultJournalPanel() {

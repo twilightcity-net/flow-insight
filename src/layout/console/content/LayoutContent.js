@@ -16,6 +16,7 @@ import PlayResource from "./play/PlayResource";
 import DashboardResource from "./dashboard/DashboardResource";
 import MoovieResource from "./moovie/MoovieResource";
 import ToolsResource from "./welcome/ToolsResource";
+import ControlResource from "./control/ControlResource";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -106,6 +107,10 @@ export default class LayoutContent extends Component {
       case MainPanelViewController.Resources.DASHBOARD:
         component = (<DashboardResource resource={this.state.resource}/>);
         className = MainPanelViewController.Resources.DASHBOARD + className;
+        break;
+      case MainPanelViewController.Resources.CONTROL:
+        component = (<ControlResource resource={this.state.resource}/>);
+        className = MainPanelViewController.Resources.CONTROL + className;
         break;
       case MainPanelViewController.Resources.PLAY:
         component = (<PlayResource resource={this.state.resource} />);
