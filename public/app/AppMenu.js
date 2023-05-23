@@ -45,12 +45,12 @@ module.exports = class AppMenu extends Menu {
         {role: "about"},
         {type: "separator"},
         {
-          label: "Enable Features",
-          submenu: MenuHandler.getFeatureSubmenu(),
-        },
-        {
           label: "Configure Hotkeys",
           click: MenuHandler.onClickConfigHotkeys
+        },
+        {
+          label: "Enable Features",
+          submenu: MenuHandler.getFeatureSubmenu(),
         },
         {type: "separator"},
         {
@@ -164,7 +164,7 @@ module.exports = class AppMenu extends Menu {
         submenu: [
           {
             role: "displays",
-            label: "Displays",
+            label: "Choose Primary Display",
             submenu: MenuHandler.getDisplaysSubmenu(),
           },
           {type: "separator"},

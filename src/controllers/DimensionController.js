@@ -55,34 +55,6 @@ export class DimensionController {
   }
 
   /**
-   * calculates the control panel height for the console view
-   * @returns {number}
-   */
-  static getControlPanelHeight() {
-    let heights = {
-      border: 2,
-      margin: 24,
-      padding: 8,
-      header: 51,
-      content: 0,
-      barHeight: 0,
-    };
-    let addressBar = document.querySelector(
-      "#component.browserHeader"
-    );
-    if (addressBar && addressBar.clientHeight > 0) {
-      return (
-        window.innerHeight -
-        heights.border -
-        heights.padding -
-        addressBar.clientHeight
-      );
-    } else {
-      return window.innerHeight;
-    }
-  }
-
-  /**
    * calculates the flow panel height for the console view, the browser bar
    * is collapsed for this view
    * @returns {number}
@@ -142,64 +114,6 @@ export class DimensionController {
 
 
   /**
-   * calculates the terminal panel height for the console view, the browser bar
-   * is collapsed for this view
-   * @returns {number}
-   */
-  static getTerminalPanelHeight() {
-    let heights = {
-      border: 2,
-      margin: 24,
-      padding: 8,
-      header: 51,
-      content: 0,
-      barHeight: 0,
-    };
-    let addressBar = document.querySelector(
-      "#component.browserHeader"
-    );
-    if (addressBar && addressBar.clientHeight > 0) {
-      return (
-        window.innerHeight -
-        heights.border -
-        heights.padding -
-        addressBar.clientHeight
-      );
-    } else {
-      return window.innerHeight;
-    }
-  }
-
-  /**
-   * calculates the terminal panel height for the console view, the browser bar
-   * is collapsed for this view
-   * @returns {number}
-   */
-  static getDashboardPanelHeight() {
-    let heights = {
-      border: 2,
-      margin: 24,
-      padding: 8,
-      header: 51,
-      content: 0,
-      barHeight: 0,
-    };
-    let addressBar = document.querySelector(
-      "#component.browserHeader"
-    );
-    if (addressBar && addressBar.clientHeight > 0) {
-      return (
-        window.innerHeight -
-        (heights.border * 2) -
-        heights.padding -
-        addressBar.clientHeight
-      );
-    } else {
-      return window.innerHeight;
-    }
-  }
-
-  /**
    * calculates the play panel height for the console view
    * @returns {number}
    */
@@ -250,16 +164,6 @@ export class DimensionController {
     );
   }
 
-
-  /**
-   * gets the fervie panel width of the canvas
-   * @returns {number}
-   */
-  static getMoovieChatHeight() {
-    return (
-      window.innerHeight
-    );
-  }
 
   /**
    * gets the fervie panel width of the canvas
@@ -654,27 +558,52 @@ export class DimensionController {
   }
 
   /**
+   * calculates the default panel height for the main panel, adjusting for whether the browser bar
+   * is collapsed for this view
+   * @returns {number}
+   */
+
+  static getMainPanelDefaultHeight() {
+      let heights = {
+        border: 2,
+        margin: 24,
+        padding: 8,
+        header: 51,
+        content: 0,
+        barHeight: 0,
+      };
+      let addressBar = document.querySelector(
+        "#component.browserHeader"
+      );
+      if (addressBar && addressBar.clientHeight > 0) {
+        return (
+          window.innerHeight -
+          heights.border -
+          heights.padding -
+          addressBar.clientHeight
+        );
+      } else {
+        return window.innerHeight;
+      }
+  }
+
+  /**
    * gets the height for a component based on its constructor
    * @param component
    * @returns {number|*}
    */
   static getHeightFor(component) {
-    if (component === DimensionController.Components.FERVIE_PANEL
-    ) {
+    if (component === DimensionController.Components.FERVIE_PANEL) {
       return DimensionController.getFerviePanelHeight();
-    } else if (component === DimensionController.Components.JOURNAL_ITEMS
-    ) {
+    } else if (component === DimensionController.Components.JOURNAL_ITEMS) {
       return DimensionController.getJournalItemsPanelHeight(false);
-    } else if (component === DimensionController.Components.FLOW_PANEL) {
-      return DimensionController.getFlowPanelHeight();
-    } else if (component === DimensionController.Components.CONTROL_PANEL) {
-      return DimensionController.getControlPanelHeight();
+    } else if (component === DimensionController.Components.FLOW_PANEL ||
+               component === DimensionController.Components.CONTROL_PANEL ||
+               component === DimensionController.Components.DASHBOARD_PANEL ||
+               component === DimensionController.Components.TERMINAL_PANEL) {
+      return DimensionController.getMainPanelDefaultHeight();
     } else if (component === DimensionController.Components.CHART_POPUP) {
       return DimensionController.getChartPopupHeight();
-    } else if (component === DimensionController.Components.DASHBOARD_PANEL) {
-        return DimensionController.getDashboardPanelHeight();
-    } else if (component === DimensionController.Components.TERMINAL_PANEL) {
-      return DimensionController.getTerminalPanelHeight();
     } else if (component === DimensionController.Components.PLAY_PANEL) {
       return DimensionController.getPlayPanelHeight();
     } else if (component === DimensionController.Components.CONSOLE_LAYOUT) {
@@ -687,13 +616,11 @@ export class DimensionController {
       return DimensionController.getPluginHeight();
     } else if (component === DimensionController.Components.PLUGIN_DIALOG) {
       return DimensionController.getHotkeyConfigHeight();
-    } else if (component === DimensionController.Components.MODULE_CONFIG_DIALOG
-    ) {
+    } else if (component === DimensionController.Components.MODULE_CONFIG_DIALOG) {
       return DimensionController.getHotkeyConfigHeight();
     } else if (component === DimensionController.Components.SIDEBAR_PANEL) {
       return DimensionController.getSidebarPanelHeight();
-    } else if (component === DimensionController.Components.CIRCUIT_SIDEBAR
-    ) {
+    } else if (component === DimensionController.Components.CIRCUIT_SIDEBAR) {
       return DimensionController.getCircuitSidebarHeight();
     } else {
       throw new Error(
