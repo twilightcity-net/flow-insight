@@ -59,9 +59,7 @@ export default class ControlResource extends Component {
         inverted
         padded={"very"}
         style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.CONTROL_PANEL
-          ),
+          height: height,
         }}
       >
         <div id="wrapper" className="controlContent">
