@@ -330,6 +330,7 @@ module.exports = class BaseController {
         "chartTopBoxesForModuleForUser",
       CHART_FRICTION: "chartFriction",
       CHART_LATEST_WEEK: "chartLatestWeek",
+      CHART_LATEST_WTFS: "chartLatestWtfs",
       CHART_FRICTION_FOR_USER: "chartFrictionForUser",
       CHART_FRICTION_FOR_TEAM: "chartFrictionForTeam",
       CREATE_TERMINAL_SESSION: "createTerminalSession",

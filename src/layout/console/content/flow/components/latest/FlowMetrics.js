@@ -6,7 +6,7 @@ import UtilRenderer from "../../../../../../UtilRenderer";
  */
 export default class FlowMetrics extends Component {
   /**
-   * builds the IFM chart
+   * builds the metrics
    * @param props
    */
   constructor(props) {

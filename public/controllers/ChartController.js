@@ -69,7 +69,8 @@ module.exports = class ChartController extends (
       CHART_FRICTION: "chart-friction",
       CHART_FRICTION_FOR_USER: "chart-friction-for-user",
       CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
-      CHART_LATEST_WEEK: "chart-latest-week"
+      CHART_LATEST_WEEK: "chart-latest-week",
+      CHART_LATEST_WTFS: "chart-latest-wtfs"
     };
   }
 
@@ -223,6 +224,9 @@ module.exports = class ChartController extends (
           break;
         case ChartController.Events.CHART_LATEST_WEEK:
           this.handleChartLatestWeekEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_LATEST_WTFS:
+          this.handleChartLatestWtfsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -1309,6 +1313,40 @@ module.exports = class ChartController extends (
         )
     );
   }
+
+  /**
+   * client event handler for charting latest wtfs for the current week
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartLatestWtfsEvent(event, arg, callback) {
+    let timezoneOffset = arg.args.timezoneOffset,
+      weekOffset = arg.args.weekOffset,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.WTF_PATH +
+        ChartController.Paths.LATEST;
+
+    urn += "?timezone_offset=" +timezoneOffset;
+    urn += "&week_offset=" + weekOffset;
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_LATEST_WTFS,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
 
   /**

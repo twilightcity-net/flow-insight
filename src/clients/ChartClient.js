@@ -81,7 +81,8 @@ export class ChartClient extends BaseClient {
       CHART_FRICTION: "chart-friction",
       CHART_FRICTION_FOR_USER: "chart-friction-for-user",
       CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
-      CHART_LATEST_WEEK: "chart-latest-week"
+      CHART_LATEST_WEEK: "chart-latest-week",
+      CHART_LATEST_WTFS: "chart-latest-wtfs"
     };
   }
 
@@ -228,6 +229,30 @@ export class ChartClient extends BaseClient {
   static chartLatestWeek(timezoneOffset, weekOffset, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_LATEST_WEEK,
+      {
+        timezoneOffset: timezoneOffset,
+        weekOffset: weekOffset
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+  /**
+   * Chart wtfs for the current latest week.  Takes a week offset so you can
+   * retrieve data from previous weeks with a back button
+   * @param timezoneOffset
+   * @param weekOffset
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartLatestWtfs(timezoneOffset, weekOffset, scope, callback) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_LATEST_WTFS,
       {
         timezoneOffset: timezoneOffset,
         weekOffset: weekOffset
