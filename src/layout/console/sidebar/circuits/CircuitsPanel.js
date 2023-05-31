@@ -32,8 +32,7 @@ export default class CircuitsPanel extends Component {
     super(props);
     this.name = "[CircuitsPanel]";
     this.state = {
-      activeItem:
-        SidePanelViewController.SubmenuSelection.ACTIVE,
+      activeItem: SidePanelViewController.SubmenuSelection.RETRO,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: false,
@@ -498,37 +497,19 @@ export default class CircuitsPanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={
-                SidePanelViewController.SubmenuSelection
-                  .ACTIVE
+                SidePanelViewController.SubmenuSelection.DO_IT_LATER
               }
               active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .ACTIVE
+                activeItem === SidePanelViewController.SubmenuSelection.DO_IT_LATER
               }
               onClick={this.handleCircuitSubmenuClick}
             />
             <Menu.Item
               name={
-                SidePanelViewController.SubmenuSelection
-                  .DO_IT_LATER
+                SidePanelViewController.SubmenuSelection.RETRO
               }
               active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .DO_IT_LATER
-              }
-              onClick={this.handleCircuitSubmenuClick}
-            />
-            <Menu.Item
-              name={
-                SidePanelViewController.SubmenuSelection
-                  .RETRO
-              }
-              active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .RETRO
+                activeItem === SidePanelViewController.SubmenuSelection.RETRO
               }
               onClick={this.handleCircuitSubmenuClick}
             />
@@ -541,14 +522,6 @@ export default class CircuitsPanel extends Component {
                 DimensionController.getCircuitsSidebarPanelHeight(),
             }}
           >
-            <Transition
-              visible={this.state.liveCircuitsVisible}
-              animation={this.animationType}
-              duration={this.animationDelay}
-              unmountOnHide
-            >
-              {this.getLiveCircuitsContent()}
-            </Transition>
             <Transition
               visible={this.state.doItLaterCircuitsVisible}
               animation={this.animationType}

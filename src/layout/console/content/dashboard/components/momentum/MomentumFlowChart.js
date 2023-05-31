@@ -678,9 +678,10 @@ export default class MomentumFlowChart extends Component {
           hoursEl.textContent =
             "Hours: " + that.boxDetail.hours;
 
-          let coordsEl =
-            document.getElementById("tipboxCoords");
-          coordsEl.textContent = that.boxDetail.coords;
+          let coordsEl = document.getElementById("tipboxCoords");
+          if (coordsEl) {
+            coordsEl.textContent = that.boxDetail.coords;
+          }
 
         } else {
           let tipbox = document.getElementById("tipbox");
