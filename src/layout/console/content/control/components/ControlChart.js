@@ -55,7 +55,6 @@ export default class ControlChart extends Component {
     this.controlLineMargin = Math.floor((this.height - this.bottomChartMargin) / 4);
     this.zeroLineMargin = 40;
 
-
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
 
@@ -102,7 +101,7 @@ export default class ControlChart extends Component {
       .data(rows)
       .enter()
       .append("line")
-      .attr("stroke", "#333333")
+      .attr("class", "graphPointLine")
       .attr("x1", (d, i) => this.margin + this.leftAxisMargin + (tickOffset * (i)) )
       .attr("x2", (d, i) => this.margin + this.leftAxisMargin + (tickOffset * (i+1)) )
       .attr("y1", (d) => {
@@ -114,10 +113,11 @@ export default class ControlChart extends Component {
       })
       .attr("y2", (d) => this.translateDurationToPosition(dataScaleFn, d.durationInSeconds))
 
+    //create the last graph line connecting the last point back to 0
     if (rows.length > 0) {
       chartGroup
         .append("line")
-        .attr("stroke", "#333333")
+        .attr("class", "graphPointLine")
         .attr("x1", this.margin + this.leftAxisMargin + (tickOffset * (rows.length)) )
         .attr("x2", this.margin + this.leftAxisMargin + this.boxWidth )
         .attr("y1", this.translateDurationToPosition(dataScaleFn, rows[rows.length - 1].durationInSeconds))
@@ -128,12 +128,50 @@ export default class ControlChart extends Component {
       .data(rows)
       .enter()
       .append("circle")
+      .attr("class", (d) => this.getGraphPointStyleBasedOnStatus(d.status))
       .attr("id", (d) => d.circuitName)
-      .attr("fill", "#ff0000")
-      .attr("stroke", "#000000")
       .attr("cx", (d, i) => this.margin + this.leftAxisMargin + (tickOffset * (i+1)))
       .attr("cy", (d) => this.translateDurationToPosition(dataScaleFn, d.durationInSeconds))
       .attr("r", 4);
+
+    rows.forEach((row, i) => {
+       if (row.durationInSeconds > 3000) {
+         chartGroup.append("text")
+           .attr("class", this.getXSizeBasedOnReviewed(row.status))
+           .attr("x", this.margin + this.leftAxisMargin + (tickOffset * (i+1)))
+           .attr("y", this.translateDurationToPosition(dataScaleFn, row.durationInSeconds) + 2)
+           .attr("text-anchor", "middle")
+           .attr("alignment-baseline", "middle")
+           .text("X");
+       }
+    });
+
+  }
+
+  /**
+   * Change the style of the graph point based on if its closed or not
+   * @param status
+   * @returns {string}
+   */
+  getGraphPointStyleBasedOnStatus(status) {
+    if (status === "CLOSED") {
+      return "graphPointReviewed";
+    } else {
+      return "graphPoint";
+    }
+  }
+
+  /**
+   * Change the style of the X based on if the ooc graph point has been closed or not
+   * @param status
+   * @returns {string}
+   */
+  getXSizeBasedOnReviewed(status) {
+    if (status === "CLOSED") {
+      return "smallX";
+    } else {
+      return "bigX";
+    }
   }
 
   /**

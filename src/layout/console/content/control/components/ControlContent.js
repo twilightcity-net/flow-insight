@@ -45,7 +45,7 @@ export default class ControlContent extends Component {
 
     if (this.props.chartDto) {
       flowContent = (
-        <div className="flowContentWrapper">
+        <div className="troubleContentWrapper">
           <div className="chartWrapper" style={{width: chartWidth + "px"}}>
             <ControlChart
               chartDto={this.props.chartDto}
@@ -75,7 +75,7 @@ export default class ControlContent extends Component {
     return (
       <div
         id="component"
-        className="flowDashboardContent"
+        className="troubleControlContent"
         style={{
           height: height,
           opacity: opacity
