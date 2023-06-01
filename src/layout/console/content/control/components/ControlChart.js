@@ -16,6 +16,7 @@ export default class ControlChart extends Component {
     this.name = "[ControlChart]";
   }
 
+  static FIFTY_MIN_OOC_LIMIT_IN_SECONDS = 3000;
 
   /**
    * Initially when we get the first set of props, display our chart data.
@@ -75,77 +76,190 @@ export default class ControlChart extends Component {
     this.drawChartBox(chartGroup);
     this.drawAxisLabels(chartGroup);
 
-    let troubleRows = this.createTroubleRows(rows);
+    let troublePoints = this.createTroubleGraphPoints(rows);
 
-    this.drawTicksForPoints(chartGroup, troubleRows);
-    this.drawPoints(chartGroup, troubleRows);
+    this.drawTicksForPoints(chartGroup, troublePoints);
+    this.drawLinesConnectingPoints(chartGroup, troublePoints);
+    this.drawPoints(chartGroup, troublePoints);
   }
 
+
   /**
-   * Draw the graph points of our control chart
-   * @param chartGroup
+   * Clean up our dataset properties to make it easier to display the chart data
    * @param rows
    */
-  drawPoints(chartGroup, rows) {
+  createTroubleGraphPoints(rows) {
+    let troublePoints = [];
+
     let rowCount = rows.length;
     let tickOffset = this.boxWidth / (rowCount + 1);
 
     let dataHeight = this.boxHeight - this.controlLineMargin - this.zeroLineMargin;
 
     let dataScaleFn = d3.scaleLinear()
-      .domain([0, 3000])
+      .domain([0, ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS]) //50 minutes
       .range([0, dataHeight]);
 
+    let prevPoint = null;
+
+    rows.forEach( (row, i) => {
+      let troublePoint = {
+        username: row[0].trim(),
+        fullName: row[1].trim(),
+        circuitName: row[2].trim(),
+        durationInSeconds: parseInt(row[3].trim(), 10),
+        coords: row[4].trim(),
+        solvedTime: row[5].trim(),
+        retroTime: row[6].trim(),
+        status: row[7].trim(),
+        description: row[8].trim(),
+        previousPoint: prevPoint,
+        xOffset: tickOffset * (i+1),
+        yOffset: this.translateDurationToOffset(dataScaleFn, parseInt(row[3].trim(), 10))
+      };
+      troublePoints.push(troublePoint);
+      prevPoint = troublePoint;
+    });
+
+    return troublePoints;
+  }
+
+  /**
+   * Draw the little lines connecting all the graph points
+   * @param chartGroup
+   * @param points
+   */
+  drawLinesConnectingPoints(chartGroup, points) {
 
     chartGroup.selectAll("graphLine")
-      .data(rows)
+      .data(points)
       .enter()
       .append("line")
       .attr("class", "graphPointLine")
-      .attr("x1", (d, i) => this.margin + this.leftAxisMargin + (tickOffset * (i)) )
-      .attr("x2", (d, i) => this.margin + this.leftAxisMargin + (tickOffset * (i+1)) )
+      .attr("x1", (d, i) => this.margin + this.leftAxisMargin + this.getXOffsetOrZeroIfNull(d.previousPoint))
+      .attr("x2", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
       .attr("y1", (d) => {
-        if (d.previousRow) {
-          return this.translateDurationToPosition(dataScaleFn, d.previousRow.durationInSeconds);
+        if (d.previousPoint) {
+          return this.topChartMargin + d.previousPoint.yOffset;
         } else {
           return this.topChartMargin + this.boxHeight - this.zeroLineMargin;
         }
       })
-      .attr("y2", (d) => this.translateDurationToPosition(dataScaleFn, d.durationInSeconds))
+      .attr("y2", (d) => this.topChartMargin + d.yOffset)
 
-    //create the last graph line connecting the last point back to 0
-    if (rows.length > 0) {
+    //create the last line connecting the last point back to 0
+    if (points.length > 0) {
       chartGroup
         .append("line")
         .attr("class", "graphPointLine")
-        .attr("x1", this.margin + this.leftAxisMargin + (tickOffset * (rows.length)) )
+        .attr("x1", this.margin + this.leftAxisMargin + points[points.length - 1].xOffset)
         .attr("x2", this.margin + this.leftAxisMargin + this.boxWidth )
-        .attr("y1", this.translateDurationToPosition(dataScaleFn, rows[rows.length - 1].durationInSeconds))
+        .attr("y1", this.topChartMargin + points[points.length - 1].yOffset)
         .attr("y2", this.topChartMargin + this.boxHeight - this.zeroLineMargin);
     }
+  }
 
+  /**
+   * Draw the graph points of our control chart
+   * @param chartGroup
+   * @param points
+   */
+  drawPoints(chartGroup, points) {
+
+    console.log(points);
+
+    let that = this;
+
+    //draw the points
     chartGroup.selectAll("graphPoint")
-      .data(rows)
+      .data(points)
       .enter()
       .append("circle")
+      .attr("id", (d) => d.circuitName + "-point")
       .attr("class", (d) => this.getGraphPointStyleBasedOnStatus(d.status))
-      .attr("id", (d) => d.circuitName)
-      .attr("cx", (d, i) => this.margin + this.leftAxisMargin + (tickOffset * (i+1)))
-      .attr("cy", (d) => this.translateDurationToPosition(dataScaleFn, d.durationInSeconds))
+      .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
+      .attr("cy", (d) => this.topChartMargin + d.yOffset)
       .attr("r", 4);
 
-    rows.forEach((row, i) => {
-       if (row.durationInSeconds > 3000) {
-         chartGroup.append("text")
-           .attr("class", this.getXSizeBasedOnReviewed(row.status))
-           .attr("x", this.margin + this.leftAxisMargin + (tickOffset * (i+1)))
-           .attr("y", this.translateDurationToPosition(dataScaleFn, row.durationInSeconds) + 2)
-           .attr("text-anchor", "middle")
-           .attr("alignment-baseline", "middle")
-           .text("X");
-       }
+    //draw the Xs for the ooc points
+    points.forEach((point, i) => {
+      if (point.durationInSeconds > ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
+        chartGroup.append("text")
+          .attr("id", point.circuitName + "-ooc")
+          .attr("class", this.getXSizeBasedOnReviewed(point.status))
+          .attr("x", this.margin + this.leftAxisMargin + point.xOffset)
+          .attr("y", this.topChartMargin + point.yOffset + 2)
+          .attr("text-anchor", "middle")
+          .attr("alignment-baseline", "middle")
+          .text("X");
+      }
     });
 
+    //draw target areas on top that are transparent and bigger to click
+    chartGroup.selectAll("graphPointTarget")
+      .data(points)
+      .enter()
+      .append("circle")
+      .attr("id", (d) => d.circuitName + "-target")
+      .attr("class", (d) => "graphPointTarget")
+      .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
+      .attr("cy", (d) => this.topChartMargin + d.yOffset)
+      .attr("r", 10)
+    .on("mouseover", function (event, d) {
+      let graphPoint = document.getElementById(d.circuitName + "-point");
+      graphPoint.classList.add("highlight");
+
+      let xPoint = document.getElementById(d.circuitName + "-ooc");
+      if (xPoint) {
+        xPoint.classList.add("highlight");
+      }
+      that.onHoverGraphPoint(d);
+    })
+    .on("mouseout", function (event, d) {
+      let graphPoint = document.getElementById(d.circuitName + "-point");
+      graphPoint.classList.remove("highlight");
+
+      let xPoint = document.getElementById(d.circuitName + "-ooc");
+      if (xPoint) {
+        xPoint.classList.remove("highlight");
+      }
+      that.onHoverOffGraphPoint(d);
+    });
+
+  }
+
+  /**
+   * On hover, move the tooltip under the graph point and update the details
+   * @param graphPoint
+   */
+  onHoverGraphPoint(graphPoint) {
+    let tooltipEl = document.querySelector("#tooltip");
+    tooltipEl.innerHTML = "<div>Point details</div>";
+
+    let tipWidth = tooltipEl.clientWidth;
+    let tipHeight = tooltipEl.clientHeight;
+
+    tooltipEl.style.left = (this.margin + this.leftAxisMargin + graphPoint.xOffset - tipWidth/2 + 5)  + "px";
+    tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset + tipHeight + 40) + "px";
+    tooltipEl.style.opacity = 0.85;
+  }
+
+  /**
+   * On hover out, hide the tooltip
+   * @param graphPoint
+   */
+  onHoverOffGraphPoint(graphPoint) {
+    let tooltipEl = document.querySelector("#tooltip");
+    tooltipEl.style.left = -5000;
+    tooltipEl.style.opacity = 0;
+  }
+
+  getXOffsetOrZeroIfNull(point) {
+    if (point) {
+      return point.xOffset;
+    } else {
+      return 0;
+    }
   }
 
   /**
@@ -175,6 +289,21 @@ export default class ControlChart extends Component {
   }
 
   /**
+   * Translate the duration of a graph point to an offset position within the data field
+   * @param dataScaleFn
+   * @param durationInSeconds
+   */
+  translateDurationToOffset(dataScaleFn, durationInSeconds) {
+    let offset = dataScaleFn(durationInSeconds);
+
+    let pointOffset = this.boxHeight - this.zeroLineMargin - offset;
+    if (pointOffset < 0) {
+      pointOffset = 0;
+    }
+    return pointOffset;
+  }
+
+  /**
    * Translate the duration of a graph point to a chart position
    * @param dataScaleFn
    * @param durationInSeconds
@@ -190,35 +319,6 @@ export default class ControlChart extends Component {
      return pointOffset;
   }
 
-  /**
-   * Clean up our dataset properties to make it easier to display the chart data
-   * @param rows
-   */
-  createTroubleRows(rows) {
-    let troubleRows = [];
-
-    let prevRow = null;
-
-    rows.forEach(row => {
-      let troubleRow = {
-         username: row[0].trim(),
-         fullName: row[1].trim(),
-         circuitName: row[2].trim(),
-         durationInSeconds: parseInt(row[3].trim(), 10),
-         coords: row[4].trim(),
-         solvedTime: row[5].trim(),
-         retroTime: row[6].trim(),
-         status: row[7].trim(),
-         description: row[8].trim(),
-         previousRow: prevRow
-      };
-      troubleRows.push(troubleRow);
-
-      prevRow = troubleRow;
-    });
-
-    return troubleRows;
-  }
 
   /**
    * Draw tick parts for each point, evenly distributed

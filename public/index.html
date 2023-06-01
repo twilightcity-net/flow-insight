@@ -4917,7 +4917,18 @@
 
   #component.troubleControlContent #chart .graphPoint {
     fill: #ff0000;
-    stroke: #000000;
+  }
+
+  #component.troubleControlContent #chart .graphPointTarget {
+    fill: rgba(0, 0, 0, 0);
+  }
+
+  #component.troubleControlContent #chart .graphPointTarget:hover {
+    cursor: pointer;
+  }
+
+  #component.troubleControlContent #chart .graphPoint.highlight {
+    fill: #ff7777;
   }
 
   #component.troubleControlContent #chart .graphPointReviewed {
@@ -4925,8 +4936,12 @@
     stroke: #000000;
   }
 
+  #component.troubleControlContent #chart .graphPointReviewed.highlight {
+    fill: #cccccc;
+  }
+
   #component.troubleControlContent #chart .graphPointLine {
-    stroke: #333333;
+    stroke: #555555;
   }
 
   #component.troubleControlContent #chart .bigX {
@@ -4935,10 +4950,18 @@
     font-weight: bolder;
   }
 
+  #component.troubleControlContent #chart .bigX.highlight {
+    fill: #ff7777;
+  }
+
   #component.troubleControlContent #chart .smallX {
     fill: #aaaaaa;
     font-size: 14px;
     font-weight: bolder;
+  }
+
+  #component.troubleControlContent #chart .smallX.highlight {
+    fill: #cccccc;
   }
 
   #component.troubleControlContent #chart .navlink {
