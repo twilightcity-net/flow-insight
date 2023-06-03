@@ -640,11 +640,11 @@ export default class DailyFlowMap extends Component {
       let offset = that.xScale(d.offset + d.duration/2);
 
       console.log("duration in seconds = "+ d.duration);
-      let startTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
+      let endTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
 
-      let endDateObj = UtilRenderer.getDateObjFromUtc(d.time);
-      endDateObj = new Date(endDateObj.getTime() + d.duration*1000);
-      let endTime = UtilRenderer.getTimeString(endDateObj);
+      let startDateObj = UtilRenderer.getDateObjFromUtc(d.time);
+      startDateObj = new Date(startDateObj.getTime() - d.duration*1000);
+      let startTime = UtilRenderer.getTimeString(startDateObj);
 
       let html = "<div class='databreak'>Break from " + startTime + " to "+ endTime + "</div>";
 
@@ -766,11 +766,11 @@ export default class DailyFlowMap extends Component {
       let html = "";
 
       if (d.time && d.duration > 0) {
-        let startTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
+        let endTime = UtilRenderer.getSimpleTimeFromUtc(d.time);
 
-        let endDateObj = UtilRenderer.getDateObjFromUtc(d.time);
-        endDateObj = new Date(endDateObj.getTime() + d.duration*1000);
-        let endTime = UtilRenderer.getTimeString(endDateObj);
+        let startDateObj = UtilRenderer.getDateObjFromUtc(d.time);
+        startDateObj = new Date(startDateObj.getTime() - d.duration*1000);
+        let startTime = UtilRenderer.getTimeString(startDateObj);
 
         html = "<div class='databreak'>Break from " + startTime + " to "+ endTime + "</div>";
       }
