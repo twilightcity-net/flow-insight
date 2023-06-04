@@ -170,20 +170,21 @@ export default class ControlChart extends Component {
 
     let that = this;
 
-    //draw the points
-    chartGroup.selectAll("graphPoint")
-      .data(points)
-      .enter()
-      .append("circle")
-      .attr("id", (d) => d.circuitName + "-point")
-      .attr("class", (d) => this.getGraphPointStyleBasedOnStatus(d.status))
-      .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
-      .attr("cy", (d) => this.topChartMargin + d.yOffset)
-      .attr("r", 4);
+    //draw the points for the non-ooc points
+    points.forEach((point, i) => {
+      if (point.durationInSeconds < ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
+        chartGroup.append("circle")
+          .attr("id", point.circuitName + "-point")
+          .attr("class", this.getGraphPointStyleBasedOnStatus(point.status))
+          .attr("cx", this.margin + this.leftAxisMargin + point.xOffset)
+          .attr("cy", this.topChartMargin + point.yOffset)
+          .attr("r", 4);
+      }
+    });
 
     //draw the Xs for the ooc points
     points.forEach((point, i) => {
-      if (point.durationInSeconds > ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
+      if (point.durationInSeconds >= ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
         chartGroup.append("text")
           .attr("id", point.circuitName + "-ooc")
           .attr("class", this.getXSizeBasedOnReviewed(point.status))
@@ -201,13 +202,15 @@ export default class ControlChart extends Component {
       .enter()
       .append("circle")
       .attr("id", (d) => d.circuitName + "-target")
-      .attr("class", (d) => "graphPointTarget")
+      .attr("class", (d) => this.getTargetStyleBasedOnStatus(d.status))
       .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
       .attr("cy", (d) => this.topChartMargin + d.yOffset)
       .attr("r", 10)
     .on("mouseover", function (event, d) {
       let graphPoint = document.getElementById(d.circuitName + "-point");
-      graphPoint.classList.add("highlight");
+      if (graphPoint) {
+        graphPoint.classList.add("highlight");
+      }
 
       let xPoint = document.getElementById(d.circuitName + "-ooc");
       if (xPoint) {
@@ -217,7 +220,9 @@ export default class ControlChart extends Component {
     })
     .on("mouseout", function (event, d) {
       let graphPoint = document.getElementById(d.circuitName + "-point");
-      graphPoint.classList.remove("highlight");
+      if (graphPoint) {
+        graphPoint.classList.remove("highlight");
+      }
 
       let xPoint = document.getElementById(d.circuitName + "-ooc");
       if (xPoint) {
@@ -234,13 +239,28 @@ export default class ControlChart extends Component {
    */
   onHoverGraphPoint(graphPoint) {
     let tooltipEl = document.querySelector("#tooltip");
-    tooltipEl.innerHTML = "<div>Point details</div>";
+
+    let html = "";
+    html +=
+      "<div class='tipBox' ><span class='fullName'>" +
+      graphPoint.fullName + " "  + "</span><span class='duration'>" +
+      UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(graphPoint.durationInSeconds) +
+      "</span>\n";
+    html +=
+      "<div class='description'>" +
+      graphPoint.description +
+      "</div>";
+    // html +=
+    //   UtilRenderer.getSimpleDateTimeFromUtc(graphPoint.solvedTime) +
+    //   "</div></div>";
+
+    tooltipEl.innerHTML = html;
 
     let tipWidth = tooltipEl.clientWidth;
-    let tipHeight = tooltipEl.clientHeight;
+    let tipHeight = 80;
 
     tooltipEl.style.left = (this.margin + this.leftAxisMargin + graphPoint.xOffset - tipWidth/2 + 5)  + "px";
-    tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset + tipHeight + 40) + "px";
+    tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset + tipHeight + 5) + "px";
     tooltipEl.style.opacity = 0.85;
   }
 
@@ -272,6 +292,19 @@ export default class ControlChart extends Component {
       return "graphPointReviewed";
     } else {
       return "graphPoint";
+    }
+  }
+
+  /**
+   * Change the style of the target based on if its reviewed or not
+   * @param status
+   * @returns {string}
+   */
+  getTargetStyleBasedOnStatus(status) {
+    if (status === "CLOSED") {
+      return "graphPointTarget reviewed";
+    } else {
+      return "graphPointTarget";
     }
   }
 

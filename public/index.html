@@ -4880,19 +4880,6 @@
     color: #aa0000;
   }
 
-  #component.troubleControlContent .troubleContentWrapper .metricsPanel .summaryMetrics .depthUnit {
-    font-size: 18px;
-    color: #aa0000;
-    display: inline-block;
-    word-wrap:normal;
-    width: 60px;
-    height: 20px;
-  }
-
-  #component.troubleControlContent .troubleContentWrapper .metricsPanel .summaryMetrics .depthUnitSmall {
-    font-size: 12px;
-  }
-
   #component.troubleControlContent .troubleContentWrapper .metricsPanel .summaryMetrics .metricDescription {
     font-weight: lighter;
     font-size: 12px;
@@ -4925,6 +4912,11 @@
 
   #component.troubleControlContent #chart .graphPointTarget:hover {
     cursor: pointer;
+    stroke: #ff7777;
+  }
+
+  #component.troubleControlContent #chart .graphPointTarget.reviewed:hover {
+    stroke: #aaaaaa;
   }
 
   #component.troubleControlContent #chart .graphPoint.highlight {
@@ -4976,33 +4968,31 @@
     cursor: pointer;
   }
 
-  #component.troubleControlContent .tipboxTitle {
-    fill: #9C6EFA;
-    font-weight: bold;
+  #component.troubleControlContent .tipBox .fullName {
+    float: left;
+    font-weight: bolder;
+    font-style: normal;
   }
 
-
-  #component.troubleControlContent .tipboxDetail {
-    fill: rgba(160, 160, 160, 0.96);
-  }
-
-  #component.troubleControlContent .tipMetric {
+  #component.troubleControlContent .tipBox .duration {
     float: right;
+    font-weight: bolder;
   }
 
-  #component.troubleControlContent .tipDetailLeft {
-    color: rgba(160, 160, 160, 0.96);
+  #component.troubleControlContent .tipBox .description {
+    display: block;
+    padding-top: 20px;
     text-align: left;
+    color: #dddddd;
   }
-
 
   /* The flow chart popup */
   #component.troubleControlContent .chartpopup,
   #component.troubleControlContent .popupleft,
   #component.troubleControlContent .popupright {
     visibility: visible;
-    background-color: #777777;
-    border: 1px solid rgba(74, 74, 74, 0.96);
+    background-color: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(100, 100, 100, 0.96);
     color: #fff;
     font-style: italic;
     text-align: center;
@@ -5011,7 +5001,9 @@
     position: absolute;
     z-index: 1;
     opacity: 0;
-    min-width: 130px;
+    min-width: 200px;
+    max-width: 300px;
+    max-height: 80px;
   }
 
 
@@ -5026,7 +5018,7 @@
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent #777777 transparent;
+    border-color: transparent transparent rgba(74, 74, 74, 0.96) transparent;
   }
 
 
