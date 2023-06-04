@@ -492,12 +492,17 @@ export default class ConsoleSidebar extends Component {
   isDefaultPanel(panelName) {
     let hasDefaultPanel =
       (panelName === SidePanelViewController.MenuSelection.DASHBOARD
-        && FeatureToggle.isPersonalDashboardEnabled)
-      || panelName === SidePanelViewController.MenuSelection.TEAM;
+        && FeatureToggle.isPersonalDashboardEnabled) ||
+      (panelName === SidePanelViewController.MenuSelection.CIRCUITS
+        && FeatureToggle.isControlChartEnabled) ||
+      panelName === SidePanelViewController.MenuSelection.TEAM;
 
     if (hasDefaultPanel) {
       if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
         && FeatureToggle.isPersonalDashboardEnabled && BrowserController.uri.includes("/flow") ) {
+        return true;
+      } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS
+        && FeatureToggle.isControlChartEnabled && BrowserController.uri.includes("/control") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.TEAM
         && (FeatureToggle.isJournalEnabled

@@ -206,6 +206,9 @@ export default class ControlChart extends Component {
       .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
       .attr("cy", (d) => this.topChartMargin + d.yOffset)
       .attr("r", 10)
+    .on("click", function (event, d) {
+      that.onClickGraphPoint(d);
+    })
     .on("mouseover", function (event, d) {
       let graphPoint = document.getElementById(d.circuitName + "-point");
       if (graphPoint) {
@@ -231,6 +234,16 @@ export default class ControlChart extends Component {
       that.onHoverOffGraphPoint(d);
     });
 
+  }
+
+  /**
+   * Handler for when clicking a graph point navigate to retro for the point
+   * @param graphPoint
+   */
+  onClickGraphPoint(graphPoint) {
+    console.log("Clicked point! "+graphPoint.circuitName);
+
+    this.props.onClickGraphPoint(graphPoint);
   }
 
   /**
@@ -527,8 +540,7 @@ export default class ControlChart extends Component {
    * @returns {*}
    */
   render() {
-
-    console.log("Rendering our control chart");
+    
     return (
       <div>
         <div id="chart" />

@@ -28,6 +28,10 @@ export default class ControlContent extends Component {
     this.props.onClickNavWeek(navDirection);
   }
 
+  onClickGraphPoint = (point) => {
+    this.props.onClickGraphPoint(point);
+  }
+
   /**
    * renders the main flow content body of this console panel
    * @returns {*} - the JSX to be rendered in the window
@@ -52,6 +56,7 @@ export default class ControlContent extends Component {
               weekOffset={this.props.weekOffset}
               me={this.props.me}
               onClickNavWeek={this.onClickNavWeek}
+              onClickGraphPoint={this.onClickGraphPoint}
             />
           </div>
           <div className="metricsWrapper" style={{width: remainingWidth + "px"}}>
@@ -71,7 +76,6 @@ export default class ControlContent extends Component {
       DimensionController.Components.FLOW_PANEL
     );
 
-    console.log("Rendering our control content");
     return (
       <div
         id="component"

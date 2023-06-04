@@ -12,6 +12,7 @@ export default class ControlMetrics extends Component {
     super(props);
     this.name = "[ControlMetrics]";
     this.state = {
+      wtfCount: 0
     };
   }
 
@@ -30,16 +31,26 @@ export default class ControlMetrics extends Component {
 
   recalculateMetricsModel(chartDto) {
     if (chartDto) {
-      // let ttmModel = this.calculateTtmModel(chartDto);
-      //
-      // if (ttmModel) {
-      //   let today = this.findTodayCoords(chartDto);
-      //   this.setState({
-      //     activeTtms: ttmModel.weeklyTtms,
-      //     ttmModel: ttmModel,
-      //     todayCoords: today
-      //   });
+      let rows = chartDto.chartSeries.rowsOfPaddedCells;
+      let wtfCount = rows.length;
+      let sumTtr = 0;
+      let avgTtr = 0;
+
+      rows.forEach((row) => {
+        let durationInSeconds = parseInt(row[3].trim(), 10);
+        sumTtr += durationInSeconds;
+      });
+
+      if (wtfCount > 0) {
+       avgTtr = Math.round((sumTtr / wtfCount / 60) * 10) / 10;
       }
+
+      this.setState({
+        wtfCount: wtfCount,
+        avgTtr: avgTtr
+      });
+
+    }
   }
 
   /**
@@ -48,22 +59,27 @@ export default class ControlMetrics extends Component {
    */
   render() {
 
-    // let ttmMins = "--";
-    // let lfsMins = "--";
+     let wtfCount = "--";
+     let ttrMin = "--";
+     if (this.state.wtfCount > 0) {
+       wtfCount = this.state.wtfCount;
+     }
+     if (this.state.avgTtr > 0) {
+       ttrMin = this.state.avgTtr + " min";
+     }
 
-    console.log("Rendering our control metrics");
     return (
       <div className="metricsPanel">
         <div className="summaryMetrics">
-          <div className="metricsHeader">WTFs Per Day (WPD)</div>
-          <div className="metric">23.7</div>
-          <div className="metricDescription">Average number of WTFs per work day totaled across the team</div>
+          <div className="metricsHeader">WTFs Per Week</div>
+          <div className="metric">{wtfCount}</div>
+          <div className="metricDescription">Total number of troubleshooting sessions for the week totaled across the team</div>
         </div>
         <div className="space">&nbsp;</div>
 
         <div className="summaryMetrics">
           <div className="metricsHeader">Time to Resolve (MTTR)</div>
-          <div className="metric">15 min</div>
+          <div className="metric">{ttrMin}</div>
           <div className="metricDescription">Average time to resolve a troubleshooting session across all members of the team</div>
         </div>
       </div>

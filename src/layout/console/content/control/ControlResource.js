@@ -5,6 +5,7 @@ import {RendererControllerFactory} from "../../../../controllers/RendererControl
 import UtilRenderer from "../../../../UtilRenderer";
 import {ChartClient} from "../../../../clients/ChartClient";
 import {MemberClient} from "../../../../clients/MemberClient";
+import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel for the control chart screen
@@ -84,6 +85,16 @@ export default class ControlResource extends Component {
     this.reloadChartData();
   }
 
+  onClickGraphPoint = (point) => {
+    console.log("On click circuit point = " + point.circuitName);
+
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.RETRO_CIRCUIT,
+      UtilRenderer.getCircuitName(point.circuitName)
+    );
+
+    this.myController.makeSidebarBrowserRequest(request);
+  }
 
   /**
    * renders the layout of the control chart
@@ -94,7 +105,6 @@ export default class ControlResource extends Component {
       DimensionController.Components.CONTROL_PANEL
     );
 
-    console.log("Rendering our control resource");
     return (
       <div
         id="component"
@@ -106,7 +116,8 @@ export default class ControlResource extends Component {
                                 visible={this.state.visible}
                                 weekOffset={this.state.weekOffset}
                                 me={this.state.me}
-                                onClickNavWeek={this.onClickNavWeek}/>
+                                onClickNavWeek={this.onClickNavWeek}
+                                onClickGraphPoint={this.onClickGraphPoint}/>
         </div>
       </div>
     );
