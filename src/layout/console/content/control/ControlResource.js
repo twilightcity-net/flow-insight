@@ -6,6 +6,7 @@ import UtilRenderer from "../../../../UtilRenderer";
 import {ChartClient} from "../../../../clients/ChartClient";
 import {MemberClient} from "../../../../clients/MemberClient";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel for the control chart screen
@@ -28,6 +29,8 @@ export default class ControlResource extends Component {
     };
 
     this.inputWeekOffset = 0;
+
+
   }
 
   /**
@@ -38,9 +41,21 @@ export default class ControlResource extends Component {
       RendererControllerFactory.Views.RESOURCES
     );
 
+    this.hoverControlPointNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_CONTROL_POINT_HOVER,
+        this
+      );
+
     this.reloadChartData();
   }
 
+  /**
+   * Unregister events when the page is unloaded
+   */
+  componentWillUnmount() {
+    this.hoverControlPointNotifier.clear();
+  }
 
   /**
    * Reload the chart data from gridtime, and update the state
@@ -97,6 +112,21 @@ export default class ControlResource extends Component {
   }
 
   /**
+   * Called when hovering over a point
+   * @param point
+   */
+  onHoverGraphPoint = (point) => {
+    this.hoverControlPointNotifier.dispatch({circuitName: UtilRenderer.getCircuitName(point.circuitName)});
+  }
+
+  /**
+   * Called when hover point is left
+   */
+  onHoverOffGraphPoint = () => {
+    this.hoverControlPointNotifier.dispatch({circuitName: null});
+  }
+
+  /**
    * renders the layout of the control chart
    * @returns {*} - the JSX to render
    */
@@ -117,7 +147,9 @@ export default class ControlResource extends Component {
                                 weekOffset={this.state.weekOffset}
                                 me={this.state.me}
                                 onClickNavWeek={this.onClickNavWeek}
-                                onClickGraphPoint={this.onClickGraphPoint}/>
+                                onClickGraphPoint={this.onClickGraphPoint}
+                                onHoverGraphPoint={this.onHoverGraphPoint}
+                                onHoverOffGraphPoint={this.onHoverOffGraphPoint}/>
         </div>
       </div>
     );

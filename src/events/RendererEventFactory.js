@@ -103,6 +103,7 @@ export class RendererEventFactory {
       VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL: prefix + "view-console-join-existing-room-fail",
       VIEW_CONSOLE_ME_UPDATE:  prefix + "view-console-me-update",
       VIEW_CONSOLE_NOTIFICATION_READ_UPDATE: prefix + "view-console-notification-read-update",
+      VIEW_CONSOLE_CONTROL_POINT_HOVER:  prefix + "view-console-control-point-hover",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       DATASTORE_LOAD: prefix + "datastore-load",

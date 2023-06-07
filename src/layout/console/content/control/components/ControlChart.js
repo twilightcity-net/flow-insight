@@ -256,7 +256,7 @@ export default class ControlChart extends Component {
     let html = "";
     html +=
       "<div class='tipBox' ><span class='fullName'>" +
-      graphPoint.fullName + " "  + "</span><span class='duration'>" +
+      graphPoint.fullName + " </span><span class='duration'>" +
       UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(graphPoint.durationInSeconds) +
       "</span>\n";
     html +=
@@ -275,6 +275,8 @@ export default class ControlChart extends Component {
     tooltipEl.style.left = (this.margin + this.leftAxisMargin + graphPoint.xOffset - tipWidth/2 + 5)  + "px";
     tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset + tipHeight + 5) + "px";
     tooltipEl.style.opacity = 0.85;
+
+    this.props.onHoverGraphPoint(graphPoint);
   }
 
   /**
@@ -285,6 +287,8 @@ export default class ControlChart extends Component {
     let tooltipEl = document.querySelector("#tooltip");
     tooltipEl.style.left = -5000;
     tooltipEl.style.opacity = 0;
+
+    this.props.onHoverOffGraphPoint();
   }
 
   getXOffsetOrZeroIfNull(point) {
@@ -540,7 +544,7 @@ export default class ControlChart extends Component {
    * @returns {*}
    */
   render() {
-    
+
     return (
       <div>
         <div id="chart" />

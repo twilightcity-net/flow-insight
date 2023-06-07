@@ -24,14 +24,6 @@ export default class ControlContent extends Component {
   }
 
 
-  onClickNavWeek = (navDirection) => {
-    this.props.onClickNavWeek(navDirection);
-  }
-
-  onClickGraphPoint = (point) => {
-    this.props.onClickGraphPoint(point);
-  }
-
   /**
    * renders the main flow content body of this console panel
    * @returns {*} - the JSX to be rendered in the window
@@ -55,8 +47,10 @@ export default class ControlContent extends Component {
               chartDto={this.props.chartDto}
               weekOffset={this.props.weekOffset}
               me={this.props.me}
-              onClickNavWeek={this.onClickNavWeek}
-              onClickGraphPoint={this.onClickGraphPoint}
+              onClickNavWeek={this.props.onClickNavWeek}
+              onClickGraphPoint={this.props.onClickGraphPoint}
+              onHoverGraphPoint={this.props.onHoverGraphPoint}
+              onHoverOffGraphPoint={this.props.onHoverOffGraphPoint}
             />
           </div>
           <div className="metricsWrapper" style={{width: remainingWidth + "px"}}>

@@ -21,6 +21,8 @@ export default class RetroCircuitListItem extends Component {
     };
   }
 
+  static highlightClass = "hoverHighlight";
+
   /**
    * click handler for our retro component.
    */
@@ -35,12 +37,38 @@ export default class RetroCircuitListItem extends Component {
     this.props.onRetroCloseItemClick(this);
   };
 
+  onHoverItem = () => {
+    let el = document.getElementById("item-"+this.props.model.id);
+    if (el) {
+      el.classList.add(RetroCircuitListItem.highlightClass);
+    }
+  }
+
+  onHoverOffItem = () => {
+    let el = document.getElementById("item-"+this.props.model.id);
+    if (el) {
+      el.classList.remove(RetroCircuitListItem.highlightClass);
+    }
+  }
+
   /**
    * gets our classname based on whether the isSelected state property is
    * set to true or not.
    */
   getClassName() {
-    return this.timerColor;
+    let el = document.getElementById("item-"+this.props.model.id);
+    if (el && this.props.forceHighlight) {
+      setTimeout(() => {
+        el.scrollIntoView({behavior: "smooth", block: 'nearest', inline: 'start' });
+      }, 100);
+    }
+
+
+    if (this.props.forceHighlight) {
+      return RetroCircuitListItem.highlightClass;
+    } else {
+      return "";
+    }
   }
 
   getPercentTime() {
@@ -169,9 +197,12 @@ export default class RetroCircuitListItem extends Component {
   render() {
     return this.getPopupContent(
       <List.Item
-        className={this.getClassName()}
         key={this.props.model.id}
+        id={"item-"+this.props.model.id}
+        className={this.getClassName()}
         onClick={this.handleClick}
+        onMouseEnter={this.onHoverItem}
+        onMouseLeave={this.onHoverOffItem}
       >
         <List.Content
           floated="right"

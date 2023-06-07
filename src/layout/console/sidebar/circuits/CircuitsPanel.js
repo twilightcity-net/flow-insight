@@ -41,23 +41,11 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuits: [],
       retroCircuits: [],
       solvedCircuits: [],
+      forceHighlightCircuit: null
     };
     this.myController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
-      );
-    this.talkRoomMessageListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-        this,
-        this.onTalkRoomMessage
-      );
-
-    this.circuitsRefreshListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events.CIRCUIT_DATA_REFRESH,
-        this,
-        this.onCircuitDataRefresh
       );
 
     this.animationType =
@@ -69,6 +57,8 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuitComponent: null,
       retroCircuitComponent: null,
     };
+
+
   }
 
   /**
@@ -113,6 +103,19 @@ export default class CircuitsPanel extends Component {
    * in the main process for new circuit data.
    */
   componentDidMount() {
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
+
+    this.circuitsRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.CIRCUIT_DATA_REFRESH,
+        this,
+        this.onCircuitDataRefresh
+      );
     this.circuitStartStopListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -127,6 +130,14 @@ export default class CircuitsPanel extends Component {
         this,
         this.onCircuitPauseResume
       );
+
+    this.controlPointHoverListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_CONTROL_POINT_HOVER,
+        this,
+        this.onControlPointHover
+      );
+
     this.myController.configureCircuitsPanelListener(
       this,
       this.onRefreshCircuitsPanel
@@ -142,6 +153,7 @@ export default class CircuitsPanel extends Component {
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
     this.circuitsRefreshListener.clear();
+    this.controlPointHoverListener.clear();
     this.circuitStartStopListener.updateCallback(
       this,
       null
@@ -174,6 +186,18 @@ export default class CircuitsPanel extends Component {
   onCircuitPauseResume = (event, arg) => {
     this.onRefreshCircuitsPanel();
   };
+
+
+  /**
+   * Event handler that is called when we hover over a control graph point in the main view
+   * @param event
+   * @param arg
+   */
+  onControlPointHover = (event, arg) => {
+    this.setState({
+      forceHighlightCircuit: arg.circuitName
+    });
+  }
 
   /**
    * callback function that was performed when we refresh this component in the view
@@ -449,6 +473,7 @@ export default class CircuitsPanel extends Component {
               key={model.id}
               model={model}
               maxTime={maxTime}
+              forceHighlight={this.state.forceHighlightCircuit === model.circuitName}
               onRetroCircuitListItemClick={
                 this.handleClickRetroCircuit
               }
@@ -462,6 +487,7 @@ export default class CircuitsPanel extends Component {
               key={model.id}
               model={model}
               maxTime={maxTime}
+              forceHighlight={this.state.forceHighlightCircuit === model.circuitName}
               onRetroCircuitListItemClick={
                 this.handleClickRetroCircuit
               }
