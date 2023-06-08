@@ -17,6 +17,8 @@ export default class ControlChart extends Component {
   }
 
   static FIFTY_MIN_OOC_LIMIT_IN_SECONDS = 3000;
+  static MARKED_STR = "marked";
+
 
   /**
    * Initially when we get the first set of props, display our chart data.
@@ -113,6 +115,7 @@ export default class ControlChart extends Component {
         retroTime: row[6].trim(),
         status: row[7].trim(),
         description: row[8].trim(),
+        isMarked: this.isMarked(row[9].trim()),
         previousPoint: prevPoint,
         xOffset: tickOffset * (i+1),
         yOffset: this.translateDurationToOffset(dataScaleFn, parseInt(row[3].trim(), 10))
@@ -122,6 +125,14 @@ export default class ControlChart extends Component {
     });
 
     return troublePoints;
+  }
+
+  /**
+   * Returns true if the marked string is "marked"
+   * @param markedStr
+   */
+  isMarked(markedStr) {
+     return markedStr === ControlChart.MARKED_STR;
   }
 
   /**
@@ -175,7 +186,7 @@ export default class ControlChart extends Component {
       if (point.durationInSeconds < ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
         chartGroup.append("circle")
           .attr("id", point.circuitName + "-point")
-          .attr("class", this.getGraphPointStyleBasedOnStatus(point.status))
+          .attr("class", this.getGraphPointStyleBasedOnStatus(point.status, point.isMarked))
           .attr("cx", this.margin + this.leftAxisMargin + point.xOffset)
           .attr("cy", this.topChartMargin + point.yOffset)
           .attr("r", 4);
@@ -285,8 +296,7 @@ export default class ControlChart extends Component {
    */
   onHoverOffGraphPoint(graphPoint) {
     let tooltipEl = document.querySelector("#tooltip");
-    tooltipEl.style.left = -5000;
-    tooltipEl.style.opacity = 0;
+    tooltipEl.style.left = "-5000px";
 
     this.props.onHoverOffGraphPoint();
   }
@@ -302,10 +312,11 @@ export default class ControlChart extends Component {
   /**
    * Change the style of the graph point based on if its closed or not
    * @param status
+   * @param isMarked
    * @returns {string}
    */
-  getGraphPointStyleBasedOnStatus(status) {
-    if (status === "CLOSED") {
+  getGraphPointStyleBasedOnStatus(status, isMarked) {
+    if (status === "CLOSED" || isMarked) {
       return "graphPointReviewed";
     } else {
       return "graphPoint";
