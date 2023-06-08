@@ -587,8 +587,6 @@ export default class FlowWeekChart extends Component {
   }
 
   onHoverDayBox(coords, boxX, boxY) {
-    console.log("hover!");
-
     this.props.onHoverDayBox(coords);
 
     let tipWidth = 133;

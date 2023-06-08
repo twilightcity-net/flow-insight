@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../../clients/BaseClient";
+import {MemberClient} from "../../../../../clients/MemberClient";
 
 /**
  * this is the gui component that displays the wtfs control chart
@@ -14,10 +17,12 @@ export default class ControlChart extends Component {
   constructor(props) {
     super(props);
     this.name = "[ControlChart]";
+    this.troublePoints = [];
   }
 
   static FIFTY_MIN_OOC_LIMIT_IN_SECONDS = 3000;
   static MARKED_STR = "marked";
+  static learningCircuitDtoStr = "learningCircuitDto";
 
 
   /**
@@ -29,12 +34,92 @@ export default class ControlChart extends Component {
         this.props.chartDto
       );
     }
+
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
   }
 
+  /**
+   * On model updates, redraw the chart
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.weekOffset !== this.props.weekOffset) {
       this.displayChart(this.props.chartDto);
     }
+  }
+
+  /**
+   * Unregister stuff before we unmount
+   */
+  componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
+  }
+
+  /**
+   * When we get a new talk message, if its for a data point represented on the screen,
+   * such as for a circuit state update, or a status mark, change the color of the point accordingly.
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    if (arg.messageType === BaseClient.MessageTypes.WTF_STATUS_UPDATE) {
+      this.handleWtfStatusUpdateMessage(arg);
+    }
+  };
+
+  handleWtfStatusUpdateMessage(arg) {
+    let data = arg.data,
+      circuit = data[ControlChart.learningCircuitDtoStr];
+
+    if (this.updateTroublePoints(circuit)) {
+      this.redrawChart();
+    }
+  }
+
+  /**
+   * Update troubleshooting points and return true if this circuit is updated
+   * @param circuit
+   */
+  updateTroublePoints(circuit) {
+    let hasUpdate = false;
+    this.troublePoints.forEach((point) => {
+       if (point.circuitName === circuit.circuitName) {
+         point.circuitState = circuit.circuitState;
+
+         if (this.hasMarkForMe(circuit.memberMarksForClose)) {
+           point.isMarked = true;
+         }
+
+         hasUpdate = true;
+         return true;
+       }
+    });
+    return hasUpdate;
+
+  }
+
+  /**
+   * Return true if the list has a mark for me
+   * @param marksList
+   */
+  hasMarkForMe(marksList) {
+    let hasMarkForMe = false;
+    if (marksList) {
+      marksList.forEach((markId) => {
+         if (markId === MemberClient.me.id) {
+           hasMarkForMe = true;
+           return true;
+         }
+      });
+    }
+    return hasMarkForMe;
   }
 
   /**
@@ -58,11 +143,18 @@ export default class ControlChart extends Component {
     this.controlLineMargin = Math.floor((this.height - this.bottomChartMargin) / 4);
     this.zeroLineMargin = 40;
 
+    let rows = chartDto.chartSeries.rowsOfPaddedCells;
+
+    this.troublePoints = this.createTroubleGraphPoints(rows);
+
+    this.redrawChart();
+  }
+
+  redrawChart() {
+    let currentWeek = this.props.chartDto.position;
+
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
-
-    let rows = chartDto.chartSeries.rowsOfPaddedCells;
-    let currentWeek = chartDto.position;
 
     let svg = d3
       .select("#chart")
@@ -78,11 +170,9 @@ export default class ControlChart extends Component {
     this.drawChartBox(chartGroup);
     this.drawAxisLabels(chartGroup);
 
-    let troublePoints = this.createTroubleGraphPoints(rows);
-
-    this.drawTicksForPoints(chartGroup, troublePoints);
-    this.drawLinesConnectingPoints(chartGroup, troublePoints);
-    this.drawPoints(chartGroup, troublePoints);
+    this.drawTicksForPoints(chartGroup, this.troublePoints);
+    this.drawLinesConnectingPoints(chartGroup, this.troublePoints);
+    this.drawPoints(chartGroup, this.troublePoints);
   }
 
 
@@ -108,7 +198,7 @@ export default class ControlChart extends Component {
       let troublePoint = {
         username: row[0].trim(),
         fullName: row[1].trim(),
-        circuitName: row[2].trim(),
+        circuitName: UtilRenderer.getCircuitName(row[2].trim()),
         durationInSeconds: parseInt(row[3].trim(), 10),
         coords: row[4].trim(),
         solvedTime: row[5].trim(),
@@ -198,7 +288,7 @@ export default class ControlChart extends Component {
       if (point.durationInSeconds >= ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
         chartGroup.append("text")
           .attr("id", point.circuitName + "-ooc")
-          .attr("class", this.getXSizeBasedOnReviewed(point.status))
+          .attr("class", this.getXSizeBasedOnReviewed(point.status, point.isMarked))
           .attr("x", this.margin + this.leftAxisMargin + point.xOffset)
           .attr("y", this.topChartMargin + point.yOffset + 2)
           .attr("text-anchor", "middle")
@@ -213,7 +303,7 @@ export default class ControlChart extends Component {
       .enter()
       .append("circle")
       .attr("id", (d) => d.circuitName + "-target")
-      .attr("class", (d) => this.getTargetStyleBasedOnStatus(d.status))
+      .attr("class", (d) => this.getTargetStyleBasedOnStatus(d.status, d.isMarked))
       .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
       .attr("cy", (d) => this.topChartMargin + d.yOffset)
       .attr("r", 10)
@@ -326,10 +416,11 @@ export default class ControlChart extends Component {
   /**
    * Change the style of the target based on if its reviewed or not
    * @param status
+   * @param isMarked
    * @returns {string}
    */
-  getTargetStyleBasedOnStatus(status) {
-    if (status === "CLOSED") {
+  getTargetStyleBasedOnStatus(status, isMarked) {
+    if (status === "CLOSED" || isMarked) {
       return "graphPointTarget reviewed";
     } else {
       return "graphPointTarget";
@@ -339,10 +430,11 @@ export default class ControlChart extends Component {
   /**
    * Change the style of the X based on if the ooc graph point has been closed or not
    * @param status
+   * @param isMarked
    * @returns {string}
    */
-  getXSizeBasedOnReviewed(status) {
-    if (status === "CLOSED") {
+  getXSizeBasedOnReviewed(status, isMarked) {
+    if (status === "CLOSED" || isMarked) {
       return "smallX";
     } else {
       return "bigX";
