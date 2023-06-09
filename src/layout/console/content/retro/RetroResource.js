@@ -81,9 +81,7 @@ export default class RetroResource extends Component {
           circuitName === circuit.circuitName
         ) {
           if (
-            data.statusType ===
-            ResourceCircuitController.StatusTypes
-              .TEAM_RETRO_STARTED
+            data.statusType === ResourceCircuitController.StatusTypes.TEAM_RETRO_STARTED
           ) {
             this.handleRetroStartedMessage(circuit);
           }
@@ -128,9 +126,7 @@ export default class RetroResource extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      this.props.resource.uri !== prevProps.resource.uri
-    ) {
+    if (this.props.resource.uri !== prevProps.resource.uri) {
       if (
         prevState.circuit &&
         prevState.circuit.retroTalkRoomId

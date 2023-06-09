@@ -71,9 +71,9 @@ export default class ControlMetrics extends Component {
     return (
       <div className="metricsPanel">
         <div className="summaryMetrics">
-          <div className="metricsHeader">WTFs Per Week</div>
-          <div className="metric">{wtfCount}</div>
-          <div className="metricDescription">Total number of troubleshooting sessions for the week totaled across the team</div>
+          <div className="metricsHeader">Frequency of WTFs</div>
+          <div className="metric">{wtfCount} / wk</div>
+          <div className="metricDescription">Frequency of troubleshooting sessions across all members of the team</div>
         </div>
         <div className="space">&nbsp;</div>
 

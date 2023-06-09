@@ -206,6 +206,7 @@ export default class ControlChart extends Component {
         status: row[7].trim(),
         description: row[8].trim(),
         isMarked: this.isMarked(row[9].trim()),
+        hasRetro: this.hasRetro(row[6].trim()),
         previousPoint: prevPoint,
         xOffset: tickOffset * (i+1),
         yOffset: this.translateDurationToOffset(dataScaleFn, parseInt(row[3].trim(), 10))
@@ -223,6 +224,14 @@ export default class ControlChart extends Component {
    */
   isMarked(markedStr) {
      return markedStr === ControlChart.MARKED_STR;
+  }
+
+  /**
+   * Returns true if the retro start is populated
+   * @param retroStart
+   */
+  hasRetro(retroStart) {
+    return retroStart !== "";
   }
 
   /**
@@ -303,7 +312,7 @@ export default class ControlChart extends Component {
       .enter()
       .append("circle")
       .attr("id", (d) => d.circuitName + "-target")
-      .attr("class", (d) => this.getTargetStyleBasedOnStatus(d.status, d.isMarked))
+      .attr("class", (d) => this.getTargetStyleBasedOnStatus(d.status, d.isMarked, d.hasRetro))
       .attr("cx", (d, i) => this.margin + this.leftAxisMargin + d.xOffset)
       .attr("cy", (d) => this.topChartMargin + d.yOffset)
       .attr("r", 10)
@@ -417,14 +426,20 @@ export default class ControlChart extends Component {
    * Change the style of the target based on if its reviewed or not
    * @param status
    * @param isMarked
+   * @param hasRetro
    * @returns {string}
    */
-  getTargetStyleBasedOnStatus(status, isMarked) {
+  getTargetStyleBasedOnStatus(status, isMarked, hasRetro) {
+    let classNames = "";
     if (status === "CLOSED" || isMarked) {
-      return "graphPointTarget reviewed";
+      classNames += "graphPointTarget reviewed";
     } else {
-      return "graphPointTarget";
+      classNames += "graphPointTarget";
     }
+    if (hasRetro) {
+      classNames += " hasRetro";
+    }
+    return classNames;
   }
 
   /**

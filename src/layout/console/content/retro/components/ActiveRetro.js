@@ -360,7 +360,7 @@ export default class ActiveRetro extends Component {
 
     switch (arg.messageType) {
       case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
-        if (arg.uri === this.model.retroTalkRoomId) {
+        if (arg.uri === this.props.circuit.retroTalkRoomId) {
           this.handleCircuitMemberStatusEventMessage(arg);
         }
         break;
@@ -375,7 +375,7 @@ export default class ActiveRetro extends Component {
         break;
 
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-        if (arg.uri === this.model.retroTalkRoomId && !hasMessage) {
+        if (arg.uri === this.props.circuit.retroTalkRoomId && !hasMessage) {
           this.appendChatMessage(arg);
         } else {
           console.log("Duplicate talk message observed: " + JSON.stringify(arg));
@@ -639,11 +639,9 @@ export default class ActiveRetro extends Component {
       feedEvents[feedEvents.length - 1].name === username &&
       !isStatusEvent
     ) {
-      console.log("if");
       feedEvent = feedEvents.pop();
       feedEvent.text.push(text);
     } else {
-      console.log("else " + isStatusEvent);
       feedEvent = {
         name: username,
         time: time,

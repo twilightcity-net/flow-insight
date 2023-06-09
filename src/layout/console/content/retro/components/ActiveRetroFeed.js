@@ -100,6 +100,7 @@ export default class ActiveRetroFeed extends Component {
       });
     }
 
+    console.log("Right before publish chat to room");
     TalkToClient.publishChatToRoom(
       circuitName + ActiveRetroFeed.activeCircuitRoomSuffix,
       text,

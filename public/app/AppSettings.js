@@ -113,7 +113,8 @@ module.exports = class AppSettings {
     return [
       AppFeatureToggle.Toggle.METRICS,
       AppFeatureToggle.Toggle.STATUS,
-      AppFeatureToggle.Toggle.DASHBOARD
+      AppFeatureToggle.Toggle.DASHBOARD,
+      AppFeatureToggle.Toggle.CONTROL
     ];
   }
 
