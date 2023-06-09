@@ -502,7 +502,7 @@ export default class ConsoleSidebar extends Component {
         && FeatureToggle.isPersonalDashboardEnabled && BrowserController.uri.includes("/flow") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS
-        && FeatureToggle.isControlChartEnabled && BrowserController.uri.includes("/control") ) {
+        && FeatureToggle.isControlChartEnabled && BrowserController.uri.includes("/control/week/0") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.TEAM
         && (FeatureToggle.isJournalEnabled

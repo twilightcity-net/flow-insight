@@ -88,6 +88,7 @@ export class BrowserRequestFactory {
       PLAY: "play",
       MOOVIE: "moovie",
       CONTROL: "control",
+      WEEK: "week",
       TOOLS: "tools",
       WTF: "wtf",
       RETRO: "retro",
@@ -165,7 +166,9 @@ export class BrowserRequestFactory {
             args[0]
           );
         case BrowserRequestFactory.Requests.CONTROL:
-          return BrowserRequestFactory._getControlRequest();
+          return BrowserRequestFactory._getControlRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.DASHBOARD:
           return BrowserRequestFactory._getDashboardRequest(
             args
@@ -447,15 +450,23 @@ export class BrowserRequestFactory {
 
   /**
    * gets the request for displaying the wtfs control chart
+   * @param weekOffset
    * @returns {string}
    * @private
    */
-  static _getControlRequest() {
+  static _getControlRequest(weekOffset) {
+    if (!weekOffset) {
+      weekOffset = 0;
+    }
     return (
       BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +
       BrowserRequestFactory.ROOT_SEPARATOR +
-      BrowserRequestFactory.Locations.CONTROL
+      BrowserRequestFactory.Locations.CONTROL +
+      BrowserRequestFactory.PATH_SEPARATOR +
+      BrowserRequestFactory.Locations.WEEK +
+      BrowserRequestFactory.PATH_SEPARATOR +
+      weekOffset
     );
   }
 

@@ -30,6 +30,8 @@ export default class ControlResource extends Component {
 
     this.inputWeekOffset = 0;
 
+    this.loadWeekOffsetFromArgs();
+    this.state.weekOffset = this.inputWeekOffset;
 
   }
 
@@ -37,6 +39,7 @@ export default class ControlResource extends Component {
    * Load the chart when the component mounts
    */
   componentDidMount() {
+    console.log("componentDidMount ControlResource");
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES
     );
@@ -48,6 +51,27 @@ export default class ControlResource extends Component {
       );
 
     this.reloadChartData();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate ControlResource");
+    console.log("uri = "+this.props.resource.uri);
+
+    if (prevProps.resource.uri !== this.props.resource.uri) {
+      this.loadWeekOffsetFromArgs();
+      this.reloadChartData();
+    }
+  }
+
+  loadWeekOffsetFromArgs() {
+    let arr = this.props.resource.uriArr;
+    if (arr.length === 3) {
+      let weekOffsetInt = parseInt(arr[2]);
+      if (weekOffsetInt > 0) {
+        weekOffsetInt = 0;
+      }
+      this.inputWeekOffset = weekOffsetInt;
+    }
   }
 
   /**
@@ -96,8 +120,14 @@ export default class ControlResource extends Component {
   onClickNavWeek = (navDirection) => {
     console.log("On click nav week direction = "+navDirection);
 
-    this.inputWeekOffset = this.state.weekOffset + navDirection;
-    this.reloadChartData();
+     this.inputWeekOffset = this.state.weekOffset + navDirection;
+    // this.reloadChartData();
+
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.CONTROL,
+      this.inputWeekOffset
+    );
+    this.myController.makeSidebarBrowserRequest(request);
   }
 
   onClickGraphPoint = (point) => {

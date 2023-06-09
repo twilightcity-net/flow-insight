@@ -392,7 +392,8 @@ export class SidePanelViewController extends ActiveViewController {
    */
   loadDefaultControlPanel() {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.CONTROL
+      BrowserRequestFactory.Requests.CONTROL,
+      0
     );
     this.makeSidebarBrowserRequest(request);
   }
