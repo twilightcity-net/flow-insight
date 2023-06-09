@@ -42,6 +42,7 @@ export default class RetroCircuitListItem extends Component {
     if (el) {
       el.classList.add(RetroCircuitListItem.highlightClass);
     }
+    this.props.onRetroCircuitListItemHover(this.props.model.circuitName);
   }
 
   onHoverOffItem = () => {
@@ -49,6 +50,7 @@ export default class RetroCircuitListItem extends Component {
     if (el) {
       el.classList.remove(RetroCircuitListItem.highlightClass);
     }
+    this.props.onRetroCircuitListItemHoverOff(this.props.model.circuitName);
   }
 
   /**

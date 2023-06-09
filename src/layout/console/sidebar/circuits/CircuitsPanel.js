@@ -138,6 +138,12 @@ export default class CircuitsPanel extends Component {
         this.onControlPointHover
       );
 
+    this.troubleRowHoverNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_TROUBLE_ROW_HOVER,
+        this
+      );
+
     this.myController.configureCircuitsPanelListener(
       this,
       this.onRefreshCircuitsPanel
@@ -154,6 +160,7 @@ export default class CircuitsPanel extends Component {
     this.talkRoomMessageListener.clear();
     this.circuitsRefreshListener.clear();
     this.controlPointHoverListener.clear();
+    this.troubleRowHoverNotifier.clear();
     this.circuitStartStopListener.updateCallback(
       this,
       null
@@ -329,6 +336,14 @@ export default class CircuitsPanel extends Component {
     this.requestBrowserToLoadRetroCircuit(circuitName);
   };
 
+  handleHoverRetroCircuit = (circuitName) => {
+    this.troubleRowHoverNotifier.dispatch({circuitName: circuitName});
+  }
+
+  handleHoverOffRetroCircuit = (circuitName) => {
+    this.troubleRowHoverNotifier.dispatch({circuitName: null});
+  }
+
   handleCloseRetroCircuit = (component) => {
     console.log("Clicked close!");
 
@@ -474,12 +489,10 @@ export default class CircuitsPanel extends Component {
               model={model}
               maxTime={maxTime}
               forceHighlight={this.state.forceHighlightCircuit === model.circuitName}
-              onRetroCircuitListItemClick={
-                this.handleClickRetroCircuit
-              }
-              onRetroCloseItemClick={
-                this.handleCloseRetroCircuit
-              }
+              onRetroCircuitListItemHover={this.handleHoverRetroCircuit}
+              onRetroCircuitListItemHoverOff={this.handleHoverOffRetroCircuit}
+              onRetroCircuitListItemClick={this.handleClickRetroCircuit}
+              onRetroCloseItemClick={this.handleCloseRetroCircuit}
             />
           ))}
           {this.state.solvedCircuits.map((model) => (
@@ -488,12 +501,10 @@ export default class CircuitsPanel extends Component {
               model={model}
               maxTime={maxTime}
               forceHighlight={this.state.forceHighlightCircuit === model.circuitName}
-              onRetroCircuitListItemClick={
-                this.handleClickRetroCircuit
-              }
-              onRetroCloseItemClick={
-                this.handleCloseRetroCircuit
-              }
+              onRetroCircuitListItemHover={this.handleHoverRetroCircuit}
+              onRetroCircuitListItemHoverOff={this.handleHoverOffRetroCircuit}
+              onRetroCircuitListItemClick={this.handleClickRetroCircuit}
+              onRetroCloseItemClick={this.handleCloseRetroCircuit}
             />
           ))}
         </List>

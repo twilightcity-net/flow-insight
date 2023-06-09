@@ -18,6 +18,7 @@ export default class ControlChart extends Component {
     super(props);
     this.name = "[ControlChart]";
     this.troublePoints = [];
+    this.forceHighlightCircuit = null
   }
 
   static FIFTY_MIN_OOC_LIMIT_IN_SECONDS = 3000;
@@ -41,6 +42,14 @@ export default class ControlChart extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.troubleRowHoverListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_TROUBLE_ROW_HOVER,
+        this,
+        this.onTroubleRowHover
+      );
+
   }
 
   /**
@@ -60,6 +69,7 @@ export default class ControlChart extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.troubleRowHoverListener.clear();
   }
 
   /**
@@ -74,6 +84,24 @@ export default class ControlChart extends Component {
     }
   };
 
+  /**
+   * When we hover over a troubleshoot row, we get a notification so we can highlight
+   * the specific point
+   * @param event
+   * @param arg
+   */
+  onTroubleRowHover = (event, arg) => {
+    if (this.forceHighlightCircuit) {
+      this.unhighlightPoint(this.forceHighlightCircuit);
+    }
+
+    if (arg.circuitName && this.hasMatchingTroublePoint(arg.circuitName)) {
+      this.highlightPoint(arg.circuitName);
+      this.forceHighlightCircuit = arg.circuitName;
+    }
+
+  }
+
   handleWtfStatusUpdateMessage(arg) {
     let data = arg.data,
       circuit = data[ControlChart.learningCircuitDtoStr];
@@ -81,6 +109,22 @@ export default class ControlChart extends Component {
     if (this.updateTroublePoints(circuit)) {
       this.redrawChart();
     }
+  }
+
+  /**
+   * Returns true if the current trouble point list has a matching point
+   * @param circuitName
+   * @returns {boolean}
+   */
+  hasMatchingTroublePoint(circuitName) {
+    let hasMatch = false;
+    this.troublePoints.forEach((point) => {
+      if (point.circuitName === circuitName) {
+        hasMatch = true;
+        return true;
+      }
+    });
+    return hasMatch;
   }
 
   /**
@@ -320,30 +364,48 @@ export default class ControlChart extends Component {
       that.onClickGraphPoint(d);
     })
     .on("mouseover", function (event, d) {
-      let graphPoint = document.getElementById(d.circuitName + "-point");
-      if (graphPoint) {
-        graphPoint.classList.add("highlight");
-      }
-
-      let xPoint = document.getElementById(d.circuitName + "-ooc");
-      if (xPoint) {
-        xPoint.classList.add("highlight");
-      }
+      that.highlightPoint(d.circuitName);
       that.onHoverGraphPoint(d);
     })
     .on("mouseout", function (event, d) {
-      let graphPoint = document.getElementById(d.circuitName + "-point");
-      if (graphPoint) {
-        graphPoint.classList.remove("highlight");
-      }
-
-      let xPoint = document.getElementById(d.circuitName + "-ooc");
-      if (xPoint) {
-        xPoint.classList.remove("highlight");
-      }
+      that.unhighlightPoint(d.circuitName);
       that.onHoverOffGraphPoint(d);
     });
 
+  }
+
+  highlightPoint(circuitName) {
+    let graphPoint = document.getElementById(circuitName + "-point");
+    if (graphPoint) {
+      graphPoint.classList.add("highlight");
+    }
+
+    let targetPoint = document.getElementById(circuitName + "-target");
+    if (targetPoint) {
+      targetPoint.classList.add("highlight");
+    }
+
+    let xPoint = document.getElementById(circuitName + "-ooc");
+    if (xPoint) {
+      xPoint.classList.add("highlight");
+    }
+  }
+
+  unhighlightPoint(circuitName) {
+    let graphPoint = document.getElementById(circuitName + "-point");
+    if (graphPoint) {
+      graphPoint.classList.remove("highlight");
+    }
+
+    let targetPoint = document.getElementById(circuitName + "-target");
+    if (targetPoint) {
+      targetPoint.classList.remove("highlight");
+    }
+
+    let xPoint = document.getElementById(circuitName + "-ooc");
+    if (xPoint) {
+      xPoint.classList.remove("highlight");
+    }
   }
 
   /**
