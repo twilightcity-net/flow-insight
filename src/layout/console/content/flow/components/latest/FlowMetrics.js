@@ -136,6 +136,7 @@ export default class FlowMetrics extends Component {
     let ttmSum = 0;
     let ttmCount = 0;
     let maxTtmSustain = null;
+    let totalTtmSustain = 0;
     let dailyTtmTable = new Map();
 
     if (ttmSeries && ttmSeries.length > 0) {
@@ -155,12 +156,20 @@ export default class FlowMetrics extends Component {
         if (ttmSustain && (!maxTtmSustain || ttmSustain > maxTtmSustain)) {
           maxTtmSustain = ttmSustain;
         }
+        if (ttmSustain) {
+          totalTtmSustain += ttmSustain;
+        }
       }
     }
 
     let ttmModel = {};
 
-    ttmModel.weeklyTtms = { ttmSum: ttmSum, ttmCount: ttmCount, lfs: maxTtmSustain};
+    let avgDailySustain = 0;
+    if (ttmCount > 0) {
+      avgDailySustain = Math.round(totalTtmSustain/ttmCount);
+    }
+
+    ttmModel.weeklyTtms = { ttmSum: ttmSum, ttmCount: ttmCount, lfs: maxTtmSustain, totalSustain: avgDailySustain};
     ttmModel.dailyTtms = dailyTtmTable;
 
     return ttmModel;
@@ -170,12 +179,14 @@ export default class FlowMetrics extends Component {
 
     let totalDayCount = 0;
     let sumMomentum = 0;
+    let sumFlowMinutes = 0;
 
     if (dailySeries && dailySeries.length > 0) {
       for (let dailyRow of dailySeries) {
         const dayCoords = dailyRow[0].trim();
         const totalMomentum = parseInt(dailyRow[9].trim());
         const totalTime = parseInt(dailyRow[2].trim());
+        const flowMinutes = parseInt(dailyRow[10].trim());
         const existingDayRow = ttmModel.dailyTtms.get(dayCoords);
 
         if (totalTime === 0) {
@@ -185,22 +196,39 @@ export default class FlowMetrics extends Component {
         totalDayCount++;
         sumMomentum += totalMomentum;
 
+        let flowMetricToUse = flowMinutes;
+
         if (existingDayRow) {
           existingDayRow.momentumPerDay = totalMomentum;
+          existingDayRow.flowPerDay = this.getMaxFlowMinutes(existingDayRow.totalSustain, flowMinutes);
+          flowMetricToUse = existingDayRow.flowPerDay;
         } else {
-          ttmModel.dailyTtms.set(dayCoords, {ttmSum: 0, ttmCount: 0, lfs: 0, momentumPerDay: totalMomentum});
+          ttmModel.dailyTtms.set(dayCoords, {ttmSum: 0, ttmCount: 0, lfs: 0, totalSustain: 0, momentumPerDay: totalMomentum, flowPerDay: flowMinutes});
         }
+
+        //the weekly average needs to take into account we might source flowMinutes from
+        // total sustain (more accurate but laggy), or flowMinutes (less accurate but more up to date)
+        sumFlowMinutes += flowMetricToUse;
       }
       if (totalDayCount > 0) {
         ttmModel.weeklyTtms.momentumPerDay = Math.round((sumMomentum / totalDayCount));
+        ttmModel.weeklyTtms.flowPerDay = Math.round((sumFlowMinutes / totalDayCount));
       } else {
         ttmModel.weeklyTtms.momentumPerDay = 0;
+        ttmModel.weeklyTtms.flowPerDay = 0;
       }
     }
 
     return ttmModel;
   }
 
+  getMaxFlowMinutes(totalSustain, flowMinutes) {
+    if (totalSustain > flowMinutes) {
+      return totalSustain;
+    } else {
+      return flowMinutes;
+    }
+  }
 
   /**
    * Update the existing table entry based on the new max/average values
@@ -210,13 +238,17 @@ export default class FlowMetrics extends Component {
    */
   updateTtmTableEntry(oldEntry, ttmActivate, ttmSustain) {
     if (!oldEntry) {
-      return {ttmSum: ttmActivate, ttmCount: 1, lfs: ttmSustain};
+      return {ttmSum: ttmActivate, ttmCount: 1, lfs: ttmSustain, totalSustain: ttmSustain};
     } else {
       //for daily ttms use the first in the morning instead of the average
       //for weekly ttms use the average of the dailies
       if (ttmSustain > oldEntry.lfs) {
         oldEntry.lfs = ttmSustain;
       }
+      if (ttmSustain) {
+        oldEntry.totalSustain += ttmSustain;
+      }
+
       return oldEntry;
     }
   }
@@ -229,6 +261,7 @@ export default class FlowMetrics extends Component {
 
     let ttmMins = "--";
     let lfsMins = "--";
+    let flowHrs = "--";
 
    if (this.state.activeTtms && this.state.activeTtms.ttmSum) {
 
@@ -238,7 +271,16 @@ export default class FlowMetrics extends Component {
 
      if (this.state.activeTtms.lfs) {  //lfs can be null if the streak is in progress
        lfsMins = this.state.activeTtms.lfs + " min";
+
      }
+   }
+
+   if (this.state.activeTtms && this.state.activeTtms.flowPerDay && this.state.activeTtms.totalSustain) {
+     let maxFlowTime = this.state.activeTtms.totalSustain;
+     if (this.state.activeTtms.flowPerDay > maxFlowTime) {
+       maxFlowTime = this.state.activeTtms.flowPerDay;
+     }
+     flowHrs = Math.round(maxFlowTime/60*10)/10 + " hrs";
    }
 
     // let mpd = "--";
@@ -260,10 +302,22 @@ export default class FlowMetrics extends Component {
         </div>
         <div className="space">&nbsp;</div>
 
+        {/*<div className="summaryMetrics">*/}
+        {/*  <div className="metricsHeader">Longest Flow Streak (LFS)</div>*/}
+        {/*  <div className="metric">{lfsMins}</div>*/}
+        {/*  <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>*/}
+        {/*</div>*/}
+
+        {/*<div className="summaryMetrics">*/}
+        {/*  <div className="metricsHeader">Momentum Per Day (MPD)</div>*/}
+        {/*  <div className="metric">{mpd}{mpdUnits}</div>*/}
+        {/*  <div className="metricDescription">Depth of momentum cumulated per day as a heuristic for overall productivity</div>*/}
+        {/*</div>*/}
+
         <div className="summaryMetrics">
-          <div className="metricsHeader">Longest Flow Streak (LFS)</div>
-          <div className="metric">{lfsMins}</div>
-          <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>
+          <div className="metricsHeader">Flow Per Day (FPD)</div>
+          <div className="metric">{flowHrs}</div>
+          <div className="metricDescription">Average time spent in flow state per day where momentum was sustained</div>
         </div>
       </div>
     );
