@@ -25,13 +25,8 @@ export default class ControlResource extends Component {
       chartDto: null,
       flowState: null,
       visible: false,
-      weekOffset: 0
+      weekOffset: this.extractWeekOffsetFromArgs()
     };
-
-    this.inputWeekOffset = 0;
-
-    this.loadWeekOffsetFromArgs();
-    this.state.weekOffset = this.inputWeekOffset;
 
   }
 
@@ -39,7 +34,6 @@ export default class ControlResource extends Component {
    * Load the chart when the component mounts
    */
   componentDidMount() {
-    console.log("componentDidMount ControlResource");
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES
     );
@@ -54,24 +48,27 @@ export default class ControlResource extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("componentDidUpdate ControlResource");
     console.log("uri = "+this.props.resource.uri);
 
     if (prevProps.resource.uri !== this.props.resource.uri) {
-      this.loadWeekOffsetFromArgs();
       this.reloadChartData();
     }
   }
 
-  loadWeekOffsetFromArgs() {
+  /**
+   * Extract the week offset parameter from the uri args
+   * @returns {number}
+   */
+  extractWeekOffsetFromArgs() {
+    let weekOffset = 0;
     let arr = this.props.resource.uriArr;
     if (arr.length === 3) {
-      let weekOffsetInt = parseInt(arr[2]);
-      if (weekOffsetInt > 0) {
-        weekOffsetInt = 0;
+      let parsedWeekOffset = parseInt(arr[2]);
+      if (parsedWeekOffset <= 0) {
+        weekOffset = parsedWeekOffset;
       }
-      this.inputWeekOffset = weekOffsetInt;
     }
+    return weekOffset;
   }
 
   /**
@@ -95,10 +92,10 @@ export default class ControlResource extends Component {
     let timezoneOffset = UtilRenderer.getTimezoneOffset();
     console.log("Timezone offset = "+timezoneOffset);
 
-    let inputWeekOffset = this.inputWeekOffset;
-    console.log("Week offset = "+inputWeekOffset);
+    let newWeekOffset = this.extractWeekOffsetFromArgs();
+    console.log("Week offset = "+newWeekOffset);
 
-    ChartClient.chartLatestWtfs(timezoneOffset, inputWeekOffset,
+    ChartClient.chartLatestWtfs(timezoneOffset, newWeekOffset,
       this,
       (arg) => {
         this.loadChartInProgress = false;
@@ -107,7 +104,7 @@ export default class ControlResource extends Component {
           this.setState({
             chartDto: arg.data,
             visible: true,
-            weekOffset: inputWeekOffset,
+            weekOffset: newWeekOffset,
             me: MemberClient.me
           });
         } else {
@@ -120,12 +117,11 @@ export default class ControlResource extends Component {
   onClickNavWeek = (navDirection) => {
     console.log("On click nav week direction = "+navDirection);
 
-     this.inputWeekOffset = this.state.weekOffset + navDirection;
-    // this.reloadChartData();
+     let newWeekOffset = this.state.weekOffset + navDirection;
 
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.CONTROL,
-      this.inputWeekOffset
+      newWeekOffset
     );
     this.myController.makeSidebarBrowserRequest(request);
   }
