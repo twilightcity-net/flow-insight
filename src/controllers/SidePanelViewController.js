@@ -382,7 +382,8 @@ export class SidePanelViewController extends ActiveViewController {
    */
   loadDefaultFlowPanel() {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.FLOW
+      BrowserRequestFactory.Requests.FLOW,
+      0
     );
     this.makeSidebarBrowserRequest(request);
   }

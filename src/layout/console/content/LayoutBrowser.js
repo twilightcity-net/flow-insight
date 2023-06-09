@@ -142,7 +142,8 @@ export default class LayoutBrowser extends Component {
   getDefaultFlowInsightPageRequest() {
     if (FeatureToggle.isPersonalDashboardEnabled) {
       return BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.FLOW
+        BrowserRequestFactory.Requests.FLOW,
+        0
       );
     } else if (FeatureToggle.isJournalEnabled) {
       return BrowserRequestFactory.createRequest(

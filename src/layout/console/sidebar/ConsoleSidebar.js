@@ -499,7 +499,7 @@ export default class ConsoleSidebar extends Component {
 
     if (hasDefaultPanel) {
       if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
-        && FeatureToggle.isPersonalDashboardEnabled && BrowserController.uri.includes("/flow") ) {
+        && FeatureToggle.isPersonalDashboardEnabled && BrowserController.uri.includes("/flow/week/0") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS
         && FeatureToggle.isControlChartEnabled && BrowserController.uri.includes("/control/week/0") ) {

@@ -500,24 +500,21 @@ export class BrowserRequestFactory {
 
   /**
    * gets the request for showing the default flow content
-   * @param displayOption
+   * @param weekOffset
    * @returns {string}
    * @private
    */
-  static _getFlowRequest(displayOption) {
-
-    let extendedPath = "";
-
-    if (displayOption) {
-      extendedPath =  BrowserRequestFactory.PATH_SEPARATOR + displayOption;
-    }
+  static _getFlowRequest(weekOffset) {
 
     return (
       BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +
       BrowserRequestFactory.ROOT_SEPARATOR +
       BrowserRequestFactory.Locations.FLOW +
-      extendedPath
+      BrowserRequestFactory.PATH_SEPARATOR +
+      BrowserRequestFactory.Locations.WEEK +
+      BrowserRequestFactory.PATH_SEPARATOR +
+      weekOffset
     );
   }
 
