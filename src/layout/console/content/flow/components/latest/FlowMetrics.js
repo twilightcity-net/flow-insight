@@ -264,25 +264,20 @@ export default class FlowMetrics extends Component {
     let flowHrs = "--";
 
    if (this.state.activeTtms && this.state.activeTtms.ttmSum) {
-
      const avgTtm = Math.round(this.state.activeTtms.ttmSum / this.state.activeTtms.ttmCount);
-
      ttmMins = avgTtm + " min";
-
-     if (this.state.activeTtms.lfs) {  //lfs can be null if the streak is in progress
-       lfsMins = this.state.activeTtms.lfs + " min";
-
-     }
    }
 
-   if (this.state.activeTtms && this.state.activeTtms.flowPerDay && this.state.activeTtms.totalSustain) {
-     let maxFlowTime = this.state.activeTtms.totalSustain;
-     if (this.state.activeTtms.flowPerDay > maxFlowTime) {
-       maxFlowTime = this.state.activeTtms.flowPerDay;
-     }
-     flowHrs = Math.round(maxFlowTime/60*10)/10 + " hrs";
+    if (this.state.activeTtms && this.state.activeTtms.lfs) {
+      //lfs can be null if the streak is in progress
+      lfsMins = this.state.activeTtms.lfs + " min";
+    }
+
+   if (this.state.activeTtms && this.state.activeTtms.flowPerDay) {
+     flowHrs = Math.round(this.state.activeTtms.flowPerDay/60*10)/10 + " hrs";
    }
 
+   console.log("lfsMin = "+lfsMins);
     // let mpd = "--";
     // let mpdUnits = "";
     // let mpdDescription = "";
