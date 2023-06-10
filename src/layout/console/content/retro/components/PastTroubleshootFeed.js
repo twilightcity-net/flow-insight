@@ -236,7 +236,7 @@ export default class PastTroubleshootFeed extends Component {
   render() {
     return (
       <div id="component" className="retroSlidePanel">
-        <Segment inverted>
+        <Segment inverted className="circuitContentFeedPanel">
           <Menu icon inverted fluid secondary>
             <Menu.Item header className="troubleHeader">
               Troubleshooting Session

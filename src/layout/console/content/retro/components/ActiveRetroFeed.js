@@ -54,6 +54,7 @@ export default class ActiveRetroFeed extends Component {
     this.lastFeedEvent = null;
     this.memberRequests = 0;
     this.loadCount = 0;
+    this.hasMessageAdded = false;
 
     this.pastChatMembersNotActive = [];
 
@@ -70,7 +71,9 @@ export default class ActiveRetroFeed extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     //make sure we've got all our circuit members, and if not, send a retrieval request for them
 
-    this.scrollToFeedBottom();
+    if (this.hasMessageAdded && prevProps.feedEvents.length !== this.props.feedEvents.length) {
+      this.scrollToFeedBottom();
+    }
   }
 
   /**
@@ -79,6 +82,7 @@ export default class ActiveRetroFeed extends Component {
    * @param callback
    */
   addChatMessage = (text, callback) => {
+    this.hasMessageAdded = true;
     //if this is my first message in the feed, then need to join the circuit too
     let circuitName = this.props.model.circuitName;
 
@@ -316,6 +320,7 @@ export default class ActiveRetroFeed extends Component {
         <Segment
           inverted
           id={ActiveRetroFeed.circuitContentFeedPanelID}
+          className="circuitContentFeedPanel"
           style={{
             height: height,
           }}
@@ -330,7 +335,6 @@ export default class ActiveRetroFeed extends Component {
             id="active-circuit-feed"
             style={{
               margin: "0px",
-              height: "274px",
             }}
           >
             {this.getDividerContent(openTimeStr)}
@@ -400,9 +404,7 @@ export default class ActiveRetroFeed extends Component {
         primaryMinSize={DimensionController.getActiveCircuitContentFeedMinHeight()}
         secondaryMinSize={DimensionController.getActiveCircuitContentChatMinHeight()}
         secondaryInitialSize={DimensionController.getActiveCircuitContentChatMinHeightDefault()}
-        onSecondaryPaneSizeChange={
-          this.onSecondaryPaneSizeChange
-        }
+        onSecondaryPaneSizeChange={this.onSecondaryPaneSizeChange}
       >
         {this.getActiveCircuitFeedContent(true)}
         {this.getActiveCircuitChatContent()}
