@@ -277,7 +277,6 @@ export default class FlowMetrics extends Component {
      flowHrs = Math.round(this.state.activeTtms.flowPerDay/60*10)/10 + " hrs";
    }
 
-   console.log("lfsMin = "+lfsMins);
     // let mpd = "--";
     // let mpdUnits = "";
     // let mpdDescription = "";

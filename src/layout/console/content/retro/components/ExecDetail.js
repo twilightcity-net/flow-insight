@@ -42,6 +42,14 @@ export default class ExecDetail extends Component {
       ) + "px";
   };
 
+  withSOnEndIfNotEmpty(durationTime) {
+    if (durationTime) {
+      return durationTime + "s";
+    } else {
+      return durationTime;
+    }
+  }
+
   /**
    * renders our metric details data
    * @returns {JSX.Element}
@@ -73,8 +81,8 @@ export default class ExecDetail extends Component {
           <Grid id="metrics-row-grid" inverted columns={16}>
             {execData.rowsOfPaddedCells.map((row, i) => {
               let process = row[0].trim();
-              let tExecTime = row[1].trim();
-              let tHumanTime = row[2].trim();
+              let tExecTime = this.withSOnEndIfNotEmpty(row[1].trim());
+              let tHumanTime = this.withSOnEndIfNotEmpty(row[2].trim());
               let count = row[5].trim();
               let red = row[6].trim();
               let green = row[7].trim();

@@ -370,7 +370,6 @@ export default class MoovieChatLayout extends Component {
         };
         messages = this.addMessage(messages, newMessage);
       } else if (talkMessage.messageType === BaseClient.MessageTypes.CHAT_REACTION) {
-        console.log("wootx!");
 
         const messageId = talkMessage.data.messageId;
         const memberId = talkMessage.data.memberId;

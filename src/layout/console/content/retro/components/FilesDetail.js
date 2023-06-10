@@ -81,15 +81,18 @@ export default class FilesDetail extends Component {
             {fileData.rowsOfPaddedCells.map((row, i) => {
               let box = row[0].trim();
               let filePath = row[1].trim();
-              let duration = row[2].trim();
+              let duration = UtilRenderer.getSecondsFromDurationString(row[2].trim());
+              let percentConfusion = parseFloat(row[3].trim());
               let modified = row[9].trim();
+
+              let confusionDuration = UtilRenderer.getTimerStringFromTimeDurationSeconds(Math.round(duration * percentConfusion / 100));
 
               return (
                 <FileMetricsRow
                   key={i}
                   box={box}
                   filePath={filePath}
-                  duration={duration}
+                  duration={confusionDuration}
                   modified={modified}
                 />
               );
