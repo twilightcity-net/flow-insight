@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import ControlChart from "./ControlChart";
 
 /**
  * this is the gui component that displays the metrics side panel on the wtfs control page
@@ -33,11 +34,15 @@ export default class ControlMetrics extends Component {
     if (chartDto) {
       let rows = chartDto.chartSeries.rowsOfPaddedCells;
       let wtfCount = rows.length;
+      let oocCount = 0;
       let sumTtr = 0;
       let avgTtr = 0;
 
       rows.forEach((row) => {
         let durationInSeconds = parseInt(row[3].trim(), 10);
+        if (durationInSeconds > ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS) {
+          oocCount++;
+        }
         sumTtr += durationInSeconds;
       });
 
@@ -46,6 +51,7 @@ export default class ControlMetrics extends Component {
       }
 
       this.setState({
+        oocCount: oocCount,
         wtfCount: wtfCount,
         avgTtr: avgTtr
       });
@@ -61,9 +67,13 @@ export default class ControlMetrics extends Component {
 
      let wtfCount = "--";
      let ttrMin = "--";
+
+     let oocRatio = "--";
      if (this.state.wtfCount > 0) {
        wtfCount = this.state.wtfCount;
+       oocRatio = this.state.oocCount + " / " + this.state.wtfCount;
      }
+
      if (this.state.avgTtr > 0) {
        ttrMin = this.state.avgTtr + " min";
      }
@@ -71,9 +81,9 @@ export default class ControlMetrics extends Component {
     return (
       <div className="metricsPanel">
         <div className="summaryMetrics">
-          <div className="metricsHeader">Frequency of Confusion (FC)</div>
-          <div className="metric">{wtfCount} / wk</div>
-          <div className="metricDescription">Frequency of troubleshooting sessions across all members of the team</div>
+          <div className="metricsHeader">Out of Control Ratio (OOC)</div>
+          <div className="metric">{oocRatio}</div>
+          <div className="metricDescription">Ratio of troubleshooting sessions out of control across all members of the team</div>
         </div>
         <div className="space">&nbsp;</div>
 
