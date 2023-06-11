@@ -81,7 +81,7 @@ export default class ControlMetrics extends Component {
     return (
       <div className="metricsPanel">
         <div className="summaryMetrics">
-          <div className="metricsHeader">Out of Control Ratio (OOC)</div>
+          <div className="metricsHeader">Out of Control Ratio (OOCR)</div>
           <div className="metric">{oocRatio}</div>
           <div className="metricDescription">Ratio of troubleshooting sessions out of control across all members of the team</div>
         </div>
