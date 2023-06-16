@@ -435,20 +435,113 @@ export default class ControlChart extends Component {
       "<div class='description'>" +
       graphPoint.description +
       "</div>";
-    // html +=
-    //   UtilRenderer.getSimpleDateTimeFromUtc(graphPoint.solvedTime) +
-    //   "</div></div>";
+    html +=
+      "<div><hr class='divider'/><span class='date'>" +
+      UtilRenderer.getSimpleDateTimeFromUtc(graphPoint.solvedTime) +
+      "</span><span class='"+this.getClassForCircuitStatus(graphPoint)+"'>" +
+      this.getCircuitStatusText(graphPoint) +
+      "</span></div></div>";
 
     tooltipEl.innerHTML = html;
 
-    let tipWidth = tooltipEl.clientWidth;
-    let tipHeight = 80;
-
-    tooltipEl.style.left = (this.margin + this.leftAxisMargin + graphPoint.xOffset - tipWidth/2 + 5)  + "px";
-    tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset + tipHeight + 5) + "px";
-    tooltipEl.style.opacity = 0.85;
+    this.updateTipStylesBasedOnPosition(tooltipEl, graphPoint);
 
     this.props.onHoverGraphPoint(graphPoint);
+  }
+
+  /**
+   * Gets the friendly circuit status text that corresponds to the visual indicators
+   * to make it easier for the user to make sense of the state
+   * @param graphPoint
+   * @returns {string}
+   */
+  getCircuitStatusText(graphPoint) {
+
+    const isOverThreshold = graphPoint.durationInSeconds >= ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS;
+    const isClosed = graphPoint.status === "CLOSED" || graphPoint.isMarked;
+    const hasRetro = graphPoint.hasRetro;
+
+    let text = "";
+
+    if (isOverThreshold) {
+      if ( !hasRetro && !isClosed ) {
+        text = "NEEDS REVIEW";
+      } else if (hasRetro && !isClosed) {
+        text = "RETRO IN PROGRESS";
+      } else if (hasRetro && isClosed) {
+        text = "REVIEWED";
+      } else if (isClosed) {
+        text = "CLOSED";
+      }
+    } else {
+      if ( !hasRetro && !isClosed ) {
+        text = "SOLVED";
+      } else if (hasRetro && !isClosed) {
+        text = "RETRO IN PROGRESS";
+      } else if (hasRetro && isClosed) {
+        text = "REVIEWED";
+      } else if (isClosed) {
+        text = "CLOSED";
+      }
+    }
+    return text;
+
+  }
+
+  /**
+   * Gets the class that corresponds to the needed coloring for our status text
+   * Overthreshold things we want to make red when a review is needed
+   * @param graphPoint
+   * @returns {string}
+   */
+  getClassForCircuitStatus(graphPoint) {
+
+    const isOverThreshold = graphPoint.durationInSeconds >= ControlChart.FIFTY_MIN_OOC_LIMIT_IN_SECONDS;
+    const isClosed = graphPoint.status === "CLOSED" || graphPoint.isMarked;
+    const hasRetro = graphPoint.hasRetro;
+
+    let className = 'state';
+    if (isClosed) {
+      className += " closed";
+    } else if (hasRetro) {
+      className += " retro";
+    } else if (isOverThreshold) {
+      className += " trouble";
+    }
+    return className;
+  }
+
+
+  /**
+   * Update whether the tip goes above or below the graph point, and the associated styles
+   * based on the tip placement
+   * @param tooltipEl
+   * @param graphPoint
+   */
+  updateTipStylesBasedOnPosition(tooltipEl, graphPoint) {
+    const tipAboveBelowThreshold = 120;
+
+    if (graphPoint.yOffset > tipAboveBelowThreshold) {
+      tooltipEl.classList.remove("popuptop");
+      tooltipEl.classList.add("popuptop");
+
+      let tipWidth = tooltipEl.clientWidth;
+      let tipHeight = tooltipEl.clientHeight;
+
+      tooltipEl.style.left = (this.margin + this.leftAxisMargin + graphPoint.xOffset - tipWidth/2 + 5)  + "px";
+      tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset - tipHeight + 20) + "px";
+      tooltipEl.style.opacity = 0.85;
+
+    } else {
+      let tipWidth = tooltipEl.clientWidth;
+      let tipHeight = 80;
+
+      tooltipEl.classList.remove("popuptop");
+
+      tooltipEl.style.left = (this.margin + this.leftAxisMargin + graphPoint.xOffset - tipWidth/2 + 5)  + "px";
+      tooltipEl.style.top = (this.topChartMargin + graphPoint.yOffset + tipHeight + 5) + "px";
+      tooltipEl.style.opacity = 0.85;
+    }
   }
 
   /**

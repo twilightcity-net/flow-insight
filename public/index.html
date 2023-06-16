@@ -4922,11 +4922,15 @@
   }
 
   #component.troubleControlContent #chart .graphPointTarget.hasRetro {
-    stroke: #ff0000;
+    stroke: #9C6EFA;
   }
 
   #component.troubleControlContent #chart .graphPointTarget.reviewed.hasRetro {
     stroke: #777777;
+  }
+
+  #component.troubleControlContent #chart .graphPointTarget.hasRetro:hover {
+      stroke: #B28FFF;
   }
 
   #component.troubleControlContent #chart .graphPointTarget:hover {
@@ -5004,15 +5008,45 @@
 
   #component.troubleControlContent .tipBox .description {
     display: block;
-    padding-top: 20px;
     text-align: left;
     color: #dddddd;
+    max-height: 60px;
+      width: 100%;
+      overflow: hidden;
+  }
+
+  #component.troubleControlContent .tipBox .divider {
+      border: 1px #2e2e2e solid;
+  }
+
+  #component.troubleControlContent .tipBox .date {
+      float: right;
+      color: rgba(130, 130, 130, 0.96);
+      font-style: italic;
+      font-size: 0.8rem;
+  }
+
+  #component.troubleControlContent .tipBox .state {
+      float: left;
+      color: rgba(130, 130, 130, 0.96);
+      font-size: 0.8rem;
+  }
+
+  #component.troubleControlContent .tipBox .state.trouble {
+      color:  #ff0000;
+  }
+
+  #component.troubleControlContent .tipBox .state.closed {
+      color:  rgba(130, 130, 130, 0.96);
+  }
+
+  #component.troubleControlContent .tipBox .state.retro {
+      color:  #9C6EFA;
   }
 
   /* The flow chart popup */
   #component.troubleControlContent .chartpopup,
-  #component.troubleControlContent .popupleft,
-  #component.troubleControlContent .popupright {
+  #component.troubleControlContent .popuptop {
     visibility: visible;
     background-color: rgba(27, 28, 29, 0.96);
     border: 1px solid rgba(100, 100, 100, 0.96);
@@ -5026,7 +5060,6 @@
     opacity: 0;
     min-width: 200px;
     max-width: 300px;
-    max-height: 80px;
   }
 
 
@@ -5042,6 +5075,21 @@
     border-width: 10px;
     border-style: solid;
     border-color: transparent transparent rgba(74, 74, 74, 0.96) transparent;
+  }
+
+  /* Popup arrow in the center */
+  #component.troubleControlContent .popuptop::after {
+      content: " ";
+      position: absolute;
+      top: 100%;
+      /* At the top of the tooltip */
+      left: 50%;
+      /* the anchor position of the tooltip arrow */
+      margin-left: -10px;
+      border-width: 10px;
+      border-style: solid;
+      transform: rotate(180deg);
+      border-color: transparent transparent rgba(74, 74, 74, 0.96) transparent;
   }
 
 
@@ -6263,6 +6311,11 @@
     font-weight: bolder;
     overflow: hidden;
     max-height: 4rem;
+  }
+
+  .ui.popup.circuitPopup .name {
+      overflow: hidden;
+      max-height: 4.1rem;
   }
 
   .ui.popup.teamPanel .task .workingOn {
