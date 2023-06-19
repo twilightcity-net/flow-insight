@@ -44,7 +44,6 @@ export class RendererEventFactory {
       WINDOW_MOOVIE_CONSOLE_HIDDEN: prefix + "window-moovie-console-hidden",
       WINDOW_MOOVIE_CONSOLE_BLUR: prefix + "window-moovie-console-blur",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
-      WINDOW_CONSOLE_BROWSER_REQUEST: prefix + "window-console-browser-request",
       WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",
       WINDOW_OPEN_CHART: prefix + "window-open-chart",
       WINDOW_CLOSE_CHART: prefix + "window-close-chart",

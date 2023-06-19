@@ -53,7 +53,6 @@ export default class FlowResource extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("uri = "+this.props.resource.uri);
 
     if (prevProps.resource.uri !== this.props.resource.uri) {
       this.reloadChartData();

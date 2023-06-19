@@ -12,7 +12,7 @@ export default class LayoutBrowser extends Component {
    * default string we show in the address bar
    * @type {string}
    */
-  static locationStr = "Search "+FeatureToggle.appName+ " or type a URI";
+  static locationStr = "Enter a command or a talk URI";
 
   /**
    * the constructor for the array of journal items to display
@@ -24,6 +24,8 @@ export default class LayoutBrowser extends Component {
     this.isFirstRun = true;
     this.state = {
       disableControls: false,
+      disabledForward: false,
+      disabledBackward: false,
       location: "",
     };
     this.myController =
@@ -37,10 +39,6 @@ export default class LayoutBrowser extends Component {
    * update our listeners
    */
   componentDidMount = () => {
-    this.myController.configureConsoleBrowserRequestListener(
-      this,
-      this.onConsoleBrowserRequestEvent
-    );
     this.myController.configureConsoleBrowserLoadListener(
       this,
       this.onConsoleBrowserLoadEvent
@@ -59,10 +57,6 @@ export default class LayoutBrowser extends Component {
    * remove listeners when not in view
    */
   componentWillUnmount = () => {
-    this.myController.configureConsoleBrowserRequestListener(
-      this,
-      null
-    );
     this.myController.configureConsoleBrowserLoadListener(
       this,
       null
@@ -78,22 +72,16 @@ export default class LayoutBrowser extends Component {
   };
 
   /**
-   * called when we wish to load content via the browser into the console
-   * @param event
-   * @param request
-   */
-  onConsoleBrowserRequestEvent = (event, request) => {
-    this.myController.processRequest(request);
-  };
-
-  /**
    * called when content is actively loading into the console content
    * @param event
    * @param resource
    */
   onConsoleBrowserLoadEvent = (event, resource) => {
+    //when we load a page, update the button state
     this.setState({
       location: resource.uri,
+      disabledForward: this.myController.hasNoForwardHistory(),
+      disabledBackward: this.myController.hasNoBackwardHistory()
     });
   };
 
@@ -178,30 +166,42 @@ export default class LayoutBrowser extends Component {
 
   /**
    * highlight field border when element is focused on
-   * @param e
    */
-  handleFocus = (e) => {
-    document
-      .getElementById("browserInput")
-      .classList.add("focused");
-    document
-      .getElementById("browserGo")
-      .classList.add("focused");
+  handleFocus = () => {
+    let el = document.getElementById("browserBar");
+    el.classList.add("focused");
+
+    let input = document.getElementById("browserInput");
+    input.focus();
   };
 
   /**
    * clear all of the highlights to the fields on any element blur.. called by all
    * form element inputs
-   * @param e
    */
-  handleBlur = (e) => {
+  handleBlur = () => {
     document
-      .getElementById("browserInput")
-      .classList.remove("focused");
-    document
-      .getElementById("browserGo")
+      .getElementById("browserBar")
       .classList.remove("focused");
   };
+
+  /**
+   * Handles the browser back button being clicked
+   */
+  handleBrowserBackClick = () => {
+    this.myController.goBackInHistory();
+  };
+
+  /**
+   * Handles the browser forward button being clicked
+   */
+  handleBrowserForwardClick = () => {
+    this.myController.goForwardInHistory();
+  };
+
+  handleBrowserBarClick = () => {
+    this.handleFocus();
+  }
 
   /**
    * works the same as the click for create handler.. see above ^
@@ -265,14 +265,22 @@ export default class LayoutBrowser extends Component {
   getBrowserInput = () => {
     return (
       <div>
-        <button className="browserProtocol" disabled>
-          talk://
+        <button className="browserHistory"
+                disabled={this.state.disabledBackward}
+                onClick={this.handleBrowserBackClick}>
+          <Icon name="arrow left" />
         </button>
-        <div className="browserBar">
+        <button className="browserHistory"
+                disabled={this.state.disabledForward}
+                onClick={this.handleBrowserForwardClick}>
+          <Icon name="arrow right" />
+        </button>
+        <div className="browserBar" id="browserBar" onClick={this.handleBrowserBarClick}>
           <Input
             disabled={this.state.disableControls}
             id="browserInput"
             className="browserInput"
+            label="talk://"
             fluid
             inverted
             placeholder={LayoutBrowser.locationStr}
@@ -281,16 +289,6 @@ export default class LayoutBrowser extends Component {
             onBlur={this.handleBlur}
             onKeyPress={this.handleKeyPressForInput}
             onChange={this.handleChangeForInput}
-            action={
-              <Button
-                color="violet"
-                className="browserGo"
-                id="browserGo"
-                onClick={this.handleClickForGo}
-              >
-                <Icon name="play" />
-              </Button>
-            }
           />
         </div>
       </div>

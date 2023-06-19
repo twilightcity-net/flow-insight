@@ -7,6 +7,7 @@ import UtilRenderer from "../UtilRenderer";
  */
 export class BrowserController extends ActiveViewController {
   static uri = null;
+  static MAX_HISTORY_SIZE = 10;
 
   /**
    * builds the browser console header component
@@ -15,12 +16,10 @@ export class BrowserController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.name = "[BrowserController]";
-    this.consoleBrowserRequestListener =
-      RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .WINDOW_CONSOLE_BROWSER_REQUEST,
-        this
-      );
+
+    this.requestHistory = [];
+    this.historyBackIndex = 0;
+
     this.consoleBrowserLoadNotifier =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -46,26 +45,68 @@ export class BrowserController extends ActiveViewController {
    * @param request
    */
   makeRequest(request) {
-    this.consoleBrowserRequestListener.dispatch(request);
+    console.log("Browser request!");
+    this.pushRequestToHistory(request);
+    this.processRequest(request);
   }
 
-  /**
-   * configures the browsers request listener
-   * @param scope
-   * @param callback
-   */
-  configureConsoleBrowserRequestListener(scope, callback) {
-    this.consoleBrowserRequestListener.updateCallback(
-      scope,
-      callback
-    );
+  hasNoForwardHistory() {
+    return this.historyBackIndex === 0;
   }
+
+  hasNoBackwardHistory() {
+    return this.requestHistory.length === 1
+      || (this.requestHistory.length + this.historyBackIndex - 2 < 0);
+  }
+
+  goBackInHistory() {
+    console.log("Go back in history");
+    this.moveInHistory( this.historyBackIndex - 1);
+  }
+
+  goForwardInHistory() {
+    console.log("Go forward in history");
+    this.moveInHistory(this.historyBackIndex + 1);
+  }
+
+  moveInHistory(newHistoryBackIndex) {
+    let requestIndex = this.requestHistory.length + newHistoryBackIndex - 1;
+
+    if (requestIndex >= 0 && requestIndex < this.requestHistory.length) {
+      let request = this.requestHistory[requestIndex];
+      this.historyBackIndex = newHistoryBackIndex;
+      this.processRequest(request);
+    } else {
+      console.log("Invalid request index");
+    }
+  }
+
 
   configureConsoleBrowserLoadListener(scope, callback) {
     this.consoleBrowserLoadNotifier.updateCallback(
       scope,
       callback
     );
+  }
+
+  /**
+   * Push the latest request to our request history, so we can use the back and forward buttons
+   * @param request
+   */
+  pushRequestToHistory(request) {
+
+    if (this.historyBackIndex < 0) {
+      let requestIndex = this.requestHistory.length + this.historyBackIndex - 1;
+      this.requestHistory.splice(requestIndex + 1);
+      this.historyBackIndex = 0;
+    }
+
+    this.requestHistory.push(request);
+
+    if (this.requestHistory.length > BrowserController.MAX_HISTORY_SIZE) {
+      this.requestHistory.splice(0, 1);
+    }
+
   }
 
   /**
@@ -117,12 +158,9 @@ export class BrowserController extends ActiveViewController {
    * @param request
    */
   processRequest = (request) => {
-    console.log(
-      this.name + " process request -> " + request
-    );
+    console.log(this.name + " process request -> " + request);
     try {
-      let resource =
-        UtilRenderer.getResourceFromRequest(request);
+      let resource = UtilRenderer.getResourceFromRequest(request);
       this.setUri(resource);
       this.fireConsoleBrowserLoadNotifyEvent(resource);
     } catch (e) {

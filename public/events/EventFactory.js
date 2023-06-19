@@ -65,7 +65,6 @@ class EventFactory {
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
       WINDOW_CONSOLE_HIDDEN: prefix + "window-console-hidden",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
-      WINDOW_CONSOLE_BROWSER_REQUEST: prefix + "window-console-browser-request",
       WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       WINDOW_CHAT_CONSOLE_SHOW_HIDE: prefix + "window-chat-console-show-hide",

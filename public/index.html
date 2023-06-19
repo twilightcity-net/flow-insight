@@ -7,8 +7,8 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
- <meta http-equiv="Content-Security-Policy"
-        content="script-src 'self'; base-uri 'self';form-action 'self'">
+ <!--<meta http-equiv="Content-Security-Policy"
+        content="script-src 'self'; base-uri 'self';form-action 'self'">-->
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
   <title>FlowInsight</title>
@@ -2693,80 +2693,81 @@
     position: relative;
   }
 
-  #component.browserHeader #browserGoBtnCell {
-    padding-left: 0;
-  }
-
-  #component.browserHeader .ui.button.browserGo {
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-  }
-
   #component.browserHeader .ui.segment {
     padding: .420em;
   }
 
   #component.browserHeader .browserBar {
     display: inline-block;
-    width: calc(100% - 60px);
+    width: calc(100% - 75px);
   }
 
-  #component.browserHeader .browserProtocol {
-    display: inline-block;
-    background-color: rgba(80, 80, 80, 0.96);
-    border: 1px solid rgba(74, 74, 74, 0.96);
+  #component.browserHeader .browserHistory {
+      display: inline-block;
+      background: rgba(72, 72, 72, 0.96);
+      border: 1px solid rgba(74, 74, 74, 0.96);
+      color: rgba(187, 187, 187, 0.96);
+      border-radius: 4px;
+      margin-right: 2px;
+      height: 38px;
+  }
+
+  #component.browserHeader .browserHistory:disabled {
+    background: rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
+
+  #component.browserHeader .browserHistory:disabled:hover {
+    background: rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+    cursor: default;
+  }
+
+  #component.browserHeader .browserHistory:hover {
+      background: rgba(100, 53, 201, 0.96);
+      color: rgba(241, 241, 241, 0.96);
+      cursor: pointer;
+  }
+
+  #component.browserHeader #browserBar .ui.label {
+      background-color: rgba(72, 72, 72, 0.96);
+      border: 1px solid rgba(74, 74, 74, 0.96);
+      color: rgba(187, 187, 187, 0.96);
+  }
+
+  #component.browserHeader #browserBar .ui.label:hover {
     color: #ffffff;
-    border-radius: 4px;
-    margin-right: 5px;
-    padding: .69em;
-    height: 38px;
+    cursor: pointer;
   }
 
-  #component.browserHeader .ui.input.browserInput input {
+  #component.browserHeader #browserBar.focused .ui.label {
+      transition: background, color .840s ease-out;
+      background: rgba(100, 53, 201, 0.96);
+      color: #ffffff;
+  }
+
+  #component.browserHeader #browserBar input {
     transition: border 0.840s ease-out;
     background: rgba(27, 28, 29, 0.96);
     border: 1px solid rgba(74, 74, 74, 0.96);
-    border-right-width: 0;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
     color: rgba(241, 241, 241, 0.96);
     display: inline-block;
   }
 
-  #component.browserHeader .ui.input.browserInput input:focus {
-    border: 1px solid rgba(100, 53, 201, 0.96);
-    border-right-width: 0;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+  #component.browserHeader #browserBar input::selection {
+    color: rgba(150, 150, 150, 0.96);
   }
 
-  #component.browserHeader .ui.input.browserInput input::placeholder {
+  #component.browserHeader #browserBar.focused input {
+    transition: background, color .840s ease-out;
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.browserHeader #browserBar input::placeholder {
     font-style: italic;
     color: rgba(100, 100, 100, 0.96)
   }
 
-  #component.browserHeader .ui.button.browserGo {
-    transition: background .840s ease-out !important;
-    transition: color .840s ease-out;
-    background: rgba(72, 72, 72, 0.96);
-    color: rgba(187, 187, 187, 0.96);
-    border: none;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
-    padding-right: .6969em;
-  }
-
-  #component.browserHeader .ui.button.browserGo.focused {
-    transition: background, color .840s ease-out;
-    background: rgba(100, 53, 201, 0.96);
-  }
-
-  #component.browserHeader .ui.button.browserGo:hover {
-    transition: background, color .840s ease-out;
-    background: rgba(100, 53, 201, 0.96);
-    color: rgba(241, 241, 241, 0.96);
-    border: none;
-  }
 
   /*
    * COMPONENT: TERMINAL-LAYOUT
