@@ -268,14 +268,16 @@ export default class FlowMetrics extends Component {
      ttmMins = avgTtm + " min";
    }
 
-    if (this.state.activeTtms && this.state.activeTtms.lfs) {
-      //lfs can be null if the streak is in progress
-      lfsMins = this.state.activeTtms.lfs + " min";
-    }
-
    if (this.state.activeTtms && this.state.activeTtms.flowPerDay) {
      flowHrs = Math.round(this.state.activeTtms.flowPerDay/60*10)/10 + " hrs";
    }
+
+   //TODO allow users to display the metrics of their choosing, these might all be useful
+
+    // if (this.state.activeTtms && this.state.activeTtms.lfs) {
+    //   //lfs can be null if the streak is in progress
+    //   lfsMins = this.state.activeTtms.lfs + " min";
+    // }
 
     // let mpd = "--";
     // let mpdUnits = "";

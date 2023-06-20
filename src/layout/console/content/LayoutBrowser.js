@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Icon, Input, Segment,} from "semantic-ui-react";
+import {Icon, Input, Segment,} from "semantic-ui-react";
 import {RendererControllerFactory} from "../../../controllers/RendererControllerFactory";
 import {BrowserRequestFactory} from "../../../controllers/BrowserRequestFactory";
 import FeatureToggle from "../../shared/FeatureToggle";

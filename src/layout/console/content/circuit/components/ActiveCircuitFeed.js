@@ -52,6 +52,7 @@ export default class ActiveCircuitFeed extends Component {
     this.lastFeedEvent = null;
     this.memberRequests = 0;
     this.loadCount = 0;
+    this.hasMessageAdded = false;
 
     this.pastChatMembersNotActive = [];
 
@@ -68,7 +69,9 @@ export default class ActiveCircuitFeed extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     //make sure we've got all our circuit members, and if not, send a retrieval request for them
 
-    this.scrollToFeedBottom();
+    if (this.hasMessageAdded && prevProps.feedEvents.length !== this.props.feedEvents.length) {
+      this.scrollToFeedBottom();
+    }
   }
 
   /**
@@ -77,6 +80,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   addChatMessage = (text, callback) => {
+    this.hasMessageAdded = true;
     let roomName = this.props.resource.uriArr[1];
     TalkToClient.publishChatToRoom(
       roomName + ActiveCircuitFeed.activeCircuitRoomSuffix,

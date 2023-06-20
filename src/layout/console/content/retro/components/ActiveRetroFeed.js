@@ -61,6 +61,7 @@ export default class ActiveRetroFeed extends Component {
     this.props.set(this);
   }
 
+
   /**
    * scroll to the bottom of the feed whenever we get some changes to the
    * messages array that drives the feed.
