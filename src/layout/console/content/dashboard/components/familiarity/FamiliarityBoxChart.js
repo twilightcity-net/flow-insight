@@ -15,6 +15,8 @@ export default class FamiliarityBoxChart extends Component {
     this.name = "[" + FamiliarityBoxChart.name + "]";
   }
 
+  static MIN_DEFAULT_BOX_SIZE = 5;
+
   componentDidMount() {
     if (this.props.tableDto) {
       this.displayChart(this.props.tableDto);
@@ -53,24 +55,51 @@ export default class FamiliarityBoxChart extends Component {
 
   displayChart(tableData) {
     this.blankOutChart();
-
-    this.createChart(tableData);
+    const familiarityRows = this.createFamiliarityRows(tableData);
+    this.createChart(familiarityRows);
   }
+
+  /**
+   * Extract out the rows to use with the column values
+   * set to properties so the code is easier to read and we don't have to have
+   * trims and parsing throughout the display code.
+   * @param tableData
+   */
+  createFamiliarityRows(tableData) {
+
+    let familiarityRows = [];
+
+    tableData.rowsOfPaddedCells.forEach((row) => {
+      const rowObj = {
+        username: row[0].trim(),
+        module: row[1].trim(),
+        box: row[2].trim(),
+        filesInBox: parseInt(row[3].trim(), 10),
+        filesVisited: parseInt(row[4].trim(), 10),
+        percentCoverage: parseInt(row[5].trim(), 10),
+        visitsPerFile: parseFloat(row[6].trim()),
+      }
+
+      if (rowObj.box !== "default" || rowObj.filesInBox > FamiliarityBoxChart.MIN_DEFAULT_BOX_SIZE) {
+        familiarityRows.push(rowObj);
+      }
+
+    });
+
+    return familiarityRows;
+  }
+
   /**
    * Display the chart on the screen
-   * @param treeData
+   * @param familiarityRows
    */
-  createChart(tableData) {
+  createChart(familiarityRows) {
     let titleMargin = 45;
     this.margin = 30;
     this.marginBetweenBoxesY = 5;
     this.marginBetweenBoxesX = 10;
-    this.height =
-      DimensionController.getFullRightPanelHeight() -
-      titleMargin;
-    this.width =
-      DimensionController.getFullRightPanelWidth() -
-      this.margin * 2;
+    this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
+    this.width = DimensionController.getFullRightPanelWidth() - this.margin * 2;
 
     let svg = d3
       .select("#chart")
@@ -81,42 +110,20 @@ export default class FamiliarityBoxChart extends Component {
     svg.style("transition", "opacity 0.333s ease-in-out");
     svg.style("opacity", "0");
 
-    let groupedByUser = this.groupByUser(
-      tableData.rowsOfPaddedCells
-    );
-    let boxGroupBreaks =
-      this.createBoxGroupBreaks(groupedByUser);
-    let moduleCountGroups =
-      this.createModuleCountGroups(groupedByUser);
+    let groupedByUser = this.groupByUser(familiarityRows);
+    let boxGroupBreaks = this.createBoxGroupBreaks(groupedByUser);
+    let moduleCountGroups = this.createModuleCountGroups(groupedByUser);
 
-    let boxProps = this.calculateBoxProps(
-      groupedByUser,
-      boxGroupBreaks
-    );
+    let boxProps = this.calculateBoxProps(groupedByUser, boxGroupBreaks);
 
-    this.createFamiliarityBoxes(
-      svg,
-      groupedByUser,
-      boxGroupBreaks,
-      boxProps
-    );
-    this.createBoxGroupBreakLines(
-      svg,
-      groupedByUser,
-      boxGroupBreaks,
-      boxProps
-    );
+    this.createFamiliarityBoxes(svg, groupedByUser, boxGroupBreaks, boxProps);
+    this.createBoxGroupBreakLines(svg, groupedByUser, boxGroupBreaks, boxProps);
     this.createUserLabels(svg, groupedByUser, boxProps);
-    this.createModuleLabels(
-      svg,
-      groupedByUser,
-      moduleCountGroups,
-      boxProps
-    );
+    this.createModuleLabels(svg, groupedByUser, moduleCountGroups, boxProps);
 
     this.createFamiliarityBoxOverlays(
       svg,
-      tableData.rowsOfPaddedCells,
+      familiarityRows,
       groupedByUser,
       boxGroupBreaks,
       boxProps
@@ -127,16 +134,8 @@ export default class FamiliarityBoxChart extends Component {
     }, 100);
   }
 
-  createModuleLabels(
-    svg,
-    groupedByUser,
-    moduleCountGroups,
-    boxProps
-  ) {
-    //gridtime, 7
-
-    svg
-      .selectAll("moduleLabel")
+  createModuleLabels(svg, groupedByUser, moduleCountGroups, boxProps) {
+    svg.selectAll("moduleLabel")
       .data(moduleCountGroups)
       .enter()
       .append("text")
@@ -146,36 +145,24 @@ export default class FamiliarityBoxChart extends Component {
           this.marginBetweenBoxesX / 2;
         return (
           boxProps.leftPadding +
-          ((boxProps.boxHeight + this.marginBetweenBoxesX) *
-            d.offset +
-            ((boxProps.boxHeight +
-              this.marginBetweenBoxesX) *
-              d.count) /
-              2 +
-            groupMargin)
+          ((boxProps.boxHeight + this.marginBetweenBoxesX) * d.offset +
+            ((boxProps.boxHeight + this.marginBetweenBoxesX) * d.count) / 2 + groupMargin)
         );
       })
-      .attr(
-        "y",
-        this.margin * 1.5 +
-          (boxProps.boxHeight + this.marginBetweenBoxesY) *
-            groupedByUser.length
-      )
+      .attr("y", this.margin * 1.5 +
+        (boxProps.boxHeight + this.marginBetweenBoxesY)
+        * groupedByUser.length)
       .attr("text-anchor", "middle")
       .attr("class", "axisLabel")
       .text((d) => this.toSizedModuleLabel(d, boxProps));
   }
 
   toSizedModuleLabel(d, boxProps) {
-    let moduleName = d.module.trim();
+    let moduleName = d.module;
     let characters = moduleName.length;
     let pixelsPerChar = 4;
 
-    if (
-      characters * pixelsPerChar >
-      d.count *
-        (boxProps.boxHeight + this.marginBetweenBoxesX)
-    ) {
+    if (characters * pixelsPerChar > d.count * (boxProps.boxHeight + this.marginBetweenBoxesX)) {
       moduleName = d.module.substr(0, 1) + "..";
     }
     return moduleName;
@@ -193,7 +180,7 @@ export default class FamiliarityBoxChart extends Component {
     let boxInModuleCount = 0;
     for (let i = 0; i < rows.length; i++) {
       let row = rows[i];
-      let module = row[1];
+      let module = row.module;
 
       if (lastModule !== null && module !== lastModule) {
         moduleGroups.push({
@@ -223,10 +210,7 @@ export default class FamiliarityBoxChart extends Component {
       .data(groupedByUser)
       .enter()
       .append("text")
-      .attr(
-        "x",
-        boxProps.leftPadding - this.marginBetweenBoxesX
-      )
+      .attr("x", boxProps.leftPadding - this.marginBetweenBoxesX)
       .attr("y", (d, i) => {
         return (
           this.margin +
@@ -249,16 +233,10 @@ export default class FamiliarityBoxChart extends Component {
       columns = groupedByUser[0].rows.length;
     }
 
-    let boxGroupMargin =
-      boxGroupBreaks.size * this.marginBetweenBoxesX;
+    let boxGroupMargin = boxGroupBreaks.size * this.marginBetweenBoxesX;
 
-    let boxHeightY =
-      (this.height - this.margin * 3.5) / rows -
-      this.marginBetweenBoxesY;
-    let boxHeightX =
-      (this.width - this.margin * 2 - boxGroupMargin) /
-        columns -
-      this.marginBetweenBoxesX;
+    let boxHeightY = (this.height - this.margin * 3.5) / rows - this.marginBetweenBoxesY;
+    let boxHeightX = (this.width - this.margin * 2 - boxGroupMargin) / columns - this.marginBetweenBoxesX;
 
     let boxHeight = boxHeightY;
     if (boxHeightX < boxHeightY) {
@@ -269,12 +247,8 @@ export default class FamiliarityBoxChart extends Component {
       boxHeight = maxBoxHeight;
     }
 
-    let extraLeftPaddingToCenter =
-      (this.width -
-        (boxHeight * columns +
-          this.marginBetweenBoxesX * columns +
-          boxGroupMargin)) /
-      2;
+    let extraLeftPaddingToCenter = (this.width - (boxHeight * columns
+        + this.marginBetweenBoxesX * columns + boxGroupMargin)) / 2;
 
     return {
       boxHeight: boxHeight,
@@ -285,22 +259,15 @@ export default class FamiliarityBoxChart extends Component {
     };
   }
 
-  createBoxGroupBreakLines(
-    svg,
-    groupedByUser,
-    boxGroupBreaks,
-    boxProps
-  ) {
+  createBoxGroupBreakLines(svg, groupedByUser, boxGroupBreaks, boxProps) {
     let offsetCount = 0;
     for (let breakIndex of boxGroupBreaks) {
-      let xPosition =
-        boxProps.leftPadding +
+      let xPosition = boxProps.leftPadding +
         (boxProps.boxHeight * (breakIndex + 1) +
           this.marginBetweenBoxesX * (breakIndex + 1) +
           offsetCount * this.marginBetweenBoxesX);
 
-      svg
-        .append("line")
+      svg.append("line")
         .attr("x1", xPosition)
         .attr("x2", xPosition)
         .attr("y1", this.margin)
@@ -340,8 +307,7 @@ export default class FamiliarityBoxChart extends Component {
         .enter()
         .append("rect")
         .attr("x", (d, index) => {
-          let extraOffset =
-            offsetCount * this.marginBetweenBoxesX;
+          let extraOffset = offsetCount * this.marginBetweenBoxesX;
           if (boxGroupBreaks.has(index)) {
             offsetCount++;
           }
@@ -359,27 +325,20 @@ export default class FamiliarityBoxChart extends Component {
             this.marginBetweenBoxesY * i +
             Math.round(
               boxProps.boxHeight *
-                (1 - parseInt(d[5], 10) / 100)
+                (1 - d.percentCoverage / 100)
             )
           );
         })
         .attr("width", boxProps.boxHeight)
         .attr("height", (d) =>
-          Math.round(
-            boxProps.boxHeight * (parseInt(d[5], 10) / 100)
-          )
+          Math.round(boxProps.boxHeight * (d.percentCoverage / 100))
         )
-        .attr("fill", (d) => interp(parseInt(d[6], 10)))
+        .attr("fill", (d) => interp(d.visitsPerFile))
         .attr("class", "boxOverlay");
     }
   }
 
-  createFamiliarityBoxes(
-    svg,
-    groupedByUser,
-    boxGroupBreaks,
-    boxProps
-  ) {
+  createFamiliarityBoxes(svg, groupedByUser, boxGroupBreaks, boxProps) {
     for (let i = 0; i < groupedByUser.length; i++) {
       let offsetCount = 0;
       let that = this;
@@ -389,8 +348,7 @@ export default class FamiliarityBoxChart extends Component {
         .enter()
         .append("rect")
         .attr("x", (d, index) => {
-          let extraOffset =
-            offsetCount * this.marginBetweenBoxesX;
+          let extraOffset = offsetCount * this.marginBetweenBoxesX;
           if (boxGroupBreaks.has(index)) {
             offsetCount++;
           }
@@ -401,12 +359,7 @@ export default class FamiliarityBoxChart extends Component {
             this.marginBetweenBoxesX * index
           );
         })
-        .attr(
-          "y",
-          this.margin +
-            i * boxProps.boxHeight +
-            this.marginBetweenBoxesY * i
-        )
+        .attr("y", this.margin + i * boxProps.boxHeight + this.marginBetweenBoxesY * i)
         .attr("width", boxProps.boxHeight)
         .attr("height", boxProps.boxHeight)
         .attr("class", "box")
@@ -424,21 +377,21 @@ export default class FamiliarityBoxChart extends Component {
 
           let html =
             "<div class='tipBox'>" +
-            d[0].trim() +
+            d.username +
             ":: " +
-            d[1].trim() +
+            d.module +
             "." +
-            d[2] +
+            d.box +
             "</div>";
           html +=
             "<div class='tipDetail'>" +
-            d[4].trim() +
+            d.filesVisited +
             "/" +
-            d[3].trim() +
+            d.filesInBox +
             " files</div>";
           html +=
             "<div class='tipDetail'>" +
-            d[6].trim() +
+            d.visitsPerFile +
             " visits per file</div>";
 
           d3.select("#tooltip")
@@ -451,9 +404,7 @@ export default class FamiliarityBoxChart extends Component {
                 that.marginBetweenBoxesX / 2 +
                 "px"
             )
-            .style(
-              "top",
-              yPosition + 45 + 50 + shiftBelowBox + "px"
+            .style("top", yPosition + 45 + 50 + shiftBelowBox + "px"
             )
             .style("opacity", 0.85);
         })
@@ -474,7 +425,7 @@ export default class FamiliarityBoxChart extends Component {
     let lastModule = null;
     for (let i = 0; i < boxRowsForUser.length; i++) {
       let row = boxRowsForUser[i];
-      let module = row[1];
+      let module = row.module;
       if (lastModule !== null && module !== lastModule) {
         boxGroupBreaks.add(i - 1);
       }
@@ -490,14 +441,11 @@ export default class FamiliarityBoxChart extends Component {
     let currentRowSet = [];
     for (let i = 0; i < data.length; i++) {
       let d = data[i];
-      let username = d[0];
+      let username = d.username;
       if (!lastUsername || username === lastUsername) {
         currentRowSet.push(d);
       } else {
-        userRows.push({
-          username: lastUsername,
-          rows: currentRowSet,
-        });
+        userRows.push({username: lastUsername, rows: currentRowSet,});
         currentRowSet = [];
         currentRowSet.push(d);
       }
@@ -509,8 +457,6 @@ export default class FamiliarityBoxChart extends Component {
       rows: currentRowSet,
     });
 
-    console.log("userrows");
-    console.log(userRows);
     return userRows;
   }
 
@@ -535,7 +481,7 @@ export default class FamiliarityBoxChart extends Component {
       <div>
         {title}
         <div id="chart" className="familiarityChart" />
-        <div id="tooltip" className="chartpopup"></div>
+        <div id="tooltip" className="chartpopup"/>
       </div>
     );
   }
