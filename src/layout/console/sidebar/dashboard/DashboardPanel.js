@@ -13,6 +13,7 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
 import ScopeSelectionDropdown from "./ScopeSelectionDropdown";
 import { TeamClient } from "../../../../clients/TeamClient";
 import DashboardResource from "../../content/dashboard/DashboardResource";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 
 /**
  * this component is the left side panel wrapper for the dashboard content
@@ -69,17 +70,14 @@ export default class DashboardPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        activeItem:
-          SidePanelViewController.SubmenuSelection
-            .DASHBOARD,
+        activeItem: SidePanelViewController.SubmenuSelection.DASHBOARD,
         dashboardVisible: false,
-        animationType:
-          SidePanelViewController.AnimationTypes.FLY_DOWN,
-        animationDelay:
-          SidePanelViewController.AnimationDelays.SUBMENU,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
         dashboardTarget: DashboardPanel.Target.TEAM,
         dashboardTimeScope: DashboardPanel.TimeScope.ALL,
+        dashboardPage: null,
       };
     }
     return state;
@@ -111,12 +109,20 @@ export default class DashboardPanel extends Component {
         console.error(arg.error);
       }
     });
+
+    this.dashboardLoadListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_DASHBOARD_LOAD,
+        this,
+        this.onDashboardLoad
+      );
   };
 
   /**
    * detach any listeners when we remove this from view
    */
   componentWillUnmount = () => {
+    this.dashboardLoadListener.clear();
     this.myController.configureDashboardPanelListener(
       this,
       null
@@ -124,21 +130,65 @@ export default class DashboardPanel extends Component {
   };
 
   /**
+   * When the dashboard content page loads, we get a callback event
+   */
+  onDashboardLoad(event, arg) {
+    console.log("dashboard loaded!");
+    if (arg) {
+      const page = arg.dashboardType;
+      const dashboardTarget = this.getDashboardTargetFromType(arg.targetType);
+      const dashboardTimescope = this.getDashboardTimescopeFromScopeInput(arg.timeScope);
+
+      this.setState({
+        dashboardPage: page,
+        dashboardTarget: dashboardTarget,
+        dashboardTimeScope: dashboardTimescope
+      });
+    }
+  }
+
+  /**
+   * Translate a target type from our dashboard load back into a target type
+   * appropriate for our dropdown
+   * @param targetType
+   */
+  getDashboardTargetFromType(targetType) {
+    if (targetType === DashboardPanel.TargetType.USER) {
+      return DashboardPanel.Target.ME;
+    } else if (targetType === DashboardPanel.TargetType.TEAM) {
+      return DashboardPanel.Target.TEAM;
+    }
+  }
+
+  /**
+   * Translates a dashboard load timescope into a valid selection for the panel dropdown.
+   * If a timescope is manually set, we may need to adapt to choosing a default
+   * because nothing will match
+   * @param timeScope
+   */
+  getDashboardTimescopeFromScopeInput(timeScope) {
+    if (timeScope === DashboardPanel.TimeScope.ALL ||
+      timeScope === DashboardPanel.TimeScope.LATEST_TWO ||
+      timeScope === DashboardPanel.TimeScope.LATEST_FOUR ||
+      timeScope === DashboardPanel.TimeScope.LATEST_FOUR) {
+      return timeScope;
+    } else {
+      return DashboardPanel.TimeScope.ALL;
+    }
+  }
+
+  /**
    * called when refreshing the view which is triggered by any perspective
    * change by an event or menu
    */
   onRefreshDashboardPanel() {
-    switch (
-      this.myController.activeDashboardSubmenuSelection
-    ) {
-      case SidePanelViewController.SubmenuSelection
-        .DASHBOARD:
-        this.showDashboardPanel();
-        break;
-      default:
-        throw new Error(
-          "Unknown dashboard panel menu item"
-        );
+    if (this.myController.activeDashboardSubmenuSelection
+      === SidePanelViewController.SubmenuSelection.DASHBOARD) {
+      this.showDashboardPanel();
+    } else {
+      throw new Error(
+        "Unknown dashboard panel menu item"
+      );
     }
   }
 
@@ -170,8 +220,24 @@ export default class DashboardPanel extends Component {
    * @param page
    */
   handleRiskAreaClick = (page) => {
-    let targetType = this.getTargetTypeForBrowserRequest();
-    let target = this.getTargetForBrowserRequest();
+    let targetType = this.getTargetTypeForBrowserRequest(this.state.dashboardTarget);
+    let target = this.getTargetForBrowserRequest(this.state.dashboardTarget);
+
+    this.setState({
+      dashboardPage: page
+    });
+
+    this.handleDashboardReload(page, targetType, target, this.state.dashboardTimeScope);
+  };
+
+  /**
+   * Reload the dashboard page with the supplied target params
+   * @param page
+   * @param targetType
+   * @param target
+   * @param timeScope
+   */
+  handleDashboardReload(page, targetType, target, timeScope) {
 
     if (page === DashboardResource.DashboardType.CODEBASE) {
       let request = BrowserRequestFactory.createRequest(
@@ -179,7 +245,7 @@ export default class DashboardPanel extends Component {
         DashboardResource.DashboardType.CODEBASE,
         targetType,
         target,
-        this.state.dashboardTimeScope
+        timeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
     } else if (
@@ -190,7 +256,7 @@ export default class DashboardPanel extends Component {
         DashboardResource.DashboardType.FAMILIARITY,
         targetType,
         target,
-        this.state.dashboardTimeScope
+        timeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
     } else if (
@@ -201,7 +267,7 @@ export default class DashboardPanel extends Component {
         DashboardResource.DashboardType.MOMENTUM,
         targetType,
         target,
-        this.state.dashboardTimeScope
+        timeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
     } else if (
@@ -212,15 +278,62 @@ export default class DashboardPanel extends Component {
         DashboardResource.DashboardType.TAGS,
         targetType,
         target,
-        this.state.dashboardTimeScope
+        timeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
     } else {
-      console.error(
-        "Unknown risk area page, unable to load"
-      );
+      console.error("Unknown risk area page, unable to load");
     }
+  }
+
+  onChangeTarget = (changedTarget) => {
+    console.log("Change target!");
+
+    if (this.state.dashboardPage) {
+      let targetType = this.getTargetTypeForBrowserRequest(changedTarget);
+      let target = this.getTargetForBrowserRequest(changedTarget);
+      this.handleDashboardReload(this.state.dashboardPage, targetType, target, this.state.dashboardTimeScope);
+    }
+
+    this.setState({
+      dashboardTarget: changedTarget,
+    });
   };
+
+  onChangeTimeScope = (timeScope) => {
+    console.log("Change timescope!");
+
+    if (this.state.dashboardPage) {
+      let targetType = this.getTargetTypeForBrowserRequest(this.state.dashboardTarget);
+      let target = this.getTargetForBrowserRequest(this.state.dashboardTarget);
+      this.handleDashboardReload(this.state.dashboardPage, targetType, target, timeScope);
+    }
+
+    this.setState({
+      dashboardTimeScope: timeScope,
+    });
+  };
+
+  getTargetTypeForBrowserRequest(targetInput) {
+    if (targetInput === DashboardPanel.Target.ME) {
+      return DashboardPanel.TargetType.USER;
+    } else if (targetInput === DashboardPanel.Target.TEAM) {
+      return DashboardPanel.TargetType.TEAM;
+    }
+  }
+
+  getTargetForBrowserRequest(targetInput) {
+    if (targetInput === DashboardPanel.Target.ME) {
+      return targetInput;
+    } else if (targetInput === DashboardPanel.Target.TEAM) {
+      if (this.homeTeam) {
+        return this.homeTeam.name;
+      } else {
+        return "unknown";
+      }
+    }
+  }
+
 
   /**
    * gets the badges content panel for the sidebar
@@ -248,6 +361,7 @@ export default class DashboardPanel extends Component {
           <RiskAreaListItem
             id={DashboardResource.DashboardType.CODEBASE}
             title={"Codebase"}
+            active={this.state.dashboardPage === DashboardResource.DashboardType.CODEBASE}
             description={"Top confusion by area of code"}
             tipInstruction={
               "Code areas with a high amount of confusion indicate a potential opportunity for refactoring and simplification"
@@ -257,6 +371,7 @@ export default class DashboardPanel extends Component {
           <RiskAreaListItem
             id={DashboardResource.DashboardType.MOMENTUM}
             title={"Momentum"}
+            active={this.state.dashboardPage === DashboardResource.DashboardType.MOMENTUM}
             description={"Trending momentum and friction"}
             tipInstruction={
               "Overall momentum is an indicator of a healthy codebase and knowledgeable team. Drops in momentum are an indicator of difficulties"
@@ -266,6 +381,7 @@ export default class DashboardPanel extends Component {
           <RiskAreaListItem
             id={DashboardResource.DashboardType.FAMILIARITY}
             title={"Familiarity"}
+            active={this.state.dashboardPage === DashboardResource.DashboardType.FAMILIARITY}
             description={"Knowledge gaps by area of code"}
             tipInstruction={
               "Expanding our knowledge of more areas of code reduces the likelihood of mistakes and confusion, and increases momentum"
@@ -275,6 +391,7 @@ export default class DashboardPanel extends Component {
           <RiskAreaListItem
             id={DashboardResource.DashboardType.TAGS}
             title={"Pain Types"}
+            active={this.state.dashboardPage === DashboardResource.DashboardType.TAGS}
             description={
               "Top tags from troubleshooting sessions"
             }
@@ -288,17 +405,6 @@ export default class DashboardPanel extends Component {
     );
   };
 
-  onChangeTarget = (target) => {
-    this.setState({
-      dashboardTarget: target,
-    });
-  };
-
-  onChangeTimeScope = (timeScope) => {
-    this.setState({
-      dashboardTimeScope: timeScope,
-    });
-  };
 
   /**
    * renders the console sidebar dashboard panel of the console view
@@ -343,35 +449,5 @@ export default class DashboardPanel extends Component {
     );
   }
 
-  getTargetTypeForBrowserRequest() {
-    if (
-      this.state.dashboardTarget ===
-      DashboardPanel.Target.ME
-    ) {
-      return DashboardPanel.TargetType.USER;
-    } else if (
-      this.state.dashboardTarget ===
-      DashboardPanel.Target.TEAM
-    ) {
-      return DashboardPanel.TargetType.TEAM;
-    }
-  }
 
-  getTargetForBrowserRequest() {
-    if (
-      this.state.dashboardTarget ===
-      DashboardPanel.Target.ME
-    ) {
-      return this.state.dashboardTarget;
-    } else if (
-      this.state.dashboardTarget ===
-      DashboardPanel.Target.TEAM
-    ) {
-      if (this.homeTeam) {
-        return this.homeTeam.name;
-      } else {
-        return "unknown";
-      }
-    }
-  }
 }

@@ -82,7 +82,6 @@ export default class LayoutContent extends Component {
     if (resource.uriArr) {
       resource = resource.uriArr[0];
     }
-    console.log("resource: " + resource);
     switch (resource) {
       case MainPanelViewController.Resources.TERMINAL:
         component = (<TerminalResource resource={this.state.resource}/>);

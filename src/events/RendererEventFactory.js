@@ -91,6 +91,7 @@ export class RendererEventFactory {
       VIEW_CONSOLE_CIRCUITS_PANEL: prefix + "view-console-circuits-panel",
       VIEW_CONSOLE_NOTIFICATIONS_PANEL: prefix + "view-console-notifications-panel",
       VIEW_CONSOLE_DASHBOARD_PANEL: prefix + "view-console-dashboard-panel",
+      VIEW_CONSOLE_DASHBOARD_LOAD: prefix + "view-console-dashboard-load",
       VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE:  prefix + "view-console-circuit-join-leave",
       VIEW_CONSOLE_CIRCUIT_JOIN_FAIL: prefix + "view-console-circuit-join-fail",
       VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL: prefix + "view-console-circuit-state-change-fail",

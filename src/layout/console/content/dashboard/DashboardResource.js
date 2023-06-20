@@ -6,6 +6,7 @@ import TopTagsChartContent from "./components/TopTagsChartContent";
 import MomentumChartContent from "./components/MomentumChartContent";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for dashboard content
@@ -47,18 +48,31 @@ export default class DashboardResource extends Component {
     if (arr.length > 4) {
       selection = arr[5];
     }
-    this.setState({
+
+    let dashboardConfig = {
       dashboardType: arr[1],
       targetType: arr[2],
       target: arr[3],
       timeScope: arr[4],
       selection: selection
-    });
+    }
+    this.setState(dashboardConfig);
 
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES
     );
 
+    this.dashboardLoadNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_DASHBOARD_LOAD,
+        this
+      );
+
+    this.dashboardLoadNotifier.dispatch(dashboardConfig);
+  }
+
+  componentWillUnmount() {
+    this.dashboardLoadNotifier.clear();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -71,13 +85,18 @@ export default class DashboardResource extends Component {
         selection = arr[5];
       }
 
-      this.setState({
+      let dashboardConfig = {
         dashboardType: arr[1],
         targetType: arr[2],
         target: arr[3],
         timeScope: arr[4],
         selection: selection
-      });
+      };
+
+      this.setState(dashboardConfig);
+
+      console.log("dispatch on updated!");
+      this.dashboardLoadNotifier.dispatch(dashboardConfig);
     }
   }
 

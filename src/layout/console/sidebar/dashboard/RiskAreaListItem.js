@@ -39,6 +39,7 @@ export default class RiskAreaListItem extends Component {
   render() {
     return this.getPopupContent(
       <List.Item
+        className={this.props.active? "active" : ""}
         key={this.props.id}
         onClick={this.handleClick}
       >
