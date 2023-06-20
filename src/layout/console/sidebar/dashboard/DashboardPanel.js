@@ -116,6 +116,14 @@ export default class DashboardPanel extends Component {
         this,
         this.onDashboardLoad
       );
+
+    this.consoleBrowserLoadListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_BROWSER_LOAD,
+        this,
+        this.onBrowserLoad
+      );
   };
 
   /**
@@ -123,11 +131,27 @@ export default class DashboardPanel extends Component {
    */
   componentWillUnmount = () => {
     this.dashboardLoadListener.clear();
+    this.consoleBrowserLoadListener.clear();
     this.myController.configureDashboardPanelListener(
       this,
       null
     );
   };
+
+  /**
+   * On a general browser page load that isn't the dashboard, clear our active state
+   * @param event
+   * @param resource
+   */
+  onBrowserLoad(event, resource) {
+    if (resource.uriArr && resource.uriArr[0] !== "dashboard") {
+      this.setState({
+        dashboardPage: null,
+        dashboardTarget: DashboardPanel.Target.TEAM,
+        dashboardTimeScope: DashboardPanel.TimeScope.ALL
+      });
+    }
+  }
 
   /**
    * When the dashboard content page loads, we get a callback event
