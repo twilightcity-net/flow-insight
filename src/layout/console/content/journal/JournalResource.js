@@ -815,6 +815,18 @@ export default class JournalResource extends Component {
     }
   };
 
+
+  /**
+   * Returns true if the comment is a variation of done!
+   * Can be done!  done!!  Done!  DONE!! etc but not a comment that includes done and other (non-punctuation) things.
+   * @param item
+   */
+  isDoneComment(item) {
+    let comment = item.description;
+    return (item.isTaskDoneComment || comment.toLowerCase().startsWith("done") && comment.length < 8);
+  }
+
+
   /**
    * saves the journal entry from the callback event
    * @param projectId
@@ -826,6 +838,11 @@ export default class JournalResource extends Component {
     taskId,
     intention
   ) => {
+    //TODO when we create a done comment, we want to finish the task (and still create the intention)
+
+    let isDoneComment = this.isDoneComment(intention);
+
+    console.log("isDone = "+isDoneComment);
     JournalClient.createIntention(
       projectId,
       taskId,
@@ -1096,7 +1113,7 @@ export default class JournalResource extends Component {
     return this.state.journalIntentions.map((item) => {
       let isActiveRow =
         activeItem !== null && activeItem.id === item.id;
-
+      const isDoneRow = this.isDoneComment(item);
       return (
         <JournalItem
           key={item.id}
@@ -1107,6 +1124,7 @@ export default class JournalResource extends Component {
               ? this.state.activeFlameUpdate
               : null
           }
+          isDoneRow={isDoneRow}
           isActiveRow={isActiveRow}
           onRowClick={this.onRowClick}
           onFinishIntention={this.onFinishIntention}

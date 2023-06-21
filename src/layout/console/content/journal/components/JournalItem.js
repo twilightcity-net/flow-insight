@@ -150,6 +150,10 @@ export default class JournalItem extends Component {
     let finishStatus = this.props.model.finishStatus,
       username = this.props.model.username;
 
+    if (this.props.isDoneRow) {
+      return this.getFinishStatusTaskDoneContent();
+    }
+
     switch (finishStatus) {
       case JournalItem.Status.DONE:
         return this.getFinishStatusDoneContent();
@@ -173,6 +177,18 @@ export default class JournalItem extends Component {
       <Icon.Group size="large" className="doneGreenDark">
         <Icon size="small" name="circle outline" />
         <Icon size="small" name="check" />
+      </Icon.Group>
+    );
+  }
+
+  /**
+   * render the status finished as done with a green check mark
+   * @returns {*}
+   */
+  getFinishStatusTaskDoneContent() {
+    return (
+      <Icon.Group size="large" className="donePurple">
+        <Icon size="small" name="star" />
       </Icon.Group>
     );
   }
@@ -307,6 +323,8 @@ export default class JournalItem extends Component {
    * @returns {string|*}
    */
   getAbortCellContent() {
+    if (this.props.isDoneRow) return "";
+
     let finishStatus = this.props.model.finishStatus;
     if (
       !(
