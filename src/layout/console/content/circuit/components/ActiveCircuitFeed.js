@@ -69,7 +69,7 @@ export default class ActiveCircuitFeed extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     //make sure we've got all our circuit members, and if not, send a retrieval request for them
 
-    if (this.hasMessageAdded && prevProps.feedEvents.length !== this.props.feedEvents.length) {
+    if (this.hasMessageAdded) {
       this.scrollToFeedBottom();
     }
   }
@@ -108,7 +108,7 @@ export default class ActiveCircuitFeed extends Component {
     let feedElement = document.getElementById(
       ActiveCircuitFeed.activeCircuitFeedElIdString
     );
-    feedElement.scrollTop = feedElement.scrollHeight;
+    feedElement.scroll({ top: feedElement.scrollHeight, behavior: 'smooth' });
   };
 
   /**

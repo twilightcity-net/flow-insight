@@ -373,6 +373,7 @@ export default class FamiliarityBoxChart extends Component {
             event.target.getAttribute("y"),
             10
           );
+
           let shiftBelowBox = 30;
 
           let html =
@@ -394,16 +395,15 @@ export default class FamiliarityBoxChart extends Component {
             d.visitsPerFile +
             " visits per file</div>";
 
+          let tipEl = document.getElementById("tooltip");
+          tipEl.innerHTML = html;
+
+          let tipWidth = tipEl.clientWidth;
+
           d3.select("#tooltip")
             .html(html)
-            .style(
-              "left",
-              xPosition -
-                that.margin -
-                boxProps.boxHeight / 2 -
-                that.marginBetweenBoxesX / 2 +
-                "px"
-            )
+            .style("left", (xPosition - tipWidth/2 + that.margin
+              + boxProps.boxHeight / 2 + that.marginBetweenBoxesX / 2) + "px")
             .style("top", yPosition + 45 + 50 + shiftBelowBox + "px"
             )
             .style("opacity", 0.85);
