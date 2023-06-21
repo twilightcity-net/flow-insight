@@ -1425,14 +1425,6 @@
     background: #6435c9 !important;
   }
 
-  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected {
-    background: rgba(48, 48, 49, 1);
-  }
-
-  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected .circuitLabelTimer .ui.label {
-    background: red !important;
-    color: white !important;
-  }
 
   #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .circuitLabelTimer .ui.label {
     padding: 0.420em 0.840em;
@@ -1456,11 +1448,6 @@
   #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .closeButton:hover {
     background-color: rgba(180, 0, 0, 0.96);
     color: rgba(200, 200, 200, 0.96);
-  }
-
-  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected .circuitLabelTimer .heatbar {
-    background: red !important;
-    color: white !important;
   }
 
   #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .circuitLabelTimer .heatbar {
@@ -1511,11 +1498,38 @@
 
   #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.hoverHighlight {
     padding-left: 1.260em;
-    background: #272727;
+    background: rgba(40, 41, 42, 0.96);
   }
 
-  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected {
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active {
     padding-left: 1.260em;
+    background: rgba(65, 65, 65, 0.96);
+  }
+
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active .circuitLabelTimer .heatbar .bar {
+    background: rgb(120, 0, 0, 1) !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active .circuitLabelTimer .heatbar {
+    background: rgba(55, 55, 55, 1) !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active .circuitLabelTimer .ui.label.violet {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active .circuitLabelTimer .ui.label.red {
+    background: red !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active .closeButton {
+    background-color: rgba(65, 65, 65, 0.96);
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.active .closeButton:hover {
+    background-color: rgba(180, 0, 0, 0.96);
+    color: rgba(200, 200, 200, 0.96);
   }
 
   /*
@@ -2801,7 +2815,7 @@
   }
 
   #component.consoleSidebarPanel .riskAreaContent .item.active {
-    background: rgba(74, 74, 74, 0.96);
+    background: rgba(65, 65, 65, 0.96);
   }
 
   #component.consoleSidebarPanel .scopeSelection {

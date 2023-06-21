@@ -9,7 +9,7 @@ import {
   Transition,
 } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
-import LayoutBrowser from "./LayoutBrowser";
+import BrowserLayout from "./BrowserLayout";
 import { MainPanelViewController } from "../../../controllers/MainPanelViewController";
 import RetroResource from "./retro/RetroResource";
 import PlayResource from "./play/PlayResource";
@@ -156,7 +156,7 @@ export default class LayoutContent extends Component {
       resource = resource.uriArr[0];
     }
     return (
-      <LayoutBrowser scope={scope} resource={resource} />
+      <BrowserLayout scope={scope} resource={resource} />
     );
   };
 

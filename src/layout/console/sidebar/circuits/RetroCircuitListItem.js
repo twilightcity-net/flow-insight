@@ -22,6 +22,15 @@ export default class RetroCircuitListItem extends Component {
   }
 
   static highlightClass = "hoverHighlight";
+  static activeClass = "active";
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+
+    if (this.props.forceHighlight !== prevProps.forceHighlight) {
+      this.scrollToItemOnForceHighlight();
+    }
+  }
+
 
   /**
    * click handler for our retro component.
@@ -58,15 +67,9 @@ export default class RetroCircuitListItem extends Component {
    * set to true or not.
    */
   getClassName() {
-    let el = document.getElementById("item-"+this.props.model.id);
-    if (el && this.props.forceHighlight) {
-      setTimeout(() => {
-        el.scrollIntoView({behavior: "smooth", block: 'nearest', inline: 'start' });
-      }, 100);
-    }
-
-
-    if (this.props.forceHighlight) {
+    if (this.props.active) {
+      return RetroCircuitListItem.activeClass;
+    } else if (this.props.forceHighlight) {
       return RetroCircuitListItem.highlightClass;
     } else {
       return "";
@@ -193,10 +196,22 @@ export default class RetroCircuitListItem extends Component {
       );
     }
   }
+
+  scrollToItemOnForceHighlight() {
+    let el = document.getElementById("item-"+this.props.model.id);
+
+    if (el && this.props.forceHighlight) {
+      setTimeout(() => {
+        el.scrollIntoView({behavior: "smooth", block: 'nearest', inline: 'start' });
+      }, 100);
+    }
+  }
+
   /**
    * renders our shit.
    */
   render() {
+
     return this.getPopupContent(
       <List.Item
         key={this.props.model.id}

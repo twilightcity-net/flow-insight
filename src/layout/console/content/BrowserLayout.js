@@ -7,7 +7,7 @@ import FeatureToggle from "../../shared/FeatureToggle";
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class LayoutBrowser extends Component {
+export default class BrowserLayout extends Component {
   /**
    * default string we show in the address bar
    * @type {string}
@@ -20,7 +20,7 @@ export default class LayoutBrowser extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[LayoutBrowser]";
+    this.name = "[BrowserLayout]";
     this.isFirstRun = true;
     this.state = {
       disableControls: false,
@@ -283,7 +283,7 @@ export default class LayoutBrowser extends Component {
             label="talk://"
             fluid
             inverted
-            placeholder={LayoutBrowser.locationStr}
+            placeholder={BrowserLayout.locationStr}
             value={this.state.location.toLowerCase()}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}

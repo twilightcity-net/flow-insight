@@ -29,6 +29,14 @@ export default class RetroResource extends Component {
         RendererControllerFactory.Views.RESOURCES,
         this
       );
+  }
+
+
+  /**
+   * mounts our circuit component and supporting top level data.
+   * If there's an active retro feed going, this also joins us to the live retro room.
+   */
+  componentDidMount() {
     this.talkRoomMessageListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
@@ -50,7 +58,65 @@ export default class RetroResource extends Component {
         this,
         this.handleJoinError
       );
+
+    this.retroLoadNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_RETRO_LOAD,
+        this
+      );
+
+
+    let circuitName = this.props.resource.uriArr[1];
+    this.loadTopLevelCircuit(circuitName);
   }
+
+  /**
+   * when the component is unmounted be sure to leave the existing talk room,
+   * because we don't want to keep receiving talk messages after we've left
+   * from other users that are still in the circuit chat room.
+   */
+  componentWillUnmount() {
+    if (
+      this.state.circuit &&
+      this.state.circuit.retroTalkRoomId
+    ) {
+      this.resourcesController.leaveExistingRoomWithRoomId(
+        this.state.circuit.retroTalkRoomId
+      );
+    }
+
+    this.talkRoomMessageListener.clear();
+    this.circuitsRefreshListener.clear();
+    this.circuitJoinRoomFailListener.clear();
+    this.retroLoadNotifier.clear();
+  }
+  /**
+   * Updates the state of the circuit, based on a state change, or the resource uri
+   * changing entirely
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.resource.uri !== prevProps.resource.uri) {
+      if (
+        prevState.circuit &&
+        prevState.circuit.retroTalkRoomId
+      ) {
+        this.resourcesController.leaveExistingRoomWithRoomId(
+          prevState.circuit.retroTalkRoomId
+        );
+      }
+
+      if (prevState.error) {
+        this.setState({ error: null });
+      }
+
+      let circuitName = this.props.resource.uriArr[1];
+      this.loadTopLevelCircuit(circuitName);
+    }
+  }
+
 
   /**
    * Force refresh the circuit data manually on triggering event.  This is called after the connection
@@ -58,6 +124,7 @@ export default class RetroResource extends Component {
    */
   onCircuitDataRefresh() {
     let circuitName = this.props.resource.uriArr[1];
+
     this.loadTopLevelCircuit(circuitName);
   }
 
@@ -110,42 +177,6 @@ export default class RetroResource extends Component {
   }
 
   /**
-   * mounts our circuit component and supporting top level data.
-   * If there's an active retro feed going, this also joins us to the live retro room.
-   */
-  componentDidMount() {
-    let circuitName = this.props.resource.uriArr[1];
-    this.loadTopLevelCircuit(circuitName);
-  }
-
-  /**
-   * Updates the state of the circuit, based on a state change, or the resource uri
-   * changing entirely
-   * @param prevProps
-   * @param prevState
-   * @param snapshot
-   */
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.resource.uri !== prevProps.resource.uri) {
-      if (
-        prevState.circuit &&
-        prevState.circuit.retroTalkRoomId
-      ) {
-        this.resourcesController.leaveExistingRoomWithRoomId(
-          prevState.circuit.retroTalkRoomId
-        );
-      }
-
-      if (prevState.error) {
-        this.setState({ error: null });
-      }
-
-      let circuitName = this.props.resource.uriArr[1];
-      this.loadTopLevelCircuit(circuitName);
-    }
-  }
-
-  /**
    * Loads the data for the top level circuit objects and saves into the state.
    * These get passed down as properties to the rendering views.
    * @param circuitName
@@ -165,6 +196,8 @@ export default class RetroResource extends Component {
           this.setState({
             circuit: this.circuit,
           });
+          this.retroLoadNotifier.dispatch({circuitName: circuitName});
+
           if (this.circuit.retroTalkRoomId) {
             this.resourcesController.joinExistingRoomWithRoomId(
               this.circuit.retroTalkRoomId
@@ -190,21 +223,7 @@ export default class RetroResource extends Component {
     });
   }
 
-  /**
-   * when the component is unmounted be sure to leave the existing talk room,
-   * because we don't want to keep receiving talk messages after we've left
-   * from other users that are still in the circuit chat room.
-   */
-  componentWillUnmount() {
-    if (
-      this.state.circuit &&
-      this.state.circuit.retroTalkRoomId
-    ) {
-      this.resourcesController.leaveExistingRoomWithRoomId(
-        this.state.circuit.retroTalkRoomId
-      );
-    }
-  }
+
 
   /**
    * renders the retro layout

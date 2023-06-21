@@ -41,24 +41,43 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuits: [],
       retroCircuits: [],
       solvedCircuits: [],
-      forceHighlightCircuit: null
+      forceHighlightCircuit: null,
+      activeCircuit: null
     };
     this.myController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
       );
 
-    this.animationType =
-      SidePanelViewController.AnimationTypes.FLY_DOWN;
-    this.animationDelay =
-      SidePanelViewController.AnimationDelays.SUBMENU;
+    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
     this.selections = {
       activeCircuitComponent: null,
       doItLaterCircuitComponent: null,
       retroCircuitComponent: null,
     };
 
+  }
 
+  onRetroLoad = (event, arg) => {
+    console.log("retro loaded = "+arg.circuitName);
+    this.setState({
+      activeCircuit: arg.circuitName
+    });
+  }
+
+  /**
+   * On a general browser page load that isn't the dashboard, clear our active state
+   * @param event
+   * @param resource
+   */
+  onBrowserLoad(event, resource) {
+    if (resource.uriArr && resource.uriArr[0] !== "retro") {
+      this.setState({
+        activeCircuit: null,
+        forceHighlightCircuit: null
+      });
+    }
   }
 
   /**
@@ -80,9 +99,7 @@ export default class CircuitsPanel extends Component {
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType;
 
-    if (
-      mType === BaseClient.MessageTypes.WTF_STATUS_UPDATE
-    ) {
+    if (mType === BaseClient.MessageTypes.WTF_STATUS_UPDATE) {
       this.onCircuitStartStop();
     }
   };
@@ -108,6 +125,21 @@ export default class CircuitsPanel extends Component {
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
         this,
         this.onTalkRoomMessage
+      );
+
+    this.retroLoadListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_RETRO_LOAD,
+        this,
+        this.onRetroLoad
+      );
+
+    this.consoleBrowserLoadListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_BROWSER_LOAD,
+        this,
+        this.onBrowserLoad
       );
 
     this.circuitsRefreshListener =
@@ -161,6 +193,8 @@ export default class CircuitsPanel extends Component {
     this.circuitsRefreshListener.clear();
     this.controlPointHoverListener.clear();
     this.troubleRowHoverNotifier.clear();
+    this.retroLoadListener.clear();
+    this.consoleBrowserLoadListener.clear();
     this.circuitStartStopListener.updateCallback(
       this,
       null
@@ -216,8 +250,7 @@ export default class CircuitsPanel extends Component {
       case SidePanelViewController.SubmenuSelection.ACTIVE:
         this.showLiveCircuitsPanel();
         break;
-      case SidePanelViewController.SubmenuSelection
-        .DO_IT_LATER:
+      case SidePanelViewController.SubmenuSelection.DO_IT_LATER:
         this.showDoItLaterCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection.RETRO:
@@ -258,9 +291,7 @@ export default class CircuitsPanel extends Component {
    */
   showDoItLaterCircuitsPanel() {
     this.setState({
-      activeItem:
-        SidePanelViewController.SubmenuSelection
-          .DO_IT_LATER,
+      activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: true,
       retroCircuitVisible: false,
@@ -282,8 +313,7 @@ export default class CircuitsPanel extends Component {
    */
   showRetroCircuitsPanel() {
     this.setState({
-      activeItem:
-        SidePanelViewController.SubmenuSelection.RETRO,
+      activeItem: SidePanelViewController.SubmenuSelection.RETRO,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: true,
@@ -488,6 +518,7 @@ export default class CircuitsPanel extends Component {
               key={model.id}
               model={model}
               maxTime={maxTime}
+              active={this.state.activeCircuit === model.circuitName}
               forceHighlight={this.state.forceHighlightCircuit === model.circuitName}
               onRetroCircuitListItemHover={this.handleHoverRetroCircuit}
               onRetroCircuitListItemHoverOff={this.handleHoverOffRetroCircuit}
@@ -500,6 +531,7 @@ export default class CircuitsPanel extends Component {
               key={model.id}
               model={model}
               maxTime={maxTime}
+              active={this.state.activeCircuit === model.circuitName}
               forceHighlight={this.state.forceHighlightCircuit === model.circuitName}
               onRetroCircuitListItemHover={this.handleHoverRetroCircuit}
               onRetroCircuitListItemHoverOff={this.handleHoverOffRetroCircuit}
@@ -533,21 +565,13 @@ export default class CircuitsPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name={
-                SidePanelViewController.SubmenuSelection.DO_IT_LATER
-              }
-              active={
-                activeItem === SidePanelViewController.SubmenuSelection.DO_IT_LATER
-              }
+              name={SidePanelViewController.SubmenuSelection.DO_IT_LATER}
+              active={activeItem === SidePanelViewController.SubmenuSelection.DO_IT_LATER}
               onClick={this.handleCircuitSubmenuClick}
             />
             <Menu.Item
-              name={
-                SidePanelViewController.SubmenuSelection.RETRO
-              }
-              active={
-                activeItem === SidePanelViewController.SubmenuSelection.RETRO
-              }
+              name={SidePanelViewController.SubmenuSelection.RETRO}
+              active={activeItem === SidePanelViewController.SubmenuSelection.RETRO}
               onClick={this.handleCircuitSubmenuClick}
             />
           </Menu>
