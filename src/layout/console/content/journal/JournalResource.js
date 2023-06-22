@@ -823,7 +823,7 @@ export default class JournalResource extends Component {
    */
   isDoneComment(item) {
     let comment = item.description;
-    return (item.isTaskDoneComment || comment.toLowerCase().startsWith("done") && comment.length < 8);
+    return (item.isTaskDoneComment || (comment && comment.toLowerCase().startsWith("done") && comment.length < 8));
   }
 
 
