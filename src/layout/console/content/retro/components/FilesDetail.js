@@ -5,6 +5,7 @@ import FileMetricsRow from "./FileMetricsRow";
 import FileMetricsHeader from "./FileMetricsHeader";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
+import {CodeClient} from "../../../../../clients/CodeClient";
 
 /**
  * this is the gui component that displays the details of all our metrics for the troubleshooting session,
@@ -43,6 +44,31 @@ export default class FilesDetail extends Component {
       ) + "px";
   };
 
+  onClickFile = (module, filePath) => {
+
+    console.log("onClickFile = "+module + "::" +filePath);
+
+    this.gotoFileLocation(module, filePath);
+  }
+
+  gotoFileLocation(module, filePath) {
+    CodeClient.gotoCodeLocation(module, filePath, this, (arg) => {
+      if (arg.error) {
+        console.log("gotoCodeLocation error: " +arg.error);
+      } else {
+        console.log("success!");
+      }
+    });
+  }
+
+  getBoxFromBoxPath(boxPath) {
+    return boxPath.substr(boxPath.indexOf(".") + 1);
+  }
+
+  getModuleFromBoxPath(boxPath) {
+    return boxPath.substr(0,boxPath.indexOf("."));
+  }
+
   /**
    * renders our metric details data
    * @returns {JSX.Element}
@@ -57,6 +83,7 @@ export default class FilesDetail extends Component {
         UtilRenderer.FILE_DATA
       ];
 
+    console.log("FILE DATA ~!!!!!!!!");
     console.log(fileData);
     return (
       <div id="component" className="metricsPanel">
@@ -79,7 +106,8 @@ export default class FilesDetail extends Component {
             columns={16}
           >
             {fileData.rowsOfPaddedCells.map((row, i) => {
-              let box = row[0].trim();
+              let box = this.getBoxFromBoxPath(row[0].trim());
+              let module = this.getModuleFromBoxPath(row[0].trim());
               let filePath = row[1].trim();
               let duration = UtilRenderer.getSecondsFromDurationString(row[2].trim());
               let percentConfusion = parseFloat(row[3].trim());
@@ -91,9 +119,11 @@ export default class FilesDetail extends Component {
                 <FileMetricsRow
                   key={i}
                   box={box}
+                  module={module}
                   filePath={filePath}
                   duration={confusionDuration}
                   modified={modified}
+                  onRowClick={this.onClickFile}
                 />
               );
             })}

@@ -494,6 +494,7 @@ export default class CodebaseChartContent extends Component {
           tableDto={this.state.fileTableDto}
           selectedRowId={this.state.selectedRowId}
           hoverRowId={this.state.hoverRowId}
+          module={this.state.drillDownModule}
           onHoverMetricRow={this.onHoverMetricRow}
           onClickMetricRow={this.onClickMetricRow}
         />

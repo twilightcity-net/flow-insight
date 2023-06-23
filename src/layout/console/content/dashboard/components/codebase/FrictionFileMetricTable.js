@@ -4,6 +4,7 @@ import UtilRenderer from "../../../../../../UtilRenderer";
 import { scrollTo } from "../../../../../../UtilScroll";
 import FrictionFileMetricHeader from "./FrictionFileMetricHeader";
 import FrictionFileMetricRow from "./FrictionFileMetricRow";
+import {CodeClient} from "../../../../../../clients/CodeClient";
 
 /**
  * this is the gui component that displays the friction metrics for files that correspond
@@ -32,14 +33,27 @@ export default class FrictionFileMetricTable extends Component {
     }
   }
 
-  onClickMetric = (rowId) => {
+  onClickMetric = (rowId, filePath) => {
     let newSelectedRowId = null;
     if (this.props.selectedRowId !== rowId) {
       newSelectedRowId = rowId;
     }
 
     this.props.onClickMetricRow(newSelectedRowId);
+
+    console.log("file clicked: "+filePath);
+    this.gotoFileLocation(this.props.module, filePath);
   };
+
+  gotoFileLocation(module, filePath) {
+    CodeClient.gotoCodeLocation(module, filePath, this, (arg) => {
+      if (arg.error) {
+        console.log("gotoCodeLocation error: " +arg.error);
+      } else {
+        console.log("success!");
+      }
+    });
+  }
 
   onHoverMetric = (rowId) => {
     this.props.onHoverMetricRow(rowId);

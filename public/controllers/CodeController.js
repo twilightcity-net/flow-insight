@@ -32,7 +32,8 @@ module.exports = class CodeController extends (
       GET_CODE_MODULE_CONFIG: "get-code-module-config",
       UPDATE_CODE_MODULE_CONFIG: "update-code-module-config",
       GET_ALL_CODE_MODULE_CONFIGS: "get-all-code-module-configs",
-      GET_LAST_CODE_LOCATION: "get-last-code-location"
+      GET_LAST_CODE_LOCATION: "get-last-code-location",
+      GOTO_CODE_LOCATION: "goto-code-location"
     };
   }
 
@@ -86,6 +87,9 @@ module.exports = class CodeController extends (
           break;
         case CodeController.Events.GET_LAST_CODE_LOCATION:
           this.handleGetLastLocationEvent(event, arg);
+          break;
+        case CodeController.Events.GOTO_CODE_LOCATION:
+          this.handleGotoCodeLocationEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -233,6 +237,23 @@ module.exports = class CodeController extends (
     }
 
   }
+
+
+  /**
+   * Communicate a goto request for navigating to a specific file in the IDE
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGotoCodeLocationEvent(event, arg, callback) {
+    console.log("Goto code location");
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
   /**
    * client event handler for getting the last location

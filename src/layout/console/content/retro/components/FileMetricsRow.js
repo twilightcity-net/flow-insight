@@ -20,7 +20,7 @@ export default class FileMetricsRow extends Component {
    * related to the file.  No-op for now.
    */
   handleOnClickRow = () => {
-    // this.props.onRowClick(this);
+    this.props.onRowClick(this.props.module, this.props.filePath);
   };
 
   /**

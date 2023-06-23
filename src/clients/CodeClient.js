@@ -34,7 +34,8 @@ export class CodeClient extends BaseClient {
       GET_CODE_MODULE_CONFIG: "get-code-module-config",
       UPDATE_CODE_MODULE_CONFIG: "update-code-module-config",
       GET_ALL_CODE_MODULE_CONFIGS: "get-all-code-module-configs",
-      GET_LAST_CODE_LOCATION: "get-last-code-location"
+      GET_LAST_CODE_LOCATION: "get-last-code-location",
+      GOTO_CODE_LOCATION: "goto-code-location"
     };
   }
 
@@ -145,6 +146,28 @@ export class CodeClient extends BaseClient {
     return event;
   }
 
+
+  /**
+   * Navigate to a specific code location within the IDE
+   * @param module
+   * @param filePath
+   * @param scope
+   * @param callback
+   */
+  static gotoCodeLocation(module, filePath, scope, callback) {
+    let event = CodeClient.instance.createClientEvent(
+      CodeClient.Events.GOTO_CODE_LOCATION,
+      {
+        module: module,
+        filePath: filePath
+      },
+      scope,
+      callback
+    );
+
+    CodeClient.instance.notifyCode(event);
+    return event;
+  }
 
 
   /**
