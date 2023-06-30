@@ -2,14 +2,13 @@ const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
 const log = require("electron-log");
 const fs = require("fs");
+const IdeCommandProcessor = require("../job/IdeCommandProcessor");
 
 /**
  * This class is used to coordinate calls to gridtime for the Code service
  * @type {CodeController}
  */
-module.exports = class CodeController extends (
-  BaseController
-) {
+module.exports = class CodeController extends (BaseController) {
 
   /**
    * builds our Code Client controller class from our bass class
@@ -20,6 +19,7 @@ module.exports = class CodeController extends (
     if (!CodeController.instance) {
       CodeController.instance = this;
       CodeController.wireTogetherControllers();
+      this.ideCommandProcessor = new IdeCommandProcessor();
     }
   }
 
@@ -247,6 +247,16 @@ module.exports = class CodeController extends (
    */
   handleGotoCodeLocationEvent(event, arg, callback) {
     console.log("Goto code location");
+    const module = arg.args.module;
+    const filePath = arg.args.filePath;
+
+    if (module && filePath) {
+      console.log("Writing goto cmd: "+module + "::" + filePath);
+      this.ideCommandProcessor.writeGotoFileCommand(module, filePath);
+    } else {
+      console.error("Ignoring invalid goto cmd args: "+module + "::" + filePath);
+    }
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

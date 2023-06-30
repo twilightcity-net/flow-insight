@@ -238,6 +238,7 @@ module.exports = class FlowFeedProcessor {
             batchNumber++;
             lineCount = 0;
             activeBatchFile = this.getBatchFileName(preprocessFolder, timeExtension, batchNumber);
+            batchFileLogger.end();
             batchFileLogger = fs.createWriteStream(activeBatchFile, {
               flags: 'a' // 'a' means appending (old data will be preserved)
             });
@@ -247,7 +248,7 @@ module.exports = class FlowFeedProcessor {
         }
       });
 
-      await events.once(rl, 'close');
+      await events.once(rl, 'close').then(batchFileLogger.end());
     } catch (err) {
       console.error(this.name + " Unable to pre-process file: " + err);
     }

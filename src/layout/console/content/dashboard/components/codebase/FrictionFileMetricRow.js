@@ -75,7 +75,7 @@ export default class FrictionFileMetricRow extends Component {
     return (
       <Grid.Row
         id={this.props.id + "-row"}
-        className={"metricRow" + extraActiveClass}
+        className={"metricRow clickable" + extraActiveClass}
         onClick={() => this.props.onRowClick(this.props.id, this.props.filePath)}
         onMouseEnter={() =>
           this.props.onHover(this.props.id)

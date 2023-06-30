@@ -21,6 +21,10 @@ module.exports = class PluginRegistrationHandler {
     this.registeredPluginSet = new Set();
   }
 
+  static INTELLIJ_PLUGIN = "com.jetbrains.intellij";
+  static VSCODE_PLUGIN = "com.microsoft.vscode";
+
+
   getRegisteredPluginList() {
     return this.registeredPluginFolders;
   }
@@ -54,6 +58,36 @@ module.exports = class PluginRegistrationHandler {
     });
 
   }
+
+  /**
+   * Get the list of IDE plugin folders that are registered already by the app.
+   * Returns an empty list if none found
+   */
+  getRegisteredIdePluginFolders() {
+    const pluginBaseFolder = Util.getPluginFolderPath();
+
+    let idePluginFolders = [];
+    this.addToListIfRegistered(idePluginFolders, pluginBaseFolder, PluginRegistrationHandler.INTELLIJ_PLUGIN);
+    this.addToListIfRegistered(idePluginFolders, pluginBaseFolder, PluginRegistrationHandler.VSCODE_PLUGIN);
+
+    return idePluginFolders;
+  }
+
+  /**
+   * Add pluginId to list if it's registered
+   * @param folderList
+   * @param pluginBaseFolder
+   * @param pluginId
+   * @returns {*}
+   */
+  addToListIfRegistered(folderList, pluginBaseFolder, pluginId) {
+    if (this.registeredPluginSet.has(pluginId)) {
+      folderList.push(path.join(pluginBaseFolder, pluginId));
+    }
+    return folderList;
+  }
+
+
 
   /**
    * Load up the plugin folders to see which are running
