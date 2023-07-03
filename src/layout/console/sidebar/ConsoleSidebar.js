@@ -181,7 +181,7 @@ export default class ConsoleSidebar extends Component {
     if (FeatureToggle.isMoovieApp) {
       return SidePanelViewController.MenuSelection.BUDDIES;
     } else {
-      return SidePanelViewController.MenuSelection.TEAM;
+      return SidePanelViewController.MenuSelection.FERVIE;
     }
   }
 
@@ -241,7 +241,9 @@ export default class ConsoleSidebar extends Component {
    * For refresh of feature toggles, make sure we refresh the buttons
    */
   onFeatureToggleRefresh() {
-    this.setState({});
+    this.setState({
+      activeItem: this.getDefaultSelectedPanel()
+    });
   }
 
   /**
@@ -387,7 +389,7 @@ export default class ConsoleSidebar extends Component {
     switch (arg) {
       case 1:
         this.loadPanelByName(
-          SidePanelViewController.MenuSelection.TEAM
+          SidePanelViewController.MenuSelection.HOME
         );
         break;
       case 2:
@@ -439,7 +441,7 @@ export default class ConsoleSidebar extends Component {
     };
     let oStr = " outline";
     switch (activeMenuItem) {
-      case SidePanelViewController.MenuSelection.TEAM:
+      case SidePanelViewController.MenuSelection.HOME:
       case SidePanelViewController.MenuSelection.BUDDIES:
       case SidePanelViewController.MenuSelection.CIRCUITS:
       case SidePanelViewController.MenuSelection.DASHBOARD:
@@ -495,7 +497,7 @@ export default class ConsoleSidebar extends Component {
         && FeatureToggle.isPersonalDashboardEnabled) ||
       (panelName === SidePanelViewController.MenuSelection.CIRCUITS
         && FeatureToggle.isControlChartEnabled) ||
-      panelName === SidePanelViewController.MenuSelection.TEAM;
+      panelName === SidePanelViewController.MenuSelection.HOME;
 
     if (hasDefaultPanel) {
       if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
@@ -504,12 +506,12 @@ export default class ConsoleSidebar extends Component {
       } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS
         && FeatureToggle.isControlChartEnabled && BrowserController.uri.includes("/control/week/0") ) {
         return true;
-      } else if (panelName === SidePanelViewController.MenuSelection.TEAM
+      } else if (panelName === SidePanelViewController.MenuSelection.HOME
         && (FeatureToggle.isJournalEnabled
           && (BrowserController.uri.includes("/journal/me")
           || BrowserController.uri.includes("/journal/" + MemberClient.me.username)))) {
         return true;
-      } else if (panelName === SidePanelViewController.MenuSelection.TEAM
+      } else if (panelName === SidePanelViewController.MenuSelection.HOME
         && (!FeatureToggle.isJournalEnabled
           && BrowserController.uri.includes("/wtf"))) {
         return true;
@@ -536,7 +538,7 @@ export default class ConsoleSidebar extends Component {
       if (FeatureToggle.isControlChartEnabled) {
         this.myController.loadDefaultControlPanel();
       }
-    } else if (panelName === SidePanelViewController.MenuSelection.TEAM) {
+    } else if (panelName === SidePanelViewController.MenuSelection.HOME) {
       if (FeatureToggle.isJournalEnabled) {
         this.myController.loadDefaultJournalPanel();
       } else {
@@ -618,8 +620,8 @@ export default class ConsoleSidebar extends Component {
     if (FeatureToggle.isMoovieApp) return "";
     return (
       <Menu.Item
-        name={SidePanelViewController.MenuSelection.TEAM}
-        active={activeItem === SidePanelViewController.MenuSelection.TEAM}
+        name={SidePanelViewController.MenuSelection.HOME}
+        active={activeItem === SidePanelViewController.MenuSelection.HOME}
         onClick={this.handleItemClick}
       >
         <Icon name={this.state.iconTeam}/>

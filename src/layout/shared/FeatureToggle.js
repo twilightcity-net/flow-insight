@@ -18,6 +18,8 @@ export default class FeatureToggle  {
 
   static isStatusBarEnabled = false;
 
+  static isIndividualModeEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.7.12"
 
@@ -36,7 +38,8 @@ export default class FeatureToggle  {
       CONTROL: "control",
       TOOLS: "tools",
       ARDEVICE: "ardevice",
-      STATUS: "status"
+      STATUS: "status",
+      INDIVIDUAL: "individual"
     };
   }
 
@@ -50,6 +53,7 @@ export default class FeatureToggle  {
     FeatureToggle.isPersonalDashboardEnabled = false;
     FeatureToggle.isStatusBarEnabled = false;
     FeatureToggle.isControlChartEnabled = false;
+    FeatureToggle.isIndividualModeEnabled = false;
 
     console.log("UPDATING TOGGLES!");
     console.log(featureToggleList);
@@ -82,6 +86,9 @@ export default class FeatureToggle  {
       }
       if (toggle === FeatureToggle.Toggle.STATUS) {
         FeatureToggle.isStatusBarEnabled = true;
+      }
+      if (toggle === FeatureToggle.Toggle.INDIVIDUAL) {
+        FeatureToggle.isIndividualModeEnabled = true;
       }
     }
   }

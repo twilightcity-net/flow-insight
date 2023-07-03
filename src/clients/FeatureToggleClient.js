@@ -59,6 +59,7 @@ export class FeatureToggleClient extends BaseClient {
     FeatureToggleClient.getFeatureToggles(this, (arg) => {
       if (arg.data) {
         FeatureToggle.init(arg.data);
+        FeatureToggleClient.instance.featureToggleScreenRefreshDispatch.dispatch({});
       }
     });
   }

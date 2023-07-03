@@ -283,6 +283,7 @@ module.exports = class CodeModuleConfigHandler {
       log.debug(this.name +" List of configured modules:");
       log.debug(this.configuredModuleNames);
     } else {
+      log.warn("No module configs back from server!");
       //no module configs from server
     }
   }
@@ -349,6 +350,7 @@ module.exports = class CodeModuleConfigHandler {
         }
       });
     } else {
+      log.warn("Config file does not exist!: "+configFile);
       callback([]);
     }
   }

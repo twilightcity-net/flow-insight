@@ -162,6 +162,7 @@ export default class ConsoleView extends Component {
   };
 
   onFeatureToggleRefresh() {
+    console.log("Refresh toggles");
     FeatureToggleClient.refreshToggles();
   }
 

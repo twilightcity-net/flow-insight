@@ -83,7 +83,7 @@ export class SidePanelViewController extends ActiveViewController {
           .VIEW_CONSOLE_SIDEBAR_PANEL,
         this
       );
-    this.teamPanelListener =
+    this.homePanelListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
         this
@@ -139,7 +139,7 @@ export class SidePanelViewController extends ActiveViewController {
     if (FeatureToggle.isMoovieApp) {
       return SidePanelViewController.MenuSelection.BUDDIES;
     } else {
-      return SidePanelViewController.MenuSelection.TEAM;
+      return SidePanelViewController.MenuSelection.FERVIE;
     }
   }
 
@@ -151,7 +151,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       WTF: "wtf",
       FERVIE: "fervie",
-      TEAM: "team",
+      HOME: "home",
       BUDDIES: "buddies",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
@@ -177,7 +177,8 @@ export class SidePanelViewController extends ActiveViewController {
       RETRO: "retro",
       NOTIFICATIONS: "notifications",
       DASHBOARD: "dashboard",
-      ACCOUNT: "account"
+      ACCOUNT: "account",
+      ME: "me"
     };
   }
 
@@ -231,8 +232,8 @@ export class SidePanelViewController extends ActiveViewController {
    * @param scope
    * @param callback
    */
-  configureTeamPanelListener(scope, callback) {
-    this.teamPanelListener.updateCallback(scope, callback);
+  configureHomePanelListener(scope, callback) {
+    this.homePanelListener.updateCallback(scope, callback);
   }
 
   /**

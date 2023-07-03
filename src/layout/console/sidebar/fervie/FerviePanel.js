@@ -17,8 +17,7 @@ import {AccountClient} from "../../../../clients/AccountClient";
 
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
- * and accessories. Currently this only uses a simple canvas but will use
- * an embedded unity3d instance
+ * and accessories. Currently this only uses a simple canvas
  */
 export default class FerviePanel extends Component {
   /**
@@ -28,7 +27,11 @@ export default class FerviePanel extends Component {
   constructor(props) {
     super(props);
     this.name = "[FerviePanel]";
+
     this.me = MemberClient.me;
+    if (!this.me) {
+      this.me = { xpSummary: {xpProgress: 0, xpRequiredToLevel: 10} };
+    }
 
     this.state = this.createInitialState(this.me);
 
@@ -53,6 +56,7 @@ export default class FerviePanel extends Component {
         this,
         this.onMeRefresh
       );
+    this.onMeRefresh();
   }
 
   getFervieName(me) {

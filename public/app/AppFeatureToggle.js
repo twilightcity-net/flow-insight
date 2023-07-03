@@ -12,6 +12,8 @@ module.exports = class AppFeatureToggle {
 
   static isStatusBarEnabled = false;
 
+  static isIndividualModeEnabled = false;
+
   static appName = "FlowInsight";
   static version = "0.7.12"
 
@@ -30,7 +32,8 @@ module.exports = class AppFeatureToggle {
       CONTROL: "control",
       TOOLS: "tools",
       ARDEVICE: "ardevice",
-      STATUS: "status"
+      STATUS: "status",
+      INDIVIDUAL: "individual"
     };
   }
 
@@ -40,6 +43,7 @@ module.exports = class AppFeatureToggle {
     AppFeatureToggle.isToolsExtensionEnabled = false;
     AppFeatureToggle.isStatusBarEnabled = false;
     AppFeatureToggle.isControlChartEnabled = false;
+    AppFeatureToggle.isIndividualModeEnabled = false;
 
     for (let toggle of featureToggleList) {
       if (toggle === AppFeatureToggle.Toggle.FERVIE) {
@@ -57,6 +61,9 @@ module.exports = class AppFeatureToggle {
       }
       if (toggle === AppFeatureToggle.Toggle.CONTROL) {
         AppFeatureToggle.isControlChartEnabled = true;
+      }
+      if (toggle === AppFeatureToggle.Toggle.INDIVIDUAL) {
+        AppFeatureToggle.isIndividualModeEnabled = true;
       }
     }
   }

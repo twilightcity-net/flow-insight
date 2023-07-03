@@ -10,6 +10,9 @@ import { SidePanelViewController } from "../controllers/SidePanelViewController"
 import { DimensionController } from "../controllers/DimensionController";
 import DashboardPanel from "./console/sidebar/dashboard/DashboardPanel";
 import BuddiesPanel from "./console/sidebar/buddies/BuddiesPanel";
+import FeatureToggle from "./shared/FeatureToggle";
+import MePanel from "./console/sidebar/me/MePanel";
+import {RendererEventFactory} from "../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -50,6 +53,14 @@ export default class ConsoleLayout extends Component {
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR,
         this
+      );
+
+    this.featureToggleScreenRefreshDispatch =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .FEATURE_TOGGLE_SCREEN_REFRESH,
+        this,
+        this.onFeatureToggleUpdate
       );
   }
 
@@ -121,17 +132,14 @@ export default class ConsoleLayout extends Component {
     return this.state.sidebarPanelState;
   };
 
-  /**
-   * the name of the users Fervie
-   * @returns {string}
-   */
-  getFervieName = () => {
-    let fervieName = "Member";
-    if (this.state.activeTeamMember) {
-      fervieName = this.state.activeTeamMember.displayName;
-    }
-    return fervieName;
-  };
+
+  onFeatureToggleUpdate = () => {
+    console.log("ConsoleLayout.onFeatureToggleUpdate - reset to default page!!");
+    this.setState({
+      activePanel: SidePanelViewController.MenuSelection.FERVIE
+    });
+  }
+
 
   /**
    * the fervie panel that gets displayed in the side panel
@@ -150,13 +158,23 @@ export default class ConsoleLayout extends Component {
    * the team panel that gets displayed to the user
    * @returns {*}
    */
-  getTeamPanelContent = () => {
-    return (
-      <TeamPanel
-        width={this.state.sidebarPanelWidth}
-        opacity={this.state.sidebarPanelOpacity}
-      />
-    );
+  getHomePanelContent = () => {
+    console.log("Home panel toggle: "+FeatureToggle.isIndividualModeEnabled);
+    if (FeatureToggle.isIndividualModeEnabled) {
+      return (
+        <MePanel
+          width={this.state.sidebarPanelWidth}
+          opacity={this.state.sidebarPanelOpacity}
+        />
+      );
+    } else {
+      return (
+        <TeamPanel
+          width={this.state.sidebarPanelWidth}
+          opacity={this.state.sidebarPanelOpacity}
+        />
+      );
+    }
   };
 
   /**
@@ -251,8 +269,8 @@ export default class ConsoleLayout extends Component {
     switch (this.state.activePanel) {
       case SidePanelViewController.MenuSelection.FERVIE:
         return this.getFerviePanelContent();
-      case SidePanelViewController.MenuSelection.TEAM:
-        return this.getTeamPanelContent();
+      case SidePanelViewController.MenuSelection.HOME:
+        return this.getHomePanelContent();
       case SidePanelViewController.MenuSelection.BUDDIES:
         return this.getBuddiesPanelContent();
       case SidePanelViewController.MenuSelection.CIRCUITS:

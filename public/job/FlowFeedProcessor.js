@@ -238,7 +238,8 @@ module.exports = class FlowFeedProcessor {
             batchNumber++;
             lineCount = 0;
             activeBatchFile = this.getBatchFileName(preprocessFolder, timeExtension, batchNumber);
-            batchFileLogger.end();
+            //TODO these seem to be async closing while I'm trying to write?  Crashing the app
+            //batchFileLogger.end();
             batchFileLogger = fs.createWriteStream(activeBatchFile, {
               flags: 'a' // 'a' means appending (old data will be preserved)
             });
@@ -248,7 +249,7 @@ module.exports = class FlowFeedProcessor {
         }
       });
 
-      await events.once(rl, 'close').then(batchFileLogger.end());
+      await events.once(rl, 'close'); //.then(batchFileLogger.end());
     } catch (err) {
       console.error(this.name + " Unable to pre-process file: " + err);
     }

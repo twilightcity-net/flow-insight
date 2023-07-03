@@ -243,7 +243,8 @@ export default class TeamPanel extends Component {
    * called when we render the team panel into the gui
    */
   componentDidMount() {
-    this.myController.configureTeamPanelListener(
+    console.log("!!Team panel mount!!");
+    this.myController.configureHomePanelListener(
       this,
       this.refreshTeamPanel
     );
@@ -306,7 +307,7 @@ export default class TeamPanel extends Component {
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
     this.teamDataRefreshListener.clear();
-    this.myController.configureTeamPanelListener(
+    this.myController.configureHomePanelListener(
       this,
       null
     );

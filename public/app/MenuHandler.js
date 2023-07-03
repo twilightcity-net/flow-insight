@@ -70,6 +70,14 @@ module.exports = class MenuHandler {
       },
       {type: "separator"},
       {
+        label: "Individual Model",
+        click: () => {
+          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.INDIVIDUAL)
+        },
+        type: "checkbox",
+        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.INDIVIDUAL)
+      },
+      {
         label: "Plugin Extensions",
         click: () => {
           MenuHandler.onClickFeature(AppFeatureToggle.Toggle.TOOLS)
