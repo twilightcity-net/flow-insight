@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import ControlChart from "./ControlChart";
+import FeatureToggle from "../../../../shared/FeatureToggle";
 
 /**
  * this is the gui component that displays the metrics side panel on the wtfs control page
@@ -78,19 +79,27 @@ export default class ControlMetrics extends Component {
        ttrMin = this.state.avgTtr + " min";
      }
 
+     let oocDescription = "Ratio of out of control troubleshooting sessions across all members of the team";
+     let ttrDescription = "Average time to resolve a troubleshooting session across all members of the team";
+
+     if (FeatureToggle.isIndividualModeEnabled) {
+       oocDescription = "Ratio of out of control troubleshooting sessions for the week";
+       ttrDescription = "Average time to resolve a troubleshooting session across all sessions in the week";
+     }
+
     return (
       <div className="metricsPanel">
         <div className="summaryMetrics">
           <div className="metricsHeader">Out of Control Ratio (OOCR)</div>
           <div className="metric">{oocRatio}</div>
-          <div className="metricDescription">Ratio of troubleshooting sessions out of control across all members of the team</div>
+          <div className="metricDescription">{oocDescription}</div>
         </div>
         <div className="space">&nbsp;</div>
 
         <div className="summaryMetrics">
           <div className="metricsHeader">Time to Resolve (MTTR)</div>
           <div className="metric">{ttrMin}</div>
-          <div className="metricDescription">Average time to resolve a troubleshooting session across all members of the team</div>
+          <div className="metricDescription">{ttrDescription}</div>
         </div>
       </div>
     );

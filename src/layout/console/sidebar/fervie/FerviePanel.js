@@ -104,7 +104,6 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor = FervieColors.defaultSunglassColor;
     }
 
-    console.log("Initial moovie count = "+me.moovieCount);
     if (me.moovieCount) {
       moovieCount = me.moovieCount;
     }

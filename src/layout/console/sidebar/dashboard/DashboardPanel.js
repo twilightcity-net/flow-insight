@@ -14,6 +14,7 @@ import ScopeSelectionDropdown from "./ScopeSelectionDropdown";
 import { TeamClient } from "../../../../clients/TeamClient";
 import DashboardResource from "../../content/dashboard/DashboardResource";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
  * this component is the left side panel wrapper for the dashboard content
@@ -75,12 +76,20 @@ export default class DashboardPanel extends Component {
         animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
         animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
-        dashboardTarget: DashboardPanel.Target.TEAM,
+        dashboardTarget:this.getDefaultTarget(),
         dashboardTimeScope: DashboardPanel.TimeScope.ALL,
         dashboardPage: null,
       };
     }
     return state;
+  }
+
+  getDefaultTarget() {
+    if (FeatureToggle.isIndividualModeEnabled) {
+      return DashboardPanel.Target.ME;
+    } else {
+      return DashboardPanel.Target.TEAM;
+    }
   }
 
   /**

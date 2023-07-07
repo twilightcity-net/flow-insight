@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Dropdown, Grid } from "semantic-ui-react";
 import DashboardPanel from "./DashboardPanel";
+import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
  * this component is the scope selection dropdown for the risk areas panel
@@ -14,6 +15,15 @@ export default class ScopeSelectionDropdown extends Component {
     super(props);
     this.name = "[ScopeSelectionDropdown]";
     this.homeTeam = null;
+
+
+    this.targetOptionsMeOnly = [
+      {
+        key: 1,
+        value: DashboardPanel.Target.ME,
+        text: "For: Me",
+      }
+    ];
 
     this.targetOptions = [
       {
@@ -52,6 +62,14 @@ export default class ScopeSelectionDropdown extends Component {
     ];
   }
 
+  getTargetOptions() {
+    if (FeatureToggle.isIndividualModeEnabled) {
+      return this.targetOptionsMeOnly;
+    } else {
+      return this.targetOptions;
+    }
+  }
+
   handleChangeForTarget = (e, { value }) => {
     this.props.onChangeTarget(value);
   };
@@ -79,7 +97,7 @@ export default class ScopeSelectionDropdown extends Component {
             <Dropdown
               id="selectTarget"
               placeholder="Choose Target"
-              options={this.targetOptions}
+              options={this.getTargetOptions()}
               selection
               fluid
               value={this.props.target}

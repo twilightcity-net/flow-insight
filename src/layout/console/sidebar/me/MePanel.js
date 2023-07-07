@@ -4,6 +4,10 @@ import {DimensionController} from "../../../../controllers/DimensionController";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import {MemberClient} from "../../../../clients/MemberClient";
+import {FlowClient} from "../../../../clients/FlowClient";
+import * as d3 from "d3";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
 /**
  * this component is the side panel for the individual's home page
  * when the FlowInsight for individuals mode is active
@@ -53,17 +57,65 @@ export default class MePanel extends Component {
       this.onRefreshMePanel
     );
     this.onRefreshMePanel();
+
+    this.flowStateRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.FLOWSTATE_DATA_REFRESH,
+        this,
+        this.onFlowStateDataRefresh
+      );
+
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
+  };
+
+  /**
+   * When we get a flow state refresh, refresh our current state from the DB
+   */
+  onFlowStateDataRefresh() {
+    console.log("On flow state data refresh");
+    this.reloadFlowStateData();
+  }
+
+  /**
+   * event handler that is called whenever we receive a talk message,
+   * listen to self me-updates so we can updated our flow light (and potentially our name)
+   * @param event`
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    let mType = arg.messageType,
+      memberId = arg.metaProps["from.member.id"],
+      data = arg.data;
+
+    if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
+      let myId = MemberClient.me.id;
+      if (memberId === myId) {
+        this.setState({
+          me: data
+        })
+      }
+    }
   };
 
   /**
    * detach any listeners when we remove this from view
    */
   componentWillUnmount = () => {
+    this.flowStateRefreshListener.clear();
+    this.talkRoomMessageListener.clear();
+    this.myController.configureHomePanelListener(
+      this,
+      null
+    );
   };
 
 
   onRefreshMePanel = () => {
-    console.log("me!");
     MemberClient.getMe(this, (arg) => {
       if (arg.error) {
         console.error("Error while fetching me:"+ arg.error);
@@ -75,6 +127,8 @@ export default class MePanel extends Component {
         });
       }
     } );
+
+    this.reloadFlowStateData();
   }
 
 
@@ -100,13 +154,40 @@ export default class MePanel extends Component {
     return (
       <div className={"meStatus"}>
         <div className="flow">
-          <Icon className="flow" name="circle" color="violet" />
+          <Icon className="flow" name="circle" style={{"color": this.getFlowLightColor()}} />
           <span className="flowLabel">Flow State:</span>
         </div>
 
         <div className="name">{displayName}</div>
       </div>
     );
+  }
+
+  /**
+   * Get the color of the flow state based on momentum and whether we're in a troubleshooting session
+   * @returns {string}
+   */
+  getFlowLightColor() {
+    let color = "#ffffff";
+    if (this.state.me && this.state.me.activeCircuit) {
+      color = "#FF2C36";
+    } else if (this.state.flowState) {
+      let momentum = this.state.flowState.momentum;
+
+      var interp = d3
+        .scaleLinear()
+        .domain([0, 0.2, 0.4, 1])
+        .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
+
+      let mScale = d3
+        .scaleLinear()
+        .domain([0, 200])
+        .range([0, 1]);
+
+      color = interp(mScale(momentum));
+    }
+
+    return color;
   }
 
 
@@ -154,6 +235,23 @@ export default class MePanel extends Component {
   };
 
 
+  /**
+   * Reload the flow state momentum data that results in the color of the circle to update
+   */
+  reloadFlowStateData() {
+    FlowClient.getMyFlowData(this, (arg) => {
+      if (!arg.error) {
+        if (!this.state.flowState || (this.state.flowState && arg.data.momentum !== this.state.flowState.momentum)) {
+          console.log("Updating flow state momentum to "+arg.data.momentum);
+          this.setState({
+            flowState: arg.data
+          });
+        }
+      } else {
+        console.error(arg.error);
+      }
+    });
+  }
 
 
 
