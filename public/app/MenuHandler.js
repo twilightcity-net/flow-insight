@@ -70,7 +70,7 @@ module.exports = class MenuHandler {
       },
       {type: "separator"},
       {
-        label: "Individual Model",
+        label: "Individual Mode",
         click: () => {
           MenuHandler.onClickFeature(AppFeatureToggle.Toggle.INDIVIDUAL)
         },

@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import {List, Menu, Segment, Transition,} from "semantic-ui-react";
+import {Icon, List, Menu, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {MemberClient} from "../../../../clients/MemberClient";
 /**
  * this component is the side panel for the individual's home page
  * when the FlowInsight for individuals mode is active
@@ -12,7 +13,7 @@ export default class MePanel extends Component {
    * the graphical name of this component in the DOM
    * @type {string}
    */
-  static className = "notificationsContent";
+  static className = "meContent";
 
   /**
    * builds the me panel
@@ -63,18 +64,19 @@ export default class MePanel extends Component {
 
   onRefreshMePanel = () => {
     console.log("me!");
-    this.showMePanel();
+    MemberClient.getMe(this, (arg) => {
+      if (arg.error) {
+        console.error("Error while fetching me:"+ arg.error);
+      } else {
+        this.setState({
+          me: arg.data,
+          activeItem: SidePanelViewController.SubmenuSelection.ME,
+          meVisible: true,
+        });
+      }
+    } );
   }
 
-  /**
-   * display the me panel in the sidebar panel
-   */
-  showMePanel() {
-    this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.ME,
-      meVisible: true,
-    });
-  }
 
   /**
    * updates display to show me content
@@ -88,6 +90,53 @@ export default class MePanel extends Component {
     });
   };
 
+
+  getMyStatusBar() {
+    let displayName = "";
+    if (this.state.me) {
+      displayName = this.state.me.displayName;
+    }
+
+    return (
+      <div className={"meStatus"}>
+        <div className="flow">
+          <Icon className="flow" name="circle" color="violet" />
+          <span className="flowLabel">Flow State:</span>
+        </div>
+
+        <div className="name">{displayName}</div>
+      </div>
+    );
+  }
+
+
+  getMyActiveTask() {
+    let activeTaskName = "";
+    let activeTaskDescription = "";
+
+    if (this.state.me) {
+      activeTaskName = this.state.me.activeTaskName;
+      activeTaskDescription = this.state.me.activeTaskSummary;
+    }
+
+    if (!activeTaskName) {
+      return (<div></div>);
+    } else {
+      return (
+        <div className={"meActiveTask"}>
+          <div className="taskName">
+            {activeTaskName}
+          </div>
+          <div className="description">
+            {activeTaskDescription}
+          </div>
+
+          <div className="status">Active</div>
+        </div>
+      );
+    }
+  }
+
   /**
    * gets the me content panel for the sidebar
    * @returns {*}
@@ -97,12 +146,16 @@ export default class MePanel extends Component {
 
     content = (
       <div className={MePanel.className}>
-        <i>All about me. :)</i>
+        {this.getMyStatusBar()}
       </div>
     );
 
     return content;
   };
+
+
+
+
 
   /**
    * renders the console sidebar panel of the console view
@@ -112,7 +165,7 @@ export default class MePanel extends Component {
     return (
       <div
         id="component"
-        className="consoleSidebarPanel notificationsPanel"
+        className="consoleSidebarPanel mePanel"
         style={{
           width: this.props.width,
           opacity: this.props.opacity,
@@ -121,7 +174,7 @@ export default class MePanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name="me"
+              name="my status"
               active={true}
               onClick={this.handleMeClick}
             />

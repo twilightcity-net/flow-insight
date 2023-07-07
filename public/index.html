@@ -7,8 +7,8 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
- <meta http-equiv="Content-Security-Policy"
-        content="script-src 'self'; base-uri 'self';form-action 'self'">
+ <!--<meta http-equiv="Content-Security-Policy"
+        content="script-src 'self'; base-uri 'self';form-action 'self'">-->
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
   <title>FlowInsight</title>
@@ -1133,6 +1133,87 @@
       transform-box: fill-box;
     }
   }
+
+
+  /** ME PANEL content styles */
+
+  #component.consoleSidebarPanel .meContent {
+      height: 100%;
+      overflow-y: scroll;
+  }
+
+  #component.consoleSidebarPanel .meContent .meStatus {
+      padding: 0.840em;
+      transition: background 0.840s ease-out;
+      border-bottom: 1px solid #3c3c3c;
+      margin-right: 0.420rem;
+      white-space: nowrap;
+  }
+
+  #component.consoleSidebarPanel .meContent .meStatus:hover {
+      background: #272727;
+  }
+
+  #component.consoleSidebarPanel .meContent .meStatus .name {
+      font-size: 1.210rem;
+      font-weight: bolder;
+      line-height: 1.310rem;
+      padding-left: 0;
+      color: rgba(211, 211, 211, 1);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+  }
+
+
+  #component.consoleSidebarPanel .meContent .meStatus .flow.icon {
+      width: 1.18em;
+      margin: 0 0 0 0.5em;
+      float: right;
+  }
+
+  #component.consoleSidebarPanel .meContent .meStatus .flow .flowLabel {
+      color: rgba(200, 200, 200, 1);
+      font-size: small;
+      width: 4.20em;
+      float: right;
+      margin-right: 1em;
+  }
+
+  #component.consoleSidebarPanel .meContent .meActiveTask {
+    padding: 0.840em;
+    margin-top: 20px;
+    transition: background 0.840s ease-out;
+    border-radius: 5px;
+    border: 1px solid #3c3c3c;
+    margin-right: 0.420rem;
+  }
+
+  #component.consoleSidebarPanel .meContent .meActiveTask .taskName {
+    font-weight: 800;
+    color: rgba(21, 154, 20, 1);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-bottom: 0.420em;
+  }
+
+  #component.consoleSidebarPanel .meContent .meActiveTask .status {
+    font-style: italic;
+    text-align: right;
+    font-size: small;
+    color: rgba(200, 200, 200, 1);
+    padding-top: 0.420em;
+  }
+
+
+
+
+
+
+
 
   /** FERVIE SKILLS PANEL styles **/
   #component.consoleSidebarPanel .fervieSkillsContent {
