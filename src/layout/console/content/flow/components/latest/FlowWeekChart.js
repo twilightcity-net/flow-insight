@@ -32,12 +32,16 @@ export default class FlowWeekChart extends Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.selectedDay && (!this.props.selectedDay || prevProps.selectedDay !== this.props.selectedDay)) {
       let box = document.getElementById(prevProps.selectedDay + "-box");
-      box.classList.remove("boxHighlight");
+      if (box) {
+        box.classList.remove("boxHighlight");
+      }
     }
 
     if (this.props.selectedDay) {
       let box = document.getElementById(this.props.selectedDay + "-box");
-      box.classList.add("boxHighlight");
+      if (box) {
+        box.classList.add("boxHighlight");
+      }
     }
 
     if ((!prevProps.flowState && this.props.flowState) || (prevProps.flowState
