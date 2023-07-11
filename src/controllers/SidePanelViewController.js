@@ -168,7 +168,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       FERVIE: "fervie",
       BADGES: "badges",
-      SKILLS: "skills",
+      SKILLS: "roles",
       ACCESSORIES: "accessories",
       TEAMS: "teams",
       BUDDIES: "buddies",

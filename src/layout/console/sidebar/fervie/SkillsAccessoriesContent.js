@@ -66,7 +66,7 @@ export default class SkillsAccessoriesContent extends Component {
             isActive={this.props.fervieAccessory === "HEARTGLASSES"}
             skillName={"Fervie Love"}
             skillEffect={
-              "Earn 10% bonus XP when you help your teammates troubleshoot, and receive badges for helping out"
+              "Earn 10% bonus XP when you help your teammates troubleshoot, and receive badges for helping out. (Requires Add On: Slack Plugin)"
             }
             skillBonus={"+10% bonus XP"}
             currentLevel={this.props.xpSummary.level}
