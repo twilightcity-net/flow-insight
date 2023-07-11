@@ -39,6 +39,8 @@ export class FeatureToggleClient extends BaseClient {
   static get Events() {
     return {
       GET_FEATURE_TOGGLES: "get-feature-toggles",
+      TOGGLE_ON_FEATURE: "toggle-on-feature",
+      TOGGLE_OFF_FEATURE: "toggle-off-feature"
     };
   }
 
@@ -70,6 +72,40 @@ export class FeatureToggleClient extends BaseClient {
         FeatureToggleClient.instance.featureToggleScreenRefreshDispatch.dispatch({});
       }
     });
+  }
+
+  /**
+   * Toggle ON the specified feature and broadcast update
+   * @param feature
+   * @param scope
+   * @param callback
+   */
+  static toggleOnFeature(feature, scope, callback) {
+    let event =
+      FeatureToggleClient.instance.createClientEvent(
+        FeatureToggleClient.Events.TOGGLE_ON_FEATURE,
+        {feature: feature},
+        scope,
+        callback
+      );
+    FeatureToggleClient.instance.notifyFeatureToggle(event);
+  }
+
+  /**
+   * Toggle OFF the specified feature and broadcast update
+   * @param feature
+   * @param scope
+   * @param callback
+   */
+  static toggleOffFeature(feature, scope, callback) {
+    let event =
+      FeatureToggleClient.instance.createClientEvent(
+        FeatureToggleClient.Events.TOGGLE_OFF_FEATURE,
+        {feature: feature},
+        scope,
+        callback
+      );
+    FeatureToggleClient.instance.notifyFeatureToggle(event);
   }
 
   /**

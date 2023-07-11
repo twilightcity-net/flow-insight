@@ -83,6 +83,46 @@ module.exports = class AppSettings {
     return this.saveFeatureToggles(toggles);
   }
 
+
+  /**
+   * Toggle feature on if it's off
+   * @param featureName
+   */
+  toggleOnFeature(featureName) {
+    let toggles = this.getFeatureToggles();
+    toggles = this.removeFeatureFromListIfPresent(toggles, featureName);
+
+    toggles.push(featureName);
+    return this.saveFeatureToggles(toggles);
+  }
+
+  /**
+   * Toggle feature off if it's on
+   * @param featureName
+   */
+  toggleOffFeature(featureName) {
+    let toggles = this.getFeatureToggles();
+    toggles = this.removeFeatureFromListIfPresent(toggles, featureName);
+
+    return this.saveFeatureToggles(toggles);
+  }
+
+  /**
+   * Remove a toggle from the supplied list if it's present
+   * @param toggles
+   * @param featureName
+   */
+  removeFeatureFromListIfPresent(toggles, featureName) {
+    for (let i = 0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (featureName === toggle) {
+        toggles.splice(i, 1);
+        break;
+      }
+    }
+    return toggles;
+  }
+
   /**
    * Saves the specified feature toggle list to our updated toggles list
    * @param toggleList

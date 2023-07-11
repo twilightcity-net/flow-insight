@@ -28,6 +28,8 @@ module.exports = class FeatureToggleController extends (
   static get Events() {
     return {
       GET_FEATURE_TOGGLES: "get-feature-toggles",
+      TOGGLE_ON_FEATURE: "toggle-on-feature",
+      TOGGLE_OFF_FEATURE: "toggle-off-feature"
     };
   }
 
@@ -89,6 +91,12 @@ module.exports = class FeatureToggleController extends (
         case FeatureToggleController.Events.GET_FEATURE_TOGGLES:
           this.handleGetFeatureTogglesEvent(event, arg);
           break;
+        case FeatureToggleController.Events.TOGGLE_ON_FEATURE:
+          this.handleToggleOnFeatureEvent(event, arg);
+          break;
+        case FeatureToggleController.Events.TOGGLE_OFF_FEATURE:
+          this.handleToggleOffFeatureEvent(event, arg);
+          break;
         default:
           throw new Error(
             FeatureToggleController.Error.UNKNOWN +
@@ -138,6 +146,51 @@ module.exports = class FeatureToggleController extends (
   handleGetFeatureTogglesEvent(event, arg, callback) {
 
     arg.data = this.featureToggles;
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
+  /**
+   * Toggles a feature on, and writes the updated configuration to file
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleToggleOnFeatureEvent(event, arg, callback) {
+    const featureName = arg.args.feature;
+
+    this.featureToggles = global.App.AppSettings.toggleOnFeature(featureName);
+    AppFeatureToggle.init(this.featureToggles);
+
+    arg.data = this.featureToggles;
+
+    this.toggleRefreshNotifier.dispatch({});
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * Toggles a feature on, and writes the updated configuration to file
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleToggleOffFeatureEvent(event, arg, callback) {
+    const featureName = arg.args.feature;
+
+    this.featureToggles = global.App.AppSettings.toggleOffFeature(featureName);
+    AppFeatureToggle.init(this.featureToggles);
+
+    arg.data = this.featureToggles;
+
+    this.toggleRefreshNotifier.dispatch({});
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

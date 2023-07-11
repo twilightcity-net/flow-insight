@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {List,} from "semantic-ui-react";
 import AccessoryListItem from "./AccessoryListItem";
 import SkillListItem from "./SkillListItem";
+import {FeatureToggleClient} from "../../../../clients/FeatureToggleClient";
+import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
  * Return the fervie subpanel for showing either skills or accessories
@@ -11,8 +13,10 @@ export default class SkillsAccessoriesContent extends Component {
 
   onSunglassesClick = (itemComp) => {
     if (this.props.fervieAccessory === itemComp.props.fervieAccessory) {
+      FeatureToggleClient.toggleOffFeature(FeatureToggle.Toggle.NEO);
       this.props.onUpdateAccessory(null, null);
     } else {
+      FeatureToggleClient.toggleOnFeature(FeatureToggle.Toggle.NEO);
       this.props.onUpdateAccessory(itemComp.props.fervieAccessory, "#000000");
     }
   }
