@@ -185,6 +185,7 @@ export default class ConsoleLayout extends Component {
         <MePanel
           width={this.state.sidebarPanelWidth}
           opacity={this.state.sidebarPanelOpacity}
+          onHomeMeClick={this.onHomeMeClick}
         />
       );
     } else {

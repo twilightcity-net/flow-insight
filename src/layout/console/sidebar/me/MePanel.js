@@ -8,6 +8,9 @@ import {FlowClient} from "../../../../clients/FlowClient";
 import * as d3 from "d3";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import {BaseClient} from "../../../../clients/BaseClient";
+import FeatureToggle from "../../../shared/FeatureToggle";
+import {BrowserController} from "../../../../controllers/BrowserController";
+import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 /**
  * this component is the side panel for the individual's home page
  * when the FlowInsight for individuals mode is active
@@ -145,6 +148,76 @@ export default class MePanel extends Component {
     });
   };
 
+  onStatusBarClick = () => {
+    console.log("handle me click");
+    const uri = BrowserController.uri + "";
+    this.toggleBetweenJournalAndCircuit(this.state.me.activeCircuit, uri);
+  };
+
+
+  /**
+   * Toggle between the journal page and active circuit if there is one
+   * @param activeCircuit
+   * @param uri
+   */
+  toggleBetweenJournalAndCircuit(activeCircuit, uri) {
+    if (FeatureToggle.isJournalEnabled) {
+      if (activeCircuit && this.isOnJournalPage(uri)) {
+        this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
+      } else {
+        this.loadJournalIfFeatureEnabled();
+      }
+    } else {
+      if (activeCircuit) {
+        this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
+      } else {
+        this.requestBrowserToLoadStartCircuit();
+      }
+    }
+  }
+
+  /**
+   * Load the journal of the user, but only if the journal feature is enabled
+   */
+  loadJournalIfFeatureEnabled() {
+    if (FeatureToggle.isJournalEnabled) {
+      this.requestBrowserToLoadTeamJournalAndSetActiveMember();
+    }
+  }
+
+  /**
+   * creates a new request and dispatch this to the browser request listener
+   */
+  requestBrowserToLoadTeamJournalAndSetActiveMember() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.JOURNAL,
+      "me"
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
+
+  /**
+   * Am I currently on a journal page?
+   * @param uri
+   * @returns {boolean}
+   */
+  isOnJournalPage(uri) {
+    return uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR + BrowserRequestFactory.Requests.JOURNAL);
+  }
+
+  /**
+   * creates a new request to load the active circuit
+   * @param circuitName
+   */
+  requestBrowserToLoadTeamMemberActiveCircuit(circuitName) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.CIRCUIT,
+      circuitName
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
 
   getMyStatusBar() {
     let displayName = "";
@@ -153,7 +226,7 @@ export default class MePanel extends Component {
     }
 
     return (
-      <div className={"meStatus"}>
+      <div className={"meStatus"} onClick={this.onStatusBarClick}>
         <div className="flow">
           <Icon className="flow" name="circle" style={{"color": this.getFlowLightColor()}} />
           <span className="flowLabel">Flow State:</span>
