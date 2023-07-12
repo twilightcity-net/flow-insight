@@ -52,6 +52,7 @@ export default class MePanel extends Component {
    * attach our listeners to this component from our controller class
    */
   componentDidMount = () => {
+    console.log("MePanel mount!");
     this.myController.configureHomePanelListener(
       this,
       this.onRefreshMePanel

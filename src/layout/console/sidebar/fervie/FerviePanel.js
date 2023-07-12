@@ -14,6 +14,7 @@ import FervieContent from "./FervieContent";
 import BadgesContent from "./BadgesContent";
 import AccountContent from "./AccountContent";
 import {AccountClient} from "../../../../clients/AccountClient";
+import RolesContent from "./RolesContent";
 
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
@@ -223,6 +224,7 @@ export default class FerviePanel extends Component {
       badgesVisible: false,
       accountVisible: false,
       skillsVisible: false,
+      rolesVisible: false,
       accessoriesVisible: false
     });
   }
@@ -237,6 +239,7 @@ export default class FerviePanel extends Component {
       badgesVisible: true,
       accountVisible: false,
       skillsVisible: false,
+      rolesVisible: false,
       accessoriesVisible: false
     });
   }
@@ -252,6 +255,7 @@ export default class FerviePanel extends Component {
       badgesVisible: false,
       accountVisible: true,
       skillsVisible: false,
+      rolesVisible: false,
       accessoriesVisible: false
     });
   }
@@ -266,6 +270,22 @@ export default class FerviePanel extends Component {
       badgesVisible: false,
       accountVisible: false,
       skillsVisible: true,
+      rolesVisible: false,
+      accessoriesVisible: false
+    });
+  }
+
+  /**
+   * the function that is called to open and display the skills panel in the side
+   */
+  showRolesPanel() {
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.ROLES,
+      fervieVisible: false,
+      badgesVisible: false,
+      accountVisible: false,
+      skillsVisible: false,
+      rolesVisible: true,
       accessoriesVisible: false
     });
   }
@@ -281,6 +301,7 @@ export default class FerviePanel extends Component {
       badgesVisible: false,
       accountVisible: false,
       skillsVisible: false,
+      rolesVisible: false,
       accessoriesVisible: true
     });
   }
@@ -314,6 +335,15 @@ export default class FerviePanel extends Component {
     this.myController.changeActiveFervieSubmenuPanel(name);
   };
 
+  /**
+   * updates the display to show the roles content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleRolesClick = (e, { name }) => {
+    this.myController.changeActiveFervieSubmenuPanel(name);
+  };
+
 
   /**
    * updates the display to show the accessories content
@@ -338,6 +368,7 @@ export default class FerviePanel extends Component {
    * controller to refresh the view
    */
   componentDidMount = () => {
+    console.log("FerviePanel mount!");
     this.myController.configureFerviePanelListener(
       this,
       this.onRefreshFerviePanel
@@ -378,6 +409,9 @@ export default class FerviePanel extends Component {
         break;
       case SidePanelViewController.SubmenuSelection.SKILLS:
         this.showSkillsPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.ROLES:
+        this.showRolesPanel();
         break;
       case SidePanelViewController.SubmenuSelection.ACCESSORIES:
         this.showAccessoriesPanel();
@@ -578,6 +612,17 @@ export default class FerviePanel extends Component {
     );
   }
 
+  getRolesMenuItem(activeItem) {
+    if (FeatureToggle.isMoovieApp) return "";
+    return (
+      <Menu.Item
+        name={SidePanelViewController.SubmenuSelection.ROLES}
+        active={activeItem === SidePanelViewController.SubmenuSelection.ROLES}
+        onClick={this.handleRolesClick}
+      />
+    );
+  }
+
   getAccessoriesMenuItem(activeItem) {
     if (FeatureToggle.isFlowInsightApp()) return "";
     return (
@@ -635,11 +680,17 @@ export default class FerviePanel extends Component {
                                                     xpSummary={this.state.xpSummary}
                                                     moovieWatchCount={this.state.moovieWatchCount}
                                                     onUpdateAccessory={this.onUpdateAccessory}/>;
+    const rolesContent = <RolesContent type="roles"
+                                       fervieAccessory={this.state.fervieAccessory}
+                                       xpSummary={this.state.xpSummary}
+                                       moovieWatchCount={this.state.moovieWatchCount}
+                                       onUpdateAccessory={this.onUpdateAccessory}/>;
     const accessoriesContent = <SkillsAccessoriesContent type="accessories"
                                                          fervieAccessory={this.state.fervieAccessory}
                                                          xpSummary={this.state.xpSummary}
                                                          moovieWatchCount={this.state.moovieWatchCount}
                                                          onUpdateAccessory={this.onUpdateAccessory}/>;
+
     const accountContent = <AccountContent username={this.state.username}
                                            fullName={this.state.fullName}
                                            displayName={this.state.displayName}
@@ -663,6 +714,7 @@ export default class FerviePanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             {this.getFervieMenuItem(activeItem)}
             {this.getSkillsMenuItem(activeItem)}
+            {this.getRolesMenuItem(activeItem)}
             {this.getAccessoriesMenuItem(activeItem)}
             {this.getBadgesMenuItem(activeItem)}
             {this.getAccountMenuItem(activeItem)}
@@ -691,6 +743,16 @@ export default class FerviePanel extends Component {
             >
               <div>
               {skillsContent}
+              </div>
+            </Transition>
+            <Transition
+              visible={this.state.rolesVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              <div>
+                {rolesContent}
               </div>
             </Transition>
             <Transition

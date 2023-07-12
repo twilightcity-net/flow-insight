@@ -35,7 +35,7 @@ export default class ConsoleLayout extends Component {
       xpSummary: {},
       totalXP: 0,
       flameRating: 0,
-      activePanel: SidePanelViewController.MenuSelection.FERVIE,
+      activePanel: this.getDefaultActivePanel(),
       consoleIsCollapsed: 0,
       me: {
         displayName: SidePanelViewController.ME,
@@ -64,15 +64,35 @@ export default class ConsoleLayout extends Component {
       );
   }
 
+  getDefaultActivePanel() {
+    console.log("[ConsoleLayout] getDefaultActivePanel FeatureToggle.isFerviePopupEnabled = "+FeatureToggle.isFerviePopupEnabled);
+    if (FeatureToggle.isFerviePopupEnabled) {
+      console.log("getDefaultActivePanel fervie shown");
+      return SidePanelViewController.MenuSelection.FERVIE;
+    } else {
+      console.log("getDefaultActivePanel home shown");
+      return SidePanelViewController.MenuSelection.HOME;
+    }
+  }
+
   /**
    * called right after when the component after it is finished rendering
    */
   componentDidMount = () => {
+    console.log("ConsoleLayout.componentDidMount");
     this.sidePanelController.configureSidePanelContentListener(
       this,
       this.onRefreshActivePerspective
     );
     this.onRefreshActivePerspective();
+
+    setTimeout(() => {
+      //this is to workaround a timing issue with the featureToggles initializing
+      //after the console initialization -- adding an event notification on the featureToggleInit
+      //seemed to introduce some other init problems -- might want to revisit.. there's complexity
+      //in the initialization timing
+      this.onRefreshActivePerspective();
+    }, 1000);
   };
 
   /**
@@ -134,9 +154,9 @@ export default class ConsoleLayout extends Component {
 
 
   onFeatureToggleUpdate = () => {
-    console.log("ConsoleLayout.onFeatureToggleUpdate - reset to default page!!");
+    console.log("XXXX ConsoleLayout.onFeatureToggleUpdate - reset to default page!!");
     this.setState({
-      activePanel: SidePanelViewController.MenuSelection.FERVIE
+      activePanel: this.getDefaultActivePanel()
     });
   }
 
@@ -266,6 +286,8 @@ export default class ConsoleLayout extends Component {
    * @returns {*}
    */
   getActivePanelContent = () => {
+    console.log("getActivePanelContent this.state.activePanel = "+this.state.activePanel);
+
     switch (this.state.activePanel) {
       case SidePanelViewController.MenuSelection.FERVIE:
         return this.getFerviePanelContent();

@@ -138,8 +138,10 @@ export class SidePanelViewController extends ActiveViewController {
   static getDefaultMenuSelection() {
     if (FeatureToggle.isMoovieApp) {
       return SidePanelViewController.MenuSelection.BUDDIES;
-    } else {
+    } else if (FeatureToggle.isFerviePopupEnabled) {
       return SidePanelViewController.MenuSelection.FERVIE;
+    } else {
+      return SidePanelViewController.MenuSelection.HOME;
     }
   }
 
@@ -169,6 +171,7 @@ export class SidePanelViewController extends ActiveViewController {
       FERVIE: "fervie",
       BADGES: "badges",
       SKILLS: "skills",
+      ROLES: "roles",
       ACCESSORIES: "accessories",
       TEAMS: "teams",
       BUDDIES: "buddies",
