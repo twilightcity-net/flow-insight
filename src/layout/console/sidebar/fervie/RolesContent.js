@@ -33,7 +33,7 @@ export default class RolesContent extends Component {
         >
         </List>
         <div >
-          <i>A "Role" is a recommended skill set with a name.  Use your skills to support a fervie role for your team.</i>
+          <i>A "Role" is a recommended skill set with a name.<br/>Use your skills to support a fervie role.</i>
         </div>
       </div>
     );
