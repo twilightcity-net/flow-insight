@@ -28,6 +28,13 @@ export default class ConsoleLayout extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleLayout]";
+
+    this.sidePanelController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR,
+        this
+      );
+
     this.state = {
       sidebarPanelVisible: false,
       sidebarPanelWidth: 0,
@@ -35,7 +42,7 @@ export default class ConsoleLayout extends Component {
       xpSummary: {},
       totalXP: 0,
       flameRating: 0,
-      activePanel: this.getDefaultActivePanel(),
+      activePanel: this.sidePanelController.activeMenuSelection,
       consoleIsCollapsed: 0,
       me: {
         displayName: SidePanelViewController.ME,
@@ -48,13 +55,6 @@ export default class ConsoleLayout extends Component {
       },
     };
 
-    // TODO move this stuff into the controller class
-    this.sidePanelController =
-      RendererControllerFactory.getViewController(
-        RendererControllerFactory.Views.CONSOLE_SIDEBAR,
-        this
-      );
-
     this.featureToggleScreenRefreshDispatch =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -64,16 +64,6 @@ export default class ConsoleLayout extends Component {
       );
   }
 
-  getDefaultActivePanel() {
-    console.log("[ConsoleLayout] getDefaultActivePanel FeatureToggle.isFerviePopupEnabled = "+FeatureToggle.isFerviePopupEnabled);
-    if (FeatureToggle.isFerviePopupEnabled) {
-      console.log("getDefaultActivePanel fervie shown");
-      return SidePanelViewController.MenuSelection.FERVIE;
-    } else {
-      console.log("getDefaultActivePanel home shown");
-      return SidePanelViewController.MenuSelection.HOME;
-    }
-  }
 
   /**
    * called right after when the component after it is finished rendering
@@ -91,7 +81,7 @@ export default class ConsoleLayout extends Component {
       //after the console initialization -- adding an event notification on the featureToggleInit
       //seemed to introduce some other init problems -- might want to revisit.. there's complexity
       //in the initialization timing
-      this.onRefreshActivePerspective();
+      this.onFeatureToggleUpdate();
     }, 1000);
   };
 
@@ -109,6 +99,7 @@ export default class ConsoleLayout extends Component {
    * called when refreshing the active perspective window
    */
   onRefreshActivePerspective() {
+    console.log("ConsoleLayout.onRefreshActivePerspective");
     let show = this.sidePanelController.show;
     if (show) {
       this.setState({
@@ -154,10 +145,7 @@ export default class ConsoleLayout extends Component {
 
 
   onFeatureToggleUpdate = () => {
-    console.log("XXXX ConsoleLayout.onFeatureToggleUpdate - reset to default page!!");
-    this.setState({
-      activePanel: this.getDefaultActivePanel()
-    });
+    this.sidePanelController.resetToDefaultPanel();
   }
 
 

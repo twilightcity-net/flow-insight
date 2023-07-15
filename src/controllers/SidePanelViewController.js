@@ -136,6 +136,7 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   static getDefaultMenuSelection() {
+    console.log("SidePanelViewController.getDefaultMenuSelection isFerviePopupEnabled = "+FeatureToggle.isFerviePopupEnabled);
     if (FeatureToggle.isMoovieApp) {
       return SidePanelViewController.MenuSelection.BUDDIES;
     } else if (FeatureToggle.isFerviePopupEnabled) {
@@ -439,6 +440,15 @@ export class SidePanelViewController extends ActiveViewController {
   showPanel(selection) {
     this.show = true;
     this.activeMenuSelection = selection;
+    this.fireSidePanelNotifyEvent();
+  }
+
+  /**
+   * Reset to the default selection
+   */
+  resetToDefaultPanel() {
+    this.show = true;
+    this.activeMenuSelection = SidePanelViewController.getDefaultMenuSelection();
     this.fireSidePanelNotifyEvent();
   }
 
