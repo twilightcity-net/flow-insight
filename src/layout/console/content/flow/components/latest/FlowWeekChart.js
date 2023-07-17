@@ -541,7 +541,33 @@ export default class FlowWeekChart extends Component {
         interp(mScale(this.clampToMaxTotalMomentum(d.totalMomentum)))
       )
       .attr("stroke", "#333333")
-      .attr("stroke-width", 1)
+      .attr("stroke-width", 1);
+
+  }
+
+  clampToMaxTotalMomentum(totalMomentum) {
+    if (totalMomentum > FlowWeekChart.MAX_TOTAL_MOMENTUM) {
+      return FlowWeekChart.MAX_TOTAL_MOMENTUM;
+    } else {
+      return totalMomentum;
+    }
+  }
+
+  drawOverlayStrokeBoxes(dailyRows, chartGroup) {
+    let that = this;
+
+    chartGroup
+      .selectAll("overlayStroke")
+      .data(dailyRows)
+      .enter()
+      .append("rect")
+      .attr("class", "boxOverlay")
+      .attr("id", (d) => d.coords + "-box")
+      .attr("x", (d) => this.getXOffsetForDayIndex(d.dayIndex))
+      .attr("y", (d) => this.topMargin + this.topChartMargin)
+      .attr("width", (d) => d.duration > 0? this.cellSize : 0)
+      .attr("height", this.cellSize)
+      .attr("fill", "rgba(0,0,0,0)")
       .on("mouseover", function (event, d) {
         let box = document.getElementById(d.coords + "-box");
         box.classList.add("boxHighlight");
@@ -559,30 +585,6 @@ export default class FlowWeekChart extends Component {
       .on("click", function (event, d) {
         that.onClickDayBox(d.coords);
       });
-
-  }
-
-  clampToMaxTotalMomentum(totalMomentum) {
-    if (totalMomentum > FlowWeekChart.MAX_TOTAL_MOMENTUM) {
-      return FlowWeekChart.MAX_TOTAL_MOMENTUM;
-    } else {
-      return totalMomentum;
-    }
-  }
-
-  drawOverlayStrokeBoxes(dailyRows, chartGroup) {
-    chartGroup
-      .selectAll("overlayStroke")
-      .data(dailyRows)
-      .enter()
-      .append("rect")
-      .attr("class", "boxOverlay")
-      .attr("id", (d) => d.coords + "-box")
-      .attr("x", (d) => this.getXOffsetForDayIndex(d.dayIndex))
-      .attr("y", (d) => this.topMargin + this.topChartMargin)
-      .attr("width", this.cellSize)
-      .attr("height", this.cellSize)
-      .attr("fill", "none");
   }
 
   onClickDayBox(coords) {
