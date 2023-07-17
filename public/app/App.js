@@ -64,7 +64,7 @@ const CircuitMemberManager = require("../managers/CircuitMemberManager");
 const MessageWindowManager = require("../managers/MessageWindowManager");
 const FervieWindowManager = require("../managers/FervieWindowManager");
 const AccountManager = require("../managers/AccountManager");
-const FeatureToggleManager = require("../managers/FeatureToggleManager");
+const FeatureToggleManager = require("../managers/FeatureManager");
 
 const PluginRegistrationHandler = require("../job/PluginRegistrationHandler");
 const CodeModuleConfigHandler = require("../job/CodeModuleConfigHandler");

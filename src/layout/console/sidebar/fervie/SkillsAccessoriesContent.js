@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {List,} from "semantic-ui-react";
 import AccessoryListItem from "./AccessoryListItem";
 import SkillListItem from "./SkillListItem";
-import {FeatureToggleClient} from "../../../../clients/FeatureToggleClient";
+import {FeatureClient} from "../../../../clients/FeatureClient";
 import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
@@ -13,10 +13,10 @@ export default class SkillsAccessoriesContent extends Component {
 
   onSunglassesClick = (itemComp) => {
     if (this.props.fervieAccessory === itemComp.props.fervieAccessory) {
-      FeatureToggleClient.toggleOffFeature(FeatureToggle.Toggle.NEO);
+      FeatureClient.toggleOffFeature(FeatureToggle.Toggle.NEO);
       this.props.onUpdateAccessory(null, null);
     } else {
-      FeatureToggleClient.toggleOnFeature(FeatureToggle.Toggle.NEO);
+      FeatureClient.toggleOnFeature(FeatureToggle.Toggle.NEO);
       this.props.onUpdateAccessory(itemComp.props.fervieAccessory, "#000000");
     }
   }
@@ -39,7 +39,7 @@ export default class SkillsAccessoriesContent extends Component {
     if (FeatureToggle.isIndividualModeEnabled) {
       heartGlassDescription += " (Requires Add On: Slack Plugin)";
     }
-    
+
     return (
       <div
         className="fervieSkillsContent"

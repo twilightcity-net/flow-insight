@@ -1,16 +1,16 @@
-const FeatureToggleController = require("../controllers/FeatureToggleController");
+const FeatureController = require("../controllers/FeatureController");
 
 /**
  * managing class for the feature toggle updates
  */
-module.exports = class FeatureToggleManager {
+module.exports = class FeatureManager {
   /**
    * builds the feature toggle manager for the global app scope
    */
   constructor() {
-    this.name = "[FeatureToggleManager]";
+    this.name = "[FeatureManager]";
 
-    this.myController = new FeatureToggleController(this);
+    this.myController = new FeatureController(this);
     this.myController.configureEvents();
 
     this.myController.init();

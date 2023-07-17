@@ -19,7 +19,7 @@ import {HotkeyClient} from "../clients/HotkeyClient";
 import {MoovieClient} from "../clients/MoovieClient";
 import {AccountClient} from "../clients/AccountClient";
 import {CodeClient} from "../clients/CodeClient";
-import {FeatureToggleClient} from "../clients/FeatureToggleClient";
+import {FeatureClient} from "../clients/FeatureClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import {FlowClient} from "../clients/FlowClient";
 
@@ -126,7 +126,7 @@ export default class ConsoleView extends Component {
       this,
       this.onLoadCb
     );
-    FeatureToggleClient.init(this);
+    FeatureClient.init(this);
     TalkClient.init(this);
     TalkToClient.init(this);
     TeamClient.init(this);
@@ -163,7 +163,7 @@ export default class ConsoleView extends Component {
 
   onFeatureToggleRefresh() {
     console.log("Refresh toggles");
-    FeatureToggleClient.refreshToggles();
+    FeatureClient.refreshToggles();
   }
 
   /**

@@ -369,6 +369,22 @@ module.exports = class AppSettings {
   }
 
   /**
+   * stores an optional active metric set
+   * @param metricSet
+   */
+  setActiveMetricSet(metricSet) {
+    settings.set(AppSettings.OptionalKeys.ACTIVE_METRIC_SET, metricSet);
+  }
+
+  /**
+   * Retrieves an optional active metric set
+   */
+  getActiveMetricSet() {
+    return settings.get(AppSettings.OptionalKeys.ACTIVE_METRIC_SET);
+  }
+
+
+  /**
    * verifies the actual settings in the file are what they are
    * @returns {boolean}
    */
@@ -433,6 +449,7 @@ module.exports = class AppSettings {
       PRIMARY_ORG_ID_APP_WATCHMOOVIES: "primaryOrgIdWatchMoovies",
       FERVIE_SHORTCUT: "shortcutFervie",
       FEATURE_TOGGLE_LIST: "featureToggleList",
+      ACTIVE_METRIC_SET: "activeMetricSet"
     };
   }
 };

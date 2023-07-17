@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import UtilRenderer from "../../../../../../UtilRenderer";
+import {Icon, Transition} from "semantic-ui-react";
+import {FeatureClient} from "../../../../../../clients/FeatureClient";
 
 /**
  * this is the gui component that displays the metrics side panel on the flow dashboard
@@ -13,7 +15,20 @@ export default class FlowMetrics extends Component {
     super(props);
     this.name = "[FlowMetrics]";
     this.state = {
+      activeMetricSet: FlowMetrics.getDefaultMetricSet()
     };
+  }
+
+  static get MetricSet() {
+    return {
+      FlowHours: "flow",
+      LongestFlowStreak: "lfs",
+      MomentumDepth: "md",
+    };
+  }
+
+  static getDefaultMetricSet() {
+    return FlowMetrics.MetricSet.FlowHours;
   }
 
   /**
@@ -22,6 +37,14 @@ export default class FlowMetrics extends Component {
   componentDidMount() {
     this.recalculateTtmDataModel(this.props.chartDto);
 
+    FeatureClient.getActiveMetricSet(this, (arg) => {
+      if (arg.data && arg.data.metricSet) {
+        console.log("initializing metrics from config to :"+arg.data.metricSet);
+        this.setState({
+          activeMetricSet: arg.data.metricSet
+        });
+      }
+    });
   }
 
   findTodayCoords(chartDto) {
@@ -230,6 +253,31 @@ export default class FlowMetrics extends Component {
     }
   }
 
+  onClickCarosel = () => {
+    let nextMetricSet = this.nextMetricSet(this.state.activeMetricSet);
+    FeatureClient.setActiveMetricSet(nextMetricSet, this, (arg) => {
+      if (arg.data) {
+        this.setState({
+          activeMetricSet: nextMetricSet
+        });
+      } else {
+        console.error("Unable to set metric set: "+nextMetricSet);
+      }
+    });
+  }
+
+  nextMetricSet(metricSet) {
+    if (metricSet === FlowMetrics.MetricSet.FlowHours) {
+      return FlowMetrics.MetricSet.MomentumDepth;
+    } else if (metricSet === FlowMetrics.MetricSet.MomentumDepth) {
+      return FlowMetrics.MetricSet.LongestFlowStreak;
+    } else if (metricSet === FlowMetrics.MetricSet.LongestFlowStreak) {
+      return FlowMetrics.MetricSet.FlowHours;
+    } else {
+      console.error("Unknown metric set: "+metricSet);
+    }
+  }
+
   /**
    * Update the existing table entry based on the new max/average values
    * @param oldEntry
@@ -272,25 +320,39 @@ export default class FlowMetrics extends Component {
      flowHrs = Math.round(this.state.activeTtms.flowPerDay/60*10)/10 + " hrs";
    }
 
-   //TODO allow users to display the metrics of their choosing, these might all be useful
+    if (this.state.activeTtms && this.state.activeTtms.lfs) {
+      //lfs can be null if the streak is in progress
+      lfsMins = this.state.activeTtms.lfs + " min";
+    }
 
-    // if (this.state.activeTtms && this.state.activeTtms.lfs) {
-    //   //lfs can be null if the streak is in progress
-    //   lfsMins = this.state.activeTtms.lfs + " min";
-    // }
+    let mpd = "--";
+    let mpdUnits = "";
+    let mpdClass = "";
 
-    // let mpd = "--";
-    // let mpdUnits = "";
-    // let mpdDescription = "";
-    //
-    // if (this.state.activeTtms && this.state.activeTtms.momentumPerDay) {  //lfs can be null if the streak is in progress
-    //   mpd = this.state.activeTtms.momentumPerDay;
-    //   mpdUnits = <span className="depthUnit">depth <span className="depthUnitSmall">minutes</span></span>;
-    //   mpdDescription = "Depth of momentum cumulated per day as a heuristic for overall productivity";
-    // }
+    if (this.state.activeTtms && this.state.activeTtms.momentumPerDay) {  //lfs can be null if the streak is in progress
+      mpd = this.state.activeTtms.momentumPerDay;
+      mpdUnits = <span className="depthUnit">depth <span className="depthUnitSmall">minutes</span></span>;
+      mpdClass = "compoundMetric";
+    }
+
+    let dot1Class = "";
+    let dot2Class = "";
+    let dot3Class = "";
+
+    if (this.state.activeMetricSet === FlowMetrics.MetricSet.FlowHours) {
+      dot1Class = "active";
+    } else if (this.state.activeMetricSet === FlowMetrics.MetricSet.MomentumDepth) {
+      dot2Class = "active";
+    } else if (this.state.activeMetricSet === FlowMetrics.MetricSet.LongestFlowStreak) {
+      dot3Class = "active";
+    }
+
+    let hideAnimation = 0;
+    let showAnimation = 700;
 
     return (
       <div className="metricsPanel">
+
         <div className="summaryMetrics">
           <div className="metricsHeader">Time to Momentum (TTM)</div>
           <div className="metric">{ttmMins}</div>
@@ -298,22 +360,46 @@ export default class FlowMetrics extends Component {
         </div>
         <div className="space">&nbsp;</div>
 
-        {/*<div className="summaryMetrics">*/}
-        {/*  <div className="metricsHeader">Longest Flow Streak (LFS)</div>*/}
-        {/*  <div className="metric">{lfsMins}</div>*/}
-        {/*  <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>*/}
-        {/*</div>*/}
+        <Transition
+          visible={this.state.activeMetricSet === FlowMetrics.MetricSet.LongestFlowStreak}
+          animation="fade right"
+          duration={{hide: hideAnimation, show: showAnimation}}
+        >
+          <div className="summaryMetrics">
+            <div className="metricsHeader">Longest Flow Streak (LFS)</div>
+            <div className="metric">{lfsMins}</div>
+            <div className="metricDescription">Longest amount of time in flow state where momentum was sustained</div>
+          </div>
+        </Transition>
 
-        {/*<div className="summaryMetrics">*/}
-        {/*  <div className="metricsHeader">Momentum Per Day (MPD)</div>*/}
-        {/*  <div className="metric">{mpd}{mpdUnits}</div>*/}
-        {/*  <div className="metricDescription">Depth of momentum cumulated per day as a heuristic for overall productivity</div>*/}
-        {/*</div>*/}
+        <Transition
+          visible={this.state.activeMetricSet === FlowMetrics.MetricSet.FlowHours}
+          animation="fade right"
+          duration={{hide: hideAnimation, show: showAnimation}}
+        >
+          <div className="summaryMetrics">
+            <div className="metricsHeader">Flow Per Day (FPD)</div>
+            <div className="metric">{flowHrs}</div>
+            <div className="metricDescription">Average time spent in flow state per day where momentum was sustained</div>
+          </div>
+        </Transition>
 
-        <div className="summaryMetrics">
-          <div className="metricsHeader">Flow Per Day (FPD)</div>
-          <div className="metric">{flowHrs}</div>
-          <div className="metricDescription">Average time spent in flow state per day where momentum was sustained</div>
+        <Transition
+          visible={this.state.activeMetricSet === FlowMetrics.MetricSet.MomentumDepth}
+          animation="fade right"
+          duration={{hide: hideAnimation, show: showAnimation}}
+        >
+          <div className="summaryMetrics">
+            <div className="metricsHeader">Momentum Per Day (MPD)</div>
+            <div className={"metric "+mpdClass}>{mpd}{mpdUnits}</div>
+            <div className="metricDescription">Depth of momentum cumulated per day as a heuristic for overall productivity</div>
+          </div>
+        </Transition>
+
+        <div className="caroselDots" onClick={this.onClickCarosel}>
+          <Icon className={dot1Class} name="circle" size="tiny"/>
+          <Icon className={dot2Class} name="circle" size="tiny"/>
+          <Icon className={dot3Class} name="circle" size="tiny"/>
         </div>
       </div>
     );

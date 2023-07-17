@@ -4,20 +4,20 @@ const AppFeatureToggle = require("../app/AppFeatureToggle");
 
 /**
  * This class is used to manage requests for feature toggle state and updates
- * @type {FeatureToggleController}
+ * @type {FeatureController}
  */
-module.exports = class FeatureToggleController extends (
+module.exports = class FeatureController extends (
   BaseController
 ) {
   /**
-   * builds our FeatureToggleController class from our bass class
+   * builds our FeatureController class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
    */
   constructor(scope) {
-    super(scope, FeatureToggleController);
-    if (!FeatureToggleController.instance) {
-      FeatureToggleController.instance = this;
-      FeatureToggleController.wireTogetherControllers();
+    super(scope, FeatureController);
+    if (!FeatureController.instance) {
+      FeatureController.instance = this;
+      FeatureController.wireTogetherControllers();
     }
   }
 
@@ -29,7 +29,9 @@ module.exports = class FeatureToggleController extends (
     return {
       GET_FEATURE_TOGGLES: "get-feature-toggles",
       TOGGLE_ON_FEATURE: "toggle-on-feature",
-      TOGGLE_OFF_FEATURE: "toggle-off-feature"
+      TOGGLE_OFF_FEATURE: "toggle-off-feature",
+      GET_ACTIVE_METRIC_SET: "get-active-metric-set",
+      SET_ACTIVE_METRIC_SET: "set-active-metric-set",
     };
   }
 
@@ -46,7 +48,7 @@ module.exports = class FeatureToggleController extends (
    */
   static wireTogetherControllers() {
     BaseController.wireControllersTo(
-      FeatureToggleController.instance
+      FeatureController.instance
     );
   }
 
@@ -55,7 +57,7 @@ module.exports = class FeatureToggleController extends (
    */
   configureEvents() {
     BaseController.configEvents(
-      FeatureToggleController.instance
+      FeatureController.instance
     );
     this.featureToggleClientEventListener =
       EventFactory.createEvent(
@@ -82,24 +84,30 @@ module.exports = class FeatureToggleController extends (
     this.logRequest(this.name, arg);
     if (!arg.args) {
       this.handleError(
-        FeatureToggleController.Error.ERROR_ARGS,
+        FeatureController.Error.ERROR_ARGS,
         event,
         arg
       );
     } else {
       switch (arg.type) {
-        case FeatureToggleController.Events.GET_FEATURE_TOGGLES:
+        case FeatureController.Events.GET_FEATURE_TOGGLES:
           this.handleGetFeatureTogglesEvent(event, arg);
           break;
-        case FeatureToggleController.Events.TOGGLE_ON_FEATURE:
+        case FeatureController.Events.TOGGLE_ON_FEATURE:
           this.handleToggleOnFeatureEvent(event, arg);
           break;
-        case FeatureToggleController.Events.TOGGLE_OFF_FEATURE:
+        case FeatureController.Events.TOGGLE_OFF_FEATURE:
           this.handleToggleOffFeatureEvent(event, arg);
+          break;
+        case FeatureController.Events.GET_ACTIVE_METRIC_SET:
+          this.handleGetActiveMetricSetEvent(event, arg);
+          break;
+        case FeatureController.Events.SET_ACTIVE_METRIC_SET:
+          this.handleSetActiveMetricSetEvent(event, arg);
           break;
         default:
           throw new Error(
-            FeatureToggleController.Error.UNKNOWN +
+            FeatureController.Error.UNKNOWN +
             " '" +
             arg.type +
             "'."
@@ -135,6 +143,43 @@ module.exports = class FeatureToggleController extends (
     }
     return false;
   }
+
+
+  /**
+   * Get the active configured metric set (if any - optional)
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetActiveMetricSetEvent(event, arg, callback) {
+    const metricSet = global.App.AppSettings.getActiveMetricSet();
+    arg.data =  arg.data = {metricSet: metricSet};
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * Sets the active configured metric set
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleSetActiveMetricSetEvent(event, arg, callback) {
+    const metricSet = arg.args.metricSet;
+
+    global.App.AppSettings.setActiveMetricSet(metricSet);
+
+    arg.data = {metricSet: metricSet};
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
 
   /**

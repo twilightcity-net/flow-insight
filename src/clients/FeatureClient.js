@@ -5,7 +5,7 @@ import FeatureToggle from "../layout/shared/FeatureToggle";
 /**
  * This is our class that gets and saves info related to feature toggles
  */
-export class FeatureToggleClient extends BaseClient {
+export class FeatureClient extends BaseClient {
   /**
    * stores the event replies for client events
    * @type {Map<any, any>}
@@ -40,7 +40,9 @@ export class FeatureToggleClient extends BaseClient {
     return {
       GET_FEATURE_TOGGLES: "get-feature-toggles",
       TOGGLE_ON_FEATURE: "toggle-on-feature",
-      TOGGLE_OFF_FEATURE: "toggle-off-feature"
+      TOGGLE_OFF_FEATURE: "toggle-off-feature",
+      GET_ACTIVE_METRIC_SET: "get-active-metric-set",
+      SET_ACTIVE_METRIC_SET: "set-active-metric-set",
     };
   }
 
@@ -49,16 +51,16 @@ export class FeatureToggleClient extends BaseClient {
    * @param scope
    */
   static init(scope) {
-    if (!FeatureToggleClient.instance) {
-      FeatureToggleClient.instance = new FeatureToggleClient(
+    if (!FeatureClient.instance) {
+      FeatureClient.instance = new FeatureClient(
         scope
       );
-      FeatureToggleClient.initToggles();
+      FeatureClient.initToggles();
     }
   }
 
   static initToggles() {
-    FeatureToggleClient.getFeatureToggles(this, (arg) => {
+    FeatureClient.getFeatureToggles(this, (arg) => {
       if (arg.data) {
         FeatureToggle.init(arg.data);
       }
@@ -66,13 +68,48 @@ export class FeatureToggleClient extends BaseClient {
   }
 
   static refreshToggles() {
-    FeatureToggleClient.getFeatureToggles(this, (arg) => {
+    FeatureClient.getFeatureToggles(this, (arg) => {
       if (arg.data) {
         FeatureToggle.init(arg.data);
-        FeatureToggleClient.instance.featureToggleScreenRefreshDispatch.dispatch({});
+        FeatureClient.instance.featureToggleScreenRefreshDispatch.dispatch({});
       }
     });
   }
+
+  /**
+   * Set the configured active metric set
+   * @param metricSet
+   * @param scope
+   * @param callback
+   */
+  static setActiveMetricSet(metricSet, scope, callback) {
+    let event =
+      FeatureClient.instance.createClientEvent(
+        FeatureClient.Events.SET_ACTIVE_METRIC_SET,
+        {metricSet: metricSet},
+        scope,
+        callback
+      );
+    FeatureClient.instance.notifyFeatureToggle(event);
+  }
+
+
+  /**
+   * Get the configured active metric set (if any - optional)
+   * @param scope
+   * @param callback
+   */
+  static getActiveMetricSet(scope, callback) {
+    let event =
+      FeatureClient.instance.createClientEvent(
+        FeatureClient.Events.GET_ACTIVE_METRIC_SET,
+        {},
+        scope,
+        callback
+      );
+    FeatureClient.instance.notifyFeatureToggle(event);
+  }
+
 
   /**
    * Toggle ON the specified feature and broadcast update
@@ -82,13 +119,13 @@ export class FeatureToggleClient extends BaseClient {
    */
   static toggleOnFeature(feature, scope, callback) {
     let event =
-      FeatureToggleClient.instance.createClientEvent(
-        FeatureToggleClient.Events.TOGGLE_ON_FEATURE,
+      FeatureClient.instance.createClientEvent(
+        FeatureClient.Events.TOGGLE_ON_FEATURE,
         {feature: feature},
         scope,
         callback
       );
-    FeatureToggleClient.instance.notifyFeatureToggle(event);
+    FeatureClient.instance.notifyFeatureToggle(event);
   }
 
   /**
@@ -99,13 +136,13 @@ export class FeatureToggleClient extends BaseClient {
    */
   static toggleOffFeature(feature, scope, callback) {
     let event =
-      FeatureToggleClient.instance.createClientEvent(
-        FeatureToggleClient.Events.TOGGLE_OFF_FEATURE,
+      FeatureClient.instance.createClientEvent(
+        FeatureClient.Events.TOGGLE_OFF_FEATURE,
         {feature: feature},
         scope,
         callback
       );
-    FeatureToggleClient.instance.notifyFeatureToggle(event);
+    FeatureClient.instance.notifyFeatureToggle(event);
   }
 
   /**
@@ -116,13 +153,13 @@ export class FeatureToggleClient extends BaseClient {
    */
   static getFeatureToggles(scope, callback) {
     let event =
-      FeatureToggleClient.instance.createClientEvent(
-        FeatureToggleClient.Events.GET_FEATURE_TOGGLES,
+      FeatureClient.instance.createClientEvent(
+        FeatureClient.Events.GET_FEATURE_TOGGLES,
         {},
         scope,
         callback
       );
-    FeatureToggleClient.instance.notifyFeatureToggle(event);
+    FeatureClient.instance.notifyFeatureToggle(event);
     return event;
   }
 
@@ -135,17 +172,17 @@ export class FeatureToggleClient extends BaseClient {
    * @param arg
    */
   onFeatureToggleEventReply = (event, arg) => {
-    let clientEvent = FeatureToggleClient.replies.get(
+    let clientEvent = FeatureClient.replies.get(
       arg.id
     );
     this.logReply(
-      FeatureToggleClient.name,
-      FeatureToggleClient.replies.size,
+      FeatureClient.name,
+      FeatureClient.replies.size,
       arg.id,
       arg.type
     );
     if (clientEvent) {
-      FeatureToggleClient.replies.delete(arg.id);
+      FeatureClient.replies.delete(arg.id);
       clientEvent.callback(event, arg);
     }
   };
@@ -159,11 +196,11 @@ export class FeatureToggleClient extends BaseClient {
   notifyFeatureToggle(clientEvent) {
     console.log(
       "[" +
-      FeatureToggleClient.name +
+      FeatureClient.name +
         "] notify -> " +
         JSON.stringify(clientEvent)
     );
-    FeatureToggleClient.replies.set(
+    FeatureClient.replies.set(
       clientEvent.id,
       clientEvent
     );

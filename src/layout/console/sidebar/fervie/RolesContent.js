@@ -1,9 +1,5 @@
 import React, {Component} from "react";
 import {List,} from "semantic-ui-react";
-import AccessoryListItem from "./AccessoryListItem";
-import SkillListItem from "./SkillListItem";
-import {FeatureToggleClient} from "../../../../clients/FeatureToggleClient";
-import FeatureToggle from "../../../shared/FeatureToggle";
 
 /**
  * Return the fervie subpanel for showing either skills or accessories

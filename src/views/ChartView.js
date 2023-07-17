@@ -6,7 +6,7 @@ import { RendererControllerFactory } from "../controllers/RendererControllerFact
 import { CircuitClient } from "../clients/CircuitClient";
 import { TalkToClient } from "../clients/TalkToClient";
 import { MemberClient } from "../clients/MemberClient";
-import {FeatureToggleClient} from "../clients/FeatureToggleClient";
+import {FeatureClient} from "../clients/FeatureClient";
 import {RendererEventFactory} from "../events/RendererEventFactory";
 import UtilRenderer from "../UtilRenderer";
 
@@ -35,7 +35,7 @@ export default class ChartView extends Component {
     MemberClient.init(this);
     CircuitClient.init(this);
     ChartClient.init(this);
-    FeatureToggleClient.init(this);
+    FeatureClient.init(this);
 
     this.featureToggleRefreshListener =
       RendererEventFactory.createEvent(
