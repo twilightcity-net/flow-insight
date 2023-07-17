@@ -156,7 +156,7 @@ export default class DashboardPanel extends Component {
     if (resource.uriArr && resource.uriArr[0] !== "dashboard") {
       this.setState({
         dashboardPage: null,
-        dashboardTarget: DashboardPanel.Target.TEAM,
+        dashboardTarget: this.getDefaultTarget(),
         dashboardTimeScope: DashboardPanel.TimeScope.ALL
       });
     }
