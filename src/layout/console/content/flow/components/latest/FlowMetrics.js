@@ -392,7 +392,7 @@ export default class FlowMetrics extends Component {
           <div className="summaryMetrics">
             <div className="metricsHeader">Momentum Per Day (MPD)</div>
             <div className={"metric "+mpdClass}>{mpd}{mpdUnits}</div>
-            <div className="metricDescription">Depth of momentum cumulated per day as a heuristic for overall productivity</div>
+            <div className="metricDescription">Total momentum depth achieved by spending consecutive time in flow state </div>
           </div>
         </Transition>
 
