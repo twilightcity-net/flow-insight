@@ -9,6 +9,7 @@ import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import WTFThresholdListItem from "./WTFThresholdListItem";
 import BuddyRequestListItem from "./BuddyRequestListItem";
 import OfflineChatListItem from "./OfflineChatListItem";
+import CircuitNotificationListItem from "./CircuitNotificationListItem";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -227,6 +228,13 @@ export default class NotificationsPanel extends Component {
                       model={notification}
                       refresh={this.refreshNotifications}
                     />);
+                } else if (notification.type === "CIRCUIT_NOTIFICATION") {
+                  return (<CircuitNotificationListItem
+                    key={i}
+                    id={i}
+                    model={notification}
+                    refresh={this.refreshNotifications}
+                  />);
                 } else {
                   console.error("Unknown notification type! "+notification.type);
                 }
