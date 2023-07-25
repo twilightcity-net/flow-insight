@@ -36,9 +36,9 @@ export default class SkillsAccessoriesContent extends Component {
    */
   getSkillsContent = () => {
     let heartGlassDescription = "Earn 10% bonus XP when you help your teammates troubleshoot, and receive badges for helping out.";
-    if (FeatureToggle.isIndividualModeEnabled) {
-      heartGlassDescription += " (Requires Add On: Slack Plugin)";
-    }
+    // if (FeatureToggle.isIndividualModeEnabled) {
+    //   heartGlassDescription += " (Requires Add On: Slack Plugin)";
+    // }
 
     return (
       <div
