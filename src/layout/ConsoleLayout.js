@@ -145,6 +145,7 @@ export default class ConsoleLayout extends Component {
 
 
   onFeatureToggleUpdate = () => {
+    console.log("Console.Layout onFeatureToggleUpdate");
     this.sidePanelController.resetToDefaultPanel();
   }
 

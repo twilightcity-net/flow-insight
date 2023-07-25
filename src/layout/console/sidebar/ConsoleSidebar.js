@@ -243,6 +243,7 @@ export default class ConsoleSidebar extends Component {
    * For refresh of feature toggles, make sure we refresh the buttons
    */
   onFeatureToggleRefresh() {
+    console.log("ConsoleSidebar: onFeatureToggleRefresh");
     this.setState({
       activeItem: this.getDefaultSelectedPanel()
     });

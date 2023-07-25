@@ -116,6 +116,7 @@ export class RendererEventFactory {
       CIRCUIT_DATA_REFRESH: prefix + "circuit-data-refresh",
       JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
       FEATURE_TOGGLE_DATA_REFRESH: prefix + "feature-toggle-data-refresh",
+      FEATURE_TOGGLE_SILENT_DATA_REFRESH:  prefix + "feature-toggle-silent-data-refresh",
       FEATURE_TOGGLE_SCREEN_REFRESH: prefix + "feature-toggle-screen-refresh",
       DM_DATA_REFRESH: prefix + "dm-data-refresh",
       DICTIONARY_DATA_REFRESH: prefix + "dictionary-data-refresh",

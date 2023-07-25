@@ -152,6 +152,13 @@ export default class ConsoleView extends Component {
         this,
         this.onFeatureToggleRefresh
       );
+
+    this.featureToggleRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.FEATURE_TOGGLE_SILENT_DATA_REFRESH,
+        this,
+        this.onFeatureToggleSilentRefresh
+      );
   };
 
   componentWillUnmount = () => {
@@ -164,6 +171,11 @@ export default class ConsoleView extends Component {
   onFeatureToggleRefresh() {
     console.log("Refresh toggles");
     FeatureClient.refreshToggles();
+  }
+
+  onFeatureToggleSilentRefresh() {
+    console.log("Refresh toggles silently");
+    FeatureClient.refreshTogglesSilently();
   }
 
   /**

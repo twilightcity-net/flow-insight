@@ -72,6 +72,12 @@ module.exports = class FeatureController extends (
         EventFactory.Types.FEATURE_TOGGLE_DATA_REFRESH,
         this
       );
+
+    this.toggleSilentRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.FEATURE_TOGGLE_SILENT_DATA_REFRESH,
+        this
+      );
   }
 
   /**
@@ -213,7 +219,7 @@ module.exports = class FeatureController extends (
 
     arg.data = this.featureToggles;
 
-    this.toggleRefreshNotifier.dispatch({});
+    this.toggleSilentRefreshNotifier.dispatch({});
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -235,7 +241,7 @@ module.exports = class FeatureController extends (
 
     arg.data = this.featureToggles;
 
-    this.toggleRefreshNotifier.dispatch({});
+    this.toggleSilentRefreshNotifier.dispatch({});
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

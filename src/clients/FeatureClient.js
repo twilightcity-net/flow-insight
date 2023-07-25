@@ -76,6 +76,14 @@ export class FeatureClient extends BaseClient {
     });
   }
 
+  static refreshTogglesSilently() {
+    FeatureClient.getFeatureToggles(this, (arg) => {
+      if (arg.data) {
+        FeatureToggle.init(arg.data);
+      }
+    });
+  }
+
   /**
    * Set the configured active metric set
    * @param metricSet
