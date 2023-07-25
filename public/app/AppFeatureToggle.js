@@ -6,6 +6,8 @@ module.exports = class AppFeatureToggle {
 
   static isFerviePopupEnabled = true;
 
+  static isFervieWelcomeEnabled = false;
+
   static isToolsExtensionEnabled = false;
 
   static isControlChartEnabled = false;
@@ -13,6 +15,7 @@ module.exports = class AppFeatureToggle {
   static isStatusBarEnabled = false;
 
   static isIndividualModeEnabled = false;
+
 
   static appName = "FlowInsight";
   static version = "0.7.12"
@@ -25,6 +28,7 @@ module.exports = class AppFeatureToggle {
     return {
       JOURNAL: "journal",
       FERVIE: "fervie",
+      FERVIE_WELCOME: "fervie-welcome",
       MOOVIES: "moovies",
       NEO: "neo",
       METRICS: "metrics",
@@ -39,6 +43,7 @@ module.exports = class AppFeatureToggle {
 
   static init(featureToggleList) {
     AppFeatureToggle.isFerviePopupEnabled = false;
+    AppFeatureToggle.isFervieWelcomeEnabled = false;
     AppFeatureToggle.isMoovieApp = false;
     AppFeatureToggle.isToolsExtensionEnabled = false;
     AppFeatureToggle.isStatusBarEnabled = false;
@@ -48,6 +53,9 @@ module.exports = class AppFeatureToggle {
     for (let toggle of featureToggleList) {
       if (toggle === AppFeatureToggle.Toggle.FERVIE) {
         AppFeatureToggle.isFerviePopupEnabled = true;
+      }
+      if (toggle === AppFeatureToggle.Toggle.FERVIE_WELCOME) {
+        AppFeatureToggle.isFervieWelcomeEnabled = true;
       }
       if (toggle === AppFeatureToggle.Toggle.MOOVIES) {
         AppFeatureToggle.isMoovieApp = true;

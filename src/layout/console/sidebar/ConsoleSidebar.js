@@ -180,7 +180,7 @@ export default class ConsoleSidebar extends Component {
   getDefaultSelectedPanel() {
     if (FeatureToggle.isMoovieApp) {
       return SidePanelViewController.MenuSelection.BUDDIES;
-    } else if (FeatureToggle.isFerviePopupEnabled) {
+    } else if (FeatureToggle.isFervieWelcomeEnabled) {
       return SidePanelViewController.MenuSelection.FERVIE;
     } else {
       return SidePanelViewController.MenuSelection.HOME;

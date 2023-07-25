@@ -20,6 +20,11 @@ export default class FeatureToggle  {
 
   static isIndividualModeEnabled = false;
 
+  static isFerviePopupEnabled = false;
+
+  static isFervieWelcomeEnabled = false;
+
+
   static appName = "FlowInsight";
   static version = "0.7.12"
 
@@ -31,6 +36,7 @@ export default class FeatureToggle  {
     return {
       JOURNAL: "journal",
       FERVIE: "fervie",
+      FERVIE_WELCOME: "fervie-welcome",
       MOOVIES: "moovies",
       NEO: "neo",
       METRICS: "metrics",
@@ -46,6 +52,7 @@ export default class FeatureToggle  {
   static init(featureToggleList) {
     FeatureToggle.isJournalEnabled = false;
     FeatureToggle.isFerviePopupEnabled = false;
+    FeatureToggle.isFervieWelcomeEnabled = false;
     FeatureToggle.isMoovieApp = false;
     FeatureToggle.isNeoMode = false;
     FeatureToggle.isMetricsEnabled = false;
@@ -64,6 +71,9 @@ export default class FeatureToggle  {
       }
       if (toggle === FeatureToggle.Toggle.FERVIE) {
         FeatureToggle.isFerviePopupEnabled = true;
+      }
+      if (toggle === FeatureToggle.Toggle.FERVIE_WELCOME) {
+        FeatureToggle.isFervieWelcomeEnabled = true;
       }
       if (toggle === FeatureToggle.Toggle.NEO) {
         FeatureToggle.isNeoMode = true;

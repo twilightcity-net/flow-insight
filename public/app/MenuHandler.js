@@ -53,7 +53,15 @@ module.exports = class MenuHandler {
         checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.CONTROL)
       },
       {
-        label: "Fervie",
+        label: "Fervie Welcome",
+        click: () => {
+          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.FERVIE_WELCOME)
+        },
+        type: "checkbox",
+        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE_WELCOME)
+      },
+      {
+        label: "Fervie Teams",
         click: () => {
           MenuHandler.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
         },
