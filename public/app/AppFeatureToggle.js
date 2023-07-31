@@ -29,7 +29,6 @@ module.exports = class AppFeatureToggle {
       JOURNAL: "journal",
       FERVIE: "fervie",
       FERVIE_WELCOME: "fervie-welcome",
-      MOOVIES: "moovies",
       NEO: "neo",
       METRICS: "metrics",
       DASHBOARD: "dashboard",
@@ -44,7 +43,6 @@ module.exports = class AppFeatureToggle {
   static init(featureToggleList) {
     AppFeatureToggle.isFerviePopupEnabled = false;
     AppFeatureToggle.isFervieWelcomeEnabled = false;
-    AppFeatureToggle.isMoovieApp = false;
     AppFeatureToggle.isToolsExtensionEnabled = false;
     AppFeatureToggle.isStatusBarEnabled = false;
     AppFeatureToggle.isControlChartEnabled = false;
@@ -56,10 +54,6 @@ module.exports = class AppFeatureToggle {
       }
       if (toggle === AppFeatureToggle.Toggle.FERVIE_WELCOME) {
         AppFeatureToggle.isFervieWelcomeEnabled = true;
-      }
-      if (toggle === AppFeatureToggle.Toggle.MOOVIES) {
-        AppFeatureToggle.isMoovieApp = true;
-        AppFeatureToggle.appName = "WatchMoovies";
       }
       if (toggle === AppFeatureToggle.Toggle.TOOLS) {
         AppFeatureToggle.isToolsExtensionEnabled = true;
