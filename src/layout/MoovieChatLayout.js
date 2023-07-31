@@ -147,6 +147,7 @@ export default class MoovieChatLayout extends Component {
         this.props.onMessageSlideWindow();
         this.addMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
+        this.props.onMessageSlideWindow();
         this.addMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
         this.handleRoomMemberStatusEvent(arg);
@@ -330,7 +331,12 @@ export default class MoovieChatLayout extends Component {
         circuitMembers : allMembers,
         memberByIdMap: this.memberHelper.createMemberByIdMap(allMembers)}
       );
-      this.addStatusToChat(roomMember.fervieName + " joined the moovie.");
+      let name = roomMember.fervieName;
+      if (!name) {
+        name = "@"+username;
+      }
+
+      this.addStatusToChat(name + " joined the moovie.");
     }
   }
 
