@@ -39,7 +39,8 @@ module.exports = class MoovieController extends (
       CLAIM_SEAT: "claim-seat",
       RELEASE_SEAT: "release-seat",
       GET_SEAT_MAPPINGS: "get-seat-mappings",
-      CLAIM_PUPPET: "claim-puppet"
+      CLAIM_PUPPET: "claim-puppet",
+      HUD_CONSUME_ITEM: "hud-consume-item"
     };
   }
 
@@ -63,6 +64,12 @@ module.exports = class MoovieController extends (
         this,
         this.onMoovieClientEvent,
         null
+      );
+
+    this.moovieHudConsumeItemNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.MOOVIE_HUD_CONSUME_ITEM,
+        this
       );
   }
 
@@ -120,6 +127,9 @@ module.exports = class MoovieController extends (
           break;
         case MoovieController.Events.GET_SEAT_MAPPINGS:
           this.handleGetSeatMappingsEvent(event, arg);
+          break;
+        case MoovieController.Events.HUD_CONSUME_ITEM:
+          this.handleHudConsumeItemEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -287,6 +297,24 @@ module.exports = class MoovieController extends (
           arg,
           callback
         )
+    );
+  }
+
+  /**
+   * Handle propagating the consume item event so other windows
+   * can respond, e.g. when popcorn is eaten
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleHudConsumeItemEvent(event, arg, callback) {
+
+    this.moovieHudConsumeItemNotifier.dispatch({item: arg.args.item});
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
     );
   }
 

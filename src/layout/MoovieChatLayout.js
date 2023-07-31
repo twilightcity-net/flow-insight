@@ -68,6 +68,13 @@ export default class MoovieChatLayout extends Component {
         this
       );
 
+    this.moovieConsumeItemListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.MOOVIE_HUD_CONSUME_ITEM,
+        this,
+        this.onMoovieHudConsumeItem
+      );
+
     this.puppet = new MontyPuppet();
   }
 
@@ -136,6 +143,13 @@ export default class MoovieChatLayout extends Component {
     }
   };
 
+  onMoovieHudConsumeItem = (event, arg) => {
+    console.log("arg = ");
+    console.log(arg);
+    //TODO fill this in
+  }
+
+
   /**
    * Handle chat room messages
    * @param event
@@ -158,6 +172,8 @@ export default class MoovieChatLayout extends Component {
       }
     }
   };
+
+
 
   /**
    * Handle direct messages like buddy status updates
@@ -351,7 +367,6 @@ export default class MoovieChatLayout extends Component {
 
     let me = MemberClient.me;
     for (let talkMessage of talkMessages) {
-      console.log(talkMessage);
       if (talkMessage.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
 
         const metaProps = talkMessage.metaProps;

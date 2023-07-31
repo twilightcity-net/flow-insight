@@ -50,6 +50,7 @@ export default class GlobalHud {
 
   unload() {
     this.globalHudInputLockNotifier.clear();
+    this.listeners.clear();
   }
 
   draw(p5) {
@@ -88,6 +89,8 @@ export default class GlobalHud {
       this.store.mousePressed(p5, fervie);
     }
   }
+
+
 
   onKeylockEvent(event, arg) {
     if (arg.lockInput) {
@@ -173,6 +176,15 @@ export default class GlobalHud {
   removeListener(name) {
     this.listeners.delete(name);
   }
+
+  registerInventoryEventListener(name, callback) {
+    this.inventory.registerListener(name, callback);
+  }
+
+  removeInventoryEventListener(name, callback) {
+    this.inventory.removeListener(name, callback);
+  }
+
 
   closeMooviePicker() {
     this.isMooviePickerOpen = false;

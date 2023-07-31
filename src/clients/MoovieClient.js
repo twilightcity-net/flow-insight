@@ -43,7 +43,8 @@ export class MoovieClient extends BaseClient {
       CLAIM_SEAT: "claim-seat",
       RELEASE_SEAT: "release-seat",
       GET_SEAT_MAPPINGS: "get-seat-mappings",
-      CLAIM_PUPPET: "claim-puppet"
+      CLAIM_PUPPET: "claim-puppet",
+      HUD_CONSUME_ITEM: "hud-consume-item"
     };
   }
 
@@ -110,8 +111,34 @@ export class MoovieClient extends BaseClient {
   }
 
 
+
+  /**
+   * Notify that a specific inventory item has been consumed
+   * @param item
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static notifyItemConsumed(
+    item,
+    scope,
+    callback
+  ) {
+    let event = MoovieClient.instance.createClientEvent(
+      MoovieClient.Events.HUD_CONSUME_ITEM,
+      {item: item},
+      scope,
+      callback
+    );
+
+    MoovieClient.instance.notifyMoovie(event);
+    return event;
+  }
+
+
   /**
    * Get a specific movie circuit
+   * @param circuitId
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}

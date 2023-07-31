@@ -130,6 +130,7 @@ export class RendererEventFactory {
       GLOBAL_HUD_INPUT_LOCK: prefix + "global-hud-input-lock",
       MOOVIE_START: prefix + "moovie-start",
       MOOVIE_STOP: prefix + "moovie-stop",
+      MOOVIE_HUD_CONSUME_ITEM:  prefix + "moovie-hud-consume-item",
       GET_REGISTERED_PLUGIN_LIST: prefix + "get-registered-plugin-list",
       REGISTER_PLUGIN: prefix + "register-plugin",
       CONSOLE_LINK_EVENT: prefix + "console-link-event"

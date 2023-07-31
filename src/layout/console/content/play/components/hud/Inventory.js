@@ -46,6 +46,8 @@ export default class Inventory {
     this.iconLookup = [];
 
     this.onActiveItemChangeCallback = onActiveItemChangeCallback;
+
+    this.listeners = new Map();
   }
 
   static get ItemType() {
@@ -240,6 +242,12 @@ export default class Inventory {
       item === Inventory.ItemType.CHOCOLATE;
   }
 
+  consumeItem(item) {
+    this.reduceInventoryAmount(item);
+    this.notifyListeners(item);
+  }
+
+
   reduceInventoryAmount(item) {
     let amount = this.inventoryAmounts[item];
     amount--;
@@ -260,6 +268,21 @@ export default class Inventory {
     }
   }
 
+  notifyListeners(item) {
+    for (let callback of this.listeners.values()) {
+      callback(item);
+    }
+  }
+
+  registerListener(name, callback) {
+    this.listeners.set(name, callback);
+  }
+
+  removeListener(name) {
+    this.listeners.delete(name);
+  }
+
+
   mousePressed(p5, fervie) {
     console.log("mousex = "+p5.mouseX + ", mousey = "+p5.mouseY);
 
@@ -268,7 +291,7 @@ export default class Inventory {
 
     if (clickedIcon) {
       if (this.isConsumableItem(clickedIcon)) {
-        this.reduceInventoryAmount(clickedIcon);
+        this.consumeItem(clickedIcon);
       } else {
         if (this.activeItemSelection === null) {
           this.setActiveItemSelection(clickedIcon);

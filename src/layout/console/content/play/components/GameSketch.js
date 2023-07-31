@@ -20,6 +20,8 @@ import {Heartglasses} from "./accessories/Heartglasses";
 import GameState from "./hud/GameState";
 
 import * as p5 from "p5";
+import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
+import {MoovieClient} from "../../../../../clients/MoovieClient";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -41,6 +43,7 @@ export default class GameSketch extends Component {
     this.width = DimensionController.getFullRightPanelWidth();
 
     this.globalHud = new GlobalHud(this.animationLoader, this.width, this.height);
+
   }
 
   /**
@@ -54,6 +57,10 @@ export default class GameSketch extends Component {
         p5.frameRate(24);
 
         this.globalHud.preload(p5);
+
+        this.globalHud.registerInventoryEventListener('consumeItem', (item) => {
+          this.onHandleConsumeItem(item);
+        });
 
         this.environment = new EnvironmentMap(
           this.animationLoader,
@@ -151,6 +158,16 @@ export default class GameSketch extends Component {
       this.fervieSprite.reloadImages(this.sketchInstance);
 
     }
+  }
+
+  onHandleConsumeItem = (item) => {
+
+    console.log("Notify consume inventory item = "+item);
+
+    MoovieClient.notifyItemConsumed(item, this, () => {
+      console.log("Notification sent for inventory consumed!");
+    });
+
   }
 
   /**
