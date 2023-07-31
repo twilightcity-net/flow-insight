@@ -467,7 +467,7 @@ export default class TheaterRoom extends Environment {
   drawFervieTooltip(p5, fervieInSeat) {
     let name = fervieInSeat.fervieName;
     if (!name) {
-      name = "@"+fervieInSeat.username;
+      name = fervieInSeat.username;
     }
     p5.fill('rgba(0,0,0,0.7)');
     p5.rect(fervieInSeat.x - 45, fervieInSeat.y - 100, 100, 30, 5);
