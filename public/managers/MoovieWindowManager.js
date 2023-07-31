@@ -1,7 +1,7 @@
 const log = require("electron-log");
 const EventFactory = require("../events/EventFactory");
 const WindowManagerHelper = require("./WindowManagerHelper");
-const shell = require('electron').shell;
+const shell = require("electron").shell;
 
 /**
  * managing class for opening the popup moovie windows
@@ -11,9 +11,11 @@ module.exports = class MoovieWindowManager {
   static AMAZON_PREFIX = "https://www.amazon.com/";
   static HBOMAX_PREFIX = "https://play.hbomax.com/";
   static DISNEY_PREFIX = "https://www.disneyplus.com/";
+  static APPLE_TV_PREFIX = "https://tv.apple.com/";
   static PRIME_PREFIX = "https://www.primevideo.com/";
   static AMAZON_CA_PREFIX = "https://www.amazon.ca/";
   static PROJECTFREE_PREFIX = "https://projectfreetv.one/";
+  static DOBBYSITE_PREFIX = "https://dobby.site/";
   /**
    * builds the ChartWindowManager for the global app scope
    */
@@ -41,14 +43,17 @@ module.exports = class MoovieWindowManager {
    * @param arg
    */
   onOpenMoovieCb(event, arg) {
-
-    console.log("Launching "+arg.moovie.link);
+    console.log("Launching " + arg.moovie.link);
 
     if (this.isValidUrl(arg.moovie.link)) {
       shell.openExternal(arg.moovie.link);
-      WindowManagerHelper.createMoovieWindow({moovieId: arg.moovie.id});
+      WindowManagerHelper.createMoovieWindow({
+        moovieId: arg.moovie.id,
+      });
     } else {
-      throw Error("Unexpected link should be a movie site link");
+      throw Error(
+        "Unexpected link should be a movie site link"
+      );
     }
   }
 
@@ -63,13 +68,17 @@ module.exports = class MoovieWindowManager {
   }
 
   isValidUrl(url) {
-    return url.startsWith(MoovieWindowManager.AMAZON_PREFIX)
-      || url.startsWith(MoovieWindowManager.NETFLIX_PREFIX)
-      || url.startsWith(MoovieWindowManager.HBOMAX_PREFIX)
-      || url.startsWith(MoovieWindowManager.AMAZON_CA_PREFIX)
-      || url.startsWith(MoovieWindowManager.PRIME_PREFIX)
-      || url.startsWith(MoovieWindowManager.PROJECTFREE_PREFIX)
-      || url.startsWith(MoovieWindowManager.DISNEY_PREFIX);
+    return (
+      url.startsWith(MoovieWindowManager.AMAZON_PREFIX) ||
+      url.startsWith(MoovieWindowManager.NETFLIX_PREFIX) ||
+      url.startsWith(MoovieWindowManager.HBOMAX_PREFIX) ||
+      url.startsWith(MoovieWindowManager.AMAZON_CA_PREFIX) ||
+      url.startsWith(MoovieWindowManager.PRIME_PREFIX) ||
+      url.startsWith(MoovieWindowManager.PROJECTFREE_PREFIX) ||
+      url.startsWith(MoovieWindowManager.DISNEY_PREFIX) ||
+      url.startsWith(MoovieWindowManager.APPLE_TV_PREFIX) ||
+      url.startsWith(MoovieWindowManager.DOBBYSITE_PREFIX)
+    );
   }
 
   closeMoovieWindow() {
@@ -79,5 +88,4 @@ module.exports = class MoovieWindowManager {
   isMoovieWindowOpen() {
     return WindowManagerHelper.isMoovieWindowOpen();
   }
-
 };
