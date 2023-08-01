@@ -40,6 +40,7 @@ export class TalkToClient extends BaseClient {
       CLEAR_REACTION_TO_MESSAGE: "clear-reaction-to-message",
       CLEAR_REACTION_TO_DIRECT_MESSAGE: "clear-reaction-to-direct-message",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
+      PUBLISH_STATUS_CHAT_TO_ROOM: "publish-status-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
       GET_DMS_WITH_MEMBER: "get-dms-with-member",
@@ -333,6 +334,32 @@ export class TalkToClient extends BaseClient {
   ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.PUBLISH_PUPPET_CHAT_TO_ROOM,
+      { roomName: roomName, text: text },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
+
+  /**
+   * publishes a status chat message to a room, fully resolved into
+   * a single message string
+   * @param roomName
+   * @param text
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static publishStatusChatToRoom(
+    roomName,
+    text,
+    scope,
+    callback
+  ) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.PUBLISH_STATUS_CHAT_TO_ROOM,
       { roomName: roomName, text: text },
       scope,
       callback

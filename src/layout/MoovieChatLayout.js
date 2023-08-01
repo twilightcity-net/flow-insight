@@ -13,6 +13,7 @@ import MoovieBanner from "./moovie/MoovieBanner";
 import MontyPuppet from "./moovie/MontyPuppet";
 import {FervieClient} from "../clients/FervieClient";
 import ChatPeekPopup from "./moovie/ChatPeekPopup";
+import Inventory from "./console/content/play/components/hud/Inventory";
 
 /**
  * this component is the layout for the always-on-top chat overlay panel
@@ -145,8 +146,41 @@ export default class MoovieChatLayout extends Component {
 
   onMoovieHudConsumeItem = (event, arg) => {
     console.log("arg = ");
-    console.log(arg);
-    //TODO fill this in
+    console.log(arg.item);
+
+    const status = this.createStatusMessageForConsumeItem(arg.item);
+    TalkToClient.publishStatusChatToRoom(this.state.moovie.talkRoomId, status, this, (arg) => {
+      console.log("status message sent!");
+    });
+  }
+
+  /**
+   * Create a status message that corresponds to us consuming the item
+   * @param item
+   */
+  createStatusMessageForConsumeItem(item) {
+
+    const myName = this.getMyName(MemberClient.me);
+    let status = myName + " eats a " + item.toLowerCase();
+
+    if (item === Inventory.ItemType.SODA) {
+      status = myName + " sips a "+ item.toLowerCase();
+    } else if (item === Inventory.ItemType.ICE_CREAM) {
+      status = myName + " eats an "+ item.toLowerCase();
+    } else if (item === Inventory.ItemType.PIZZA) {
+      status = myName + " eats a pizza slice";
+    }
+    status += ".";
+
+    return status;
+  }
+
+  getMyName(me) {
+    if (me.fervieName) {
+      return me.fervieName;
+    } else {
+      return me.username;
+    }
   }
 
 
@@ -157,12 +191,13 @@ export default class MoovieChatLayout extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     if (arg.uri === this.state.moovie.talkRoomId) {
-      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS) {
+      if (arg.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS ||
+        arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
         this.props.onMessageSlideWindow();
         this.addMessageToFeed(arg);
-      } else if (arg.messageType === BaseClient.MessageTypes.PUPPET_MESSAGE) {
-        this.props.onMessageSlideWindow();
-        this.addMessageToFeed(arg);
+      } else if (arg.messageType === BaseClient.MessageTypes.CHAT_STATUS_MESSAGE ) {
+        console.log("chat status message is = "+arg.data.message);
+        this.addStatusToChat(arg.data.message);
       } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
         this.handleRoomMemberStatusEvent(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.MOOVIE_STATUS_UPDATE) {

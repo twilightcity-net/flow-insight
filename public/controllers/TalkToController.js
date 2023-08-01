@@ -38,6 +38,7 @@ module.exports = class TalkToController extends (
       CLEAR_REACTION_TO_MESSAGE: "clear-reaction-to-message",
       CLEAR_REACTION_TO_DIRECT_MESSAGE: "clear-reaction-to-direct-message",
       PUBLISH_PUPPET_CHAT_TO_ROOM: "publish-puppet-chat-to-room",
+      PUBLISH_STATUS_CHAT_TO_ROOM: "publish-status-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
       GET_DMS_WITH_MEMBER: "get-dms-with-member",
@@ -121,6 +122,9 @@ module.exports = class TalkToController extends (
           break;
         case TalkToController.Events.PUBLISH_PUPPET_CHAT_TO_ROOM:
           this.handlePublishPuppetChatToRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.PUBLISH_STATUS_CHAT_TO_ROOM:
+          this.handlePublishStatusChatToRoomEvent(event, arg);
           break;
         case TalkToController.Events.JOIN_EXISTING_ROOM:
           this.handleJoinExistingRoomEvent(event, arg);
@@ -392,6 +396,40 @@ module.exports = class TalkToController extends (
       TalkToController.Contexts.TALK_TO_CLIENT,
       { chatMessage: text },
       TalkToController.Names.PUBLISH_PUPPET_CHAT_TO_ROOM,
+      TalkToController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * Publish a status message to the talk room,
+   * such as 'Arty eats a popcorn' as a background commentary
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handlePublishStatusChatToRoomEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      text = arg.args.text,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.STATUS;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { chatMessage: text },
+      TalkToController.Names.PUBLISH_STATUS_CHAT_TO_ROOM,
       TalkToController.Types.POST,
       urn,
       (store) =>

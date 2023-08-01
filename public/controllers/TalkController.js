@@ -925,6 +925,7 @@ module.exports = class TalkController extends (
       case TalkController.MessageTypes.FERVIE_SEAT_EVENT:
       case TalkController.MessageTypes.MOOVIE_STATUS_UPDATE:
       case TalkController.MessageTypes.PUPPET_MESSAGE:
+      case TalkController.MessageTypes.CHAT_STATUS_MESSAGE:
       case TalkController.MessageTypes.CHAT_REACTION:
         break;
       default:

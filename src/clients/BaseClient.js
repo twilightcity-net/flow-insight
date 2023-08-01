@@ -50,6 +50,7 @@ export class BaseClient {
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       PUPPET_MESSAGE: "PuppetMessageDto",
+      CHAT_STATUS_MESSAGE: "StatusChatMessageDto",
       TEAM_MEMBER: "TeamMemberDto",
       TEAM_MEMBER_ADDED: "TeamMemberAddedEventDto",
       TEAM_MEMBER_REMOVED: "TeamMemberRemovedEventDto",
