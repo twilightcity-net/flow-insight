@@ -160,15 +160,16 @@ export default class MoovieChatLayout extends Component {
    */
   createStatusMessageForConsumeItem(item) {
 
-    const myName = this.getMyName(MemberClient.me);
-    let status = myName + " eats a " + item.toLowerCase();
+    let status = " eats a " + item.toLowerCase();
 
     if (item === Inventory.ItemType.SODA) {
-      status = myName + " sips a "+ item.toLowerCase();
+      status = " sips a "+ item.toLowerCase();
     } else if (item === Inventory.ItemType.ICE_CREAM) {
-      status = myName + " eats an "+ item.toLowerCase();
+      status = " licks an "+ item.toLowerCase();
     } else if (item === Inventory.ItemType.PIZZA) {
-      status = myName + " eats a pizza slice";
+      status = " eats a pizza slice";
+    } else if (item === Inventory.ItemType.CHOCOLATE) {
+      status = " nibbles a "+ item.toLowerCase();
     }
     status += ".";
 
@@ -197,7 +198,7 @@ export default class MoovieChatLayout extends Component {
         this.addMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.CHAT_STATUS_MESSAGE ) {
         console.log("chat status message is = "+arg.data.message);
-        this.addStatusToChat(arg.data.message);
+        this.addChatStatusMessageToFeed(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
         this.handleRoomMemberStatusEvent(arg);
       } else if (arg.messageType === BaseClient.MessageTypes.MOOVIE_STATUS_UPDATE) {
@@ -853,6 +854,24 @@ export default class MoovieChatLayout extends Component {
       };
       return this.updateMessages(prevState.messages, newMessage);
     });
+  }
+
+  /**
+   * Add chat status from user to the chat
+   * @param arg
+   */
+  addChatStatusMessageToFeed(arg) {
+    let metaProps = arg.metaProps,
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+
+      let fromMember = username;
+
+      let member = this.memberHelper.getMemberForUsername(username);
+      if (member && member.fervieName) {
+        fromMember = member.fervieName;
+      }
+
+      this.addStatusToChat(fromMember + arg.data.message);
   }
 
 
