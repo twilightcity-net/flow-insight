@@ -204,7 +204,7 @@ export default class FeedCreator {
     troubleshootMessages
   ) {
     return this.convertToFeedEvents(
-      "What do you see happening?",
+      "What were you trying to accomplish?",
       circuit.openTime,
       troubleshootMessages
     );
