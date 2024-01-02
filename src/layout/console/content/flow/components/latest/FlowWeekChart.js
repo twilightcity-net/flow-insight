@@ -188,15 +188,15 @@ export default class FlowWeekChart extends Component {
     let offset = this.props.weekOffset;
 
     if (offset === 0) {
-      return "This Week's Programming Flow";
+      return "This Week's Flow";
     } else if (offset === -1) {
-      return "Last Week's Programming Flow";
+      return "Last Week's Flow";
     } else if (offset < -1) {
       if (dailyRows.length > 0) {
         let day = UtilRenderer.getDateString(dailyRows[0].calDate);
-        return "Week of "+day + " Programming Flow";
+        return "Week of "+day + " Flow";
       } else {
-        return "Week's Programming Flow";
+        return "Week's Flow";
       }
     }
   }
