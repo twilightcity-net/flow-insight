@@ -1,6 +1,6 @@
 import UtilRenderer from "../../../../UtilRenderer";
-import { MemberClient } from "../../../../clients/MemberClient";
-import { BaseClient } from "../../../../clients/BaseClient";
+import {MemberClient} from "../../../../clients/MemberClient";
+import {BaseClient} from "../../../../clients/BaseClient";
 
 /**
  * feed creator that takes messages and circuit members,
@@ -204,7 +204,7 @@ export default class FeedCreator {
     troubleshootMessages
   ) {
     return this.convertToFeedEvents(
-      "What were you trying to accomplish?",
+      "What's the problem?",
       circuit.openTime,
       troubleshootMessages
     );
