@@ -491,7 +491,7 @@ export default class CircuitSidebar extends Component {
         ? this.props.model.tags
         : tags;
       if (!description || description === "") {
-        description = "What's the problem'?";
+        description = "What do you see happening?";
       }
     }
 

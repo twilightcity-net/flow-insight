@@ -758,7 +758,7 @@ export default class ActiveCircuit extends Component {
         feedEvents,
         "Fervie",
         time,
-        "What's the problem?",
+        "I'm here. What do you see happening?",
         false
       );
     }
