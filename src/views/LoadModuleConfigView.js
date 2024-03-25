@@ -46,7 +46,7 @@ export default class LoadModuleConfigView extends Component {
 
     this.loadInProgress = true;
 
-    CodeClient.updateCodeModuleConfig(this.state.currentModuleName, this.state.currentConfigFile, this, (arg) => {
+    CodeClient.updateCodeModuleConfig(this.state.currentModuleName, this.state.currentConfigFile, (arg) => {
       this.loadInProgress = false;
       if (!arg.error) {
         this.forwardToNextModule();

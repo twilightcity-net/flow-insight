@@ -273,7 +273,7 @@ module.exports = class FlowStateTracker {
    */
   createInitialSlotCounts() {
     let slotCounts = [];
-    if (this.snapshot) {
+    if (this.snapshot && this.snapshot.rollover && this.snapshot.rollover.bucketHistory) {
       slotCounts.push(this.snapshot.rollover.bucketHistory[3]); //oldest at the front
       slotCounts.push(this.snapshot.rollover.bucketHistory[2]);
       slotCounts.push(this.snapshot.rollover.bucketHistory[1]);
@@ -453,7 +453,7 @@ module.exports = class FlowStateTracker {
       rollover.bucketHistory.push(parseFloat(parts[5]));
       return rollover;
     } else {
-      return null;
+      return rollover;
     }
   }
 
