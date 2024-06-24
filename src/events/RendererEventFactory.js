@@ -76,6 +76,7 @@ export class RendererEventFactory {
       CIRCUIT_CLIENT: prefix + "circuit-client",
       FERVIE_CLIENT: prefix + "fervie-client",
       CODE_CLIENT: prefix + "code-client",
+      FERVIE_ACTION_CLIENT: prefix + "fervie-action-client",
       FLOW_CLIENT: prefix + "flow-client",
       MOOVIE_CLIENT: prefix + "moovie-client",
       ACCOUNT_CLIENT: prefix + "account-client",

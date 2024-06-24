@@ -48,6 +48,7 @@ class EventFactory {
       NOTIFICATION_CLIENT: prefix + "notification-client",
       FERVIE_CLIENT: prefix + "fervie-client",
       CODE_CLIENT: prefix + "code-client",
+      FERVIE_ACTION_CLIENT: prefix + "fervie-action-client",
       ACCOUNT_CLIENT: prefix + "account-client",
       MOOVIE_CLIENT: prefix + "moovie-client",
       FLOW_CLIENT: prefix + "flow-client",

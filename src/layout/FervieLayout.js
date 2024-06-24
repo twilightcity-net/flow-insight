@@ -6,6 +6,10 @@ import {MemberClient} from "../clients/MemberClient";
 import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
 import {Button, Icon, Popup} from "semantic-ui-react";
 import {CodeClient} from "../clients/CodeClient";
+import {FervieActionClient} from "../clients/FervieActionClient";
+import JournalItem from "./console/content/journal/components/JournalItem";
+import Mousetrap from "mousetrap";
+import {act} from "react-dom/test-utils";
 
 /**
  * this component is the layout for the always-on-top fervie button
@@ -29,10 +33,12 @@ export default class FervieLayout extends Component {
       requestedAreaType: null, //code area selection type, this will go away
       requestedArea: null, //code area selected, this will go away
     }
+
   }
 
   static HELP_REQUEST = "help";
   static HOTKEY_REQUEST = "hotkey";
+  static ACTION_BUTTON_ID_PREFIX = "actionButton";
 
   /**
    * Called when the fervie button is first loaded
@@ -64,7 +70,15 @@ export default class FervieLayout extends Component {
         RendererEventFactory.Events.CONSOLE_LINK_EVENT,
         this
       );
+
+    this.setKeyboardShortcuts();
+
+    this.initButtonRefs();
   };
+
+  initButtonRefs() {
+    this.actionButtonRefs = [];
+  }
 
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType,
@@ -79,7 +93,6 @@ export default class FervieLayout extends Component {
   onFervieShowHideEvent = (event, arg) => {
     console.log("onFervieShowHideEvent = "+JSON.stringify(arg));
     if (arg.request === FervieLayout.HELP_REQUEST) {
-      console.log("help type!");
       this.setState({
         requestType: "help",
         requestInfo: {
@@ -109,7 +122,11 @@ export default class FervieLayout extends Component {
     this.talkRoomMessageListener.clear();
     this.fervieShowHideNotifier.clear();
     this.consoleLinkNotifier.clear();
+    this.clearKeyboardShortcuts();
+
+    this.actionButtonRefs = [];
   }
+
 
   onMeRefresh = () => {
     this.setState({
@@ -133,12 +150,12 @@ export default class FervieLayout extends Component {
     console.log("onFervieShow");
     if (this.state.requestType === FervieLayout.HOTKEY_REQUEST) {
       this.initializeCodeState();
+      this.initializeFervieActions();
     } else if (this.state.requestType === FervieLayout.HELP_REQUEST) {
       //no init required, should be set already
       this.initializeHelpState();
     }
   }
-
 
   initializeHelpState() {
     setTimeout( () => {
@@ -148,6 +165,18 @@ export default class FervieLayout extends Component {
         isSelectionClicked: false
       });
     }, 1000);
+  }
+
+  initializeFervieActions() {
+    FervieActionClient.getAllFervieActions(this, (arg) => {
+      if (arg.data) {
+        console.log("Fervie actions returned");
+        console.log(arg.data);
+        this.setState({
+          fervieActions: arg.data
+        });
+      }
+    });
   }
 
   initializeCodeState() {
@@ -176,17 +205,127 @@ export default class FervieLayout extends Component {
     });
   }
 
-  capitalizeFirstLetter(name) {
-      return name.charAt(0).toUpperCase() + name.slice(1);
+  /**
+   * our string values of keyboard key names
+   * @returns {{DOWN: string, LEFT: string, RIGHT: string, UP: string}}
+   * @constructor
+   */
+  static get Keys() {
+    return {
+      UP: "up",
+      DOWN: "down",
+      ESC: "esc"
+    };
   }
 
   /**
-   * When we click on the fervie app icon
+   * binds our keyboard shortcut to our callback. Called when the fervie popup is loaded
    */
-  onClickFervie = () => {
-    //this.props.onClickAppIcon();
+  setKeyboardShortcuts() {
+    Mousetrap.bind(
+      FervieLayout.Keys.UP,
+      this.handleKeyPressUp
+    );
+    Mousetrap.bind(
+      FervieLayout.Keys.DOWN,
+      this.handleKeyPressDown
+    );
+    Mousetrap.bind(
+      FervieLayout.Keys.ESC,
+      this.handleKeyPressEscape
+    );
   }
 
+  /**
+   * clears keyboard shortcuts for our journal.
+   */
+  clearKeyboardShortcuts() {
+    Mousetrap.unbind(FervieLayout.Keys.UP);
+    Mousetrap.unbind(FervieLayout.Keys.DOWN);
+    Mousetrap.unbind(FervieLayout.Keys.ESC);
+  }
+
+  /**
+   * event handler for when the user presses the up arrow key with fervie up,
+   * should change the active button selection similar to pressing tab
+   * @param e
+   * @param combo
+   */
+  handleKeyPressUp = (e, combo) => {
+    console.log("press up");
+
+    let activeFocusedElement = document.activeElement;
+    let nextIndex = 0;
+
+    if (activeFocusedElement && activeFocusedElement.nodeName === "BUTTON") {
+      let index = this.getIndexFromActionButtonId(activeFocusedElement.id);
+      nextIndex = this.decrementIndex(index);
+    }
+
+    this.focusButtonByIndex(nextIndex);
+  };
+
+  /**
+   * event handler for when the user presses the down arrow key with fervie down,
+   * should change the active button selection similar to pressing tab
+   * @param e
+   * @param combo
+   */
+  handleKeyPressDown = (e, combo) => {
+    console.log("press down");
+
+    let activeFocusedElement = document.activeElement;
+    let nextIndex = 0;
+
+    if (activeFocusedElement && activeFocusedElement.nodeName === "BUTTON") {
+      let index = this.getIndexFromActionButtonId(activeFocusedElement.id);
+      nextIndex = this.incrementIndex(index);
+    }
+
+    this.focusButtonByIndex(nextIndex);
+  };
+
+  focusButtonByIndex(index) {
+    let el = document.getElementById(FervieLayout.ACTION_BUTTON_ID_PREFIX + index);
+    el.focus();
+  }
+
+  incrementIndex(index) {
+    if (index + 1 >= this.actionButtonRefs.length) {
+      return 0;
+    } else {
+      return index + 1;
+    }
+  }
+
+  decrementIndex(index) {
+    if (index - 1 < 0) {
+      return this.actionButtonRefs.length - 1;
+    } else {
+     return index - 1;
+    }
+  }
+
+  getIndexFromActionButtonId(id) {
+    return parseInt(id.substr(FervieLayout.ACTION_BUTTON_ID_PREFIX.length));
+  }
+
+  /**
+   * event handler for when the user presses the escape arrow key with fervie up.
+   * Should close the fervie popup
+   * @param e
+   * @param combo
+   */
+  handleKeyPressEscape = (e, combo) => {
+    console.log("press escape");
+    setTimeout(() => {
+      this.fervieShowHideNotifier.dispatch({});
+    }, 100);
+  };
+
+  capitalizeFirstLetter(name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+  }
 
   onClickAreaOfCode = (areaType, area) => {
     console.log("button pressed for "+area);
@@ -249,6 +388,7 @@ export default class FervieLayout extends Component {
           </Popup.Content>
         );
     } else {
+      this.configActionButtonRef(0);
       popupContent = (
         <Popup.Content className="fervieTalkContent">
           <div>
@@ -256,6 +396,7 @@ export default class FervieLayout extends Component {
           </div>
           <div>
             <Button
+              id={FervieLayout.ACTION_BUTTON_ID_PREFIX + 0}
               className="bubbleButton"
               size="medium"
               color="grey"
@@ -289,7 +430,19 @@ export default class FervieLayout extends Component {
   }
 
 
-  getPairingBubbleContent() {
+  getCodeArea() {
+    if (this.state.requestInfo.box && this.state.requestInfo.box !== "Default") {
+      return this.state.requestInfo.box;
+    } else {
+      return "Recent";
+    }
+  }
+
+  configActionButtonRef(index) {
+    this.actionButtonRefs[index] = FervieLayout.ACTION_BUTTON_ID_PREFIX +index;
+  }
+
+  getActionOptionsContent() {
     let popupContent = "";
 
     if (this.state.error) {
@@ -302,13 +455,18 @@ export default class FervieLayout extends Component {
           </Popup.Content>
         );
     } else {
+      this.configActionButtonRef(0);
+
+      let extensionButtons = this.getFervieActionExtensionButtons();
+
       popupContent = (
         <Popup.Content className="fervieTalkContent">
           <div>
-            Would you like me to find you a pair?
+            How can I help?
           </div>
           <div>
             <Button
+              id={FervieLayout.ACTION_BUTTON_ID_PREFIX + 0}
               className="bubbleButton"
               size="medium"
               color="grey"
@@ -316,27 +474,76 @@ export default class FervieLayout extends Component {
                 this.onClickAreaOfCode("box", this.state.requestInfo.boxPath);
               }}
             >
-              <Button.Content>Area: {this.state.requestInfo.box}</Button.Content>
+              <Button.Content>Find me a Pair <br/><span className="small"> (Familiar with {this.getCodeArea()} Code)</span></Button.Content>
             </Button>
+            {extensionButtons}
+
           </div>
         </Popup.Content>
       );
     }
 
+
     return (<Popup id="fervieTalkBubble" className="fervieTalkBubble"
-      position='bottom center'
-      inverted
-      offset={[0, 50]}
-      open={this.state.isSpeechBubbleReady}
-      flowing
-      trigger={
-        (<span className="fervieSpeechTrigger">
+                   position='bottom center'
+                   inverted
+                   offset={[0, 50]}
+                   open={this.state.isSpeechBubbleReady}
+                   flowing
+                   trigger={
+                     (<span className="fervieSpeechTrigger">
        &nbsp;
         </span>)
-      }
+                   }
     >
       {popupContent}
     </Popup>);
+  }
+
+  onClickActionExtension(actionId) {
+    FervieActionClient.runFervieAction(actionId, this, (arg) => {
+      if (arg.error) {
+        console.error("Error in running "+actionId + ":: "+arg.error);
+        this.setState({
+          error: arg.error
+        });
+      }
+      else {
+        console.log("Successfully ran "+actionId);
+      }
+    });
+    setTimeout(() => {
+      this.fervieShowHideNotifier.dispatch({});
+    }, 700);
+
+    this.setState({
+      isSelectionClicked: true
+    });
+  }
+
+  getFervieActionExtensionButtons() {
+    let content = "";
+    if (this.state.fervieActions) {
+      return this.state.fervieActions.map((action, index) => {
+        this.configActionButtonRef((index + 1));
+        return (
+          <Button
+            id={FervieLayout.ACTION_BUTTON_ID_PREFIX + (index+1)}
+            key={FervieLayout.ACTION_BUTTON_ID_PREFIX + (index + 1)}
+            className="bubbleButton"
+            size="medium"
+            color="grey"
+            onClick={() => {
+              this.onClickActionExtension(action.actionId);
+            }}
+          >
+            <Button.Content>{action.fervieButtonText}</Button.Content>
+          </Button>
+        );
+      });
+    } else {
+      return content;
+    }
   }
 
   /**
@@ -353,7 +560,7 @@ export default class FervieLayout extends Component {
       if (this.state.requestType === FervieLayout.HELP_REQUEST) {
         bubbleContent = this.getHelpLightBubbleContent();
       } else if (this.state.requestType === FervieLayout.HOTKEY_REQUEST) {
-        bubbleContent = this.getPairingBubbleContent();
+        bubbleContent = this.getActionOptionsContent();
       } else {
         console.log("no request type sent!");
       }

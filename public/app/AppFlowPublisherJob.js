@@ -4,6 +4,7 @@ const log = require("electron-log"),
 const FlowFeedProcessor = require("../job/FlowFeedProcessor");
 const FlowStateTracker = require("../job/FlowStateTracker");
 const ActiveFlowWatcher = require("../job/ActiveFlowWatcher");
+const FervieActionConfigHandler = require("../job/FervieActionConfigHandler");
 const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
@@ -27,6 +28,7 @@ module.exports = class AppFlowPublisherJob {
 
     this.pluginRegistrationHandler = global.App.PluginRegistrationHandler;
     this.codeModuleConfigHandler = global.App.CodeModuleConfigHandler;
+    this.fervieActionConfigHandler = global.App.FervieActionConfigHandler;
 
     this.flowStateTracker = new FlowStateTracker();
     this.activeFlowWatcher = new ActiveFlowWatcher(this.flowStateTracker);
@@ -107,8 +109,11 @@ module.exports = class AppFlowPublisherJob {
           this.codeModuleConfigHandler.tryToLoadConfigsWhenModuleNotConfigured(() => {
             log.debug(this.name + " Done loading flowinsight-config.json files from projects!");
           });
-
         });
+      });
+
+      this.fervieActionConfigHandler.consolidateFervieActionConfigurations(plugins, () => {
+        log.debug(this.name + " Fervie action configs consolidated!");
       });
 
       plugins.forEach(pluginId => {

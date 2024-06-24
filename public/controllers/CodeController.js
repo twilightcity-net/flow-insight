@@ -2,7 +2,6 @@ const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
 const log = require("electron-log");
 const fs = require("fs");
-const IdeCommandProcessor = require("../job/IdeCommandProcessor");
 
 /**
  * This class is used to coordinate calls to gridtime for the Code service
@@ -19,7 +18,6 @@ module.exports = class CodeController extends (BaseController) {
     if (!CodeController.instance) {
       CodeController.instance = this;
       CodeController.wireTogetherControllers();
-      this.ideCommandProcessor = new IdeCommandProcessor();
     }
   }
 
@@ -252,7 +250,7 @@ module.exports = class CodeController extends (BaseController) {
 
     if (module && filePath) {
       console.log("Writing goto cmd: "+module + "::" + filePath);
-      this.ideCommandProcessor.writeGotoFileCommand(module, filePath);
+      global.App.FervieActionRunner.gotoFileCommand(module, filePath);
     } else {
       console.error("Ignoring invalid goto cmd args: "+module + "::" + filePath);
     }

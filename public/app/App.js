@@ -19,6 +19,7 @@ const {app, session} = require("electron"),
   WindowManager = require("../managers/WindowManager"),
   FervieManager = require("../managers/FervieManager"),
   CodeManager = require("../managers/CodeManager"),
+  FervieActionManager = require("../managers/FervieActionManager"),
   TerminalManager = require("../managers/TerminalManager"),
   ChartManager = require("../managers/ChartManager"),
   ChartWindowManager = require("../managers/ChartWindowManager"),
@@ -68,6 +69,9 @@ const FeatureToggleManager = require("../managers/FeatureManager");
 
 const PluginRegistrationHandler = require("../job/PluginRegistrationHandler");
 const CodeModuleConfigHandler = require("../job/CodeModuleConfigHandler");
+const FervieActionConfigHandler = require("../job/FervieActionConfigHandler");
+const FervieActionRunner =  require("../job/FervieActionRunner");
+
 const AppFlowPublisherJob = require("./AppFlowPublisherJob");
 const AppFervieHelpJob = require("./AppFervieHelpJob");
 const is_mac = process.platform==='darwin';
@@ -184,7 +188,10 @@ module.exports = class App {
       global.App.FervieManager = new FervieManager();
       global.App.CodeManager = new CodeManager();
       global.App.CodeModuleConfigHandler = new CodeModuleConfigHandler();
+      global.App.FervieActionConfigHandler = new FervieActionConfigHandler();
       global.App.PluginRegistrationHandler = new PluginRegistrationHandler();
+      global.App.FervieActionManager = new FervieActionManager();
+      global.App.FervieActionRunner = new FervieActionRunner();
       global.App.AccountManager = new AccountManager();
       global.App.MoovieManager = new MoovieManager();
       global.App.FlowManager = new FlowManager();
