@@ -302,6 +302,10 @@ export default class ActivatorView extends Component {
     );
 
     const appName = FeatureToggle.appName;
+    let useTerms = "non-commercial use only";
+    if (appName === "FlowInsight") {
+      useTerms = "commercial software projects";
+    }
 
     const termsContent = (
       <Container className="termsContent">
@@ -351,7 +355,7 @@ export default class ActivatorView extends Component {
             <li>
               Licensor grants Licensee a non-exclusive and
               non-transferable license to use {appName}
-              for non-commercial purposes only. Licensee
+              for {useTerms}. Licensee
               therefore does not own {appName}, Licensor
               remains the owner of {appName}.
             </li>
@@ -392,7 +396,7 @@ export default class ActivatorView extends Component {
             </li>
             <li>
               Licensor stores all information collected by
-              {appName} on servers located in Europe and/or the US.
+              {appName} on servers located in Europe, Canada, and/or the US.
               Licensor may share the information with its
               partners and/or affiliates.
             </li>
