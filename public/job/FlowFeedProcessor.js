@@ -416,43 +416,13 @@ module.exports = class FlowFeedProcessor {
   }
 
 
-  /**
-   * Publish all the batches in the batch folder to the server
-   * @param pluginId
-   */
-  publishAllBatches(pluginId) {
-    const queueFolder = this.getQueueFolder(pluginId);
-
-    Util.createFolderIfDoesntExist(queueFolder, () => {
-      this.findAllFilesInPublishQueue(pluginId, (batchFileList) => {
-        batchFileList.forEach((file) => {
-          const filePath = path.join(queueFolder, file);
-
-          log.info(this.name + " Publishing "+filePath);
-          const flowBatchDto = this.createEmptyFlowBatch();
-
-          this.flowFileReader.asyncProcessFile(filePath, {}, (data, lineType, json) => {
-            this.addToFlowBatch(flowBatchDto, lineType, json);
-          }).then((successfulParse) => {
-              if (successfulParse) {
-                this.publishBatch(pluginId, flowBatchDto, filePath, file);
-              } else {
-                this.handleParseFailure(pluginId, filePath, file);
-              }
-            }
-          );
-        });
-      });
-    });
-  }
-
 
   /**
    * Publish all the batches in the batch folder to the server,
    * Not sending more than 5 at a time before sleeping
    * @param pluginId
    */
-  publishAllBatchesWithDelays(pluginId) {
+  publishAllBatches(pluginId) {
     const queueFolder = this.getQueueFolder(pluginId);
 
     Util.createFolderIfDoesntExist(queueFolder, () => {

@@ -154,7 +154,10 @@ module.exports = class AppSettings {
       AppFeatureToggle.Toggle.METRICS,
       AppFeatureToggle.Toggle.STATUS,
       AppFeatureToggle.Toggle.DASHBOARD,
-      AppFeatureToggle.Toggle.CONTROL
+      AppFeatureToggle.Toggle.CONTROL,
+      AppFeatureToggle.Toggle.JOURNAL,
+      AppFeatureToggle.Toggle.INDIVIDUAL,
+      AppFeatureToggle.Toggle.FERVIE
     ];
   }
 
