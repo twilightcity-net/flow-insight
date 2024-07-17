@@ -90,6 +90,7 @@ module.exports = class ActiveFlowWatcher {
       this.flowStateTracker.processModificationActivity(json);
     } else if (lineType === ActiveFlowWatcher.EditorActivity) {
       log.debug("[ActiveFlowWatcher] Process: "+lineType + "="+JSON.stringify(json));
+      this.flowStateTracker.processEditorActivity(json);
     }
   }
 

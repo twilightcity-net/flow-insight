@@ -13,6 +13,7 @@ module.exports = class FlowStateTracker {
   constructor() {
     this.name = "[FlowStateTracker]";
     this.buckets = this.createInitialBuckets();
+    this.fileActivityBuckets = this.createInitialFileActivityBuckets();
     this.snapshot = null;
     this.momentum = 0;
     this.isInitialized = false;
@@ -31,6 +32,18 @@ module.exports = class FlowStateTracker {
   static BUCKETS_PER_HOUR = 12;
   static TOTAL_BUCKETS = FlowStateTracker.HOURS_BACK * FlowStateTracker.BUCKETS_PER_HOUR;
 
+  static MAX_FILE_ACTIVITY_BUCKETS = 14;
+
+  //TODO currently buckets can grow indefinitely until there's a new flow state on the server,
+  // need to add bucket rolling capability for file activity, and then summarization capability for reporting
+  //note, we're also going to need to be able to detect a long streak of idle activity
+  //so that we can trigger events based on that, I can match the activities based on buckets
+  //where I've got editor activity happening but no modification activity, and we need to detect a streak
+  //if I've got activity that is in the oldest bucket, that exceeds the bucket size, we can also just
+  //truncate this one to 5 minutes, so that way an old entry can't overpower the most recent hour,
+  //I guess I should do that for any entry that has a duration that exceeds the age, we should truncate
+
+
   /**
    * Refresh latest flow state from the server, and update current status after
    * adjusting to the latest server status + any recent activity processing
@@ -44,6 +57,10 @@ module.exports = class FlowStateTracker {
         this.updateSnapshotFlowState(arg.data);
       }
     });
+  }
+
+  getMomentum() {
+    return this.momentum;
   }
 
   initializeIfNeeded() {
@@ -140,6 +157,27 @@ module.exports = class FlowStateTracker {
   }
 
   /**
+   * Process a single editor activity
+   * @param editorActivity
+   */
+  processEditorActivity(editorActivity) {
+    log.debug("Adding file activity to bucket for file: " + editorActivity.filePath);
+    let bucket = this.findOrCreateFileActivityBucket(editorActivity.endTime);
+
+    const module = editorActivity.module;
+    const filePath = editorActivity.filePath;
+    const duration = editorActivity.durationInSeconds;
+
+    if (bucket) {
+      if (!bucket.fileActivity) {
+        bucket.fileActivity = [];
+      }
+      bucket.fileActivity.push({module: module, filePath: filePath, duration: duration});
+    }
+    this.rollFileActivityBuckets();
+  }
+
+  /**
    * Find or create a new bucket for holding data for a specific time
    * @param dateTime
    */
@@ -150,13 +188,35 @@ module.exports = class FlowStateTracker {
     if (bucket) {
       return bucket;
     } else {
-      log.debug("[FlowStateTracker] Creating new bucket for "+modTime);
+      log.debug("[FlowStateTracker] Creating new bucket for " + modTime);
       let bucketCounter = {
         bucket: modTime,
-        count: 0
+        count: 0,
       }
       this.buckets.set(modTime.getTime(), bucketCounter);
       return bucketCounter;
+    }
+  }
+
+  /**
+   * Find or create a new file activity bucket for holding data for a specific time
+   * @param dateTime
+   */
+  findOrCreateFileActivityBucket(dateTime) {
+    let modTime = this.truncateTimeFiveMinutes(dateTime);
+
+    let bucket = this.fileActivityBuckets.get(modTime.getTime());
+    if (bucket) {
+      return bucket;
+    } else {
+      log.debug("[FlowStateTracker] Creating new file activity bucket for " + modTime);
+      let fileActivityBucket = {
+        bucket: modTime,
+        count: 0,
+        fileActivity: []
+      }
+      this.fileActivityBuckets.set(modTime.getTime(), fileActivityBucket);
+      return fileActivityBucket;
     }
   }
 
@@ -170,8 +230,9 @@ module.exports = class FlowStateTracker {
   processBatch(pluginId, flowBatchDto) {
     if (this.checkIfAlreadyInitializedAndSetFlag(pluginId)) return;
 
-    log.info("[FlowStateTracker] Updating flow state for batch from plugin: "+pluginId+"!");
+    log.info("[FlowStateTracker] Updating flow state for batch from plugin: " + pluginId + "!");
     this.loadModificationsIntoBuckets(flowBatchDto);
+    this.loadEditorActivityIntoBuckets(flowBatchDto);
 
     this.recalculateMomentum();
   }
@@ -202,7 +263,7 @@ module.exports = class FlowStateTracker {
 
     let orderedKeys = this.extractOrderedKeys(this.buckets);
 
-    for(let key of orderedKeys) {
+    for (let key of orderedKeys) {
       let bucket = this.buckets.get(key);
       let total = this.sumWindow(bucket.count, slotCounts);
 
@@ -224,6 +285,7 @@ module.exports = class FlowStateTracker {
 
     this.updateMomentumAndBroadcastOnChange(momentum);
   }
+
 
   /**
    * Update our momentum state and only send updates to the UI
@@ -317,10 +379,36 @@ module.exports = class FlowStateTracker {
       if (bucket) {
         bucket.count += modCount;
       } else {
-        log.debug("Ignoring mods, no bucket found for "+modTime);
+        log.debug("[FlowStateTracker] Ignoring mods, no bucket found for "+modTime);
       }
     }
   }
+
+  /**
+   * Load the editor activity summarization into buckets.  These we have position and duration,
+   * so the placement of the items within 5 min bands will be based on the end timing of the activity
+   */
+  loadEditorActivityIntoBuckets(flowBatchDto) {
+    for (let editorActivity of flowBatchDto.editorActivityList) {
+      const editorEndTime = this.truncateTimeFiveMinutes(editorActivity.endTime);
+
+      const module = editorActivity.module;
+      const filePath = editorActivity.filePath;
+      const duration = editorActivity.durationInSeconds;
+
+      let bucket = this.fileActivityBuckets.get(editorEndTime.getTime());
+      if (bucket) {
+        if (!bucket.fileActivity) {
+          bucket.fileActivity = [];
+        }
+        bucket.fileActivity.push({module: module, filePath: filePath, duration: duration});
+      } else {
+        log.debug("[FlowStateTracker] Ignoring file activity, no bucket found for "+editorEndTime);
+      }
+    }
+  }
+
+
 
   /**
    * Update the referenced snapshot of the flowstate from the server,
@@ -353,6 +441,65 @@ module.exports = class FlowStateTracker {
   }
 
   /**
+   * Discard bucket data older than recent (hour)
+   */
+  rollFileActivityBuckets() {
+    if (this.fileActivityBuckets.size > FlowStateTracker.MAX_FILE_ACTIVITY_BUCKETS) {
+      log.debug("[FlowStateTracker] Rolling buckets, size over threshold, size = "+this.fileActivityBuckets.size);
+      let newBuckets = this.createInitialFileActivityBuckets();
+      this.copyDataIntoNewBuckets(newBuckets, this.fileActivityBuckets);
+    }
+  }
+
+  /**
+   * Creates a reporting data object with a summary of the most recent file activity,
+   * and the duration of each file
+   */
+  getRecentFileActivityReport() {
+     let mapByFile = new Map();
+
+     for (let [key, bucket] of this.fileActivityBuckets) {
+       if (bucket.fileActivity) {
+         this.sumFileActivityDurationIntoMap(mapByFile, bucket.fileActivity)
+       }
+     }
+
+     return this.createTimeSortedList(mapByFile);
+  }
+
+  sumFileActivityDurationIntoMap(mapByFile, fileActivityList) {
+    for (let bucketFileActivity of fileActivityList) {
+      const fileKey = bucketFileActivity.module + "-" + bucketFileActivity.filePath;
+      //log.debug("[FlowStateTracker] File key = "+fileKey);
+
+      let fileFound = mapByFile.get(fileKey);
+      if (fileFound) {
+        fileFound.duration += bucketFileActivity.duration;
+      } else {
+        mapByFile.set(fileKey, bucketFileActivity);
+      }
+    }
+  }
+
+  /**
+   * Create a list of file activities sorted by time duration
+   * @param fileActivityMap
+   */
+  createTimeSortedList(fileActivityMap) {
+     let fileActivities = [];
+    for (let [key, fileActivity] of fileActivityMap) {
+       fileActivities.push(fileActivity);
+    }
+    fileActivities.sort(function(a, b) {
+      return a.duration - b.duration;
+    });
+
+    fileActivities.reverse();
+
+    return fileActivities;
+  }
+
+  /**
    * Copy existing snapshot data into the new fresh buckets
    * based our refreshed snapshot
    * @param newBuckets
@@ -364,8 +511,11 @@ module.exports = class FlowStateTracker {
 
       if (newBucketFound) {
         newBucketFound.count = value.count;
+        if (value.fileActivity) {
+          newBucketFound.fileActivity = value.fileActivity;
+        }
       } else {
-        log.debug("Discarding old bucket "+key);
+        log.debug("[FlowStateTracker] Discarding old bucket "+key);
       }
     }
   }
@@ -383,6 +533,13 @@ module.exports = class FlowStateTracker {
     return buckets;
   }
 
+  /**
+   * Create an initial bucket set of 5 min increments that goes 1 hour back in time
+   */
+  createInitialFileActivityBuckets() {
+    let minTime = this.subtractOneHour(Util.getCurrentTime());
+    return this.createBucketSet(minTime);
+  }
 
   /**
    * Create a fresh set of 5min buckets that go from our snapshot time
@@ -408,6 +565,7 @@ module.exports = class FlowStateTracker {
     return buckets;
   }
 
+
   /**
    * Subtract 5 minutes from the current time and return it as a new Date object
    * @param time
@@ -416,6 +574,18 @@ module.exports = class FlowStateTracker {
   subtractFiveMinutes(time) {
     var timeToReturn = new Date(time);
     timeToReturn.setMinutes(time.getMinutes() - 5);
+
+    return timeToReturn;
+  }
+
+  /**
+   * Subtract 1 hour from the current time and return it as a new Date object
+   * @param time
+   * @returns {Date}
+   */
+  subtractOneHour(time) {
+    var timeToReturn = new Date(time);
+    timeToReturn.setMinutes(time.getMinutes() - 60);
 
     return timeToReturn;
   }

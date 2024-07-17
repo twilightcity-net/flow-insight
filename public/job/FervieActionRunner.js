@@ -121,8 +121,28 @@ module.exports = class FervieActionRunner {
     actionJsonObj.actionId = actionId;
     actionJsonObj.extensionName = extensionName;
     actionJsonObj.position = now;
+    actionJsonObj.flowInsightActionContext = this.createFlowInsightActionContext();
 
     return "RUN=" +JSON.stringify(actionJsonObj);
+  }
+
+  createFlowInsightActionContext() {
+    //TODO need to access the flowstate tracker to get context info
+    const momentum = global.App.FlowStateTracker.getMomentum();
+    const me = global.App.MemberManager.getMe();
+    const fileActivityReport = global.App.FlowStateTracker.getRecentFileActivityReport();
+
+    let currentFlowState = "FLOW";
+
+    if (me.activeCircuit != null) {
+      currentFlowState = "TROUBLESHOOTING";
+    }
+
+    return {
+      currentMomentum: momentum,
+      currentFlowState: currentFlowState,
+      mostRecentFileActivity: fileActivityReport
+    }
   }
 
   /**

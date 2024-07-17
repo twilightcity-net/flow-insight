@@ -29,8 +29,8 @@ module.exports = class AppFlowPublisherJob {
     this.pluginRegistrationHandler = global.App.PluginRegistrationHandler;
     this.codeModuleConfigHandler = global.App.CodeModuleConfigHandler;
     this.fervieActionConfigHandler = global.App.FervieActionConfigHandler;
+    this.flowStateTracker = global.App.FlowStateTracker;
 
-    this.flowStateTracker = new FlowStateTracker();
     this.activeFlowWatcher = new ActiveFlowWatcher(this.flowStateTracker);
     this.flowFeedProcessor = new FlowFeedProcessor(this.flowStateTracker);
 
