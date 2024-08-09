@@ -59,15 +59,15 @@ class WindowManager {
    * to that window
    * @param arg
    */
-  onFocusWindowCb(arg) {
+  onFocusWindowCb(arg, window) {
     log.info(
-      "[WindowManager] focus window -> " + arg.sender.name
+      "[WindowManager] focus window -> " + window.name
     );
     global.App.ShortcutManager.activateWindowShortcuts(
-      arg.sender
+      window
     );
     global.App.WindowManager.lastFocusWindowName =
-      arg.sender.name;
+      window.name;
   }
 
   /**
@@ -75,17 +75,17 @@ class WindowManager {
    * to that window
    * @param arg
    */
-  onBlurWindowCb(arg) {
+  onBlurWindowCb(arg, window) {
     log.info(
-      "[WindowManager] blur window -> " + arg.sender.name
+      "[WindowManager] blur window -> " +window.name
     );
     global.App.WindowManager.lastBlurWindowName =
-      arg.sender.name;
+      window.name;
     global.App.ShortcutManager.deactivateWindowShortcuts(
-      arg.sender
+      window
     );
     if (
-      arg.sender.name ===
+      window.name ===
       WindowManagerHelper.WindowNames.CONSOLE
     ) {
       // this.handleHideConsoleEvent(1);
@@ -376,10 +376,10 @@ class WindowManager {
         arg
       );
       window.window.on("focus", (event) => {
-        this.onFocusWindowCb(event);
+        this.onFocusWindowCb(event, window.window);
       });
       window.window.on("blur", (event) => {
-        this.onBlurWindowCb(event);
+        this.onBlurWindowCb(event, window.window);
       });
       this.windows.push(window);
 
