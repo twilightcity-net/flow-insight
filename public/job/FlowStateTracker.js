@@ -19,6 +19,10 @@ module.exports = class FlowStateTracker {
     this.isInitialized = false;
     this.me = null;
     this.pluginsInitialized = new Map();
+
+    this.activityState = FlowStateTracker.ActivityState.IDLE;
+    this.lastActivityEvent = null;
+    this.streakStartTime = null;
   }
 
   static KEY_TIME = "as.of.time";
@@ -28,9 +32,12 @@ module.exports = class FlowStateTracker {
   static MAX_MOMENTUM = 200;
   static EVENT_ME_UPDATE = "update-me";
 
+  static THRESHOLD_OF_IDLE_SECONDS_BEFORE_IDLE = 60 * 30;
+  static THRESHOLD_OF_INACTIVE_SECONDS_BEFORE_NEW_STREAK = 60 * 60;
+
   static HOURS_BACK = 2;
   static BUCKETS_PER_HOUR = 12;
-  static TOTAL_BUCKETS = FlowStateTracker.HOURS_BACK * FlowStateTracker.BUCKETS_PER_HOUR;
+  static TOTAL_MOMENTUM_BUCKETS = FlowStateTracker.HOURS_BACK * FlowStateTracker.BUCKETS_PER_HOUR;
 
   static MAX_FILE_ACTIVITY_BUCKETS = 14;
 
@@ -43,6 +50,12 @@ module.exports = class FlowStateTracker {
   //truncate this one to 5 minutes, so that way an old entry can't overpower the most recent hour,
   //I guess I should do that for any entry that has a duration that exceeds the age, we should truncate
 
+  static get ActivityState() {
+    return {
+      IDLE : "IDLE",
+      FLOW: "FLOW"
+    }
+  }
 
   /**
    * Refresh latest flow state from the server, and update current status after
@@ -57,10 +70,31 @@ module.exports = class FlowStateTracker {
         this.updateSnapshotFlowState(arg.data);
       }
     });
+    this.updateActivityStateIfIdle();
   }
 
-  getMomentum() {
-    return this.momentum;
+  /**
+   * Get a summary of the current flow activity stream
+   */
+  getActivitySummary() {
+    return {
+      momentum: this.momentum,
+      activityStreak: this.getStreakLengthForStartTime(this.streakStartTime),
+      activityState: this.activityState
+    }
+  }
+
+  /**
+   * If a streak start time is set, figure out the number of seconds between
+   * that start and the current time.
+   * @param startTimeForStreak
+   */
+  getStreakLengthForStartTime( startTimeForStreak ) {
+    if (startTimeForStreak) {
+      return Util.getTimeDifferenceInSeconds(startTimeForStreak, Util.getCurrentLocalTimeString());
+    } else {
+      return 0;
+    }
   }
 
   initializeIfNeeded() {
@@ -94,6 +128,7 @@ module.exports = class FlowStateTracker {
       if (this.isTaskSwitch(newMe)) {
         log.debug(this.name + "Task switch event!  Momentum Reset");
         this.resetMomentum();
+        this.resetActivityStreak();
       }
 
       //don't overwrite our last task with a temporary null
@@ -114,6 +149,11 @@ module.exports = class FlowStateTracker {
   onTroubleThresholdEvent(event, arg) {
     log.debug(this.name + "Troubleshoot Threshold event!  Momentum Reset");
     this.resetMomentum();
+
+    //TODO do we want to reset activity when we leave a long trouble session?
+    //for now, we will do this reset so that we don't end up in a situation where momentum is 0
+    //and we have a long streak that makes it look like we've just been idling, which isn't true
+    this.resetActivityStreak();
   }
 
   /**
@@ -143,12 +183,18 @@ module.exports = class FlowStateTracker {
     this.updateMomentumAndBroadcastOnChange(0);
   }
 
+  resetActivityStreak() {
+    this.streakStartTime = null;
+  }
+
   /**
    * Process a single modification activity
    * @param modificationActivity
    */
   processModificationActivity(modificationActivity) {
     let modCount = modificationActivity.modificationCount;
+
+    this.updateActivityStateAndActiveStreak(modificationActivity.endTime);
 
     let bucket = this.findOrCreateBucket(modificationActivity.endTime);
     bucket.count += modCount;
@@ -157,11 +203,15 @@ module.exports = class FlowStateTracker {
   }
 
   /**
-   * Process a single editor activity
+   * Process a single editor activity, we capture the file activity events within
+   * 5 minute buckets, so we can correlate which files were active over a time window
    * @param editorActivity
    */
   processEditorActivity(editorActivity) {
-    log.debug("Adding file activity to bucket for file: " + editorActivity.filePath);
+    log.debug(this.name + " Adding file activity to bucket for file: " + editorActivity.filePath);
+
+    this.updateActivityStateAndActiveStreak(editorActivity.endTime);
+
     let bucket = this.findOrCreateFileActivityBucket(editorActivity.endTime);
 
     const module = editorActivity.module;
@@ -176,6 +226,57 @@ module.exports = class FlowStateTracker {
     }
     this.rollFileActivityBuckets();
   }
+
+  /**
+   * Update activity state to FLOW when we get a new event,
+   * and if we've got a new activity streak starting, or are continuing an existing streak,
+   * update the active streak properties accordingly
+   *
+   * @param newEventTime
+   */
+  updateActivityStateAndActiveStreak( newEventTime ) {
+
+    log.debug(this.name + "New event endtime: "+newEventTime + ", last event: "+this.lastActivityEvent);
+    this.activityState = FlowStateTracker.ActivityState.FLOW;
+
+    if (this.lastActivityEvent) {
+      let timeDiff = Util.getTimeDifferenceInSeconds(this.lastActivityEvent, newEventTime);
+
+      if (timeDiff > FlowStateTracker.THRESHOLD_OF_INACTIVE_SECONDS_BEFORE_NEW_STREAK) {
+         //restart streak
+        log.debug(this.name + " Restarting activity streak");
+        this.streakStartTime = newEventTime;
+      }
+    } else {
+      log.debug(this.name + " Initializing activity streak");
+      //first file activity since we booted the app, start a new streak
+      this.streakStartTime = newEventTime;
+    }
+
+    this.lastActivityEvent = newEventTime;
+  }
+
+
+
+  /**
+   * Call this periodically on an interval to set the activityState to IDLE
+   * when there hasnt been activity in a while
+   */
+  updateActivityStateIfIdle() {
+    log.debug(this.name + " Checking for idle activity state...");
+    const currentTime = Util.getCurrentLocalTimeString();
+    if (this.lastActivityEvent) {
+      let timeSinceLastActivity = Util.getTimeDifferenceInSeconds(this.lastActivityEvent, currentTime);
+
+      if (timeSinceLastActivity > FlowStateTracker.THRESHOLD_OF_IDLE_SECONDS_BEFORE_IDLE) {
+        log.debug(this.name + " Setting activity state to IDLE and resetting streak.");
+        this.activityState = FlowStateTracker.ActivityState.IDLE;
+        this.streakStartTime = null;
+        this.lastActivityEvent = null;
+      }
+    }
+  }
+
 
   /**
    * Find or create a new bucket for holding data for a specific time
@@ -448,6 +549,7 @@ module.exports = class FlowStateTracker {
       log.debug("[FlowStateTracker] Rolling buckets, size over threshold, size = "+this.fileActivityBuckets.size);
       let newBuckets = this.createInitialFileActivityBuckets();
       this.copyDataIntoNewBuckets(newBuckets, this.fileActivityBuckets);
+      this.buckets = newBuckets;
     }
   }
 
@@ -553,7 +655,7 @@ module.exports = class FlowStateTracker {
     let buckets = new Map();
 
     let currentBucket = firstBucket;
-    while( buckets.size < FlowStateTracker.TOTAL_BUCKETS && currentBucket >= snapshotBucket) {
+    while( buckets.size < FlowStateTracker.TOTAL_MOMENTUM_BUCKETS && currentBucket >= snapshotBucket) {
       let bucketCounter = {
         bucket: currentBucket,
         count: 0

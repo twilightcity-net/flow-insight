@@ -126,21 +126,26 @@ module.exports = class FervieActionRunner {
     return "RUN=" +JSON.stringify(actionJsonObj);
   }
 
+  /**
+   * Create a JSON object that includes a variety of context information that
+   * we can pass into the plugin actions.
+   * @returns {{mostRecentFileActivity: *, currentMomentum: *, currentFlowState: string}}
+   */
   createFlowInsightActionContext() {
-    //TODO need to access the flowstate tracker to get context info
-    const momentum = global.App.FlowStateTracker.getMomentum();
     const me = global.App.MemberManager.getMe();
     const fileActivityReport = global.App.FlowStateTracker.getRecentFileActivityReport();
+    const activitySummary = global.App.FlowStateTracker.getActivitySummary();
 
-    let currentFlowState = "FLOW";
+    let currentFlowState = activitySummary.activityState;
 
     if (me.activeCircuit != null) {
       currentFlowState = "TROUBLESHOOTING";
     }
 
     return {
-      currentMomentum: momentum,
+      currentMomentum: activitySummary.momentum,
       currentFlowState: currentFlowState,
+      activityStreakInSeconds: activitySummary.activityStreak,
       mostRecentFileActivity: fileActivityReport
     }
   }

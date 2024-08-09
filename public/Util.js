@@ -52,6 +52,23 @@ class Util {
     return moment().local().toDate();
   }
 
+
+  /**
+   * Expects two formatted datestamps in formattedEventTimeEnd and returns the number of
+   * seconds between them
+   * @param formattedEventTimeStart
+   * @param formattedEventTimeEnd
+   * @returns {number}
+   */
+  static getTimeDifferenceInSeconds(formattedEventTimeStart, formattedEventTimeEnd) {
+    var startTime = moment(formattedEventTimeStart, 'YYYY-MM-DDTHH:mm:ss');
+    var endTime = moment(formattedEventTimeEnd, 'YYYY-MM-DDTHH:mm:ss');
+
+    var duration = moment.duration(endTime.diff(startTime));
+
+    return duration.asSeconds();
+  }
+
   /**
    * Clamp an integer value between a min and max value
    * @param intValue
