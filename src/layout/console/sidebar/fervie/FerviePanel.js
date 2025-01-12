@@ -310,7 +310,7 @@ export default class FerviePanel extends Component {
    * shows the skills or accessories panel based on feature flag options
    */
   gotoSkillsOrAccessoriesPanel = () => {
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       this.showAccessoriesPanel();
     } else {
       this.showSkillsPanel();
@@ -375,7 +375,7 @@ export default class FerviePanel extends Component {
     );
     this.onRefreshFerviePanel();
 
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       FervieClient.getBuddyMe(this, (arg) => {
         if (!arg.error) {
           this.me = arg.data;
@@ -602,7 +602,7 @@ export default class FerviePanel extends Component {
   }
 
   getSkillsMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp) return "";
+    if (FeatureToggle.isMoovieApp()) return "";
     return (
       <Menu.Item
       name={SidePanelViewController.SubmenuSelection.SKILLS}
@@ -613,7 +613,7 @@ export default class FerviePanel extends Component {
   }
 
   getRolesMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp) return "";
+    if (FeatureToggle.isMoovieApp()) return "";
     return (
       <Menu.Item
         name={SidePanelViewController.SubmenuSelection.ROLES}

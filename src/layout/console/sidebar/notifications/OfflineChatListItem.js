@@ -26,7 +26,7 @@ export default class OfflineChatListItem extends Component {
 
   getDisplayName() {
     let fromName = "@" + this.props.model.data.fromUsername;
-    if (FeatureToggle.isMoovieApp && this.props.model.data.fromFervieName) {
+    if (FeatureToggle.isMoovieApp() && this.props.model.data.fromFervieName) {
       fromName = this.props.model.data.fromFervieName;
     } else if (this.state.member) {
       fromName = this.state.member.displayName;

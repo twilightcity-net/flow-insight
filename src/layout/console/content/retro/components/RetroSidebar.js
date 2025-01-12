@@ -85,7 +85,7 @@ export default class RetroSidebar extends Component {
   }
 
   getDefaultMenuSelection() {
-    if (FeatureToggle.isJournalEnabled && FeatureToggle.isMetricsEnabled) {
+    if (FeatureToggle.isJournalEnabled() && FeatureToggle.isMetricsEnabled()) {
       if (this.props.taskSummary && this.props.taskSummary.taskName === RetroSidebar.NO_TASK) {
         return RetroSidebar.Views.OVERVIEW;
       } else {
@@ -424,7 +424,7 @@ export default class RetroSidebar extends Component {
    * @returns {JSX.Element}
    */
   getTaskOrOverviewTabBasedOnFeatureToggles() {
-    if (FeatureToggle.isJournalEnabled && FeatureToggle.isMetricsEnabled) {
+    if (FeatureToggle.isJournalEnabled() && FeatureToggle.isMetricsEnabled()) {
       return (
         <Menu.Item
           name={RetroSidebar.Views.TASK}
@@ -900,7 +900,7 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarFilesContent() {
-    if (!this.props.chartDto || !FeatureToggle.isMetricsEnabled) {
+    if (!this.props.chartDto || !FeatureToggle.isMetricsEnabled()) {
       return (<Segment className="metricSummary" inverted>
         <i>
           No data available
@@ -940,7 +940,7 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarExecContent() {
-    if (!this.props.chartDto || !FeatureToggle.isMetricsEnabled) {
+    if (!this.props.chartDto || !FeatureToggle.isMetricsEnabled()) {
       return (<Segment className="metricSummary" inverted>
         <i>
           No data available

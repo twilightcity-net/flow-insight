@@ -333,7 +333,7 @@ export default class MomentumFlowChart extends Component {
     let tipPadding = 12;
     let textHeight = 20;
 
-    if (FeatureToggle.isNeoMode) {
+    if (FeatureToggle.isNeoMode()) {
       tipWidth = 220;
     }
 
@@ -414,7 +414,7 @@ export default class MomentumFlowChart extends Component {
       .attr("text-anchor", "end")
       .text(hours);
 
-    if (FeatureToggle.isNeoMode) {
+    if (FeatureToggle.isNeoMode()) {
       tipBox
         .append("text")
         .attr("id", "tipboxCoords")

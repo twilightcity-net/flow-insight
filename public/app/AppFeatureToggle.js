@@ -1,28 +1,33 @@
 
 module.exports = class AppFeatureToggle {
 
-  static isMoovieApp = false;
-  static consoleHasWindowInDock = true;
+  static appType = AppFeatureToggle.AppType.FLOW_INSIGHT;
 
-  static isFerviePopupEnabled = true;
+  static activeToggles = {};
 
-  static isFervieWelcomeEnabled = false;
-
-  static isToolsExtensionEnabled = false;
-
-  static isControlChartEnabled = false;
-
-  static isStatusBarEnabled = false;
-
-  static isIndividualModeEnabled = false;
-
-
-  static appName = "FlowInsight";
+  static appName = AppFeatureToggle.appType;
   static version = "0.7.43"
 
-  static isFlowInsightApp() {
-    return !AppFeatureToggle.isMoovieApp;
+  static isFerviePopupEnabled() {
+    return AppFeatureToggle.isEnabled(AppFeatureToggle.Toggle.FERVIE);
   }
+
+  static isStatusBarEnabled() {
+    return  AppFeatureToggle.isEnabled(AppFeatureToggle.Toggle.STATUS);
+  }
+
+  static isMoovieApp() {
+    return AppFeatureToggle.appType === AppFeatureToggle.AppType.WATCH_MOOVIES;
+  }
+
+  static isEnabled(featureToggle) {
+    return AppFeatureToggle.activeToggles[featureToggle];
+  }
+
+  static isConsoleWindowedInDockMode() {
+    return true;
+  }
+
 
   static get Toggle() {
     return {
@@ -36,38 +41,31 @@ module.exports = class AppFeatureToggle {
       TOOLS: "tools",
       ARDEVICE: "ardevice",
       STATUS: "status",
-      INDIVIDUAL: "individual"
+      INDIVIDUAL: "individual",
+      PAIRING: "pairing"
+    };
+  }
+
+  static get AppType() {
+    return {
+      FLOW_INSIGHT: "FlowInsight",
+      WATCH_MOOVIES: "WatchMoovies",
+      FLOW_JOURNAL: "FlowJournal"
     };
   }
 
   static init(featureToggleList) {
-    AppFeatureToggle.isFerviePopupEnabled = false;
-    AppFeatureToggle.isFervieWelcomeEnabled = false;
-    AppFeatureToggle.isToolsExtensionEnabled = false;
-    AppFeatureToggle.isStatusBarEnabled = false;
-    AppFeatureToggle.isControlChartEnabled = false;
-    AppFeatureToggle.isIndividualModeEnabled = false;
-
-    for (let toggle of featureToggleList) {
-      if (toggle === AppFeatureToggle.Toggle.FERVIE) {
-        AppFeatureToggle.isFerviePopupEnabled = true;
-      }
-      if (toggle === AppFeatureToggle.Toggle.FERVIE_WELCOME) {
-        AppFeatureToggle.isFervieWelcomeEnabled = true;
-      }
-      if (toggle === AppFeatureToggle.Toggle.TOOLS) {
-        AppFeatureToggle.isToolsExtensionEnabled = true;
-      }
-      if (toggle === AppFeatureToggle.Toggle.STATUS) {
-        AppFeatureToggle.isStatusBarEnabled = true;
-      }
-      if (toggle === AppFeatureToggle.Toggle.CONTROL) {
-        AppFeatureToggle.isControlChartEnabled = true;
-      }
-      if (toggle === AppFeatureToggle.Toggle.INDIVIDUAL) {
-        AppFeatureToggle.isIndividualModeEnabled = true;
-      }
+    for (let featureKey in AppFeatureToggle.Toggle) {
+      AppFeatureToggle.activeToggles[AppFeatureToggle.Toggle[featureKey]] = false;
     }
+
+    for (let enabledToggle of featureToggleList) {
+      AppFeatureToggle.activeToggles[enabledToggle] = true;
+    }
+
+    console.log("UPDATED TOGGLES!");
+    console.log(AppFeatureToggle.activeToggles);
+
   }
 
 }

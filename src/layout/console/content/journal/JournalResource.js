@@ -1146,7 +1146,9 @@ export default class JournalResource extends Component {
           className="journalIntentions"
           style={{
             height:
-              DimensionController.getJournalItemsPanelHeight(FeatureToggle.isPairingEnabled, this.isMyJournal()),
+              DimensionController.getJournalItemsPanelHeight(
+                FeatureToggle.isPairingEnabled(),
+                this.isMyJournal()),
           }}
         >
           <Grid id="journal-items-grid" inverted>
@@ -1199,7 +1201,7 @@ export default class JournalResource extends Component {
         </div>
       );
     } else {
-      if (FeatureToggle.isPairingEnabled) {
+      if (FeatureToggle.isPairingEnabled()) {
         return (
           <div id="wrapper" className="journalEntry ">
             <JournalLinkPanel

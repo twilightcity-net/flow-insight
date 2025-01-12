@@ -32,7 +32,7 @@ module.exports = class AppFervieHelpJob {
    * starts our fervie help mechanism
    */
   start() {
-    if (AppFeatureToggle.isMoovieApp) {
+    if (AppFeatureToggle.isMoovieApp()) {
       return;
     }
 

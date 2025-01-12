@@ -362,13 +362,13 @@ export default class AccountContent extends Component {
 
   render() {
     let org = "organization";
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       org = "community";
     }
 
     let fullNameField = "";
     let displayNameField = "";
-    if (!FeatureToggle.isMoovieApp) {
+    if (!FeatureToggle.isMoovieApp()) {
       fullNameField = (
         <span>
           {this.getEditableFullName()}
@@ -377,7 +377,7 @@ export default class AccountContent extends Component {
         </span>);
     }
 
-    if (!FeatureToggle.isMoovieApp) {
+    if (!FeatureToggle.isMoovieApp()) {
       displayNameField = (
         <span>
           {this.getEditableDisplayName()}

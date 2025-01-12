@@ -85,7 +85,7 @@ export default class DashboardPanel extends Component {
   }
 
   getDefaultTarget() {
-    if (FeatureToggle.isIndividualModeEnabled) {
+    if (FeatureToggle.isIndividualModeEnabled()) {
       return DashboardPanel.Target.ME;
     } else {
       return DashboardPanel.Target.TEAM;

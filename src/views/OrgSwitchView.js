@@ -55,7 +55,7 @@ export default class OrgSwitchView extends Component {
 
       if (FeatureToggle.isFlowInsightApp() && (org.orgType === "COMPANY")) {
         options.push(option);
-      } else if (FeatureToggle.isMoovieApp && org.orgType !== "COMPANY") {
+      } else if (FeatureToggle.isMoovieApp() && org.orgType !== "COMPANY") {
         options.push(option);
       }
     }

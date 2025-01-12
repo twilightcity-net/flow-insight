@@ -168,8 +168,8 @@ export default class ConsoleLayout extends Component {
    * @returns {*}
    */
   getHomePanelContent = () => {
-    console.log("Home panel toggle: "+FeatureToggle.isIndividualModeEnabled);
-    if (FeatureToggle.isIndividualModeEnabled) {
+    console.log("Home panel toggle: "+FeatureToggle.isIndividualModeEnabled());
+    if (FeatureToggle.isIndividualModeEnabled()) {
       return (
         <MePanel
           width={this.state.sidebarPanelWidth}

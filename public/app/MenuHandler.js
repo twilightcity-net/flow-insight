@@ -124,7 +124,7 @@ module.exports = class MenuHandler {
 
 
   static getHelpSubmenu() {
-    if (AppFeatureToggle.isMoovieApp) {
+    if (AppFeatureToggle.isMoovieApp()) {
       return [
         { role: "about" },
         {

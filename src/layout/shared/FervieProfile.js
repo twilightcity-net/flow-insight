@@ -43,7 +43,7 @@ export default class FervieProfile extends Component {
 
     if (this.props.circuitMember) {
       let name = this.props.circuitMember.displayName;
-      if (FeatureToggle.isMoovieApp) {
+      if (FeatureToggle.isMoovieApp()) {
         name = this.props.circuitMember.fervieName;
       }
 

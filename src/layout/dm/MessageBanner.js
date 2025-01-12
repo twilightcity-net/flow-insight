@@ -45,7 +45,7 @@ export default class MessageBanner extends Component {
     let offline = "";
     let offlineClass = "";
     if (this.props.member) {
-      if (FeatureToggle.isMoovieApp) {
+      if (FeatureToggle.isMoovieApp()) {
         title = this.props.member.fervieName;
       } else {
         title = this.props.member.displayName;

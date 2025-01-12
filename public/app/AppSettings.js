@@ -341,7 +341,7 @@ module.exports = class AppSettings {
    * @param primaryOrgId
    */
   setPrimaryOrganizationId(primaryOrgId) {
-    if (AppFeatureToggle.isMoovieApp) {
+    if (AppFeatureToggle.isMoovieApp()) {
       settings.set(
         AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_WATCHMOOVIES,
         primaryOrgId
@@ -359,7 +359,7 @@ module.exports = class AppSettings {
    */
   getPrimaryOrganizationId() {
     let orgId;
-    if (AppFeatureToggle.isMoovieApp) {
+    if (AppFeatureToggle.isMoovieApp()) {
       orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_WATCHMOOVIES);
     } else {
       orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_FLOWINSIGHT);

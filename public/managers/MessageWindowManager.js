@@ -114,7 +114,7 @@ module.exports = class MessageWindowManager {
    * putting the docked window back on close.
    */
   unhideDockIfNoMessageWindowsOpenIncludingMoovie() {
-    if (AppFeatureToggle.consoleHasWindowInDock) {
+    if (AppFeatureToggle.isConsoleWindowedInDockMode()) {
       //unhide docked window when all DM windows are closed
       if(is_mac && this.dmWindowsByName.size === 0
         && !global.App.MoovieWindowManager.isMoovieWindowOpen()) {
@@ -133,7 +133,7 @@ module.exports = class MessageWindowManager {
    * will be responsible for bringing back the docked window.
    */
   unhideDockIfNoMessageWindowsOpen() {
-    if (AppFeatureToggle.consoleHasWindowInDock) {
+    if (AppFeatureToggle.isConsoleWindowedInDockMode()) {
       //unhide docked window when all DM windows are closed
       if(is_mac && this.dmWindowsByName.size === 0) {
         log.info("showing dock..");

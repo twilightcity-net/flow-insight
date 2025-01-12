@@ -316,7 +316,7 @@ export default class ChatFeedEvent extends Component {
     } else {
       if (!this.props.isMe) {
         let hasBuddyActions = false;
-        if (FeatureToggle.isMoovieApp) {
+        if (FeatureToggle.isMoovieApp()) {
           hasBuddyActions = true;
         }
 

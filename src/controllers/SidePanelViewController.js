@@ -137,9 +137,9 @@ export class SidePanelViewController extends ActiveViewController {
 
   static getDefaultMenuSelection() {
     console.log("SidePanelViewController.getDefaultMenuSelection isFervieWelcomeEnabled = "+FeatureToggle.isFervieWelcomeEnabled);
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       return SidePanelViewController.MenuSelection.BUDDIES;
-    } else if (FeatureToggle.isFervieWelcomeEnabled) {
+    } else if (FeatureToggle.isFervieWelcomeEnabled()) {
       return SidePanelViewController.MenuSelection.FERVIE;
     } else {
       return SidePanelViewController.MenuSelection.HOME;

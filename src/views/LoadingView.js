@@ -171,7 +171,7 @@ export default class LoadingView extends Component {
   };
 
   getVideoSrcLink() {
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       return "./assets/video/Moovies_Intro.mp4"
     } else {
       return "./assets/video/FlowInsight_Intro.mp4";

@@ -533,7 +533,7 @@ export default class DailyFlowMap extends Component {
         date +
         "</div>";
 
-      if (FeatureToggle.isNeoMode) {
+      if (FeatureToggle.isNeoMode()) {
         html +=
           "<br/><div class='gtcoords'>" +
           coords +

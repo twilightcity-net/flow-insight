@@ -243,7 +243,7 @@ export default class FervieContent extends Component {
   getNormalFervieContent() {
 
     let fervieTitle;
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       fervieTitle = this.getMoovieFervieTitle();
     } else {
       fervieTitle = this.getFervieTitle();

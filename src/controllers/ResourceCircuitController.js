@@ -272,7 +272,7 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   returnToDefaultPage() {
     let request;
-    if (FeatureToggle.isJournalEnabled) {
+    if (FeatureToggle.isJournalEnabled()) {
       request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.JOURNAL,
         BrowserRequestFactory.Locations.ME

@@ -178,9 +178,9 @@ export default class ConsoleSidebar extends Component {
    * @returns {string}
    */
   getDefaultSelectedPanel() {
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       return SidePanelViewController.MenuSelection.BUDDIES;
-    } else if (FeatureToggle.isFervieWelcomeEnabled) {
+    } else if (FeatureToggle.isFervieWelcomeEnabled()) {
       return SidePanelViewController.MenuSelection.FERVIE;
     } else {
       return SidePanelViewController.MenuSelection.HOME;
@@ -497,25 +497,25 @@ export default class ConsoleSidebar extends Component {
   isDefaultPanel(panelName) {
     let hasDefaultPanel =
       (panelName === SidePanelViewController.MenuSelection.DASHBOARD
-        && FeatureToggle.isPersonalDashboardEnabled) ||
+        && FeatureToggle.isPersonalDashboardEnabled()) ||
       (panelName === SidePanelViewController.MenuSelection.CIRCUITS
-        && FeatureToggle.isControlChartEnabled) ||
+        && FeatureToggle.isControlChartEnabled()) ||
       panelName === SidePanelViewController.MenuSelection.HOME;
 
     if (hasDefaultPanel) {
       if (panelName === SidePanelViewController.MenuSelection.DASHBOARD
-        && FeatureToggle.isPersonalDashboardEnabled && BrowserController.uri.includes("/flow/week/0") ) {
+        && FeatureToggle.isPersonalDashboardEnabled() && BrowserController.uri.includes("/flow/week/0") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS
-        && FeatureToggle.isControlChartEnabled && BrowserController.uri.includes("/control/week/0") ) {
+        && FeatureToggle.isControlChartEnabled() && BrowserController.uri.includes("/control/week/0") ) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.HOME
-        && (FeatureToggle.isJournalEnabled
+        && (FeatureToggle.isJournalEnabled()
           && (BrowserController.uri.includes("/journal/me")
           || BrowserController.uri.includes("/journal/" + MemberClient.me.username)))) {
         return true;
       } else if (panelName === SidePanelViewController.MenuSelection.HOME
-        && (!FeatureToggle.isJournalEnabled
+        && (!FeatureToggle.isJournalEnabled()
           && BrowserController.uri.includes("/wtf"))) {
         return true;
       }
@@ -534,15 +534,15 @@ export default class ConsoleSidebar extends Component {
    */
   loadDefaultResourceContent(panelName) {
     if (panelName === SidePanelViewController.MenuSelection.DASHBOARD) {
-      if (FeatureToggle.isPersonalDashboardEnabled) {
+      if (FeatureToggle.isPersonalDashboardEnabled()) {
         this.myController.loadDefaultFlowPanel();
       }
     } else if (panelName === SidePanelViewController.MenuSelection.CIRCUITS) {
-      if (FeatureToggle.isControlChartEnabled) {
+      if (FeatureToggle.isControlChartEnabled()) {
         this.myController.loadDefaultControlPanel();
       }
     } else if (panelName === SidePanelViewController.MenuSelection.HOME) {
-      if (FeatureToggle.isJournalEnabled) {
+      if (FeatureToggle.isJournalEnabled()) {
         this.myController.loadDefaultJournalPanel();
       } else {
         this.loadDefaultWtfPanel();
@@ -620,7 +620,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getTeamMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp) return "";
+    if (FeatureToggle.isMoovieApp()) return "";
     return (
       <Menu.Item
         name={SidePanelViewController.MenuSelection.HOME}
@@ -646,7 +646,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getCircuitsMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp) return "";
+    if (FeatureToggle.isMoovieApp()) return "";
 
     return (
       <Menu.Item
@@ -717,7 +717,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getDashboardMenuItem(activeItem) {
-    if (FeatureToggle.isMetricsEnabled) {
+    if (FeatureToggle.isMetricsEnabled()) {
       return (
         <Menu.Item
           name={SidePanelViewController.MenuSelection.DASHBOARD}
@@ -734,7 +734,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getWtfMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp) return "";
+    if (FeatureToggle.isMoovieApp()) return "";
     return (
       <Menu.Item
         name={SidePanelViewController.MenuSelection.WTF}

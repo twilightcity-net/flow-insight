@@ -161,7 +161,7 @@ export default class MePanel extends Component {
    * @param uri
    */
   toggleBetweenJournalAndCircuit(activeCircuit, uri) {
-    if (FeatureToggle.isJournalEnabled) {
+    if (FeatureToggle.isJournalEnabled()) {
       if (activeCircuit && this.isOnJournalPage(uri)) {
         this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
       } else {
@@ -180,7 +180,7 @@ export default class MePanel extends Component {
    * Load the journal of the user, but only if the journal feature is enabled
    */
   loadJournalIfFeatureEnabled() {
-    if (FeatureToggle.isJournalEnabled) {
+    if (FeatureToggle.isJournalEnabled()) {
       this.requestBrowserToLoadTeamJournalAndSetActiveMember();
     }
   }

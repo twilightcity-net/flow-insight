@@ -142,7 +142,7 @@ module.exports = class HotkeyController extends (
 
     shortcuts.push(consoleShortcut);
 
-    if (AppFeatureToggle.isFerviePopupEnabled) {
+    if (AppFeatureToggle.isFerviePopupEnabled()) {
       shortcuts.push(fervieShortcut);
     }
 

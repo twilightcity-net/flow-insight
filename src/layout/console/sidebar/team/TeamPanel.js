@@ -350,7 +350,7 @@ export default class TeamPanel extends Component {
   goToDefaultPageForUser(name, activeCircuit) {
     if (activeCircuit) {
       this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
-    } else if (FeatureToggle.isJournalEnabled) {
+    } else if (FeatureToggle.isJournalEnabled()) {
       this.loadJournalIfFeatureEnabled(name);
     } else if (this.isMe(name)) {
       this.requestBrowserToLoadStartCircuit();
@@ -364,7 +364,7 @@ export default class TeamPanel extends Component {
    * @param uri
    */
   toggleBetweenJournalAndCircuit(name, activeCircuit, uri) {
-    if (FeatureToggle.isJournalEnabled) {
+    if (FeatureToggle.isJournalEnabled()) {
       if (activeCircuit && this.isOnJournalPage(uri)) {
         this.requestBrowserToLoadTeamMemberActiveCircuit(activeCircuit.circuitName);
       } else {
@@ -393,7 +393,7 @@ export default class TeamPanel extends Component {
    * @param name
    */
   loadJournalIfFeatureEnabled(name) {
-    if (FeatureToggle.isJournalEnabled && this.isMe(name)) {
+    if (FeatureToggle.isJournalEnabled() && this.isMe(name)) {
       this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
     }
   }

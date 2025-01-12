@@ -82,7 +82,7 @@ export default class ControlMetrics extends Component {
      let oocDescription = "Ratio of out of control troubleshooting sessions across all members of the team";
      let ttrDescription = "Average time to resolve a troubleshooting session across all members of the team";
 
-     if (FeatureToggle.isIndividualModeEnabled) {
+     if (FeatureToggle.isIndividualModeEnabled()) {
        oocDescription = "Ratio of out of control troubleshooting sessions for the week";
        ttrDescription = "Average time to resolve a troubleshooting session across all sessions in the week";
      }

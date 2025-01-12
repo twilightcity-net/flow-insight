@@ -32,7 +32,7 @@ module.exports = class FervieWindowManager {
 
   onShortcutReceivedCb(event, arg) {
     if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_FERVIE === arg
-      && AppFeatureToggle.isFerviePopupEnabled) {
+      && AppFeatureToggle.isFerviePopupEnabled()) {
       this.handleToggleFervieShowHide();
     }
   }

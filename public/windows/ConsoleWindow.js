@@ -59,13 +59,13 @@ module.exports = class ConsoleWindow {
     this.window.name = this.name;
     this.window.setMenu(null);
 
-    if (!AppFeatureToggle.consoleHasWindowInDock) {
+    if (!AppFeatureToggle.isConsoleWindowedInDockMode()) {
       if (is_mac) {
         app.dock.hide();
       }
     }
 
-    if (AppFeatureToggle.isMoovieApp) {
+    if (AppFeatureToggle.isMoovieApp()) {
       this.window.setAlwaysOnTop(true, "screen-saver");
       this.window.setVisibleOnAllWorkspaces(true);
     }

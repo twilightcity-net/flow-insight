@@ -100,7 +100,7 @@ module.exports = class ActiveStatusWindow {
    * @param arg
    */
   onShowHideConsole(event, arg) {
-    if (AppFeatureToggle.isStatusBarEnabled) {
+    if (AppFeatureToggle.isStatusBarEnabled()) {
       if (arg.showHideFlag === 0) {
         this.isConsoleOpen = true;
         this.window.hide();

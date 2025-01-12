@@ -40,7 +40,7 @@ module.exports = class AppFlowPublisherJob {
    * starts our flow publisher mechanism
    */
   start() {
-    if (AppFeatureToggle.isMoovieApp) {
+    if (AppFeatureToggle.isMoovieApp()) {
       return;
     }
 

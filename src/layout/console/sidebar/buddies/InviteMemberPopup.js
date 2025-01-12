@@ -95,7 +95,7 @@ export default class InviteMemberPopup extends Component {
   getInviteMemberButton() {
     let title = "Invite to Team";
 
-    if (FeatureToggle.isMoovieApp) {
+    if (FeatureToggle.isMoovieApp()) {
       title = "Invite Buddies to WatchMoovies";
     }
 

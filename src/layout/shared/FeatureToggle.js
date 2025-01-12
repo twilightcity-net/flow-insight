@@ -1,35 +1,54 @@
 export default class FeatureToggle  {
 
-  static isPairingEnabled = false;
+  static appType = FeatureToggle.AppType.FLOW_INSIGHT;
 
-  static isMoovieApp = false;
+  static activeToggles = {};
 
-  static isJournalEnabled = false;
-
-  static isNeoMode = false;
-
-  static isMetricsEnabled = false;
-
-  static isToolsExtensionEnabled = false;
-
-  static isPersonalDashboardEnabled = false;
-
-  static isControlChartEnabled = false;
-
-  static isStatusBarEnabled = false;
-
-  static isIndividualModeEnabled = false;
-
-  static isFerviePopupEnabled = false;
-
-  static isFervieWelcomeEnabled = false;
-
-
-  static appName = "FlowInsight";
+  static appName = FeatureToggle.appType;
   static version = "0.7.43"
 
+  static isEnabled(featureToggle) {
+    return FeatureToggle.activeToggles[featureToggle];
+  }
+
+  static isPairingEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.PAIRING);
+  }
+
+  static isJournalEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.JOURNAL);
+  }
+
   static isFlowInsightApp() {
-    return !FeatureToggle.isMoovieApp;
+    return !FeatureToggle.isMoovieApp();
+  }
+
+  static isNeoMode() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.NEO);
+  }
+
+  static isMetricsEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.METRICS);
+  }
+
+  static isPersonalDashboardEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.DASHBOARD);
+  }
+
+  static isControlChartEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.CONTROL);
+  }
+
+  static isIndividualModeEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.INDIVIDUAL);
+  }
+
+  static isFervieWelcomeEnabled() {
+    return FeatureToggle.isEnabled(FeatureToggle.Toggle.FERVIE_WELCOME);
+  }
+
+  static isMoovieApp() {
+    return FeatureToggle.appType === FeatureToggle.AppType.WATCH_MOOVIES;
   }
 
   static get Toggle() {
@@ -44,57 +63,30 @@ export default class FeatureToggle  {
       TOOLS: "tools",
       ARDEVICE: "ardevice",
       STATUS: "status",
-      INDIVIDUAL: "individual"
+      INDIVIDUAL: "individual",
+      PAIRING: "pairing"
+    };
+  }
+
+  static get AppType() {
+    return {
+      FLOW_INSIGHT: "FlowInsight",
+      WATCH_MOOVIES: "WatchMoovies",
+      FLOW_JOURNAL: "FlowJournal"
     };
   }
 
   static init(featureToggleList) {
-    FeatureToggle.isJournalEnabled = false;
-    FeatureToggle.isFerviePopupEnabled = false;
-    FeatureToggle.isFervieWelcomeEnabled = false;
-    FeatureToggle.isNeoMode = false;
-    FeatureToggle.isMetricsEnabled = false;
-    FeatureToggle.isToolsExtensionEnabled = false;
-    FeatureToggle.isPersonalDashboardEnabled = false;
-    FeatureToggle.isStatusBarEnabled = false;
-    FeatureToggle.isControlChartEnabled = false;
-    FeatureToggle.isIndividualModeEnabled = false;
-
-    console.log("UPDATING TOGGLES!");
-    console.log(featureToggleList);
-
-    for (let toggle of featureToggleList) {
-      if (toggle === FeatureToggle.Toggle.JOURNAL) {
-        FeatureToggle.isJournalEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.FERVIE) {
-        FeatureToggle.isFerviePopupEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.FERVIE_WELCOME) {
-        FeatureToggle.isFervieWelcomeEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.NEO) {
-        FeatureToggle.isNeoMode = true;
-      }
-      if (toggle === FeatureToggle.Toggle.METRICS) {
-        FeatureToggle.isMetricsEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.DASHBOARD) {
-        FeatureToggle.isPersonalDashboardEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.CONTROL) {
-        FeatureToggle.isControlChartEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.TOOLS) {
-        FeatureToggle.isToolsExtensionEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.STATUS) {
-        FeatureToggle.isStatusBarEnabled = true;
-      }
-      if (toggle === FeatureToggle.Toggle.INDIVIDUAL) {
-        FeatureToggle.isIndividualModeEnabled = true;
-      }
+    for (let featureKey in FeatureToggle.Toggle) {
+      FeatureToggle.activeToggles[FeatureToggle.Toggle[featureKey]] = false;
     }
+
+    for (let enabledToggle of featureToggleList) {
+      FeatureToggle.activeToggles[enabledToggle] = true;
+    }
+
+    console.log("UPDATED TOGGLES!");
+    console.log(FeatureToggle.activeToggles);
   }
 
 }

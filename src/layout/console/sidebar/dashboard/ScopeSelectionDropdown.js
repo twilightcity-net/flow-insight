@@ -63,7 +63,7 @@ export default class ScopeSelectionDropdown extends Component {
   }
 
   getTargetOptions() {
-    if (FeatureToggle.isIndividualModeEnabled) {
+    if (FeatureToggle.isIndividualModeEnabled()) {
       return this.targetOptionsMeOnly;
     } else {
       return this.targetOptions;

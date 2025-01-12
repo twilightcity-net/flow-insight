@@ -767,14 +767,14 @@ export default class ActiveRetro extends Component {
   getInRetroCircuitContentPanel() {
     let sidePanelContent = "";
 
-    if (this.state.isFilesVisible && FeatureToggle.isMetricsEnabled) {
+    if (this.state.isFilesVisible && FeatureToggle.isMetricsEnabled()) {
       sidePanelContent = (
         <FilesDetail
           chartDto={this.state.chartDto}
           hideSlidePanel={this.hideSlidePanel}
         />
       );
-    } else if (this.state.isExecVisible && FeatureToggle.isMetricsEnabled) {
+    } else if (this.state.isExecVisible && FeatureToggle.isMetricsEnabled()) {
       sidePanelContent = (
         <ExecDetail
           chartDto={this.state.chartDto}
