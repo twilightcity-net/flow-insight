@@ -680,11 +680,11 @@ export default class FerviePanel extends Component {
                                                     xpSummary={this.state.xpSummary}
                                                     moovieWatchCount={this.state.moovieWatchCount}
                                                     onUpdateAccessory={this.onUpdateAccessory}/>;
-    const rolesContent = <RolesContent type="roles"
-                                       fervieAccessory={this.state.fervieAccessory}
-                                       xpSummary={this.state.xpSummary}
-                                       moovieWatchCount={this.state.moovieWatchCount}
-                                       onUpdateAccessory={this.onUpdateAccessory}/>;
+    // const rolesContent = <RolesContent type="roles"
+    //                                    fervieAccessory={this.state.fervieAccessory}
+    //                                    xpSummary={this.state.xpSummary}
+    //                                    moovieWatchCount={this.state.moovieWatchCount}
+    //                                    onUpdateAccessory={this.onUpdateAccessory}/>;
     const accessoriesContent = <SkillsAccessoriesContent type="accessories"
                                                          fervieAccessory={this.state.fervieAccessory}
                                                          xpSummary={this.state.xpSummary}
@@ -714,7 +714,7 @@ export default class FerviePanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             {this.getFervieMenuItem(activeItem)}
             {this.getSkillsMenuItem(activeItem)}
-            {this.getRolesMenuItem(activeItem)}
+            {/*{this.getRolesMenuItem(activeItem)}*/}
             {this.getAccessoriesMenuItem(activeItem)}
             {this.getBadgesMenuItem(activeItem)}
             {this.getAccountMenuItem(activeItem)}
@@ -745,16 +745,16 @@ export default class FerviePanel extends Component {
               {skillsContent}
               </div>
             </Transition>
-            <Transition
-              visible={this.state.rolesVisible}
-              animation={this.state.animationType}
-              duration={this.state.animationDelay}
-              unmountOnHide
-            >
-              <div>
-                {rolesContent}
-              </div>
-            </Transition>
+            {/*<Transition*/}
+            {/*  visible={this.state.rolesVisible}*/}
+            {/*  animation={this.state.animationType}*/}
+            {/*  duration={this.state.animationDelay}*/}
+            {/*  unmountOnHide*/}
+            {/*>*/}
+            {/*  <div>*/}
+            {/*    {rolesContent}*/}
+            {/*  </div>*/}
+            {/*</Transition>*/}
             <Transition
               visible={this.state.accessoriesVisible}
               animation={this.state.animationType}
