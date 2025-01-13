@@ -53,7 +53,7 @@ export default class OrgSwitchView extends Component {
     for (let org of orgList) {
       const option = {key: org.id, value: org.id, text: org.orgName};
 
-      if (FeatureToggle.isFlowInsightApp() && (org.orgType === "COMPANY")) {
+      if (FeatureToggle.isFlowInsightOrJournalApp() && (org.orgType === "COMPANY")) {
         options.push(option);
       } else if (FeatureToggle.isMoovieApp() && org.orgType !== "COMPANY") {
         options.push(option);

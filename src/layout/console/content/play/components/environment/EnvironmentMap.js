@@ -103,7 +103,7 @@ export default class EnvironmentMap {
     this.travelMap[EnvironmentMap.CITY_MUSIC + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_ENTRANCE;
     this.travelMap[EnvironmentMap.CITY_MUSIC + EnvironmentMap.MAP_LEFT] = EnvironmentMap.CITY_STREET;
 
-    if (FeatureToggle.isFlowInsightApp()) {
+    if (FeatureToggle.isFlowInsightOrJournalApp()) {
       //dont sandbox to the theater for the main app
       this.travelMap[EnvironmentMap.THEATER_ENTRY + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.CITY_STREET;
     }

@@ -624,7 +624,7 @@ export default class FerviePanel extends Component {
   }
 
   getAccessoriesMenuItem(activeItem) {
-    if (FeatureToggle.isFlowInsightApp()) return "";
+    if (FeatureToggle.isFlowInsightOrJournalApp()) return "";
     return (
       <Menu.Item
         name={SidePanelViewController.SubmenuSelection.ACCESSORIES}

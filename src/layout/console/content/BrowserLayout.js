@@ -113,7 +113,7 @@ export default class BrowserLayout extends Component {
   loadWelcomeContent() {
     let defaultRequest;
 
-    if (FeatureToggle.isFlowInsightApp()) {
+    if (FeatureToggle.isFlowInsightOrJournalApp()) {
       defaultRequest = this.getDefaultFlowInsightPageRequest();
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
@@ -153,7 +153,7 @@ export default class BrowserLayout extends Component {
   requestBrowserToLoadDefaultContent() {
     let defaultRequest;
 
-    if (FeatureToggle.isFlowInsightApp()) {
+    if (FeatureToggle.isFlowInsightOrJournalApp()) {
       defaultRequest = this.getDefaultFlowInsightPageRequest();
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(

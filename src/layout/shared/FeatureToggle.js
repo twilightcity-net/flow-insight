@@ -19,9 +19,7 @@ export default class FeatureToggle  {
     return FeatureToggle.isEnabled(FeatureToggle.Toggle.JOURNAL);
   }
 
-  static isFlowInsightApp() {
-    return !FeatureToggle.isMoovieApp();
-  }
+
 
   static isNeoMode() {
     return FeatureToggle.isEnabled(FeatureToggle.Toggle.NEO);
@@ -49,6 +47,15 @@ export default class FeatureToggle  {
 
   static isMoovieApp() {
     return FeatureToggle.appType === FeatureToggle.AppType.WATCH_MOOVIES;
+  }
+
+  static isJournalApp() {
+    return FeatureToggle.appType === FeatureToggle.AppType.FLOW_JOURNAL;
+  }
+
+  static isFlowInsightOrJournalApp() {
+    return FeatureToggle.appType === FeatureToggle.AppType.FLOW_INSIGHT
+      || FeatureToggle.appType === FeatureToggle.AppType.FLOW_JOURNAL;
   }
 
   static get Toggle() {

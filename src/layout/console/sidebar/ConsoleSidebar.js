@@ -633,7 +633,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getBuddiesMenuItem(activeItem) {
-    if (FeatureToggle.isFlowInsightApp()) return "";
+    if (FeatureToggle.isFlowInsightOrJournalApp()) return "";
     return (
       <Menu.Item
         name={SidePanelViewController.MenuSelection.BUDDIES}
