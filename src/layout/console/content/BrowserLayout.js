@@ -113,8 +113,13 @@ export default class BrowserLayout extends Component {
   loadWelcomeContent() {
     let defaultRequest;
 
-    if (FeatureToggle.isFlowInsightOrJournalApp()) {
+    if (FeatureToggle.isFlowInsightApp()) {
       defaultRequest = this.getDefaultFlowInsightPageRequest();
+    } else if (FeatureToggle.isJournalApp()) {
+      defaultRequest = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        "me"
+      );
     } else {
       defaultRequest = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.MOOVIE
@@ -123,6 +128,7 @@ export default class BrowserLayout extends Component {
 
     this.myController.makeRequest(defaultRequest);
   }
+
 
   /**
    * Get the default page request for the FlowInsight app
@@ -145,6 +151,8 @@ export default class BrowserLayout extends Component {
       );
     }
   }
+
+
 
   /**
    * loads default content into the browser which is our /journal/me

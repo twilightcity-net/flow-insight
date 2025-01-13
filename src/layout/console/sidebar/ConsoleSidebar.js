@@ -579,6 +579,7 @@ export default class ConsoleSidebar extends Component {
     isOnline,
     errorMsg
   ) {
+
     return (
       <div>
         <div>
@@ -588,7 +589,7 @@ export default class ConsoleSidebar extends Component {
           <i>ping: </i>
           <b>
             <i>
-              {pingTime <= 0
+              {!pingTime || pingTime <= 0
                 ? "calculating..."
                 : pingTime + "ms"}
             </i>
@@ -602,7 +603,7 @@ export default class ConsoleSidebar extends Component {
           <i>latency: </i>
           <b>
             <i>
-              {latencyTime <= 0
+              {!latencyTime || latencyTime <= 0
                 ? "calculating..."
                 : latencyTime + "ms"}
             </i>
@@ -619,44 +620,54 @@ export default class ConsoleSidebar extends Component {
     );
   }
 
-  getTeamMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp()) return "";
-    return (
-      <Menu.Item
-        name={SidePanelViewController.MenuSelection.HOME}
-        active={activeItem === SidePanelViewController.MenuSelection.HOME}
-        onClick={this.handleItemClick}
-      >
-        <Icon name={this.state.iconTeam}/>
-      </Menu.Item>
-    );
+  getHomeMenuItem(activeItem) {
+    if (FeatureToggle.isFlowInsightOrJournalApp()) {
+      return (
+        <Menu.Item
+          name={SidePanelViewController.MenuSelection.HOME}
+          active={activeItem === SidePanelViewController.MenuSelection.HOME}
+          onClick={this.handleItemClick}
+        >
+          <Icon name={this.state.iconTeam}/>
+        </Menu.Item>
+      );
+    } else {
+      return "";
+    }
+
   }
 
   getBuddiesMenuItem(activeItem) {
-    if (FeatureToggle.isFlowInsightOrJournalApp()) return "";
-    return (
-      <Menu.Item
-        name={SidePanelViewController.MenuSelection.BUDDIES}
-        active={activeItem === SidePanelViewController.MenuSelection.BUDDIES}
-        onClick={this.handleItemClick}
-      >
-        <Icon name={this.state.iconTeam}/>
-      </Menu.Item>
-    );
+    if (FeatureToggle.isMoovieApp()) {
+      return (
+        <Menu.Item
+          name={SidePanelViewController.MenuSelection.BUDDIES}
+          active={activeItem === SidePanelViewController.MenuSelection.BUDDIES}
+          onClick={this.handleItemClick}
+        >
+          <Icon name={this.state.iconTeam}/>
+        </Menu.Item>
+      );
+    } else {
+      return "";
+    }
   }
 
   getCircuitsMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp()) return "";
-
-    return (
-      <Menu.Item
-        name={SidePanelViewController.MenuSelection.CIRCUITS}
-        active={activeItem === SidePanelViewController.MenuSelection.CIRCUITS}
-        onClick={this.handleItemClick}
-      >
-        <Icon name={this.state.iconCircuit}/>
-      </Menu.Item>
-    );
+    if (FeatureToggle.isFlowInsightApp() && FeatureToggle.isControlChartEnabled()) {
+      return (
+        <Menu.Item
+          name={SidePanelViewController.MenuSelection.CIRCUITS}
+          active={activeItem === SidePanelViewController.MenuSelection.CIRCUITS}
+          onClick={this.handleItemClick}
+        >
+          <Icon name={this.state.iconCircuit}/>
+        </Menu.Item>
+      );
+    }
+    else {
+      return "";
+    }
   }
 
   getFervieMenuItem(activeItem) {
@@ -717,7 +728,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   getDashboardMenuItem(activeItem) {
-    if (FeatureToggle.isMetricsEnabled()) {
+    if (FeatureToggle.isFlowInsightApp() && FeatureToggle.isMetricsEnabled()) {
       return (
         <Menu.Item
           name={SidePanelViewController.MenuSelection.DASHBOARD}
@@ -734,21 +745,24 @@ export default class ConsoleSidebar extends Component {
   }
 
   getWtfMenuItem(activeItem) {
-    if (FeatureToggle.isMoovieApp()) return "";
-    return (
-      <Menu.Item
-        name={SidePanelViewController.MenuSelection.WTF}
-        active={activeItem === SidePanelViewController.MenuSelection.WTF}
-        onClick={this.handleItemClick}
-        className={
-          this.state.isAlarm
-            ? ConsoleSidebar.alarmClassName + " wtf"
-            : "wtf"
-        }
-      >
-        <Icon name={this.state.iconWTF}/>
-      </Menu.Item>
-    );
+    if (FeatureToggle.isFlowInsightApp()) {
+      return (
+        <Menu.Item
+          name={SidePanelViewController.MenuSelection.WTF}
+          active={activeItem === SidePanelViewController.MenuSelection.WTF}
+          onClick={this.handleItemClick}
+          className={
+            this.state.isAlarm
+              ? ConsoleSidebar.alarmClassName + " wtf"
+              : "wtf"
+          }
+        >
+          <Icon name={this.state.iconWTF}/>
+        </Menu.Item>
+      );
+    } else {
+      return "";
+    }
   }
 
   getNetworkPopup() {
@@ -819,7 +833,7 @@ export default class ConsoleSidebar extends Component {
           vertical
           style={{height: DimensionController.getConsoleSidebarHeight()}}
         >
-          {this.getTeamMenuItem(activeItem)}
+          {this.getHomeMenuItem(activeItem)}
           {this.getBuddiesMenuItem(activeItem)}
           {this.getFervieMenuItem(activeItem)}
           {this.getNotificationsMenuItem(activeItem)}

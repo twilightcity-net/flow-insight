@@ -34,7 +34,7 @@ export default class FeatureToggle  {
   }
 
   static isControlChartEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.CONTROL);
+    return FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.CONTROL);
   }
 
   static isIndividualModeEnabled() {
@@ -51,6 +51,10 @@ export default class FeatureToggle  {
 
   static isJournalApp() {
     return FeatureToggle.appType === FeatureToggle.AppType.FLOW_JOURNAL;
+  }
+
+  static isFlowInsightApp() {
+    return FeatureToggle.appType === FeatureToggle.AppType.FLOW_INSIGHT;
   }
 
   static isFlowInsightOrJournalApp() {
