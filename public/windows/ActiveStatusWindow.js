@@ -4,7 +4,7 @@ const { BrowserWindow, app} = require("electron"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory");
-const AppFeatureToggle = require("../app/AppFeatureToggle");
+const AppConfig = require("../app/AppConfig");
 
 /**
  * A floating active status window. Draggable around the screen, and detached from the console.
@@ -100,7 +100,7 @@ module.exports = class ActiveStatusWindow {
    * @param arg
    */
   onShowHideConsole(event, arg) {
-    if (AppFeatureToggle.isStatusBarEnabled()) {
+    if (AppConfig.isStatusBarEnabled()) {
       if (arg.showHideFlag === 0) {
         this.isConsoleOpen = true;
         this.window.hide();

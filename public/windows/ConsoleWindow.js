@@ -8,7 +8,7 @@ const { app, BrowserWindow } = require("electron"),
     Shortcut,
     ShortcutManager,
   } = require("../managers/ShortcutManager");
-const AppFeatureToggle = require("../app/AppFeatureToggle");
+const AppConfig = require("../app/AppConfig");
 
 const is_mac = process.platform === "darwin";
 
@@ -59,13 +59,13 @@ module.exports = class ConsoleWindow {
     this.window.name = this.name;
     this.window.setMenu(null);
 
-    if (!AppFeatureToggle.isConsoleWindowedInDockMode()) {
+    if (!AppConfig.isConsoleWindowedInDockMode()) {
       if (is_mac) {
         app.dock.hide();
       }
     }
 
-    if (AppFeatureToggle.isMoovieApp()) {
+    if (AppConfig.isMoovieApp()) {
       this.window.setAlwaysOnTop(true, "screen-saver");
       this.window.setVisibleOnAllWorkspaces(true);
     }

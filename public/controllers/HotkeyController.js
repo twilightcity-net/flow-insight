@@ -3,7 +3,7 @@ const BaseController = require("./BaseController"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   NotificationDatabase = require("../database/NotificationDatabase");
 const {ShortcutManager} = require("../managers/ShortcutManager");
-const AppFeatureToggle = require("../app/AppFeatureToggle");
+const AppConfig = require("../app/AppConfig");
 
 /**
  * This class is used to manage requests for hotkey related data
@@ -142,7 +142,7 @@ module.exports = class HotkeyController extends (
 
     shortcuts.push(consoleShortcut);
 
-    if (AppFeatureToggle.isFerviePopupEnabled()) {
+    if (AppConfig.isFerviePopupEnabled()) {
       shortcuts.push(fervieShortcut);
     }
 

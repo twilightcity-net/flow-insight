@@ -5,7 +5,7 @@ const { dialog } = require("electron"),
   cleanStack = require("clean-stack"),
   stackTrace = require("stack-trace"),
   isDev = require("electron-is-dev");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 
 /**
  * Base Exception class for app, all other errors should extend this
@@ -63,13 +63,13 @@ module.exports = class AppError extends Error {
 
       if (fatal) {
         dialog.showErrorBox(
-          AppFeatureToggle.appName,
+          AppConfig.appName,
           "[FATAL] " + error.toString()
         );
         process.exit(1);
       } else if (!graceful) {
         dialog.showErrorBox(
-          AppFeatureToggle.appName,
+          AppConfig.appName,
           error.toString()
         );
       }

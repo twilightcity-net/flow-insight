@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   EventFactory = require("../events/EventFactory");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 const FervieHelpRequestor = require("../job/FervieHelpRequestor");
 /**
  * Application class that detects when we need help and triggers fervie support
@@ -32,7 +32,7 @@ module.exports = class AppFervieHelpJob {
    * starts our fervie help mechanism
    */
   start() {
-    if (AppFeatureToggle.isMoovieApp()) {
+    if (AppConfig.isMoovieApp()) {
       return;
     }
 

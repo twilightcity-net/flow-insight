@@ -5,7 +5,7 @@ let { dialog } = require("electron"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
   AccountActivationDto = require("../dto/AccountActivationDto");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 
 /**
  * class that is used to activate the application
@@ -40,30 +40,20 @@ module.exports = class AppActivator {
    */
   onActivatorSaveCb(event, arg) {
     log.info("[AppActivator] saving api-key...");
-    try {
-      let accountActivationDto = new AccountActivationDto(
-        arg
-      );
-      global.App.AppSettings.save(
-        Util.getAppApi(),
-        accountActivationDto.apiKey
-      );
 
-      log.info("[AppActivator] verify api key...");
-      let apiKey = global.App.AppSettings.getApiKey();
-      if (accountActivationDto.apiKey !== apiKey) {
-        throw new Error("Unable to save api-key");
+    try {
+      let accountActivationDto = new AccountActivationDto(arg);
+      log.info("Activation status: "+ accountActivationDto.status);
+
+      if (accountActivationDto.isValidToken()) {
+        global.App.AppSettings.save(global.App.api, accountActivationDto.apiKey);
       }
       this.events.activationSaved.dispatch({});
+
     } catch (err) {
-      log.error(
-        "[AppActivator] Unable to save api-key : " + err
-      );
+      log.error("[AppActivator] Unable to save api-key : " + err);
       this.events.closeActivator.dispatch({result: -1});
-      dialog.showErrorBox(
-        AppFeatureToggle.appName,
-        "[FATAL] Unable to save api-key"
-      );
+      dialog.showErrorBox(AppConfig.appName, "[FATAL] Unable to save api-key");
       process.exit(1);
     }
   }

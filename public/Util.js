@@ -102,65 +102,7 @@ class Util {
       })
     );
   }
-
-  /**
-   * the applications name
-   * @returns {string}
-   */
-  static getAppName() {
-    return app.getName();
-  }
-
-  /**
-   * gets the api url to use
-   * @returns {string}
-   */
-  static getAppApi() {
-    let url = "https://home.twilightcity.net";
-    if (isDev) {
-      process.argv.forEach(function (val, index, array) {
-        if (val.toLowerCase().startsWith("server=")) {
-          url = val.toLowerCase().substring(7);
-        }
-      });
-    }
-    return url;
-  }
-
-  /**
-   * gets the url of the Talknet Server. returns localhost if it is local
-   * @returns {string}
-   */
-  static getAppTalkUrl() {
-    let url = "https://talk.twilightcity.net";
-    if (isDev) {
-      process.argv.forEach((val) => {
-        if (val.toLowerCase().startsWith("talk=")) {
-          url = val.toLowerCase().substring(5);
-        }
-      });
-    }
-    return url;
-  }
-
-  /**
-   * gets a startup environmental flag to tell the system to run 3d modeor not
-   * this should be false for now until we figure out what the fuck we are doin'
-   * also kinda need an artist to make this all work
-   * @returns {boolean} - the boolean flag to display 3d or not
-   */
-  static getRender3D() {
-    let flag = false;
-    if (isDev) {
-      process.argv.forEach(function (val, index, array) {
-        if (val.toLowerCase().startsWith("render3d=")) {
-          flag = val.toLowerCase().substring(9);
-        }
-      });
-    }
-    return flag;
-  }
-
+  
   /**
    * the root applciation icon
    * @param name

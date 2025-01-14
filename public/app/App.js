@@ -35,6 +35,7 @@ const {app, session} = require("electron"),
   AppLoader = require("./AppLoader"),
   AppHeartbeat = require("./AppHeartbeat"),
   AppLogin = require("./AppLogin"),
+  AppConfig = require("./AppConfig"),
   AppController = require("../controllers/AppController"),
   AppBanner = [
     "                                                                                               ",
@@ -151,10 +152,9 @@ module.exports = class App {
    * called by the app ready event -> called first after electron app loaded
    */
   onReady() {
-    global.App.api = Util.getAppApi();
-    global.App.name = Util.getAppName();
-    global.App.talkUrl = Util.getAppTalkUrl();
-    global.App.render3D = Util.getRender3D();
+    global.App.api = AppConfig.getAppApi();
+    global.App.name = AppConfig.getAppName();
+    global.App.talkUrl = AppConfig.getAppTalkUrl();
     global.App.idleTime = 0;
     global.App.isOnline = false;
     global.App.isLoggedIn = false;

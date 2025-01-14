@@ -7,7 +7,7 @@ let settings = require("electron-settings"),
   {
     ShortcutManager,
   } = require("../managers/ShortcutManager");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 
 /**
  * Application class used to manage our settings stores in ~/.flow
@@ -151,13 +151,13 @@ module.exports = class AppSettings {
 
   getDefaultFeatureToggles() {
     return [
-      AppFeatureToggle.Toggle.METRICS,
-      AppFeatureToggle.Toggle.STATUS,
-      AppFeatureToggle.Toggle.DASHBOARD,
-      AppFeatureToggle.Toggle.CONTROL,
-      AppFeatureToggle.Toggle.JOURNAL,
-      AppFeatureToggle.Toggle.INDIVIDUAL,
-      AppFeatureToggle.Toggle.FERVIE
+      AppConfig.Toggle.METRICS,
+      AppConfig.Toggle.STATUS,
+      AppConfig.Toggle.DASHBOARD,
+      AppConfig.Toggle.CONTROL,
+      AppConfig.Toggle.JOURNAL,
+      AppConfig.Toggle.INDIVIDUAL,
+      AppConfig.Toggle.FERVIE
     ];
   }
 
@@ -194,10 +194,10 @@ module.exports = class AppSettings {
    * @param apiKey
    */
   save(apiUrl, apiKey) {
-    // let apiKeyCrypted = crypto.AES.encrypt(apiKey, this.keyToken).toString();
+    let apiKeyCrypted = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
     settings.set(AppSettings.Keys.APP_API_URL, apiUrl);
-    settings.set(AppSettings.Keys.APP_API_KEY, apiKey);
+    settings.set(AppSettings.Keys.APP_API_KEY, apiKeyCrypted);
     this.setDisplayIndex(
       AppSettings.DefaultValues.DISPLAY_INDEX
     );
@@ -234,12 +234,11 @@ module.exports = class AppSettings {
   getApiKey() {
     log.info("[AppSettings] get api key");
     let key = settings.get(AppSettings.Keys.APP_API_KEY);
-    return key;
-    // if (key) {
-    //   let bytes = crypto.AES.decrypt(key, this.keyToken);
-    //   return bytes.toString(crypto.enc.Utf8);
-    // }
-    // return null;
+    if (key) {
+      let bytes = crypto.AES.decrypt(key, this.keyToken);
+      return bytes.toString(crypto.enc.Utf8);
+    }
+    return null;
   }
 
   /**
@@ -341,7 +340,7 @@ module.exports = class AppSettings {
    * @param primaryOrgId
    */
   setPrimaryOrganizationId(primaryOrgId) {
-    if (AppFeatureToggle.isMoovieApp()) {
+    if (AppConfig.isMoovieApp()) {
       settings.set(
         AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_WATCHMOOVIES,
         primaryOrgId
@@ -359,7 +358,7 @@ module.exports = class AppSettings {
    */
   getPrimaryOrganizationId() {
     let orgId;
-    if (AppFeatureToggle.isMoovieApp()) {
+    if (AppConfig.isMoovieApp()) {
       orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_WATCHMOOVIES);
     } else {
       orgId = settings.get(AppSettings.OptionalKeys.PRIMARY_ORG_ID_APP_FLOWINSIGHT);
@@ -402,15 +401,16 @@ module.exports = class AppSettings {
         );
         return false;
       } else {
-        if (
-          keys[i] === AppSettings.Keys.APP_API_KEY &&
+        if (keys[i] === AppSettings.Keys.APP_API_KEY) {
+          log.info("Key length = " + settings.get(AppSettings.Keys.APP_API_KEY).length);
+        }
+
+        if (keys[i] === AppSettings.Keys.APP_API_KEY &&
           settings.get(AppSettings.Keys.APP_API_KEY) &&
           settings.get(AppSettings.Keys.APP_API_KEY)
-            .length !== 32
+            .length !== 88 //will this always be 88?
         ) {
-          log.info(
-            "[AppSettings] verify api key -> failed : invalid"
-          );
+          log.info("[AppSettings] verify api key -> failed : invalid");
           return false;
         }
       }

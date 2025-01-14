@@ -2,7 +2,7 @@ const {Menu} = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 const MenuHandler = require("./MenuHandler");
 
 
@@ -40,7 +40,7 @@ module.exports = class AppMenu extends Menu {
 
   static getTemplateForWindows() {
     return [{
-      label: AppFeatureToggle.appName,
+      label: AppConfig.appName,
       submenu: [
         {role: "about"},
         {type: "separator"},
@@ -94,7 +94,7 @@ module.exports = class AppMenu extends Menu {
   static getTemplateForMacOS() {
     return [
       {
-        label: AppFeatureToggle.appName,
+        label: AppConfig.appName,
         submenu: [
           {role: "about"},
           {type: "separator"},

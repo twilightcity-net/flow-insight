@@ -204,8 +204,6 @@ class WindowManager {
       return (
         "http://localhost:3000?view=" +
         viewName +
-        "&render3d=" +
-        global.App.render3D +
         argsString
       );
     }
@@ -214,8 +212,6 @@ class WindowManager {
       Util.getAppRootDir(),
       "/index.html?view=" +
         viewName +
-        "&render3d=" +
-        global.App.render3D +
         argsString
     )}`;
     return "file://" + filePath;

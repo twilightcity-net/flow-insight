@@ -5,7 +5,7 @@ const FlowFeedProcessor = require("../job/FlowFeedProcessor");
 const FlowStateTracker = require("../job/FlowStateTracker");
 const ActiveFlowWatcher = require("../job/ActiveFlowWatcher");
 const FervieActionConfigHandler = require("../job/FervieActionConfigHandler");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 
 /**
  * Application class that manages publishing our plugin flow data to the server
@@ -40,7 +40,7 @@ module.exports = class AppFlowPublisherJob {
    * starts our flow publisher mechanism
    */
   start() {
-    if (AppFeatureToggle.isMoovieApp()) {
+    if (AppConfig.isMoovieApp()) {
       return;
     }
 

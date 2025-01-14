@@ -314,7 +314,7 @@ module.exports = class TerminalController extends (
       arg.error = store.error;
     } else {
       arg.data = store.data;
-      arg.data.url = Util.getAppApi();
+      arg.data.url = global.App.api;
     }
 
     this.delegateCallbackOrEventReplyTo(

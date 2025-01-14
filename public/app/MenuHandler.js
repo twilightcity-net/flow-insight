@@ -2,7 +2,7 @@ const {Menu} = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 
 
 
@@ -15,83 +15,83 @@ module.exports = class MenuHandler {
       {
         label: "Journal",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.JOURNAL)
+          MenuHandler.onClickFeature(AppConfig.Toggle.JOURNAL)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.JOURNAL)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.JOURNAL)
       },
       {
         label: "Flow Metrics",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.METRICS)
+          MenuHandler.onClickFeature(AppConfig.Toggle.METRICS)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.METRICS)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.METRICS)
       },
       {
         label: "Flow Dashboard",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.DASHBOARD)
+          MenuHandler.onClickFeature(AppConfig.Toggle.DASHBOARD)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.DASHBOARD)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.DASHBOARD)
       },
       {
         label: "Focus Bar",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.STATUS)
+          MenuHandler.onClickFeature(AppConfig.Toggle.STATUS)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.STATUS)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.STATUS)
       },
       {
         label: "Trouble Control",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.CONTROL)
+          MenuHandler.onClickFeature(AppConfig.Toggle.CONTROL)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.CONTROL)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.CONTROL)
       },
       {
         label: "Fervie Welcome",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.FERVIE_WELCOME)
+          MenuHandler.onClickFeature(AppConfig.Toggle.FERVIE_WELCOME)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE_WELCOME)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.FERVIE_WELCOME)
       },
       {
         label: "Fervie Teams",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.FERVIE)
+          MenuHandler.onClickFeature(AppConfig.Toggle.FERVIE)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.FERVIE)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.FERVIE)
       },
       {
         label: "Neo Mode",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.NEO)
+          MenuHandler.onClickFeature(AppConfig.Toggle.NEO)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.NEO)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.NEO)
       },
       {type: "separator"},
       {
         label: "Individual Mode",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.INDIVIDUAL)
+          MenuHandler.onClickFeature(AppConfig.Toggle.INDIVIDUAL)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.INDIVIDUAL)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.INDIVIDUAL)
       },
       {
         label: "Plugin Extensions",
         click: () => {
-          MenuHandler.onClickFeature(AppFeatureToggle.Toggle.TOOLS)
+          MenuHandler.onClickFeature(AppConfig.Toggle.TOOLS)
         },
         type: "checkbox",
-        checked: MenuHandler.isFeatureToggledOn(AppFeatureToggle.Toggle.TOOLS)
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.TOOLS)
       },
     ];
   }
@@ -124,7 +124,7 @@ module.exports = class MenuHandler {
 
 
   static getHelpSubmenu() {
-    if (AppFeatureToggle.isMoovieApp()) {
+    if (AppConfig.isMoovieApp()) {
       return [
         { role: "about" },
         {

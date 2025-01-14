@@ -2,7 +2,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   { DtoClient } = require("../managers/DtoClientFactory"),
   ConnectionStatusDto = require("../dto/ConnectionStatusDto");
-const AppFeatureToggle = require("./AppFeatureToggle");
+const AppConfig = require("./AppConfig");
 
 /**
  * Application class that manages our settings
@@ -15,7 +15,7 @@ module.exports = class AppLogin {
    */
   static doLogin(callback) {
     log.info("[AppLogin] do login -> setup DtoClient");
-    let params = "?appName="+AppFeatureToggle.appName+ "&version="+AppFeatureToggle.version;
+    let params = "?appName="+AppConfig.appName+ "&version="+AppConfig.version;
 
     const primaryOrgId = global.App.AppSettings.getPrimaryOrganizationId();
 
@@ -69,22 +69,27 @@ module.exports = class AppLogin {
    * @returns {ConnectionStatusDto}
    */
   static getConnectionStatus() {
+    log.debug("getConnectionStatus");
+
     try {
       if (this.store.error) {
-        throw this.store.error;
+        log.debug("error found..." + this.store.error);
+        return new ConnectionStatusDto({
+          message: this.store.error + " Login failed",
+          status: "ERROR",
+        });
+      } else {
+        return  new ConnectionStatusDto(
+          this.store.data
+        );
       }
-
-      let connectionStatus = new ConnectionStatusDto(
-        this.store.data
-      );
-      return connectionStatus;
     } catch (e) {
       log.error("[AppLogin] " + e);
-      let connectionStatus = new ConnectionStatusDto({
+      let errorStatus = new ConnectionStatusDto({
         message: e.toString(),
         status: "ERROR",
       });
-      return connectionStatus;
+      return errorStatus;
     }
   }
 };

@@ -12,7 +12,6 @@ const log = require("electron-log"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray"),
   AppLogin = require("./AppLogin");
-const AppFeatureToggle = require("./AppFeatureToggle");
 
 /**
  * TODO this needs to have some type of controller class manage the events in a circuit

@@ -1,6 +1,6 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
-const AppFeatureToggle = require("../app/AppFeatureToggle");
+const AppConfig = require("../app/AppConfig");
 
 /**
  * This class is used to manage requests for feature toggle state and updates
@@ -40,7 +40,7 @@ module.exports = class FeatureController extends (
    */
   init() {
     this.featureToggles = global.App.AppSettings.getFeatureToggles();
-    AppFeatureToggle.init(this.featureToggles);
+    AppConfig.init(this.featureToggles);
   }
 
   /**
@@ -131,7 +131,7 @@ module.exports = class FeatureController extends (
    */
   toggleFeature(featureName) {
     this.featureToggles = global.App.AppSettings.toggleFeature(featureName);
-    AppFeatureToggle.init(this.featureToggles);
+    AppConfig.init(this.featureToggles);
 
     this.toggleRefreshNotifier.dispatch({});
   }
@@ -215,7 +215,7 @@ module.exports = class FeatureController extends (
     const featureName = arg.args.feature;
 
     this.featureToggles = global.App.AppSettings.toggleOnFeature(featureName);
-    AppFeatureToggle.init(this.featureToggles);
+    AppConfig.init(this.featureToggles);
 
     arg.data = this.featureToggles;
 
@@ -237,7 +237,7 @@ module.exports = class FeatureController extends (
     const featureName = arg.args.feature;
 
     this.featureToggles = global.App.AppSettings.toggleOffFeature(featureName);
-    AppFeatureToggle.init(this.featureToggles);
+    AppConfig.init(this.featureToggles);
 
     arg.data = this.featureToggles;
 
