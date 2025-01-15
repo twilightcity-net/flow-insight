@@ -235,8 +235,12 @@ module.exports = class AppSettings {
     log.info("[AppSettings] get api key");
     let key = settings.get(AppSettings.Keys.APP_API_KEY);
     if (key) {
-      let bytes = crypto.AES.decrypt(key, this.keyToken);
-      return bytes.toString(crypto.enc.Utf8);
+      if (key.length === 88) {
+        let bytes = crypto.AES.decrypt(key, this.keyToken);
+        return bytes.toString(crypto.enc.Utf8);
+      } else {
+        return key;
+      }
     }
     return null;
   }
@@ -407,8 +411,8 @@ module.exports = class AppSettings {
 
         if (keys[i] === AppSettings.Keys.APP_API_KEY &&
           settings.get(AppSettings.Keys.APP_API_KEY) &&
-          settings.get(AppSettings.Keys.APP_API_KEY)
-            .length !== 88 //will this always be 88?
+          !(settings.get(AppSettings.Keys.APP_API_KEY).length === 88
+            || settings.get(AppSettings.Keys.APP_API_KEY).length === 32)
         ) {
           log.info("[AppSettings] verify api key -> failed : invalid");
           return false;

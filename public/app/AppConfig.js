@@ -56,6 +56,10 @@ module.exports = class AppConfig {
     return AppConfig.appType === AppConfig.AppType.FLOW_INSIGHT;
   }
 
+  static isFlowJournalApp() {
+    return AppConfig.appType === AppConfig.AppType.FLOW_JOURNAL;
+  }
+
   static isFerviePopupEnabled() {
     return AppConfig.isFlowInsightApp() && AppConfig.isEnabled(AppConfig.Toggle.FERVIE);
   }

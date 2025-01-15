@@ -11,6 +11,29 @@ module.exports = class MenuHandler {
   }
 
   static getFeatureSubmenu() {
+    if (AppConfig.isFlowInsightApp()) {
+      return MenuHandler.getFeatureSubmenuForFlowInsight();
+    } else if (AppConfig.isFlowJournalApp()) {
+      return MenuHandler.getFeatureSubmenuForFlowJournal();
+    } else {
+      return [];
+    }
+  }
+
+  static getFeatureSubmenuForFlowJournal() {
+    return [
+      {
+        label: "Focus Bar",
+        click: () => {
+          MenuHandler.onClickFeature(AppConfig.Toggle.STATUS)
+        },
+        type: "checkbox",
+        checked: MenuHandler.isFeatureToggledOn(AppConfig.Toggle.STATUS)
+      },
+    ];
+  }
+
+  static getFeatureSubmenuForFlowInsight() {
     return [
       {
         label: "Journal",
