@@ -1,36 +1,41 @@
 export default class FeatureToggle  {
 
-  static appType = FeatureToggle.AppType.FLOW_INSIGHT;
+  //TODO this appType logic is duplicated on the backend within AppConfig, these props should exist on the backend,
+  // and be handed to the frontend so they're in one place.
+
+  static appType = FeatureToggle.AppType.FLOW_JOURNAL;
+  static appName = FeatureToggle.appType;
+  static version = "0.7.43"
+
+
 
   static activeToggles = {};
 
-  static appName = FeatureToggle.appType;
-  static version = "0.7.43"
 
   static isEnabled(featureToggle) {
     return FeatureToggle.activeToggles[featureToggle];
   }
 
   static isPairingEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.PAIRING);
+    return FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.PAIRING);
   }
 
   static isJournalEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.JOURNAL);
+    return FeatureToggle.isJournalApp() ||
+      (FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.JOURNAL));
   }
-
 
 
   static isNeoMode() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.NEO);
+    return FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.NEO);
   }
 
   static isMetricsEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.METRICS);
+    return FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.METRICS);
   }
 
   static isPersonalDashboardEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.DASHBOARD);
+    return FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.DASHBOARD);
   }
 
   static isControlChartEnabled() {
@@ -38,11 +43,11 @@ export default class FeatureToggle  {
   }
 
   static isIndividualModeEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.INDIVIDUAL);
+    return FeatureToggle.isJournalApp() || FeatureToggle.isEnabled(FeatureToggle.Toggle.INDIVIDUAL);
   }
 
   static isFervieWelcomeEnabled() {
-    return FeatureToggle.isEnabled(FeatureToggle.Toggle.FERVIE_WELCOME);
+    return FeatureToggle.isFlowInsightApp() && FeatureToggle.isEnabled(FeatureToggle.Toggle.FERVIE_WELCOME);
   }
 
   static isMoovieApp() {

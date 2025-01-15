@@ -2,7 +2,7 @@ const isDev = require("electron-is-dev");
 
 module.exports = class AppConfig {
 
-  static appType = AppConfig.AppType.FLOW_INSIGHT;
+  static appType = AppConfig.AppType.FLOW_JOURNAL;
 
   static activeToggles = {};
 
@@ -26,13 +26,13 @@ module.exports = class AppConfig {
    */
   static getAppApi() {
     let url = AppConfig.defaultApiUrl;
-    if (isDev) {
-      process.argv.forEach(function (val, index, array) {
-        if (val.toLowerCase().startsWith("server=")) {
-          url = val.toLowerCase().substring(7);
-        }
-      });
-    }
+    // if (isDev) {
+    //   process.argv.forEach(function (val, index, array) {
+    //     if (val.toLowerCase().startsWith("server=")) {
+    //       url = val.toLowerCase().substring(7);
+    //     }
+    //   });
+    // }
     return url;
   }
 
@@ -42,19 +42,22 @@ module.exports = class AppConfig {
    */
   static getAppTalkUrl() {
     let url = AppConfig.defaultTalkUrl;
-    if (isDev) {
-      process.argv.forEach((val) => {
-        if (val.toLowerCase().startsWith("talk=")) {
-          url = val.toLowerCase().substring(5);
-        }
-      });
-    }
+    // if (isDev) {
+    //   process.argv.forEach((val) => {
+    //     if (val.toLowerCase().startsWith("talk=")) {
+    //       url = val.toLowerCase().substring(5);
+    //     }
+    //   });
+    // }
     return url;
   }
 
+  static isFlowInsightApp() {
+    return AppConfig.appType === AppConfig.AppType.FLOW_INSIGHT;
+  }
 
   static isFerviePopupEnabled() {
-    return AppConfig.isEnabled(AppConfig.Toggle.FERVIE);
+    return AppConfig.isFlowInsightApp() && AppConfig.isEnabled(AppConfig.Toggle.FERVIE);
   }
 
   static isStatusBarEnabled() {
