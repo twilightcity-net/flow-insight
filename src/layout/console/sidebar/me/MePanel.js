@@ -231,8 +231,26 @@ export default class MePanel extends Component {
           <Icon className="flow" name="circle" style={{"color": this.getFlowLightColor()}} />
           <span className="flowLabel">Flow State:</span>
         </div>
-
         <div className="name">{displayName}</div>
+        {this.getTaskCompletedStars(0)}
+      </div>
+    );
+  }
+
+  /**
+   * Create purple stars in the status display for each of the tasks done,
+   * returns markup snippet
+   * @param numStars
+   */
+  getTaskCompletedStars(numStars) {
+    const itemKeys = Array.from({ length: numStars },
+      (_, i) => i + 1);
+
+    return (
+      <div id="tasksCompleted">
+        {itemKeys.map((itemKey) => (
+          <Icon key={itemKey} size="small" name="star" className="doneStar"/>
+        ))}
       </div>
     );
   }
