@@ -3,6 +3,7 @@ const log = require("electron-log"),
 const Util = require("../Util");
 const {DtoClient} = require("../managers/DtoClientFactory");
 const EventFactory = require("../events/EventFactory");
+const AppConfig = require("../app/AppConfig");
 
 
 /**
@@ -102,6 +103,7 @@ module.exports = class FlowStateTracker {
       this.me = global.App.MemberManager.getMe();
       if (this.me) {
         this.lastTaskId = this.me.activeTaskId;
+        this.lastWorkingOn = this.me.workingOn;
       }
 
       this.memberEventListener =
@@ -129,11 +131,16 @@ module.exports = class FlowStateTracker {
         log.debug(this.name + "Task switch event!  Momentum Reset");
         this.resetMomentum();
         this.resetActivityStreak();
+      } else if (AppConfig.isFlowJournalApp() && this.isNewIntention(newMe)) {
+        //in the flow journal app, we get momentum credit just for entering intentions
+        log.debug(this.name + "New Intention!  Momentum credits");
+        this.grantActivityForMomentum(500);
       }
 
       //don't overwrite our last task with a temporary null
       if (newMe.activeTaskId) {
         this.lastTaskId = newMe.activeTaskId;
+        this.lastWorkingOn = newMe.workingOn;
       } else {
         log.debug("ignoring taskId of blank waiting for next task update");
       }
@@ -171,6 +178,21 @@ module.exports = class FlowStateTracker {
   }
 
   /**
+   * Determine if there is a new intention focus, which we should get momentum credit for
+   * @param newMe
+   * @returns {boolean}
+   */
+  isNewIntention(newMe) {
+    if (this.me && newMe && this.lastTaskId && newMe.activeTaskId) {
+      if (this.lastWorkingOn !== newMe.workingOn) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  /**
    * Reset the current momentum to 0, persists the event in the bucket for this time period,
    * so the reset will be processed during recalculations, then broadcast the update
    */
@@ -185,6 +207,15 @@ module.exports = class FlowStateTracker {
 
   resetActivityStreak() {
     this.streakStartTime = null;
+  }
+
+  grantActivityForMomentum(amount) {
+    let currentTime = Util.getCurrentTime();
+    let bucket = this.findOrCreateBucket(currentTime);
+
+    bucket.count += amount;
+
+    this.recalculateMomentum();
   }
 
   /**
@@ -367,7 +398,6 @@ module.exports = class FlowStateTracker {
     for (let key of orderedKeys) {
       let bucket = this.buckets.get(key);
       let total = this.sumWindow(bucket.count, slotCounts);
-
       slotCounts = this.shiftLeft(slotCounts, bucket.count);
 
       if (total > FlowStateTracker.ACTIVITY_THRESHOLD) {
@@ -377,9 +407,11 @@ module.exports = class FlowStateTracker {
         momentum -= 2.5;
         consecutiveIdleCount++;
       }
+
       momentum = Util.clamp(momentum, 0, FlowStateTracker.MAX_MOMENTUM);
 
       if (consecutiveIdleCount > 12 || bucket.resetEvent === true) {
+        console.log("[FlowStateTracker] momentum reset! "+consecutiveIdleCount + " || "+bucket.resetEvent);
         momentum = 0;
       }
     }
