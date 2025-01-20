@@ -221,8 +221,10 @@ export default class MePanel extends Component {
 
   getMyStatusBar() {
     let displayName = "";
+    let numStars = 0;
     if (this.state.me) {
       displayName = this.state.me.displayName;
+      numStars = this.state.me.xpSummary.starsToCelebrate;
     }
 
     return (
@@ -232,7 +234,7 @@ export default class MePanel extends Component {
           <span className="flowLabel">Flow State:</span>
         </div>
         <div className="name">{displayName}</div>
-        {this.getTaskCompletedStars(0)}
+        {this.getTaskCompletedStars(numStars)}
       </div>
     );
   }

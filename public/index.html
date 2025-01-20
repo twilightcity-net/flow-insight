@@ -1182,12 +1182,28 @@
       margin-right: 1em;
   }
 
+  #component.consoleSidebarPanel .meContent #tasksCompleted {
+    width: 160px;
+  }
+
   #component.consoleSidebarPanel .meContent .meStatus .doneStar {
     /*width: 1.18em;*/
     /*margin: 0 0 0 0.5em;*/
     float: left;
     color: #9C6EFA;
     margin-top: 20px;
+    animation: 1s ease-out 0s 1 brightFadeOnAppear;
+  }
+
+  @keyframes brightFadeOnAppear {
+    0% {
+      transform: scale(1.5, 1.5);
+      filter: brightness(150%);
+    }
+    100% {
+      transform: scale(1, 1);
+      filter: brightness(100%);
+    }
   }
 
   #component.consoleSidebarPanel .meContent .meActiveTask {
