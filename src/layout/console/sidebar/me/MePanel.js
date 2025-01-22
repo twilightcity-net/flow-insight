@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Icon, Menu, Segment, Transition,} from "semantic-ui-react";
+import {Button, Icon, Menu, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
@@ -328,6 +328,29 @@ export default class MePanel extends Component {
     return content;
   };
 
+  getCelebrateButton() {
+    let numStars = 0;
+    if (this.state.me) {
+      numStars = this.state.me.xpSummary.starsToCelebrate;
+    }
+
+    if (numStars > 0) {
+      return  <Button
+        className="celebrateButton"
+        onClick={this.handleCelebrateOnClick}
+        size="mini"
+        color="violet"
+      ><span className="celebrateIcon">&#x1F389;&nbsp;</span>
+        Celebrate!
+      </Button>
+    } else {
+      return "";
+    }
+  }
+
+  handleCelebrateOnClick = () => {
+
+  }
 
   /**
    * Reload the flow state momentum data that results in the color of the circle to update
@@ -385,6 +408,7 @@ export default class MePanel extends Component {
             >
               {this.getMeContent()}
             </Transition>
+            {this.getCelebrateButton()}
           </Segment>
         </Segment.Group>
       </div>

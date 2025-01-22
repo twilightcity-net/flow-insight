@@ -1184,7 +1184,37 @@
 
   #component.consoleSidebarPanel .meContent #tasksCompleted {
     width: 160px;
+    cursor: default;
   }
+
+  #component.consoleSidebarPanel.mePanel .celebrateButton {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    /*bottom: 3px;*/
+    /*right: 12px;*/
+    line-height: 0.7rem;
+  }
+
+  #component.consoleSidebarPanel.mePanel .celebrateButton:hover {
+    background: #a475f9;
+    animation: celebrate-pulse-timer 1.5s infinite;
+  }
+
+  #component.consoleSidebarPanel.mePanel .celebrateButton .celebrateIcon {
+    font-size: 1rem;
+  }
+
+  @keyframes celebrate-pulse-timer {
+    0% {
+      box-shadow: 0 0 0 0 #6435c9;
+    }
+
+    100% {
+      box-shadow: 0 0 0 1.10rem rgba(27, 28, 29, 0);
+    }
+  }
+
 
   #component.consoleSidebarPanel .meContent .meStatus .doneStar {
     /*width: 1.18em;*/
