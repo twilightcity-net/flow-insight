@@ -110,7 +110,12 @@ module.exports = class FervieWindow {
       this.toggleFervieShowState();
     } else {
       if (this.state === this.states.HIDDEN) {
-        this.showFervie();
+        if (arg.request === "celebrate") {
+          this.updateToExpandedFervieWindow();
+          this.showFervie();
+        } else {
+          this.showFervie();
+        }
       }
     }
   }
@@ -120,6 +125,9 @@ module.exports = class FervieWindow {
       this.showFervie();
     } else if (this.state === this.states.SHOWN) {
       this.hideFervie();
+      setTimeout(() => {
+        this.updateToSmallFervieWindow();
+      }, 1000);
     }
   }
 
@@ -160,6 +168,48 @@ module.exports = class FervieWindow {
       }
     }, this.animateTimeMs);
   }
+
+  /**
+   * Update the coordinates of the fervie window to be displayed fully on the screen
+   * so we have room for confetti
+   */
+  updateToExpandedFervieWindow() {
+    this.display = global.App.WindowManager.getDisplay();
+
+    //
+
+    this.window.setPosition(
+      Math.floor(this.display.workArea.x + this.display.workAreaSize.width
+        - this.fervieWidth - this.extraBubbleWidth - this.rightMargin - 500),
+      Math.floor(this.display.workArea.y + this.display.workAreaSize.height
+        - this.fervieHeight - this.extraBubbleHeight - this.bottomMargin - 300)
+    );
+    this.window.setResizable(true);
+    this.window.setSize(this.fervieWidth + this.extraBubbleWidth + 500,
+      this.fervieHeight + this.extraBubbleHeight + 300,
+    );
+    this.window.setResizable(false);
+  }
+
+  /**
+   * Reduce the fervie window size to be just enough room for the popups
+   */
+  updateToSmallFervieWindow() {
+    this.display = global.App.WindowManager.getDisplay();
+
+    this.window.setPosition(
+      Math.floor(this.display.workArea.x + this.display.workAreaSize.width
+        - this.fervieWidth - this.extraBubbleWidth - this.rightMargin),
+      Math.floor(this.display.workArea.y + this.display.workAreaSize.height
+        - this.fervieHeight - this.extraBubbleHeight - this.bottomMargin)
+    );
+    this.window.setResizable(true);
+    this.window.setSize(this.fervieWidth + this.extraBubbleWidth,
+      this.fervieHeight + this.extraBubbleHeight,
+    );
+    this.window.setResizable(false);
+  }
+
 
   restorePreviousWindowFocus() {
     WindowManagerHelper.forceConsoleWindowOnTop();

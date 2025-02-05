@@ -6,6 +6,7 @@ const log = require("electron-log"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   AppLogin = require("../app/AppLogin");
 const moment = require("moment");
+const FervieController = require("./FervieController");
 
 /**
  * This class is used to coordinate controllers across the talknet service
@@ -575,7 +576,8 @@ module.exports = class TalkController extends (
   }
 
   handleFervieHelpRequestEvent(message) {
-    this.fervieEventNotifier.dispatch({request: "help", message: message.data});
+    let helpRequestType = FervieController.FervieRequestType.HELP;
+    this.fervieEventNotifier.dispatch({request: helpRequestType, message: message.data});
   }
 
 

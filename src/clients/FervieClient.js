@@ -44,7 +44,8 @@ export class FervieClient extends BaseClient {
       GET_BUDDY_ME: "get-buddy-me",
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       TRACK_EMOJI: "track-emoji",
-      GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks"
+      GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks",
+      FERVIE_CELEBRATE: "fervie-celebrate"
     };
   }
 
@@ -95,6 +96,25 @@ export class FervieClient extends BaseClient {
     return event;
   }
 
+  /**
+   * Celebrate the stars achieved with a fervie popup
+   * where we can create confetti and a happy fervie yay!
+   * @param numStars
+   * @param scope
+   * @param callback
+   */
+  static celebrateStars(numStars, scope, callback) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.FERVIE_CELEBRATE,
+      {
+        numStars: numStars
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+  }
 
   /**
    * Manually track the usage of an emoji so we can figure out the most

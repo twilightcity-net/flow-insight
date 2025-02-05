@@ -2,7 +2,7 @@ const isDev = require("electron-is-dev");
 
 module.exports = class AppConfig {
 
-  static appType = AppConfig.AppType.FLOW_JOURNAL;
+  static appType = AppConfig.AppType.FLOW_INSIGHT;
 
   static activeToggles = {};
 

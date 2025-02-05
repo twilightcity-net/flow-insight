@@ -42,8 +42,17 @@ module.exports = class FervieController extends (
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       LOAD_BUDDY_LIST: "load-buddy-list",
       TRACK_EMOJI: "track-emoji",
-      GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks"
+      GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks",
+      FERVIE_CELEBRATE: "fervie-celebrate"
     };
+  }
+
+  static get FervieRequestType() {
+    return {
+      HELP: "help",
+      CELEBRATE: "celebrate",
+      HOTKEY: "hotkey"
+    }
   }
 
   /**
@@ -66,6 +75,12 @@ module.exports = class FervieController extends (
         this,
         this.onFervieClientEvent,
         null
+      );
+
+    this.fervieShowHideNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.WINDOW_FERVIE_SHOW_HIDE,
+        this
       );
   }
 
@@ -129,6 +144,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.GET_TOP_EMOJI_TRACKS:
           this.handleGetTopEmojisTrackEvent(event, arg);
+          break;
+        case FervieController.Events.FERVIE_CELEBRATE:
+          this.handleFervieCelebrateEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -734,6 +752,28 @@ module.exports = class FervieController extends (
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.EMOJI);
 
     arg.data = database.getViewForEmoji().data();
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * client event handler for fervie popping up to celebrate
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleFervieCelebrateEvent(event, arg, callback) {
+    //so for this one, we want to actually translate and dispatch to another event type here
+    let numStars = arg.args.numStars;
+
+    this.fervieShowHideNotifier.dispatch({
+      request: FervieController.FervieRequestType.CELEBRATE,
+      message: {numStars: numStars}
+    });
 
     this.delegateCallbackOrEventReplyTo(
       event,

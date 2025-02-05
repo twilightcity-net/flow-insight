@@ -11,6 +11,7 @@ import {BaseClient} from "../../../../clients/BaseClient";
 import FeatureToggle from "../../../shared/FeatureToggle";
 import {BrowserController} from "../../../../controllers/BrowserController";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import {FervieClient} from "../../../../clients/FervieClient";
 /**
  * this component is the side panel for the individual's home page
  * when the FlowInsight for individuals mode is active
@@ -329,10 +330,7 @@ export default class MePanel extends Component {
   };
 
   getCelebrateButton() {
-    let numStars = 0;
-    if (this.state.me) {
-      numStars = this.state.me.xpSummary.starsToCelebrate;
-    }
+    let numStars = this.getNumStarsFromState();
 
     if (numStars > 0) {
       return  <Button
@@ -348,8 +346,24 @@ export default class MePanel extends Component {
     }
   }
 
-  handleCelebrateOnClick = () => {
+  getNumStarsFromState() {
+    let numStars = 0;
+    if (this.state.me) {
+      numStars = this.state.me.xpSummary.starsToCelebrate;
+    }
 
+    return numStars;
+  }
+
+  handleCelebrateOnClick = () => {
+    console.log("Click celebrate!");
+    FervieClient.celebrateStars(this.getNumStarsFromState(), this, (arg) => {
+      if (!arg.error) {
+        console.log("success celebrate!");
+      } else {
+        console.error(arg.error);
+      }
+    });
   }
 
   /**

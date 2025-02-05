@@ -10,6 +10,8 @@ import {FervieActionClient} from "../clients/FervieActionClient";
 import JournalItem from "./console/content/journal/components/JournalItem";
 import Mousetrap from "mousetrap";
 import {act} from "react-dom/test-utils";
+import ConfettiExplosion from 'react-confetti-explosion';
+import FervieConfetti from "./fervie/FervieConfetti";
 
 /**
  * this component is the layout for the always-on-top fervie button
@@ -32,8 +34,17 @@ export default class FervieLayout extends Component {
 
       requestedAreaType: null, //code area selection type, this will go away
       requestedArea: null, //code area selected, this will go away
+      isExploding: false
     }
 
+  }
+
+  static get FervieRequestType() {
+    return {
+      HELP: "help",
+      CELEBRATE: "celebrate",
+      HOTKEY: "hotkey"
+    }
   }
 
   static HELP_REQUEST = "help";
@@ -92,19 +103,26 @@ export default class FervieLayout extends Component {
 
   onFervieShowHideEvent = (event, arg) => {
     console.log("onFervieShowHideEvent = "+JSON.stringify(arg));
-    if (arg.request === FervieLayout.HELP_REQUEST) {
+    if (arg.request === FervieLayout.FervieRequestType.HELP) {
       this.setState({
-        requestType: "help",
+        requestType: FervieLayout.FervieRequestType.HELP,
         requestInfo: {
           box: arg.message.boxName,
           module: arg.message.moduleName,
-          circuitLink: "/wtf/"+arg.message.learningCircuitDto.circuitName
+          circuitLink: "/wtf/" + arg.message.learningCircuitDto.circuitName
         },
         isSelectionClicked: false
       });
-    } else if (arg.request === FervieLayout.HOTKEY_REQUEST) {
+    } else if (arg.request === FervieLayout.FervieRequestType.CELEBRATE) {
+      console.log("num stars = "+arg.message.numStars);
       this.setState({
-        requestType: "hotkey",
+        requestType: FervieLayout.FervieRequestType.CELEBRATE,
+        requestInfo: {numStars: arg.message.numStars},
+        isSelectionClicked: false
+      });
+    } else if (arg.request === FervieLayout.FervieRequestType.HOTKEY) {
+      this.setState({
+        requestType: FervieLayout.FervieRequestType.HOTKEY,
         requestInfo: {},
         isSelectionClicked: false
       });
@@ -148,21 +166,23 @@ export default class FervieLayout extends Component {
 
   onFervieShow = () => {
     console.log("onFervieShow");
-    if (this.state.requestType === FervieLayout.HOTKEY_REQUEST) {
+    if (this.state.requestType === FervieLayout.FervieRequestType.HOTKEY) {
       this.initializeCodeState();
       this.initializeFervieActions();
-    } else if (this.state.requestType === FervieLayout.HELP_REQUEST) {
+    } else if (this.state.requestType === FervieLayout.FervieRequestType.HELP
+    || this.state.requestType === FervieLayout.FervieRequestType.CELEBRATE) {
       //no init required, should be set already
-      this.initializeHelpState();
+      this.initializeFervieReady();
     }
   }
 
-  initializeHelpState() {
+  initializeFervieReady() {
     setTimeout( () => {
       this.setState({
         error: null,
         isSpeechBubbleReady: true,
-        isSelectionClicked: false
+        isSelectionClicked: false,
+        isExploding: true
       });
     }, 1000);
   }
@@ -207,7 +227,7 @@ export default class FervieLayout extends Component {
 
   /**
    * our string values of keyboard key names
-   * @returns {{DOWN: string, LEFT: string, RIGHT: string, UP: string}}
+   * @returns {{ESC: string, DOWN: string, LEFT: string, RIGHT: string, UP: string}}
    * @constructor
    */
   static get Keys() {
@@ -371,6 +391,45 @@ export default class FervieLayout extends Component {
           Let's do it!
         </div>
       </Popup.Content>
+    </Popup>);
+  }
+
+  getYayBubbleContent() {
+    let popupContent = "";
+
+    if (this.state.error) {
+      popupContent =
+        (
+          <Popup.Content className="fervieTalkContent">
+            <div>
+              {this.state.error}
+            </div>
+          </Popup.Content>
+        );
+    } else {
+
+      popupContent = (
+        <Popup.Content className="fervieYayContent">
+          <div className="happyBig">
+            Yay!
+          </div>
+        </Popup.Content>
+      );
+    }
+
+    return (<Popup id="fervieTalkBubble" className="fervieCelebrateBubble"
+                   position='bottom center'
+                   inverted
+                   offset={[250, 50]}
+                   open={this.state.isSpeechBubbleReady}
+                   flowing
+                   trigger={
+                     (<span className="fervieSpeechTrigger">
+       &nbsp;
+        </span>)
+                   }
+    >
+      {popupContent}
     </Popup>);
   }
 
@@ -546,6 +605,15 @@ export default class FervieLayout extends Component {
     }
   }
 
+  onConfettiDone = () => {
+     this.setState({
+       isExploding: false
+     });
+    setTimeout(() => {
+      this.fervieShowHideNotifier.dispatch({});
+    }, 333);
+  }
+
   /**
    * renders the chat console layout
    * @returns {*} - the JSX to render
@@ -557,10 +625,12 @@ export default class FervieLayout extends Component {
     if (this.state.isSelectionClicked) {
       bubbleContent = this.getConfirmationBubbleContent();
     } else {
-      if (this.state.requestType === FervieLayout.HELP_REQUEST) {
+      if (this.state.requestType === FervieLayout.FervieRequestType.HELP) {
         bubbleContent = this.getHelpLightBubbleContent();
-      } else if (this.state.requestType === FervieLayout.HOTKEY_REQUEST) {
+      } else if (this.state.requestType === FervieLayout.FervieRequestType.HOTKEY) {
         bubbleContent = this.getActionOptionsContent();
+      } else if (this.state.requestType === FervieLayout.FervieRequestType.CELEBRATE) {
+        bubbleContent = this.getYayBubbleContent();
       } else {
         console.log("no request type sent!");
       }
@@ -569,6 +639,7 @@ export default class FervieLayout extends Component {
     return (
       <div id="component" className="fervieLayout" >
         {bubbleContent}
+        {this.state.isExploding && <FervieConfetti count="10" onComplete={this.onConfettiDone}/>}
         <FerviePeekAnimation
           position={FerviePeekAnimation.Position.PEEK}
           me={MemberClient.me}

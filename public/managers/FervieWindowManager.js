@@ -2,6 +2,7 @@ const log = require("electron-log");
 const EventFactory = require("../events/EventFactory");
 const {ShortcutManager} = require("./ShortcutManager");
 const AppConfig = require("../app/AppConfig");
+const FervieController = require("../controllers/FervieController");
 
 const is_mac = process.platform==='darwin';
 
@@ -39,7 +40,9 @@ module.exports = class FervieWindowManager {
 
   handleToggleFervieShowHide() {
     console.log("toggle fervie show hide!");
-    this.fervieToggleEvent.dispatch({request: "hotkey"});
+    let fervieRequestType = FervieController.FervieRequestType.HOTKEY;
+
+    this.fervieToggleEvent.dispatch({request: fervieRequestType});
   }
 
 
