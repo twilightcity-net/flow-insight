@@ -43,7 +43,8 @@ module.exports = class FervieController extends (
       LOAD_BUDDY_LIST: "load-buddy-list",
       TRACK_EMOJI: "track-emoji",
       GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks",
-      FERVIE_CELEBRATE: "fervie-celebrate"
+      FERVIE_CELEBRATE: "fervie-celebrate",
+      RESET_STARS: "reset-stars"
     };
   }
 
@@ -147,6 +148,9 @@ module.exports = class FervieController extends (
           break;
         case FervieController.Events.FERVIE_CELEBRATE:
           this.handleFervieCelebrateEvent(event, arg);
+          break;
+        case FervieController.Events.RESET_STARS:
+          this.handleResetStarsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -781,6 +785,38 @@ module.exports = class FervieController extends (
       callback
     );
   }
+
+
+  /**
+   * client event handler for resetting the fervie stars on the server
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleResetStarsEvent(event, arg, callback) {
+    //so for this one, we want to actually translate and dispatch to another event type here
+
+    let urn =
+      FervieController.Paths.FERVIE +
+      FervieController.Paths.ME +
+      FervieController.Paths.CELEBRATE;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.RESET_STARS,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
 
   /**

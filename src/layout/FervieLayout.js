@@ -7,11 +7,9 @@ import FerviePeekAnimation from "./fervie/FerviePeekAnimation";
 import {Button, Icon, Popup} from "semantic-ui-react";
 import {CodeClient} from "../clients/CodeClient";
 import {FervieActionClient} from "../clients/FervieActionClient";
-import JournalItem from "./console/content/journal/components/JournalItem";
 import Mousetrap from "mousetrap";
-import {act} from "react-dom/test-utils";
-import ConfettiExplosion from 'react-confetti-explosion';
 import FervieConfetti from "./fervie/FervieConfetti";
+import {FervieClient} from "../clients/FervieClient";
 
 /**
  * this component is the layout for the always-on-top fervie button
@@ -114,7 +112,6 @@ export default class FervieLayout extends Component {
         isSelectionClicked: false
       });
     } else if (arg.request === FervieLayout.FervieRequestType.CELEBRATE) {
-      console.log("num stars = "+arg.message.numStars);
       this.setState({
         requestType: FervieLayout.FervieRequestType.CELEBRATE,
         requestInfo: {numStars: arg.message.numStars},
@@ -133,6 +130,15 @@ export default class FervieLayout extends Component {
     this.setState({
       me: me
     });
+  }
+
+  getNumStarsFromState() {
+    let numStars = 0;
+    if (this.state.requestInfo) {
+      numStars = this.state.requestInfo.numStars;
+    }
+
+    return numStars;
   }
 
   componentWillUnmount() {
@@ -209,7 +215,6 @@ export default class FervieLayout extends Component {
           isSelectionClicked: false
         });
       } else {
-        console.log(arg.data);
         setTimeout(() => {
           this.setState({
             isSpeechBubbleReady: true,
@@ -612,6 +617,13 @@ export default class FervieLayout extends Component {
     setTimeout(() => {
       this.fervieShowHideNotifier.dispatch({});
     }, 333);
+
+    //reset the stars on the server once the celebration is done
+    FervieClient.resetStars(this, (arg) => {
+      if (arg.data) {
+        console.log("Fervie reset returned");
+      }
+    });
   }
 
   /**
@@ -639,7 +651,7 @@ export default class FervieLayout extends Component {
     return (
       <div id="component" className="fervieLayout" >
         {bubbleContent}
-        {this.state.isExploding && <FervieConfetti count="10" onComplete={this.onConfettiDone}/>}
+        {this.state.isExploding && <FervieConfetti count={this.getNumStarsFromState()} onComplete={this.onConfettiDone}/>}
         <FerviePeekAnimation
           position={FerviePeekAnimation.Position.PEEK}
           me={MemberClient.me}

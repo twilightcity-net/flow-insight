@@ -45,7 +45,8 @@ export class FervieClient extends BaseClient {
       GET_PENDING_BUDDY_REQUEST_LIST: "get-pending-buddy-request-list",
       TRACK_EMOJI: "track-emoji",
       GET_TOP_EMOJI_TRACKS: "get-top-emoji-tracks",
-      FERVIE_CELEBRATE: "fervie-celebrate"
+      FERVIE_CELEBRATE: "fervie-celebrate",
+      RESET_STARS: "reset-stars",
     };
   }
 
@@ -109,6 +110,23 @@ export class FervieClient extends BaseClient {
       {
         numStars: numStars
       },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+  }
+
+
+  /**
+   * Reset the stars on the server
+   * @param scope
+   * @param callback
+   */
+  static resetStars(scope, callback) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.RESET_STARS,
+      {},
       scope,
       callback
     );

@@ -3,6 +3,7 @@ import FervieLayout from "../layout/FervieLayout";
 import {MemberClient} from "../clients/MemberClient";
 import {CodeClient} from "../clients/CodeClient";
 import {FervieActionClient} from "../clients/FervieActionClient";
+import {FervieClient} from "../clients/FervieClient";
 
 /**
  *  This view class is used to show a little fervie button,
@@ -15,6 +16,7 @@ export default class FervieView extends Component {
     MemberClient.init(this);
     CodeClient.init(this);
     FervieActionClient.init(this);
+    FervieClient.init(this);
   }
 
   componentDidMount = () => {

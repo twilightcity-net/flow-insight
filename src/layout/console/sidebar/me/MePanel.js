@@ -56,7 +56,6 @@ export default class MePanel extends Component {
    * attach our listeners to this component from our controller class
    */
   componentDidMount = () => {
-    console.log("MePanel mount!");
     this.myController.configureHomePanelListener(
       this,
       this.onRefreshMePanel
@@ -101,7 +100,8 @@ export default class MePanel extends Component {
       let myId = MemberClient.me.id;
       if (memberId === myId) {
         this.setState({
-          me: data
+          me: data,
+          isCelebrating: false
         })
       }
     }
@@ -129,6 +129,7 @@ export default class MePanel extends Component {
           me: arg.data,
           activeItem: SidePanelViewController.SubmenuSelection.ME,
           meVisible: true,
+          isCelebrating: false
         });
       }
     } );
@@ -249,10 +250,15 @@ export default class MePanel extends Component {
     const itemKeys = Array.from({ length: numStars },
       (_, i) => i + 1);
 
+    let starClass = "doneStar";
+    if (this.state.isCelebrating) {
+      starClass = "sparkleStar";
+    }
+
     return (
       <div id="tasksCompleted">
         {itemKeys.map((itemKey) => (
-          <Icon key={itemKey} size="small" name="star" className="doneStar"/>
+          <Icon key={itemKey} size="small" name="star" className={starClass}/>
         ))}
       </div>
     );
@@ -357,6 +363,11 @@ export default class MePanel extends Component {
 
   handleCelebrateOnClick = () => {
     console.log("Click celebrate!");
+
+    this.setState({
+      isCelebrating: true
+    });
+
     FervieClient.celebrateStars(this.getNumStarsFromState(), this, (arg) => {
       if (!arg.error) {
         console.log("success celebrate!");

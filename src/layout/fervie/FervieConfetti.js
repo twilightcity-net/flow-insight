@@ -11,25 +11,18 @@ export default class FervieConfetti extends Component {
     super(props);
     this.name = "[FervieConfetti]";
     this.state = {
-      isExplodingList: FervieConfetti.createInitialStateMap(props.count),
-      isExploding1: false,
-      isExploding2: false,
-      isExploding3: false,
-      isExploding4: false,
-      isExploding5: false,
-      isExploding6: false,
-      isExploding7: false,
-      isExploding8: false,
-      isExploding9: false,
-      isExploding10: false
+      confettiCount: FervieConfetti.cappedCount(props.count),
+      isExplodingList: FervieConfetti.createInitialStateMap(FervieConfetti.cappedCount(props.count)),
     }
   }
+
+  static MAX_CONFETTI = 15;
 
   componentDidMount() {
     let totalDelay = 0;
 
     for (let i = 0; i < this.state.isExplodingList.length; i++) {
-      totalDelay += this.getRandomDelayMs();
+      totalDelay += this.getRandomDelayMs(i);
       setTimeout(() => {
         this.setState((prevState) => {
           prevState.isExplodingList[i] = true;
@@ -46,7 +39,16 @@ export default class FervieConfetti extends Component {
 
   }
 
+  static cappedCount(numConfettis) {
+    if (numConfettis < FervieConfetti.MAX_CONFETTI) {
+      return numConfettis;
+    } else {
+      return FervieConfetti.MAX_CONFETTI;
+    }
+  }
+
   static createInitialStateMap(numConfettis) {
+    console.log("creating map for "+numConfettis+ "confettis");
     let isExplodingList = [];
     for (let i = 0; i < numConfettis; i++) {
       isExplodingList[i] = false;
@@ -54,13 +56,14 @@ export default class FervieConfetti extends Component {
     return isExplodingList;
   }
 
+
   /**
    * Create confetti explosion objects based on the number of confettis in props,
    * randomly distributed in position
    */
   createConfettis() {
     return this.state.isExplodingList.map((isExploding, i) => {
-      return isExploding && <ConfettiExplosion
+      return isExploding && <ConfettiExplosion key={"confetti"+i}
         style={{position:'absolute', right: this.getRandomX(), top: this.getRandomY()}}
         colors={['#ff00ff','#9C6EFA','#f0bf81', '#6435c9' ]}
         particleSize={8}
@@ -76,8 +79,16 @@ export default class FervieConfetti extends Component {
     return (50 + Math.floor(Math.random() * 200)) + "px";
   }
 
-  getRandomDelayMs() {
-    return (200 + Math.floor(Math.random() * 200));
+  getRandomDelayMs(confettiIndex) {
+    let extraDelay = 0;
+    if (confettiIndex > 0 && confettiIndex%5 === 0 ) {
+      extraDelay = 1000;
+    }
+    if (confettiIndex > 0 && confettiIndex%10 === 0 ) {
+      extraDelay = 2000;
+    }
+
+    return (extraDelay + 200 + Math.floor(Math.random() * 200));
   }
 
 
