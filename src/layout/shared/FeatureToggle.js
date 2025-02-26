@@ -3,9 +3,9 @@ export default class FeatureToggle  {
   //TODO this appType logic is duplicated on the backend within AppConfig, these props should exist on the backend,
   // and be handed to the frontend so they're in one place.
 
-  static appType = FeatureToggle.AppType.FLOW_INSIGHT;
+  static appType = FeatureToggle.AppType.FLOW_JOURNAL;
   static appName = FeatureToggle.appType;
-  static version = "0.7.43"
+  static version = "0.8.01"
 
 
 

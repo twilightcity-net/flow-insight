@@ -93,6 +93,13 @@ export default class JournalResource extends Component {
         this
       );
 
+    this.updateFocusEvent =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_UPDATE_FOCUS,
+        this
+      );
+
     this.state = {
       lastProject: null,
       lastTask: null,
@@ -289,6 +296,7 @@ export default class JournalResource extends Component {
     this.talkRoomMessageListener.clear();
     this.directMessageListener.clear();
     this.journalRefreshListener.clear();
+    this.updateFocusEvent.clear();
     this.clearKeyboardShortcuts();
   }
 
@@ -828,6 +836,15 @@ export default class JournalResource extends Component {
 
 
   /**
+   * Updates the workingOn status by sending an event to make sure our focus bar gets updated,
+   * even if the socket reconnect is fritzing, and we didn't get a talk message
+   * @param intention
+   */
+  updateCurrentFocusWithIntention(intention) {
+    this.updateFocusEvent.dispatch({focus: intention});
+  }
+
+  /**
    * saves the journal entry from the callback event
    * @param projectId
    * @param taskId
@@ -838,8 +855,6 @@ export default class JournalResource extends Component {
     taskId,
     intention
   ) => {
-    //TODO when we create a done comment, we want to finish the task (and still create the intention)
-
     let isDoneComment = this.isDoneComment(intention);
 
     console.log("isDone = "+isDoneComment);
@@ -853,10 +868,11 @@ export default class JournalResource extends Component {
           this.setState((prevState) => {
 
             let updatedItems = prevState.journalIntentions;
-
             if (!UtilRenderer.hasMessageByIdInArray(prevState.journalIntentions, arg.data))  {
               updatedItems.push(arg.data);
             }
+
+            this.updateCurrentFocusWithIntention(intention);
 
             return {
               journalIntentions: updatedItems,

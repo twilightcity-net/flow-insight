@@ -2,12 +2,12 @@ const isDev = require("electron-is-dev");
 
 module.exports = class AppConfig {
 
-  static appType = AppConfig.AppType.FLOW_INSIGHT;
+  static appType = AppConfig.AppType.FLOW_JOURNAL;
 
   static activeToggles = {};
 
   static appName = AppConfig.appType;
-  static version = "0.7.43"
+  static version = "0.8.01"
 
   static defaultApiUrl = "https://home.twilightcity.net";
   static defaultTalkUrl = "https://talk.twilightcity.net";

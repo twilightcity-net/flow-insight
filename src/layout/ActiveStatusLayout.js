@@ -34,6 +34,13 @@ export default class ActiveStatusLayout extends Component {
         this.onMeRefresh
       );
 
+    this.updateFocusListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_UPDATE_FOCUS,
+        this,
+        this.onUpdateFocus
+      );
+
     this.talkRoomMessageListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
@@ -58,6 +65,13 @@ export default class ActiveStatusLayout extends Component {
     }
   }
 
+  onUpdateFocus = (event, arg) => {
+    this.setState((prevState) => {
+      prevState.me.workingOn = arg.focus;
+      return {me: prevState.me}
+    });
+  }
+  
   updateMe(me) {
     let updatedContent = this.getBubbleContent(me);
     if (updatedContent) {
@@ -76,11 +90,14 @@ export default class ActiveStatusLayout extends Component {
   componentWillUnmount() {
     this.meUpdateListener.clear();
     this.talkRoomMessageListener.clear();
+    this.updateFocusListener.clear();
+    this.showHideStatusEvent.clear();
   }
 
   onMeRefresh = () => {
     this.updateMe(MemberClient.me);
   }
+
 
   getBubbleContent(me) {
     let content = "";

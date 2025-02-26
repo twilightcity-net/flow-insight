@@ -107,6 +107,7 @@ export class RendererEventFactory {
       VIEW_CONSOLE_NOTIFICATION_READ_UPDATE: prefix + "view-console-notification-read-update",
       VIEW_CONSOLE_CONTROL_POINT_HOVER:  prefix + "view-console-control-point-hover",
       VIEW_CONSOLE_TROUBLE_ROW_HOVER:  prefix + "view-console-trouble-row-hover",
+      VIEW_CONSOLE_UPDATE_FOCUS: prefix + "view-console-update-focus",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       DATASTORE_LOAD: prefix + "datastore-load",
