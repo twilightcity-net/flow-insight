@@ -5,7 +5,7 @@ export default class FeatureToggle  {
 
   static appType = FeatureToggle.AppType.FLOW_JOURNAL;
   static appName = FeatureToggle.appType;
-  static version = "0.8.01"
+  static version = "0.8.0"
 
 
 

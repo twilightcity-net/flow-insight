@@ -7,7 +7,7 @@ module.exports = class AppConfig {
   static activeToggles = {};
 
   static appName = AppConfig.appType;
-  static version = "0.8.01"
+  static version = "0.8.0"
 
   static defaultApiUrl = "https://home.twilightcity.net";
   static defaultTalkUrl = "https://talk.twilightcity.net";

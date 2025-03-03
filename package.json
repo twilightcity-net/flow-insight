@@ -1,8 +1,8 @@
 {
-  "name": "flow-insight",
-  "productName": "FlowInsight",
-  "description": "FlowInsight - © 2024 Twilight City, Inc. All rights reserved.",
-  "version": "0.7.15",
+  "name": "flow-journal",
+  "productName": "FlowJournal",
+  "description": "FlowJournal - © 2025 Twilight City, Inc. All rights reserved.",
+  "version": "0.8.0",
   "engines": {
     "node": "16.13.0"
   },
@@ -11,7 +11,7 @@
     "name": "Twilight City, Inc.",
     "email": "admin@twilightcity.net"
   },
-  "copyright": "Copyright © 2024 - Twilight City, Inc.",
+  "copyright": "Copyright © 2025 - Twilight City, Inc.",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {
@@ -201,7 +201,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* Copyright © 2023 Twilight City, Inc // FlowInsight */",
+      "preamble": "/* Copyright © 2025 Twilight City, Inc // FlowInsight */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,
@@ -215,7 +215,7 @@
     "warnings": true
   },
   "build": {
-    "appId": "net.twilightcity.flowinsight",
+    "appId": "net.twilightcity.flowjournal",
     "files": [
       "build/**/*",
       "package.json"
