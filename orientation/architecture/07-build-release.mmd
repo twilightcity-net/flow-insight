@@ -1,0 +1,41 @@
+flowchart LR
+  dev[Developer]
+  rel[yarn release]
+  bundle[yarn bundle]
+  build[yarn build]
+  lint[gulp prettier lint pretty]
+  cra[react-scripts build]
+  out[(build folder)]
+  bfy[gulp browserify]
+  ugly[gulp uglify]
+  dat[flowinsight.dat]
+  clean[gulp clean]
+  eb[electron-builder]
+  gh[GitHub release]
+
+  dev -.->|runs by hand| rel
+  rel -->|prerelease| bundle
+  bundle -->|prebundle| build
+  build -->|prebuild| lint
+  build -->|then| cra
+  cra -->|compiles src, copies public| out
+  out -->|electron.js entry| bfy
+  bfy -->|electron.bundle.js| ugly
+  ugly -->|minify and rename| dat
+  dat -->|postbundle| clean
+  dat -->|main override| eb
+  eb -->|publish always| gh
+
+%% tip: Developer :: No CI config in the repo; releases start on someone's machine.
+%% tip: yarn release :: electron-builder --publish=always, after prerelease.
+%% tip: yarn bundle :: gulp browserify && gulp uglify.
+%% tip: yarn build :: react-scripts build; prebuild formats and lints, postbuild runs jsdoc.
+%% tip: gulp prettier lint pretty :: Formatting and lint tasks in gulp/tasks/.
+%% tip: react-scripts build :: Create React App 3.x production build.
+%% tip: build folder :: CRA output plus a copy of public/, which includes the Electron main code.
+%% tip: gulp browserify :: Bundles build/electron.js and its requires; externals stay external.
+%% tip: gulp uglify :: Terser, renamed to net.twilightcity.flowinsight.dat.
+%% tip: flowinsight.dat :: build/net.twilightcity.flowinsight.dat — the packaged main entry.
+%% tip: gulp clean :: Deletes the unbundled main-process .js from build/.
+%% tip: electron-builder :: Packages build/** and package.json; NSIS on Windows, DMG on Mac.
+%% tip: GitHub release :: provider: github, at the repo named in package.json "repository".

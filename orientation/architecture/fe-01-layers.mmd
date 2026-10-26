@@ -1,0 +1,35 @@
+flowchart TD
+  subgraph win["One browser window: React"]
+    entry[index.js]
+    vm[ViewManager]
+    view[View component]
+    layout[Layout and components]
+    clients[Clients]
+    vctrl[View controllers]
+    rem[RendererEventManager]
+  end
+  be[Node back end]
+
+  entry -->|renders| vm
+  vm -->|picks by view param| view
+  view -->|init singletons| clients
+  view -->|renders| layout
+  layout -->|data calls| clients
+  layout -->|UI coordination| vctrl
+  clients -->|direct send| rem
+  vctrl -->|echoed events| rem
+  rem -->|IPC| be
+
+%% tip: index.js :: src/index.js — mounts ViewManager into #root.
+%% tip: ViewManager :: Reads ?view= from the window URL and returns one view component.
+%% tip: View component :: One of 14 *View.js files; ConsoleView is the big one.
+%% tip: Layout and components :: src/layout/ — the React component tree (sidebar, content resources, popups).
+%% tip: Clients :: src/clients/ — 21 singletons; the only path to data.
+%% tip: View controllers :: src/controllers/ — 14 classes that coordinate UI state; never fetch data.
+%% tip: RendererEventManager :: Wraps ipcRenderer; every event in this window goes through it.
+%% tip: Node back end :: Electron main: controllers, LokiJS cache, servers.
+%% tip: data calls :: e.g. JournalClient.getRecentIntentions(user, this, callback).
+%% tip: UI coordination :: e.g. SidePanelViewController.showPanel(name).
+%% tip: direct send :: Data requests go straight to a main-process controller.
+%% tip: echoed events :: UI events go through main and are broadcast to every window.
+%% tip: picks by view param :: ?view=console, ?view=fervie, ?view=status …

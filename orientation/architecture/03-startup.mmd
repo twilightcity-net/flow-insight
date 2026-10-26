@@ -1,0 +1,45 @@
+flowchart TD
+  entry[electron.js]
+  ctor[App constructor]
+  ready[onReady builds managers]
+  check{Settings valid?}
+  activator[Activator window]
+  loader[Loading window]
+  login[Login stage]
+  talkst[Talknet stage]
+  vols[Volumes stage]
+  cons[Console stage]
+  keys[Shortcuts stage]
+  fin[Finished]
+  jobs[Windows and jobs start]
+
+  entry -->|new App| ctor
+  ctor -->|app ready| ready
+  ready --> check
+  check -->|no key| activator
+  check -->|key found| loader
+  activator -.->|key entered, restart| entry
+  loader -->|loading shown| login
+  login -->|login valid| talkst
+  talkst -->|talk connected| vols
+  vols -->|volumes ready| cons
+  cons -->|console ready| keys
+  keys -->|shortcuts created| fin
+  fin -->|intro done| jobs
+
+%% tip: electron.js :: package.json "main"; creates global.App.
+%% tip: App constructor :: Single-instance lock, security patches, then start() wires Electron app events.
+%% tip: onReady builds managers :: About forty singletons on global.App, then load().
+%% tip: Settings valid? :: AppSettings.check(): ~/.flow/settings.json exists and verifies.
+%% tip: Activator window :: First run: asks for an activation code to get an API key.
+%% tip: Loading window :: Progress bar; AppLoader drives six stages via events, 210 ms apart.
+%% tip: Login stage :: POST /account/login (optionally to a primary org).
+%% tip: Talknet stage :: TalkManager.createConnection() opens the socket.
+%% tip: Volumes stage :: VolumeManager creates the LokiJS databases and loads them from the API.
+%% tip: Console stage :: Creates the console window.
+%% tip: Shortcuts stage :: Registers global shortcuts.
+%% tip: Finished :: Waits for both FINISHED and the intro animation.
+%% tip: Windows and jobs start :: Getting-started, Fervie and status windows; heartbeat, flow publisher, help job.
+%% tip: key entered, restart :: A person enters a key; the app restarts (in dev it only exits).
+%% tip: login valid :: On failure the loading window shows the error and stops.
+%% tip: volumes ready :: DATABASE_VOLUMES_READY, dispatched by a counter — see detail.

@@ -1,0 +1,44 @@
+flowchart LR
+  dev[Developer]
+  subgraph fe["Front end: React in browser windows"]
+    rend[React windows]
+  end
+  subgraph be["Back end of the front end: Node in Electron main"]
+    main[Electron main process]
+    cache[(LokiJS cache)]
+  end
+  ide[IDE plugins]
+  flowdir[("~/.flow folder")]
+  api[Gridtime API]
+  talk[Talknet server]
+  mock[Local mock server]
+
+  dev -->|uses| rend
+  ide -->|write active.flow| flowdir
+  rend -->|IPC events| main
+  main -->|broadcast to every window| rend
+  main -->|caches server data| cache
+  main -->|settings and flow feeds| flowdir
+  main -->|REST with X-API-Key| api
+  main -->|socket.io| talk
+  dev -.->|yarn dev:local| mock
+
+%% Hover text for boxes and arrow labels, keyed by the label exactly as drawn.
+%% tip: Developer :: The person whose coding flow the app tracks; also the developer running it from source.
+%% tip: IDE plugins :: External plugins (not in this repo) that write activity feeds into ~/.flow/plugins.
+%% tip: ~/.flow folder :: settings.json plus per-plugin flow feeds. Shared by the app and the plugins.
+%% tip: React windows :: src/ — the front end. Draws the screen; asks the back end for data over IPC.
+%% tip: Electron main process :: public/ — the back end of the front end. Web requests, sockets, files, jobs.
+%% tip: LokiJS cache :: In-memory copy of server data so re-renders don't refetch. Memory only.
+%% tip: Gridtime API :: The metrics/REST backend. Default URL is https://home.twilightcity.net.
+%% tip: Talknet server :: Realtime socket.io server at https://talk.twilightcity.net.
+%% tip: Local mock server :: server/Server.js — four /account endpoints on port 5000.
+%% tip: uses :: The developer sees the console, status bar, Fervie and other windows.
+%% tip: write active.flow :: Plugins append editor/execution activity to active.flow.
+%% tip: IPC events :: The only bridge between the two halves: named events over ipcRenderer/ipcMain.
+%% tip: broadcast to every window :: EventManager.dispatch sends every event to every open window.
+%% tip: caches server data :: Fetched once, then served from memory until a reload.
+%% tip: settings and flow feeds :: Reads settings.json, publishes and archives plugin feeds.
+%% tip: REST with X-API-Key :: superagent requests with the stored API key in a header.
+%% tip: socket.io :: socket.io-client connection keyed by a connectionId from login.
+%% tip: yarn dev:local :: Starts the mock server, but the app ignores the SERVER= argument it passes.

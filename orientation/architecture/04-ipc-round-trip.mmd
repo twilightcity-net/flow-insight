@@ -1,0 +1,41 @@
+flowchart LR
+  subgraph fe["Front end: React in the browser window"]
+    comp[React component]
+    client[JournalClient]
+  end
+  subgraph be["Back end of the front end: Node in Electron main"]
+    em[Main EventManager]
+    ctrl[JournalController]
+    loki[(JournalDatabase cache)]
+    dto[DtoClient]
+  end
+  api[Gridtime API]
+  mainNames[EventFactory names]
+  rendNames[RendererEventFactory names]
+
+  comp -->|call with callback| client
+  client -->|IPC request| em
+  em -->|callback by channel| ctrl
+  ctrl -->|cache hit| loki
+  ctrl -->|cache miss| dto
+  dto -->|GET or POST| api
+  dto -->|callback stores result| loki
+  ctrl -->|replyTo| em
+  em -->|IPC reply| client
+  mainNames -.->|copied by hand| rendNames
+
+%% tip: React component :: Renders the screen; asks for data through a client and never calls the server itself.
+%% tip: JournalClient :: Front-end singleton; keeps a Map of pending requests by id.
+%% tip: Main EventManager :: The back-end side of the IPC bus; dispatch() broadcasts to all windows.
+%% tip: JournalController :: Decides: answer from the local cache, or fetch from the server first.
+%% tip: JournalDatabase cache :: In-memory LokiJS: intentions, projects, tasks. Saves a server trip on every re-render.
+%% tip: DtoClient :: The back end's HTTP client; adds X-API-Key; GET/POST only.
+%% tip: Gridtime API :: Called only on a cache miss or a reload.
+%% tip: EventFactory names :: Back-end channel names, public/events/EventFactory.js.
+%% tip: RendererEventFactory names :: Front-end copy of the same names, src/events/RendererEventFactory.js.
+%% tip: IPC request :: The only way across the boundary: ipcRenderer.send on a named channel.
+%% tip: IPC reply :: Back across the boundary as <channel>-reply, sent to every window.
+%% tip: cache hit :: User already loaded: read the Loki view, no server call.
+%% tip: cache miss :: First request for this user: fetch from the server.
+%% tip: callback stores result :: Server data written to Loki, user marked as cached, then the reply goes out.
+%% tip: copied by hand :: A source comment says "make sure to update both classes".

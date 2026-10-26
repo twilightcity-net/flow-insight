@@ -1,0 +1,35 @@
+flowchart LR
+  dev[Developer]
+  appCfg[AppConfig.appType]
+  feToggle[FeatureToggle.appType]
+  pkg[package.json identity]
+  mainB[Main-process branches]
+  uiB[Renderer branches]
+  toggles[(Feature toggle list)]
+  login[Login request]
+  installer[Installer]
+
+  dev -.->|edit by hand| appCfg
+  dev -.->|edit by hand| feToggle
+  dev -.->|edit by hand| pkg
+  appCfg -->|isFlowInsightApp/isFlowJournalApp/isMoovieApp| mainB
+  feToggle -->|isFlowInsightApp/isJournalApp/isMoovieApp/isFlowInsightOrJournalApp| uiB
+  toggles -->|AppConfig.init| mainB
+  toggles -->|FeatureToggle.init| uiB
+  appCfg -->|appName parameter| login
+  pkg -->|productName and appId| installer
+
+%% tip: Developer :: Chooses which of the three apps this build is.
+%% tip: AppConfig.appType :: Main-process copy: FlowInsight, WatchMoovies or FlowJournal.
+%% tip: FeatureToggle.appType :: Renderer copy of the same choice, edited separately.
+%% tip: package.json identity :: name, productName, description, build.appId.
+%% tip: Main-process branches :: Menus, tray, jobs, settings keys and momentum rules branch on the app type.
+%% tip: Renderer branches :: Sidebar items, default panel, intro video branch on the app type.
+%% tip: Feature toggle list :: Comma list in ~/.flow/settings.json; defaults if absent.
+%% tip: Login request :: The server is told which app is logging in.
+%% tip: Installer :: electron-builder names and identifies the package from package.json.
+%% tip: edit by hand :: No build flag or script selects the variant; commit 872b8ac1 is such an edit.
+%% tip: AppConfig.init :: Toggles set at startup and whenever one is flipped.
+%% tip: FeatureToggle.init :: The renderer fetches toggles from main over IPC.
+%% tip: isFlowInsightApp/isFlowJournalApp/isMoovieApp :: The three main-process tests in AppConfig.js, one per app.
+%% tip: isFlowInsightApp/isJournalApp/isMoovieApp/isFlowInsightOrJournalApp :: The renderer's four tests in FeatureToggle.js; note isJournalApp, not isFlowJournalApp.

@@ -1,0 +1,34 @@
+flowchart LR
+  subgraph cw["Console window: React"]
+    sidebar[ConsoleSidebar]
+    spvc[SidePanelViewController]
+    jc[JournalClient]
+  end
+  subgraph be["Node back end"]
+    sonar[Echo sonar]
+    em[EventManager.dispatch]
+    ctrl[JournalController]
+  end
+  subgraph ow["Every other window"]
+    other[Listeners on that channel]
+  end
+
+  sidebar -->|showPanel| spvc
+  spvc -->|dispatch with echo| sonar
+  sonar -->|re-dispatch| em
+  em -->|broadcast| sidebar
+  em -->|broadcast| other
+  jc -->|direct send| ctrl
+
+%% tip: ConsoleSidebar :: The component that was clicked — and also the one that hears the result.
+%% tip: SidePanelViewController :: Sets activeMenuSelection, then announces the change.
+%% tip: JournalClient :: Shown for contrast: data requests skip the echo.
+%% tip: Echo sonar :: ipcMain.on("echo-event") in EventManager.initSonar.
+%% tip: EventManager.dispatch :: Sends the event to every window, then runs main-process listeners.
+%% tip: JournalController :: Receives client requests directly on its channel.
+%% tip: Listeners on that channel :: Any window that registered the same event name.
+%% tip: showPanel :: A click calls the controller method.
+%% tip: dispatch with echo :: dispatch({}) with no flags → ipcRenderer.send("echo-event", …).
+%% tip: re-dispatch :: The sonar unwraps {type, arg} and dispatches it in main.
+%% tip: broadcast :: webContents.send to every window — including the one that sent it.
+%% tip: direct send :: dispatch(event, true) → ipcRenderer.send(channel, …), no echo.

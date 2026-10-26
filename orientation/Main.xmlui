@@ -1,0 +1,21 @@
+<!-- Orientation site: an overview and architecture diagrams (see index.html).
+     From Bram's orientation template, first built for tau-hub,
+     together-groups-beta and pwkm. Content lives in OVERVIEW.md and
+     architecture/; the diagram list (with each entry's tab) and caption in
+     arch.js. Diagram tabs share components/DiagramTab.xmlui.
+     Tabs/TabItem: https://www.xmlui.org/docs/reference/components/Tabs
+     Markdown file via DataSource -> content: https://www.xmlui.org/docs/howto/render-markdown-content-as-a-page -->
+<App>
+  <Tabs>
+    <TabItem label="Overview">
+      <DataSource id="overview" url="OVERVIEW.md" />
+      <Markdown when="{overview.loaded}" content="{overview.value}" />
+    </TabItem>
+    <TabItem label="Architecture">
+      <DiagramTab tab="system" />
+    </TabItem>
+    <TabItem label="Front-end architecture">
+      <DiagramTab tab="frontend" />
+    </TabItem>
+  </Tabs>
+</App>

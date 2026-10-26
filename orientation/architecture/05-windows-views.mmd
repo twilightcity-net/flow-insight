@@ -1,0 +1,40 @@
+flowchart LR
+  helper[WindowManagerHelper]
+  wm[WindowManager]
+  win[Window classes]
+  isdev{Dev mode?}
+  cra["CRA dev server :3000"]
+  file[build index.html]
+  vm[ViewManager]
+  views[View components]
+  clients[Renderer clients]
+  layout[ConsoleLayout]
+  rcf[RendererControllerFactory]
+  names[Window and view name lists]
+
+  helper -->|createWindow| wm
+  wm -->|new by name| win
+  win -->|getWindowViewURL| isdev
+  isdev -->|yes| cra
+  isdev -->|no| file
+  cra -->|"?view=name"| vm
+  file -->|"?view=name"| vm
+  vm -->|if-chain on view| views
+  views -->|init singletons| clients
+  views -->|render| layout
+  layout -->|view controllers| rcf
+  names -.->|kept in sync by hand| vm
+
+%% tip: WindowManagerHelper :: Static create…Window() helpers, one per window type.
+%% tip: WindowManager :: Holds the window list; creates, loads, focuses, closes.
+%% tip: Window classes :: 14 files in public/windows/, each wrapping a BrowserWindow.
+%% tip: Dev mode? :: electron-is-dev decides the URL.
+%% tip: CRA dev server :3000 :: react-scripts start, run by yarn dev alongside Electron.
+%% tip: build index.html :: file:// URL into the packaged build folder.
+%% tip: ViewManager :: src/views/ViewManager.js — reads ?view= and returns one view component.
+%% tip: View components :: 14 *View.js files in src/views/.
+%% tip: Renderer clients :: src/clients/*Client.js singletons that talk to main over IPC.
+%% tip: ConsoleLayout :: Sidebar + content tree under src/layout/console/.
+%% tip: RendererControllerFactory :: Caches renderer-side view controllers by name.
+%% tip: Window and view name lists :: Three hand-maintained lists of the same names.
+%% tip: kept in sync by hand :: Adding a window means editing several lists; nothing checks them.

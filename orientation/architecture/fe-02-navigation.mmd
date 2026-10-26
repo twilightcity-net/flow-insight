@@ -1,0 +1,37 @@
+flowchart LR
+  subgraph win["Console window: React"]
+    sidebar[Sidebar panels]
+    notes[Notification items]
+    term[Terminal commands]
+    addr[Address bar]
+    bc[BrowserController]
+    hist[(Request history)]
+    mpc[MainPanelViewController]
+    lc[LayoutContent]
+    res[Resource components]
+  end
+  be[Node back end]
+
+  sidebar -->|open request| bc
+  notes -->|open request| bc
+  term -->|open request| bc
+  addr -->|open request| bc
+  bc -->|push or move| hist
+  bc -->|browser-load event| be
+  be -->|broadcast| mpc
+  mpc -->|onConsoleBrowserLoadEvent| lc
+  lc -->|switch on first segment| res
+
+%% tip: Sidebar panels :: Circuits and dashboard panels open resources via makeSidebarBrowserRequest.
+%% tip: Notification items :: Circuit and WTF-threshold notifications open the circuit.
+%% tip: Terminal commands :: The in-app terminal can navigate too.
+%% tip: Address bar :: BrowserLayout — type a URI, or use back/forward.
+%% tip: BrowserController :: One shared instance per window (factory name LAYOUT_BROWSER).
+%% tip: Request history :: Up to 10 requests; back/forward move an index.
+%% tip: MainPanelViewController :: Listens for the load event on LayoutContent's behalf.
+%% tip: LayoutContent :: Holds the current resource in state and renders the matching component.
+%% tip: Resource components :: Journal, Circuit, Retro, Flow, Dashboard, Control, Play, Moovie, Tools, Terminal.
+%% tip: open request :: A string like open::/journal/me — action, "::", URI.
+%% tip: browser-load event :: WINDOW_CONSOLE_BROWSER_LOAD, dispatched with echo.
+%% tip: broadcast :: Main re-sends the event to every window.
+%% tip: switch on first segment :: /journal/me → JournalResource; terminal, play, moovie hide the address bar.

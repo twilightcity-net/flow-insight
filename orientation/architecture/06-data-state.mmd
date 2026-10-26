@@ -1,0 +1,38 @@
+flowchart LR
+  settingsFile[("settings.json")]
+  appSettings[AppSettings]
+  volMgr[VolumeManager]
+  loki[(LokiJS cache)]
+  ctrls[Main controllers]
+  api[Gridtime API]
+  socket[Talknet socket]
+  heartbeat[AppHeartbeat]
+  panels[Renderer panels]
+
+  appSettings -->|AES-encrypted API key| settingsFile
+  volMgr -->|creates 11 databases| loki
+  volMgr -->|startup LOAD| ctrls
+  ctrls -->|LOAD fetches| api
+  ctrls -->|upsert by id| loki
+  socket -->|pushed changes| ctrls
+  heartbeat -->|REFRESH reloads all| ctrls
+  panels -->|GET request| ctrls
+  loki -->|dynamic view data| ctrls
+  ctrls -->|reply to every window| panels
+  ctrls -->|data-refresh events| panels
+
+%% tip: settings.json :: ~/.flow/settings.json — the only app state this repo keeps on disk.
+%% tip: AppSettings :: API URL, encrypted API key, shortcuts, display index, feature toggles.
+%% tip: VolumeManager :: Creates the databases and asks each domain manager to fill its own.
+%% tip: LokiJS cache :: In-memory copy of server data in the main process, shared by every window. Gone at quit.
+%% tip: Main controllers :: The only code that reads or writes Loki. LOAD_* handlers fetch and write; GET_* handlers read.
+%% tip: Gridtime API :: The source of truth that Loki mirrors.
+%% tip: Talknet socket :: Pushes chat, status, team and circuit changes between fetches.
+%% tip: AppHeartbeat :: Every 60 s; a REFRESH or reconnect reloads every domain.
+%% tip: Renderer panels :: React components. They never touch Loki; they ask a controller.
+%% tip: LOAD fetches :: REST GET/POST via DtoClient.
+%% tip: upsert by id :: findOne by id, remove, insert the server copy.
+%% tip: GET request :: e.g. TeamClient.getAllMyTeams — answered from the cache.
+%% tip: dynamic view data :: A Loki DynamicView per collection; view.data() becomes the reply.
+%% tip: reply to every window :: Loki documents serialized to JSON, $loki and meta included.
+%% tip: data-refresh events :: Tell panels to re-GET after a reload.
